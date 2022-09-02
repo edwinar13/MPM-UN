@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'splash_screenyyLSNM.ui'
+## Form generated from reading UI file 'splash_screenPTHYBR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -18,7 +18,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QMainWindow, QProgressBar, QSizePolicy, QSpacerItem,
     QVBoxLayout, QWidget)
-import UI.file_icons_rc
 
 class Ui_SplashScreen(object):
     def setupUi(self, SplashScreen):
@@ -26,11 +25,86 @@ class Ui_SplashScreen(object):
             SplashScreen.setObjectName(u"SplashScreen")
         SplashScreen.resize(750, 500)
         icon = QIcon()
-        icon.addFile(u":/logo/Logo_V1.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"recursos/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Normal, QIcon.Off)
         SplashScreen.setWindowIcon(icon)
-        SplashScreen.setStyleSheet(u"QMainWindow{\n"
-"font-family: \"Ubuntu\";\n"
-"}")
+        SplashScreen.setStyleSheet(u"/*Colores primarios*/\n"
+"/* \n"
+"gris oscuro		#222222		#333333		#444444\n"
+"gris claro 		#999999		#DDDDDD\n"
+"verde claro						#C8CC8E\n"
+"vinotinto  						#742427\n"
+"*/\n"
+"/*Colores secundarios */\n"
+"/* \n"
+"Azules  		#36C9C6		#00BDB9	#77ACA2\n"
+"rojos		 	#910D3F		#C70039		#F94646\n"
+"naranjas 		#D34E24		#F28123		#F7F052\n"
+"*/\n"
+"\n"
+"/* Funetes/*\n"
+"\n"
+"/*\n"
+"italic:				font: italic 9pt \"Ubuntu\";\n"
+"regular:			font: 9pt \"Ubuntu\";\n"
+"light:				font: 300 9pt \"Ubuntu\";\n"
+"medium:			font: 500 9pt \"Ubuntu\";\n"
+"bold:				font: 700 9pt \"Ubuntu\";\n"
+"*/\n"
+"\n"
+"/****************************************************************************************************************************************************/\n"
+"\n"
+"\n"
+"QMainWindow#SplashScreen{\n"
+"}\n"
+"\n"
+"\n"
+"QFrame#fondoFrame{\n"
+"	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(85, 85, 85, 255), stop:1 rgba(34, 34, 34, 255));\n"
+"	border-radius:15px;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"QLab"
+                        "el#label_titulo{\n"
+"	background-color: transparent;	\n"
+"	font: 700 70pt \"Ubuntu\";	\n"
+"	color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QLabel#label_version{\n"
+"	background-color: transparent;	\n"
+"	font: 500 20pt \"Ubuntu\";	\n"
+"	color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QLabel#label_informacion{\n"
+"	background-color: transparent;	\n"
+"	font: italic 10pt \"Ubuntu\";	\n"
+"	color: #999999;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"QProgressBar#progressBar_splash{\n"
+"	background-color: #333333;\n"
+"	color: #C8CC8E;\n"
+"	border-radius: 5px;	\n"
+"	text-align: center;		\n"
+"	font: 7pt \"Ubuntu\";	\n"
+"}\n"
+"\n"
+"QProgressBar#progressBar_splash::chunk{\n"
+"	background-color:#742427;	\n"
+"	border-radius: 5px;	\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*borde-style: none;*/")
         self.centralwidget = QWidget(SplashScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -39,47 +113,7 @@ class Ui_SplashScreen(object):
         self.verticalLayout.setContentsMargins(10, 10, 10, 10)
         self.fondoFrame = QFrame(self.centralwidget)
         self.fondoFrame.setObjectName(u"fondoFrame")
-        self.fondoFrame.setStyleSheet(u"QFrame{\n"
-"color: #D9D9D9;\n"
-"}\n"
-"\n"
-"\n"
-"#fondoFrame{\n"
-"/*background: #222222;*/\n"
-"	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(85, 85, 85, 255), stop:1 rgba(34, 34, 34, 255));\n"
-"border-radius:15px;\n"
-"}\n"
-"QLabel{\n"
-"	background-color: transparent;\n"
-"}\n"
-"\n"
-"\n"
-"\n"
-"QProgressBar{\n"
-"\n"
-"	background-color: #333333;\n"
-"	color: #C8CC8E;\n"
-"border-radius: 5px;\n"
-"\n"
-"	/*borde-style: none;*/\n"
-"	\n"
-"	text-align: center;	\n"
-"	\n"
-"}\n"
-"\n"
-"QProgressBar::chunk{\n"
-"/*\n"
-"\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0.494, x2:1, y2:0.489, stop:0 rgba(116, 36, 39, 255), stop:1 rgba(200, 204, 142, 255));\n"
-"\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0.403, x2:1, y2:0.556818, stop:0 rgba(116, 36, 39, 255), stop:0.471591 rgba(34, 34, 34, 255), stop:1 rgba(200, 204, 142, 255));	\n"
-"*/\n"
-"background-color:#742427;\n"
-"	/*borde-style: none;*/\n"
-"	border-radius: 5px;\n"
-"	\n"
-"}\n"
-"")
+        self.fondoFrame.setStyleSheet(u"")
         self.fondoFrame.setFrameShape(QFrame.StyledPanel)
         self.fondoFrame.setFrameShadow(QFrame.Raised)
         self.verticalLayout_6 = QVBoxLayout(self.fondoFrame)
@@ -107,8 +141,14 @@ class Ui_SplashScreen(object):
 
         self.label_4 = QLabel(self.fondoFrame)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setMaximumSize(QSize(200, 200))
-        self.label_4.setPixmap(QPixmap(u":/iconos_logo/iconos/iconos_logo/Logo_V1.svg"))
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
+        self.label_4.setSizePolicy(sizePolicy)
+        self.label_4.setMinimumSize(QSize(150, 150))
+        self.label_4.setMaximumSize(QSize(150, 150))
+        self.label_4.setPixmap(QPixmap(u"recursos/iconos/iconos_logo/Logo_V1.svg"))
         self.label_4.setScaledContents(True)
 
         self.horizontalLayout_2.addWidget(self.label_4)
@@ -122,16 +162,11 @@ class Ui_SplashScreen(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label = QLabel(self.fondoFrame)
-        self.label.setObjectName(u"label")
-        font = QFont()
-        font.setFamilies([u"Ubuntu"])
-        font.setPointSize(50)
-        font.setBold(True)
-        self.label.setFont(font)
-        self.label.setAlignment(Qt.AlignCenter)
+        self.label_titulo = QLabel(self.fondoFrame)
+        self.label_titulo.setObjectName(u"label_titulo")
+        self.label_titulo.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.label_titulo)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -139,15 +174,11 @@ class Ui_SplashScreen(object):
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
-        self.label_3 = QLabel(self.fondoFrame)
-        self.label_3.setObjectName(u"label_3")
-        font1 = QFont()
-        font1.setFamilies([u"Ubuntu"])
-        font1.setPointSize(28)
-        self.label_3.setFont(font1)
-        self.label_3.setAlignment(Qt.AlignCenter)
+        self.label_version = QLabel(self.fondoFrame)
+        self.label_version.setObjectName(u"label_version")
+        self.label_version.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_2.addWidget(self.label_3)
+        self.verticalLayout_2.addWidget(self.label_version)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_2)
@@ -177,23 +208,16 @@ class Ui_SplashScreen(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.label_load = QLabel(self.fondoFrame)
-        self.label_load.setObjectName(u"label_load")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_load.sizePolicy().hasHeightForWidth())
-        self.label_load.setSizePolicy(sizePolicy)
-        font2 = QFont()
-        font2.setFamilies([u"Segoe UI"])
-        font2.setPointSize(10)
-        font2.setItalic(True)
-        font2.setUnderline(False)
-        font2.setStrikeOut(False)
-        self.label_load.setFont(font2)
-        self.label_load.setAlignment(Qt.AlignCenter)
+        self.label_informacion = QLabel(self.fondoFrame)
+        self.label_informacion.setObjectName(u"label_informacion")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.label_informacion.sizePolicy().hasHeightForWidth())
+        self.label_informacion.setSizePolicy(sizePolicy1)
+        self.label_informacion.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_5.addWidget(self.label_load)
+        self.horizontalLayout_5.addWidget(self.label_informacion)
 
         self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -202,18 +226,14 @@ class Ui_SplashScreen(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_5)
 
-        self.progressBar = QProgressBar(self.fondoFrame)
-        self.progressBar.setObjectName(u"progressBar")
-        self.progressBar.setMinimumSize(QSize(500, 10))
-        self.progressBar.setMaximumSize(QSize(500, 10))
-        font3 = QFont()
-        font3.setFamilies([u"Segoe UI"])
-        font3.setPointSize(7)
-        self.progressBar.setFont(font3)
-        self.progressBar.setStyleSheet(u"")
-        self.progressBar.setValue(40)
+        self.progressBar_splash = QProgressBar(self.fondoFrame)
+        self.progressBar_splash.setObjectName(u"progressBar_splash")
+        self.progressBar_splash.setMinimumSize(QSize(500, 10))
+        self.progressBar_splash.setMaximumSize(QSize(500, 10))
+        self.progressBar_splash.setStyleSheet(u"")
+        self.progressBar_splash.setValue(40)
 
-        self.verticalLayout_4.addWidget(self.progressBar)
+        self.verticalLayout_4.addWidget(self.progressBar_splash)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_4)
@@ -245,8 +265,8 @@ class Ui_SplashScreen(object):
     def retranslateUi(self, SplashScreen):
         SplashScreen.setWindowTitle(QCoreApplication.translate("SplashScreen", u"MainWindow", None))
         self.label_4.setText("")
-        self.label.setText(QCoreApplication.translate("SplashScreen", u"MPM-UN", None))
-        self.label_3.setText(QCoreApplication.translate("SplashScreen", u"v0.1.0", None))
-        self.label_load.setText(QCoreApplication.translate("SplashScreen", u"Cargando...", None))
+        self.label_titulo.setText(QCoreApplication.translate("SplashScreen", u"MPM-UN", None))
+        self.label_version.setText(QCoreApplication.translate("SplashScreen", u"v0.1.0", None))
+        self.label_informacion.setText(QCoreApplication.translate("SplashScreen", u"Cargando...", None))
     # retranslateUi
 

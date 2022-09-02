@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frame_draw_container</class>
+ <widget class="QFrame" name="frame_draw_container">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>843</width>
+    <height>724</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/*Colores primarios*/
+/* 
+gris oscuro		#222222		#333333		#444444
+gris claro 		#999999		#DDDDDD
+verde claro						#C8CC8E
+vinotinto  						#742427
+*/
+/*Colores secundarios */
+/* 
+Azules  		#36C9C6		#00BDB9	#77ACA2
+rojos		 	#910D3F		#C70039		#F94646
+naranjas 		#D34E24		#F28123		#F7F052
+*/
+
+/* Funetes/*
+
+/*
+italic:				font: italic 9pt &quot;Ubuntu&quot;;
+regular:			font: 9pt &quot;Ubuntu&quot;;
+light:				font: 300 9pt &quot;Ubuntu&quot;;
+medium:			font: 500 9pt &quot;Ubuntu&quot;;
+bold:				font: 700 9pt &quot;Ubuntu&quot;;
+*/
+
+/****************************************************************************************************************************************************/
+
+
+QFrame#frame_draw_container{
+	background-color: #333333;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>100</y>
+        <width>351</width>
+        <height>551</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QMdiArea" name="mdiArea">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>220</y>
+        <width>200</width>
+        <height>160</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>470</y>
+        <width>120</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="page_2"/>
+     </widget>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>80</y>
+        <width>127</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+      </widget>
+     </widget>
+     <widget class="QToolBox" name="toolBox">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>470</y>
+        <width>69</width>
+        <height>129</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>69</width>
+         <height>69</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>Page 1</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="page_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>69</width>
+         <height>69</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>Page 2</string>
+       </attribute>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
