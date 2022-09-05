@@ -188,14 +188,17 @@ background-color: transparent;
 font: 500 9pt &quot;Ubuntu&quot;;
 color: #222222;
 }
+/*
 #frame_card_1, #frame_card_2{
-background: #DDDDDD;
+background: #333333;
 border-radius: 5px
 }
-
+*/
 QFrame#frame_proyectos{
-background: #444444;
-}
+ background: #444444;
+border-radius: 5px;
+  }
+
 
 /*
 Esto no funciona pero lo necesito ajustar
@@ -450,6 +453,9 @@ QLineEdit#lineEdit_console:focus {
              </property>
              <item>
               <widget class="QToolButton" name="toolButton_data">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -534,6 +540,9 @@ QLineEdit#lineEdit_console:focus {
              </property>
              <item>
               <widget class="QToolButton" name="toolButton_malla">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -614,6 +623,35 @@ QLineEdit#lineEdit_console:focus {
               <number>0</number>
              </property>
              <item>
+              <widget class="QToolButton" name="toolButton_puntos">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Particulas</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_lateral/particle.svg</normaloff>../recursos/iconos/iconos_menu_lateral/particle.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QFrame" name="frame_puntos">
                <property name="enabled">
                 <bool>true</bool>
@@ -638,32 +676,6 @@ QLineEdit#lineEdit_console:focus {
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_puntos">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Particulas</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../recursos/iconos/iconos_menu_lateral/particle.svg</normaloff>../recursos/iconos/iconos_menu_lateral/particle.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>30</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="toolButtonStyle">
-                <enum>Qt::ToolButtonTextUnderIcon</enum>
                </property>
               </widget>
              </item>
@@ -695,32 +707,10 @@ QLineEdit#lineEdit_console:focus {
               <number>0</number>
              </property>
              <item>
-              <widget class="QFrame" name="frame_contorno">
-               <property name="minimumSize">
-                <size>
-                 <width>5</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>5</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QToolButton" name="toolButton_contorno">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -742,6 +732,31 @@ QLineEdit#lineEdit_console:focus {
                </property>
                <property name="toolButtonStyle">
                 <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_contorno">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
               </widget>
              </item>
@@ -773,6 +788,35 @@ QLineEdit#lineEdit_console:focus {
               <number>0</number>
              </property>
              <item>
+              <widget class="QToolButton" name="toolButton_resultados">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Resultados</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_lateral/view.svg</normaloff>../recursos/iconos/iconos_menu_lateral/view.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QFrame" name="frame_resultados">
                <property name="enabled">
                 <bool>true</bool>
@@ -797,32 +841,6 @@ QLineEdit#lineEdit_console:focus {
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_resultados">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Resultados</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../recursos/iconos/iconos_menu_lateral/view.svg</normaloff>../recursos/iconos/iconos_menu_lateral/view.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>30</width>
-                 <height>30</height>
-                </size>
-               </property>
-               <property name="toolButtonStyle">
-                <enum>Qt::ToolButtonTextUnderIcon</enum>
                </property>
               </widget>
              </item>
@@ -906,7 +924,7 @@ QLineEdit#lineEdit_console:focus {
           <item>
            <widget class="QStackedWidget" name="stackedWidget_container">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_home">
              <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1051,104 +1069,6 @@ QLineEdit#lineEdit_console:focus {
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QFrame" name="frame_infAbrirProyecto">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="frameShape">
-                            <enum>QFrame::StyledPanel</enum>
-                           </property>
-                           <property name="frameShadow">
-                            <enum>QFrame::Raised</enum>
-                           </property>
-                           <layout class="QVBoxLayout" name="verticalLayout_5">
-                            <property name="spacing">
-                             <number>0</number>
-                            </property>
-                            <property name="leftMargin">
-                             <number>0</number>
-                            </property>
-                            <property name="topMargin">
-                             <number>0</number>
-                            </property>
-                            <property name="bottomMargin">
-                             <number>0</number>
-                            </property>
-                            <item>
-                             <widget class="QFrame" name="frame_supAbrirProyecto">
-                              <property name="sizePolicy">
-                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                               </sizepolicy>
-                              </property>
-                              <property name="styleSheet">
-                               <string notr="true"/>
-                              </property>
-                              <property name="frameShape">
-                               <enum>QFrame::StyledPanel</enum>
-                              </property>
-                              <property name="frameShadow">
-                               <enum>QFrame::Raised</enum>
-                              </property>
-                              <layout class="QHBoxLayout" name="horizontalLayout_12">
-                               <property name="spacing">
-                                <number>0</number>
-                               </property>
-                               <property name="leftMargin">
-                                <number>5</number>
-                               </property>
-                               <property name="topMargin">
-                                <number>0</number>
-                               </property>
-                               <property name="rightMargin">
-                                <number>0</number>
-                               </property>
-                               <property name="bottomMargin">
-                                <number>0</number>
-                               </property>
-                               <item>
-                                <widget class="QToolButton" name="toolButton_abrirProyecto">
-                                 <property name="minimumSize">
-                                  <size>
-                                   <width>150</width>
-                                   <height>40</height>
-                                  </size>
-                                 </property>
-                                 <property name="styleSheet">
-                                  <string notr="true"/>
-                                 </property>
-                                 <property name="text">
-                                  <string>  Abrir proyecto</string>
-                                 </property>
-                                 <property name="icon">
-                                  <iconset>
-                                   <normaloff>../recursos/iconos/iconos_frame_inicio/new_p.svg</normaloff>../recursos/iconos/iconos_frame_inicio/new_p.svg</iconset>
-                                 </property>
-                                 <property name="iconSize">
-                                  <size>
-                                   <width>20</width>
-                                   <height>20</height>
-                                  </size>
-                                 </property>
-                                 <property name="popupMode">
-                                  <enum>QToolButton::DelayedPopup</enum>
-                                 </property>
-                                 <property name="toolButtonStyle">
-                                  <enum>Qt::ToolButtonTextBesideIcon</enum>
-                                 </property>
-                                </widget>
-                               </item>
-                              </layout>
-                             </widget>
-                            </item>
-                           </layout>
-                          </widget>
-                         </item>
-                         <item>
                           <widget class="QFrame" name="frame_infNuevoProyecto">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1240,6 +1160,104 @@ QLineEdit#lineEdit_console:focus {
                                  </property>
                                  <property name="arrowType">
                                   <enum>Qt::NoArrow</enum>
+                                 </property>
+                                </widget>
+                               </item>
+                              </layout>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QFrame" name="frame_infAbrirProyecto">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="frameShape">
+                            <enum>QFrame::StyledPanel</enum>
+                           </property>
+                           <property name="frameShadow">
+                            <enum>QFrame::Raised</enum>
+                           </property>
+                           <layout class="QVBoxLayout" name="verticalLayout_5">
+                            <property name="spacing">
+                             <number>0</number>
+                            </property>
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QFrame" name="frame_supAbrirProyecto">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="styleSheet">
+                               <string notr="true"/>
+                              </property>
+                              <property name="frameShape">
+                               <enum>QFrame::StyledPanel</enum>
+                              </property>
+                              <property name="frameShadow">
+                               <enum>QFrame::Raised</enum>
+                              </property>
+                              <layout class="QHBoxLayout" name="horizontalLayout_12">
+                               <property name="spacing">
+                                <number>0</number>
+                               </property>
+                               <property name="leftMargin">
+                                <number>5</number>
+                               </property>
+                               <property name="topMargin">
+                                <number>0</number>
+                               </property>
+                               <property name="rightMargin">
+                                <number>0</number>
+                               </property>
+                               <property name="bottomMargin">
+                                <number>0</number>
+                               </property>
+                               <item>
+                                <widget class="QToolButton" name="toolButton_abrirProyecto">
+                                 <property name="minimumSize">
+                                  <size>
+                                   <width>150</width>
+                                   <height>40</height>
+                                  </size>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true"/>
+                                 </property>
+                                 <property name="text">
+                                  <string>  Abrir proyecto</string>
+                                 </property>
+                                 <property name="icon">
+                                  <iconset>
+                                   <normaloff>../recursos/iconos/iconos_frame_inicio/new_p.svg</normaloff>../recursos/iconos/iconos_frame_inicio/new_p.svg</iconset>
+                                 </property>
+                                 <property name="iconSize">
+                                  <size>
+                                   <width>20</width>
+                                   <height>20</height>
+                                  </size>
+                                 </property>
+                                 <property name="popupMode">
+                                  <enum>QToolButton::DelayedPopup</enum>
+                                 </property>
+                                 <property name="toolButtonStyle">
+                                  <enum>Qt::ToolButtonTextBesideIcon</enum>
                                  </property>
                                 </widget>
                                </item>
@@ -1481,173 +1499,13 @@ QLineEdit#lineEdit_console:focus {
                        <property name="frameShadow">
                         <enum>QFrame::Raised</enum>
                        </property>
-                       <layout class="QFormLayout" name="formLayout">
+                       <layout class="QGridLayout" name="gridLayout">
                         <item row="0" column="0">
-                         <widget class="QFrame" name="frame_card_1">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
+                         <layout class="QGridLayout" name="gridLayout_proyectos" rowstretch="0">
+                          <property name="spacing">
+                           <number>15</number>
                           </property>
-                          <property name="frameShape">
-                           <enum>QFrame::StyledPanel</enum>
-                          </property>
-                          <property name="frameShadow">
-                           <enum>QFrame::Raised</enum>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_9">
-                           <item>
-                            <widget class="QLabel" name="label_9">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="text">
-                              <string/>
-                             </property>
-                             <property name="pixmap">
-                              <pixmap>:/iconos_logo/iconos/iconos_logo/Logo_V1.svg</pixmap>
-                             </property>
-                             <property name="scaledContents">
-                              <bool>true</bool>
-                             </property>
-                             <property name="wordWrap">
-                              <bool>false</bool>
-                             </property>
-                             <property name="openExternalLinks">
-                              <bool>false</bool>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QFrame" name="frame_11">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::StyledPanel</enum>
-                             </property>
-                             <property name="frameShadow">
-                              <enum>QFrame::Raised</enum>
-                             </property>
-                             <layout class="QVBoxLayout" name="verticalLayout_14">
-                              <item>
-                               <widget class="QLabel" name="label_10">
-                                <property name="text">
-                                 <string>3 SIG 83 obras</string>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QLabel" name="label_11">
-                                <property name="text">
-                                 <string>25/02/2022 07:32:52 A.M.l</string>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QLabel" name="label_12">
-                                <property name="text">
-                                 <string>D:/Document/Ejem</string>
-                                </property>
-                               </widget>
-                              </item>
-                             </layout>
-                            </widget>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item row="0" column="1">
-                         <widget class="QFrame" name="frame_card_2">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="frameShape">
-                           <enum>QFrame::StyledPanel</enum>
-                          </property>
-                          <property name="frameShadow">
-                           <enum>QFrame::Raised</enum>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_15">
-                           <item>
-                            <widget class="QLabel" name="label_13">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="text">
-                              <string/>
-                             </property>
-                             <property name="pixmap">
-                              <pixmap>:/iconos_logo/iconos/iconos_logo/Logo_V1.svg</pixmap>
-                             </property>
-                             <property name="scaledContents">
-                              <bool>true</bool>
-                             </property>
-                             <property name="wordWrap">
-                              <bool>false</bool>
-                             </property>
-                             <property name="openExternalLinks">
-                              <bool>false</bool>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QFrame" name="frame_13">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::StyledPanel</enum>
-                             </property>
-                             <property name="frameShadow">
-                              <enum>QFrame::Raised</enum>
-                             </property>
-                             <layout class="QVBoxLayout" name="verticalLayout_16">
-                              <item>
-                               <widget class="QLabel" name="label_14">
-                                <property name="text">
-                                 <string>3 SIG 83 obras</string>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QLabel" name="label_15">
-                                <property name="styleSheet">
-                                 <string notr="true"/>
-                                </property>
-                                <property name="text">
-                                 <string>25/02/2022 07:32:52 A.M.l</string>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QLabel" name="label_16">
-                                <property name="text">
-                                 <string>D:/Document/Ejem</string>
-                                </property>
-                               </widget>
-                              </item>
-                             </layout>
-                            </widget>
-                           </item>
-                          </layout>
-                         </widget>
+                         </layout>
                         </item>
                        </layout>
                       </widget>
@@ -1901,6 +1759,12 @@ hr { height: 1px; border-width: 0; }
               </item>
               <item>
                <widget class="QStackedWidget" name="stackedWidget_subMenu">
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="currentIndex">
                  <number>3</number>
                 </property>
@@ -2041,10 +1905,10 @@ hr { height: 1px; border-width: 0; }
    <widget class="QMenu" name="menuArchivo">
     <property name="geometry">
      <rect>
-      <x>2230</x>
-      <y>159</y>
-      <width>166</width>
-      <height>207</height>
+      <x>2432</x>
+      <y>484</y>
+      <width>186</width>
+      <height>293</height>
      </rect>
     </property>
     <property name="font">

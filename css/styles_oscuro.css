@@ -30,6 +30,192 @@ bold: font: 700 9pt "Ubuntu";
 
 
 
+QMainWindow#MainWindow{
+    background: #333333;
+    }
+    
+    
+    /*#################################################################*/
+    /*####################       MENU BAR SUP      ###########################*/
+    /*#################################################################*/
+    
+    QMenuBar#menubar {
+    background-color: #333333;
+    spacing: 5px; 
+    color: #DDDDDD;
+    font: 500 10pt "Ubuntu";
+    }
+    QMenuBar#menubar::item {
+    padding: 5px 5px;
+    background-color: transparent;
+    border-radius: 2px;
+    }
+    QMenuBar#menubar::item:selected { 
+    background-color: #222222;
+    }
+    QMenuBar#menubar::item:pressed {
+    background-color: #222222;
+    }
+    QMenu {
+    background-color: #333333;
+    border-radius: 4px; 
+    border: 1px solid #222222;
+    color: #DDDDDD;
+    font: 500 10pt "Ubuntu";
+    }
+    QMenu::item {
+    background-color: transparent; 
+    padding: 5px 20px;
+    margin: 2px 10px; 
+    }
+    QMenu::item:selected { 
+    background-color: #444444;
+    color: #C8CC8E;
+    font: 500 10pt "Ubuntu";
+    }
+    QMenu::item:checked {
+    color: #DDDDDD;
+    }
+    QMenu::item:unchecked { 
+    color: #999999;
+    }
+    
+    
+    
+    QStatusbar#statusbar{
+    background-color: #333333;
+    }
+    
+    /*#################################################################*/
+    /*####################     FRAME MENU IZQ      ##########################*/
+    /*#################################################################*/
+    
+    QToolButton#toolButton_inicio,
+    QToolButton#toolButton_resultados,
+    QToolButton#toolButton_puntos,
+    QToolButton#toolButton_contorno,
+    QToolButton#toolButton_data,
+    QToolButton#toolButton_malla,
+    QToolButton#toolButton_resultados,
+    QToolButton#toolButton_config{
+    background-color: transparent;
+    color: #DDDDDD;
+    font: 500 7pt "Ubuntu";
+    border: none;
+    padding: 8px 0px;
+    }
+    
+    QFrame#frame_inicio{
+    background: #222222;
+    border-radius: 2px ;
+    border-radius: 2px;
+    }
+    
+    
+    QFrame#frame_resultados,
+    QFrame#frame_puntos,
+    QFrame#frame_contorno,
+    QFrame#frame_data,
+    QFrame#frame_malla{
+    background: #333333;
+    border-radius: 2px ;
+    border-radius: 2px;
+    }
+    
+    /*#################################################################*/
+    /*######################      CONTAINER PAGE       ############################*/
+    /*#################################################################*/
+    
+    QFrame#frame_empty_2{
+    background-color: #222222;
+    }
+    
+    /*#################################################################*/
+    /*######################      PAGE HOME      ############################*/
+    /*#################################################################*/
+    
+    QLabel#label_title_1{
+    color: #DDDDDD; 
+    font: 500 30pt "Ubuntu";
+    }
+    QLabel#label_title_2{
+    color: #C8CC8E;
+    font: 700 30pt "Ubuntu";
+    font-weight:bold;
+    }
+    QFrame#frame_infEjemplos1,
+    QFrame#frame_infEjemplos2,
+    QFrame#frame_infAbrirProyecto,
+    QFrame#frame_infNuevoProyecto{
+    background-color: #C8CC8E;
+    border-radius: 10px
+    }
+    QFrame#frame_supEjemplos1,
+    QFrame#frame_supEjemplos2,
+    QFrame#frame_supAbrirProyecto,
+    QFrame#frame_supNuevoProyecto{
+    background-color: #DDDDDD;
+    border-radius: 10px
+    }
+    QToolButton#toolButton_abrirProyecto,
+    QToolButton#toolButton_nuevoProyecto,
+    QToolButton#toolButton_ejemplos1,
+    QToolButton#toolButton_ejemplos2{
+    background-color: transparent;
+    font: 500 9pt "Ubuntu";
+    color: #222222;
+    }
+    #frame_card_1, #frame_card_2{
+    background: #DDDDDD;
+    border-radius: 5px
+    }
+    
+    QFrame#frame_proyectos{
+    background: #444444;
+    }
+    
+    /*
+    Esto no funciona pero lo necesito ajustar
+    QFrame#frame_proyectos > QLabel{
+    color: #DDDDDD;
+    font: 500 9pt "Ubuntu";
+    }
+    */
+    
+    
+    /*#################################################################*/
+    /*######################      PAGE DRAW      ############################*/
+    /*#################################################################*/
+    
+    
+    /*###################### graphicsView draw  ############################*/
+    QGraphicsView#graphicsView_draw{
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1 rgba(170, 255, 255, 255));
+    }
+    
+    /*###################### frame consola  ############################*/
+    QTextBrowser#textBrowser_2{
+    background-color: #444444;
+    color: #DDDDDD;
+    border-radius: 2px ;
+    }
+    QToolButton#toolButton_close_console{
+    background-color: transparent;
+    }
+    QLineEdit#lineEdit_console{
+    background-color: #444444;
+    color: #DDDDDD;
+    border-radius: 2px ;
+    padding-left: 10px;
+    }
+    QLineEdit#lineEdit_console:hover {
+        border: 2px solid rgb(64, 71, 88);
+    }
+    QLineEdit#lineEdit_console:focus {
+        border: 2px solid rgb(91, 101, 124);
+    }
+
+
 
 
 
