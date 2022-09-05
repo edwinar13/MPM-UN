@@ -8,7 +8,7 @@ from ui import ui_main_window
 from ui import ui_widget_card
 from ui import ui_frame_inicio
 from ui import ui_frame_draw
-from clases import class_proyects
+from clases import class_projects
 
 
 class MouseObserver(QObject):
@@ -95,8 +95,8 @@ class MainWindow(QMainWindow):
         """
         with open("css/styles_oscuro.css") as f:
             self.setStyleSheet(f.read())
+        self.showMaximized()
         """
-        #self.showMaximized()
         self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
         self.ui.frame_inicio.setStyleSheet("background-color: #36C9C6;")
         self.ui.frame_inicioInf.setStyleSheet("background-color: #2B2B2B;")
@@ -104,33 +104,10 @@ class MainWindow(QMainWindow):
 
 
         # ::::::::::::::::::::   INICIANDO DATA PROJECTS ::::::::::::::::::::
-        self.projects = class_proyects.Projects()
-        self.dataProjects = self.projects.getListProjects(self)
-        self.functionUpdateListProjects(self.dataProjects)
-
-
-            #listProjects
-        '''
-        self.card1 = viewCardProject()
-        self.frame = QWidget()	
-        self.subFrame = ui_widget_card.Ui_Form()	
-        self.subFrame.setupUi(self.frame)
-        self.ui.verticalLayout_17.addWidget((self.frame))
-        self.ui.verticalLayout_17.addWidget((self.card1))
-        self.card1.printNamesWidges()
-        self.card1.setNamesWidges(1)
-        self.card1.printNamesWidges()
-        '''
+        self.projects = class_projects.Projects()        
+        self.functionUpdateListProjects()
 
         
-        #self.contador = 1
-        #self.proyecto = self.projects.addProjectToProjects(self,"algo{}".format(self.contador),"01-1-01","20:25",r"C:")
-        #self.proyecto = self.projects.addProjectToProjects(self,"algo2{}".format(self.contador),"01-1-01","20:25",r"C:\Program Files (x86)\Google\Update\Download\{65E60E95-0DE9-43FF-9F3F-4F7D2DFF04B5}\7.3.4.8642")
-        #self.proyecto = self.projects.addProjectToProjects(self,"algo3{}".format(self.contador),"01-1-01","20:25",r"C:\Users")
-        #self.proyecto = self.projects.addProjectToProjects(self,"algo44{}".format(self.contador),"01-1-01","20:25", r"C:\Users\Edwin Arevalo\Desktop\Geotecnia ARGEO")
-        #self.projects.printData()
-
-
         # ::::::::::::::::::::   CONFIGURANDO FRAME VIEW  ::::::::::::::::::::
         self.ui.splitter.setStretchFactor(0, 100)
         self.ui.splitter.setStretchFactor(1, 0)        
@@ -262,11 +239,11 @@ class MainWindow(QMainWindow):
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getSaveFileName(self,"New Project","","Data files mpm (*.mpm)", options=options)
         if filePath:
-            if self.projects.newProject(filePath):
+            if self.projects.newFileProject(filePath):
                 fileName = filePath.split('/')[-1]
                 self.setWindowTitle("MPM-UN -- {}".format(fileName))
                 self.showMessageStatusBarSatisfactory("Proyecto creado con éxito")
-                self.functionOpenProject(filePath)    
+                self.functionOpenProject(filePath) 
         else:
             self.setWindowTitle(nameCurrent)
 
@@ -280,8 +257,8 @@ class MainWindow(QMainWindow):
     
     def onTriggeredaccionRecienteClear(self):
         """BORRA LOS PROYECTOS RECIENTES"""
-        if self.projects.deleteListProjects(self):
-            self.functionUpdateListProjects(self.projects.getListProjects(self))
+        if self.projects.deleteProjects(self):
+            self.functionUpdateListProjects()
         else:
             self.functionQMessageBox('Error función onTriggeredaccionRecienteClear')
 
@@ -301,15 +278,18 @@ class MainWindow(QMainWindow):
         Funcion para abril, actualizar y leer proyectos 
         muestra canvas y habilita pestaña malla
         '''
-        hora = QTime.currentTime().toString("hh:mm:ss A ")
-        fecha = strftime("%d/%m/%y")
-        fileName=filePath.split('/')[-1]
         #toca volver a validar que si exista el archivo
         if ( QFile.exists(filePath)):
-            print(" Existe {}".format(fileName))
+
+            hour = QTime.currentTime().toString("hh:mm:ss A ")
+            data = strftime("%d/%m/%y")
+            file_name=filePath.split('/')[-1]
+            project_open = class_projects.Project(name_file = file_name,path = filePath,data= data,hour= hour) 
+            print(" Existe {}".format(file_name))
         
-            if self.projects.addProjectToProjects(self,fileName,fecha,hora,filePath):
-                self.setWindowTitle("MPM-UN -- {}".format(fileName))
+            if self.projects.addProject(self, project_open):
+
+                self.setWindowTitle("MPM-UN -- {}".format(file_name))
                 self.ui.toolButton_data.setEnabled(True)
                 self.ui.toolButton_malla.setEnabled(True)
                 self.ui.toolButton_puntos.setEnabled(True)
@@ -318,50 +298,40 @@ class MainWindow(QMainWindow):
                 self.ui.frame_data.setStyleSheet("background-color: #36C9C6;") 
                 self.ui.frame_dataInf.setStyleSheet("background-color: #2B2B2B;")
                 self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-                self.showMessageStatusBarInformative("Se ha abierto el proyecto {}".format(fileName))
+                self.showMessageStatusBarInformative("Se ha abierto el proyecto {}".format(file_name))
 
-                """
-                self.functionStyleButtonPanel(1)
-                self.functionUpdateDataProject(filePath)
-                self.tabWidget.setTabEnabled(0,True)	
-                """
         else:
-            self.showMessageStatusBarCritical("No se ha encontrado el documento {}".format(fileName))
-        print(self.projects.getListProjects(self))
-        self.functionUpdateListProjects(self.projects.getListProjects(self))
-        print(self.projects.getListProjects(self))
+            self.showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name))
+        self.functionUpdateListProjects()
     
-    def functionUpdateListProjects(self,dataProjects):
-        """ACTUALIZA PROYECTOS RECIENTES
-        Recibe >>
-            dataProjects: lista de proyectos"""
+    def functionUpdateListProjects(self):
+        """ACTUALIZA PROYECTOS RECIENTES """
         self.ui.menuRecientes.clear()
-        print(dataProjects)
 
-        if dataProjects:
-            proyectos = dataProjects		
-            total_proyectos = len(proyectos)
+        if self.projects.getProjects():
+            projects = self.projects.getProjects()	
+            
+            total_projects = len(projects)
             No_proyecto = 1
-            max_proyectos = 10
+            max_projects = 10
             positions = [(i,j) for i in range(5) for j in range(3)]  
-            for position, proyecto in zip(positions, proyectos):
+            for position, project in zip(positions, projects):
                 #agrega cada proyecto a menu>recientes
-                name=proyecto.getData()[0]
-                path=proyecto.getData()[1]
-                data=proyecto.getData()[2]
-                hour=proyecto.getData()[3]
-                if No_proyecto >= total_proyectos-max_proyectos and QFile.exists(path):
+                name=project.getData()[0]
+                path=project.getData()[1]
+                data=project.getData()[2]
+                hour=project.getData()[3]
+                
+                if No_proyecto <= max_projects and QFile.exists(path):
                     self.ui.menuRecientes.addAction(path)
-
-                #crear las tarjetas
-                self.cardProject = viewCardProject(name,data, path,hour)
-                self.ui.gridLayout_proyectos.addWidget(self.cardProject,*position)
-                self.cardProject.pushButton.clicked.connect(self.onClickedToolButtonMenuLat)
-                self.cardProject.frame_card.connect(SIGNAL("mousePressed()"),self.onClickedToolButtonMenuLat)
-                self.cardProject.setNamesWidges(No_proyecto)
+                    #crear las tarjetas
+                    self.cardProject = viewCardProject(cardName = name, cardDataTime = data, cardPath= path, cardHour= hour)
+                    self.ui.gridLayout_proyectos.addWidget(self.cardProject,*position)
+                    self.cardProject.pushButton.clicked.connect(self.onClickedToolButtonMenuLat)
+                    self.cardProject.frame_card.connect(SIGNAL("mousePressed()"),self.onClickedToolButtonMenuLat)
+                    self.cardProject.setNamesWidges(No_proyecto)
 
                 No_proyecto += 1
-
 
         self.ui.menuRecientes.addSeparator()
         self.ui.menuRecientes.addAction('Limpiar')
