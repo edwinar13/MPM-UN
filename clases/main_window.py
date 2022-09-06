@@ -1,16 +1,21 @@
 
-from PySide6.QtCore import ( QFile,QTime,SIGNAL, QObject,QEvent)
+from sqlite3 import connect
+from PySide6.QtCore import ( QFile,QTime, QObject,QEvent, Signal, Slot)
 from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QMainWindow,QFileDialog,
                             QWidget,QMessageBox,QFrame, QGraphicsDropShadowEffect )
-from time import strftime
+
 from ui import ui_main_window
 from ui import ui_widget_card
 from ui import ui_frame_inicio
 from ui import ui_frame_draw
 from clases import class_projects
+from clases import class_card_view
 
 
+
+
+"""
 class MouseObserver(QObject):
     def __init__(self, widget):
         super().__init__(widget)
@@ -23,20 +28,39 @@ class MouseObserver(QObject):
 
     def eventFilter(self, obj, event):
         if obj is self.widget and event.type() == QEvent.MouseButtonPress:
-            print(event)
+            print("****************  MouseObserver **************")
+            #print(event)
+            print(self.widget.objectName())
+            
+            #print(self.widget.cardPath)
+            print("****************  MouseObserver **************")
+            
         return super().eventFilter(obj, event)
 
 class viewCardProject(QFrame, ui_widget_card.Ui_Form):
-    def __init__(self, cardName, cardDataTime, cardPath,cardHour):
-        super(viewCardProject, self).__init__()
+    trigger = Signal()
+    def __init__(self, parent, cardName, cardDataTime, cardPath,cardHour):
+        super(viewCardProject, self).__init__(parent)
         self.setupUi(self)
         self.cardName = cardName
         self.cardDataTime = cardDataTime
         self.cardHour = cardHour
         self.cardPath = cardPath
         self.selected=False
+        
+        # este sirve para observar el evento del mause en el frame
+        #observer = MouseObserver(self)
+        # tambien se realizao el de reimplemetacion
 
-        observer = MouseObserver(self.frame_11)
+
+        # este metodo con parent ejecuta la funcion del padre Ejem QMainWindow
+        self.toolButton.clicked.connect(self.parent().functionOpenProject)
+        # tambien funciona self.cardProject.pushButton.clicked.connect(self.onClickedToolButtonMenuLat)
+        # cando se crea el viewCard
+        #self.pushButton.clicked.connect(self.parent().algo)
+
+
+        
 
         #Sombra de ventana
         self.shadow_card = QGraphicsDropShadowEffect(self)
@@ -48,10 +72,21 @@ class viewCardProject(QFrame, ui_widget_card.Ui_Form):
 
         self.pushButton.clicked.connect(self.onClickedCard)
                 
-
-        
-        
         self.setTextLabel()
+
+    def mousePressEvent(self, event):
+        super().mousePressEvent(event)
+        print("****************  Reimplementando mousePressEvent **************")
+        print(event)
+        print(self.cardPath)
+        self.trigger.connect(self.handle_trigger)
+        self.trigger.emit()
+
+        print("****************  Reimplementando mousePressEvent **************")
+        self.selected=True
+    
+    def handle_trigger(self):
+        print ("trigger signal received")
 
     def setTextLabel(self):
         self.label_cardName.setText(u"{}".format(self.cardName))
@@ -66,6 +101,7 @@ class viewCardProject(QFrame, ui_widget_card.Ui_Form):
         self.label_cardDataTime.setObjectName(u"label_cardDataTime_{}".format(numberProject))
         self.label_cardPath.setObjectName(u"label_cardPath_{}".format(numberProject))
         self.pushButton.setObjectName(u"pushButton_{}".format(numberProject))
+        self.setObjectName(u"card_{}".format(numberProject))
 
     def printNamesWidges (self):
         print(self.frame_card.objectName)
@@ -74,13 +110,10 @@ class viewCardProject(QFrame, ui_widget_card.Ui_Form):
         print(self.label_cardDataTime.objectName)
         print(self.label_cardPath.objectName)
 
-    def mousePressEvent(self, event):
-        super().mousePressEvent(event)
-        #print(event)
-        self.selected=True
         
     def onClickedCard(self):
         print("ok button")
+"""
 
 
 
@@ -106,6 +139,18 @@ class MainWindow(QMainWindow):
         # ::::::::::::::::::::   INICIANDO DATA PROJECTS ::::::::::::::::::::
         self.projects = class_projects.Projects()        
         self.functionUpdateListProjects()
+
+        #self.communicate = class_card_view.Communicate(self)
+        #self.communicate.sig[str].connect(self.updateLabel)
+        #self.thread = class_card_view.Worker(communicate = self.communicate)
+        #self.thread.start()
+        """
+        self.cardProject = class_card_view.viewCardProject(self, cardName = "name", cardDataTime = "data", cardPath= "path", cardHour= "hour")
+        self.ui.gridLayout_proyectos.addWidget(self.cardProject)
+        self.cardProject.trigger.connect(self.updateLabel)
+        """
+                    
+
 
         
         # ::::::::::::::::::::   CONFIGURANDO FRAME VIEW  ::::::::::::::::::::
@@ -146,19 +191,31 @@ class MainWindow(QMainWindow):
         self.ui.actionExportar.setShortcut('Ctrl+e')
         self.ui.actionExportar.setStatusTip('Exportar')
         #self.ui.actionExportar.triggered.connect(self.onTriggeredactionNuevoProyecto)
+        
+        
 
+        
+    @Slot(str)
+    def updateLabel(self, text="algo"):
+        print("Estas en main: {}".format(text))
+        self.ui.label_title_1.setText(text)
 
     ###############################################################################
 	# ::::::::::::::::::::    FUNCIONES EVENTOS MENU LATERAL   ::::::::::::::::::::
 	###############################################################################
- 
+    def onClickedToolButtonViewCard(self):
+        buttonSelected = self.sender()
+        nameButton = buttonSelected.objectName()
+        print("="*30)
+        print("Nombre: {}".format(nameButton))
+        print("objeto: {}".format(buttonSelected))
+        print("="*30)
 
     def onClickedToolButtonMenuLat(self):
         self.hideToolButtonMenuLat()
         buttonSelected = self.sender()
         nameButton = buttonSelected.objectName()
         print("Nombre: {}".format(nameButton))
-        print("objeto: {}".format(buttonSelected))
         if nameButton=="toolButton_inicio":
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
             self.ui.frame_inicio.setStyleSheet("background-color: #36C9C6;")
@@ -271,20 +328,21 @@ class MainWindow(QMainWindow):
             self.functionOpenProject(fileName)
 
 # ::::::::::::::::::::  FUNCIONES MENU SUPERIOR  ::::::::::::::::::::
-
+    
     def functionOpenProject (self, filePath):
         '''
         Project
         Funcion para abril, actualizar y leer proyectos 
         muestra canvas y habilita pestaña malla
         '''
+        print("filePath",filePath)
         #toca volver a validar que si exista el archivo
+        hour = QTime.currentTime().toString("hh:mm:ss A ")
+        data = strftime("%d/%m/%y")
+        file_name=filePath.split('/')[-1]
         if ( QFile.exists(filePath)):
 
-            hour = QTime.currentTime().toString("hh:mm:ss A ")
-            data = strftime("%d/%m/%y")
-            file_name=filePath.split('/')[-1]
-            project_open = class_projects.Project(name_file = file_name,path = filePath,data= data,hour= hour) 
+            project_open = class_projects.Project(name_file = file_name, path = filePath,data= data,hour= hour) 
             print(" Existe {}".format(file_name))
         
             if self.projects.addProject(self, project_open):
@@ -301,7 +359,7 @@ class MainWindow(QMainWindow):
                 self.showMessageStatusBarInformative("Se ha abierto el proyecto {}".format(file_name))
 
         else:
-            self.showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name))
+            self.showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name)) 
         self.functionUpdateListProjects()
     
     def functionUpdateListProjects(self):
@@ -324,12 +382,23 @@ class MainWindow(QMainWindow):
                 
                 if No_proyecto <= max_projects and QFile.exists(path):
                     self.ui.menuRecientes.addAction(path)
+
                     #crear las tarjetas
-                    self.cardProject = viewCardProject(cardName = name, cardDataTime = data, cardPath= path, cardHour= hour)
+                    #self.cardProject = class_card_view.viewCardProject(self,communicate=self.communicate, cardName = name, cardDataTime = data, cardPath= path, cardHour= hour)
+                    #self.ui.gridLayout_proyectos.addWidget(self.cardProject,*position)
+
+                    self.cardProject = class_card_view.viewCardProject(self, cardName = name,
+                                         cardDataTime = data, cardPath= path, cardHour= hour)
                     self.ui.gridLayout_proyectos.addWidget(self.cardProject,*position)
-                    self.cardProject.pushButton.clicked.connect(self.onClickedToolButtonMenuLat)
-                    self.cardProject.frame_card.connect(SIGNAL("mousePressed()"),self.onClickedToolButtonMenuLat)
-                    self.cardProject.setNamesWidges(No_proyecto)
+                    self.cardProject.trigger.connect(self.updateLabel)
+
+                    """
+                    class_card_view.MouseObserver(self.cardProject.frame_card)
+                    self.cardProject.pushButton.clicked.connect(self.onClickedToolButtonViewCard)
+                    self.cardProject.frame_card.connect(SIGNAL("mousePressed()"),
+                                                                self.onClickedToolButtonViewCard)
+                    #self.cardProject.setNamesWidges(No_proyecto)
+                    """
 
                 No_proyecto += 1
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_cardewLldG.ui'
+## Form generated from reading UI file 'widget_cardmJYCbt.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -16,7 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QPushButton,
-    QSizePolicy, QVBoxLayout, QWidget)
+    QSizePolicy, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -130,6 +130,11 @@ class Ui_Form(object):
 
         self.verticalLayout_14.addWidget(self.pushButton)
 
+        self.toolButton = QToolButton(self.frame_11)
+        self.toolButton.setObjectName(u"toolButton")
+
+        self.verticalLayout_14.addWidget(self.toolButton)
+
 
         self.verticalLayout_9.addWidget(self.frame_11)
 
@@ -149,5 +154,6 @@ class Ui_Form(object):
         self.label_cardDataTime.setText(QCoreApplication.translate("Form", u"25/02/2022 07:32:52 A.M.", None))
         self.label_cardPath.setText(QCoreApplication.translate("Form", u"D:/Document/Ejem", None))
         self.pushButton.setText(QCoreApplication.translate("Form", u"PushButton", None))
+        self.toolButton.setText(QCoreApplication.translate("Form", u"...", None))
     # retranslateUi
 
