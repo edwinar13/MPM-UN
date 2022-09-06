@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>FormCard</class>
+ <widget class="QWidget" name="FormCard">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -175,20 +175,6 @@ border-radius: 5px
            </property>
            <property name="text">
             <string>D:/Document/Ejem</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>PushButton</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton">
-           <property name="text">
-            <string>...</string>
            </property>
           </widget>
          </item>

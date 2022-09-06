@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_cardmJYCbt.ui'
+## Form generated from reading UI file 'widget_cardIQzQDi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -15,20 +15,20 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QPushButton,
-    QSizePolicy, QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QSizePolicy,
+    QVBoxLayout, QWidget)
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(300, 295)
+class Ui_FormCard(object):
+    def setupUi(self, FormCard):
+        if not FormCard.objectName():
+            FormCard.setObjectName(u"FormCard")
+        FormCard.resize(300, 295)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
-        Form.setSizePolicy(sizePolicy)
-        Form.setStyleSheet(u"/*Colores primarios*/\n"
+        sizePolicy.setHeightForWidth(FormCard.sizePolicy().hasHeightForWidth())
+        FormCard.setSizePolicy(sizePolicy)
+        FormCard.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro #222222 #333333 #444444\n"
 "gris claro #999999 #DDDDDD\n"
@@ -69,11 +69,11 @@ class Ui_Form(object):
 "background: #333333;\n"
 "border-radius: 5px\n"
 "}")
-        self.verticalLayout = QVBoxLayout(Form)
+        self.verticalLayout = QVBoxLayout(FormCard)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.frame_card = QFrame(Form)
+        self.frame_card = QFrame(FormCard)
         self.frame_card.setObjectName(u"frame_card")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
@@ -125,16 +125,6 @@ class Ui_Form(object):
 
         self.verticalLayout_14.addWidget(self.label_cardPath)
 
-        self.pushButton = QPushButton(self.frame_11)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.verticalLayout_14.addWidget(self.pushButton)
-
-        self.toolButton = QToolButton(self.frame_11)
-        self.toolButton.setObjectName(u"toolButton")
-
-        self.verticalLayout_14.addWidget(self.toolButton)
-
 
         self.verticalLayout_9.addWidget(self.frame_11)
 
@@ -142,18 +132,16 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.frame_card)
 
 
-        self.retranslateUi(Form)
+        self.retranslateUi(FormCard)
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(FormCard)
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+    def retranslateUi(self, FormCard):
+        FormCard.setWindowTitle(QCoreApplication.translate("FormCard", u"Form", None))
         self.label_img.setText("")
-        self.label_cardName.setText(QCoreApplication.translate("Form", u"3 SIG 83 obras", None))
-        self.label_cardDataTime.setText(QCoreApplication.translate("Form", u"25/02/2022 07:32:52 A.M.", None))
-        self.label_cardPath.setText(QCoreApplication.translate("Form", u"D:/Document/Ejem", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"PushButton", None))
-        self.toolButton.setText(QCoreApplication.translate("Form", u"...", None))
+        self.label_cardName.setText(QCoreApplication.translate("FormCard", u"3 SIG 83 obras", None))
+        self.label_cardDataTime.setText(QCoreApplication.translate("FormCard", u"25/02/2022 07:32:52 A.M.", None))
+        self.label_cardPath.setText(QCoreApplication.translate("FormCard", u"D:/Document/Ejem", None))
     # retranslateUi
 
