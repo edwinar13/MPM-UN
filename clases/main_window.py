@@ -10,6 +10,8 @@ from ui import ui_frame_inicio
 from ui import ui_frame_draw
 from clases import class_projects
 from clases import class_card_view
+from clases import class_data_project
+
 
 
 
@@ -40,6 +42,11 @@ class MainWindow(QMainWindow):
         self.ui.splitter.setStretchFactor(0, 100)
         self.ui.splitter.setStretchFactor(1, 0)        
         self.ui.splitter.setSizes([100,100]) 
+
+        # ::::::::::::::::::::   CONFIGURANDO FRAME DATA PROJECT  ::::::::::::::::::::
+        self.menuDataProject = class_data_project.DataProject()
+        self.ui.horizontalLayout_draw.addWidget(self.menuDataProject)
+
         
         # ::::::::::::::::::::   INICIANDO DATA PROJECTS ::::::::::::::::::::
         self.projects = class_projects.Projects()        
@@ -110,25 +117,25 @@ class MainWindow(QMainWindow):
 
         if nameButton=="toolButton_data":
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_data)
+            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_data)
             self.ui.frame_data.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_dataInf.setStyleSheet("background-color: #2B2B2B;") 
 
         if nameButton=="toolButton_malla":
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_mesh)
+            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_mesh)
             self.ui.frame_malla.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_mallaInf.setStyleSheet("background-color: #2B2B2B;") 
 
         if nameButton=="toolButton_puntos":
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_point)
+            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_point)
             self.ui.frame_puntos.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_puntosInf.setStyleSheet("background-color: #2B2B2B;") 
 
         if nameButton=="toolButton_contorno":
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_contour)
+            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_contour)
             self.ui.frame_contorno.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_contornoInf.setStyleSheet("background-color: #2B2B2B;") 
 
@@ -274,7 +281,7 @@ class MainWindow(QMainWindow):
 
                     self.cardProject = class_card_view.viewCardProject(self, cardName = name,
                                          cardDataTime = data, cardPath= path, cardHour= hour)
-                    #print(self.cardProject)
+                    #self.cardProject.setStyleSheet("background-color: #36C{}C6;".format(No_proyecto)) 
                     self.ui.gridLayout_proyectos.addWidget(self.cardProject,*position)
                     self.list_view_card.append(self.cardProject)
                     self.cardProject.trigger.connect(self.functionOpenProject)

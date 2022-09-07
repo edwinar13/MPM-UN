@@ -49,10 +49,10 @@ class viewCardProject(QFrame, ui_widget_card.Ui_FormCard):
 
         #Sombra de ventana
         self.shadow_card = QGraphicsDropShadowEffect(self)
-        self.shadow_card.setBlurRadius(20)
+        self.shadow_card.setBlurRadius(10)
         self.shadow_card.setXOffset(0)
         self.shadow_card.setYOffset(0)
-        self.shadow_card.setColor(QColor(255,255,255,60))
+        self.shadow_card.setColor(QColor(0,0,0,100))
         self.frame_card.setGraphicsEffect(self.shadow_card)
 
         observer = MouseObserver(self.label_cardName)

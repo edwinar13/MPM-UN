@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_cardIQzQDi.ui'
+## Form generated from reading UI file 'widget_cardFUNldl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -22,7 +22,7 @@ class Ui_FormCard(object):
     def setupUi(self, FormCard):
         if not FormCard.objectName():
             FormCard.setObjectName(u"FormCard")
-        FormCard.resize(300, 295)
+        FormCard.resize(298, 263)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -72,7 +72,7 @@ class Ui_FormCard(object):
         self.verticalLayout = QVBoxLayout(FormCard)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
         self.frame_card = QFrame(FormCard)
         self.frame_card.setObjectName(u"frame_card")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)

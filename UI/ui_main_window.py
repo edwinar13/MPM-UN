@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowdslxiG.ui'
+## Form generated from reading UI file 'main_windowNvKyfa.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -17,17 +17,18 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGraphicsView, QGridLayout,
-    QHBoxLayout, QLabel, QLineEdit, QMainWindow,
-    QMenu, QMenuBar, QPushButton, QSizePolicy,
-    QSpacerItem, QSplitter, QStackedWidget, QStatusBar,
-    QTextBrowser, QToolButton, QVBoxLayout, QWidget)
+    QHBoxLayout, QLabel, QLayout, QLineEdit,
+    QMainWindow, QMenu, QMenuBar, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QSplitter,
+    QStackedWidget, QStatusBar, QTextBrowser, QToolButton,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(871, 696)
+        MainWindow.resize(947, 762)
         icon = QIcon()
         icon.addFile(u"recursos/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -162,7 +163,11 @@ class Ui_MainWindow(object):
                         "#      CONTAINER PAGE       ############################*/\n"
 "/*#################################################################*/\n"
 "\n"
-"QFrame#frame_empty_2{\n"
+"QFrame#frame_empty{\n"
+"background-color: #444444;\n"
+"}\n"
+"\n"
+"QFrame#frame_empty_draw{\n"
 "background-color: #222222;\n"
 "}\n"
 "\n"
@@ -190,11 +195,11 @@ class Ui_MainWindow(object):
 "QFrame#frame_supEjemplos2,\n"
 "QFrame#frame_supAbrirProyecto,\n"
 "QFrame#frame_supNuevoProyecto{\n"
-"background-color: #DDDDDD;\n"
+""
+                        "background-color: #DDDDDD;\n"
 "border-radius: 10px\n"
 "}\n"
-"QToolBu"
-                        "tton#toolButton_abrirProyecto,\n"
+"QToolButton#toolButton_abrirProyecto,\n"
 "QToolButton#toolButton_nuevoProyecto,\n"
 "QToolButton#toolButton_ejemplos1,\n"
 "QToolButton#toolButton_ejemplos2{\n"
@@ -230,11 +235,15 @@ class Ui_MainWindow(object):
 "\n"
 "/*###################### graphicsView draw  ############################*/\n"
 "QGraphicsView#graphicsView_draw{\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2"
-                        ":0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1 rgba(170, 255, 255, 255));\n"
+""
+                        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1 rgba(170, 255, 255, 255));\n"
 "}\n"
 "\n"
 "/*###################### frame consola  ############################*/\n"
+"\n"
+"QFrame#frame_console{\n"
+"background-color: #333333;\n"
+"}\n"
 "QTextBrowser#textBrowser_2{\n"
 "background-color: #444444;\n"
 "color: #DDDDDD;\n"
@@ -254,7 +263,9 @@ class Ui_MainWindow(object):
 "}\n"
 "QLineEdit#lineEdit_console:focus {\n"
 "	border: 2px solid rgb(91, 101, 124);\n"
-"}")
+"}\n"
+"\n"
+"")
         self.actionNuevo = QAction(MainWindow)
         self.actionNuevo.setObjectName(u"actionNuevo")
         icon1 = QIcon()
@@ -329,7 +340,6 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setEnabled(True)
         self.horizontalLayout_11 = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_11.setSpacing(0)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.frame = QFrame(self.centralwidget)
@@ -597,38 +607,46 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.frame_menu_izq)
 
-        self.frame_empty_2 = QFrame(self.frame)
-        self.frame_empty_2.setObjectName(u"frame_empty_2")
+        self.frame_empty = QFrame(self.frame)
+        self.frame_empty.setObjectName(u"frame_empty")
         sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.frame_empty_2.sizePolicy().hasHeightForWidth())
-        self.frame_empty_2.setSizePolicy(sizePolicy2)
+        sizePolicy2.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
+        self.frame_empty.setSizePolicy(sizePolicy2)
         font2 = QFont()
         font2.setFamilies([u"Ubuntu"])
         font2.setPointSize(7)
-        self.frame_empty_2.setFont(font2)
-        self.frame_empty_2.setStyleSheet(u"")
-        self.frame_empty_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_empty_2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.frame_empty_2)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.stackedWidget_container = QStackedWidget(self.frame_empty_2)
+        self.frame_empty.setFont(font2)
+        self.frame_empty.setStyleSheet(u"")
+        self.frame_empty.setFrameShape(QFrame.NoFrame)
+        self.frame_empty.setFrameShadow(QFrame.Raised)
+        self.frame_empty.setLineWidth(0)
+        self.horizontalLayout_19 = QHBoxLayout(self.frame_empty)
+        self.horizontalLayout_19.setSpacing(0)
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
+        self.horizontalLayout_19.setContentsMargins(0, 0, 0, 0)
+        self.stackedWidget_container = QStackedWidget(self.frame_empty)
         self.stackedWidget_container.setObjectName(u"stackedWidget_container")
+        self.stackedWidget_container.setFrameShape(QFrame.NoFrame)
+        self.stackedWidget_container.setFrameShadow(QFrame.Raised)
+        self.stackedWidget_container.setLineWidth(0)
         self.page_home = QWidget()
         self.page_home.setObjectName(u"page_home")
         self.horizontalLayout_17 = QHBoxLayout(self.page_home)
+        self.horizontalLayout_17.setSpacing(0)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.frame_2 = QFrame(self.page_home)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_12 = QVBoxLayout(self.frame_2)
+        self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
+        self.frame_empty_draw = QFrame(self.page_home)
+        self.frame_empty_draw.setObjectName(u"frame_empty_draw")
+        self.frame_empty_draw.setFrameShape(QFrame.StyledPanel)
+        self.frame_empty_draw.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_12 = QVBoxLayout(self.frame_empty_draw)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(50, 20, -1, 20)
-        self.label_8 = QLabel(self.frame_2)
+        self.label_8 = QLabel(self.frame_empty_draw)
         self.label_8.setObjectName(u"label_8")
         sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy3.setHorizontalStretch(0)
@@ -648,12 +666,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setSpacing(15)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(30, -1, -1, -1)
-        self.label_title_1 = QLabel(self.frame_2)
+        self.label_title_1 = QLabel(self.frame_empty_draw)
         self.label_title_1.setObjectName(u"label_title_1")
 
         self.horizontalLayout_9.addWidget(self.label_title_1)
 
-        self.label_title_2 = QLabel(self.frame_2)
+        self.label_title_2 = QLabel(self.frame_empty_draw)
         self.label_title_2.setObjectName(u"label_title_2")
 
         self.horizontalLayout_9.addWidget(self.label_title_2)
@@ -670,7 +688,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.frame_9 = QFrame(self.frame_2)
+        self.frame_9 = QFrame(self.frame_empty_draw)
         self.frame_9.setObjectName(u"frame_9")
         sizePolicy.setHeightForWidth(self.frame_9.sizePolicy().hasHeightForWidth())
         self.frame_9.setSizePolicy(sizePolicy)
@@ -863,17 +881,59 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.frame_proyectos = QFrame(self.frame_2)
+        self.frame_proyectos = QFrame(self.frame_empty_draw)
         self.frame_proyectos.setObjectName(u"frame_proyectos")
         self.frame_proyectos.setFrameShape(QFrame.StyledPanel)
         self.frame_proyectos.setFrameShadow(QFrame.Raised)
-        self.gridLayout = QGridLayout(self.frame_proyectos)
-        self.gridLayout.setObjectName(u"gridLayout")
+        self.verticalLayout_9 = QVBoxLayout(self.frame_proyectos)
+        self.verticalLayout_9.setSpacing(0)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.scrollArea_home = QScrollArea(self.frame_proyectos)
+        self.scrollArea_home.setObjectName(u"scrollArea_home")
+        self.scrollArea_home.setStyleSheet(u"background: transparent;\n"
+"")
+        self.scrollArea_home.setLineWidth(0)
+        self.scrollArea_home.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 659, 541))
+        self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(10, 10, 10, 10)
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.gridLayout_proyectos = QGridLayout()
-        self.gridLayout_proyectos.setSpacing(15)
+        self.gridLayout_proyectos.setSpacing(10)
         self.gridLayout_proyectos.setObjectName(u"gridLayout_proyectos")
+        self.gridLayout_proyectos.setSizeConstraint(QLayout.SetFixedSize)
+        self.gridLayout_proyectos.setContentsMargins(5, 5, 5, 5)
 
-        self.gridLayout.addLayout(self.gridLayout_proyectos, 0, 0, 1, 1)
+        self.horizontalLayout_18.addLayout(self.gridLayout_proyectos)
+
+        self.frame_2 = QFrame(self.scrollAreaWidgetContents)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setStyleSheet(u"")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+
+        self.horizontalLayout_18.addWidget(self.frame_2)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_18)
+
+        self.frame_7 = QFrame(self.scrollAreaWidgetContents)
+        self.frame_7.setObjectName(u"frame_7")
+        self.frame_7.setStyleSheet(u"")
+        self.frame_7.setFrameShape(QFrame.StyledPanel)
+        self.frame_7.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout.addWidget(self.frame_7)
+
+        self.scrollArea_home.setWidget(self.scrollAreaWidgetContents)
+
+        self.verticalLayout_9.addWidget(self.scrollArea_home)
 
 
         self.horizontalLayout_16.addWidget(self.frame_proyectos)
@@ -885,15 +945,21 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addLayout(self.horizontalLayout_10)
 
 
-        self.horizontalLayout_17.addWidget(self.frame_2)
+        self.horizontalLayout_17.addWidget(self.frame_empty_draw)
 
         self.stackedWidget_container.addWidget(self.page_home)
         self.page_draw = QWidget()
         self.page_draw.setObjectName(u"page_draw")
         self.horizontalLayout = QHBoxLayout(self.page_draw)
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_draw = QHBoxLayout()
+        self.horizontalLayout_draw.setSpacing(0)
+        self.horizontalLayout_draw.setObjectName(u"horizontalLayout_draw")
         self.splitter = QSplitter(self.page_draw)
         self.splitter.setObjectName(u"splitter")
+        self.splitter.setLineWidth(0)
         self.splitter.setOrientation(Qt.Vertical)
         self.graphicsView_draw = QGraphicsView(self.splitter)
         self.graphicsView_draw.setObjectName(u"graphicsView_draw")
@@ -922,21 +988,21 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.textBrowser_2)
 
-        self.frame_10 = QFrame(self.frame_3)
-        self.frame_10.setObjectName(u"frame_10")
+        self.frame_console = QFrame(self.frame_3)
+        self.frame_console.setObjectName(u"frame_console")
         sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy5.setHorizontalStretch(0)
         sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
-        self.frame_10.setSizePolicy(sizePolicy5)
-        self.frame_10.setStyleSheet(u"")
-        self.frame_10.setFrameShape(QFrame.StyledPanel)
-        self.frame_10.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_10)
+        sizePolicy5.setHeightForWidth(self.frame_console.sizePolicy().hasHeightForWidth())
+        self.frame_console.setSizePolicy(sizePolicy5)
+        self.frame_console.setStyleSheet(u"")
+        self.frame_console.setFrameShape(QFrame.StyledPanel)
+        self.frame_console.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame_console)
         self.horizontalLayout_2.setSpacing(5)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_close_console = QToolButton(self.frame_10)
+        self.toolButton_close_console = QToolButton(self.frame_console)
         self.toolButton_close_console.setObjectName(u"toolButton_close_console")
         sizePolicy6 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
         sizePolicy6.setHorizontalStretch(0)
@@ -955,7 +1021,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.toolButton_close_console)
 
-        self.label_4 = QLabel(self.frame_10)
+        self.label_4 = QLabel(self.frame_console)
         self.label_4.setObjectName(u"label_4")
         sizePolicy7 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy7.setHorizontalStretch(50)
@@ -970,7 +1036,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label_4)
 
-        self.lineEdit_console = QLineEdit(self.frame_10)
+        self.lineEdit_console = QLineEdit(self.frame_console)
         self.lineEdit_console.setObjectName(u"lineEdit_console")
         self.lineEdit_console.setMinimumSize(QSize(0, 18))
         self.lineEdit_console.setMaximumSize(QSize(16777215, 18))
@@ -982,47 +1048,22 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.lineEdit_console)
 
 
-        self.verticalLayout_3.addWidget(self.frame_10)
+        self.verticalLayout_3.addWidget(self.frame_console)
 
         self.splitter.addWidget(self.frame_3)
 
-        self.horizontalLayout.addWidget(self.splitter)
+        self.horizontalLayout_draw.addWidget(self.splitter)
 
-        self.stackedWidget_subMenu = QStackedWidget(self.page_draw)
-        self.stackedWidget_subMenu.setObjectName(u"stackedWidget_subMenu")
-        self.stackedWidget_subMenu.setMaximumSize(QSize(250, 16777215))
-        self.page_data = QWidget()
-        self.page_data.setObjectName(u"page_data")
-        self.label_3 = QLabel(self.page_data)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(320, 400, 49, 16))
-        self.stackedWidget_subMenu.addWidget(self.page_data)
-        self.page_mesh = QWidget()
-        self.page_mesh.setObjectName(u"page_mesh")
-        self.label_5 = QLabel(self.page_mesh)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(290, 180, 49, 16))
-        self.stackedWidget_subMenu.addWidget(self.page_mesh)
-        self.page_point = QWidget()
-        self.page_point.setObjectName(u"page_point")
-        self.label_6 = QLabel(self.page_point)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setGeometry(QRect(350, 230, 49, 16))
-        self.stackedWidget_subMenu.addWidget(self.page_point)
-        self.page_contour = QWidget()
-        self.page_contour.setObjectName(u"page_contour")
-        self.label_7 = QLabel(self.page_contour)
-        self.label_7.setObjectName(u"label_7")
-        self.label_7.setGeometry(QRect(310, 250, 49, 16))
-        self.stackedWidget_subMenu.addWidget(self.page_contour)
 
-        self.horizontalLayout.addWidget(self.stackedWidget_subMenu)
+        self.horizontalLayout.addLayout(self.horizontalLayout_draw)
 
         self.stackedWidget_container.addWidget(self.page_draw)
         self.page_view = QWidget()
         self.page_view.setObjectName(u"page_view")
         self.horizontalLayout_6 = QHBoxLayout(self.page_view)
+        self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.graphicsView_2 = QGraphicsView(self.page_view)
         self.graphicsView_2.setObjectName(u"graphicsView_2")
 
@@ -1056,10 +1097,10 @@ class Ui_MainWindow(object):
         self.pushButton.setFont(font5)
         self.stackedWidget_container.addWidget(self.page_config)
 
-        self.verticalLayout.addWidget(self.stackedWidget_container)
+        self.horizontalLayout_19.addWidget(self.stackedWidget_container)
 
 
-        self.horizontalLayout_3.addWidget(self.frame_empty_2)
+        self.horizontalLayout_3.addWidget(self.frame_empty)
 
 
         self.horizontalLayout_11.addWidget(self.frame)
@@ -1067,7 +1108,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 871, 26))
+        self.menubar.setGeometry(QRect(0, 0, 947, 26))
         self.menuArchivo = QMenu(self.menubar)
         self.menuArchivo.setObjectName(u"menuArchivo")
         self.menuArchivo.setGeometry(QRect(2432, 484, 186, 293))
@@ -1132,7 +1173,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget_container.setCurrentIndex(0)
-        self.stackedWidget_subMenu.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1197,10 +1237,6 @@ class Ui_MainWindow(object):
         self.lineEdit_console.setInputMask("")
         self.lineEdit_console.setText("")
         self.lineEdit_console.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Ingrese comando", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Data", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"malla", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"particulas", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"contorno", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Vista", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Config", None))
         self.menuArchivo.setTitle(QCoreApplication.translate("MainWindow", u"Archivo", None))
