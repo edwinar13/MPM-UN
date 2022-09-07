@@ -3,7 +3,7 @@
 from PySide6.QtCore import ( QFile,QTime, QObject,QEvent, Signal, Slot)
 from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QLabel,
-                            QWidget,QMessageBox,QFrame, QGraphicsDropShadowEffect )
+                            QWidget,QMessageBox,QFrame, QGraphicsDropShadowEffect,QSizePolicy )
 from time import strftime
 
 from ui import ui_main_window
@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_config.clicked.connect(self.onClickedToolButtonMenuLat)
 
         # ::::::::::::::::::::   EVENTOS WIDGET FRAME INICIO ::::::::::::::::::::
-        self.cardProject.trigger.connect(self.functionOpenProject)
+        #self.cardProject.trigger.connect(self.functionOpenProject)
         self.frame_home.signal_home_open.connect(self.onTriggeredactionAbrirProyecto)
         self.frame_home.signal_home_new.connect(self.onTriggeredactionNuevoProyecto)
 
@@ -262,17 +262,17 @@ class MainWindow(QMainWindow):
         if len(self.list_view_card) != 0:
             for view_card in self.list_view_card:                
                 print("Lista:{}".format(view_card))                
-                self.frame_home.gridLayout_proyectos.removeWidget(view_card)
+                self.frame_home.verticalLayout_FH_container_card.removeWidget(view_card)
                 view_card.deleteLater()
             self.list_view_card=[]
-            self.ui.menuRecientes.clear()
+        self.ui.menuRecientes.clear()
 
         if self.projects.getProjects():
             projects = self.projects.getProjects()	
             
             total_projects = len(projects)
             No_proyecto = 1
-            max_projects = 10
+            max_projects = 15
             positions = [(i,j) for i in range(5) for j in range(3)]  
             for position, project in zip(positions, projects):
                 #agrega cada proyecto a menu>recientes
@@ -288,14 +288,20 @@ class MainWindow(QMainWindow):
                     self.cardProject = class_card_view.viewCardProject(self, cardName = name,
                                          cardDataTime = data, cardPath= path, cardHour= hour)
                     #self.cardProject.setStyleSheet("background-color: #36C{}C6;".format(No_proyecto))
-                    self.frame_home.gridLayout_proyectos.addWidget(self.cardProject,*position)
+                    #self.frame_home.gridLayout_proyectos.addWidget(self.cardProject,*position)
+                    self.frame_home.verticalLayout_FH_container_card.addWidget(self.cardProject)
                     self.list_view_card.append(self.cardProject)
                     self.cardProject.trigger.connect(self.functionOpenProject)
 
                     #self.cardProject.setNamesWidges(No_proyecto)
 
                 No_proyecto += 1
-
+            #colocar otro al final
+            frame_end = QFrame()
+            frame_end.setSizePolicy(QSizePolicy(QSizePolicy.Preferred,
+                                                 QSizePolicy.Expanding))
+            self.frame_home.verticalLayout_FH_container_card.addWidget(frame_end)
+            self.list_view_card.append(frame_end)
         self.ui.menuRecientes.addSeparator()
         self.ui.menuRecientes.addAction('Limpiar')
         """

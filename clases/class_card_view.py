@@ -4,7 +4,7 @@ from PySide6.QtCore import ( QObject,QEvent, Signal, Slot,QThread)
 from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect )
 
-from ui import ui_widget_card
+from ui import ui_widget_card_2
 
 
 class MouseObserver(QObject):
@@ -23,7 +23,7 @@ class MouseObserver(QObject):
            
         return super().eventFilter(obj, event)
 
-class viewCardProject(QFrame, ui_widget_card.Ui_FormCard):
+class viewCardProject(QFrame, ui_widget_card_2.Ui_FormCard):
     trigger = Signal(str)
     def __init__(self, parent = None,  cardName="", 
                         cardDataTime="", cardPath="",cardHour=""):
@@ -72,8 +72,9 @@ class viewCardProject(QFrame, ui_widget_card.Ui_FormCard):
 
     def setTextLabel(self):
         self.label_cardName.setText(u"{}".format(self.cardName))
-        self.label_cardDataTime.setText(u"{}".format(self.cardDataTime))
-        self.label_cardPath.setText(u"{}".format(self.cardHour))
+        self.label_cardDataTime.setText(u"{} {}".format(self.cardDataTime,self.cardHour))
+        self.label_cardPath.setText(u"{}".format(self.cardPath))
+        
         self.frame_card.setToolTip(u"{}".format(self.cardPath))
 
     def setNamesWidges (self,numberProject):

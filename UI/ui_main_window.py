@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowIqsBDi.ui'
+## Form generated from reading UI file 'main_windowjnOruN.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -157,9 +157,11 @@ class Ui_MainWindow(object):
 "border-radius: 2px;\n"
 "}\n"
 "\n"
+"\n"
+"\n"
 "/*#################################################################*/\n"
-"/*#####################"
-                        "#      CONTAINER PAGE       ############################*/\n"
+"/*###########"
+                        "###########      CONTAINER PAGE       ############################*/\n"
 "/*#################################################################*/\n"
 "\n"
 "QFrame#frame_empty{\n"
@@ -193,9 +195,9 @@ class Ui_MainWindow(object):
 "QFrame#frame_supEjemplos1,\n"
 "QFrame#frame_supEjemplos2,\n"
 "QFrame#frame_supAbrirProyecto,\n"
-"QFrame#frame_supNuevoProyecto{\n"
-""
-                        "background-color: #DDDDDD;\n"
+"QFrame#frame_supNuevoPro"
+                        "yecto{\n"
+"background-color: #DDDDDD;\n"
 "border-radius: 10px\n"
 "}\n"
 "QToolButton#toolButton_abrirProyecto,\n"
@@ -233,9 +235,9 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "/*###################### graphicsView draw  ############################*/\n"
-"QGraphicsView#graphicsView_draw{\n"
-""
-                        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1 rgba(170, 255, 255, 255));\n"
+"QGraphicsView#graphicsVi"
+                        "ew_draw{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1 rgba(170, 255, 255, 255));\n"
 "}\n"
 "\n"
 "/*###################### frame consola  ############################*/\n"
@@ -866,7 +868,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget_container.setCurrentIndex(0)
+        self.stackedWidget_container.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

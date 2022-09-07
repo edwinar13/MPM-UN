@@ -145,6 +145,8 @@ border-radius: 2px ;
 border-radius: 2px;
 }
 
+
+
 /*#################################################################*/
 /*######################      CONTAINER PAGE       ############################*/
 /*#################################################################*/
@@ -958,7 +960,7 @@ QLineEdit#lineEdit_console:focus {
              <number>0</number>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_home">
              <layout class="QHBoxLayout" name="horizontalLayout_17">
