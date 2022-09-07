@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>685</width>
-    <height>657</height>
+    <width>943</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -140,7 +140,11 @@ border-radius: 10px;
 }
 
 
-QToolButton#toolButton_FH_cardNew_1
+QToolButton#toolButton_FH_cardNew_1,
+QToolButton#toolButton_FH_cardNew_2,
+QToolButton#toolButton_FH_cardNew_3,
+QToolButton#toolButton_FH_cardNew_4,
+QToolButton#toolButton_FH_cardNew_5
 {
 background: rgb(255, 0, 0);
 border-radius: 10px;
@@ -487,10 +491,10 @@ border: none;
           <widget class="QWidget" name="scrollAreaWidgetContents_2">
            <property name="geometry">
             <rect>
-             <x>-325</x>
+             <x>0</x>
              <y>0</y>
              <width>970</width>
-             <height>204</height>
+             <height>201</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -513,7 +517,7 @@ border: none;
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>15</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QFrame" name="frame_4">
@@ -631,13 +635,13 @@ border: none;
                    <property name="minimumSize">
                     <size>
                      <width>120</width>
-                     <height>0</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>16777215</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="text">
@@ -691,16 +695,41 @@ border: none;
                       <enum>QFrame::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_15">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
                       <item>
-                       <widget class="QLabel" name="label">
+                       <widget class="QToolButton" name="toolButton_FH_cardNew_2">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
                         <property name="text">
                          <string/>
                         </property>
-                        <property name="pixmap">
-                         <pixmap>../recursos/imagenes/ejemplo_viga.png</pixmap>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>../recursos/imagenes/ejemplo_viga.png</normaloff>../recursos/imagenes/ejemplo_viga.png</iconset>
                         </property>
-                        <property name="scaledContents">
-                         <bool>true</bool>
+                        <property name="iconSize">
+                         <size>
+                          <width>100</width>
+                          <height>100</height>
+                         </size>
                         </property>
                        </widget>
                       </item>
@@ -727,13 +756,13 @@ border: none;
                    <property name="minimumSize">
                     <size>
                      <width>120</width>
-                     <height>0</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>16777215</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="text">
@@ -790,17 +819,42 @@ barra empotrada</string>
                      <property name="frameShadow">
                       <enum>QFrame::Raised</enum>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_17">
+                     <layout class="QHBoxLayout" name="horizontalLayout_16">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
                       <item>
-                       <widget class="QLabel" name="label_2">
+                       <widget class="QToolButton" name="toolButton_FH_cardNew_3">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
                         <property name="text">
                          <string/>
                         </property>
-                        <property name="pixmap">
-                         <pixmap>../recursos/imagenes/ejemplo_capacidad_portante.png</pixmap>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>../recursos/imagenes/ejemplo_capacidad_portante.png</normaloff>../recursos/imagenes/ejemplo_capacidad_portante.png</iconset>
                         </property>
-                        <property name="scaledContents">
-                         <bool>true</bool>
+                        <property name="iconSize">
+                         <size>
+                          <width>100</width>
+                          <height>100</height>
+                         </size>
                         </property>
                        </widget>
                       </item>
@@ -824,6 +878,12 @@ barra empotrada</string>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_FH_cardNew_3">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
@@ -884,17 +944,42 @@ sobre suelo tresca</string>
                      <property name="frameShadow">
                       <enum>QFrame::Raised</enum>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_18">
+                     <layout class="QHBoxLayout" name="horizontalLayout_17">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
                       <item>
-                       <widget class="QLabel" name="label_3">
+                       <widget class="QToolButton" name="toolButton_FH_cardNew_4">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
                         <property name="text">
                          <string/>
                         </property>
-                        <property name="pixmap">
-                         <pixmap>../recursos/imagenes/ejemplo_disco.png</pixmap>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>../recursos/imagenes/ejemplo_disco.png</normaloff>../recursos/imagenes/ejemplo_disco.png</iconset>
                         </property>
-                        <property name="scaledContents">
-                         <bool>true</bool>
+                        <property name="iconSize">
+                         <size>
+                          <width>100</width>
+                          <height>100</height>
+                         </size>
                         </property>
                        </widget>
                       </item>
@@ -918,6 +1003,12 @@ sobre suelo tresca</string>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_FH_cardNew_4">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
@@ -981,17 +1072,42 @@ un plano inclinado</string>
                      <property name="frameShadow">
                       <enum>QFrame::Raised</enum>
                      </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_19">
+                     <layout class="QHBoxLayout" name="horizontalLayout_18">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
                       <item>
-                       <widget class="QLabel" name="label_4">
+                       <widget class="QToolButton" name="toolButton_FH_cardNew_5">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
                         <property name="text">
                          <string/>
                         </property>
-                        <property name="pixmap">
-                         <pixmap>../recursos/imagenes/ejemplo_talud.png</pixmap>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>../recursos/imagenes/ejemplo_talud.png</normaloff>../recursos/imagenes/ejemplo_talud.png</iconset>
                         </property>
-                        <property name="scaledContents">
-                         <bool>true</bool>
+                        <property name="iconSize">
+                         <size>
+                          <width>100</width>
+                          <height>100</height>
+                         </size>
                         </property>
                        </widget>
                       </item>
@@ -1015,6 +1131,18 @@ un plano inclinado</string>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_FH_cardNew_5">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>401</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Falla de un talud
 elastoplástico</string>
@@ -1304,8 +1432,8 @@ border: none;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>645</width>
-             <height>142</height>
+             <width>903</width>
+             <height>207</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_20">

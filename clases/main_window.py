@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
 
         # ::::::::::::::::::::   EVENTOS WIDGET FRAME INICIO ::::::::::::::::::::
         #self.cardProject.trigger.connect(self.functionOpenProject)
-        self.frame_home.signal_home_open.connect(self.onTriggeredactionAbrirProyecto)
+        self.frame_home.signal_home_open.connect(self.functionOpenProject)
         self.frame_home.signal_home_new.connect(self.onTriggeredactionNuevoProyecto)
 
         # ::::::::::::::::::::   EVENTOS TECLADO Y MENU SUPERIOR ::::::::::::::::::::
@@ -94,11 +94,12 @@ class MainWindow(QMainWindow):
         
         
 
-        
+        """
     @Slot(str)
     def updateLabel(self, text="algo"):
         print("Estas en main: {}".format(text))
         self.ui.label_title_1.setText(text)
+        """   
 
     ###############################################################################
 	# ::::::::::::::::::::    FUNCIONES EVENTOS MENU LATERAL   ::::::::::::::::::::
@@ -115,7 +116,6 @@ class MainWindow(QMainWindow):
         self.hideToolButtonMenuLat()
         buttonSelected = self.sender()
         nameButton = buttonSelected.objectName()
-        print("Nombre: {}".format(nameButton))
         if nameButton=="toolButton_inicio":
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
             self.ui.frame_inicio.setStyleSheet("background-color: #36C9C6;")
@@ -229,15 +229,13 @@ class MainWindow(QMainWindow):
         Funcion para abril, actualizar y leer proyectos 
         muestra canvas y habilita pestaña malla
         '''
-        print("filePath",filePath)
-        #toca volver a validar que si exista el archivo
         hour = QTime.currentTime().toString("hh:mm:ss A ")
         data = strftime("%d/%m/%y")
+
         file_name=filePath.split('/')[-1]
         if ( QFile.exists(filePath)):
 
             project_open = class_projects.Project(name_file = file_name, path = filePath,data= data,hour= hour) 
-            print(" Existe {}".format(file_name))
         
             if self.projects.addProject(self, project_open):
 
@@ -261,7 +259,6 @@ class MainWindow(QMainWindow):
         view_card=None
         if len(self.list_view_card) != 0:
             for view_card in self.list_view_card:                
-                print("Lista:{}".format(view_card))                
                 self.frame_home.verticalLayout_FH_container_card.removeWidget(view_card)
                 view_card.deleteLater()
             self.list_view_card=[]
@@ -304,13 +301,6 @@ class MainWindow(QMainWindow):
             self.list_view_card.append(frame_end)
         self.ui.menuRecientes.addSeparator()
         self.ui.menuRecientes.addAction('Limpiar')
-        """
-        print("##############################################")    
-        print(self.ui.gridLayout_proyectos.rowCount())
-        print(self.ui.gridLayout_proyectos.columnCount())
-        print(self.ui.gridLayout_proyectos.itemAtPosition(0,0))
-        """
-
 
 
         for accion in self.ui.menuRecientes.actions():
