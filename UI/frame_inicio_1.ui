@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>FormHome</class>
+ <widget class="QWidget" name="FormHome">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
-    <height>491</height>
+    <width>684</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -849,8 +849,8 @@ QLineEdit#lineEdit_console:focus {
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>337</width>
-                  <height>301</height>
+                  <width>448</width>
+                  <height>489</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout">

@@ -5,12 +5,14 @@ from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QLabel,
                             QWidget,QMessageBox,QFrame, QGraphicsDropShadowEffect )
 from time import strftime
+
 from ui import ui_main_window
-from ui import ui_frame_inicio
 from ui import ui_frame_draw
+
 from clases import class_projects
 from clases import class_card_view
 from clases import class_data_project
+from clases import class_frame_home
 
 
 
@@ -36,6 +38,9 @@ class MainWindow(QMainWindow):
 
 
         # ::::::::::::::::::::   CONFIGURANDO  FRAME INICIO ::::::::::::::::::::
+        self.frame_home = class_frame_home.FrameHome(self)
+        self.ui.verticalLayout_empty_draw.addWidget(self.frame_home)
+
         self.list_view_card = []
 
         # ::::::::::::::::::::   CONFIGURANDO FRAME VIEW  ::::::::::::::::::::
@@ -62,8 +67,9 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_config.clicked.connect(self.onClickedToolButtonMenuLat)
 
         # ::::::::::::::::::::   EVENTOS WIDGET FRAME INICIO ::::::::::::::::::::
-        self.ui.toolButton_abrirProyecto.clicked.connect(self.onTriggeredactionAbrirProyecto)
-        self.ui.toolButton_nuevoProyecto.clicked.connect(self.onTriggeredactionNuevoProyecto)
+        self.cardProject.trigger.connect(self.functionOpenProject)
+        self.frame_home.signal_home_open.connect(self.onTriggeredactionAbrirProyecto)
+        self.frame_home.signal_home_new.connect(self.onTriggeredactionNuevoProyecto)
 
         # ::::::::::::::::::::   EVENTOS TECLADO Y MENU SUPERIOR ::::::::::::::::::::
         self.ui.actionNuevo.setShortcut('Ctrl+n')
@@ -256,7 +262,7 @@ class MainWindow(QMainWindow):
         if len(self.list_view_card) != 0:
             for view_card in self.list_view_card:                
                 print("Lista:{}".format(view_card))                
-                self.ui.gridLayout_proyectos.removeWidget(view_card)
+                self.frame_home.gridLayout_proyectos.removeWidget(view_card)
                 view_card.deleteLater()
             self.list_view_card=[]
             self.ui.menuRecientes.clear()
@@ -281,8 +287,8 @@ class MainWindow(QMainWindow):
 
                     self.cardProject = class_card_view.viewCardProject(self, cardName = name,
                                          cardDataTime = data, cardPath= path, cardHour= hour)
-                    #self.cardProject.setStyleSheet("background-color: #36C{}C6;".format(No_proyecto)) 
-                    self.ui.gridLayout_proyectos.addWidget(self.cardProject,*position)
+                    #self.cardProject.setStyleSheet("background-color: #36C{}C6;".format(No_proyecto))
+                    self.frame_home.gridLayout_proyectos.addWidget(self.cardProject,*position)
                     self.list_view_card.append(self.cardProject)
                     self.cardProject.trigger.connect(self.functionOpenProject)
 
