@@ -1008,6 +1008,12 @@ QLineEdit#lineEdit_console:focus {
                 </property>
                 <item>
                  <widget class="QSplitter" name="splitter">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="lineWidth">
                    <number>0</number>
                   </property>
@@ -1020,6 +1026,12 @@ QLineEdit#lineEdit_console:focus {
                    </property>
                   </widget>
                   <widget class="QFrame" name="frame_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>

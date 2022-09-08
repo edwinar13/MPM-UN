@@ -53,6 +53,7 @@ class FrameHome(QFrame, ui_frame_inicio_2.Ui_FormHome):
 
 
 
+
     def clickedToolButtonNewProject(self):
         self.signal_home_new.emit()
     

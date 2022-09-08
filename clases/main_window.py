@@ -1,7 +1,8 @@
 
 
-from PySide6.QtCore import ( QFile,QTime, QObject,QEvent, Signal, Slot)
-from PySide6.QtGui import (QColor)
+from sqlite3 import connect
+from PySide6.QtCore import ( QFile,QTime, QObject,QEvent, Signal, Slot,QSize)
+from PySide6.QtGui import (QColor,QIcon)
 from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QLabel,
                             QWidget,QMessageBox,QFrame, QGraphicsDropShadowEffect,QSizePolicy )
 from time import strftime
@@ -48,14 +49,14 @@ class MainWindow(QMainWindow):
         self.ui.splitter.setStretchFactor(1, 0)        
         self.ui.splitter.setSizes([100,100]) 
 
-        # ::::::::::::::::::::   CONFIGURANDO FRAME DATA PROJECT  ::::::::::::::::::::
-        self.menuDataProject = class_data_project.DataProject()
-        self.ui.horizontalLayout_draw.addWidget(self.menuDataProject)
-
         
         # ::::::::::::::::::::   INICIANDO DATA PROJECTS ::::::::::::::::::::
         self.projects = class_projects.Projects()        
         self.functionUpdateListProjects()
+
+        # ::::::::::::::::::::   CONFIGURANDO FRAME DATA PROJECT  ::::::::::::::::::::
+        self.menuDataProject = class_data_project.DataProject()
+        self.ui.horizontalLayout_draw.addWidget(self.menuDataProject)
 
         # ::::::::::::::::::::   EVENTOS WIDGET  MENU LATERAL ::::::::::::::::::::
         self.ui.toolButton_inicio.clicked.connect(self.onClickedToolButtonMenuLat)
@@ -70,6 +71,13 @@ class MainWindow(QMainWindow):
         #self.cardProject.trigger.connect(self.functionOpenProject)
         self.frame_home.signal_home_open.connect(self.functionOpenProject)
         self.frame_home.signal_home_new.connect(self.onTriggeredactionNuevoProyecto)
+        
+        # ::::::::::::::::::::   EVENTOS WIDGET FRAME DRAW DATA PROJECT ::::::::::::::::::::
+        self.menuDataProject.signal_msn_critical.connect(self.showMessageStatusBarCritical)
+        self.menuDataProject.signal_msn_Satisfactory.connect(self.showMessageStatusBarSatisfactory)
+        self.menuDataProject.signal_msn_Informative.connect(self.showMessageStatusBarInformative)
+
+
 
         # ::::::::::::::::::::   EVENTOS TECLADO Y MENU SUPERIOR ::::::::::::::::::::
         self.ui.actionNuevo.setShortcut('Ctrl+n')
@@ -250,6 +258,10 @@ class MainWindow(QMainWindow):
                 self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
                 self.showMessageStatusBarInformative("Se ha abierto el proyecto {}".format(file_name))
 
+
+                self.menuDataProject.setPathProject(filePath)
+                self.menuDataProject.setTextWidget()
+
         else:
             self.showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name)) 
         self.functionUpdateListProjects()
@@ -313,13 +325,15 @@ class MainWindow(QMainWindow):
     ###############################################################################
 	# ::::::::::::::::::::         FUNCIONES GENERALES         ::::::::::::::::::::
 	###############################################################################
-
+    @Slot(str)
     def showMessageStatusBarCritical(self, message):
         self.ui.statusbar.setStyleSheet("color: #F94646;") 
         self.ui.statusbar.showMessage(message,6000)
+    @Slot(str)
     def showMessageStatusBarSatisfactory(self, message):
         self.ui.statusbar.setStyleSheet("color: #36C9C6;") 
         self.ui.statusbar.showMessage(message,6000)
+    @Slot(str)
     def showMessageStatusBarInformative(self, message):
         self.ui.statusbar.setStyleSheet("color: #DDDDDD;") 
         self.ui.statusbar.showMessage(message,6000)

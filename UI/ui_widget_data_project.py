@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_data_projectcouWGx.ui'
+## Form generated from reading UI file 'widget_data_projectiqzFCJ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -23,14 +23,14 @@ class Ui_FormDataProject(object):
     def setupUi(self, FormDataProject):
         if not FormDataProject.objectName():
             FormDataProject.setObjectName(u"FormDataProject")
-        FormDataProject.resize(300, 678)
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        FormDataProject.resize(346, 869)
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormDataProject.sizePolicy().hasHeightForWidth())
         FormDataProject.setSizePolicy(sizePolicy)
-        FormDataProject.setMinimumSize(QSize(300, 0))
-        FormDataProject.setMaximumSize(QSize(300, 16777215))
+        FormDataProject.setMinimumSize(QSize(0, 0))
+        FormDataProject.setMaximumSize(QSize(16777215, 16777215))
         FormDataProject.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro #222222 #333333 #444444\n"
@@ -67,13 +67,17 @@ class Ui_FormDataProject(object):
 "\n"
 "/****************************************************************************************************************************************************/\n"
 "\n"
+"QWidget#FormDataProject{\n"
+"\n"
+"}\n"
+"\n"
 "QFrame#frame_data_project{\n"
 "background: #333333;\n"
 "border-radius: 8px\n"
-"}\n"
+"}"
+                        "\n"
 "\n"
-"/*#################################"
-                        "################################*/\n"
+"/*#################################################################*/\n"
 "/*####################       FRAME HIDE       ###########################*/\n"
 "/*#################################################################*/\n"
 "\n"
@@ -113,9 +117,9 @@ class Ui_FormDataProject(object):
 "color: #DDDDDD;\n"
 "}\n"
 "\n"
-"QFrame#frame_DataSubTitle_1,\n"
-"QFrame#frame_Data"
-                        "SubTitle_2{\n"
+"QFram"
+                        "e#frame_DataSubTitle_1,\n"
+"QFrame#frame_DataSubTitle_2{\n"
 "background: #222222;\n"
 "border-radius:2px;\n"
 "}\n"
@@ -161,13 +165,13 @@ class Ui_FormDataProject(object):
 "color: #DDDDDD;\n"
 "background-color: #444444;\n"
 "border-radius: 2px ;\n"
-"padding-right: 6px;\n"
+"padding-right: 6p"
+                        "x;\n"
 "padding-left: 6px;\n"
 "}\n"
 "\n"
 "/*\n"
-""
-                        "\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -188,7 +192,6 @@ class Ui_FormDataProject(object):
 "border: none;\n"
 "padding: 6px 25px;\n"
 "border-radius: 15px ;\n"
-"cursor: pointer;\n"
 "\n"
 "}\n"
 "\n"
@@ -202,12 +205,15 @@ class Ui_FormDataProject(object):
 "\n"
 "\n"
 "")
-        self.verticalLayout = QVBoxLayout(FormDataProject)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_6 = QHBoxLayout(FormDataProject)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.frame_data_project = QFrame(FormDataProject)
         self.frame_data_project.setObjectName(u"frame_data_project")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.frame_data_project.sizePolicy().hasHeightForWidth())
+        self.frame_data_project.setSizePolicy(sizePolicy1)
         self.frame_data_project.setFrameShape(QFrame.StyledPanel)
         self.frame_data_project.setFrameShadow(QFrame.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_data_project)
@@ -216,8 +222,12 @@ class Ui_FormDataProject(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.frame_hide = QFrame(self.frame_data_project)
         self.frame_hide.setObjectName(u"frame_hide")
-        sizePolicy.setHeightForWidth(self.frame_hide.sizePolicy().hasHeightForWidth())
-        self.frame_hide.setSizePolicy(sizePolicy)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.frame_hide.sizePolicy().hasHeightForWidth())
+        self.frame_hide.setSizePolicy(sizePolicy2)
+        self.frame_hide.setMinimumSize(QSize(20, 0))
         self.frame_hide.setFrameShape(QFrame.StyledPanel)
         self.frame_hide.setFrameShadow(QFrame.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.frame_hide)
@@ -226,6 +236,9 @@ class Ui_FormDataProject(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.frame_hide_2 = QFrame(self.frame_hide)
         self.frame_hide_2.setObjectName(u"frame_hide_2")
+        sizePolicy2.setHeightForWidth(self.frame_hide_2.sizePolicy().hasHeightForWidth())
+        self.frame_hide_2.setSizePolicy(sizePolicy2)
+        self.frame_hide_2.setMinimumSize(QSize(20, 0))
         self.frame_hide_2.setFrameShape(QFrame.StyledPanel)
         self.frame_hide_2.setFrameShadow(QFrame.Raised)
         self.verticalLayout_4 = QVBoxLayout(self.frame_hide_2)
@@ -234,11 +247,11 @@ class Ui_FormDataProject(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.toolButton_hide_show = QToolButton(self.frame_hide_2)
         self.toolButton_hide_show.setObjectName(u"toolButton_hide_show")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.toolButton_hide_show.sizePolicy().hasHeightForWidth())
-        self.toolButton_hide_show.setSizePolicy(sizePolicy1)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.toolButton_hide_show.sizePolicy().hasHeightForWidth())
+        self.toolButton_hide_show.setSizePolicy(sizePolicy3)
         self.toolButton_hide_show.setMinimumSize(QSize(20, 30))
         self.toolButton_hide_show.setMaximumSize(QSize(20, 30))
         font = QFont()
@@ -266,6 +279,8 @@ class Ui_FormDataProject(object):
 
         self.frame_data = QFrame(self.frame_data_project)
         self.frame_data.setObjectName(u"frame_data")
+        sizePolicy1.setHeightForWidth(self.frame_data.sizePolicy().hasHeightForWidth())
+        self.frame_data.setSizePolicy(sizePolicy1)
         self.frame_data.setFrameShape(QFrame.StyledPanel)
         self.frame_data.setFrameShadow(QFrame.Raised)
         self.verticalLayout_3 = QVBoxLayout(self.frame_data)
@@ -274,6 +289,11 @@ class Ui_FormDataProject(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.frame_title = QFrame(self.frame_data)
         self.frame_title.setObjectName(u"frame_title")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.frame_title.sizePolicy().hasHeightForWidth())
+        self.frame_title.setSizePolicy(sizePolicy4)
         self.frame_title.setMinimumSize(QSize(0, 30))
         self.frame_title.setMaximumSize(QSize(16777215, 30))
         self.frame_title.setFrameShape(QFrame.StyledPanel)
@@ -324,51 +344,67 @@ class Ui_FormDataProject(object):
 
         self.verticalLayout_5.addWidget(self.frame_DataSubTitle_1)
 
-        self.formLayout = QFormLayout()
+        self.frame_data_1 = QFrame(self.frame_info)
+        self.frame_data_1.setObjectName(u"frame_data_1")
+        self.frame_data_1.setFrameShape(QFrame.StyledPanel)
+        self.frame_data_1.setFrameShadow(QFrame.Raised)
+        self.formLayout = QFormLayout(self.frame_data_1)
         self.formLayout.setObjectName(u"formLayout")
-        self.formLayout.setContentsMargins(-1, -1, -1, 20)
-        self.label_WDP_1 = QLabel(self.frame_info)
+        self.label_WDP_1 = QLabel(self.frame_data_1)
         self.label_WDP_1.setObjectName(u"label_WDP_1")
+        self.label_WDP_1.setMinimumSize(QSize(110, 0))
 
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_WDP_1)
 
-        self.lineEdit_WDP_1 = QLineEdit(self.frame_info)
+        self.lineEdit_WDP_1 = QLineEdit(self.frame_data_1)
         self.lineEdit_WDP_1.setObjectName(u"lineEdit_WDP_1")
+        self.lineEdit_WDP_1.setMinimumSize(QSize(150, 25))
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.lineEdit_WDP_1)
 
-        self.lineEdit_WDP_3 = QLineEdit(self.frame_info)
-        self.lineEdit_WDP_3.setObjectName(u"lineEdit_WDP_3")
-
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.lineEdit_WDP_3)
-
-        self.label_WDP_2 = QLabel(self.frame_info)
+        self.label_WDP_2 = QLabel(self.frame_data_1)
         self.label_WDP_2.setObjectName(u"label_WDP_2")
+        self.label_WDP_2.setMinimumSize(QSize(110, 0))
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_WDP_2)
 
-        self.label_WDP_3 = QLabel(self.frame_info)
+        self.lineEdit_WDP_3 = QLineEdit(self.frame_data_1)
+        self.lineEdit_WDP_3.setObjectName(u"lineEdit_WDP_3")
+        self.lineEdit_WDP_3.setMinimumSize(QSize(150, 25))
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.lineEdit_WDP_3)
+
+        self.label_WDP_3 = QLabel(self.frame_data_1)
         self.label_WDP_3.setObjectName(u"label_WDP_3")
+        self.label_WDP_3.setMinimumSize(QSize(110, 0))
 
         self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_WDP_3)
 
-        self.label_WDP_4 = QLabel(self.frame_info)
-        self.label_WDP_4.setObjectName(u"label_WDP_4")
-
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_WDP_4)
-
-        self.lineEdit_WDP_2 = QLineEdit(self.frame_info)
+        self.lineEdit_WDP_2 = QLineEdit(self.frame_data_1)
         self.lineEdit_WDP_2.setObjectName(u"lineEdit_WDP_2")
+        self.lineEdit_WDP_2.setMinimumSize(QSize(150, 25))
 
         self.formLayout.setWidget(2, QFormLayout.FieldRole, self.lineEdit_WDP_2)
 
-        self.textEdit_WDP_4 = QTextEdit(self.frame_info)
+        self.label_WDP_4 = QLabel(self.frame_data_1)
+        self.label_WDP_4.setObjectName(u"label_WDP_4")
+        self.label_WDP_4.setMinimumSize(QSize(110, 0))
+
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_WDP_4)
+
+        self.textEdit_WDP_4 = QTextEdit(self.frame_data_1)
         self.textEdit_WDP_4.setObjectName(u"textEdit_WDP_4")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.textEdit_WDP_4.sizePolicy().hasHeightForWidth())
+        self.textEdit_WDP_4.setSizePolicy(sizePolicy5)
+        self.textEdit_WDP_4.setMinimumSize(QSize(150, 75))
 
         self.formLayout.setWidget(3, QFormLayout.FieldRole, self.textEdit_WDP_4)
 
 
-        self.verticalLayout_5.addLayout(self.formLayout)
+        self.verticalLayout_5.addWidget(self.frame_data_1)
 
         self.frame_DataSubTitle_2 = QFrame(self.frame_info)
         self.frame_DataSubTitle_2.setObjectName(u"frame_DataSubTitle_2")
@@ -393,20 +429,26 @@ class Ui_FormDataProject(object):
 
         self.verticalLayout_5.addWidget(self.frame_DataSubTitle_2)
 
-        self.formLayout_2 = QFormLayout()
+        self.frame_data_2 = QFrame(self.frame_info)
+        self.frame_data_2.setObjectName(u"frame_data_2")
+        self.frame_data_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_data_2.setFrameShadow(QFrame.Raised)
+        self.formLayout_2 = QFormLayout(self.frame_data_2)
         self.formLayout_2.setObjectName(u"formLayout_2")
-        self.label_WDP_5 = QLabel(self.frame_info)
+        self.label_WDP_5 = QLabel(self.frame_data_2)
         self.label_WDP_5.setObjectName(u"label_WDP_5")
+        self.label_WDP_5.setMinimumSize(QSize(110, 0))
 
         self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_WDP_5)
 
-        self.lineEdit_WDP_5 = QLineEdit(self.frame_info)
+        self.lineEdit_WDP_5 = QLineEdit(self.frame_data_2)
         self.lineEdit_WDP_5.setObjectName(u"lineEdit_WDP_5")
+        self.lineEdit_WDP_5.setMinimumSize(QSize(150, 25))
 
         self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.lineEdit_WDP_5)
 
 
-        self.verticalLayout_5.addLayout(self.formLayout_2)
+        self.verticalLayout_5.addWidget(self.frame_data_2)
 
         self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -433,7 +475,7 @@ class Ui_FormDataProject(object):
         self.horizontalLayout.addWidget(self.frame_data)
 
 
-        self.verticalLayout.addWidget(self.frame_data_project)
+        self.horizontalLayout_6.addWidget(self.frame_data_project)
 
 
         self.retranslateUi(FormDataProject)
@@ -453,7 +495,7 @@ class Ui_FormDataProject(object):
         self.label_WDP_4.setText(QCoreApplication.translate("FormDataProject", u"Descripci\u00f3n:", None))
         self.label_cardDataSubTitle_2.setText(QCoreApplication.translate("FormDataProject", u"Configuraci\u00f3n del proyecto", None))
         self.toolButton_cardDataSubTitle_2.setText("")
-        self.label_WDP_5.setText(QCoreApplication.translate("FormDataProject", u"Gravedad:", None))
+        self.label_WDP_5.setText(QCoreApplication.translate("FormDataProject", u"<html><head/><body><p>Gravedad [m/s<span style=\" vertical-align:super;\">2</span>]:</p></body></html>", None))
         self.lineEdit_WDP_5.setText(QCoreApplication.translate("FormDataProject", u"9.8 m/s2", None))
         self.toolButton_saveData.setText(QCoreApplication.translate("FormDataProject", u"Guardar", None))
     # retranslateUi
