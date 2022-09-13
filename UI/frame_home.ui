@@ -48,9 +48,7 @@ bold: font: 700 9pt &quot;Ubuntu&quot;;
 
 
 
-/*#################################################################*/
 /*######################      CONTAINER        ############################*/
-/*#################################################################*/
 #FormHome{
 background-color: #222222;
 }
@@ -58,9 +56,7 @@ QFrame#frame_empty_home{
 background-color: #222222;
 }
 
-/*#################################################################*/
 /*######################      PAGE HOME      ############################*/
-/*#################################################################*/
 
 QLabel#label_title_1{
 color: #DDDDDD; 
@@ -93,67 +89,49 @@ background-color: transparent;
 font: 500 9pt &quot;Ubuntu&quot;;
 color: #222222;
 }
-/*
-#frame_card_1, #frame_card_2{
-background: #333333;
-border-radius: 5px
-}
-*/
-
 QFrame#frame_proyectos{
  background: #444444;
 border-radius: 5px;
-  }
-
+ }
 Line#line_1,
 Line#line_2{
 background: #999999;
 }
-
-
-QLabel#label_FH_subTitle_1,
-QLabel#label_FH_subTitle_2,
-QLabel#label_FH_subTitle_3,
-QLabel#label_FH_subTitle_4{
+QLabel#label_subTitle1,
+QLabel#label_subTitle2,
+QLabel#label_subTitle3,
+QLabel#label_subTitle4{
 font: 500 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-
-
-
-QLabel#label_FH_cardNew_1,
-QLabel#label_FH_cardNew_2,
-QLabel#label_FH_cardNew_3,
-QLabel#label_FH_cardNew_4,
-QLabel#label_FH_cardNew_5{
+QLabel#label_cardNew1,
+QLabel#label_cardNew2,
+QLabel#label_cardNew3,
+QLabel#label_cardNew4,
+QLabel#label_cardNew5{
 font:  9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-
-QFrame#frame_FH_cardNew_1,
-QFrame#frame_FH_cardNew_2,
-QFrame#frame_FH_cardNew_3,
-QFrame#frame_FH_cardNew_4,
-QFrame#frame_FH_cardNew_5{
+QFrame#frame_cardNew1,
+QFrame#frame_cardNew2,
+QFrame#frame_cardNew3,
+QFrame#frame_cardNew4,
+QFrame#frame_cardNew5{
+background: rgb(255, 0, 0);
+border-radius: 10px;
+}
+QToolButton#toolButton_cardNew1,
+QToolButton#toolButton_cardNew2,
+QToolButton#toolButton_cardNew3,
+QToolButton#toolButton_cardNew4,
+QToolButton#toolButton_cardNew5{
 background: rgb(255, 0, 0);
 border-radius: 10px;
 }
 
 
-QToolButton#toolButton_FH_cardNew_1,
-QToolButton#toolButton_FH_cardNew_2,
-QToolButton#toolButton_FH_cardNew_3,
-QToolButton#toolButton_FH_cardNew_4,
-QToolButton#toolButton_FH_cardNew_5
-{
-background: rgb(255, 0, 0);
-border-radius: 10px;
-}
 
-
-
-
-
+/*######################      SCROLL BAR    VERTICAL  ############################*/
 
 QScrollBar:vertical {    
 	border: none;
@@ -161,10 +139,6 @@ QScrollBar:vertical {
 	border-radius: 0px;
 	margin: 15px 0px 15px 0px;
 }
-/*
-background-color: rgb(85, 170, 25);
-    
-*/
 
 
 
@@ -192,8 +166,6 @@ QScrollBar::sub-line:vertical{
 }
 
 
-
-
 QScrollBar::sub-line:vertical:hover{
     background-color: #910D3F;
 }
@@ -213,14 +185,12 @@ QScrollBar::add-line:vertical{
 }
 
 
-
 QScrollBar::add-line:vertical:hover{
     background-color: #910D3F;
 }
 QScrollBar::add-line:vertical:pressed{
    background-color: #C70039;
 }
-
 
 
 QScrollBar::up-arrow:vertical,QScrollBar::down-arrow:vertical{
@@ -231,12 +201,7 @@ background: none;
 }
 
 
-
-
-
-
-
-/**********************************************************************************************************************************/
+/*######################      SCROLL BAR    HORIZONTAL  ############################*/
 
 QScrollBar:horizontal{
 height: 14px;
@@ -245,10 +210,6 @@ border-radius: 0px;
 margin: 0px 15px 0px 15px;
 }
 
-/*
-background-color: rgb(0, 250, 0);
-
-*/
 
 /*Deslizador*/
 QScrollBar::handle:horizontal {
@@ -263,7 +224,6 @@ QScrollBar::handle:horizontal:pressed {
     background-color: #C70039;
 }
   
-
 QScrollBar::sub-line:horizontal{
 background-color: #666666;
 border: none;
@@ -273,18 +233,14 @@ width: 15px;
 subcontrol-position: left;
 subcontrol-origin: margin;
 }
-/*
 
 
-height: 150px;
-*/
 QScrollBar::sub-line:horizontal:hover{
     background-color: #910D3F;
 }
 QScrollBar::sub-line:horizontal:pressed{
     background-color: #C70039;
 }
-
 
 QScrollBar::add-line:horizontal{
     background-color: #666666;
@@ -295,18 +251,12 @@ QScrollBar::add-line:horizontal{
 	subcontrol-position: right;
 	subcontrol-origin: margin;
 }
-/*
 
-
-*/
 QScrollBar::add-line:horizontal:hover{
     background-color: #910D3F;
 }QScrollBar::add-line:vertical:pressed{
     background-color: #C70039;
 }
-
-
-
 
 
 QScrollBar::up-arrow:horizontal,QScrollBar::down-arrow:horizontal{
@@ -346,7 +296,7 @@ background: none;
            <number>30</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="label_logo">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -435,7 +385,7 @@ background: none;
            <number>10</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_FH_subTitle_1">
+           <widget class="QLabel" name="label_subTitle1">
             <property name="text">
              <string>Proyecto nuevo</string>
             </property>
@@ -561,7 +511,7 @@ border: none;
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QFrame" name="frame_FH_cardNew_1">
+                    <widget class="QFrame" name="frame_cardNew1">
                      <property name="minimumSize">
                       <size>
                        <width>90</width>
@@ -600,7 +550,7 @@ border: none;
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QToolButton" name="toolButton_FH_cardNew_1">
+                       <widget class="QToolButton" name="toolButton_cardNew1">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
@@ -631,7 +581,7 @@ border: none;
                   </layout>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_FH_cardNew_1">
+                  <widget class="QLabel" name="label_cardNew1">
                    <property name="minimumSize">
                     <size>
                      <width>120</width>
@@ -672,7 +622,7 @@ border: none;
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QFrame" name="frame_FH_cardNew_2">
+                    <widget class="QFrame" name="frame_cardNew2">
                      <property name="minimumSize">
                       <size>
                        <width>90</width>
@@ -711,7 +661,7 @@ border: none;
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QToolButton" name="toolButton_FH_cardNew_2">
+                       <widget class="QToolButton" name="toolButton_cardNew2">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
@@ -752,7 +702,7 @@ border: none;
                   </layout>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_FH_cardNew_2">
+                  <widget class="QLabel" name="label_cardNew2">
                    <property name="minimumSize">
                     <size>
                      <width>120</width>
@@ -797,7 +747,7 @@ barra empotrada</string>
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QFrame" name="frame_FH_cardNew_3">
+                    <widget class="QFrame" name="frame_cardNew3">
                      <property name="minimumSize">
                       <size>
                        <width>90</width>
@@ -836,7 +786,7 @@ barra empotrada</string>
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QToolButton" name="toolButton_FH_cardNew_3">
+                       <widget class="QToolButton" name="toolButton_cardNew3">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
@@ -877,7 +827,7 @@ barra empotrada</string>
                   </layout>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_FH_cardNew_3">
+                  <widget class="QLabel" name="label_cardNew3">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -922,7 +872,7 @@ sobre suelo tresca</string>
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QFrame" name="frame_FH_cardNew_4">
+                    <widget class="QFrame" name="frame_cardNew4">
                      <property name="minimumSize">
                       <size>
                        <width>90</width>
@@ -961,7 +911,7 @@ sobre suelo tresca</string>
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QToolButton" name="toolButton_FH_cardNew_4">
+                       <widget class="QToolButton" name="toolButton_cardNew4">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
@@ -1002,7 +952,7 @@ sobre suelo tresca</string>
                   </layout>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_FH_cardNew_4">
+                  <widget class="QLabel" name="label_cardNew4">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1044,7 +994,7 @@ un plano inclinado</string>
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QFrame" name="frame_FH_cardNew_5">
+                    <widget class="QFrame" name="frame_cardNew5">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>90</horstretch>
@@ -1089,7 +1039,7 @@ un plano inclinado</string>
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QToolButton" name="toolButton_FH_cardNew_5">
+                       <widget class="QToolButton" name="toolButton_cardNew5">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
@@ -1130,7 +1080,7 @@ un plano inclinado</string>
                   </layout>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_FH_cardNew_5">
+                  <widget class="QLabel" name="label_cardNew5">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1207,7 +1157,7 @@ elastoplástico</string>
            <number>10</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_FH_subTitle_2">
+           <widget class="QLabel" name="label_subTitle2">
             <property name="text">
              <string>Recientes</string>
             </property>
@@ -1236,7 +1186,7 @@ elastoplástico</string>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_card_title">
+         <widget class="QFrame" name="frame_cardTitle">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -1278,32 +1228,7 @@ elastoplástico</string>
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="label_img">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap>:/iconos_logo/iconos/iconos_logo/Logo_V1.svg</pixmap>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-             <property name="wordWrap">
-              <bool>false</bool>
-             </property>
-             <property name="openExternalLinks">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="label_icon1">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>30</horstretch>
@@ -1339,7 +1264,7 @@ elastoplástico</string>
               <number>20</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_FH_subTitle_3">
+              <widget class="QLabel" name="label_subTitle3">
                <property name="text">
                 <string>Nombre</string>
                </property>
@@ -1361,7 +1286,7 @@ elastoplástico</string>
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="label_FH_subTitle_4">
+            <widget class="QLabel" name="label_subTitle4">
              <property name="minimumSize">
               <size>
                <width>160</width>
@@ -1433,7 +1358,7 @@ border: none;</string>
              <x>0</x>
              <y>0</y>
              <width>903</width>
-             <height>207</height>
+             <height>210</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_20">
@@ -1487,7 +1412,7 @@ border: none;</string>
                 <number>10</number>
                </property>
                <item>
-                <layout class="QVBoxLayout" name="verticalLayout_FH_container_card">
+                <layout class="QVBoxLayout" name="verticalLayout_containerCard">
                  <property name="spacing">
                   <number>5</number>
                  </property>

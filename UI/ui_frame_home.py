@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_inicio_2bFWglc.ui'
+## Form generated from reading UI file 'frame_homeyWOLZw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -53,9 +53,7 @@ class Ui_FormHome(object):
 "\n"
 "\n"
 "\n"
-"/*#################################################################*/\n"
 "/*######################      CONTAINER        ############################*/\n"
-"/*#################################################################*/\n"
 "#FormHome{\n"
 "background-color: #222222;\n"
 "}\n"
@@ -63,10 +61,7 @@ class Ui_FormHome(object):
 "background-color: #222222;\n"
 "}\n"
 "\n"
-"/*#################################################################*/\n"
-"/*######################      PAGE HO"
-                        "ME      ############################*/\n"
-"/*#################################################################*/\n"
+"/*######################      PAGE HOME      ############################*/\n"
 "\n"
 "QLabel#label_title_1{\n"
 "color: #DDDDDD; \n"
@@ -75,7 +70,8 @@ class Ui_FormHome(object):
 "QLabel#label_title_2{\n"
 "color: #C8CC8E;\n"
 "font: 700 30pt \"Ubuntu\";\n"
-"font-weight:bold;\n"
+"font-weight:b"
+                        "old;\n"
 "}\n"
 "QFrame#frame_infEjemplos1,\n"
 "QFrame#frame_infEjemplos2,\n"
@@ -99,69 +95,50 @@ class Ui_FormHome(object):
 "font: 500 9pt \"Ubuntu\";\n"
 "color: #222222;\n"
 "}\n"
-"/*\n"
-"#frame_card_1, #frame_card_2{\n"
-"background: #333333;\n"
-"border-radi"
-                        "us: 5px\n"
-"}\n"
-"*/\n"
-"\n"
 "QFrame#frame_proyectos{\n"
 " background: #444444;\n"
 "border-radius: 5px;\n"
-"  }\n"
-"\n"
+" }\n"
 "Line#line_1,\n"
 "Line#line_2{\n"
 "background: #999999;\n"
 "}\n"
-"\n"
-"\n"
-"QLabel#label_FH_subTitle_1,\n"
-"QLabel#label_FH_subTitle_2,\n"
-"QLabel#label_FH_subTitle_3,\n"
-"QLabel#label_FH_subTitle_4{\n"
+"QLabel#label_subTitle1,\n"
+"QLabel#label_subTitle2,\n"
+"QLabel#label_subTitle3,\n"
+"QLabel#label_subTitle4{\n"
 "font: 500 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "}\n"
-"\n"
-"\n"
-"\n"
-"QLabel#label_FH_cardNew_1,\n"
-"QLabel#label_FH_cardNew_2,\n"
-"QLabel#label_FH_cardNew_3,\n"
-"QLabel#label_FH_cardNew_4,\n"
-"QLabel#label_FH_cardNew_5{\n"
+"QLabel#label_cardNew1,\n"
+"QLabel#label_cardNew2,\n"
+"Q"
+                        "Label#label_cardNew3,\n"
+"QLabel#label_cardNew4,\n"
+"QLabel#label_cardNew5{\n"
 "font:  9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "}\n"
-"\n"
-"QFrame#frame_FH_cardNew_1,\n"
-"QFrame#frame_FH_cardNew_2,\n"
-"QFrame#frame_FH_cardNew_3,\n"
-"QFrame#frame_FH_cardNew_4,\n"
-"QFrame#frame_FH_cardNew_5{\n"
+"QFrame#frame_cardNew1,\n"
+"QFrame#frame_cardNew2,\n"
+"QFrame#frame_cardNew3,\n"
+"QFrame#frame_cardNew4,\n"
+"QFrame#frame_cardNew5{\n"
+"background: rgb(255, 0, 0);\n"
+"border-radius: 10px;\n"
+"}\n"
+"QToolButton#toolButton_cardNew1,\n"
+"QToolButton#toolButton_cardNew2,\n"
+"QToolButton#toolButton_cardNew3,\n"
+"QToolButton#toolButton_cardNew4,\n"
+"QToolButton#toolButton_cardNew5{\n"
 "background: rgb(255, 0, 0);\n"
 "border-radius: 10px;\n"
 "}\n"
 "\n"
 "\n"
-"QToolButton#toolButton_FH_cardNew_1,\n"
-"QToolButton#toolButton_FH_cardNew_2,\n"
-"QToolButton#toolButton_FH_cardNew_3,\n"
-"QToolButton#toolButton_FH_cardNew_4,\n"
-"QToolButton#toolButton_FH"
-                        "_cardNew_5\n"
-"{\n"
-"background: rgb(255, 0, 0);\n"
-"border-radius: 10px;\n"
-"}\n"
 "\n"
-"\n"
-"\n"
-"\n"
-"\n"
+"/*######################      SCROLL BAR    VERTICAL  ############################*/\n"
 "\n"
 "QScrollBar:vertical {    \n"
 "	border: none;\n"
@@ -169,10 +146,6 @@ class Ui_FormHome(object):
 "	border-radius: 0px;\n"
 "	margin: 15px 0px 15px 0px;\n"
 "}\n"
-"/*\n"
-"background-color: rgb(85, 170, 25);\n"
-"    \n"
-"*/\n"
 "\n"
 "\n"
 "\n"
@@ -182,7 +155,8 @@ class Ui_FormHome(object):
 "	border-radius: 7px;\n"
 "}\n"
 "QScrollBar::handle:vertical:hover {\n"
-"    background-color: #910D3F;\n"
+"    background-color: #"
+                        "910D3F;\n"
 "}\n"
 "QScrollBar::handle:vertical:pressed {\n"
 "    background-color: #C70039;\n"
@@ -200,14 +174,11 @@ class Ui_FormHome(object):
 "}\n"
 "\n"
 "\n"
-"\n"
-"\n"
 "QScrollBar::sub-line:vertical:hover{\n"
 "    background-color: #910D3F;\n"
 "}\n"
 "QScrollBar::sub-line:vertical:pressed{\n"
-"  "
-                        "  background-color: #C70039;\n"
+"    background-color: #C70039;\n"
 "}\n"
 "\n"
 "/*BOTTON*/\n"
@@ -222,7 +193,6 @@ class Ui_FormHome(object):
 "}\n"
 "\n"
 "\n"
-"\n"
 "QScrollBar::add-line:vertical:hover{\n"
 "    background-color: #910D3F;\n"
 "}\n"
@@ -231,8 +201,8 @@ class Ui_FormHome(object):
 "}\n"
 "\n"
 "\n"
-"\n"
-"QScrollBar::up-arrow:vertical,QScrollBar::down-arrow:vertical{\n"
+"QScrollBar::up-arrow:ver"
+                        "tical,QScrollBar::down-arrow:vertical{\n"
 "background: none;\n"
 "}\n"
 "QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical{\n"
@@ -240,12 +210,7 @@ class Ui_FormHome(object):
 "}\n"
 "\n"
 "\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"/**********************************************************************************************************************************/\n"
+"/*######################      SCROLL BAR    HORIZONTAL  ############################*/\n"
 "\n"
 "QScrollBar:horizontal{\n"
 "height: 14px;\n"
@@ -254,11 +219,6 @@ class Ui_FormHome(object):
 "margin: 0px 15px 0px 15px;\n"
 "}\n"
 "\n"
-"/*\n"
-"background-col"
-                        "or: rgb(0, 250, 0);\n"
-"\n"
-"*/\n"
 "\n"
 "/*Deslizador*/\n"
 "QScrollBar::handle:horizontal {\n"
@@ -273,7 +233,6 @@ class Ui_FormHome(object):
 "    background-color: #C70039;\n"
 "}\n"
 "  \n"
-"\n"
 "QScrollBar::sub-line:horizontal{\n"
 "background-color: #666666;\n"
 "border: none;\n"
@@ -283,18 +242,15 @@ class Ui_FormHome(object):
 "subcontrol-position: left;\n"
 "subcontrol-origin: margin;\n"
 "}\n"
-"/*\n"
 "\n"
 "\n"
-"height: 150px;\n"
-"*/\n"
 "QScrollBar::sub-line:horizontal:hover{\n"
-"    background-color: #910D3F;\n"
+"    backgr"
+                        "ound-color: #910D3F;\n"
 "}\n"
 "QScrollBar::sub-line:horizontal:pressed{\n"
 "    background-color: #C70039;\n"
 "}\n"
-"\n"
 "\n"
 "QScrollBar::add-line:horizontal{\n"
 "    background-color: #666666;\n"
@@ -302,22 +258,15 @@ class Ui_FormHome(object):
 "	border-top-right-radius: 7px;\n"
 "	border-bottom-right-radius: 7px;\n"
 "	width: 15px;\n"
-"	subcontrol-pos"
-                        "ition: right;\n"
+"	subcontrol-position: right;\n"
 "	subcontrol-origin: margin;\n"
 "}\n"
-"/*\n"
 "\n"
-"\n"
-"*/\n"
 "QScrollBar::add-line:horizontal:hover{\n"
 "    background-color: #910D3F;\n"
 "}QScrollBar::add-line:vertical:pressed{\n"
 "    background-color: #C70039;\n"
 "}\n"
-"\n"
-"\n"
-"\n"
 "\n"
 "\n"
 "QScrollBar::up-arrow:horizontal,QScrollBar::down-arrow:horizontal{\n"
@@ -346,21 +295,21 @@ class Ui_FormHome(object):
         self.horizontalLayout_9.setSpacing(15)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(30, -1, -1, -1)
-        self.label_8 = QLabel(self.frame)
-        self.label_8.setObjectName(u"label_8")
+        self.label_logo = QLabel(self.frame)
+        self.label_logo.setObjectName(u"label_logo")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
-        self.label_8.setSizePolicy(sizePolicy1)
-        self.label_8.setMinimumSize(QSize(100, 100))
-        self.label_8.setMaximumSize(QSize(100, 100))
-        self.label_8.setPixmap(QPixmap(u"recursos/iconos/iconos_logo/Logo_V1.svg"))
-        self.label_8.setScaledContents(True)
-        self.label_8.setWordWrap(False)
-        self.label_8.setOpenExternalLinks(False)
+        sizePolicy1.setHeightForWidth(self.label_logo.sizePolicy().hasHeightForWidth())
+        self.label_logo.setSizePolicy(sizePolicy1)
+        self.label_logo.setMinimumSize(QSize(100, 100))
+        self.label_logo.setMaximumSize(QSize(100, 100))
+        self.label_logo.setPixmap(QPixmap(u"recursos/iconos/iconos_logo/Logo_V1.svg"))
+        self.label_logo.setScaledContents(True)
+        self.label_logo.setWordWrap(False)
+        self.label_logo.setOpenExternalLinks(False)
 
-        self.horizontalLayout_9.addWidget(self.label_8)
+        self.horizontalLayout_9.addWidget(self.label_logo)
 
         self.label_title_1 = QLabel(self.frame)
         self.label_title_1.setObjectName(u"label_title_1")
@@ -393,10 +342,10 @@ class Ui_FormHome(object):
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(-1, 10, -1, -1)
-        self.label_FH_subTitle_1 = QLabel(self.frame_3)
-        self.label_FH_subTitle_1.setObjectName(u"label_FH_subTitle_1")
+        self.label_subTitle1 = QLabel(self.frame_3)
+        self.label_subTitle1.setObjectName(u"label_subTitle1")
 
-        self.horizontalLayout_3.addWidget(self.label_FH_subTitle_1)
+        self.horizontalLayout_3.addWidget(self.label_subTitle1)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -450,29 +399,29 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer_5)
 
-        self.frame_FH_cardNew_1 = QFrame(self.frame_4)
-        self.frame_FH_cardNew_1.setObjectName(u"frame_FH_cardNew_1")
-        self.frame_FH_cardNew_1.setMinimumSize(QSize(90, 120))
-        self.frame_FH_cardNew_1.setMaximumSize(QSize(90, 120))
-        self.frame_FH_cardNew_1.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_FH_cardNew_1.setFrameShape(QFrame.StyledPanel)
-        self.frame_FH_cardNew_1.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout = QHBoxLayout(self.frame_FH_cardNew_1)
+        self.frame_cardNew1 = QFrame(self.frame_4)
+        self.frame_cardNew1.setObjectName(u"frame_cardNew1")
+        self.frame_cardNew1.setMinimumSize(QSize(90, 120))
+        self.frame_cardNew1.setMaximumSize(QSize(90, 120))
+        self.frame_cardNew1.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.frame_cardNew1.setFrameShape(QFrame.StyledPanel)
+        self.frame_cardNew1.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout = QHBoxLayout(self.frame_cardNew1)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_FH_cardNew_1 = QToolButton(self.frame_FH_cardNew_1)
-        self.toolButton_FH_cardNew_1.setObjectName(u"toolButton_FH_cardNew_1")
+        self.toolButton_cardNew1 = QToolButton(self.frame_cardNew1)
+        self.toolButton_cardNew1.setObjectName(u"toolButton_cardNew1")
         sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.toolButton_FH_cardNew_1.sizePolicy().hasHeightForWidth())
-        self.toolButton_FH_cardNew_1.setSizePolicy(sizePolicy3)
+        sizePolicy3.setHeightForWidth(self.toolButton_cardNew1.sizePolicy().hasHeightForWidth())
+        self.toolButton_cardNew1.setSizePolicy(sizePolicy3)
 
-        self.horizontalLayout.addWidget(self.toolButton_FH_cardNew_1)
+        self.horizontalLayout.addWidget(self.toolButton_cardNew1)
 
 
-        self.horizontalLayout_8.addWidget(self.frame_FH_cardNew_1)
+        self.horizontalLayout_8.addWidget(self.frame_cardNew1)
 
         self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -481,13 +430,13 @@ class Ui_FormHome(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_8)
 
-        self.label_FH_cardNew_1 = QLabel(self.frame_4)
-        self.label_FH_cardNew_1.setObjectName(u"label_FH_cardNew_1")
-        self.label_FH_cardNew_1.setMinimumSize(QSize(120, 40))
-        self.label_FH_cardNew_1.setMaximumSize(QSize(16777215, 40))
-        self.label_FH_cardNew_1.setAlignment(Qt.AlignCenter)
+        self.label_cardNew1 = QLabel(self.frame_4)
+        self.label_cardNew1.setObjectName(u"label_cardNew1")
+        self.label_cardNew1.setMinimumSize(QSize(120, 40))
+        self.label_cardNew1.setMaximumSize(QSize(16777215, 40))
+        self.label_cardNew1.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_2.addWidget(self.label_FH_cardNew_1)
+        self.verticalLayout_2.addWidget(self.label_cardNew1)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_2)
@@ -500,30 +449,30 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_11.addItem(self.horizontalSpacer_7)
 
-        self.frame_FH_cardNew_2 = QFrame(self.frame_4)
-        self.frame_FH_cardNew_2.setObjectName(u"frame_FH_cardNew_2")
-        self.frame_FH_cardNew_2.setMinimumSize(QSize(90, 120))
-        self.frame_FH_cardNew_2.setMaximumSize(QSize(90, 120))
-        self.frame_FH_cardNew_2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_FH_cardNew_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_FH_cardNew_2.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_15 = QHBoxLayout(self.frame_FH_cardNew_2)
+        self.frame_cardNew2 = QFrame(self.frame_4)
+        self.frame_cardNew2.setObjectName(u"frame_cardNew2")
+        self.frame_cardNew2.setMinimumSize(QSize(90, 120))
+        self.frame_cardNew2.setMaximumSize(QSize(90, 120))
+        self.frame_cardNew2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.frame_cardNew2.setFrameShape(QFrame.StyledPanel)
+        self.frame_cardNew2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_15 = QHBoxLayout(self.frame_cardNew2)
         self.horizontalLayout_15.setSpacing(0)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_FH_cardNew_2 = QToolButton(self.frame_FH_cardNew_2)
-        self.toolButton_FH_cardNew_2.setObjectName(u"toolButton_FH_cardNew_2")
-        sizePolicy3.setHeightForWidth(self.toolButton_FH_cardNew_2.sizePolicy().hasHeightForWidth())
-        self.toolButton_FH_cardNew_2.setSizePolicy(sizePolicy3)
+        self.toolButton_cardNew2 = QToolButton(self.frame_cardNew2)
+        self.toolButton_cardNew2.setObjectName(u"toolButton_cardNew2")
+        sizePolicy3.setHeightForWidth(self.toolButton_cardNew2.sizePolicy().hasHeightForWidth())
+        self.toolButton_cardNew2.setSizePolicy(sizePolicy3)
         icon = QIcon()
         icon.addFile(u"recursos/imagenes/ejemplo_viga.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_FH_cardNew_2.setIcon(icon)
-        self.toolButton_FH_cardNew_2.setIconSize(QSize(100, 100))
+        self.toolButton_cardNew2.setIcon(icon)
+        self.toolButton_cardNew2.setIconSize(QSize(100, 100))
 
-        self.horizontalLayout_15.addWidget(self.toolButton_FH_cardNew_2)
+        self.horizontalLayout_15.addWidget(self.toolButton_cardNew2)
 
 
-        self.horizontalLayout_11.addWidget(self.frame_FH_cardNew_2)
+        self.horizontalLayout_11.addWidget(self.frame_cardNew2)
 
         self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -532,13 +481,13 @@ class Ui_FormHome(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_11)
 
-        self.label_FH_cardNew_2 = QLabel(self.frame_4)
-        self.label_FH_cardNew_2.setObjectName(u"label_FH_cardNew_2")
-        self.label_FH_cardNew_2.setMinimumSize(QSize(120, 40))
-        self.label_FH_cardNew_2.setMaximumSize(QSize(16777215, 40))
-        self.label_FH_cardNew_2.setAlignment(Qt.AlignCenter)
+        self.label_cardNew2 = QLabel(self.frame_4)
+        self.label_cardNew2.setObjectName(u"label_cardNew2")
+        self.label_cardNew2.setMinimumSize(QSize(120, 40))
+        self.label_cardNew2.setMaximumSize(QSize(16777215, 40))
+        self.label_cardNew2.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_3.addWidget(self.label_FH_cardNew_2)
+        self.verticalLayout_3.addWidget(self.label_cardNew2)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_3)
@@ -552,30 +501,30 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_11)
 
-        self.frame_FH_cardNew_3 = QFrame(self.frame_4)
-        self.frame_FH_cardNew_3.setObjectName(u"frame_FH_cardNew_3")
-        self.frame_FH_cardNew_3.setMinimumSize(QSize(90, 120))
-        self.frame_FH_cardNew_3.setMaximumSize(QSize(90, 120))
-        self.frame_FH_cardNew_3.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_FH_cardNew_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_FH_cardNew_3.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_16 = QHBoxLayout(self.frame_FH_cardNew_3)
+        self.frame_cardNew3 = QFrame(self.frame_4)
+        self.frame_cardNew3.setObjectName(u"frame_cardNew3")
+        self.frame_cardNew3.setMinimumSize(QSize(90, 120))
+        self.frame_cardNew3.setMaximumSize(QSize(90, 120))
+        self.frame_cardNew3.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.frame_cardNew3.setFrameShape(QFrame.StyledPanel)
+        self.frame_cardNew3.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_16 = QHBoxLayout(self.frame_cardNew3)
         self.horizontalLayout_16.setSpacing(0)
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.horizontalLayout_16.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_FH_cardNew_3 = QToolButton(self.frame_FH_cardNew_3)
-        self.toolButton_FH_cardNew_3.setObjectName(u"toolButton_FH_cardNew_3")
-        sizePolicy3.setHeightForWidth(self.toolButton_FH_cardNew_3.sizePolicy().hasHeightForWidth())
-        self.toolButton_FH_cardNew_3.setSizePolicy(sizePolicy3)
+        self.toolButton_cardNew3 = QToolButton(self.frame_cardNew3)
+        self.toolButton_cardNew3.setObjectName(u"toolButton_cardNew3")
+        sizePolicy3.setHeightForWidth(self.toolButton_cardNew3.sizePolicy().hasHeightForWidth())
+        self.toolButton_cardNew3.setSizePolicy(sizePolicy3)
         icon1 = QIcon()
         icon1.addFile(u"recursos/imagenes/ejemplo_capacidad_portante.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_FH_cardNew_3.setIcon(icon1)
-        self.toolButton_FH_cardNew_3.setIconSize(QSize(100, 100))
+        self.toolButton_cardNew3.setIcon(icon1)
+        self.toolButton_cardNew3.setIconSize(QSize(100, 100))
 
-        self.horizontalLayout_16.addWidget(self.toolButton_FH_cardNew_3)
+        self.horizontalLayout_16.addWidget(self.toolButton_cardNew3)
 
 
-        self.horizontalLayout_13.addWidget(self.frame_FH_cardNew_3)
+        self.horizontalLayout_13.addWidget(self.frame_cardNew3)
 
         self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -584,13 +533,13 @@ class Ui_FormHome(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_13)
 
-        self.label_FH_cardNew_3 = QLabel(self.frame_4)
-        self.label_FH_cardNew_3.setObjectName(u"label_FH_cardNew_3")
-        self.label_FH_cardNew_3.setMinimumSize(QSize(0, 40))
-        self.label_FH_cardNew_3.setMaximumSize(QSize(16777215, 40))
-        self.label_FH_cardNew_3.setAlignment(Qt.AlignCenter)
+        self.label_cardNew3 = QLabel(self.frame_4)
+        self.label_cardNew3.setObjectName(u"label_cardNew3")
+        self.label_cardNew3.setMinimumSize(QSize(0, 40))
+        self.label_cardNew3.setMaximumSize(QSize(16777215, 40))
+        self.label_cardNew3.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_4.addWidget(self.label_FH_cardNew_3)
+        self.verticalLayout_4.addWidget(self.label_cardNew3)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_4)
@@ -604,30 +553,30 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_9)
 
-        self.frame_FH_cardNew_4 = QFrame(self.frame_4)
-        self.frame_FH_cardNew_4.setObjectName(u"frame_FH_cardNew_4")
-        self.frame_FH_cardNew_4.setMinimumSize(QSize(90, 120))
-        self.frame_FH_cardNew_4.setMaximumSize(QSize(90, 120))
-        self.frame_FH_cardNew_4.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_FH_cardNew_4.setFrameShape(QFrame.StyledPanel)
-        self.frame_FH_cardNew_4.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_17 = QHBoxLayout(self.frame_FH_cardNew_4)
+        self.frame_cardNew4 = QFrame(self.frame_4)
+        self.frame_cardNew4.setObjectName(u"frame_cardNew4")
+        self.frame_cardNew4.setMinimumSize(QSize(90, 120))
+        self.frame_cardNew4.setMaximumSize(QSize(90, 120))
+        self.frame_cardNew4.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.frame_cardNew4.setFrameShape(QFrame.StyledPanel)
+        self.frame_cardNew4.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_17 = QHBoxLayout(self.frame_cardNew4)
         self.horizontalLayout_17.setSpacing(0)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_FH_cardNew_4 = QToolButton(self.frame_FH_cardNew_4)
-        self.toolButton_FH_cardNew_4.setObjectName(u"toolButton_FH_cardNew_4")
-        sizePolicy3.setHeightForWidth(self.toolButton_FH_cardNew_4.sizePolicy().hasHeightForWidth())
-        self.toolButton_FH_cardNew_4.setSizePolicy(sizePolicy3)
+        self.toolButton_cardNew4 = QToolButton(self.frame_cardNew4)
+        self.toolButton_cardNew4.setObjectName(u"toolButton_cardNew4")
+        sizePolicy3.setHeightForWidth(self.toolButton_cardNew4.sizePolicy().hasHeightForWidth())
+        self.toolButton_cardNew4.setSizePolicy(sizePolicy3)
         icon2 = QIcon()
         icon2.addFile(u"recursos/imagenes/ejemplo_disco.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_FH_cardNew_4.setIcon(icon2)
-        self.toolButton_FH_cardNew_4.setIconSize(QSize(100, 100))
+        self.toolButton_cardNew4.setIcon(icon2)
+        self.toolButton_cardNew4.setIconSize(QSize(100, 100))
 
-        self.horizontalLayout_17.addWidget(self.toolButton_FH_cardNew_4)
+        self.horizontalLayout_17.addWidget(self.toolButton_cardNew4)
 
 
-        self.horizontalLayout_12.addWidget(self.frame_FH_cardNew_4)
+        self.horizontalLayout_12.addWidget(self.frame_cardNew4)
 
         self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -636,13 +585,13 @@ class Ui_FormHome(object):
 
         self.verticalLayout_14.addLayout(self.horizontalLayout_12)
 
-        self.label_FH_cardNew_4 = QLabel(self.frame_4)
-        self.label_FH_cardNew_4.setObjectName(u"label_FH_cardNew_4")
-        self.label_FH_cardNew_4.setMinimumSize(QSize(0, 40))
-        self.label_FH_cardNew_4.setMaximumSize(QSize(16777215, 40))
-        self.label_FH_cardNew_4.setAlignment(Qt.AlignCenter)
+        self.label_cardNew4 = QLabel(self.frame_4)
+        self.label_cardNew4.setObjectName(u"label_cardNew4")
+        self.label_cardNew4.setMinimumSize(QSize(0, 40))
+        self.label_cardNew4.setMaximumSize(QSize(16777215, 40))
+        self.label_cardNew4.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_14.addWidget(self.label_FH_cardNew_4)
+        self.verticalLayout_14.addWidget(self.label_cardNew4)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_14)
@@ -655,35 +604,35 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_13)
 
-        self.frame_FH_cardNew_5 = QFrame(self.frame_4)
-        self.frame_FH_cardNew_5.setObjectName(u"frame_FH_cardNew_5")
+        self.frame_cardNew5 = QFrame(self.frame_4)
+        self.frame_cardNew5.setObjectName(u"frame_cardNew5")
         sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy4.setHorizontalStretch(90)
         sizePolicy4.setVerticalStretch(120)
-        sizePolicy4.setHeightForWidth(self.frame_FH_cardNew_5.sizePolicy().hasHeightForWidth())
-        self.frame_FH_cardNew_5.setSizePolicy(sizePolicy4)
-        self.frame_FH_cardNew_5.setMinimumSize(QSize(90, 120))
-        self.frame_FH_cardNew_5.setMaximumSize(QSize(90, 120))
-        self.frame_FH_cardNew_5.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_FH_cardNew_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_FH_cardNew_5.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_18 = QHBoxLayout(self.frame_FH_cardNew_5)
+        sizePolicy4.setHeightForWidth(self.frame_cardNew5.sizePolicy().hasHeightForWidth())
+        self.frame_cardNew5.setSizePolicy(sizePolicy4)
+        self.frame_cardNew5.setMinimumSize(QSize(90, 120))
+        self.frame_cardNew5.setMaximumSize(QSize(90, 120))
+        self.frame_cardNew5.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.frame_cardNew5.setFrameShape(QFrame.StyledPanel)
+        self.frame_cardNew5.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_18 = QHBoxLayout(self.frame_cardNew5)
         self.horizontalLayout_18.setSpacing(0)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.horizontalLayout_18.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_FH_cardNew_5 = QToolButton(self.frame_FH_cardNew_5)
-        self.toolButton_FH_cardNew_5.setObjectName(u"toolButton_FH_cardNew_5")
-        sizePolicy3.setHeightForWidth(self.toolButton_FH_cardNew_5.sizePolicy().hasHeightForWidth())
-        self.toolButton_FH_cardNew_5.setSizePolicy(sizePolicy3)
+        self.toolButton_cardNew5 = QToolButton(self.frame_cardNew5)
+        self.toolButton_cardNew5.setObjectName(u"toolButton_cardNew5")
+        sizePolicy3.setHeightForWidth(self.toolButton_cardNew5.sizePolicy().hasHeightForWidth())
+        self.toolButton_cardNew5.setSizePolicy(sizePolicy3)
         icon3 = QIcon()
         icon3.addFile(u"recursos/imagenes/ejemplo_talud.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_FH_cardNew_5.setIcon(icon3)
-        self.toolButton_FH_cardNew_5.setIconSize(QSize(100, 100))
+        self.toolButton_cardNew5.setIcon(icon3)
+        self.toolButton_cardNew5.setIconSize(QSize(100, 100))
 
-        self.horizontalLayout_18.addWidget(self.toolButton_FH_cardNew_5)
+        self.horizontalLayout_18.addWidget(self.toolButton_cardNew5)
 
 
-        self.horizontalLayout_14.addWidget(self.frame_FH_cardNew_5)
+        self.horizontalLayout_14.addWidget(self.frame_cardNew5)
 
         self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -692,13 +641,13 @@ class Ui_FormHome(object):
 
         self.verticalLayout_15.addLayout(self.horizontalLayout_14)
 
-        self.label_FH_cardNew_5 = QLabel(self.frame_4)
-        self.label_FH_cardNew_5.setObjectName(u"label_FH_cardNew_5")
-        self.label_FH_cardNew_5.setMinimumSize(QSize(0, 40))
-        self.label_FH_cardNew_5.setMaximumSize(QSize(16777215, 401))
-        self.label_FH_cardNew_5.setAlignment(Qt.AlignCenter)
+        self.label_cardNew5 = QLabel(self.frame_4)
+        self.label_cardNew5.setObjectName(u"label_cardNew5")
+        self.label_cardNew5.setMinimumSize(QSize(0, 40))
+        self.label_cardNew5.setMaximumSize(QSize(16777215, 401))
+        self.label_cardNew5.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_15.addWidget(self.label_FH_cardNew_5)
+        self.verticalLayout_15.addWidget(self.label_cardNew5)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_15)
@@ -730,10 +679,10 @@ class Ui_FormHome(object):
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(-1, 10, -1, -1)
-        self.label_FH_subTitle_2 = QLabel(self.frame_2)
-        self.label_FH_subTitle_2.setObjectName(u"label_FH_subTitle_2")
+        self.label_subTitle2 = QLabel(self.frame_2)
+        self.label_subTitle2.setObjectName(u"label_subTitle2")
 
-        self.horizontalLayout_6.addWidget(self.label_FH_subTitle_2)
+        self.horizontalLayout_6.addWidget(self.label_subTitle2)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -749,50 +698,39 @@ class Ui_FormHome(object):
 
         self.verticalLayout_7.addWidget(self.line_2)
 
-        self.frame_card_title = QFrame(self.frame_2)
-        self.frame_card_title.setObjectName(u"frame_card_title")
-        sizePolicy2.setHeightForWidth(self.frame_card_title.sizePolicy().hasHeightForWidth())
-        self.frame_card_title.setSizePolicy(sizePolicy2)
-        self.frame_card_title.setMinimumSize(QSize(0, 0))
-        self.frame_card_title.setMaximumSize(QSize(16777215, 16777215))
-        self.frame_card_title.setFrameShape(QFrame.StyledPanel)
-        self.frame_card_title.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_7 = QHBoxLayout(self.frame_card_title)
+        self.frame_cardTitle = QFrame(self.frame_2)
+        self.frame_cardTitle.setObjectName(u"frame_cardTitle")
+        sizePolicy2.setHeightForWidth(self.frame_cardTitle.sizePolicy().hasHeightForWidth())
+        self.frame_cardTitle.setSizePolicy(sizePolicy2)
+        self.frame_cardTitle.setMinimumSize(QSize(0, 0))
+        self.frame_cardTitle.setMaximumSize(QSize(16777215, 16777215))
+        self.frame_cardTitle.setFrameShape(QFrame.StyledPanel)
+        self.frame_cardTitle.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_7 = QHBoxLayout(self.frame_cardTitle)
         self.horizontalLayout_7.setSpacing(5)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(20, 10, 23, 0)
-        self.label_img = QLabel(self.frame_card_title)
-        self.label_img.setObjectName(u"label_img")
-        sizePolicy1.setHeightForWidth(self.label_img.sizePolicy().hasHeightForWidth())
-        self.label_img.setSizePolicy(sizePolicy1)
-        self.label_img.setPixmap(QPixmap(u":/iconos_logo/iconos/iconos_logo/Logo_V1.svg"))
-        self.label_img.setScaledContents(True)
-        self.label_img.setWordWrap(False)
-        self.label_img.setOpenExternalLinks(False)
-
-        self.horizontalLayout_7.addWidget(self.label_img)
-
-        self.label_5 = QLabel(self.frame_card_title)
-        self.label_5.setObjectName(u"label_5")
+        self.label_icon1 = QLabel(self.frame_cardTitle)
+        self.label_icon1.setObjectName(u"label_icon1")
         sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy5.setHorizontalStretch(30)
         sizePolicy5.setVerticalStretch(30)
-        sizePolicy5.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy5)
-        self.label_5.setMinimumSize(QSize(30, 30))
-        self.label_5.setMaximumSize(QSize(30, 30))
-        self.label_5.setPixmap(QPixmap(u"recursos/iconos/iconos_frame_inicio/doc_basic.svg"))
-        self.label_5.setScaledContents(True)
+        sizePolicy5.setHeightForWidth(self.label_icon1.sizePolicy().hasHeightForWidth())
+        self.label_icon1.setSizePolicy(sizePolicy5)
+        self.label_icon1.setMinimumSize(QSize(30, 30))
+        self.label_icon1.setMaximumSize(QSize(30, 30))
+        self.label_icon1.setPixmap(QPixmap(u"recursos/iconos/iconos_frame_inicio/doc_basic.svg"))
+        self.label_icon1.setScaledContents(True)
 
-        self.horizontalLayout_7.addWidget(self.label_5)
+        self.horizontalLayout_7.addWidget(self.label_icon1)
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(20, -1, -1, -1)
-        self.label_FH_subTitle_3 = QLabel(self.frame_card_title)
-        self.label_FH_subTitle_3.setObjectName(u"label_FH_subTitle_3")
+        self.label_subTitle3 = QLabel(self.frame_cardTitle)
+        self.label_subTitle3.setObjectName(u"label_subTitle3")
 
-        self.verticalLayout_6.addWidget(self.label_FH_subTitle_3)
+        self.verticalLayout_6.addWidget(self.label_subTitle3)
 
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_6)
@@ -801,16 +739,16 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_7.addItem(self.horizontalSpacer_15)
 
-        self.label_FH_subTitle_4 = QLabel(self.frame_card_title)
-        self.label_FH_subTitle_4.setObjectName(u"label_FH_subTitle_4")
-        self.label_FH_subTitle_4.setMinimumSize(QSize(160, 0))
-        self.label_FH_subTitle_4.setMaximumSize(QSize(160, 16777215))
-        self.label_FH_subTitle_4.setAlignment(Qt.AlignCenter)
+        self.label_subTitle4 = QLabel(self.frame_cardTitle)
+        self.label_subTitle4.setObjectName(u"label_subTitle4")
+        self.label_subTitle4.setMinimumSize(QSize(160, 0))
+        self.label_subTitle4.setMaximumSize(QSize(160, 16777215))
+        self.label_subTitle4.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_7.addWidget(self.label_FH_subTitle_4)
+        self.horizontalLayout_7.addWidget(self.label_subTitle4)
 
 
-        self.verticalLayout_7.addWidget(self.frame_card_title)
+        self.verticalLayout_7.addWidget(self.frame_cardTitle)
 
 
         self.verticalLayout.addWidget(self.frame_2)
@@ -837,7 +775,7 @@ class Ui_FormHome(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 903, 207))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 903, 210))
         self.horizontalLayout_20 = QHBoxLayout(self.scrollAreaWidgetContents_3)
         self.horizontalLayout_20.setSpacing(0)
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
@@ -854,11 +792,11 @@ class Ui_FormHome(object):
         self.verticalLayout_8.setSpacing(0)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.verticalLayout_8.setContentsMargins(10, 10, 10, 10)
-        self.verticalLayout_FH_container_card = QVBoxLayout()
-        self.verticalLayout_FH_container_card.setSpacing(5)
-        self.verticalLayout_FH_container_card.setObjectName(u"verticalLayout_FH_container_card")
+        self.verticalLayout_containerCard = QVBoxLayout()
+        self.verticalLayout_containerCard.setSpacing(5)
+        self.verticalLayout_containerCard.setObjectName(u"verticalLayout_containerCard")
 
-        self.verticalLayout_8.addLayout(self.verticalLayout_FH_container_card)
+        self.verticalLayout_8.addLayout(self.verticalLayout_containerCard)
 
 
         self.horizontalLayout_20.addWidget(self.frame_6)
@@ -881,28 +819,27 @@ class Ui_FormHome(object):
 
     def retranslateUi(self, FormHome):
         FormHome.setWindowTitle(QCoreApplication.translate("FormHome", u"Form", None))
-        self.label_8.setText("")
+        self.label_logo.setText("")
         self.label_title_1.setText(QCoreApplication.translate("FormHome", u"Bienvenidos a", None))
         self.label_title_2.setText(QCoreApplication.translate("FormHome", u"MPM-UN", None))
-        self.label_FH_subTitle_1.setText(QCoreApplication.translate("FormHome", u"Proyecto nuevo", None))
-        self.toolButton_FH_cardNew_1.setText(QCoreApplication.translate("FormHome", u".   .   .", None))
-        self.label_FH_cardNew_1.setText(QCoreApplication.translate("FormHome", u"Proyecto nuevo", None))
-        self.toolButton_FH_cardNew_2.setText("")
-        self.label_FH_cardNew_2.setText(QCoreApplication.translate("FormHome", u"Vibraci\u00f3n axial \n"
+        self.label_subTitle1.setText(QCoreApplication.translate("FormHome", u"Proyecto nuevo", None))
+        self.toolButton_cardNew1.setText(QCoreApplication.translate("FormHome", u".   .   .", None))
+        self.label_cardNew1.setText(QCoreApplication.translate("FormHome", u"Proyecto nuevo", None))
+        self.toolButton_cardNew2.setText("")
+        self.label_cardNew2.setText(QCoreApplication.translate("FormHome", u"Vibraci\u00f3n axial \n"
 "barra empotrada", None))
-        self.toolButton_FH_cardNew_3.setText("")
-        self.label_FH_cardNew_3.setText(QCoreApplication.translate("FormHome", u"Capacidad portante\n"
+        self.toolButton_cardNew3.setText("")
+        self.label_cardNew3.setText(QCoreApplication.translate("FormHome", u"Capacidad portante\n"
 "sobre suelo tresca", None))
-        self.toolButton_FH_cardNew_4.setText("")
-        self.label_FH_cardNew_4.setText(QCoreApplication.translate("FormHome", u"Disco deslizando sobre\n"
+        self.toolButton_cardNew4.setText("")
+        self.label_cardNew4.setText(QCoreApplication.translate("FormHome", u"Disco deslizando sobre\n"
 "un plano inclinado", None))
-        self.toolButton_FH_cardNew_5.setText("")
-        self.label_FH_cardNew_5.setText(QCoreApplication.translate("FormHome", u"Falla de un talud\n"
+        self.toolButton_cardNew5.setText("")
+        self.label_cardNew5.setText(QCoreApplication.translate("FormHome", u"Falla de un talud\n"
 "elastopl\u00e1stico", None))
-        self.label_FH_subTitle_2.setText(QCoreApplication.translate("FormHome", u"Recientes", None))
-        self.label_img.setText("")
-        self.label_5.setText("")
-        self.label_FH_subTitle_3.setText(QCoreApplication.translate("FormHome", u"Nombre", None))
-        self.label_FH_subTitle_4.setText(QCoreApplication.translate("FormHome", u"Fecha de modificaci\u00f3n", None))
+        self.label_subTitle2.setText(QCoreApplication.translate("FormHome", u"Recientes", None))
+        self.label_icon1.setText("")
+        self.label_subTitle3.setText(QCoreApplication.translate("FormHome", u"Nombre", None))
+        self.label_subTitle4.setText(QCoreApplication.translate("FormHome", u"Fecha de modificaci\u00f3n", None))
     # retranslateUi
 

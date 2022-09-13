@@ -1,198 +1,177 @@
+""" Este módulo contiene la clase iniciar Ui_MainWindow.
+es la ventana principal del programa."""
 
-
-from sqlite3 import connect
-from PySide6.QtCore import ( QFile,QTime, QObject,QEvent, Signal, Slot,QSize)
-from PySide6.QtGui import (QColor,QIcon)
-from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QLabel,
-                            QWidget,QMessageBox,QFrame, QGraphicsDropShadowEffect,QSizePolicy )
-from time import strftime
-
+from PySide6.QtCore import ( QFile, Slot)
+from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QFrame, QSizePolicy,QMessageBox )
 from ui import ui_main_window
-from ui import ui_frame_draw
-
 from clases import class_projects
-from clases import class_card_view
-from clases import class_data_project
-from clases import class_frame_home
-
+from clases import class_ui_frame_home
+from clases import class_ui_frame_draw
+from clases import database_class
+from clases import class_ui_dialog_msg
 
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    """Esta clase crea la ventana QMainWindow de la ventana principal.
+
+        Args:
+            createDataBase(CreateDataBase): Objeto para crear bases de datos.
+            
+        Attributes:
+            createDataBase(CreateDataBase): Objeto para crear bases de datos.
+            actual_project(Project): Contiene el proyecto actual.
+
+    """ 
+    
+        
+    def __init__(self, createDataBase):
         QMainWindow.__init__(self)
         self.ui = ui_main_window.Ui_MainWindow()        
         self.ui.setupUi(self)
 
-        
-        #::::::::::::::::::::  CONFIGURANDO MAIN WINDOW::::::::::::::::::::
+        # Atributo
+        self.__createDataBase = createDataBase
+        self.__actual_project = None
+     
+
+        # Configura la UI
+        self.__configUi()
+
+        # Establece los eventos de la UI
+        self.__initEventUi()
+
+        #Inicia el objeto db de del programa
+        self.db_config_mpmun = database_class.DataBaseConfigMpmun()
+
+        # Iniciando objeto proyectos 
+        self.projects = class_projects.Projects(self.db_config_mpmun)        
+        self.__updateProjectsRecent()
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
+	###############################################################################
+    def __configUi(self):
+        """ Configura la interface de usuario (ui) """ 
+
+        #::::::::::::::::::::  CONFIGURANDO MAIN WINDOW ::::::::::::::::::::
         """
         with open("css/styles_oscuro.css") as f:
             self.setStyleSheet(f.read())
         self.showMaximized()
         """
+        # :::::::::::::::::::: BOTÓN Y PAGINA POR DEFECTO ::::::::::::::::::::
         self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
-        self.ui.frame_inicio.setStyleSheet("background-color: #36C9C6;")
-        self.ui.frame_inicioInf.setStyleSheet("background-color: #2B2B2B;")
-        self.showMessageStatusBarInformative("Programa iniciado correctamente")
+        self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
+        self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")
+        self.__showMessageStatusBarInformative("Programa iniciado correctamente")
 
-
+        # ::::::::::::::::::::   SHORTCUT Y STATUS DE MENÚ SUPERIOR ::::::::::::::::::::
+        self.ui.action_nuevo.setShortcut('Ctrl+n')
+        self.ui.action_nuevo.setStatusTip('Nuevo')
+        self.ui.action_abrir.setShortcut('Ctrl+o')
+        self.ui.action_abrir.setStatusTip('Abrir')
+        self.ui.action_guardar.setShortcut('Ctrl+s')
+        self.ui.action_guardar.setStatusTip('Guardar')
+        self.ui.action_guardarComo.setShortcut('Ctrl+shift+s')
+        self.ui.action_guardarComo.setStatusTip('Guardar como')
+        self.ui.action_importar.setShortcut('Ctrl+i')
+        self.ui.action_importar.setStatusTip('Importar')
+        self.ui.action_exportar.setShortcut('Ctrl+e')
+        self.ui.action_exportar.setStatusTip('Exportar')
 
         # ::::::::::::::::::::   CONFIGURANDO  FRAME INICIO ::::::::::::::::::::
-        self.frame_home = class_frame_home.FrameHome(self)
-        self.ui.verticalLayout_empty_draw.addWidget(self.frame_home)
+        self.frame_home = class_ui_frame_home.FrameHome(self)
+        self.ui.verticalLayout_emptyHome.addWidget(self.frame_home)
 
-        self.list_view_card = []
+        # ::::::::::::::::::::   CONFIGURANDO  FRAME DRAW ::::::::::::::::::::
+        self.frame_draw = class_ui_frame_draw.FrameDraw(self)
+        self.ui.verticalLayout_emptyDraw.addWidget(self.frame_draw)
+        
+    def __initEventUi(self):
+        """ Asigna las ranuras (Slot) a las señales (Signal). """   
+        
+        # ::::::::::::::::::::   EVENTOS DE WIDGET FRAME INICIO ::::::::::::::::::::
+        self.frame_home.signal_home_open.connect(self.__openProject)
+        self.frame_home.signal_home_new.connect(self.__triggeredActionNuevoProyecto)
+        
+        # ::::::::::::::::::::   EVENTOS DE WIDGET FRAME DRAW  ::::::::::::::::::::
+        self.frame_draw.signal_msn_critical.connect(self.__showMessageStatusBarCritical)
+        self.frame_draw.signal_msn_satisfactory.connect(self.__showMessageStatusBarSatisfactory)
+        self.frame_draw.signal_msn_informative.connect(self.__showMessageStatusBarInformative)
 
-        # ::::::::::::::::::::   CONFIGURANDO FRAME VIEW  ::::::::::::::::::::
-        self.ui.splitter.setStretchFactor(0, 100)
-        self.ui.splitter.setStretchFactor(1, 0)        
-        self.ui.splitter.setSizes([100,100]) 
+        # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
+        self.ui.toolButton_home.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_drawData.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_drawMesh.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_drawPoint.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_drawBoundary.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_viewResult.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_setting.clicked.connect(self.__clickedToolButtonMenuLat)
 
         
-        # ::::::::::::::::::::   INICIANDO DATA PROJECTS ::::::::::::::::::::
-        self.projects = class_projects.Projects()        
-        self.functionUpdateListProjects()
-
-        # ::::::::::::::::::::   CONFIGURANDO FRAME DATA PROJECT  ::::::::::::::::::::
-        self.menuDataProject = class_data_project.DataProject()
-        self.ui.horizontalLayout_draw.addWidget(self.menuDataProject)
-
-        # ::::::::::::::::::::   EVENTOS WIDGET  MENU LATERAL ::::::::::::::::::::
-        self.ui.toolButton_inicio.clicked.connect(self.onClickedToolButtonMenuLat)
-        self.ui.toolButton_data.clicked.connect(self.onClickedToolButtonMenuLat)
-        self.ui.toolButton_malla.clicked.connect(self.onClickedToolButtonMenuLat)
-        self.ui.toolButton_puntos.clicked.connect(self.onClickedToolButtonMenuLat)
-        self.ui.toolButton_contorno.clicked.connect(self.onClickedToolButtonMenuLat)
-        self.ui.toolButton_resultados.clicked.connect(self.onClickedToolButtonMenuLat)
-        self.ui.toolButton_config.clicked.connect(self.onClickedToolButtonMenuLat)
-
-        # ::::::::::::::::::::   EVENTOS WIDGET FRAME INICIO ::::::::::::::::::::
-        #self.cardProject.trigger.connect(self.functionOpenProject)
-        self.frame_home.signal_home_open.connect(self.functionOpenProject)
-        self.frame_home.signal_home_new.connect(self.onTriggeredactionNuevoProyecto)
-        
-        # ::::::::::::::::::::   EVENTOS WIDGET FRAME DRAW DATA PROJECT ::::::::::::::::::::
-        self.menuDataProject.signal_msn_critical.connect(self.showMessageStatusBarCritical)
-        self.menuDataProject.signal_msn_Satisfactory.connect(self.showMessageStatusBarSatisfactory)
-        self.menuDataProject.signal_msn_Informative.connect(self.showMessageStatusBarInformative)
-
-
-
-        # ::::::::::::::::::::   EVENTOS TECLADO Y MENU SUPERIOR ::::::::::::::::::::
-        self.ui.actionNuevo.setShortcut('Ctrl+n')
-        self.ui.actionNuevo.setStatusTip('Nuevo')
-        self.ui.actionNuevo.triggered.connect(self.onTriggeredactionNuevoProyecto)
-        self.ui.actionAbrir.setShortcut('Ctrl+o')
-        self.ui.actionAbrir.setStatusTip('Abrir')
-        self.ui.actionAbrir.triggered.connect(self.onTriggeredactionAbrirProyecto)
-
-        self.ui.actionGuardar.setShortcut('Ctrl+g')
-        self.ui.actionGuardar.setStatusTip('Guardar')
-        #self.ui.actionGuardar.triggered.connect(self.onTriggeredactionNuevoProyecto)
-        self.ui.actionGuardar_como.setShortcut('Ctrl+shift+g')
-        self.ui.actionGuardar_como.setStatusTip('Guardar como')
-        #self.ui.actionGuardar_como.triggered.connect(self.onTriggeredactionNuevoProyecto)
-        self.ui.actionImportar.setShortcut('Ctrl+i')
-        self.ui.actionImportar.setStatusTip('Importar')
-        #self.ui.actionImportar.triggered.connect(self.onTriggeredactionNuevoProyecto)
-        self.ui.actionExportar.setShortcut('Ctrl+e')
-        self.ui.actionExportar.setStatusTip('Exportar')
-        #self.ui.actionExportar.triggered.connect(self.onTriggeredactionNuevoProyecto)
-        
-        
-
-        """
-    @Slot(str)
-    def updateLabel(self, text="algo"):
-        print("Estas en main: {}".format(text))
-        self.ui.label_title_1.setText(text)
-        """   
+        # ::::::::::::::::::::   EVENTOS  MENU SUPERIOR ::::::::::::::::::::
+        self.ui.action_nuevo.triggered.connect(self.__triggeredActionNuevoProyecto)
+        self.ui.action_guardar.triggered.connect(self.__triggeredActionSaveProject)
+        #self.ui.action_guardarComo.triggered.connect(self.triggeredActionXXXXXXXX)
+        #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
+        #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
+        self.ui.action_abrir.triggered.connect(self.__triggeredActionAbrirProyecto)
 
     ###############################################################################
-	# ::::::::::::::::::::    FUNCIONES EVENTOS MENU LATERAL   ::::::::::::::::::::
+	# ::::::::::::::::::::    MÉTODOS DE EVENTOS MENU LATERAL   ::::::::::::::::::::
 	###############################################################################
-    def onClickedToolButtonViewCard(self):
-        buttonSelected = self.sender()
-        nameButton = buttonSelected.objectName()
-        print("="*30)
-        print("Nombre: {}".format(nameButton))
-        print("objeto: {}".format(buttonSelected))
-        print("="*30)
+    def __clickedToolButtonMenuLat(self):
+        """ Método para los eventos de los botones del menú lateral
+        Se obtiene el botón que activo la señal y se redirecciona
+        al botón correspondiente"""
 
-    def onClickedToolButtonMenuLat(self):
-        self.hideToolButtonMenuLat()
+        self.__resetToolButtonMenuLat()
         buttonSelected = self.sender()
         nameButton = buttonSelected.objectName()
-        if nameButton=="toolButton_inicio":
+
+        if nameButton==self.ui.toolButton_home.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
-            self.ui.frame_inicio.setStyleSheet("background-color: #36C9C6;")
-            self.ui.frame_inicioInf.setStyleSheet("background-color: #2B2B2B;")  
+            self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
+            self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")  
 
-        if nameButton=="toolButton_data":
+        if nameButton==self.ui.toolButton_drawData.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_data)
-            self.ui.frame_data.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_dataInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.ui.frame_drawData.setStyleSheet("background-color: #36C9C6;") 
+            self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;") 
 
-        if nameButton=="toolButton_malla":
+        if nameButton==self.ui.toolButton_drawMesh.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_mesh)
-            self.ui.frame_malla.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_mallaInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.ui.frame_drawMesh.setStyleSheet("background-color: #36C9C6;") 
+            self.ui.frame_drawMeshInf.setStyleSheet("background-color: #2B2B2B;") 
 
-        if nameButton=="toolButton_puntos":
+        if nameButton==self.ui.toolButton_drawPoint.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_point)
-            self.ui.frame_puntos.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_puntosInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.ui.frame_drawPoint.setStyleSheet("background-color: #36C9C6;") 
+            self.ui.frame_drawPointInf.setStyleSheet("background-color: #2B2B2B;") 
 
-        if nameButton=="toolButton_contorno":
+        if nameButton==self.ui.toolButton_drawBoundary.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_contour)
-            self.ui.frame_contorno.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_contornoInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.ui.frame_drawBoundary.setStyleSheet("background-color: #36C9C6;") 
+            self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #2B2B2B;") 
 
-        if nameButton=="toolButton_resultados":
+        if nameButton==self.ui.toolButton_viewResult.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_view)
-            self.ui.frame_resultados.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_resultadosInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.ui.frame_viewResult.setStyleSheet("background-color: #36C9C6;") 
+            self.ui.frame_viewResultInf.setStyleSheet("background-color: #2B2B2B;") 
 
-
-        if nameButton=="toolButton_config":
+        if nameButton==self.ui.toolButton_setting.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
-            
-
-    def hideToolButtonMenuLat(self):
-        self.ui.frame_inicio.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_data.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_malla.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_puntos.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_contorno.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_resultados.setStyleSheet("background-color: #333333;") 
-
-        self.ui.frame_resultadosInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_inicioInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_dataInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_contornoInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_puntosInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_mallaInf.setStyleSheet("background-color: #333333;") 
-    
 
     ###############################################################################
-	# ::::::::::::::::::::         FUNCIONES GENERALES UI      ::::::::::::::::::::
+	# ::::::::::::::::::::  MÉTODOS DE EVENTOS MENU SUPERIOR  ::::::::::::::::::::
 	###############################################################################
-    #desactivar botones
-    
-
-    ###############################################################################
-	# ::::::::::::::::::::  FUNCIONES Y EVENTOS MENU SUPERIOR  ::::::::::::::::::::
-	###############################################################################
-
-    # ::::::::::::::::::::  EVENTOS MENU SUPERIOR  ::::::::::::::::::::
-
-    def onTriggeredactionNuevoProyecto(self):
-        """ ABRE CUADRO DE DIALOGO PARA NUEVO PROYECTO"""
+    def __triggeredActionNuevoProyecto(self):
+        """ Abre cuadro de dialogo para nuevo proyecto. """
         nameCurrent = self.windowTitle()
         self.setWindowTitle("MPM-UN -- Untitled document*")
         options = QFileDialog.Options()
@@ -201,139 +180,188 @@ class MainWindow(QMainWindow):
             if self.projects.newFileProject(filePath):
                 fileName = filePath.split('/')[-1]
                 self.setWindowTitle("MPM-UN -- {}".format(fileName))
-                self.showMessageStatusBarSatisfactory("Proyecto creado con éxito")
-                self.functionOpenProject(filePath) 
+                self.__showMessageStatusBarSatisfactory("Proyecto creado con éxito")
+                self.__openProject(filePath) 
         else:
             self.setWindowTitle(nameCurrent)
 
-    def onTriggeredactionAbrirProyecto(self):
-        """ ABRE CUADRO DE DIALOGO PARA ABRIR PROYECTO"""
-
+    def __triggeredActionAbrirProyecto(self):
+        """ Abre cuadro de dialogo para abrir proyecto. """
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getOpenFileName(self,"Open Project","","Data files mpm (*.mpm)", options=options)
         if filePath:
-            self.functionOpenProject(filePath)
+            self.__openProject(filePath)
     
-    def onTriggeredaccionRecienteClear(self):
-        """BORRA LOS PROYECTOS RECIENTES"""
-        if self.projects.deleteProjects(self):
-            self.functionUpdateListProjects()
+    def __triggeredaccionRecienteClear(self):
+        """Borra los proyectos recientes."""
+        if self.projects.deleteProjects():
+            self.__updateProjectsRecent()
         else:
-            self.functionQMessageBox('Error función onTriggeredaccionRecienteClear')
+            pass
 
-    def onTriggeredaccionReciente(self):
-        '''
-        Funcion de Menu recientes
-        '''
-        fileName = self.sender().text()
-        if fileName:
-            self.functionOpenProject(fileName)
+    def __triggeredaccionReciente(self):
+        """Método para los eventos del menú superior >> recientes"""
+        filePath = self.sender().text()
+        if filePath:
+            self.__openProject(filePath)
 
-# ::::::::::::::::::::  FUNCIONES MENU SUPERIOR  ::::::::::::::::::::
-    @Slot(str)
-    def functionOpenProject (self, filePath):
-        '''
-        Project
-        Funcion para abril, actualizar y leer proyectos 
-        muestra canvas y habilita pestaña malla
-        '''
-        hour = QTime.currentTime().toString("hh:mm:ss A ")
-        data = strftime("%d/%m/%y")
-
-        file_name=filePath.split('/')[-1]
-        if ( QFile.exists(filePath)):
-
-            project_open = class_projects.Project(name_file = file_name, path = filePath,data= data,hour= hour) 
-        
-            if self.projects.addProject(self, project_open):
-
-                self.setWindowTitle("MPM-UN -- {}".format(file_name))
-                self.ui.toolButton_data.setEnabled(True)
-                self.ui.toolButton_malla.setEnabled(True)
-                self.ui.toolButton_puntos.setEnabled(True)
-                self.ui.toolButton_contorno.setEnabled(True)
-                self.hideToolButtonMenuLat()
-                self.ui.frame_data.setStyleSheet("background-color: #36C9C6;") 
-                self.ui.frame_dataInf.setStyleSheet("background-color: #2B2B2B;")
-                self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-                self.showMessageStatusBarInformative("Se ha abierto el proyecto {}".format(file_name))
-
-
-                self.menuDataProject.setPathProject(filePath)
-                self.menuDataProject.setTextWidget()
-
-        else:
-            self.showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name)) 
-        self.functionUpdateListProjects()
-    
-    def functionUpdateListProjects(self):
-        """ACTUALIZA PROYECTOS RECIENTES """
-        view_card=None
-        if len(self.list_view_card) != 0:
-            for view_card in self.list_view_card:                
-                self.frame_home.verticalLayout_FH_container_card.removeWidget(view_card)
-                view_card.deleteLater()
-            self.list_view_card=[]
-        self.ui.menuRecientes.clear()
-
-        if self.projects.getProjects():
-            projects = self.projects.getProjects()	
-            
-            total_projects = len(projects)
-            No_proyecto = 1
-            max_projects = 15
-            positions = [(i,j) for i in range(5) for j in range(3)]  
-            for position, project in zip(positions, projects):
-                #agrega cada proyecto a menu>recientes
-                name=project.getData()[0]
-                path=project.getData()[1]
-                data=project.getData()[2]
-                hour=project.getData()[3]
-                
-                if No_proyecto <= max_projects and QFile.exists(path):
-                    self.ui.menuRecientes.addAction(path)
-
-
-                    self.cardProject = class_card_view.viewCardProject(self, cardName = name,
-                                         cardDataTime = data, cardPath= path, cardHour= hour)
-                    #self.cardProject.setStyleSheet("background-color: #36C{}C6;".format(No_proyecto))
-                    #self.frame_home.gridLayout_proyectos.addWidget(self.cardProject,*position)
-                    self.frame_home.verticalLayout_FH_container_card.addWidget(self.cardProject)
-                    self.list_view_card.append(self.cardProject)
-                    self.cardProject.trigger.connect(self.functionOpenProject)
-
-                    #self.cardProject.setNamesWidges(No_proyecto)
-
-                No_proyecto += 1
-            #colocar otro al final
-            frame_end = QFrame()
-            frame_end.setSizePolicy(QSizePolicy(QSizePolicy.Preferred,
-                                                 QSizePolicy.Expanding))
-            self.frame_home.verticalLayout_FH_container_card.addWidget(frame_end)
-            self.list_view_card.append(frame_end)
-        self.ui.menuRecientes.addSeparator()
-        self.ui.menuRecientes.addAction('Limpiar')
-
-
-        for accion in self.ui.menuRecientes.actions():
-            if accion.text() == 'Limpiar':
-                accion.triggered.connect(self.onTriggeredaccionRecienteClear)
-            else:
-                pass
-                accion.triggered.connect(self.onTriggeredaccionReciente)
+    def __triggeredActionSaveProject(self):        
+        if self.__actual_project != None :
+            if self.__actual_project.checkProjectChanges():
+                self.__actual_project.saveData()
 
     ###############################################################################
-	# ::::::::::::::::::::         FUNCIONES GENERALES         ::::::::::::::::::::
+	# ::::::::::::::::::::         FUNCIONES GENERALES UI      ::::::::::::::::::::
+	###############################################################################
+    
+    # ::::::::::::::::::::  FUNCIONES MENU LATERAL  ::::::::::::::::::::
+    def __resetToolButtonMenuLat(self):
+        """ Reinicializa el estado de los botones del menú lateral  """
+        self.ui.frame_home.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawData.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawMesh.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawPoint.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawBoundary.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_viewResult.setStyleSheet("background-color: #333333;") 
+
+        self.ui.frame_viewResultInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_homeInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawDataInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawPointInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawMeshInf.setStyleSheet("background-color: #333333;")
+
+    # ::::::::::::::::::::  FUNCIONES MENU SUPERIOR  ::::::::::::::::::::
+    @Slot(str)
+    def __openProject (self, filePath):
+        """ Abre un proyecto y configura la UI para este nuevo proyecto. 
+
+        Attributes:
+            filePath (str): Ruta del proyecto.
+            
+        """
+
+        if ( QFile.exists(filePath)):
+            project_open = class_projects.Project(path = filePath) 
+            file_name =project_open.getName()
+        
+            if self.projects.addProject(self, project_open):
+                
+                # Configura la UI
+                self.__actual_project = project_open
+                self.setWindowTitle("MPM-UN -- {}".format(self.__actual_project.getName()))
+                self.ui.toolButton_drawData.setEnabled(True)
+                self.ui.toolButton_drawMesh.setEnabled(True)
+                self.ui.toolButton_drawPoint.setEnabled(True)
+                self.ui.toolButton_drawBoundary.setEnabled(True)
+                self.__resetToolButtonMenuLat()
+                self.ui.frame_drawData.setStyleSheet("background-color: #36C9C6;") 
+                self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;")
+                self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
+                self.__showMessageStatusBarInformative("Se ha abierto el proyecto: {}".format(self.__actual_project.getName()))
+
+
+                """              ███▀▀▀▀▀ deberia actualizar todo ▀▀▀▀▀███                 """
+                self.frame_draw.configDrawMenuData(project = self.__actual_project)
+
+        else:
+            self.__showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name)) 
+        self.__updateProjectsRecent()
+    
+    def __updateProjectsRecent(self):
+        """ Actualiza los proyectos recientes. """
+        self.frame_home.removeCardsProjectsRecent()
+        self.ui.menu_recientes.clear()
+
+        if self.projects.getProjects():
+            projects = self.projects.getProjects()
+            No_proyecto = 1
+            max_projects = 15
+
+            for  project in projects:
+                #agrega cada proyecto a menu>recientes  
+                name, path, data, hour = project.getData()
+                if No_proyecto <= max_projects and QFile.exists(path):
+                    self.frame_home.addCardProjectsRecent(name, path, data, hour)
+                    self.ui.menu_recientes.addAction(path)
+                No_proyecto += 1
+            
+            #colocar una tarjeta vacía otro al final proyectos recientes
+            self.frame_home.addCardEmptyProjectsRecent()
+            
+        self.ui.menu_recientes.addSeparator()
+        self.ui.menu_recientes.addAction('Limpiar')
+
+        for accion in self.ui.menu_recientes.actions():
+            if accion.text() == 'Limpiar':
+                accion.triggered.connect(self.__triggeredaccionRecienteClear)
+            else:
+                pass
+                accion.triggered.connect(self.__triggeredaccionReciente)
+    
+    ###############################################################################
+	# ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
 	###############################################################################
     @Slot(str)
-    def showMessageStatusBarCritical(self, message):
+    def __showMessageStatusBarCritical(self, message):
+        """ imprime en la barra de estado un mensaje critico.
+
+        Args:
+            message(str): Mensaje critico 
+        """
         self.ui.statusbar.setStyleSheet("color: #F94646;") 
         self.ui.statusbar.showMessage(message,6000)
+    
     @Slot(str)
-    def showMessageStatusBarSatisfactory(self, message):
+    def __showMessageStatusBarSatisfactory(self, message):
+        """ imprime en la barra de estado un mensaje satisfactorio.
+
+        Args:
+            message(str): Mensaje satisfactorio 
+        """
         self.ui.statusbar.setStyleSheet("color: #36C9C6;") 
         self.ui.statusbar.showMessage(message,6000)
+    
     @Slot(str)
-    def showMessageStatusBarInformative(self, message):
+    def __showMessageStatusBarInformative(self, message):
+        """ imprime en la barra de estado un mensaje informativo.
+
+        Args:
+            message(str): Mensaje informativo 
+        """
         self.ui.statusbar.setStyleSheet("color: #DDDDDD;") 
         self.ui.statusbar.showMessage(message,6000)
+
+    ###############################################################################
+	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
+	###############################################################################
+    def closeEvent(self, event):
+        """Evento al cerrar la ventana main window, se valida si hay proyecto actual y hay cambio,
+         en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""
+        if self.__actual_project != None:
+            checkProjectChanges = self.__actual_project.checkProjectChanges()            
+            if checkProjectChanges: 
+                dialoMsg = class_ui_dialog_msg.DialogMsg(self, 1, 
+                                        "¿Quiere guardar los cambios de este proyecto?", 
+                                        "has realizado cambios")
+                dialoMsg.setTypeIcon(0)
+                dialoMsg.setTextDescription("Has realizado cambios en el archivo {}".format(self.__actual_project.getName()))
+                dialoMsg.setModal(True)
+                dialoMsg.exec()
+                result = dialoMsg.getButtonSelected()
+                #Guardar
+                if result == "save":
+                    print("# Guardar = {}".format(self.__actual_project.saveData()))
+                    event.accept()
+                # No Guardar
+                elif result == "not save":
+                    print("# No Guardar")
+                    event.accept()
+
+                elif result == "cancel" or result == "exit":
+                    print("# Cancelar")
+                    event.ignore()
+            else:
+                event.accept()
+        else:
+            event.accept()

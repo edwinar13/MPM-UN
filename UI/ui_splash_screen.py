@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'splash_screenPTHYBR.ui'
+## Form generated from reading UI file 'splash_screenipxZmV.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -56,67 +56,57 @@ class Ui_SplashScreen(object):
 "\n"
 "QMainWindow#SplashScreen{\n"
 "}\n"
-"\n"
-"\n"
-"QFrame#fondoFrame{\n"
+"QFrame#frame_background{\n"
 "	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(85, 85, 85, 255), stop:1 rgba(34, 34, 34, 255));\n"
 "	border-radius:15px;\n"
-"\n"
 "}\n"
 "\n"
 "\n"
-"QLab"
-                        "el#label_titulo{\n"
+"QLabel#label_"
+                        "title{\n"
 "	background-color: transparent;	\n"
 "	font: 700 70pt \"Ubuntu\";	\n"
 "	color: #DDDDDD;\n"
 "}\n"
-"\n"
 "QLabel#label_version{\n"
 "	background-color: transparent;	\n"
 "	font: 500 20pt \"Ubuntu\";	\n"
 "	color: #DDDDDD;\n"
 "}\n"
-"\n"
-"QLabel#label_informacion{\n"
+"QLabel#label_info{\n"
 "	background-color: transparent;	\n"
 "	font: italic 10pt \"Ubuntu\";	\n"
 "	color: #999999;\n"
+"\n"
 "}\n"
 "\n"
 "\n"
 "\n"
 "\n"
-"\n"
-"QProgressBar#progressBar_splash{\n"
+"QProgressBar#progressBar_load{\n"
 "	background-color: #333333;\n"
 "	color: #C8CC8E;\n"
 "	border-radius: 5px;	\n"
 "	text-align: center;		\n"
 "	font: 7pt \"Ubuntu\";	\n"
 "}\n"
-"\n"
-"QProgressBar#progressBar_splash::chunk{\n"
+"QProgressBar#progressBar_load::chunk{\n"
 "	background-color:#742427;	\n"
 "	border-radius: 5px;	\n"
 "}\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"/*borde-style: none;*/")
+"")
         self.centralwidget = QWidget(SplashScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(10, 10, 10, 10)
-        self.fondoFrame = QFrame(self.centralwidget)
-        self.fondoFrame.setObjectName(u"fondoFrame")
-        self.fondoFrame.setStyleSheet(u"")
-        self.fondoFrame.setFrameShape(QFrame.StyledPanel)
-        self.fondoFrame.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_6 = QVBoxLayout(self.fondoFrame)
+        self.frame_background = QFrame(self.centralwidget)
+        self.frame_background.setObjectName(u"frame_background")
+        self.frame_background.setStyleSheet(u"")
+        self.frame_background.setFrameShape(QFrame.StyledPanel)
+        self.frame_background.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_6 = QVBoxLayout(self.frame_background)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalSpacer_2 = QSpacerItem(20, 5, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -139,19 +129,19 @@ class Ui_SplashScreen(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.label_4 = QLabel(self.fondoFrame)
-        self.label_4.setObjectName(u"label_4")
+        self.label_logo = QLabel(self.frame_background)
+        self.label_logo.setObjectName(u"label_logo")
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setMinimumSize(QSize(150, 150))
-        self.label_4.setMaximumSize(QSize(150, 150))
-        self.label_4.setPixmap(QPixmap(u"recursos/iconos/iconos_logo/Logo_V1.svg"))
-        self.label_4.setScaledContents(True)
+        sizePolicy.setHeightForWidth(self.label_logo.sizePolicy().hasHeightForWidth())
+        self.label_logo.setSizePolicy(sizePolicy)
+        self.label_logo.setMinimumSize(QSize(150, 150))
+        self.label_logo.setMaximumSize(QSize(150, 150))
+        self.label_logo.setPixmap(QPixmap(u"recursos/iconos/iconos_logo/Logo_V1.svg"))
+        self.label_logo.setScaledContents(True)
 
-        self.horizontalLayout_2.addWidget(self.label_4)
+        self.horizontalLayout_2.addWidget(self.label_logo)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -162,11 +152,11 @@ class Ui_SplashScreen(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label_titulo = QLabel(self.fondoFrame)
-        self.label_titulo.setObjectName(u"label_titulo")
-        self.label_titulo.setAlignment(Qt.AlignCenter)
+        self.label_title = QLabel(self.frame_background)
+        self.label_title.setObjectName(u"label_title")
+        self.label_title.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout.addWidget(self.label_titulo)
+        self.horizontalLayout.addWidget(self.label_title)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -174,7 +164,7 @@ class Ui_SplashScreen(object):
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
-        self.label_version = QLabel(self.fondoFrame)
+        self.label_version = QLabel(self.frame_background)
         self.label_version.setObjectName(u"label_version")
         self.label_version.setAlignment(Qt.AlignCenter)
 
@@ -208,16 +198,16 @@ class Ui_SplashScreen(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.label_informacion = QLabel(self.fondoFrame)
-        self.label_informacion.setObjectName(u"label_informacion")
+        self.label_info = QLabel(self.frame_background)
+        self.label_info.setObjectName(u"label_info")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label_informacion.sizePolicy().hasHeightForWidth())
-        self.label_informacion.setSizePolicy(sizePolicy1)
-        self.label_informacion.setAlignment(Qt.AlignCenter)
+        sizePolicy1.setHeightForWidth(self.label_info.sizePolicy().hasHeightForWidth())
+        self.label_info.setSizePolicy(sizePolicy1)
+        self.label_info.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_5.addWidget(self.label_informacion)
+        self.horizontalLayout_5.addWidget(self.label_info)
 
         self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -226,14 +216,14 @@ class Ui_SplashScreen(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_5)
 
-        self.progressBar_splash = QProgressBar(self.fondoFrame)
-        self.progressBar_splash.setObjectName(u"progressBar_splash")
-        self.progressBar_splash.setMinimumSize(QSize(500, 10))
-        self.progressBar_splash.setMaximumSize(QSize(500, 10))
-        self.progressBar_splash.setStyleSheet(u"")
-        self.progressBar_splash.setValue(40)
+        self.progressBar_load = QProgressBar(self.frame_background)
+        self.progressBar_load.setObjectName(u"progressBar_load")
+        self.progressBar_load.setMinimumSize(QSize(500, 10))
+        self.progressBar_load.setMaximumSize(QSize(500, 10))
+        self.progressBar_load.setStyleSheet(u"")
+        self.progressBar_load.setValue(40)
 
-        self.verticalLayout_4.addWidget(self.progressBar_splash)
+        self.verticalLayout_4.addWidget(self.progressBar_load)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_4)
@@ -253,7 +243,7 @@ class Ui_SplashScreen(object):
         self.verticalLayout_6.addItem(self.verticalSpacer_3)
 
 
-        self.verticalLayout.addWidget(self.fondoFrame)
+        self.verticalLayout.addWidget(self.frame_background)
 
         SplashScreen.setCentralWidget(self.centralwidget)
 
@@ -264,9 +254,9 @@ class Ui_SplashScreen(object):
 
     def retranslateUi(self, SplashScreen):
         SplashScreen.setWindowTitle(QCoreApplication.translate("SplashScreen", u"MainWindow", None))
-        self.label_4.setText("")
-        self.label_titulo.setText(QCoreApplication.translate("SplashScreen", u"MPM-UN", None))
+        self.label_logo.setText("")
+        self.label_title.setText(QCoreApplication.translate("SplashScreen", u"MPM-UN", None))
         self.label_version.setText(QCoreApplication.translate("SplashScreen", u"v0.1.0", None))
-        self.label_informacion.setText(QCoreApplication.translate("SplashScreen", u"Cargando...", None))
+        self.label_info.setText(QCoreApplication.translate("SplashScreen", u"Cargando...", None))
     # retranslateUi
 

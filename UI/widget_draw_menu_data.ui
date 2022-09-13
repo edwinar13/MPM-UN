@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDataProject</class>
- <widget class="QWidget" name="FormDataProject">
+ <class>FormDrawMenuData</class>
+ <widget class="QWidget" name="FormDrawMenuData">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -72,7 +72,7 @@ QWidget#FormDataProject{
 
 }
 
-QFrame#frame_data_project{
+QFrame#frame_dataProject{
 background: #333333;
 border-radius: 8px
 }
@@ -85,12 +85,11 @@ QFrame#frame_hide{
 background: transparent;
 border-top-left-radius: 8px;
 }
-QFrame#frame_hide_2{
+QFrame#frame_hide2{
 background: #222222;
 border-top-left-radius: 8px;
 }
-
-QToolButton#toolButton_hide_show{
+QToolButton#toolButton_hideShow{
 background-color: transparent;
 }
 
@@ -99,56 +98,43 @@ background-color: transparent;
 /*#################################################################*/
 /*####################       FRAME DATA       ###########################*/
 /*#################################################################*/
-
-
 QFrame#frame_data{
 background: transparent;
 }
-
 QFrame#frame_title{
 background: #222222;
 border-top-right-radius: 8px;
-
 }
-
-
 QLabel#label_cardDataTitle{
 font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-
-QFrame#frame_DataSubTitle_1,
-QFrame#frame_DataSubTitle_2{
+QFrame#frame_dataSubTitle1,
+QFrame#frame_dataSubTitle2{
 background: #222222;
 border-radius:2px;
 }
-
-QLabel#label_cardDataSubTitle_1,
-QLabel#label_cardDataSubTitle_2{
+QLabel#label_cardDataSubTitle1,
+QLabel#label_cardDataSubTitle2{
 font: 500 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-
-QToolButton#toolButton_cardDataSubTitle_1,
-QToolButton#toolButton_cardDataSubTitle_2{
+QToolButton#toolButton_cardDataSubTitle1,
+QToolButton#toolButton_cardDataSubTitle2{
 background-color: transparent;
 }
-
-
-QLabel#label_WDP_1,
-QLabel#label_WDP_2,
-QLabel#label_WDP_3,
-QLabel#label_WDP_4,
-QLabel#label_WDP_5{
+QLabel#label_textData1,
+QLabel#label_textData2,
+QLabel#label_textData3,
+QLabel#label_textData4,
+QLabel#label_textData5{
 font: 300 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-
-
-QLineEdit#lineEdit_WDP_1,
-QLineEdit#lineEdit_WDP_2,
-QLineEdit#lineEdit_WDP_3,
-QLineEdit#lineEdit_WDP_5{
+QLineEdit#lineEdit_textData1,
+QLineEdit#lineEdit_textData2,
+QLineEdit#lineEdit_textData3,
+QLineEdit#lineEdit_textData5{
 font: 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #444444;
@@ -156,10 +142,7 @@ border-radius: 2px ;
 padding-right: 6px;
 padding-left: 6px;
 }
-
-
-
-QTextEdit#textEdit_WDP_4{
+QTextEdit#textEdit_textData4{
 font: 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #444444;
@@ -167,38 +150,26 @@ border-radius: 2px ;
 padding-right: 6px;
 padding-left: 6px;
 }
-
-/*
-
-
-
-
-    QLineEdit#lineEdit_console:hover {
-        border: 2px solid rgb(64, 71, 88);
-    }
-    QLineEdit#lineEdit_console:focus {
-        border: 2px solid rgb(91, 101, 124);
-    }
-*/
-
-
-QToolButton#toolButton_saveData{
+QToolButton#toolButton_updateData{
 font: 500 10pt &quot;Ubuntu&quot;;
 color: #222222;
 background-color: #77ACA2;
-
 border: none;
 padding: 6px 25px;
 border-radius: 15px ;
-
 }
 
 QToolButton#toolButton_saveData:hover{
-
 background-color: #36C9C6;
 }
 
 
+
+
+QLabel#label_msn{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #333333;
+}
 
 
 
@@ -206,7 +177,7 @@ background-color: #36C9C6;
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
    <item>
-    <widget class="QFrame" name="frame_data_project">
+    <widget class="QFrame" name="frame_dataProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -272,7 +243,7 @@ background-color: #36C9C6;
           <number>0</number>
          </property>
          <item>
-          <widget class="QFrame" name="frame_hide_2">
+          <widget class="QFrame" name="frame_hide2">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -308,7 +279,7 @@ background-color: #36C9C6;
              <number>0</number>
             </property>
             <item>
-             <widget class="QToolButton" name="toolButton_hide_show">
+             <widget class="QToolButton" name="toolButton_hideShow">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
                 <horstretch>0</horstretch>
@@ -466,7 +437,7 @@ background-color: #36C9C6;
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_DataSubTitle_1">
+             <widget class="QFrame" name="frame_dataSubTitle1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -490,14 +461,14 @@ background-color: #36C9C6;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardDataSubTitle_1">
+                <widget class="QLabel" name="label_cardDataSubTitle1">
                  <property name="text">
                   <string>Datos del proyecto</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardDataSubTitle_1">
+                <widget class="QToolButton" name="toolButton_cardDataSubTitle1">
                  <property name="text">
                   <string/>
                  </property>
@@ -514,7 +485,7 @@ background-color: #36C9C6;
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_data_1">
+             <widget class="QFrame" name="frame_data1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -523,7 +494,7 @@ background-color: #36C9C6;
               </property>
               <layout class="QFormLayout" name="formLayout">
                <item row="0" column="0">
-                <widget class="QLabel" name="label_WDP_1">
+                <widget class="QLabel" name="label_textData1">
                  <property name="minimumSize">
                   <size>
                    <width>110</width>
@@ -536,7 +507,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_WDP_1">
+                <widget class="QLineEdit" name="lineEdit_textData1">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -546,7 +517,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="label_WDP_2">
+                <widget class="QLabel" name="label_textData2">
                  <property name="minimumSize">
                   <size>
                    <width>110</width>
@@ -559,7 +530,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_WDP_3">
+                <widget class="QLineEdit" name="lineEdit_textData2">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -569,7 +540,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="label_WDP_3">
+                <widget class="QLabel" name="label_textData3">
                  <property name="minimumSize">
                   <size>
                    <width>110</width>
@@ -582,7 +553,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_WDP_2">
+                <widget class="QLineEdit" name="lineEdit_textData3">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -592,7 +563,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QLabel" name="label_WDP_4">
+                <widget class="QLabel" name="label_textData4">
                  <property name="minimumSize">
                   <size>
                    <width>110</width>
@@ -605,7 +576,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QTextEdit" name="textEdit_WDP_4">
+                <widget class="QTextEdit" name="textEdit_textData4">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -624,7 +595,7 @@ background-color: #36C9C6;
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_DataSubTitle_2">
+             <widget class="QFrame" name="frame_dataSubTitle2">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -648,14 +619,14 @@ background-color: #36C9C6;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardDataSubTitle_2">
+                <widget class="QLabel" name="label_cardDataSubTitle2">
                  <property name="text">
                   <string>Configuración del proyecto</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardDataSubTitle_2">
+                <widget class="QToolButton" name="toolButton_cardDataSubTitle2">
                  <property name="text">
                   <string/>
                  </property>
@@ -672,7 +643,7 @@ background-color: #36C9C6;
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_data_2">
+             <widget class="QFrame" name="frame_data2">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -681,7 +652,7 @@ background-color: #36C9C6;
               </property>
               <layout class="QFormLayout" name="formLayout_2">
                <item row="0" column="0">
-                <widget class="QLabel" name="label_WDP_5">
+                <widget class="QLabel" name="label_textData5">
                  <property name="minimumSize">
                   <size>
                    <width>110</width>
@@ -694,7 +665,7 @@ background-color: #36C9C6;
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_WDP_5">
+                <widget class="QLineEdit" name="lineEdit_textData5">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -702,7 +673,7 @@ background-color: #36C9C6;
                   </size>
                  </property>
                  <property name="text">
-                  <string>9.8 m/s2</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -724,23 +695,29 @@ background-color: #36C9C6;
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <property name="spacing">
+               <number>0</number>
+              </property>
               <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+               <widget class="QLabel" name="label_msn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
+                <property name="text">
+                 <string>Empty</string>
                 </property>
-               </spacer>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
               </item>
               <item>
-               <widget class="QToolButton" name="toolButton_saveData">
+               <widget class="QToolButton" name="toolButton_updateData">
                 <property name="text">
-                 <string>Guardar</string>
+                 <string>Actualizar</string>
                 </property>
                </widget>
               </item>

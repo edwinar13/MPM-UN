@@ -1,21 +1,17 @@
-
 import sys
-import random
-from PySide6.QtCore import (Qt, Slot, QTimer)
-from PySide6.QtGui import (QColor,QFontDatabase,QFont)
-from PySide6.QtWidgets import (QApplication, QMainWindow,
-                                QPushButton, QLabel, QHBoxLayout,QFrame,QSplitter,QVBoxLayout,QWidget, QGraphicsDropShadowEffect,QStyleFactory)
-
-
+from PySide6.QtGui import (QFontDatabase)
+from PySide6.QtWidgets import (QApplication)
 from clases import splash_screen
-from config import class_config
+from clases import database_class
 
+"""              ███▀▀▀▀▀ Revizar ▀▀▀▀▀███                 """
 # cuando se pase de .ui a .py
 # se debe ajustar las rutas de las imagenes
 # quitar ../
 
         
-def IniciarFuentes():
+def initFont():
+    """Inicia las fuentes Ubuntu"""
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-Bold.ttf')
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-BoldItalic.ttf')
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-Italic.ttf')
@@ -27,10 +23,10 @@ def IniciarFuentes():
 
 
 if __name__ == '__main__':
-    databaseConfig = class_config.DataBaseConfig()
-    databaseConfig.initApp()
+    createDataBase = database_class.CreateDataBase()
+    createDataBase.newFileApp()
     app = QApplication(sys.argv)
-    IniciarFuentes()
-    window = splash_screen.SplashScreen()
+    initFont()
+    window = splash_screen.SplashScreen(createDataBase)
     window.show()
     sys.exit(app.exec())
