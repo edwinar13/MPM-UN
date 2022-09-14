@@ -10,9 +10,12 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     """Esta clase crea el QFrame draw para agregarlo a main window. """ 
     signal_home_open = Signal(str)
     signal_home_new = Signal()
+
     signal_msn_critical = Signal(str)    
     signal_msn_satisfactory = Signal(str)    
     signal_msn_informative = Signal(str) 
+
+    signal_project_save_state = Signal(bool)
 
     def __init__(self, parent = None, ):
         super(FrameDraw, self).__init__(parent)
@@ -46,6 +49,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuData.signal_msn_critical.connect(self.showMessageStatusBarCritical)
         self.drawMenuData.signal_msn_satisfactory.connect(self.showMessageStatusBarSatisfactory)
         self.drawMenuData.signal_msn_informative.connect(self.showMessageStatusBarInformative)
+        self.drawMenuData.signal_project_save_state.connect(self.__projectSaveState)
 
         # ::::::::::::::::::::      EVENTOS FRAME DRAW     ::::::::::::::::::::
         """              ███▀▀▀▀▀ Revizar ▀▀▀▀▀███                 """
@@ -70,16 +74,24 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
         self.drawMenuData.initDrawMenuDataProject(project)
 
+    def __projectSaveState(self, there_are_changes):
+        """Recibe la señal del estado del guardado del proyecto y remite la misma, señal a main window.
+
+        Args:
+            there_are_changes(bool): True >>> si se realizó cambios en el proyecto
+
+        """
+        self.signal_project_save_state.emit(there_are_changes)
 
     ###############################################################################
     # ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
     ############################################################################### 
     def showMessageStatusBarCritical(self,msn):
-        """Recibe la señal de mensaje critico y remite la misma, señal a main window para imprimir en barra de estado.
+        """Recibe la señal de mensaje crítico y remite la misma, señal a main window para imprimir en barra de estado.
 
         Args:
             msn(str): Mensaje critico
-            
+
         """
         self.signal_msn_critical.emit(msn)
 

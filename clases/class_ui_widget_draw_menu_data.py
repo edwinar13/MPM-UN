@@ -29,6 +29,8 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
     signal_msn_critical = Signal(str)    
     signal_msn_satisfactory = Signal(str)    
     signal_msn_informative = Signal(str)  
+    signal_project_save_state = Signal(bool) 
+    
     def __init__(self):
         super(WidgetDrawMenuData, self).__init__()
         self.setupUi(self)
@@ -38,7 +40,7 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
         self.__location=""
         self.__author=""
         self.__description=""
-        self.__gravity=""
+        self.__gravity = None
 
         self.__hide_show_frame_data_1=True
         self.__hide_show_frame_data_2=True
@@ -116,7 +118,7 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
         self.__updateDate(self.__author,"author")
 
     def __textChangedTextEditWDP4(self):
-        """Actualiza description en la copia de la bd del proyecto """ 
+        """Actualiza description en la copia de la bd del proyecto """         
         description = self.textEdit_textData4.toPlainText()
         self.__description = description
         self.__updateDate(self.__description,"description")
@@ -133,7 +135,7 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
             self.lineEdit_textData5.setStyleSheet("border-color: #444444")
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
-            self.__gravity = gravity
+            self.__gravity = float(gravity)
             self.__updateDate(self.__gravity,"gravity")
         else:
             
@@ -211,7 +213,13 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
 
 
         if(error_update == True):
-            self.signal_msn_satisfactory.emit("Información de {} actualizada correctamente.".format(name_attribute))
+            checkProjectChanges = self.__projectActual.checkProjectChanges() 
+            if checkProjectChanges: 
+                #self.signal_msn_satisfactory.emit("Información de {} actualizada correctamente.".format(name_attribute))
+                self.signal_project_save_state.emit(True)
+            else:
+                self.signal_project_save_state.emit(False)
+            
         else:
             self.signal_msn_critical.emit("Error al guardar la información ")
 
@@ -231,7 +239,7 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
         self.lineEdit_textData2.setText(self.__location)
         self.lineEdit_textData3.setText(self.__author)
         self.textEdit_textData4.setText(self.__description)
-        self.lineEdit_textData5.setText(self.__gravity)
+        self.lineEdit_textData5.setText("{}".format(self.__gravity))
     
     def __setDbAttributes(self):
         """ Recupera información de la base de datos del proyecto y los asigna a los atributos
@@ -249,4 +257,4 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
         self.__location=data_info["LOCALIZACION"]
         self.__author=data_info["AUTOR"]
         self.__description=data_info["DESCRIPCION"]
-        self.__gravity="{}".format(data_config["GRAVEDAD"])
+        self.__gravity=data_config["GRAVEDAD"]

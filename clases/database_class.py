@@ -61,10 +61,11 @@ class CreateDataBase ():
             print('EL ERROR ES: {}'.format(e))
   
     def newFileProject(self, filePath):       
-        """crea la base de datos de cada proyecto nuevo o lo remplaza si ya existe.
+        """crea la base de datos de cada proyecto Guardado Como o lo remplaza si ya existe.
 
         Args:
             filePath(str): Ruta para crear el archivo.
+            data(dict): informacion de proyecto anterior 
 
         Returns:
             (bool): 
@@ -74,23 +75,25 @@ class CreateDataBase ():
         """  
         filePath = filePath.replace('.mpm', '')
         filePath='{}.mpm'.format(filePath)
-        datos = {}	        
-        datos['INFORMACION'] = {"NOMBREPROYECTO": "",
+        
+        data = {}	        
+        data['INFORMACION'] = {"NOMBREPROYECTO": "",
                                 "LOCALIZACION": "",
                                 "AUTOR": "", 
                                 "DESCRIPCION": ""
                                 }
-        datos['CONFIGURACION'] = {
+        data['CONFIGURACION'] = {
                                 "GRAVEDAD": 9.80
                                 }
-        datos['MALLAS'] = {}
-        datos['PUNTOSMATERIAL'] = {}
-        datos['MATERIALES'] = {}
-        datos['RESULTADOS'] = {}
+        data['MALLAS'] = {}
+        data['PUNTOSMATERIAL'] = {}
+        data['MATERIALES'] = {}
+        data['RESULTADOS'] = {}
+        
         try:
 
             with open(filePath, 'w') as file:
-                file.write(json.dumps(datos))  
+                file.write(json.dumps(data))  
                 print('Archivo (mpm) del proyecto fue creado correctamente en: [{}]'.format(filePath))               
                 validacion=True
 
@@ -350,6 +353,7 @@ class DataBaseProject():
                 : False >> si no hay cambios en el proyecto
 
         """
+        print("------\n{}\n{}\n------".format(self.__original_copy_db_project , self.__unguarded_copy_db_project))
 
         if(self.__original_copy_db_project == self.__unguarded_copy_db_project):
             return False
@@ -392,5 +396,39 @@ class DataBaseProject():
         return validacion
 
 
+    def projectSaveAs(self, new_path_file):  
+        """Guarda la información de la copia sin guardar en la nueva ruta de la db del proyecto.
+
+        Args:
+            new_path_file(str): Ruta para crear el archivo.
+
+        Returns:
+            (bool): 
+                : True >> si se guardo correctamente en la base de datos
+                : False >> si no se guardo correctamente en la base de datos
+
+        """
+
+        BD=new_path_file	  
+        try:
+            # se guarda en el archivo
+            with open(BD, 'w') as a:
+                a.write(json.dumps(self.__unguarded_copy_db_project)) 
+                a.close()
+            print("Guardo como, correctamente en la base de datos")   
+
+            validacion=True
+        
+        except BaseException as err:
+            print("[Doc: {}]  Error al guardar como {}".format(self.name_doc_py,BD))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            validacion=False
+        
+
+        return validacion
 
 
+
+
+
+         

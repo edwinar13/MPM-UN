@@ -2,7 +2,7 @@
 es la ventana principal del programa."""
 
 from PySide6.QtCore import ( QFile, Slot)
-from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QFrame, QSizePolicy,QMessageBox )
+from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QFrame, QSizePolicy,QLabel,QPushButton )
 from ui import ui_main_window
 from clases import class_projects
 from clases import class_ui_frame_home
@@ -10,7 +10,13 @@ from clases import class_ui_frame_draw
 from clases import database_class
 from clases import class_ui_dialog_msg
 
-
+'''
+class VLine(QFrame):
+    # a simple VLine, like the one you get from designer
+    def __init__(self):
+        super(VLine, self).__init__()
+        self.setFrameShape(self.VLine)
+'''
 
 class MainWindow(QMainWindow):
     """Esta clase crea la ventana QMainWindow de la ventana principal.
@@ -47,6 +53,38 @@ class MainWindow(QMainWindow):
         # Iniciando objeto proyectos 
         self.projects = class_projects.Projects(self.db_config_mpmun)        
         self.__updateProjectsRecent()
+
+
+#-----------------------------------------------------------------------------------
+        #self.ui.statusbar().showMessage("bla-bla bla")
+        self.statusBar().showMessage("bla-bla bla")
+        self.lbl1 = QLabel("Label: ")
+        self.lbl1.setStyleSheet('border: 0; color:  blue;')
+        self.lbl2 = QLabel("Data : ")
+        self.lbl2.setStyleSheet('border: 0; color:  red;')
+        ed = QPushButton('StatusBar text')
+        ed.setStyleSheet('background-color: #FFF8DC; color:  red;')
+
+
+        self.statusBar().reformat()
+        self.statusBar().setStyleSheet('border: 0; background-color: #FFF8DC;')
+        self.statusBar().setStyleSheet("QStatusBar::item {border: none;}") 
+        
+        #self.statusBar().addPermanentWidget(VLine())    # <---
+        self.statusBar().addPermanentWidget(self.lbl1)
+        #self.statusBar().addPermanentWidget(VLine())    # <---
+        self.statusBar().addPermanentWidget(self.lbl2)
+        #self.statusBar().addPermanentWidget(VLine())    # <---
+        self.statusBar().addPermanentWidget(ed)
+        #self.statusBar().addPermanentWidget(VLine())    # <---
+        
+        self.lbl1.setText("Label: Hello")
+        self.lbl2.setText("Data : 15-09-2019")
+
+        ed.clicked.connect(lambda: self.statusBar().showMessage("Hello "))
+#-----------------------------------------------------------------------------------
+
+
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -99,6 +137,8 @@ class MainWindow(QMainWindow):
         self.frame_draw.signal_msn_critical.connect(self.__showMessageStatusBarCritical)
         self.frame_draw.signal_msn_satisfactory.connect(self.__showMessageStatusBarSatisfactory)
         self.frame_draw.signal_msn_informative.connect(self.__showMessageStatusBarInformative)
+        self.frame_draw.signal_msn_informative.connect(self.__showMessageStatusBarInformative)
+        self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
 
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
         self.ui.toolButton_home.clicked.connect(self.__clickedToolButtonMenuLat)
@@ -113,7 +153,7 @@ class MainWindow(QMainWindow):
         # ::::::::::::::::::::   EVENTOS  MENU SUPERIOR ::::::::::::::::::::
         self.ui.action_nuevo.triggered.connect(self.__triggeredActionNuevoProyecto)
         self.ui.action_guardar.triggered.connect(self.__triggeredActionSaveProject)
-        #self.ui.action_guardarComo.triggered.connect(self.triggeredActionXXXXXXXX)
+        self.ui.action_guardarComo.triggered.connect(self.__triggeredActionSaveAsProject)
         #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
         #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
         self.ui.action_abrir.triggered.connect(self.__triggeredActionAbrirProyecto)
@@ -173,24 +213,24 @@ class MainWindow(QMainWindow):
     def __triggeredActionNuevoProyecto(self):
         """ Abre cuadro de dialogo para nuevo proyecto. """
         nameCurrent = self.windowTitle()
-        self.setWindowTitle("MPM-UN -- Untitled document*")
+        self.setWindowTitle("MPM-UN    Untitled document*")
         options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getSaveFileName(self,"New Project","","Data files mpm (*.mpm)", options=options)
-        if filePath:
-            if self.projects.newFileProject(filePath):
-                fileName = filePath.split('/')[-1]
-                self.setWindowTitle("MPM-UN -- {}".format(fileName))
+        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
+        if file_path:
+            if self.projects.newFileProject(file_path):
+                fileName = file_path.split('/')[-1]
+                self.setWindowTitle("MPM-UN    {}".format(fileName))
                 self.__showMessageStatusBarSatisfactory("Proyecto creado con éxito")
-                self.__openProject(filePath) 
+                self.__openProject(file_path) 
         else:
             self.setWindowTitle(nameCurrent)
 
     def __triggeredActionAbrirProyecto(self):
         """ Abre cuadro de dialogo para abrir proyecto. """
         options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getOpenFileName(self,"Open Project","","Data files mpm (*.mpm)", options=options)
-        if filePath:
-            self.__openProject(filePath)
+        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files mpm (*.mpm)", options=options)
+        if file_path:
+            self.__openProject(file_path)
     
     def __triggeredaccionRecienteClear(self):
         """Borra los proyectos recientes."""
@@ -201,15 +241,39 @@ class MainWindow(QMainWindow):
 
     def __triggeredaccionReciente(self):
         """Método para los eventos del menú superior >> recientes"""
-        filePath = self.sender().text()
-        if filePath:
-            self.__openProject(filePath)
+        file_path = self.sender().text()
+        if file_path:
+            self.__openProject(file_path)
 
-    def __triggeredActionSaveProject(self):        
+    def __triggeredActionSaveProject(self):   
+        """Guarda el proyecto"""     
         if self.__actual_project != None :
             if self.__actual_project.checkProjectChanges():
                 self.__actual_project.saveData()
+                self.__showMessageStatusBarSatisfactory("Se ha guardado el proyecto")
+                self.__projectSaveState(False)
+                
+    def __triggeredActionSaveAsProject(self):   
+        """ Guarda en ruta diferente el proyecto """
+        if self.__actual_project != None :
+            nameCurrent = self.windowTitle()
+            options = QFileDialog.Options()
+            new_path_file, _ = QFileDialog.getSaveFileName(self,"Guardar proyecto como","","Data files mpm (*.mpm)", options=options)
+            if new_path_file:
+                if self.__actual_project.projectSaveAs(new_path_file):
+                    fileName = new_path_file.split('/')[-1]
+                    self.setWindowTitle("MPM-UN    {}".format(fileName))
 
+                    self.__showMessageStatusBarSatisfactory("Proyecto fue guardado como {}")
+                    self.__openProject(new_path_file) 
+            else:
+                self.setWindowTitle(nameCurrent)
+
+
+            
+            """self.__actual_project.saveAsData()
+            self.__showMessageStatusBarSatisfactory("Se ha guardado el proyecto")
+"""
     ###############################################################################
 	# ::::::::::::::::::::         FUNCIONES GENERALES UI      ::::::::::::::::::::
 	###############################################################################
@@ -233,23 +297,49 @@ class MainWindow(QMainWindow):
 
     # ::::::::::::::::::::  FUNCIONES MENU SUPERIOR  ::::::::::::::::::::
     @Slot(str)
-    def __openProject (self, filePath):
+    def __openProject (self, file_path):
         """ Abre un proyecto y configura la UI para este nuevo proyecto. 
 
         Attributes:
-            filePath (str): Ruta del proyecto.
-            
+            file_path (str): Ruta del proyecto.
+                        
         """
+        event_changes= "accept"      
+        if self.__actual_project != None:
+            checkProjectChanges = self.__actual_project.checkProjectChanges()      
+            if checkProjectChanges: 
+                dialoMsg = class_ui_dialog_msg.DialogMsg(self, 1, 
+                                        "¿Quiere guardar los cambios de este proyecto?", 
+                                        "has realizado cambios")
+                dialoMsg.setTypeIcon(0)
+                dialoMsg.setTextDescription("Has realizado cambios en el archivo {}".format(self.__actual_project.getName()))
+                dialoMsg.setModal(True)
+                dialoMsg.exec()
+                result = dialoMsg.getButtonSelected()
+                #Guardar
+                if result == "save":
+                    print("# Guardar = {}".format(self.__actual_project.saveData()))
+                    event_changes= "accept"
+                # No Guardar
+                elif result == "not save":
+                    print("# No Guardar")
+                    event_changes= "accept"
+                elif result == "cancel" or result == "exit":
+                    print("# Cancelar")
+                    event_changes= "ignore"
+            else:                
+                event_changes= "accept"
+ 
 
-        if ( QFile.exists(filePath)):
-            project_open = class_projects.Project(path = filePath) 
+        if ( QFile.exists(file_path) and event_changes=="accept"):
+            project_open = class_projects.Project(path = file_path) 
             file_name =project_open.getName()
         
             if self.projects.addProject(self, project_open):
                 
                 # Configura la UI
                 self.__actual_project = project_open
-                self.setWindowTitle("MPM-UN -- {}".format(self.__actual_project.getName()))
+                self.setWindowTitle("MPM-UN    {}".format(self.__actual_project.getName()))
                 self.ui.toolButton_drawData.setEnabled(True)
                 self.ui.toolButton_drawMesh.setEnabled(True)
                 self.ui.toolButton_drawPoint.setEnabled(True)
@@ -264,6 +354,8 @@ class MainWindow(QMainWindow):
                 """              ███▀▀▀▀▀ deberia actualizar todo ▀▀▀▀▀███                 """
                 self.frame_draw.configDrawMenuData(project = self.__actual_project)
 
+        elif ( QFile.exists(file_path) and event_changes=="ignore"):
+            pass
         else:
             self.__showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name)) 
         self.__updateProjectsRecent()
@@ -299,6 +391,21 @@ class MainWindow(QMainWindow):
                 pass
                 accion.triggered.connect(self.__triggeredaccionReciente)
     
+    @Slot(bool)
+    def __projectSaveState(self,there_are_changes):
+        """Recibe la señal del estado del guardado del proyecto.
+
+        Args:
+            there_are_changes(bool): 
+                        True >>> si se realizó cambios en el proyecto
+                        False >>> si no hay cambios en el proyecto
+
+        """
+        if there_are_changes == True:     
+            self.setWindowTitle("MPM-UN    •• {} ••".format(self.__actual_project.getName()))
+        else:
+            self.setWindowTitle("MPM-UN    {}".format(self.__actual_project.getName()))
+
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
 	###############################################################################
