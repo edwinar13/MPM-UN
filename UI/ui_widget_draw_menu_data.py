@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_datalkCOvl.ui'
+## Form generated from reading UI file 'widget_draw_menu_datatFRegy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -23,14 +23,14 @@ class Ui_FormDrawMenuData(object):
     def setupUi(self, FormDrawMenuData):
         if not FormDrawMenuData.objectName():
             FormDrawMenuData.setObjectName(u"FormDrawMenuData")
-        FormDrawMenuData.resize(346, 869)
+        FormDrawMenuData.resize(350, 415)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormDrawMenuData.sizePolicy().hasHeightForWidth())
         FormDrawMenuData.setSizePolicy(sizePolicy)
         FormDrawMenuData.setMinimumSize(QSize(0, 0))
-        FormDrawMenuData.setMaximumSize(QSize(16777215, 16777215))
+        FormDrawMenuData.setMaximumSize(QSize(350, 16777215))
         FormDrawMenuData.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro #222222 #333333 #444444\n"
@@ -177,7 +177,9 @@ class Ui_FormDrawMenuData(object):
 "\n"
 "")
         self.horizontalLayout_6 = QHBoxLayout(FormDrawMenuData)
+        self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
         self.frame_dataProject = QFrame(FormDrawMenuData)
         self.frame_dataProject.setObjectName(u"frame_dataProject")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)

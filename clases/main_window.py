@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         self.projects = class_projects.Projects(self.db_config_mpmun)        
         self.__updateProjectsRecent()
 
-
+        '''
 #-----------------------------------------------------------------------------------
         #self.ui.statusbar().showMessage("bla-bla bla")
         self.statusBar().showMessage("bla-bla bla")
@@ -84,6 +84,7 @@ class MainWindow(QMainWindow):
         ed.clicked.connect(lambda: self.statusBar().showMessage("Hello "))
 #-----------------------------------------------------------------------------------
 
+        '''
 
 
     ###############################################################################
@@ -102,7 +103,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
         self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
         self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")
-        self.__showMessageStatusBarInformative("Programa iniciado correctamente")
+        
 
         # ::::::::::::::::::::   SHORTCUT Y STATUS DE MENÚ SUPERIOR ::::::::::::::::::::
         self.ui.action_nuevo.setShortcut('Ctrl+n')
@@ -125,6 +126,9 @@ class MainWindow(QMainWindow):
         # ::::::::::::::::::::   CONFIGURANDO  FRAME DRAW ::::::::::::::::::::
         self.frame_draw = class_ui_frame_draw.FrameDraw(self)
         self.ui.verticalLayout_emptyDraw.addWidget(self.frame_draw)
+
+
+        self.__showMessageInformative("Programa iniciado correctamente")
         
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
@@ -134,10 +138,10 @@ class MainWindow(QMainWindow):
         self.frame_home.signal_home_new.connect(self.__triggeredActionNuevoProyecto)
         
         # ::::::::::::::::::::   EVENTOS DE WIDGET FRAME DRAW  ::::::::::::::::::::
-        self.frame_draw.signal_msn_critical.connect(self.__showMessageStatusBarCritical)
-        self.frame_draw.signal_msn_satisfactory.connect(self.__showMessageStatusBarSatisfactory)
-        self.frame_draw.signal_msn_informative.connect(self.__showMessageStatusBarInformative)
-        self.frame_draw.signal_msn_informative.connect(self.__showMessageStatusBarInformative)
+        self.frame_draw.signal_msn_critical.connect(self.__showMessageCritical)
+        self.frame_draw.signal_msn_satisfactory.connect(self.__showMessageSatisfactory)
+        self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
+        self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
         self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
 
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
@@ -179,25 +183,29 @@ class MainWindow(QMainWindow):
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_data)
             self.ui.frame_drawData.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;")
+            self.frame_draw.showHideDrawMenu("Data")
 
         if nameButton==self.ui.toolButton_drawMesh.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_mesh)
             self.ui.frame_drawMesh.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_drawMeshInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.frame_draw.showHideDrawMenu("Mesh")
 
         if nameButton==self.ui.toolButton_drawPoint.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_point)
             self.ui.frame_drawPoint.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_drawPointInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.frame_draw.showHideDrawMenu("Point")
 
         if nameButton==self.ui.toolButton_drawBoundary.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
             #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_contour)
             self.ui.frame_drawBoundary.setStyleSheet("background-color: #36C9C6;") 
             self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #2B2B2B;") 
+            self.frame_draw.showHideDrawMenu("Boundary")
 
         if nameButton==self.ui.toolButton_viewResult.objectName():
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_view)
@@ -220,7 +228,7 @@ class MainWindow(QMainWindow):
             if self.projects.newFileProject(file_path):
                 fileName = file_path.split('/')[-1]
                 self.setWindowTitle("MPM-UN    {}".format(fileName))
-                self.__showMessageStatusBarSatisfactory("Proyecto creado con éxito")
+                self.__showMessageInformative("Proyecto creado con éxito")
                 self.__openProject(file_path) 
         else:
             self.setWindowTitle(nameCurrent)
@@ -250,7 +258,7 @@ class MainWindow(QMainWindow):
         if self.__actual_project != None :
             if self.__actual_project.checkProjectChanges():
                 self.__actual_project.saveData()
-                self.__showMessageStatusBarSatisfactory("Se ha guardado el proyecto")
+                self.__showMessageInformative("Se ha guardado el proyecto")
                 self.__projectSaveState(False)
                 
     def __triggeredActionSaveAsProject(self):   
@@ -264,16 +272,11 @@ class MainWindow(QMainWindow):
                     fileName = new_path_file.split('/')[-1]
                     self.setWindowTitle("MPM-UN    {}".format(fileName))
 
-                    self.__showMessageStatusBarSatisfactory("Proyecto fue guardado como {}")
+                    self.__showMessageInformative("Proyecto fue guardado como {}")
                     self.__openProject(new_path_file) 
             else:
                 self.setWindowTitle(nameCurrent)
 
-
-            
-            """self.__actual_project.saveAsData()
-            self.__showMessageStatusBarSatisfactory("Se ha guardado el proyecto")
-"""
     ###############################################################################
 	# ::::::::::::::::::::         FUNCIONES GENERALES UI      ::::::::::::::::::::
 	###############################################################################
@@ -348,7 +351,7 @@ class MainWindow(QMainWindow):
                 self.ui.frame_drawData.setStyleSheet("background-color: #36C9C6;") 
                 self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;")
                 self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-                self.__showMessageStatusBarInformative("Se ha abierto el proyecto: {}".format(self.__actual_project.getName()))
+                self.__showMessageInformative("Se ha abierto el proyecto: {}".format(self.__actual_project.getName()))
 
 
                 """              ███▀▀▀▀▀ deberia actualizar todo ▀▀▀▀▀███                 """
@@ -357,7 +360,7 @@ class MainWindow(QMainWindow):
         elif ( QFile.exists(file_path) and event_changes=="ignore"):
             pass
         else:
-            self.__showMessageStatusBarCritical("No se ha encontrado el documento {}".format(file_name)) 
+            self.__showMessageCritical("No se ha encontrado el documento {}".format(file_name)) 
         self.__updateProjectsRecent()
     
     def __updateProjectsRecent(self):
@@ -410,7 +413,7 @@ class MainWindow(QMainWindow):
 	# ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
 	###############################################################################
     @Slot(str)
-    def __showMessageStatusBarCritical(self, message):
+    def __showMessageCritical(self, message):
         """ imprime en la barra de estado un mensaje critico.
 
         Args:
@@ -418,9 +421,10 @@ class MainWindow(QMainWindow):
         """
         self.ui.statusbar.setStyleSheet("color: #F94646;") 
         self.ui.statusbar.showMessage(message,6000)
+        self.frame_draw.msnConsole("Error",message)
     
     @Slot(str)
-    def __showMessageStatusBarSatisfactory(self, message):
+    def __showMessageSatisfactory(self, message):
         """ imprime en la barra de estado un mensaje satisfactorio.
 
         Args:
@@ -428,9 +432,10 @@ class MainWindow(QMainWindow):
         """
         self.ui.statusbar.setStyleSheet("color: #36C9C6;") 
         self.ui.statusbar.showMessage(message,6000)
+        self.frame_draw.msnConsole("Running",message)
     
     @Slot(str)
-    def __showMessageStatusBarInformative(self, message):
+    def __showMessageInformative(self, message):
         """ imprime en la barra de estado un mensaje informativo.
 
         Args:
@@ -438,6 +443,7 @@ class MainWindow(QMainWindow):
         """
         self.ui.statusbar.setStyleSheet("color: #DDDDDD;") 
         self.ui.statusbar.showMessage(message,6000)
+        self.frame_draw.msnConsole("Information",message)
 
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::

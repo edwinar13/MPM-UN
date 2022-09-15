@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawLEaJdN.ui'
+## Form generated from reading UI file 'frame_drawUaktGh.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -61,17 +61,32 @@ class Ui_FormDraw(object):
 "/*###################### graphicsView draw  ###########################"
                         "#*/\n"
 "QGraphicsView#graphicsView_draw{\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1 rgba(170, 255, 255, 255));\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0.943, stop:0 rgba(175, 175, 175, 255), stop:0.971591 rgba(141, 211, 211, 220), stop:1\n"
+" rgba(170, 255, 255, 255));\n"
+"	\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(216, 216, 216, 255), stop:1 rgba(255, 255, 255, 255));\n"
+"background-color: #444444;\n"
+"border: none;\n"
 "}\n"
 "\n"
 "/*###################### frame consola  ############################*/\n"
+"\n"
+"QFrame#frame_3{\n"
+"background-color: #333333;\n"
+"border-top-right-radius: 8px ;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
 "QFrame#frame_console{\n"
 "background-color: #333333;\n"
 "}\n"
+"\n"
 "QTextBrowser#textBrowser_2{\n"
-"background-color: #444444;\n"
+"background-color: #555555;\n"
 "color: #DDDDDD;\n"
 "border-radius: 2px ;\n"
+"border-top-right-radius: 8px ;\n"
 "}\n"
 "QToolButton#toolButton_closeConsole{\n"
 "background-color: transparent;\n"
@@ -79,7 +94,8 @@ class Ui_FormDraw(object):
 "QLineEdit#lineEdit_console{\n"
 "background-color: #444444;\n"
 "color: #DDDDDD;\n"
-"border-radius: 2px ;\n"
+"border-radius"
+                        ": 2px ;\n"
 "padding-left: 10px;\n"
 "}\n"
 "QLineEdit#lineEdit_console:hover {\n"
@@ -90,7 +106,9 @@ class Ui_FormDraw(object):
 "}\n"
 "")
         self.horizontalLayout = QHBoxLayout(FormDraw)
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_draw = QHBoxLayout()
         self.horizontalLayout_draw.setSpacing(0)
         self.horizontalLayout_draw.setObjectName(u"horizontalLayout_draw")
@@ -103,6 +121,8 @@ class Ui_FormDraw(object):
         self.splitter.setSizePolicy(sizePolicy)
         self.splitter.setLineWidth(0)
         self.splitter.setOrientation(Qt.Vertical)
+        self.splitter.setOpaqueResize(True)
+        self.splitter.setHandleWidth(0)
         self.graphicsView_draw = QGraphicsView(self.splitter)
         self.graphicsView_draw.setObjectName(u"graphicsView_draw")
         self.graphicsView_draw.setStyleSheet(u"")
@@ -118,9 +138,9 @@ class Ui_FormDraw(object):
         self.frame_3.setFrameShape(QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QFrame.Raised)
         self.verticalLayout_3 = QVBoxLayout(self.frame_3)
-        self.verticalLayout_3.setSpacing(5)
+        self.verticalLayout_3.setSpacing(4)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(2, 2, 2, 2)
+        self.verticalLayout_3.setContentsMargins(0, 4, 4, 0)
         self.textBrowser_2 = QTextBrowser(self.frame_3)
         self.textBrowser_2.setObjectName(u"textBrowser_2")
         sizePolicy.setHeightForWidth(self.textBrowser_2.sizePolicy().hasHeightForWidth())
@@ -128,7 +148,9 @@ class Ui_FormDraw(object):
         self.textBrowser_2.setMinimumSize(QSize(0, 38))
         self.textBrowser_2.setMaximumSize(QSize(16777215, 16777215))
         self.textBrowser_2.setStyleSheet(u"")
+        self.textBrowser_2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.textBrowser_2.setOpenExternalLinks(False)
+        self.textBrowser_2.setOpenLinks(False)
 
         self.verticalLayout_3.addWidget(self.textBrowser_2)
 
@@ -145,7 +167,7 @@ class Ui_FormDraw(object):
         self.horizontalLayout_2 = QHBoxLayout(self.frame_console)
         self.horizontalLayout_2.setSpacing(5)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setContentsMargins(0, 1, 0, 0)
         self.toolButton_closeConsole = QToolButton(self.frame_console)
         self.toolButton_closeConsole.setObjectName(u"toolButton_closeConsole")
         sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
@@ -153,8 +175,8 @@ class Ui_FormDraw(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.toolButton_closeConsole.sizePolicy().hasHeightForWidth())
         self.toolButton_closeConsole.setSizePolicy(sizePolicy3)
-        self.toolButton_closeConsole.setMinimumSize(QSize(15, 15))
-        self.toolButton_closeConsole.setMaximumSize(QSize(15, 15))
+        self.toolButton_closeConsole.setMinimumSize(QSize(20, 20))
+        self.toolButton_closeConsole.setMaximumSize(QSize(20, 20))
         font = QFont()
         font.setFamilies([u"Ubuntu"])
         font.setPointSize(7)
@@ -175,8 +197,8 @@ class Ui_FormDraw(object):
         sizePolicy4.setVerticalStretch(50)
         sizePolicy4.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
         self.label_4.setSizePolicy(sizePolicy4)
-        self.label_4.setMinimumSize(QSize(15, 15))
-        self.label_4.setMaximumSize(QSize(15, 15))
+        self.label_4.setMinimumSize(QSize(20, 20))
+        self.label_4.setMaximumSize(QSize(20, 20))
         self.label_4.setTextFormat(Qt.PlainText)
         self.label_4.setPixmap(QPixmap(u"recursos/iconos/iconos_consola/code.svg"))
         self.label_4.setScaledContents(True)
@@ -185,7 +207,7 @@ class Ui_FormDraw(object):
 
         self.lineEdit_console = QLineEdit(self.frame_console)
         self.lineEdit_console.setObjectName(u"lineEdit_console")
-        self.lineEdit_console.setMinimumSize(QSize(0, 18))
+        self.lineEdit_console.setMinimumSize(QSize(0, 20))
         self.lineEdit_console.setMaximumSize(QSize(16777215, 18))
         font1 = QFont()
         font1.setPointSize(8)
@@ -217,19 +239,7 @@ class Ui_FormDraw(object):
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu'; font-weight:700;\">ERROR</span><span style=\" font-family:'Ubuntu';\">: asd asdas df</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING:"
-                        " fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu'; font-style:italic;\">WARNING</span><span style=\" "
-                        "font-family:'Ubuntu';\">: sdfsdfsdfsdfsd</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu';\">RUNNING: fdgdfg dfgdf</span></p></body></html>", None))
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.toolButton_closeConsole.setText("")
         self.label_4.setText("")
         self.lineEdit_console.setInputMask("")
