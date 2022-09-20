@@ -1,19 +1,20 @@
 """ Este módulo contiene la clase Ui_FormDrawMenuMesh, para incluirla en frame draw
 es el widget menú de mallas."""
 
-from PySide6.QtCore import ( Signal, QSize,QTimer)
-from PySide6.QtGui import (QIcon, QFont)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy,QColorDialog)
+from PySide6.QtCore import ( Signal, QSize,QTimer,QRectF,QLineF)
+from PySide6.QtGui import (QIcon, QFont,QTransform)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy,QColorDialog,QGraphicsScene,QGraphicsView)
 from ui import ui_widget_draw_menu_mesh
 from clases import general_functions
 from clases import general_class
-from clases import class_projects
-
-
-
+from clases import class_ui_widget_draw_mesh_card
 
 class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     """Esta clase crea el QFrame draw-menu-mesh para agregarlo a Frame Draw.
+
+    Args:
+            scene (QGraphicsScene): es la escena actual para draw
+            view (QGraphicsView): es la vista actual para draw
 
     Attributes:
             name_mesh (str): 
@@ -22,6 +23,8 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
             selected_objects (str):
             gravity (str):
             projectActual (Project): Objeto del proyecto actual.
+            graphicsScene (QGraphicsScene): es la escena actual para draw
+            graphicsView (QGraphicsView): es la vista actual para draw
 
             hide_show_frame_data_1 (bool): Estado hide-Show de draw-menu-mesh Dibujo.
             hide_show_frame_data_2 (bool): Estado hide-Show de draw-menu-mesh Malla Regular cuadrilátero.
@@ -37,7 +40,16 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     signal_msn_informative = Signal(str)  
     signal_project_save_state = Signal(bool) 
     
-    def __init__(self):
+    signal_paint_line = Signal() 
+    signal_paint_polyline = Signal() 
+    signal_paint_rectangle = Signal() 
+    signal_paint_rotate = Signal() 
+    signal_paint_move = Signal() 
+    signal_paint_copy = Signal() 
+    signal_paint_erase = Signal() 
+
+    
+    def __init__(self,scene:QGraphicsScene, view:QGraphicsView):
         super(WidgetDrawMenuMesh, self).__init__()
         self.setupUi(self)
 
@@ -48,6 +60,9 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         self.__selected_objects=""
 
         self.__projectActual= None
+
+        self.__graphicsScene= scene
+        self.__graphicsView =view
 
         self.__hide_show_frame_mesh_1=True
         self.__hide_show_frame_mesh_2=True
@@ -60,6 +75,7 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         # Establece los eventos de la UI
         self.__initEventUi()
 
+        self.contador=0
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -84,19 +100,21 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
-
-        '''
-        # ::::::::::::::::::::      EVENTOS DRAW MENU DATA     ::::::::::::::::::::
-        self.lineEdit_textData1.editingFinished.connect(self.__editingFinishedLineEditWDP1)
-        self.lineEdit_textData2.editingFinished.connect(self.__editingFinishedLineEditWDP2)
-        self.lineEdit_textData3.editingFinished.connect(self.__editingFinishedLineEditWDP3)
-        self.textEdit_textData4.textChanged.connect(self.__textChangedTextEditWDP4)
-        self.lineEdit_textData5.editingFinished.connect(self.__editingFinishedLineEditWDP5)
-        #self.toolButton_updateData.clicked.connect(self.saveData)
         
-        '''
-        self.toolButton_cardMeshDraw7.clicked.connect(self.__clickedToolButtonColorPicker)
+        # :::::::::::::::::::::::            EVENTOS DRAW MENU MESH  DIBUJO            :::::::::::::::::::::::
+        self.toolButton_cardMeshDraw1.clicked.connect(self.__clickedToolButtonCardMeshDrawLine)
+        self.toolButton_cardMeshDraw2.clicked.connect(self.__clickedToolButtonCardMeshDrawPolyline)
+        self.toolButton_cardMeshDraw3.clicked.connect(self.__clickedToolButtonCardMeshDrawRectangle)
+        self.toolButton_cardMeshDraw8.clicked.connect(self.__clickedToolButtonCardMeshDrawMove)
+        self.toolButton_cardMeshDraw9.clicked.connect(self.__clickedToolButtonCardMeshDrawRotate)
+        self.toolButton_cardMeshDraw10.clicked.connect(self.__clickedToolButtonCardMeshDrawCopy)
+        self.toolButton_cardMeshDraw11.clicked.connect(self.__clickedToolButtonCardMeshDrawErase)
 
+        # ::::::::::::::::::::      EVENTOS DRAW MENU MESH  Malla Regular cuadrilátero.   ::::::::::::::::::::
+        self.toolButton_cardMeshDraw7.clicked.connect(self.__clickedToolButtonColorPicker)        
+        self.toolButton_mesh.clicked.connect(self.__clickedToolButton_mesh)
+        
+        # :::::::::::::::::::::::            EVENTOS DRAW MENU MESH             :::::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardMeshSubTitle1.clicked.connect(self.__clickedToolButtonCardMeshSubTitle1)
         self.toolButton_cardMeshSubTitle2.clicked.connect(self.__clickedToolButtonCardMeshSubTitle2)
@@ -106,58 +124,50 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
     """ Métodos para los eventos de los botones y widget """
+    def __clickedToolButtonCardMeshDrawLine(self):
+        self.signal_paint_line.emit()
+
+    
+    def __clickedToolButtonCardMeshDrawPolyline(self):
+        self.signal_paint_polyline.emit()
+        rect = self.__graphicsScene.addRect(QRectF(50, 50, 100, 100))
+        item = self.__graphicsScene.itemAt(5, 5, QTransform())
+        self.__graphicsView.show()
+    
+    def __clickedToolButtonCardMeshDrawRectangle(self):
+        self.signal_paint_rectangle.emit()
+        rect = self.__graphicsScene.addLine(QLineF(0, 0, 100, 100))
+        item = self.__graphicsScene.itemAt(50, 50, QTransform())
+        self.__graphicsView.setScene(self.__graphicsScene)
+
+    
+        #self.__graphicsView.show()
+
+    def __clickedToolButtonCardMeshDrawMove(self):
+        self.signal_paint_move.emit()
+    def __clickedToolButtonCardMeshDrawRotate(self):
+        self.signal_paint_rotate.emit()
+    def __clickedToolButtonCardMeshDrawCopy(self):
+        self.signal_paint_copy.emit()
+    def __clickedToolButtonCardMeshDrawErase(self):
+        self.signal_paint_erase.emit()
+
+
+
+
 
     def __clickedToolButtonColorPicker(self):
         color = QColorDialog.getColor()
-        self.__color_mesh=color.name()
-        self.lineEdit_textMesh2.setStyleSheet('background-color : {}'.format(self.__color_mesh))
+        if color.isValid():
+            self.__color_mesh=color.name()
+            self.lineEdit_textMesh2_3.setStyleSheet('background-color : {}'.format(self.__color_mesh))
 
+    def __clickedToolButton_mesh(self):
 
-    def __editingFinishedLineEditWDP1(self):
-        """ Actualiza name_project en la copia de la bd del proyecto """ 
-        name_project = self.lineEdit_textData1.text()
-        self.__name_project = name_project
-        self.__updateDate(self.__name_project,"name_project")
+        card_mesh = class_ui_widget_draw_mesh_card.viewCardDrawMesh(self)
+        card_mesh = class_ui_widget_draw_mesh_card.viewCardDrawMesh(self,"Mesh {}".format(self.contador),"#ff559a",False)
+        self.contador += 1
 
-    def __editingFinishedLineEditWDP2(self):
-        """ Actualiza location en la copia de la bd del proyecto """ 
-        location = self.lineEdit_textData2.text()
-        self.__location = location
-        self.__updateDate(self.__location,"location")
-
-    def __editingFinishedLineEditWDP3(self):
-        """Actualiza author en la copia de la bd del proyecto """ 
-        author = self.lineEdit_textData3.text()
-        self.__author = author
-        self.__updateDate(self.__author,"author")
-
-    def __textChangedTextEditWDP4(self):
-        """Actualiza description en la copia de la bd del proyecto """         
-        description = self.textEdit_textData4.toPlainText()
-        self.__description = description
-        self.__updateDate(self.__description,"description")
-
-    def __editingFinishedLineEditWDP5(self):
-        """Verifica al salir del QLineEdit si el texto es
-        un número, si es verdadero le da formato decimal y
-        actualiza gravity en la copia de la bd del proyecto.
-        si no es número da mensaje de error""" 
-        gravity = self.lineEdit_textData5.text()
-        if general_functions.isNumber(gravity):
-       
-            self.lineEdit_textData5.setText(str(float(gravity)))            
-            self.lineEdit_textData5.setStyleSheet("border-color: #444444")
-            self.label_msn.setText("Empty")
-            self.label_msn.setStyleSheet("color: #333333") 
-            self.__gravity = float(gravity)
-            self.__updateDate(self.__gravity,"gravity")
-        else:
-            
-            self.lineEdit_textData5.setFocus()
-            self.lineEdit_textData5.setStyleSheet("border: 1px solid #F94646")  
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa la gravedad")          
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
     def __clickedToolButtonHideShow(self):
         """ Muestra o oculta el menú data de draw """
@@ -207,82 +217,7 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
             self.frame_mesh3.setVisible(True)
             self.__hide_show_frame_mesh_3 = True
             self.toolButton_cardMeshSubTitle3.setIcon(self.icon_minimize)
-    '''
+    
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
-    def __updateDate(self, value_input, name_attribute):
-        """ Actualiza la información recibida en la copia de la bd del proyecto.
-
-        Args:
-            value_input (str): valor de entrada
-            name_attribute (str): nombre del atributo
-
-        """
-        error_update = False
-
-        if name_attribute == "name_project":
-            error_update = self.__projectActual.db_project.updateInformationDB(name_project=value_input)
-            
-        elif name_attribute == "location":
-            error_update = self.__projectActual.db_project.updateInformationDB(location=value_input)
-            
-        elif name_attribute == "author":
-            error_update = self.__projectActual.db_project.updateInformationDB(author=value_input)
-            
-        elif name_attribute == "description":
-            error_update = self.__projectActual.db_project.updateInformationDB(description=value_input)
-            
-        elif name_attribute == "gravity":
-            error_update = self.__projectActual.db_project.updateConfigDB(gravity=value_input)
-        
-
-
-        if(error_update == True):
-            checkProjectChanges = self.__projectActual.checkProjectChanges() 
-            if checkProjectChanges: 
-                #self.signal_msn_satisfactory.emit("Información de {} actualizada correctamente.".format(name_attribute))
-                self.signal_project_save_state.emit(True)
-            else:
-                self.signal_project_save_state.emit(False)
-            
-        else:
-            self.signal_msn_critical.emit("Error al guardar la información ")
-
-    def initDrawMenuDataProject(self,project:class_projects.Project):
-        """Asigna el proyecto actual a la vista y actualiza los campos de datos del proyecto del menú data.
-
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        self.__projectActual = project        
-        self.__setDbAttributes()
-        self.__setTextWidget()
-
-    def __setTextWidget(self):
-        """ Recupera información de los atributos y la coloca en los campos del draw-menu-data """
-        self.lineEdit_textData1.setText(self.__name_project)
-        self.lineEdit_textData2.setText(self.__location)
-        self.lineEdit_textData3.setText(self.__author)
-        self.textEdit_textData4.setText(self.__description)
-        self.lineEdit_textData5.setText("{}".format(self.__gravity))
-    
-    def __setDbAttributes(self):
-        """ Recupera información de la base de datos del proyecto y los asigna a los atributos
-        
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        
-        # Obtiene los datos db del proyecto actual
-        db_project = self.__projectActual.db_project
-        data_info = db_project.selectInformationDB()
-        data_config = db_project.selectConfigDB()
-
-        self.__name_project=data_info["NOMBREPROYECTO"]
-        self.__location=data_info["LOCALIZACION"]
-        self.__author=data_info["AUTOR"]
-        self.__description=data_info["DESCRIPCION"]
-        self.__gravity=data_config["GRAVEDAD"]
-
-    '''   

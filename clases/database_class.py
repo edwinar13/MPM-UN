@@ -353,7 +353,7 @@ class DataBaseProject():
                 : False >> si no hay cambios en el proyecto
 
         """
-        print("------\n{}\n{}\n------".format(self.__original_copy_db_project , self.__unguarded_copy_db_project))
+        #print("------\n{}\n{}\n------".format(self.__original_copy_db_project , self.__unguarded_copy_db_project))
 
         if(self.__original_copy_db_project == self.__unguarded_copy_db_project):
             return False
