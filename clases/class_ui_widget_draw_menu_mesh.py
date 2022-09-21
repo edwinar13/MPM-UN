@@ -49,7 +49,7 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     signal_paint_erase = Signal() 
 
     
-    def __init__(self,scene:QGraphicsScene, view:QGraphicsView):
+    def __init__(self):
         super(WidgetDrawMenuMesh, self).__init__()
         self.setupUi(self)
 
@@ -60,9 +60,6 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         self.__selected_objects=""
 
         self.__projectActual= None
-
-        self.__graphicsScene= scene
-        self.__graphicsView =view
 
         self.__hide_show_frame_mesh_1=True
         self.__hide_show_frame_mesh_2=True
@@ -130,15 +127,21 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     
     def __clickedToolButtonCardMeshDrawPolyline(self):
         self.signal_paint_polyline.emit()
+        pass
+        '''
         rect = self.__graphicsScene.addRect(QRectF(50, 50, 100, 100))
         item = self.__graphicsScene.itemAt(5, 5, QTransform())
         self.__graphicsView.show()
+        '''
     
     def __clickedToolButtonCardMeshDrawRectangle(self):
         self.signal_paint_rectangle.emit()
+        pass
+        '''
         rect = self.__graphicsScene.addLine(QLineF(0, 0, 100, 100))
         item = self.__graphicsScene.itemAt(50, 50, QTransform())
         self.__graphicsView.setScene(self.__graphicsScene)
+        '''
 
     
         #self.__graphicsView.show()

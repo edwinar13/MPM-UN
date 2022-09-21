@@ -1,219 +1,18 @@
 """ Este módulo contiene la clase Ui_FormDraw, para incluirla en main window, es el frame que contiene la parte del dibujo."""
 
-from asyncio import events
-from hashlib import new
-import math
+
 from PySide6.QtCore import (Signal,QRectF,Qt,QPointF)
-from PySide6.QtWidgets import ( QFrame,QGraphicsScene,QGraphicsView)
-from PySide6.QtGui import (QTransform ,QPen,QBrush)
+from PySide6.QtWidgets import (QFrame, QGraphicsScene,QGraphicsView,QGraphicsItem,
+                            QGraphicsPolygonItem,QMenu)
+from PySide6.QtGui import (QPen,QBrush,
+                            QPainter,QPixmap,QPolygonF,QPainterPath,QFont)
 from ui import ui_frame_draw
 from clases import class_ui_widget_draw_menu_data
 from clases import class_ui_widget_draw_menu_mesh
 from clases import class_projects
+from clases import class_graphics
 
-
-class GraphicsViewDraw (QGraphicsView):
-    def __init__(self, parent=None):
-        super(GraphicsViewDraw, self).__init__(parent)
-
-        #self.setSceneRect(QRectF(self.viewport().rect()))
-        self.setSceneRect(QRectF(0,0,100,100))
-        
-        self.graphicsScene_draw = GraphicsSceneDraw()
-
-
-        self.isLine = False
-        self.isDelate = False
-        self.isClear = False
-        self.isObject = None
-        self.startX=None
-        self.startY=None
-
-        self.setStyleSheet("background-color: #444444 ;border: none;")
-        #self.setStyleSheet("background-color: #444444 ;border: none;")
-
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        
-    def getGraphicsScene(self):
-        return  self.graphicsScene_draw
-
-    def tools (self, a):
-        if self.isLine == True:
-            pen= QPen(Qt.red)
-            brush = QBrush(Qt.SolidPattern)
-            self.graphicsScene_draw.addItem(self.graphicsScene_draw.addEllipse(a.x(),a.y(),30,30,pen,brush))
-            self.setScene(self.graphicsScene_draw)
-            
-            self.show()
-        if self.isDelate == True:
-            items = self.items(a.x(),a.y())
-            for item in items:
-                self.graphicsScene_draw.removeItem(item)
-
-    def paintObject(self,b):
-        if self.isObject != None:
-            object = self.isObject
-
-            if object == 0:#line
-                pen= QPen(Qt.black)
-                self.graphicsScene_draw.addItem(self.graphicsScene_draw.addLine(self.startX,self.startY,b.x(),b.y(),pen))
-                self.setScene(self.graphicsScene_draw)                
-            if object == 1:#rect
-                pen= QPen(Qt.yellow)
-                brush = QBrush(Qt.SolidPattern)
-                self.graphicsScene_draw.addItem(self.graphicsScene_draw.addRect(
-                                                        self.startX,
-                                                        self.startY,
-                                                        b.x()-self.startX,
-                                                        b.y()-self.startY,
-                                                        pen,brush))
-                self.setScene(self.graphicsScene_draw)   
-            if object == 2:#Eli
-                pen= QPen(Qt.green)
-                brush = QBrush(Qt.SolidPattern)
-                self.graphicsScene_draw.addItem(self.graphicsScene_draw.addEllipse(
-                                                        self.startX,
-                                                        self.startY,
-                                                        b.x()-self.startX,
-                                                        b.y()-self.startY,
-                                                        pen,brush))
-                self.setScene(self.graphicsScene_draw)
-
-    def mousePressEvent(self, mouseEvent):
-        if (mouseEvent.button() != Qt.LeftButton):
-            return
-        e = QPointF(self.mapToScene(mouseEvent.pos()))
-        print("---PRESS----     {}    ------------".format(e))
-        self.tools(e)
-
-        self.startX=e.x()
-        self.startY=e.y()
-        
-    def mouseMoveEvent(self, mouseEvent):
-
-        e = QPointF(self.mapToScene(mouseEvent.pos()))
-        print("---MOVE----     {}    ------------".format(e))
-        self.tools(e)
-        #print("-- mouseMoveEvent")
-
-    def mouseReleaseEvent(self, mouseEvent):
-        e = QPointF(self.mapToScene(mouseEvent.pos()))
-        print("---Release----     {}    ------------".format(e))
-        self.paintObject(e)
-    
-    def keyPressEvent(self, event):
-        key = event.key()
-
-        if key == Qt.Key_Plus:
-            self.scale_view(1.2)
-        elif key == Qt.Key_Minus:
-            self.scale_view(1 / 1.2)
-        '''
-        elif key == Qt.Key_Space or key == Qt.Key_Enter:
-            for item in self.scene().items():
-                if isinstance(item, Node):
-                    item.setPos(-150 + random(300), -150 + random(300))
-        else:
-            QGraphicsView.keyPressEvent(self, event)
-        '''
-        """
-    def wheelEvent(self, event):
-        delta = event.angleDelta().y()
-        self.scale_view(math.pow(2.0, -delta / 240.0))
-        """
-    
-    def scale_view(self, scaleFactor):
-        factor = self.transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width()
-
-        if factor < 0.07 or factor > 100:
-            return
-
-        self.scale(scaleFactor, scaleFactor)
-    
-class GraphicsSceneDraw (QGraphicsScene):
-    def __init__(self, parent=None):
-        super(GraphicsSceneDraw, self).__init__(parent)
-
-    def mousePressEvent(self, mouseEvent):
-
-        '''
-        MiddleButton: boton rueda raton
-        LeftButton: boton izq raton
-        RightButton: boton der raton
-        '''
-        if (mouseEvent.button() != Qt.LeftButton):
-            return
-        '''
-
-        if self._my_mode == self.InsertItem:
-            item = DiagramItem(self._my_item_type, self._my_item_menu)
-            item.setBrush(self._my_item_color)
-            self.addItem(item)
-            item.setPos(mouseEvent.scenePos())
-            self.item_inserted.emit(item)
-        elif self._my_mode == self.InsertLine:
-            self.line = QGraphicsLineItem(QLineF(mouseEvent.scenePos(),
-                                        mouseEvent.scenePos()))
-            self.line.setPen(QPen(self._my_line_color, 2))
-            self.addItem(self.line)
-        elif self._my_mode == self.InsertText:
-            text_item = DiagramTextItem()
-            text_item.setFont(self._my_font)
-            text_item.setTextInteractionFlags(Qt.TextEditorInteraction)
-            text_item.setZValue(1000.0)
-            text_item.lost_focus.connect(self.editor_lost_focus)
-            text_item.selected_change.connect(self.item_selected)
-            self.addItem(text_item)
-            text_item.setDefaultTextColor(self._my_text_color)
-            text_item.setPos(mouseEvent.scenePos())
-            self.text_inserted.emit(text_item)
-
-        super(DiagramScene, self).mousePressEvent(mouseEvent)
-        '''
-
-    def mouseMoveEvent(self, mouseEvent):
-        #print("-- mouseMoveEvent")
-        '''
-        if self._my_mode == self.InsertLine and self.line:
-            new_line = QLineF(self.line.line().p1(), mouseEvent.scenePos())
-            self.line.setLine(new_line)
-        elif self._my_mode == self.MoveItem:
-            super(DiagramScene, self).mouseMoveEvent(mouseEvent)
-        '''
-
-    def mouseReleaseEvent(self, mouseEvent):
-        #print("--- mouseReleaseEvent")
-        '''
-        if self.line and self._my_mode == self.InsertLine:
-            start_items = self.items(self.line.line().p1())
-            if len(start_items) and start_items[0] == self.line:
-                start_items.pop(0)
-            end_items = self.items(self.line.line().p2())
-            if len(end_items) and end_items[0] == self.line:
-                end_items.pop(0)
-
-            self.removeItem(self.line)
-            self.line = None
-
-            if (len(start_items) and len(end_items) and
-                    isinstance(start_items[0], DiagramItem) and
-                    isinstance(end_items[0], DiagramItem) and
-                    start_items[0] != end_items[0]):
-                start_item = start_items[0]
-                end_item = end_items[0]
-                arrow = Arrow(start_item, end_item)
-                arrow.set_color(self._my_line_color)
-                start_item.add_arrow(arrow)
-                end_item.add_arrow(arrow)
-                arrow.setZValue(-1000.0)
-                self.addItem(arrow)
-                arrow.update_position()
-
-        self.line = None
-        super(DiagramScene, self).mouseReleaseEvent(mouseEvent)
-        '''
-
+import math
 class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     """Esta clase crea el QFrame draw para agregarlo a main window. """ 
     signal_home_open = Signal(str)
@@ -225,6 +24,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
     signal_project_save_state = Signal(bool)
 
+
+    signal_coor_mouse = Signal(list)
+
     def __init__(self, parent = None, ):
         super(FrameDraw, self).__init__(parent)
         self.setupUi(self)
@@ -235,13 +37,15 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         # Establece los eventos de la UI
         self.__initEventUi()
 
+
+    """
     def resizeEvent(self, event):
         #print("Tamaño: {}".format(self.viewport().rect()))
         #self.graphicsView_draw.setSceneRect(QRectF(0,0,1000,1000))
         pass
+    """
  
-
-    
+   
 
     ###############################################################################
     # ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -250,29 +54,29 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """ Configura la interface de usuario (ui) """ 
 
         # ::::::::::   AJUSTA EL SPLITTER PARA LA ALTURA DE LA CONSOLA  ::::::::::::
-        self.splitter.setStretchFactor(0, 1)
-        #self.splitter.setStretchFactor(100, 0)        
+        self.splitter.setStretchFactor(0, 1)      
         self.splitter.setSizes([100,1]) 
-
-        # ::::::::::::::::::   INICIANDO  DRAW  QGraphics  ::::::::::::::::::
-        self.graphicsView_draw = GraphicsViewDraw()
-        self.graphicsScene_draw = self.graphicsView_draw.getGraphicsScene()
-        self.horizontalLayout_graphics.addWidget(self.graphicsView_draw)
-        self.graphicsView_draw.show()       
         
 
+        # ::::::::::::::::::   INICIANDO  DRAW  QGraphics  ::::::::::::::::::
+
+        self.scene_draw = class_graphics.GraphicsSceneDraw()
+        self.scene_draw.setSceneRect(QRectF(-200, -200, 400, 400))
+        self.view_draw = class_graphics.GraphicsViewDraw(self.scene_draw)       
+        self.horizontalLayout_graphics.addWidget(self.view_draw)
+        
         # ::::::::::::::::::   INICIANDO FRAME DRAW-MENU-DATA  ::::::::::::::::::
         self.drawMenuData = class_ui_widget_draw_menu_data.WidgetDrawMenuData()        
         self.horizontalLayout_draw.addWidget(self.drawMenuData)
 
         # ::::::::::::::::::   INICIANDO FRAME DRAW-MENU-MESH  ::::::::::::::::::
-        self.drawMenuMesh = class_ui_widget_draw_menu_mesh.WidgetDrawMenuMesh(self.graphicsScene_draw,self.graphicsView_draw)        
+        self.drawMenuMesh = class_ui_widget_draw_menu_mesh.WidgetDrawMenuMesh()        
         self.horizontalLayout_draw.addWidget(self.drawMenuMesh)
 
+        # ::::::::::::::::::   AJUSTES ADICIONALES  ::::::::::::::::::
         self.label_console.setVisible(False)
-    
-
         self.showHideDrawMenu("Data")
+
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
@@ -292,8 +96,18 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuMesh.signal_paint_copy.connect(self.__clickedToolButtonDrawPaintCopy)
         self.drawMenuMesh.signal_paint_erase.connect(self.__clickedToolButtonDrawPaintErase)
 
+        # ::::::::::::::::::   SEÑAL>>RANURA SCENE DRAW :::::::::::::::::        
+        self.scene_draw.coor_mouse.connect(self.coor_mouse)
+        '''        
+        self.scene_draw.item_inserted.connect(self.item_inserted)
+        self.scene_draw.text_inserted.connect(self.text_inserted)
+        self.scene_draw.item_selected.connect(self.item_selected)
+        self.scene_draw.item_selected.connect(self.item_selected)
+        '''
+
         # ::::::::::::::::::::      EVENTOS FRAME DRAW     ::::::::::::::::::::
         self.toolButton_closeConsole.clicked.connect(self.__clickedToolButtonCloseConsole)
+
 
 
     ###############################################################################
@@ -304,32 +118,40 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.splitter.setSizes([1,0]) 
 
     def __clickedToolButtonDrawPaintLine(self):
+        pass
+        '''
         self.graphicsView_draw.isObject = 0
         self.graphicsView_draw.isLine = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
         self.msnConsole("Command","_Line")
         self.msnLabelConsole("LINEA [Primer punto]: ")
-
-
-
+        '''
 
     def __clickedToolButtonDrawPaintPolyline(self):
+        pass
+        '''
         self.graphicsView_draw.isObject = 1
         self.graphicsView_draw.isLine = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
+        '''
 
     def __clickedToolButtonDrawPaintRectangle(self):
+        pass
+        '''
         self.graphicsView_draw.isObject = 2
         self.graphicsView_draw.isLine = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
+        '''
 
     def __clickedToolButtonDrawPaintMove(self):
         pass
 
     def __clickedToolButtonDrawPaintRotate(self):
+        pass
+        '''
         if self.graphicsView_draw.isClear == False:
             self.graphicsView_draw.isClear = True
         else:
@@ -339,7 +161,11 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.graphicsView_draw.isLine = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.graphicsScene_draw.clear()
+        '''
+
     def __clickedToolButtonDrawPaintCopy(self):
+        pass
+        '''
         if self.graphicsView_draw.isLine == False:
             self.graphicsView_draw.isLine = True
         else:
@@ -348,7 +174,11 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.graphicsView_draw.isObject = None
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
+        '''
+
     def __clickedToolButtonDrawPaintErase(self):
+        pass
+        '''
         if self.graphicsView_draw.isDelate == False:
             self.graphicsView_draw.isDelate = True
         else:
@@ -357,7 +187,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.graphicsView_draw.isObject = None
         self.graphicsView_draw.isLine = False
         self.graphicsView_draw.isClear = False
-
+        '''
 
     def showHideDrawMenu(self,name_menu_view):
         """Muestra el menú seleccionado.
@@ -403,6 +233,18 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """
         self.signal_project_save_state.emit(there_are_changes)
 
+    def mode_origin_draw(self,mode):
+        self.scene_draw.mode_axis=mode
+        self.view_draw.scale_view(math.pow(1.1, +0.5))
+        self.view_draw.scale_view(math.pow(1.1, -0.5))
+
+    def mode_grid_draw(self,mode):
+        self.scene_draw.mode_grid=mode
+        self.view_draw.scale_view(math.pow(1.1, +0.5))
+        self.view_draw.scale_view(math.pow(1.1, -0.5))
+
+
+
     ###############################################################################
     # ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
     ############################################################################### 
@@ -435,7 +277,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """ 
         self.msnConsole("Command",msn)
         self.signal_msn_informative.emit(msn)
-
 
     def msnConsole(self, type_msn, msn):
         """Imprime mensaje en la consola.
@@ -471,7 +312,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.textBrowser_2.append(text_to_add)
         self.textBrowser_2.verticalScrollBar().maximum()
 
-
     def msnLabelConsole(self, msn):
         """Imprime mensaje en el label la consola.
 
@@ -484,5 +324,5 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.label_console.setVisible(True)
         self.lineEdit_console.setFocus()
 
-
-
+    def coor_mouse(self,coor_list):
+        self.signal_coor_mouse.emit(coor_list)

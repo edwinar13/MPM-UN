@@ -1,8 +1,9 @@
 """ Este módulo contiene la clase iniciar Ui_MainWindow.
 es la ventana principal del programa."""
 
-from PySide6.QtCore import ( QFile, Slot)
+from PySide6.QtCore import ( QFile, Slot,QSize,Qt)
 from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QFrame, QSizePolicy,QLabel,QPushButton )
+#from PySide6.QtGui import ()
 from ui import ui_main_window
 from clases import class_projects
 from clases import class_ui_frame_home
@@ -54,29 +55,38 @@ class MainWindow(QMainWindow):
         self.projects = class_projects.Projects(self.db_config_mpmun)        
         self.__updateProjectsRecent()
 
-        '''
 #-----------------------------------------------------------------------------------
         #self.ui.statusbar().showMessage("bla-bla bla")
+        self.label_coor = QLabel("Coor")
+        self.label_coor.setStyleSheet('border: none; color:  #DDDDDD')
+        self.label_coor.setMinimumSize(QSize(100, 0))
+        self.label_coor.setAlignment(Qt.AlignCenter)
+
+
+        #self.statusBar().addPermanentWidget(VLine())    # <---
+        self.statusBar().addPermanentWidget(self.label_coor)
+
+        '''
         self.statusBar().showMessage("bla-bla bla")
-        self.lbl1 = QLabel("Label: ")
-        self.lbl1.setStyleSheet('border: 0; color:  blue;')
+
         self.lbl2 = QLabel("Data : ")
         self.lbl2.setStyleSheet('border: 0; color:  red;')
         ed = QPushButton('StatusBar text')
         ed.setStyleSheet('background-color: #FFF8DC; color:  red;')
 
-
         self.statusBar().reformat()
         self.statusBar().setStyleSheet('border: 0; background-color: #FFF8DC;')
         self.statusBar().setStyleSheet("QStatusBar::item {border: none;}") 
+        '''
+
+        '''
         
-        #self.statusBar().addPermanentWidget(VLine())    # <---
-        self.statusBar().addPermanentWidget(self.lbl1)
         #self.statusBar().addPermanentWidget(VLine())    # <---
         self.statusBar().addPermanentWidget(self.lbl2)
         #self.statusBar().addPermanentWidget(VLine())    # <---
         self.statusBar().addPermanentWidget(ed)
         #self.statusBar().addPermanentWidget(VLine())    # <---
+
         
         self.lbl1.setText("Label: Hello")
         self.lbl2.setText("Data : 15-09-2019")
@@ -119,6 +129,12 @@ class MainWindow(QMainWindow):
         self.ui.action_exportar.setShortcut('Ctrl+e')
         self.ui.action_exportar.setStatusTip('Exportar')
 
+        self.ui.action_origen.setChecked(True)
+        self.ui.action_origen.setShortcut('F7')
+
+        self.ui.action_rejilla.setChecked(True)
+        self.ui.action_rejilla.setShortcut('F8')
+
         # ::::::::::::::::::::   CONFIGURANDO  FRAME INICIO ::::::::::::::::::::
         self.frame_home = class_ui_frame_home.FrameHome(self)
         self.ui.verticalLayout_emptyHome.addWidget(self.frame_home)
@@ -126,6 +142,8 @@ class MainWindow(QMainWindow):
         # ::::::::::::::::::::   CONFIGURANDO  FRAME DRAW ::::::::::::::::::::
         self.frame_draw = class_ui_frame_draw.FrameDraw(self)
         self.ui.verticalLayout_emptyDraw.addWidget(self.frame_draw)
+
+
 
 
         self.__showMessageInformative("Programa iniciado correctamente")
@@ -143,6 +161,7 @@ class MainWindow(QMainWindow):
         self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
         self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
         self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
+        self.frame_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
 
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
         self.ui.toolButton_home.clicked.connect(self.__clickedToolButtonMenuLat)
@@ -161,6 +180,8 @@ class MainWindow(QMainWindow):
         #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
         #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
         self.ui.action_abrir.triggered.connect(self.__triggeredActionAbrirProyecto)
+        self.ui.action_origen.triggered.connect(self.__triggeredActionShowHideOrigen)
+        self.ui.action_rejilla.triggered.connect(self.__triggeredActionShowHideGrid)
 
     ###############################################################################
 	# ::::::::::::::::::::    MÉTODOS DE EVENTOS MENU LATERAL   ::::::::::::::::::::
@@ -277,6 +298,16 @@ class MainWindow(QMainWindow):
             else:
                 self.setWindowTitle(nameCurrent)
 
+    def __triggeredActionShowHideOrigen(self):        
+        """ envia a la scena draw el modo del origen true para ver y false para ocultar"""
+        self.frame_draw.mode_origin_draw(self.ui.action_origen.isChecked())
+        
+    def __triggeredActionShowHideGrid(self):        
+        """ envia a la scena draw el modo del grilla true para ver y false para ocultar"""
+        self.frame_draw.mode_grid_draw(self.ui.action_rejilla.isChecked())
+    
+    
+    
     ###############################################################################
 	# ::::::::::::::::::::         FUNCIONES GENERALES UI      ::::::::::::::::::::
 	###############################################################################
@@ -444,6 +475,18 @@ class MainWindow(QMainWindow):
         self.ui.statusbar.setStyleSheet("color: #DDDDDD;") 
         self.ui.statusbar.showMessage(message,6000)
         self.frame_draw.msnConsole("Information",message)
+
+    @Slot(list)
+    def _printStatusBarCoor(self, coor_list):
+        """ imprime en la barra de estado las coordenadas del mouse al moverse por el QGraphics.
+
+        Args:
+            coor_list(list): coordenada X y Y
+        """
+        x = round(coor_list[0],4)
+        y = round(coor_list[1],4)
+        self.label_coor.setText("{:.3f}, {:.3f}".format(x,y))
+
 
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
