@@ -332,6 +332,40 @@ hr { height: 1px; border-width: 0; }
              </widget>
             </item>
             <item>
+             <widget class="QComboBox" name="comboBox_console">
+              <property name="currentIndex">
+               <number>-1</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>_line</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_draw_mesh/line.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/line.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>_polyLine</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_draw_mesh/polyline.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/polyline.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>_rectangle</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_draw_mesh/rectangle.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/rectangle.svg</iconset>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
              <layout class="QHBoxLayout" name="horizontalLayout">
               <property name="spacing">
                <number>0</number>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawjMupjK.ui'
+## Form generated from reading UI file 'frame_drawfHTdMS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QLineEdit, QSizePolicy, QSplitter, QTextBrowser,
-    QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QLineEdit, QSizePolicy, QSplitter,
+    QTextBrowser, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_FormDraw(object):
     def setupUi(self, FormDraw):
@@ -210,6 +210,20 @@ class Ui_FormDraw(object):
 
         self.horizontalLayout_2.addWidget(self.label_4)
 
+        self.comboBox_console = QComboBox(self.frame_console)
+        icon1 = QIcon()
+        icon1.addFile(u"recursos/iconos/iconos_menu_draw_mesh/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.comboBox_console.addItem(icon1, "")
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/polyline.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.comboBox_console.addItem(icon2, "")
+        icon3 = QIcon()
+        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rectangle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.comboBox_console.addItem(icon3, "")
+        self.comboBox_console.setObjectName(u"comboBox_console")
+
+        self.horizontalLayout_2.addWidget(self.comboBox_console)
+
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -245,6 +259,9 @@ class Ui_FormDraw(object):
 
         self.retranslateUi(FormDraw)
 
+        self.comboBox_console.setCurrentIndex(-1)
+
+
         QMetaObject.connectSlotsByName(FormDraw)
     # setupUi
 
@@ -258,6 +275,10 @@ class Ui_FormDraw(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.toolButton_closeConsole.setText("")
         self.label_4.setText("")
+        self.comboBox_console.setItemText(0, QCoreApplication.translate("FormDraw", u"_line", None))
+        self.comboBox_console.setItemText(1, QCoreApplication.translate("FormDraw", u"_polyLine", None))
+        self.comboBox_console.setItemText(2, QCoreApplication.translate("FormDraw", u"_rectangle", None))
+
         self.label_console.setText("")
         self.lineEdit_console.setInputMask("")
         self.lineEdit_console.setText("")

@@ -50,6 +50,14 @@ class CreateDataBase ():
         
         datos = {}    
         datos['ULTIMOSPROYECTOS'] = []
+        datos['SETTING'] =  [
+                                {
+                                    "TamañoCruzPuntero": 0,
+                                    "TamañoCajaPuntero": 0,
+                                    "Estilos de vista": 1
+                                }
+                            ]
+
         try:
             if not QFile.exists(self.__path_db_Config):            
                 with open(self.__path_db_Config, 'w') as file:
@@ -117,6 +125,9 @@ class DataBaseConfigMpmun():
     """ 
     def __init__(self) -> None:
         self.__path_db_Config="db/db_mpmun.json"
+
+        
+
     
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS DB PROYECTOS         ::::::::::::::::::::
@@ -212,6 +223,67 @@ class DataBaseConfigMpmun():
             print("No se encontró la base de datos {}".format(self.__path_db_Config))  
             validacion=False
         return validacion
+
+    ###############################################################################
+	# ::::::::::::::::::::        MÉTODOS DB SETTING         ::::::::::::::::::::
+	###############################################################################   
+
+
+    def selectSettingDB(self):
+        """Recupera los ajustes de la app de la db del sofware.
+  
+        Returns:
+            (bool): False >> si no se encontró la db del software.
+            (list): lista de ajustes.
+
+        """   
+        BD = self.__path_db_Config
+        if QFile.exists(BD):
+            with open(BD, 'r') as f: 
+                data_setting = json.load(f)
+                data_setting = data_setting['SETTING']                
+                return data_setting
+        else:
+            print("No se encontró la base de datos {}".format(self.__path_db_Config))
+            return (False)
+
+
+
+    def updateSettingDB(self,section, type_setting, value):
+        """actualiza los ajustes del app en la db del software.
+
+        Args:
+            section(int): la seccion de ajustes
+            type_setting(str): ajuste para actualizar
+            valu(*): valor del ajustes para actualizar
+
+        Returns:
+            (bool): 
+                : True >> si se actualizo correctamente los ajustes
+                : False >> si no se encontró la db del software.
+
+        """  
+        BD=self.__path_db_Config
+        if QFile.exists(BD):		  
+            try:
+                with open(BD, 'r') as f: 
+                    data_setting = json.load(f)
+                    data_setting['SETTING'][section][type_setting]=value
+
+                with open(BD, 'w') as f:
+                    f.write(json.dumps(data_setting))
+                validacion=True
+                
+            except:
+                print("Error al actualizar ajuste en <SETTING> de la base de datos {}".format(self.__path_db_Config))
+                validacion=False
+                
+        else:  
+            print("No se encontró la base de datos {}".format(self.__path_db_Config))          
+            validacion=False        
+        return validacion
+
+
 
 class DataBaseProject():    
     """Esta clase permite crear el objeto que interactuara con la base de datos del proyecto. 

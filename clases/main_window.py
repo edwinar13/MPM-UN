@@ -1,9 +1,10 @@
 """ Este módulo contiene la clase iniciar Ui_MainWindow.
 es la ventana principal del programa."""
-
-from PySide6.QtCore import ( QFile, Slot,QSize,Qt)
-from PySide6.QtWidgets import ( QMainWindow,QFileDialog,QFrame, QSizePolicy,QLabel,QPushButton )
-#from PySide6.QtGui import ()
+from datetime import datetime
+from PySide6.QtCore import ( QFile, Slot,QSize,Qt,QTimer)
+from PySide6.QtWidgets import (QApplication, QMainWindow,QFileDialog,
+QFrame, QSizePolicy,QLabel,QPushButton,QComboBox)
+from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence)
 from ui import ui_main_window
 from clases import class_projects
 from clases import class_ui_frame_home
@@ -11,13 +12,6 @@ from clases import class_ui_frame_draw
 from clases import database_class
 from clases import class_ui_dialog_msg
 
-'''
-class VLine(QFrame):
-    # a simple VLine, like the one you get from designer
-    def __init__(self):
-        super(VLine, self).__init__()
-        self.setFrameShape(self.VLine)
-'''
 
 class MainWindow(QMainWindow):
     """Esta clase crea la ventana QMainWindow de la ventana principal.
@@ -37,6 +31,8 @@ class MainWindow(QMainWindow):
         self.ui = ui_main_window.Ui_MainWindow()        
         self.ui.setupUi(self)
 
+
+
         # Atributo
         self.__createDataBase = createDataBase
         self.__actual_project = None
@@ -48,22 +44,102 @@ class MainWindow(QMainWindow):
         # Establece los eventos de la UI
         self.__initEventUi()
 
+        # iniciando Tiempo de autoguardado
+        # = tiempo * (60seg) * (1000*miliseg)
+        self.autosave = False
+        self.mili_second_save = 60 * 60 * 1000 # Tiempo
+        self.timer_save = QTimer()
+        self.timer_save.setObjectName("timer_save")
+        self.timer_save.timeout.connect(self.__save_auto)
+        self.timer_save.start( self.mili_second_save)
+
         #Inicia el objeto db de del programa
         self.db_config_mpmun = database_class.DataBaseConfigMpmun()
+        
 
         # Iniciando objeto proyectos 
         self.projects = class_projects.Projects(self.db_config_mpmun)        
         self.__updateProjectsRecent()
 
-#-----------------------------------------------------------------------------------
+        # Recuperando ajustes de la app 
+        setting = self.db_config_mpmun.selectSettingDB()
+        self.__iniSetting(setting)
+        self.setting = True
+
+        # Lista para almacenar acciones a desarollar con QShortcut ESC
+        self.list_action_esc = []
+
+
+
+
+        
+
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
+	###############################################################################
+    def __configUi(self):
+        """ Configura la interface de usuario (ui) """ 
+
+        #::::::::::::::::::::  CONFIGURANDO MAIN WINDOW ::::::::::::::::::::
+        """
+        with open("css/styles_oscuro.css") as f:
+            self.setStyleSheet(f.read())
+        self.showMaximized()
+        """       
+
+
+
+
+        # ::::::::::::::::::::   SHORTCUT Y STATUS DE MENÚ SUPERIOR ::::::::::::::::::::
+        self.ui.action_nuevo.setShortcut('Ctrl+n')
+        self.ui.action_nuevo.setStatusTip('Nuevo')
+        self.ui.action_abrir.setShortcut('Ctrl+o')
+        self.ui.action_abrir.setStatusTip('Abrir')
+        self.ui.action_guardar.setShortcut('Ctrl+s')
+        self.ui.action_guardar.setStatusTip('Guardar')
+        self.ui.action_guardarComo.setShortcut('Ctrl+shift+s')
+        self.ui.action_guardarComo.setStatusTip('Guardar como')
+        self.ui.action_importar.setShortcut('Ctrl+i')
+        self.ui.action_importar.setStatusTip('Importar')
+        self.ui.action_exportar.setShortcut('Ctrl+e')
+        self.ui.action_exportar.setStatusTip('Exportar')
+        
+
+        self.ui.action_origen.setChecked(True)
+        self.ui.action_origen.setShortcut('F7')
+
+        self.ui.action_rejilla.setChecked(True)
+        self.ui.action_rejilla.setShortcut('F8')
+
+        self.shortcut_esc = QShortcut(QKeySequence('ESC'), self)
+        self.shortcut_esc.setObjectName("key_esc")
+
+
+        # ::::::::::::::::::::   WIDGET BARRA DE ESTADO ::::::::::::::::::::
+        #-----------------------------------------------------------------------------------
         #self.ui.statusbar().showMessage("bla-bla bla")
         self.label_coor = QLabel("Coor")
         self.label_coor.setStyleSheet('border: none; color:  #DDDDDD')
         self.label_coor.setMinimumSize(QSize(100, 0))
         self.label_coor.setAlignment(Qt.AlignCenter)
+        self.label_zoom = QLabel("Zoom")
+        self.label_zoom.setStyleSheet('border: none; color:  #DDDDDD')
+        self.label_zoom.setMinimumSize(QSize(80, 0))
+        self.label_zoom.setAlignment(Qt.AlignCenter)
+        self.ComboBox_zoom = QComboBox()
+        self.ComboBox_zoom.addItems(["Zoom","10%", "50%", "100%", "150%", "200%", "500%", "1000%"])
+        self.ComboBox_zoom.setCurrentIndex(0)
+        self.ComboBox_zoom.currentTextChanged.connect(self.view_scale_changed)
+        self.ComboBox_zoom.setMinimumSize(QSize(100, 0))
+        self.ComboBox_zoom.setObjectName(u"ComboBox_zoom")
+        self.ComboBox_zoom.setStyleSheet('color: #888888')
+        self.ComboBox_zoom.setVisible(False)
 
 
         #self.statusBar().addPermanentWidget(VLine())    # <---
+        self.statusBar().addPermanentWidget(self.ComboBox_zoom)
+        self.statusBar().addPermanentWidget(self.label_zoom)
         self.statusBar().addPermanentWidget(self.label_coor)
 
         '''
@@ -92,48 +168,14 @@ class MainWindow(QMainWindow):
         self.lbl2.setText("Data : 15-09-2019")
 
         ed.clicked.connect(lambda: self.statusBar().showMessage("Hello "))
-#-----------------------------------------------------------------------------------
+        #-----------------------------------------------------------------------------------
 
         '''
 
 
-    ###############################################################################
-	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
-	###############################################################################
-    def __configUi(self):
-        """ Configura la interface de usuario (ui) """ 
-
-        #::::::::::::::::::::  CONFIGURANDO MAIN WINDOW ::::::::::::::::::::
-        """
-        with open("css/styles_oscuro.css") as f:
-            self.setStyleSheet(f.read())
-        self.showMaximized()
-        """
-        # :::::::::::::::::::: BOTÓN Y PAGINA POR DEFECTO ::::::::::::::::::::
-        self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
-        self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
-        self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")
-        
-
-        # ::::::::::::::::::::   SHORTCUT Y STATUS DE MENÚ SUPERIOR ::::::::::::::::::::
-        self.ui.action_nuevo.setShortcut('Ctrl+n')
-        self.ui.action_nuevo.setStatusTip('Nuevo')
-        self.ui.action_abrir.setShortcut('Ctrl+o')
-        self.ui.action_abrir.setStatusTip('Abrir')
-        self.ui.action_guardar.setShortcut('Ctrl+s')
-        self.ui.action_guardar.setStatusTip('Guardar')
-        self.ui.action_guardarComo.setShortcut('Ctrl+shift+s')
-        self.ui.action_guardarComo.setStatusTip('Guardar como')
-        self.ui.action_importar.setShortcut('Ctrl+i')
-        self.ui.action_importar.setStatusTip('Importar')
-        self.ui.action_exportar.setShortcut('Ctrl+e')
-        self.ui.action_exportar.setStatusTip('Exportar')
-
-        self.ui.action_origen.setChecked(True)
-        self.ui.action_origen.setShortcut('F7')
-
-        self.ui.action_rejilla.setChecked(True)
-        self.ui.action_rejilla.setShortcut('F8')
+        # ::::::::::::::::::::   SHORTCUT Y STATUS DE MENÚ LATERAL ::::::::::::::::::::
+        self.ui.toolButton_setting.setToolTip('Ajustes del programa [Ctrl+p]')
+        self.ui.toolButton_setting.setShortcut('Ctrl+p')
 
         # ::::::::::::::::::::   CONFIGURANDO  FRAME INICIO ::::::::::::::::::::
         self.frame_home = class_ui_frame_home.FrameHome(self)
@@ -142,6 +184,28 @@ class MainWindow(QMainWindow):
         # ::::::::::::::::::::   CONFIGURANDO  FRAME DRAW ::::::::::::::::::::
         self.frame_draw = class_ui_frame_draw.FrameDraw(self)
         self.ui.verticalLayout_emptyDraw.addWidget(self.frame_draw)
+
+
+        # ::::::::::::::::::::   CONFIGURANDO  FRAME SETTING ::::::::::::::::::::
+        self.icon_config_select = QIcon()
+        self.icon_config_select.addFile(u"recursos/iconos/iconos_menu_lateral/config_select.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_config = QIcon()
+        self.icon_config.addFile(u"recursos/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ui.horizontalSlider_1.setRange(0,100)
+        self.ui.spinBox_1.setRange(0,100)
+        self.ui.horizontalSlider_2.setRange(5,50)
+
+
+
+ 
+
+        # :::::::::::::::::::: BOTÓN Y PAGINA POR DEFECTO ::::::::::::::::::::
+        self.previous_selected_button = 1
+        self.__viewToolButtonMenuLat(self.previous_selected_button)
+        #self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
+        #self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
+        #self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")
+        
 
 
 
@@ -162,6 +226,7 @@ class MainWindow(QMainWindow):
         self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
         self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
         self.frame_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
+        self.frame_draw.signal_zoom.connect(self._printStatusBarZoom)
 
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
         self.ui.toolButton_home.clicked.connect(self.__clickedToolButtonMenuLat)
@@ -183,6 +248,21 @@ class MainWindow(QMainWindow):
         self.ui.action_origen.triggered.connect(self.__triggeredActionShowHideOrigen)
         self.ui.action_rejilla.triggered.connect(self.__triggeredActionShowHideGrid)
 
+
+
+        # ::::::::::::::::::::    EVENTOS  SETTING    ::::::::::::::::::::    
+        self.ui.horizontalSlider_1.valueChanged.connect(self.__updateSetting)
+        self.ui.spinBox_1.valueChanged.connect(self.__updateSetting)
+        self.ui.horizontalSlider_2.valueChanged.connect(self.__updateSetting)
+        self.ui.comboBox_3.currentIndexChanged.connect(self.__updateSetting)
+        self.ui.comboBox_intervalAutoSave.currentIndexChanged.connect(self.__updateSetting)
+        self.ui.checkBox_autoSave.stateChanged.connect(self.__updateSetting)
+
+
+
+        # ::::::::::::::::::::    EVENTOS  SHORTCUT    ::::::::::::::::::::    
+        self.shortcut_esc.activated.connect(self.__activatedShortCutEsc)
+
     ###############################################################################
 	# ::::::::::::::::::::    MÉTODOS DE EVENTOS MENU LATERAL   ::::::::::::::::::::
 	###############################################################################
@@ -190,55 +270,70 @@ class MainWindow(QMainWindow):
         """ Método para los eventos de los botones del menú lateral
         Se obtiene el botón que activo la señal y se redirecciona
         al botón correspondiente"""
-
-        self.__resetToolButtonMenuLat()
+        
+        print("----------------btn")
         buttonSelected = self.sender()
-        nameButton = buttonSelected.objectName()
+        print(buttonSelected.objectName())
+        if buttonSelected != None:
+            nameButton = buttonSelected.objectName()
+        else:
+            return
+        
+        if nameButton==self.ui.toolButton_home.objectName() : 
+            self.previous_selected_button = 1
+            self.__viewToolButtonMenuLat(self.previous_selected_button)
+            self.setting = True
 
-        if nameButton==self.ui.toolButton_home.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
-            self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
-            self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")  
 
-        if nameButton==self.ui.toolButton_drawData.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_data)
-            self.ui.frame_drawData.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;")
+        elif nameButton==self.ui.toolButton_drawData.objectName() :
+            self.previous_selected_button = 2
+            self.__viewToolButtonMenuLat(self.previous_selected_button)
             self.frame_draw.showHideDrawMenu("Data")
+            self.setting = True
 
-        if nameButton==self.ui.toolButton_drawMesh.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_mesh)
-            self.ui.frame_drawMesh.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_drawMeshInf.setStyleSheet("background-color: #2B2B2B;") 
+        elif nameButton==self.ui.toolButton_drawMesh.objectName() :
+            self.previous_selected_button = 3
+            self.__viewToolButtonMenuLat(self.previous_selected_button)
             self.frame_draw.showHideDrawMenu("Mesh")
+            self.setting = True
 
-        if nameButton==self.ui.toolButton_drawPoint.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_point)
-            self.ui.frame_drawPoint.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_drawPointInf.setStyleSheet("background-color: #2B2B2B;") 
+        elif nameButton==self.ui.toolButton_drawPoint.objectName() :
+            self.previous_selected_button = 4
+            self.__viewToolButtonMenuLat(self.previous_selected_button) 
             self.frame_draw.showHideDrawMenu("Point")
+            self.setting = True
 
-        if nameButton==self.ui.toolButton_drawBoundary.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
-            #self.ui.stackedWidget_subMenu.setCurrentWidget(self.ui.page_contour)
-            self.ui.frame_drawBoundary.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #2B2B2B;") 
+        elif nameButton==self.ui.toolButton_drawBoundary.objectName() :
+            self.previous_selected_button = 5
+            self.__viewToolButtonMenuLat(self.previous_selected_button) 
             self.frame_draw.showHideDrawMenu("Boundary")
+            self.setting = True
+            
 
-        if nameButton==self.ui.toolButton_viewResult.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_view)
-            self.ui.frame_viewResult.setStyleSheet("background-color: #36C9C6;") 
-            self.ui.frame_viewResultInf.setStyleSheet("background-color: #2B2B2B;") 
-
-        if nameButton==self.ui.toolButton_setting.objectName():
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
+        elif nameButton==self.ui.toolButton_viewResult.objectName():
+            self.previous_selected_button = 6
+            self.__viewToolButtonMenuLat(self.previous_selected_button)
+            self.setting = True
+        
+        elif nameButton==self.ui.toolButton_setting.objectName() or nameButton=="key_esc":
+            if self.setting == True :
+                self.__viewToolButtonMenuLat(7)
+                self.setting = False
+                self.list_action_esc.append("SETTING")
+            elif self.setting == False:             
+                self.__viewToolButtonMenuLat(self.previous_selected_button)
+                self.setting = True
 
     ###############################################################################
 	# ::::::::::::::::::::  MÉTODOS DE EVENTOS MENU SUPERIOR  ::::::::::::::::::::
 	###############################################################################
+    def __activatedShortCutEsc(self):
+        """Al presionar ESC ejecuta aciones contenidas en la lista. """
+        for action in  self.list_action_esc:
+            if action == "SETTING":
+                self.__clickedToolButtonMenuLat()
+        self.list_action_esc = []
+        
     def __triggeredActionNuevoProyecto(self):
         """ Abre cuadro de dialogo para nuevo proyecto. """
         nameCurrent = self.windowTitle()
@@ -276,10 +371,14 @@ class MainWindow(QMainWindow):
 
     def __triggeredActionSaveProject(self):   
         """Guarda el proyecto"""     
+        triggered = self.sender()
         if self.__actual_project != None :
             if self.__actual_project.checkProjectChanges():
+                if triggered.objectName() == "timer_save":
+                    self.__showMessageCommand("_autoSave")
+                else:
+                    self.__showMessageCommand("_save")
                 self.__actual_project.saveData()
-                self.__showMessageInformative("Se ha guardado el proyecto")
                 self.__projectSaveState(False)
                 
     def __triggeredActionSaveAsProject(self):   
@@ -301,17 +400,114 @@ class MainWindow(QMainWindow):
     def __triggeredActionShowHideOrigen(self):        
         """ envia a la scena draw el modo del origen true para ver y false para ocultar"""
         self.frame_draw.mode_origin_draw(self.ui.action_origen.isChecked())
-        
+                
     def __triggeredActionShowHideGrid(self):        
         """ envia a la scena draw el modo del grilla true para ver y false para ocultar"""
         self.frame_draw.mode_grid_draw(self.ui.action_rejilla.isChecked())
+          
+    ###############################################################################
+	# ::::::::::::::::::::      MÉTODOS DE EVENTOS SETTING     ::::::::::::::::::::
+	###############################################################################
+    def __updateSetting(self,value=0,updateAll=False):
+        """Método para los eventos de los widget de setting. Se obtiene el widget
+         que activo la señal y se redirecciona al widget correspondiente"""
+        widgetSelected = self.sender()
+        nameWidget=""
+        if widgetSelected != None:        
+            nameWidget = widgetSelected.objectName()
+
+        
+	    # ::::::::::::::::::::    SETTING Pantalla de dibujo    ::::::::::::::::::::
+        if nameWidget==self.ui.horizontalSlider_1.objectName() or updateAll:
+            self.ui.spinBox_1.setValue(self.ui.horizontalSlider_1.value())
+
+        if nameWidget==self.ui.spinBox_1.objectName() or updateAll:
+            value_crosshair_size = self.ui.spinBox_1.value()
+            self.ui.horizontalSlider_1.setValue(value_crosshair_size)
+            self.frame_draw.scene_draw.crosshair_size =(value_crosshair_size)/100
+            self.db_config_mpmun.updateSettingDB(0,"TamanoCruzPuntero", value_crosshair_size)
+
+        if nameWidget==self.ui.horizontalSlider_2.objectName() or updateAll:            
+            value_pick_box_size = (self.ui.horizontalSlider_2.value())
+            value_Margin =18 * (1-((value_pick_box_size-5)/45))           
+            self.ui.frame_4.setContentsMargins(value_Margin, value_Margin, value_Margin, value_Margin)
+            self.frame_draw.scene_draw.pick_box_size =(value_pick_box_size)
+            self.db_config_mpmun.updateSettingDB(0,"TamanoCajaPuntero", value_pick_box_size)
+            
+
+        if nameWidget==self.ui.comboBox_3.objectName() or updateAll:
+            index_style_background_view = self.ui.comboBox_3.currentIndex()
+            self.db_config_mpmun.updateSettingDB(0,"EstiloVista", index_style_background_view)
+            self.frame_draw.view_draw.setStyleBackgroundView(index_style_background_view)
+        
+        if nameWidget==self.ui.checkBox_autoSave.objectName() or updateAll:
+            check_auto_save = self.ui.checkBox_autoSave.isChecked()            
+            if check_auto_save:
+                self.ui.comboBox_intervalAutoSave.setEnabled(True)
+                self.autosave = True
+            else:
+                self.ui.comboBox_intervalAutoSave.setEnabled(False)
+                self.autosave = False
+            self.db_config_mpmun.updateSettingDB(1,"GuardadoAutomatico", check_auto_save)
+
+        if nameWidget==self.ui.comboBox_intervalAutoSave.objectName() or updateAll:
+            index = self.ui.comboBox_intervalAutoSave.currentIndex()  
+            self.db_config_mpmun.updateSettingDB(1,"IntervaloAutoGuardado", index)
+            if index == 0:
+                self.mili_second_save = 5 * 60 * 1000
+            elif index == 1:
+                self.mili_second_save = 15 * 60 * 1000
+            elif index == 2:
+                self.mili_second_save = 30 * 60 * 1000
+            elif index == 3:
+                self.mili_second_save = 60 * 60 * 1000
+            self.timer_save.setInterval(self.mili_second_save)
     
-    
-    
+    def __save_auto(self):
+        """Método para la señal de tiempo para auto guardado,
+        debe estar activada la función para guardar """
+        if self.autosave:
+            self.now = datetime.now() 
+            self.hour = self.now.hour
+            self.minute = self.now.minute
+            self.second = self.now.second
+            self.microsecond = self.now.microsecond
+            self.__triggeredActionSaveProject()
+
+            print("autoSave: {}:{}:{},{}".format(
+                self.hour, self.minute ,self.second, self.microsecond ))
+
+        else:
+            print("Not auto save")
+
     ###############################################################################
 	# ::::::::::::::::::::         FUNCIONES GENERALES UI      ::::::::::::::::::::
 	###############################################################################
     
+
+    # ::::::::::::::::::::  FUNCIONES PAGE SETTING  ::::::::::::::::::::
+    def __iniSetting(self, setting):
+        """Actualiza las configuraciones de la app.
+
+        Args:
+            setting (list): Lista con las configuraciones.
+        
+        """
+        # Setting Pantalla de dibujo
+        TamanoCruzPuntero=(setting[0]["TamanoCruzPuntero"])
+        self.ui.horizontalSlider_1.setValue(TamanoCruzPuntero)        
+        TamanoCajaPuntero=(setting[0]["TamanoCajaPuntero"])
+        self.ui.horizontalSlider_2.setValue(TamanoCajaPuntero)
+        EstiloVista=(setting[0]["EstiloVista"])
+        self.ui.comboBox_3.setCurrentIndex(EstiloVista)
+
+        GuardadoAutomatico=(setting[1]["GuardadoAutomatico"])
+        self.ui.checkBox_autoSave.setChecked(GuardadoAutomatico)
+        IntervaloAutoGuardado=(setting[1]["IntervaloAutoGuardado"])
+        self.ui.comboBox_intervalAutoSave.setCurrentIndex(IntervaloAutoGuardado)
+
+        self.__updateSetting(updateAll=True)
+
     # ::::::::::::::::::::  FUNCIONES MENU LATERAL  ::::::::::::::::::::
     def __resetToolButtonMenuLat(self):
         """ Reinicializa el estado de los botones del menú lateral  """
@@ -328,6 +524,48 @@ class MainWindow(QMainWindow):
         self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawPointInf.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawMeshInf.setStyleSheet("background-color: #333333;")
+
+        self.ui.toolButton_setting.setIcon(self.icon_config)
+    
+    def __viewToolButtonMenuLat(self, button):
+        """ Muestra el botón seleccionado
+        Args:
+            button(int) numero de boton seleccionado
+        """
+        self.__resetToolButtonMenuLat()
+
+        list_button = [
+            [self.ui.frame_home, self.ui.frame_homeInf,self.ui.page_home],
+            [self.ui.frame_drawData, self.ui.frame_drawDataInf,self.ui.page_draw],
+            [self.ui.frame_drawMesh, self.ui.frame_drawMeshInf,self.ui.page_draw],
+            [self.ui.frame_drawPoint, self.ui.frame_drawPointInf,self.ui.page_draw],
+            [self.ui.frame_drawBoundary, self.ui.frame_drawBoundaryInf,self.ui.page_draw],
+            [self.ui.frame_viewResult, self.ui.frame_viewResultInf,self.ui.page_view]
+            ]
+        self.ComboBox_zoom.setVisible(False)
+        if button == 1 or button == 2 or button == 3 or button == 4 or button == 5 or button == 6:
+            list_button[button-1][0].setStyleSheet("background-color: #36C9C6;") 
+            list_button[button-1][1].setStyleSheet("background-color: #2B2B2B;")
+            self.ui.stackedWidget_container.setCurrentWidget(list_button[button-1][2])
+            if button == 2:
+                self.frame_draw.showHideDrawMenu("Data")
+                self.ComboBox_zoom.setVisible(True)
+
+            elif button == 3:
+                self.frame_draw.showHideDrawMenu("Mesh")
+                self.ComboBox_zoom.setVisible(True)
+
+            elif button == 4:
+                self.frame_draw.showHideDrawMenu("Point")
+                self.ComboBox_zoom.setVisible(True)
+
+            elif button == 5:
+                self.frame_draw.showHideDrawMenu("Boundary")
+                self.ComboBox_zoom.setVisible(True)
+
+        elif button == 7:            
+            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
+            self.ui.toolButton_setting.setIcon(self.icon_config_select)
 
     # ::::::::::::::::::::  FUNCIONES MENU SUPERIOR  ::::::::::::::::::::
     @Slot(str)
@@ -378,10 +616,11 @@ class MainWindow(QMainWindow):
                 self.ui.toolButton_drawMesh.setEnabled(True)
                 self.ui.toolButton_drawPoint.setEnabled(True)
                 self.ui.toolButton_drawBoundary.setEnabled(True)
-                self.__resetToolButtonMenuLat()
-                self.ui.frame_drawData.setStyleSheet("background-color: #36C9C6;") 
-                self.ui.frame_drawDataInf.setStyleSheet("background-color: #2B2B2B;")
-                self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_draw)
+                
+
+                self.previous_selected_button = 2
+                self.__viewToolButtonMenuLat(self.previous_selected_button)
+                self.ComboBox_zoom.setVisible(True)
                 self.__showMessageInformative("Se ha abierto el proyecto: {}".format(self.__actual_project.getName()))
 
 
@@ -444,6 +683,16 @@ class MainWindow(QMainWindow):
 	# ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
 	###############################################################################
     @Slot(str)
+    def __showMessageCommand(self, command):
+        """ imprime en la consola un comando.
+
+        Args:
+            command(str): comando  
+
+        """
+        self.frame_draw.msnConsole("Command",command)
+    
+    @Slot(str)
     def __showMessageCritical(self, message):
         """ imprime en la barra de estado un mensaje critico.
 
@@ -476,6 +725,18 @@ class MainWindow(QMainWindow):
         self.ui.statusbar.showMessage(message,6000)
         self.frame_draw.msnConsole("Information",message)
 
+
+    ###############################################################################
+	# ::::::::::::::::        MÉTODOS PARA BARRA DE ESTADO         ::::::::::::::::
+	###############################################################################
+    def view_scale_changed(self,scale):
+        index =self.ComboBox_zoom.currentIndex()
+
+        if index == 0:
+            return
+        else:
+            self.frame_draw.view_draw.view_scale_changed(scale)
+    
     @Slot(list)
     def _printStatusBarCoor(self, coor_list):
         """ imprime en la barra de estado las coordenadas del mouse al moverse por el QGraphics.
@@ -486,11 +747,25 @@ class MainWindow(QMainWindow):
         x = round(coor_list[0],4)
         y = round(coor_list[1],4)
         self.label_coor.setText("{:.3f}, {:.3f}".format(x,y))
+        
+
+
+    @Slot(float)
+    def _printStatusBarZoom(self, zoom):
+        """Imprime en la barra de estado el procenta de zoom en el  QGraphics.
+        Args:
+            zoom(floar): procentaje de zoom
+        """
+        zoom = "{:.1f}%".format(zoom*100)
+        self.label_zoom.setText(zoom)
+        self.ComboBox_zoom.setCurrentIndex(0)
+        self.ComboBox_zoom.setItemText(0,"» {}".format(zoom))
 
 
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
 	###############################################################################
+    
     def closeEvent(self, event):
         """Evento al cerrar la ventana main window, se valida si hay proyecto actual y hay cambio,
          en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""

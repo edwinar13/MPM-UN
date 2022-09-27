@@ -6,7 +6,7 @@ class:
 
 """
 from PySide6.QtCore import (QEvent, QSize,QObject)
-from PySide6.QtGui import (QPainter,QFontMetrics)
+from PySide6.QtGui import (QPainter,QFontMetrics,Qt)
 from PySide6.QtWidgets import ( QLabel)
 
 class QLabelVertical(QLabel):
@@ -78,7 +78,9 @@ class MouseObserver(QObject):
         Returns:
             (bool): 
         """
+        
         if obj is self.widget and event.type() == QEvent.MouseButtonPress:
             print(">>>> con MouseObserver {} <<<<<".format(self.widget.objectName()))        
         return super().eventFilter(obj, event)
-
+    
+ 
