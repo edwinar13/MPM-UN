@@ -52,9 +52,11 @@ bold: font: 700 9pt &quot;Ubuntu&quot;;
 QMainWindow#MainWindow{
 background: #333333;
 }
+
 #page_config{
-background: #333333;
+background: #222222;
 }
+
 /*####################       MENU BAR SUP      ###########################*/
 QMenuBar#menubar {
 background-color: #333333;
@@ -2844,11 +2846,12 @@ border: 1px solid #DDDDDD;</string>
     <property name="title">
      <string>Vista</string>
     </property>
-    <addaction name="action_rejilla"/>
-    <addaction name="action_regla"/>
+    <addaction name="action_origin"/>
+    <addaction name="action_axis"/>
+    <addaction name="action_grid"/>
+    <addaction name="action_console"/>
+    <addaction name="action_rule"/>
     <addaction name="action_dibujo"/>
-    <addaction name="actionConsola"/>
-    <addaction name="action_origen"/>
     <addaction name="separator"/>
     <addaction name="action_opcionVisualizacion"/>
    </widget>
@@ -2940,15 +2943,15 @@ border: 1px solid #DDDDDD;</string>
     <string>Acerda de</string>
    </property>
   </action>
-  <action name="action_rejilla">
+  <action name="action_grid">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Rejilla</string>
+    <string>Grilla</string>
    </property>
   </action>
-  <action name="action_regla">
+  <action name="action_rule">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -2967,7 +2970,7 @@ border: 1px solid #DDDDDD;</string>
     <string>Dibujo</string>
    </property>
   </action>
-  <action name="actionConsola">
+  <action name="action_console">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -2975,7 +2978,7 @@ border: 1px solid #DDDDDD;</string>
     <string>Consola</string>
    </property>
   </action>
-  <action name="action_origen">
+  <action name="action_origin">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3029,6 +3032,14 @@ border: 1px solid #DDDDDD;</string>
   <action name="action_listadoRecinetes">
    <property name="text">
     <string>listado_recientes</string>
+   </property>
+  </action>
+  <action name="action_axis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ejes</string>
    </property>
   </action>
  </widget>

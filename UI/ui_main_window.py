@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowzytOqJ.ui'
+## Form generated from reading UI file 'main_windowlNqFdR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -63,17 +63,19 @@ class Ui_MainWindow(object):
 "QMainWindow#MainWindow{\n"
 "background: #333333;\n"
 "}\n"
+"\n"
 "#page_config{\n"
-"background: #333333;\n"
+"background: #222222;\n"
 "}\n"
+"\n"
 "/*####################       MENU BAR SUP      ###########################*/\n"
 "QMenuBar#menubar {\n"
 "background-color: #333333;\n"
 "spacing: 5px; \n"
 "color: #DDDDDD;\n"
-"font: 500 10pt \"Ubuntu\";\n"
-"}"
-                        "\n"
+"font: 500 10pt \"Ubunt"
+                        "u\";\n"
+"}\n"
 "QMenuBar#menubar::item {\n"
 "padding: 5px 5px;\n"
 "background-color: transparent;\n"
@@ -117,8 +119,8 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "/*####################     FRAME MENU IZQ      ##########################*/\n"
-"QToolButton#toolButton"
-                        "_home,\n"
+"QToolButton#"
+                        "toolButton_home,\n"
 "QToolButton#toolButton_drawPoint,\n"
 "QToolButton#toolButton_drawBoundary,\n"
 "QToolButton#toolButton_drawData,\n"
@@ -162,8 +164,8 @@ class Ui_MainWindow(object):
 "\n"
 "#scrollAreaWidgetContents,\n"
 "#scrollArea{\n"
-"backgr"
-                        "ound-color: transparent;\n"
+""
+                        "background-color: transparent;\n"
 "border: none;\n"
 "}\n"
 "#lineEdit_settingSearch{\n"
@@ -200,9 +202,9 @@ class Ui_MainWindow(object):
 "color: #DDDDDD;\n"
 "font: 300 8pt \"Ubuntu\";\n"
 "}\n"
-"/*titulos*/\n"
-""
-                        " QLabel[type_label=\"2\"]{\n"
+"/*titulo"
+                        "s*/\n"
+" QLabel[type_label=\"2\"]{\n"
 "color: #DDDDDD;\n"
 "font: 800 18pt \"Ubuntu\";\n"
 "margin-bottom: 10px;\n"
@@ -247,9 +249,9 @@ class Ui_MainWindow(object):
 "font: 10pt \"Ubuntu\";\n"
 "background: #3d3d3d;\n"
 "padding-left:10px;\n"
-"min-height:30px;\n"
-""
-                        "max-height:30px;\n"
+"min-height:30"
+                        "px;\n"
+"max-height:30px;\n"
 "}\n"
 "/*frame tipo 1 de la tabla*/\n"
 " QFrame[type_frame_table=\"2\"]{\n"
@@ -305,8 +307,8 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "QFrame[type_frame=\"1\"]{\n"
-"backgro"
-                        "und: #333333;\n"
+""
+                        "background: #333333;\n"
 "border-radius: 5px ;\n"
 "}\n"
 "QFrame[type_frame=\"1\"]:hover{\n"
@@ -360,8 +362,8 @@ class Ui_MainWindow(object):
 "/*QSlider#horizontalSlider_1::handle:horizontal {*/\n"
 "\n"
 "\n"
-"QSlider::"
-                        "groove:horizontal {\n"
+"QS"
+                        "lider::groove:horizontal {\n"
 "    border: 1px solid #999999;\n"
 "    height: 1px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */\n"
 "    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"
@@ -397,8 +399,8 @@ class Ui_MainWindow(object):
 "\n"
 "QCheckBox::indicator {\n"
 "    width: 15px;\n"
-"   "
-                        " height: 15px;\n"
+""
+                        "    height: 15px;\n"
 "}\n"
 "\n"
 "")
@@ -433,22 +435,22 @@ class Ui_MainWindow(object):
         self.action_ayuda.setObjectName(u"action_ayuda")
         self.action_acerdaDe = QAction(MainWindow)
         self.action_acerdaDe.setObjectName(u"action_acerdaDe")
-        self.action_rejilla = QAction(MainWindow)
-        self.action_rejilla.setObjectName(u"action_rejilla")
-        self.action_rejilla.setCheckable(True)
-        self.action_regla = QAction(MainWindow)
-        self.action_regla.setObjectName(u"action_regla")
-        self.action_regla.setCheckable(True)
-        self.action_regla.setEnabled(True)
+        self.action_grid = QAction(MainWindow)
+        self.action_grid.setObjectName(u"action_grid")
+        self.action_grid.setCheckable(True)
+        self.action_rule = QAction(MainWindow)
+        self.action_rule.setObjectName(u"action_rule")
+        self.action_rule.setCheckable(True)
+        self.action_rule.setEnabled(True)
         self.action_dibujo = QAction(MainWindow)
         self.action_dibujo.setObjectName(u"action_dibujo")
         self.action_dibujo.setCheckable(True)
-        self.actionConsola = QAction(MainWindow)
-        self.actionConsola.setObjectName(u"actionConsola")
-        self.actionConsola.setCheckable(True)
-        self.action_origen = QAction(MainWindow)
-        self.action_origen.setObjectName(u"action_origen")
-        self.action_origen.setCheckable(True)
+        self.action_console = QAction(MainWindow)
+        self.action_console.setObjectName(u"action_console")
+        self.action_console.setCheckable(True)
+        self.action_origin = QAction(MainWindow)
+        self.action_origin.setObjectName(u"action_origin")
+        self.action_origin.setCheckable(True)
         self.action_opcionVisualizacion = QAction(MainWindow)
         self.action_opcionVisualizacion.setObjectName(u"action_opcionVisualizacion")
         self.action_deshacer = QAction(MainWindow)
@@ -472,6 +474,9 @@ class Ui_MainWindow(object):
         self.action_cortar.setObjectName(u"action_cortar")
         self.action_listadoRecinetes = QAction(MainWindow)
         self.action_listadoRecinetes.setObjectName(u"action_listadoRecinetes")
+        self.action_axis = QAction(MainWindow)
+        self.action_axis.setObjectName(u"action_axis")
+        self.action_axis.setCheckable(True)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setEnabled(True)
@@ -1566,11 +1571,12 @@ class Ui_MainWindow(object):
         self.menu_editar.addAction(self.action_copiar)
         self.menu_editar.addAction(self.action_pegar)
         self.menu_editar.addAction(self.action_cortar)
-        self.menu_vista.addAction(self.action_rejilla)
-        self.menu_vista.addAction(self.action_regla)
+        self.menu_vista.addAction(self.action_origin)
+        self.menu_vista.addAction(self.action_axis)
+        self.menu_vista.addAction(self.action_grid)
+        self.menu_vista.addAction(self.action_console)
+        self.menu_vista.addAction(self.action_rule)
         self.menu_vista.addAction(self.action_dibujo)
-        self.menu_vista.addAction(self.actionConsola)
-        self.menu_vista.addAction(self.action_origen)
         self.menu_vista.addSeparator()
         self.menu_vista.addAction(self.action_opcionVisualizacion)
         self.menu_ayuda.addAction(self.action_ayuda)
@@ -1596,11 +1602,11 @@ class Ui_MainWindow(object):
         self.action_exportar.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
         self.action_ayuda.setText(QCoreApplication.translate("MainWindow", u"Ayuda", None))
         self.action_acerdaDe.setText(QCoreApplication.translate("MainWindow", u"Acerda de", None))
-        self.action_rejilla.setText(QCoreApplication.translate("MainWindow", u"Rejilla", None))
-        self.action_regla.setText(QCoreApplication.translate("MainWindow", u"Regla", None))
+        self.action_grid.setText(QCoreApplication.translate("MainWindow", u"Grilla", None))
+        self.action_rule.setText(QCoreApplication.translate("MainWindow", u"Regla", None))
         self.action_dibujo.setText(QCoreApplication.translate("MainWindow", u"Dibujo", None))
-        self.actionConsola.setText(QCoreApplication.translate("MainWindow", u"Consola", None))
-        self.action_origen.setText(QCoreApplication.translate("MainWindow", u"Origen", None))
+        self.action_console.setText(QCoreApplication.translate("MainWindow", u"Consola", None))
+        self.action_origin.setText(QCoreApplication.translate("MainWindow", u"Origen", None))
         self.action_opcionVisualizacion.setText(QCoreApplication.translate("MainWindow", u"Opci\u00f3n de visualizaci\u00f3n", None))
         self.action_deshacer.setText(QCoreApplication.translate("MainWindow", u"Deshacer", None))
         self.action_rehacer.setText(QCoreApplication.translate("MainWindow", u"Rehacer", None))
@@ -1608,6 +1614,7 @@ class Ui_MainWindow(object):
         self.action_pegar.setText(QCoreApplication.translate("MainWindow", u"Pegar", None))
         self.action_cortar.setText(QCoreApplication.translate("MainWindow", u"Cortar", None))
         self.action_listadoRecinetes.setText(QCoreApplication.translate("MainWindow", u"listado_recientes", None))
+        self.action_axis.setText(QCoreApplication.translate("MainWindow", u"Ejes", None))
         self.toolButton_home.setText(QCoreApplication.translate("MainWindow", u"Inicio", None))
         self.toolButton_drawData.setText(QCoreApplication.translate("MainWindow", u"Datos", None))
         self.toolButton_drawMesh.setText(QCoreApplication.translate("MainWindow", u"Mallado", None))

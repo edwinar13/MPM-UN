@@ -29,6 +29,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     signal_coor_mouse = Signal(list)
     signal_zoom = Signal(float)
 
+    signal_console_hise_show = Signal(bool)
+
     def __init__(self, parent = None, ):
         super(FrameDraw, self).__init__(parent)
         self.setupUi(self)
@@ -59,13 +61,15 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """ Configura la interface de usuario (ui) """ 
 
         # ::::::::::   AJUSTA EL SPLITTER PARA LA ALTURA DE LA CONSOLA  ::::::::::::
-        self.splitter.setStretchFactor(0, 1)      
-        self.splitter.setSizes([100,1]) 
+        self.mode_console_draw(True)
+        self.signal_console_hise_show.emit(True)
+
+
         
 
         # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsScene  ::::::::::::::::::
         self.scene_draw = class_graphics.GraphicsSceneDraw()
-        self.scene_draw.setSceneRect(QRectF(-1, -1, 1, 1))
+        self.scene_draw.setSceneRect(QRectF(-100, -100, 100, 100))
         
 
 
@@ -107,6 +111,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuData.signal_project_save_state.connect(self.__projectSaveState)
 
         # ::::::::::::::::::   SEÑAL>>RANURA FRAME-DRAW-MENU-MESH :::::::::::::::::
+        self.drawMenuMesh.signal_paint_point.connect(self.__clickedToolButtonDrawPaintPoint)
         self.drawMenuMesh.signal_paint_line.connect(self.__clickedToolButtonDrawPaintLine)
         self.drawMenuMesh.signal_paint_polyline.connect(self.__clickedToolButtonDrawPaintPolyline)
         self.drawMenuMesh.signal_paint_rectangle.connect(self.__clickedToolButtonDrawPaintRectangle)
@@ -132,6 +137,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         # para que se aga un clik en un boton desde codigo
         #self.lineEdit_console.returnPressed.connect(self.toolButton_closeConsole.click)
         self.lineEdit_console.returnPressed.connect(self.__returnPressEdineEditConsole)
+        self.splitter.splitterMoved.connect(self.__splitterMovedSplitter)
+
+
+
 
     ###############################################################################
     # ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -153,17 +162,36 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.lineEdit_console.setText("")
         self.view_draw.setFocus()
     
+    def __splitterMovedSplitter(self,pos,index):
+        """Oculta la consola."""
+        min, max = self.splitter.getRange(1)
+        print(pos,"----",max)
+        if pos == max:
+            self.signal_console_hise_show.emit(False)
+        else:
+            self.signal_console_hise_show.emit(True)
+
+            
+        #self.mode_console_draw(False)
+        #self.signal_console_hise_show.emit(False)
+
     def __clickedToolButtonCloseConsole(self):
         """Oculta la consola."""
-        self.splitter.setSizes([1,0]) 
+        self.mode_console_draw(False)
+        self.signal_console_hise_show.emit(False)
 
+    def __clickedToolButtonDrawPaintPoint(self):
+        self.view_draw.drawPointScene()
+        print("point")
+        
     def __clickedToolButtonDrawPaintLine(self):
+        self.view_draw.drawLineScene()
         self.view_draw.setSceneRect(self.view_draw.sceneRect().translated(10, 10))
         print("linea")
         pass
         '''
         self.graphicsView_draw.isObject = 0
-        self.graphicsView_draw.isLine = False
+        self.graphicsView_draw.line_temp = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
         self.msnConsole("Command","_Line")
@@ -174,7 +202,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         pass
         '''
         self.graphicsView_draw.isObject = 1
-        self.graphicsView_draw.isLine = False
+        self.graphicsView_draw.line_temp = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
         '''
@@ -183,7 +211,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         pass
         '''
         self.graphicsView_draw.isObject = 2
-        self.graphicsView_draw.isLine = False
+        self.graphicsView_draw.line_temp = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.isClear = False
         '''
@@ -200,7 +228,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.graphicsView_draw.isClear = False
 
         self.graphicsView_draw.isObject = None
-        self.graphicsView_draw.isLine = False
+        self.graphicsView_draw.line_temp = False
         self.graphicsView_draw.isDelate = False
         self.graphicsView_draw.graphicsScene_draw.clear()
         '''
@@ -208,10 +236,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     def __clickedToolButtonDrawPaintCopy(self):
         pass
         '''
-        if self.graphicsView_draw.isLine == False:
-            self.graphicsView_draw.isLine = True
+        if self.graphicsView_draw.line_temp == False:
+            self.graphicsView_draw.line_temp = True
         else:
-            self.graphicsView_draw.isLine = False
+            self.graphicsView_draw.line_temp = False
 
         self.graphicsView_draw.isObject = None
         self.graphicsView_draw.isDelate = False
@@ -227,7 +255,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.graphicsView_draw.isDelate = False
 
         self.graphicsView_draw.isObject = None
-        self.graphicsView_draw.isLine = False
+        self.graphicsView_draw.line_temp = False
         self.graphicsView_draw.isClear = False
         '''
 
@@ -266,7 +294,19 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
         self.drawMenuData.initDrawMenuDataProject(project)
 
+
     def mode_origin_draw(self,mode:bool):
+        """Establece el modo en la escena para ocultar o mostrar el origen.
+
+        Args:
+            mode(bool): modo de los ejes
+                        False: origen Oculto
+                        False: origen visible
+        """ 
+        self.view_draw.mode_origin=mode
+        self.scene_draw.update()
+
+    def mode_axis_draw(self,mode:bool):
         """Establece el modo en la escena para ocultar o mostrar los ejes principales.
 
         Args:
@@ -275,8 +315,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                         False: ejes visible
         """ 
         self.scene_draw.mode_axis=mode
-        self.view_draw.scale(1.5,1.5)
-        self.view_draw.scale(0.6666666666,0.6666666666)
+        self.scene_draw.update()
+        #self.view_draw.scale(1.5,1.5)
+        #self.view_draw.scale(0.6666666666,0.6666666666)
 
     def mode_grid_draw(self,mode:bool):
         """Establece el modo en la escena para ocultar o mostrar la grilla.
@@ -287,8 +328,28 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                         False: grilla visible
         """ 
         self.scene_draw.mode_grid=mode
-        self.view_draw.scale(1.5,1.5)
-        self.view_draw.scale(0.6666666666,0.6666666666)
+        self.scene_draw.update()
+        #self.view_draw.scale(1.5,1.5)
+        #self.view_draw.scale(0.6666666666,0.6666666666)
+
+    def mode_console_draw(self,isVisible:bool):
+        """Oculta o muestra la consola.
+
+        Args:
+            mode(bool): modo de vista de la consola
+                        False: consola oculta
+                        False: consola visible
+        """ 
+        if isVisible:
+            self.splitter.setStretchFactor(0, 1)      
+            self.splitter.setSizes([100,1]) 
+        else:
+            self.splitter.setSizes([1,0])
+            
+
+
+
+
 
     def __projectSaveState(self, there_are_changes):
         """Recibe la señal del estado del guardado del proyecto y remite la misma, señal a main window.

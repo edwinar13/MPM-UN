@@ -40,6 +40,7 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     signal_msn_informative = Signal(str)  
     signal_project_save_state = Signal(bool) 
     
+    signal_paint_point = Signal() 
     signal_paint_line = Signal() 
     signal_paint_polyline = Signal() 
     signal_paint_rectangle = Signal() 
@@ -99,6 +100,7 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         
         # :::::::::::::::::::::::            EVENTOS DRAW MENU MESH  DIBUJO            :::::::::::::::::::::::
+        self.toolButton_cardMeshDraw4.clicked.connect(self.__clickedToolButtonCardMeshDrawPoint)
         self.toolButton_cardMeshDraw1.clicked.connect(self.__clickedToolButtonCardMeshDrawLine)
         self.toolButton_cardMeshDraw2.clicked.connect(self.__clickedToolButtonCardMeshDrawPolyline)
         self.toolButton_cardMeshDraw3.clicked.connect(self.__clickedToolButtonCardMeshDrawRectangle)
@@ -121,9 +123,11 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
     """ Métodos para los eventos de los botones y widget """
+    def __clickedToolButtonCardMeshDrawPoint(self):
+        self.signal_paint_point.emit()
+
     def __clickedToolButtonCardMeshDrawLine(self):
         self.signal_paint_line.emit()
-
     
     def __clickedToolButtonCardMeshDrawPolyline(self):
         self.signal_paint_polyline.emit()

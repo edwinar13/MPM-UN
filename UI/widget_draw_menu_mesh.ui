@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>591</height>
+    <height>644</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -731,6 +731,38 @@ background: none;
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QToolButton" name="toolButton_cardMeshDraw4">
+                   <property name="minimumSize">
+                    <size>
+                     <width>35</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>35</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>../recursos/iconos/iconos_menu_draw_mesh/point.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/point.svg</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>35</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="arrowType">
+                    <enum>Qt::NoArrow</enum>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QToolButton" name="toolButton_cardMeshDraw1">
                    <property name="minimumSize">

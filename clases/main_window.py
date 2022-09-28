@@ -106,11 +106,14 @@ class MainWindow(QMainWindow):
         self.ui.action_exportar.setStatusTip('Exportar')
         
 
-        self.ui.action_origen.setChecked(True)
-        self.ui.action_origen.setShortcut('F7')
-
-        self.ui.action_rejilla.setChecked(True)
-        self.ui.action_rejilla.setShortcut('F8')
+        self.ui.action_origin.setChecked(True)
+        self.ui.action_origin.setShortcut('F6')
+        self.ui.action_axis.setChecked(True)
+        self.ui.action_axis.setShortcut('F7')
+        self.ui.action_grid.setChecked(True)
+        self.ui.action_grid.setShortcut('F8')
+        self.ui.action_console.setChecked(True)
+        self.ui.action_console.setShortcut('F9')
 
         self.shortcut_esc = QShortcut(QKeySequence('ESC'), self)
         self.shortcut_esc.setObjectName("key_esc")
@@ -227,6 +230,7 @@ class MainWindow(QMainWindow):
         self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
         self.frame_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
         self.frame_draw.signal_zoom.connect(self._printStatusBarZoom)
+        self.frame_draw.signal_console_hise_show.connect(self._console_hise_show)
 
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
         self.ui.toolButton_home.clicked.connect(self.__clickedToolButtonMenuLat)
@@ -245,8 +249,11 @@ class MainWindow(QMainWindow):
         #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
         #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
         self.ui.action_abrir.triggered.connect(self.__triggeredActionAbrirProyecto)
-        self.ui.action_origen.triggered.connect(self.__triggeredActionShowHideOrigen)
-        self.ui.action_rejilla.triggered.connect(self.__triggeredActionShowHideGrid)
+
+        self.ui.action_origin.triggered.connect(self.__triggeredActionShowHideOrigin)
+        self.ui.action_axis.triggered.connect(self.__triggeredActionShowHideAxis)
+        self.ui.action_grid.triggered.connect(self.__triggeredActionShowHideGrid)
+        self.ui.action_console.triggered.connect(self.__triggeredActionShowHideConsole)
 
 
 
@@ -397,13 +404,22 @@ class MainWindow(QMainWindow):
             else:
                 self.setWindowTitle(nameCurrent)
 
-    def __triggeredActionShowHideOrigen(self):        
-        """ envia a la scena draw el modo del origen true para ver y false para ocultar"""
-        self.frame_draw.mode_origin_draw(self.ui.action_origen.isChecked())
+    def __triggeredActionShowHideOrigin(self):        
+        """ envia a la scena draw el modo del origen true para ver y false para ocultar"""   
+        self.frame_draw.mode_origin_draw(self.ui.action_origin.isChecked())
+                
+    def __triggeredActionShowHideAxis(self):        
+        """ envia a la scena draw el modo del axis true para ver y false para ocultar"""
+        self.frame_draw.mode_axis_draw(self.ui.action_axis.isChecked())
                 
     def __triggeredActionShowHideGrid(self):        
         """ envia a la scena draw el modo del grilla true para ver y false para ocultar"""
-        self.frame_draw.mode_grid_draw(self.ui.action_rejilla.isChecked())
+        self.frame_draw.mode_grid_draw(self.ui.action_grid.isChecked())
+                
+    def __triggeredActionShowHideConsole(self):        
+        """ envia a la scena draw el modo del grilla true para ver y false para ocultar"""
+        self.frame_draw.mode_console_draw(self.ui.action_console.isChecked())
+
           
     ###############################################################################
 	# ::::::::::::::::::::      MÉTODOS DE EVENTOS SETTING     ::::::::::::::::::::
@@ -760,7 +776,9 @@ class MainWindow(QMainWindow):
         self.label_zoom.setText(zoom)
         self.ComboBox_zoom.setCurrentIndex(0)
         self.ComboBox_zoom.setItemText(0,"» {}".format(zoom))
-
+    @Slot(bool)
+    def _console_hise_show(self,state):
+        self.ui.action_console.setChecked(state)
 
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::

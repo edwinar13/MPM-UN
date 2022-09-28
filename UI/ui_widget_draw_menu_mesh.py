@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_meshTdQGfL.ui'
+## Form generated from reading UI file 'widget_draw_menu_meshsAILpP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -24,7 +24,7 @@ class Ui_FormDrawMenuMesh(object):
     def setupUi(self, FormDrawMenuMesh):
         if not FormDrawMenuMesh.objectName():
             FormDrawMenuMesh.setObjectName(u"FormDrawMenuMesh")
-        FormDrawMenuMesh.resize(350, 591)
+        FormDrawMenuMesh.resize(350, 644)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -553,13 +553,25 @@ class Ui_FormDrawMenuMesh(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.toolButton_cardMeshDraw4 = QToolButton(self.frame_mesh1)
+        self.toolButton_cardMeshDraw4.setObjectName(u"toolButton_cardMeshDraw4")
+        self.toolButton_cardMeshDraw4.setMinimumSize(QSize(35, 35))
+        self.toolButton_cardMeshDraw4.setMaximumSize(QSize(35, 35))
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/point.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw4.setIcon(icon2)
+        self.toolButton_cardMeshDraw4.setIconSize(QSize(35, 35))
+        self.toolButton_cardMeshDraw4.setArrowType(Qt.NoArrow)
+
+        self.horizontalLayout_8.addWidget(self.toolButton_cardMeshDraw4)
+
         self.toolButton_cardMeshDraw1 = QToolButton(self.frame_mesh1)
         self.toolButton_cardMeshDraw1.setObjectName(u"toolButton_cardMeshDraw1")
         self.toolButton_cardMeshDraw1.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw1.setMaximumSize(QSize(35, 35))
-        icon2 = QIcon()
-        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/line.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw1.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw1.setIcon(icon3)
         self.toolButton_cardMeshDraw1.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw1.setArrowType(Qt.NoArrow)
 
@@ -569,9 +581,9 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDraw2.setObjectName(u"toolButton_cardMeshDraw2")
         self.toolButton_cardMeshDraw2.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw2.setMaximumSize(QSize(35, 35))
-        icon3 = QIcon()
-        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/polyline.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw2.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/polyline.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw2.setIcon(icon4)
         self.toolButton_cardMeshDraw2.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw2.setArrowType(Qt.NoArrow)
 
@@ -581,9 +593,9 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDraw3.setObjectName(u"toolButton_cardMeshDraw3")
         self.toolButton_cardMeshDraw3.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw3.setMaximumSize(QSize(35, 35))
-        icon4 = QIcon()
-        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rectangle.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw3.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rectangle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw3.setIcon(icon5)
         self.toolButton_cardMeshDraw3.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw3.setArrowType(Qt.NoArrow)
 
@@ -602,9 +614,9 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDraw8.setObjectName(u"toolButton_cardMeshDraw8")
         self.toolButton_cardMeshDraw8.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw8.setMaximumSize(QSize(35, 35))
-        icon5 = QIcon()
-        icon5.addFile(u"recursos/iconos/iconos_menu_draw_mesh/move.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw8.setIcon(icon5)
+        icon6 = QIcon()
+        icon6.addFile(u"recursos/iconos/iconos_menu_draw_mesh/move.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw8.setIcon(icon6)
         self.toolButton_cardMeshDraw8.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw8.setArrowType(Qt.NoArrow)
 
@@ -614,9 +626,9 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDraw9.setObjectName(u"toolButton_cardMeshDraw9")
         self.toolButton_cardMeshDraw9.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw9.setMaximumSize(QSize(35, 35))
-        icon6 = QIcon()
-        icon6.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rotate.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw9.setIcon(icon6)
+        icon7 = QIcon()
+        icon7.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rotate.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw9.setIcon(icon7)
         self.toolButton_cardMeshDraw9.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw9.setArrowType(Qt.NoArrow)
 
@@ -626,9 +638,9 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDraw10.setObjectName(u"toolButton_cardMeshDraw10")
         self.toolButton_cardMeshDraw10.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw10.setMaximumSize(QSize(35, 35))
-        icon7 = QIcon()
-        icon7.addFile(u"recursos/iconos/iconos_menu_draw_mesh/copy.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw10.setIcon(icon7)
+        icon8 = QIcon()
+        icon8.addFile(u"recursos/iconos/iconos_menu_draw_mesh/copy.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw10.setIcon(icon8)
         self.toolButton_cardMeshDraw10.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw10.setArrowType(Qt.NoArrow)
 
@@ -638,9 +650,9 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDraw11.setObjectName(u"toolButton_cardMeshDraw11")
         self.toolButton_cardMeshDraw11.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDraw11.setMaximumSize(QSize(35, 35))
-        icon8 = QIcon()
-        icon8.addFile(u"recursos/iconos/iconos_menu_draw_mesh/erase.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw11.setIcon(icon8)
+        icon9 = QIcon()
+        icon9.addFile(u"recursos/iconos/iconos_menu_draw_mesh/erase.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw11.setIcon(icon9)
         self.toolButton_cardMeshDraw11.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDraw11.setArrowType(Qt.NoArrow)
 
@@ -724,9 +736,9 @@ class Ui_FormDrawMenuMesh(object):
 
         self.toolButton_cardMeshDraw7 = QToolButton(self.frame_3)
         self.toolButton_cardMeshDraw7.setObjectName(u"toolButton_cardMeshDraw7")
-        icon9 = QIcon()
-        icon9.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw7.setIcon(icon9)
+        icon10 = QIcon()
+        icon10.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw7.setIcon(icon10)
         self.toolButton_cardMeshDraw7.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDraw7.setArrowType(Qt.NoArrow)
 
@@ -788,9 +800,9 @@ class Ui_FormDrawMenuMesh(object):
 
         self.toolButton_cardMeshDraw5 = QToolButton(self.frame)
         self.toolButton_cardMeshDraw5.setObjectName(u"toolButton_cardMeshDraw5")
-        icon10 = QIcon()
-        icon10.addFile(u"recursos/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw5.setIcon(icon10)
+        icon11 = QIcon()
+        icon11.addFile(u"recursos/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw5.setIcon(icon11)
         self.toolButton_cardMeshDraw5.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDraw5.setArrowType(Qt.NoArrow)
 
@@ -818,9 +830,9 @@ class Ui_FormDrawMenuMesh(object):
 
         self.toolButton_cardMeshDraw6 = QToolButton(self.frame_3)
         self.toolButton_cardMeshDraw6.setObjectName(u"toolButton_cardMeshDraw6")
-        icon11 = QIcon()
-        icon11.addFile(u"recursos/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw6.setIcon(icon11)
+        icon12 = QIcon()
+        icon12.addFile(u"recursos/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw6.setIcon(icon12)
         self.toolButton_cardMeshDraw6.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDraw6.setArrowType(Qt.NoArrow)
 
@@ -967,6 +979,7 @@ class Ui_FormDrawMenuMesh(object):
         self.label_cardMeshTitle.setText(QCoreApplication.translate("FormDrawMenuMesh", u"MALLADO", None))
         self.label_cardMeshSubTitle1.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Dibujo", None))
         self.toolButton_cardMeshSubTitle1.setText("")
+        self.toolButton_cardMeshDraw4.setText("")
         self.toolButton_cardMeshDraw1.setText("")
         self.toolButton_cardMeshDraw2.setText("")
         self.toolButton_cardMeshDraw3.setText("")

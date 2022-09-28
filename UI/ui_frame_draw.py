@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawfHTdMS.ui'
+## Form generated from reading UI file 'frame_drawjKqamK.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -23,7 +23,7 @@ class Ui_FormDraw(object):
     def setupUi(self, FormDraw):
         if not FormDraw.objectName():
             FormDraw.setObjectName(u"FormDraw")
-        FormDraw.resize(260, 383)
+        FormDraw.resize(422, 425)
         FormDraw.setStyleSheet(u"\n"
 "/*Colores primarios*/\n"
 "/* \n"
@@ -140,12 +140,13 @@ class Ui_FormDraw(object):
         sizePolicy1.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
         self.frame_3.setSizePolicy(sizePolicy1)
         self.frame_3.setStyleSheet(u"")
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.frame_3.setFrameShape(QFrame.NoFrame)
+        self.frame_3.setFrameShadow(QFrame.Plain)
+        self.frame_3.setLineWidth(0)
         self.verticalLayout_3 = QVBoxLayout(self.frame_3)
-        self.verticalLayout_3.setSpacing(4)
+        self.verticalLayout_3.setSpacing(8)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 4, 4, 0)
+        self.verticalLayout_3.setContentsMargins(0, 8, 8, 0)
         self.textBrowser_2 = QTextBrowser(self.frame_3)
         self.textBrowser_2.setObjectName(u"textBrowser_2")
         sizePolicy.setHeightForWidth(self.textBrowser_2.sizePolicy().hasHeightForWidth())
