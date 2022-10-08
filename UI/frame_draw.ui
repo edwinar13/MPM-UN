@@ -76,25 +76,34 @@ background-color: transparent;
 QLineEdit#lineEdit_console{
 background-color: #444444;
 color: #DDDDDD;
-border-radius: 2px ;
+border-radius: 5px ;
+
 padding-left: 10px;
 }
 
 #label_console{
 background-color: #444444;
 color: #DDDDDD;
-border-radius: 2px ;
+
+border-top-left-radius: 5px ;
+border-bottom-left-radius: 5px ;
+
 margin-left: 10px;
+
+border-top: 1px solid rgb(254, 255, 198);
+border-bottom: 1px solid rgb(254, 255, 198);
+border-left: 1px solid rgb(254, 255, 198);
 }
 
 
 QLineEdit#lineEdit_console:hover {
 	border: 2px solid rgb(64, 71, 88);
 }
+/*
 QLineEdit#lineEdit_console:focus {
 	border: 2px solid rgb(91, 101, 124);
 }
-
+*/
 
 </string>
   </property>
@@ -251,7 +260,7 @@ hr { height: 1px; border-width: 0; }
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>0</number>
+             <number>3</number>
             </property>
             <item>
              <widget class="QToolButton" name="toolButton_closeConsole">
@@ -385,13 +394,13 @@ hr { height: 1px; border-width: 0; }
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>20</height>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>20</height>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="font">

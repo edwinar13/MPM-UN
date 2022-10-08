@@ -3,7 +3,7 @@ es la ventana principal del programa."""
 from datetime import datetime
 from PySide6.QtCore import ( QFile, Slot,QSize,Qt,QTimer)
 from PySide6.QtWidgets import (QApplication, QMainWindow,QFileDialog,
-QFrame, QSizePolicy,QLabel,QPushButton,QComboBox)
+QFrame, QSizePolicy,QLabel,QPushButton,QComboBox,QToolButton)
 from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence)
 from ui import ui_main_window
 from clases import class_projects
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
             self.setStyleSheet(f.read())
         self.showMaximized()
         """       
-
+        #self.setFixedSize(QSize(1000,600))
 
 
 
@@ -115,65 +115,83 @@ class MainWindow(QMainWindow):
         self.ui.action_console.setChecked(True)
         self.ui.action_console.setShortcut('F9')
 
+
+
         self.shortcut_esc = QShortcut(QKeySequence('ESC'), self)
         self.shortcut_esc.setObjectName("key_esc")
+
+        self.shortcut_change_thema = QShortcut(QKeySequence('Ctrl++'), self)
+        self.shortcut_change_thema.setObjectName("shortcut_change_thema")
+
 
 
         # ::::::::::::::::::::   WIDGET BARRA DE ESTADO ::::::::::::::::::::
         #-----------------------------------------------------------------------------------
-        #self.ui.statusbar().showMessage("bla-bla bla")
+        
         self.label_coor = QLabel("Coor")
         self.label_coor.setStyleSheet('border: none; color:  #DDDDDD')
         self.label_coor.setMinimumSize(QSize(100, 0))
         self.label_coor.setAlignment(Qt.AlignCenter)
+        self.label_coor.setVisible(False)
+
         self.label_zoom = QLabel("Zoom")
         self.label_zoom.setStyleSheet('border: none; color:  #DDDDDD')
         self.label_zoom.setMinimumSize(QSize(80, 0))
         self.label_zoom.setAlignment(Qt.AlignCenter)
+        self.label_zoom.setVisible(False)
+        
+
         self.ComboBox_zoom = QComboBox()
         self.ComboBox_zoom.addItems(["Zoom","10%", "50%", "100%", "150%", "200%", "500%", "1000%"])
-        self.ComboBox_zoom.setCurrentIndex(0)
-        self.ComboBox_zoom.currentTextChanged.connect(self.view_scale_changed)
+        self.ComboBox_zoom.setCurrentIndex(0)        
         self.ComboBox_zoom.setMinimumSize(QSize(100, 0))
         self.ComboBox_zoom.setObjectName(u"ComboBox_zoom")
         self.ComboBox_zoom.setStyleSheet('color: #888888')
         self.ComboBox_zoom.setVisible(False)
 
+        self.toolButton_snap_grid = QToolButton()
+        self.toolButton_snap_grid.setCheckable(True)
+        self.toolButton_snap_grid.setStyleSheet('border-color: red; background-color: #333333 ;margin: 0px 3px ')
+        self.toolButton_snap_grid.setMinimumSize(QSize(40, 0))
+        self.icon_snap_grid = QIcon()
+        self.icon_snap_grid.addFile(u"recursos/iconos/iconos_status_bar/snap_grid.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_snap_grid.setIcon(self.icon_snap_grid)
+        self.toolButton_snap_grid.setVisible(False)
+
+        self.toolButton_ortho = QToolButton()
+        self.toolButton_ortho.setCheckable(True)
+        self.toolButton_ortho.setStyleSheet('border-color: red; background-color: #333333 ;margin: 0px 3px ')
+        self.toolButton_ortho.setMinimumSize(QSize(40, 0))
+        self.icon_ortho = QIcon()
+        self.icon_ortho.addFile(u"recursos/iconos/iconos_status_bar/ortho.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_ortho.setIcon(self.icon_ortho)
+        self.toolButton_ortho.setVisible(False)
+
+        self.toolButton_osnap = QToolButton()
+        self.toolButton_osnap.setCheckable(True)
+        self.toolButton_osnap.setStyleSheet('border-color: red; background-color: #333333 ;margin: 0px 3px ')
+        self.toolButton_osnap.setMinimumSize(QSize(40, 0))
+        self.icon_osnap = QIcon()
+        self.icon_osnap.addFile(u"recursos/iconos/iconos_status_bar/osnap.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_osnap.setIcon(self.icon_osnap)
+        self.toolButton_osnap.setVisible(False)
 
         #self.statusBar().addPermanentWidget(VLine())    # <---
+        
+        self.statusBar().addPermanentWidget(self.toolButton_osnap)
+        self.statusBar().addPermanentWidget(self.toolButton_ortho)
+        self.statusBar().addPermanentWidget(self.toolButton_snap_grid)
         self.statusBar().addPermanentWidget(self.ComboBox_zoom)
         self.statusBar().addPermanentWidget(self.label_zoom)
         self.statusBar().addPermanentWidget(self.label_coor)
 
-        '''
-        self.statusBar().showMessage("bla-bla bla")
-
-        self.lbl2 = QLabel("Data : ")
-        self.lbl2.setStyleSheet('border: 0; color:  red;')
-        ed = QPushButton('StatusBar text')
-        ed.setStyleSheet('background-color: #FFF8DC; color:  red;')
-
         self.statusBar().reformat()
+        '''
         self.statusBar().setStyleSheet('border: 0; background-color: #FFF8DC;')
         self.statusBar().setStyleSheet("QStatusBar::item {border: none;}") 
         '''
 
-        '''
-        
-        #self.statusBar().addPermanentWidget(VLine())    # <---
-        self.statusBar().addPermanentWidget(self.lbl2)
-        #self.statusBar().addPermanentWidget(VLine())    # <---
-        self.statusBar().addPermanentWidget(ed)
-        #self.statusBar().addPermanentWidget(VLine())    # <---
 
-        
-        self.lbl1.setText("Label: Hello")
-        self.lbl2.setText("Data : 15-09-2019")
-
-        ed.clicked.connect(lambda: self.statusBar().showMessage("Hello "))
-        #-----------------------------------------------------------------------------------
-
-        '''
 
 
         # ::::::::::::::::::::   SHORTCUT Y STATUS DE MENÚ LATERAL ::::::::::::::::::::
@@ -256,6 +274,13 @@ class MainWindow(QMainWindow):
         self.ui.action_console.triggered.connect(self.__triggeredActionShowHideConsole)
 
 
+        # ::::::::::::::::::::   EVENTOS STATUS BAR ::::::::::::::::::::
+        self.toolButton_snap_grid.clicked.connect(self.__clickedToolButtoSnapGrid)
+        self.toolButton_ortho.clicked.connect(self.__clickedToolButtoOrtho)
+        self.toolButton_osnap.clicked.connect(self.__clickedToolButtoOsnap)
+        self.ComboBox_zoom.currentTextChanged.connect(self.__currentTextChangedComboBoxZoom)
+
+
 
         # ::::::::::::::::::::    EVENTOS  SETTING    ::::::::::::::::::::    
         self.ui.horizontalSlider_1.valueChanged.connect(self.__updateSetting)
@@ -269,6 +294,7 @@ class MainWindow(QMainWindow):
 
         # ::::::::::::::::::::    EVENTOS  SHORTCUT    ::::::::::::::::::::    
         self.shortcut_esc.activated.connect(self.__activatedShortCutEsc)
+        self.shortcut_change_thema.activated.connect(self.__activatedShortCutChangeTheme)
 
     ###############################################################################
 	# ::::::::::::::::::::    MÉTODOS DE EVENTOS MENU LATERAL   ::::::::::::::::::::
@@ -334,6 +360,17 @@ class MainWindow(QMainWindow):
     ###############################################################################
 	# ::::::::::::::::::::  MÉTODOS DE EVENTOS MENU SUPERIOR  ::::::::::::::::::::
 	###############################################################################
+        
+    def __activatedShortCutChangeTheme(self):
+        """cambia de tema en los tres disponibles"""
+        index_theme = self.ui.comboBox_3.currentIndex()
+        if index_theme ==2:
+            self.ui.comboBox_3.setCurrentIndex(0)
+        else:
+            self.ui.comboBox_3.setCurrentIndex(index_theme+1)
+
+      
+    
     def __activatedShortCutEsc(self):
         """Al presionar ESC ejecuta aciones contenidas en la lista. """
         for action in  self.list_action_esc:
@@ -558,26 +595,49 @@ class MainWindow(QMainWindow):
             [self.ui.frame_drawBoundary, self.ui.frame_drawBoundaryInf,self.ui.page_draw],
             [self.ui.frame_viewResult, self.ui.frame_viewResultInf,self.ui.page_view]
             ]
+        
+        
+        self.label_coor.setVisible(False)
         self.ComboBox_zoom.setVisible(False)
+        self.toolButton_snap_grid.setVisible(False)
+        self.toolButton_ortho.setVisible(False)
+        self.toolButton_osnap.setVisible(False)
+
         if button == 1 or button == 2 or button == 3 or button == 4 or button == 5 or button == 6:
             list_button[button-1][0].setStyleSheet("background-color: #36C9C6;") 
             list_button[button-1][1].setStyleSheet("background-color: #2B2B2B;")
             self.ui.stackedWidget_container.setCurrentWidget(list_button[button-1][2])
             if button == 2:
                 self.frame_draw.showHideDrawMenu("Data")
+                self.label_coor.setVisible(True)
                 self.ComboBox_zoom.setVisible(True)
+                self.toolButton_snap_grid.setVisible(True)
+                self.toolButton_ortho.setVisible(True)
+                self.toolButton_osnap.setVisible(True)
 
             elif button == 3:
                 self.frame_draw.showHideDrawMenu("Mesh")
+                self.label_coor.setVisible(True)
                 self.ComboBox_zoom.setVisible(True)
+                self.toolButton_snap_grid.setVisible(True)
+                self.toolButton_ortho.setVisible(True)
+                self.toolButton_osnap.setVisible(True)
 
             elif button == 4:
                 self.frame_draw.showHideDrawMenu("Point")
+                self.label_coor.setVisible(True)
                 self.ComboBox_zoom.setVisible(True)
+                self.toolButton_snap_grid.setVisible(True)
+                self.toolButton_ortho.setVisible(True)
+                self.toolButton_osnap.setVisible(True)
 
             elif button == 5:
                 self.frame_draw.showHideDrawMenu("Boundary")
+                self.label_coor.setVisible(True)
                 self.ComboBox_zoom.setVisible(True)
+                self.toolButton_snap_grid.setVisible(True)
+                self.toolButton_ortho.setVisible(True)
+                self.toolButton_osnap.setVisible(True)
 
         elif button == 7:            
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
@@ -636,7 +696,11 @@ class MainWindow(QMainWindow):
 
                 self.previous_selected_button = 2
                 self.__viewToolButtonMenuLat(self.previous_selected_button)
+                self.label_coor.setVisible(True)
                 self.ComboBox_zoom.setVisible(True)
+                self.toolButton_snap_grid.setVisible(True)
+                self.toolButton_ortho.setVisible(True)
+                self.toolButton_osnap.setVisible(True)
                 self.__showMessageInformative("Se ha abierto el proyecto: {}".format(self.__actual_project.getName()))
 
 
@@ -745,7 +809,16 @@ class MainWindow(QMainWindow):
     ###############################################################################
 	# ::::::::::::::::        MÉTODOS PARA BARRA DE ESTADO         ::::::::::::::::
 	###############################################################################
-    def view_scale_changed(self,scale):
+    def __clickedToolButtoSnapGrid(self,mode):
+       self.frame_draw.view_draw.mode_snap_grid = mode
+ 
+    def __clickedToolButtoOrtho(self,mode):
+        self.frame_draw.view_draw.mode_ortho = mode
+       
+    def __clickedToolButtoOsnap(self,mode):
+        self.frame_draw.view_draw.mode_osnap = mode
+      
+    def __currentTextChangedComboBoxZoom(self,scale):
         index =self.ComboBox_zoom.currentIndex()
 
         if index == 0:
@@ -763,9 +836,7 @@ class MainWindow(QMainWindow):
         x = round(coor_list[0],4)
         y = round(coor_list[1],4)
         self.label_coor.setText("{:.3f}, {:.3f}".format(x,y))
-        
-
-
+      
     @Slot(float)
     def _printStatusBarZoom(self, zoom):
         """Imprime en la barra de estado el procenta de zoom en el  QGraphics.
@@ -776,6 +847,7 @@ class MainWindow(QMainWindow):
         self.label_zoom.setText(zoom)
         self.ComboBox_zoom.setCurrentIndex(0)
         self.ComboBox_zoom.setItemText(0,"» {}".format(zoom))
+    
     @Slot(bool)
     def _console_hise_show(self,state):
         self.ui.action_console.setChecked(state)

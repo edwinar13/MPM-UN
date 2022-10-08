@@ -43,16 +43,12 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
         # Establece los eventos de la UI
         self.__initEventUi()
-
-
     """
     def resizeEvent(self, event):
         #print("Tamaño: {}".format(self.viewport().rect()))
         #self.graphicsView_draw.setSceneRect(QRectF(0,0,1000,1000))
         pass
     """
-
-
 
     ###############################################################################
     # ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -98,10 +94,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.comboBox_console.setEditable(True)
         self.showHideDrawMenu("Data")
 
-
-
-
-
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
         # ::::::::::::::::::   SEÑAL>>RANURA FRAME-DRAW-MENU-DATA :::::::::::::::::
@@ -123,7 +115,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         # ::::::::::::::::::   SEÑAL>>RANURA VIEW Y SCENE DRAW :::::::::::::::::        
         self.scene_draw.coor_mouse.connect(self.coor_mouse)
-        self.view_draw.zoom_view.connect(self.zoom_view)
+        self.view_draw.signal_zoom_view.connect(self.zoom_view)
+        self.view_draw.signal_end_draw_geometry.connect(self.end_draw_geometry)
         #self.view_draw2.zoom_view.connect(self.zoom_view)
         '''        
         self.scene_draw.item_inserted.connect(self.item_inserted)
@@ -136,11 +129,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.toolButton_closeConsole.clicked.connect(self.__clickedToolButtonCloseConsole)
         # para que se aga un clik en un boton desde codigo
         #self.lineEdit_console.returnPressed.connect(self.toolButton_closeConsole.click)
-        self.lineEdit_console.returnPressed.connect(self.__returnPressEdineEditConsole)
+        self.lineEdit_console.returnPressed.connect(self.__returnPressedLineEditConsole)
         self.splitter.splitterMoved.connect(self.__splitterMovedSplitter)
-
-
-
 
     ###############################################################################
     # ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -151,27 +141,15 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
          para escribir comando en la consola."""
         self.lineEdit_console.setText(key)
         self.lineEdit_console.setFocus()
-    
-    def __returnPressEdineEditConsole(self):
-        """Método presionar enter en el line edit de la consola para ejecutar el comando."""
-        print("precionado enter de consola falta la logica")
-
-        #&&&&&&&&&&   &%%%%%%%%%%%
-  
         
-        self.lineEdit_console.setText("")
-        self.view_draw.setFocus()
-    
     def __splitterMovedSplitter(self,pos,index):
         """Oculta la consola."""
         min, max = self.splitter.getRange(1)
-        print(pos,"----",max)
         if pos == max:
             self.signal_console_hise_show.emit(False)
         else:
             self.signal_console_hise_show.emit(True)
-
-            
+           
         #self.mode_console_draw(False)
         #self.signal_console_hise_show.emit(False)
 
@@ -180,41 +158,54 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.mode_console_draw(False)
         self.signal_console_hise_show.emit(False)
 
+    def __returnPressedLineEditConsole(self):
+        """Método presionar enter en el line edit de la consola para ejecutar el comando."""
+        command = self.lineEdit_console.text()
+        print(command)
+
+        
+        if command.lower() == "point" or command.lower() == "p":
+            command = "point"
+            self.view_draw.drawPointScene()
+
+        elif command.lower() == "line" or command.lower() == "l":
+            command = "line"
+            self.view_draw.drawLineScene()
+
+        elif command.lower() == "pline" or command.lower() == "pl":
+            command = "pline"
+            self.view_draw.drawPolylineScene()
+
+
+        elif command.lower() == "rectang" or command.lower() == "rec":
+            command = "rectang"
+            self.view_draw.drawRectangleScene()
+        else:
+            self.lineEdit_console.setText("")
+            self.view_draw.setFocus()
+            return
+
+        self.init_draw_geometry(command)
+        
     def __clickedToolButtonDrawPaintPoint(self):
+        self.init_draw_geometry("point")
         self.view_draw.drawPointScene()
-        print("point")
         
     def __clickedToolButtonDrawPaintLine(self):
         self.view_draw.drawLineScene()
+        self.init_draw_geometry("line")
         self.view_draw.setSceneRect(self.view_draw.sceneRect().translated(10, 10))
         print("linea")
-        pass
-        '''
-        self.graphicsView_draw.isObject = 0
-        self.graphicsView_draw.line_temp = False
-        self.graphicsView_draw.isDelate = False
-        self.graphicsView_draw.isClear = False
-        self.msnConsole("Command","_Line")
-        self.msnLabelConsole("LINEA [Primer punto]: ")
-        '''
 
     def __clickedToolButtonDrawPaintPolyline(self):
-        pass
-        '''
-        self.graphicsView_draw.isObject = 1
-        self.graphicsView_draw.line_temp = False
-        self.graphicsView_draw.isDelate = False
-        self.graphicsView_draw.isClear = False
-        '''
+        self.init_draw_geometry("pline")
+        self.view_draw.drawPolylineScene()
+        print("Polyline")
 
     def __clickedToolButtonDrawPaintRectangle(self):
-        pass
-        '''
-        self.graphicsView_draw.isObject = 2
-        self.graphicsView_draw.line_temp = False
-        self.graphicsView_draw.isDelate = False
-        self.graphicsView_draw.isClear = False
-        '''
+        self.init_draw_geometry("rectang")
+        self.view_draw.drawRectangleScene()
+        print("rectangulo")
 
     def __clickedToolButtonDrawPaintMove(self):
         pass
@@ -294,7 +285,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
         self.drawMenuData.initDrawMenuDataProject(project)
 
-
     def mode_origin_draw(self,mode:bool):
         """Establece el modo en la escena para ocultar o mostrar el origen.
 
@@ -316,9 +306,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """ 
         self.scene_draw.mode_axis=mode
         self.scene_draw.update()
-        #self.view_draw.scale(1.5,1.5)
-        #self.view_draw.scale(0.6666666666,0.6666666666)
-
+        
     def mode_grid_draw(self,mode:bool):
         """Establece el modo en la escena para ocultar o mostrar la grilla.
 
@@ -329,9 +317,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """ 
         self.scene_draw.mode_grid=mode
         self.scene_draw.update()
-        #self.view_draw.scale(1.5,1.5)
-        #self.view_draw.scale(0.6666666666,0.6666666666)
-
+        
     def mode_console_draw(self,isVisible:bool):
         """Oculta o muestra la consola.
 
@@ -346,11 +332,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         else:
             self.splitter.setSizes([1,0])
             
-
-
-
-
-
     def __projectSaveState(self, there_are_changes):
         """Recibe la señal del estado del guardado del proyecto y remite la misma, señal a main window.
 
@@ -359,6 +340,31 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         """
         self.signal_project_save_state.emit(there_are_changes)
+
+    def end_draw_geometry(self):
+        """Recibe la señal que ha finalizado el dibujo de geometria.""" 
+        
+        self.label_console.setText("")
+        self.label_console.setVisible(False)
+        self.lineEdit_console.setText("")
+        self.lineEdit_console.setPlaceholderText("Ingrese comando")
+        self.lineEdit_console.setStyleSheet(u"\n"
+            "border: none;\n"
+            "border-top-left-radius: 5px;\n"
+            "border-bottom-left-radius: 5px ;")
+        self.view_draw.setFocus()        
+        #self.msnConsole("Command","_cancel")
+
+    def init_draw_geometry(self,command):
+        """Recibe la señal que ha iniciado el dibujo de geometria.
+        
+        args:
+            command(str): comando de la geometria a dibujar
+        
+        """ 
+        
+        self.msnConsole("Command","_{}".format(command))
+        self.msnLabelConsole(command," Ingrese un punto:")
 
     ###############################################################################
     # ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
@@ -426,8 +432,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             text_to_add = u'<a> <span>Command:</span><span>   {} </span></a>'.format(msn)
             self.textBrowser_2.append(text_to_add)
         self.textBrowser_2.verticalScrollBar().maximum()
-    '''
-    def msnLabelConsole(self, msn):
+    
+    def msnLabelConsole(self,command: str, msn:str):
         """Imprime mensaje en el label la consola.
 
         Args:
@@ -435,11 +441,19 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             msn(str): Mensaje a mostrar
 
         """ 
-        self.label_console.setText("{}".format(msn))
+        text_command = u'<a><span style="font-family:Ubuntu; font-size:9pt; font-weight:500; color:#ffffff;">{}     </span> <span style="font-family:Ubuntu; font-size:8pt; font-style:normal;">   {} </span> </a>'.format(command.upper(),msn)
+        self.label_console.setText(text_command)
         self.label_console.setVisible(True)
+        self.lineEdit_console.setText("")
+        self.lineEdit_console.setPlaceholderText("")
+        self.lineEdit_console.setStyleSheet(u"\n"
+            "border-top: 1px solid rgb(254, 255, 198);\n"
+            "border-bottom: 1px solid rgb(254, 255, 198);\n"
+            "border-right: 1px solid rgb(254, 255, 198);\n"
+            "border-top-left-radius: 0px;\n"
+            "border-bottom-left-radius: 0px ;")
         self.lineEdit_console.setFocus()
-    '''
-
+    
     def coor_mouse(self,coor_list):
         """Recibe la señal de coordenada del ratón y remite la misma, señal a main window para imprimir en barra de estado..
 
@@ -450,7 +464,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.signal_coor_mouse.emit(coor_list)
 
     def zoom_view(self,zoom):
-        """Recibe la señal conb el zoom del view y remite la misma, señal a main window para imprimir en barra de estado..
+        """Recibe la señal con el zoom del view y remite la misma, señal a main window para imprimir en barra de estado..
 
         Args:
             zoom(floar): procentaje de zoom
@@ -463,21 +477,28 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 	###############################################################################    
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """Evento al presionar una tecla de la A a la Z,   para escribir comando en la consola."""
+        key = event.key()
         try:
             #Presiono tecla de A-Z
-            if event.key() >= 65 and event.key() <= 90:                
+            #print()dejar tabien numero, punto coma y espacoipn- 
+            if key >= 65 and key <= 90:                
                 self.__keyPressViewConsole(event.text())
+
+            elif key == Qt.Key_Space or key == Qt.Key_Enter:
+                print("funcionalida dspace and entrer")
             return super().keyPressEvent(event)
         except UnicodeDecodeError:
             print("no puede decodificar Ejemplo: Ñ ")
     
     def eventFilter(self, obj, event):
         """método para filtrar el tipo de widget que activo la señal."""
+        
         #Si key es esc en el line edit consola 
         if event.type() == QEvent.ShortcutOverride or event.type() == QEvent.KeyRelease:
             if event.key() == Qt.Key_Escape:
-                self.msnConsole("Command","_cancel")
-                self.lineEdit_console.setText("")
-                self.view_draw.setFocus()
-        return super().eventFilter(obj, event)
 
+                self.end_draw_geometry()
+                self.msnConsole("Command","_cancel")
+                self.view_draw.is_draw_geometry = False
+
+        return super().eventFilter(obj, event)

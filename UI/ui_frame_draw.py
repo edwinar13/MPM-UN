@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawjKqamK.ui'
+## Form generated from reading UI file 'frame_drawgBYflv.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -87,25 +87,35 @@ class Ui_FormDraw(object):
 "QLineEdit#lineEdit_console{\n"
 "background-color: #444444;\n"
 "color: #DDDDDD;\n"
-"border-radius: 2px ;\n"
+"border-radius: 5px ;\n"
+"\n"
 "padding-left: 10px;\n"
 "}\n"
 "\n"
 "#label_console{\n"
 "background-color: #444444;\n"
 "color: #DDDDDD;\n"
-"border-radius: 2px ;\n"
+"\n"
+"border-top-left-radius: 5px ;\n"
+"border-bottom-left-radius: 5px ;\n"
+"\n"
 "margin-left: 10px;\n"
+"\n"
+"border-top: 1px solid rgb(254, 255, 198);\n"
+"border-bottom: 1px solid rgb(254, 255, 198);\n"
+"border-left: 1px solid rgb(254, 255, 198);\n"
 "}\n"
 "\n"
 "\n"
 "QLineEdit#lineEdit_console:hover {\n"
 "	border: 2px solid rgb(64, 71, 88);\n"
 "}\n"
-"QLineEdit#lineEdit_console:focus {\n"
+"/*\n"
+"QLineEdit#lineEdi"
+                        "t_console:focus {\n"
 "	border: 2px solid rgb(91, 101, 124);\n"
 "}\n"
-"\n"
+"*/\n"
 "\n"
 "")
         self.horizontalLayout_3 = QHBoxLayout(FormDraw)
@@ -173,7 +183,7 @@ class Ui_FormDraw(object):
         self.horizontalLayout_2 = QHBoxLayout(self.frame_console)
         self.horizontalLayout_2.setSpacing(5)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 3)
         self.toolButton_closeConsole = QToolButton(self.frame_console)
         self.toolButton_closeConsole.setObjectName(u"toolButton_closeConsole")
         sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
@@ -235,8 +245,8 @@ class Ui_FormDraw(object):
 
         self.lineEdit_console = QLineEdit(self.frame_console)
         self.lineEdit_console.setObjectName(u"lineEdit_console")
-        self.lineEdit_console.setMinimumSize(QSize(0, 20))
-        self.lineEdit_console.setMaximumSize(QSize(16777215, 20))
+        self.lineEdit_console.setMinimumSize(QSize(0, 25))
+        self.lineEdit_console.setMaximumSize(QSize(16777215, 25))
         font1 = QFont()
         font1.setPointSize(8)
         self.lineEdit_console.setFont(font1)
