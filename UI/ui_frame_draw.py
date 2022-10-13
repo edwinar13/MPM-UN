@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawgBYflv.ui'
+## Form generated from reading UI file 'frame_drawJMQQYt.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -92,27 +92,33 @@ class Ui_FormDraw(object):
 "padding-left: 10px;\n"
 "}\n"
 "\n"
-"#label_console{\n"
+"#label_console_command{\n"
 "background-color: #444444;\n"
-"color: #DDDDDD;\n"
-"\n"
+"font: 700 10pt \"Ubuntu\";\n"
+"color: #FFFFFF;\n"
 "border-top-left-radius: 5px ;\n"
 "border-bottom-left-radius: 5px ;\n"
-"\n"
 "margin-left: 10px;\n"
-"\n"
 "border-top: 1px solid rgb(254, 255, 198);\n"
 "border-bottom: 1px solid rgb(254, 255, 198);\n"
 "border-left: 1px solid rgb(254, 255, 198);\n"
 "}\n"
+"\n"
+"#label_console_descrip{\n"
+"background-color: #444444;\n"
+"color: #DDDDDD;\n"
+"border-top:"
+                        " 1px solid rgb(254, 255, 198);\n"
+"border-bottom: 1px solid rgb(254, 255, 198);\n"
+"}\n"
+"\n"
 "\n"
 "\n"
 "QLineEdit#lineEdit_console:hover {\n"
 "	border: 2px solid rgb(64, 71, 88);\n"
 "}\n"
 "/*\n"
-"QLineEdit#lineEdi"
-                        "t_console:focus {\n"
+"QLineEdit#lineEdit_console:focus {\n"
 "	border: 2px solid rgb(91, 101, 124);\n"
 "}\n"
 "*/\n"
@@ -238,10 +244,15 @@ class Ui_FormDraw(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label_console = QLabel(self.frame_console)
-        self.label_console.setObjectName(u"label_console")
+        self.label_console_command = QLabel(self.frame_console)
+        self.label_console_command.setObjectName(u"label_console_command")
 
-        self.horizontalLayout.addWidget(self.label_console)
+        self.horizontalLayout.addWidget(self.label_console_command)
+
+        self.label_console_descrip = QLabel(self.frame_console)
+        self.label_console_descrip.setObjectName(u"label_console_descrip")
+
+        self.horizontalLayout.addWidget(self.label_console_descrip)
 
         self.lineEdit_console = QLineEdit(self.frame_console)
         self.lineEdit_console.setObjectName(u"lineEdit_console")
@@ -290,7 +301,8 @@ class Ui_FormDraw(object):
         self.comboBox_console.setItemText(1, QCoreApplication.translate("FormDraw", u"_polyLine", None))
         self.comboBox_console.setItemText(2, QCoreApplication.translate("FormDraw", u"_rectangle", None))
 
-        self.label_console.setText("")
+        self.label_console_command.setText("")
+        self.label_console_descrip.setText("")
         self.lineEdit_console.setInputMask("")
         self.lineEdit_console.setText("")
         self.lineEdit_console.setPlaceholderText(QCoreApplication.translate("FormDraw", u"Ingrese comando", None))

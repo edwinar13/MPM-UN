@@ -1,17 +1,19 @@
 """ Este módulo contiene la clase Ui_FormDraw, para incluirla en main window, es el frame que contiene la parte del dibujo."""
 
 
+from queue import Empty
 from PySide6.QtCore import (Signal,QRectF,Qt,QPointF,QSize,QEvent)
 from PySide6.QtWidgets import (QFrame, QGraphicsScene,QGraphicsView,QGraphicsItem,
                             QGraphicsPolygonItem,QMenu,QSplitter)
 from PySide6.QtGui import (QPen,QBrush,
-                            QPainter,QPixmap,QPolygonF,QPainterPath,QFont,QKeyEvent,)
+                            QPainter,QPixmap,QPolygonF,QPainterPath,QFont,QKeyEvent,QShortcut, QKeySequence)
 from ui import ui_frame_draw
 from clases import class_ui_widget_draw_menu_data
 from clases import class_ui_widget_draw_menu_mesh
 from clases import class_projects
 from clases import class_graphics
 from clases import general_class
+from clases.general_functions import isNumber
 
 import math
 class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
@@ -65,7 +67,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsScene  ::::::::::::::::::
         self.scene_draw = class_graphics.GraphicsSceneDraw()
-        self.scene_draw.setSceneRect(QRectF(-100, -100, 100, 100))
+        #self.scene_draw.setSceneRect(QRectF(-100, -100, 100, 100))
         
 
 
@@ -75,7 +77,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsView 2 ::::::::::::::::::        
         self.view_draw2 = class_graphics.GraphicsViewDraw(self.scene_draw)       
-        #self.horizontalLayout_graphics.addWidget(self.view_draw2)
+        self.horizontalLayout_graphics.addWidget(self.view_draw2)
         self.view_draw2.setMaximumSize(QSize(500, 16777215))
   
 
@@ -90,9 +92,14 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.horizontalLayout_draw.addWidget(self.drawMenuMesh)
 
         # ::::::::::::::::::   AJUSTES ADICIONALES  ::::::::::::::::::
-        self.label_console.setVisible(False)
+        self.label_console_command.setVisible(False)
+        self.label_console_descrip.setVisible(False)
         self.comboBox_console.setEditable(True)
         self.showHideDrawMenu("Data")
+
+
+        self.shortcut_select_items = QShortcut(QKeySequence('Ctrl+a'), self)
+        self.shortcut_select_items.activated.connect(self.__activatedShortCutSelectItems)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
@@ -136,6 +143,16 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     # ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
     ###############################################################################
     """ Métodos para los eventos de los botones y widget """
+    def __activatedShortCutSelectItems(self):
+        items = self.scene_draw.items()
+        print("@"*20)
+        for item in items:
+            print(item)
+            try:
+                print(item.getName())
+            except:
+                pass
+
     def __keyPressViewConsole(self,key):
         """Método al presionar una tecla de la A a la Z,
          para escribir comando en la consola."""
@@ -160,32 +177,72 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
     def __returnPressedLineEditConsole(self):
         """Método presionar enter en el line edit de la consola para ejecutar el comando."""
-        command = self.lineEdit_console.text()
-        print(command)
+
+        data_consola = self.lineEdit_console.text().lower()
+        current_command = self.label_console_command.text()
+        descrip_command = self.label_console_descrip.text()
 
         
-        if command.lower() == "point" or command.lower() == "p":
-            command = "point"
-            self.view_draw.drawPointScene()
+        commands = ["point", "line", "pline", "rectang", "erase"]
+        commands_min = ["p",     "l",    "pl",    "rec",     "era"]
 
-        elif command.lower() == "line" or command.lower() == "l":
-            command = "line"
-            self.view_draw.drawLineScene()
+        #se ejecuta si la entrada es un comando
+        if (data_consola in commands) or (data_consola in commands_min):
+            if data_consola in commands:
+                index = commands.index(data_consola)
+            elif  data_consola in commands_min:
+                index = commands_min.index(data_consola)
 
-        elif command.lower() == "pline" or command.lower() == "pl":
-            command = "pline"
-            self.view_draw.drawPolylineScene()
+            command = commands[index]
 
+            if command == "point" :
+                self.view_draw.drawPointScene()
 
-        elif command.lower() == "rectang" or command.lower() == "rec":
-            command = "rectang"
-            self.view_draw.drawRectangleScene()
-        else:
-            self.lineEdit_console.setText("")
-            self.view_draw.setFocus()
+            elif command == "line" :
+                self.view_draw.drawLineScene()
+
+            elif command == "pline" :
+                self.view_draw.drawPolylineScene()
+
+            elif command == "rectang" :
+                self.view_draw.drawRectangleScene()
+                
+            elif command == "erase" :
+                self.view_draw.drawEraseItemScene()
+
+            self.init_draw_geometry(command)
             return
+        
+        #se ejecuta si la entrada es un punto
+        if (current_command in commands) and descrip_command == "Ingrese un punto:":
+            
+            if data_consola != "":
+                input_point = data_consola.split(",")
+                if len(input_point) == 1:
+                    x = input_point[0]
+                    y = x
+                elif len(input_point) == 2:
+                    x = input_point[0]
+                    y = input_point[1]
+                else: 
+                    return
+                
+                if isNumber(x) and isNumber(y):
+                    x = float(x)
+                    y = float(y)
+                    self.view_draw.drawGeometry(QPointF(x,y))
+                    self.lineEdit_console.setText("")
+                    self.msnConsole("Command",f"Ingrese un punto:{x},{y}")
+                else:
+                    return
+            else:
+                print("1-Comando[{}]  descrip[{}]  consola[{}]]".format(current_command, descrip_command, data_consola ))
+                self.end_draw_geometry()                
+                self.msnConsole("Command","_end")
+                self.view_draw.endDrawGeometry()
+                return
 
-        self.init_draw_geometry(command)
+
         
     def __clickedToolButtonDrawPaintPoint(self):
         self.init_draw_geometry("point")
@@ -195,17 +252,15 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.view_draw.drawLineScene()
         self.init_draw_geometry("line")
         self.view_draw.setSceneRect(self.view_draw.sceneRect().translated(10, 10))
-        print("linea")
+      
 
     def __clickedToolButtonDrawPaintPolyline(self):
         self.init_draw_geometry("pline")
         self.view_draw.drawPolylineScene()
-        print("Polyline")
 
     def __clickedToolButtonDrawPaintRectangle(self):
         self.init_draw_geometry("rectang")
         self.view_draw.drawRectangleScene()
-        print("rectangulo")
 
     def __clickedToolButtonDrawPaintMove(self):
         pass
@@ -238,7 +293,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         '''
 
     def __clickedToolButtonDrawPaintErase(self):
-        pass
+        self.init_draw_geometry("erase")
+        self.view_draw.drawEraseItemScene()
         '''
         if self.graphicsView_draw.isDelate == False:
             self.graphicsView_draw.isDelate = True
@@ -344,8 +400,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     def end_draw_geometry(self):
         """Recibe la señal que ha finalizado el dibujo de geometria.""" 
         
-        self.label_console.setText("")
-        self.label_console.setVisible(False)
+        self.label_console_command.setText("")
+        self.label_console_command.setVisible(False)
+        self.label_console_descrip.setText("")
+        self.label_console_descrip.setVisible(False)
         self.lineEdit_console.setText("")
         self.lineEdit_console.setPlaceholderText("Ingrese comando")
         self.lineEdit_console.setStyleSheet(u"\n"
@@ -364,7 +422,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """ 
         
         self.msnConsole("Command","_{}".format(command))
-        self.msnLabelConsole(command," Ingrese un punto:")
+        self.msnLabelConsole(command,"Ingrese un punto:")
 
     ###############################################################################
     # ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
@@ -441,9 +499,13 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             msn(str): Mensaje a mostrar
 
         """ 
-        text_command = u'<a><span style="font-family:Ubuntu; font-size:9pt; font-weight:500; color:#ffffff;">{}     </span> <span style="font-family:Ubuntu; font-size:8pt; font-style:normal;">   {} </span> </a>'.format(command.upper(),msn)
-        self.label_console.setText(text_command)
-        self.label_console.setVisible(True)
+
+
+        self.label_console_command.setText(command)
+        self.label_console_command.setVisible(True)
+        self.label_console_descrip.setText(msn)
+        self.label_console_descrip.setVisible(True)
+
         self.lineEdit_console.setText("")
         self.lineEdit_console.setPlaceholderText("")
         self.lineEdit_console.setStyleSheet(u"\n"
@@ -481,24 +543,34 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         try:
             #Presiono tecla de A-Z
             #print()dejar tabien numero, punto coma y espacoipn- 
-            if key >= 65 and key <= 90:                
+
+            if key >= 40 and key <= 90:                
                 self.__keyPressViewConsole(event.text())
 
-            elif key == Qt.Key_Space or key == Qt.Key_Enter:
-                print("funcionalida dspace and entrer")
+            elif key == Qt.Key_Enter or key == 16777220:
+                self.lineEdit_console.setFocus()
+
+            elif key == Qt.Key_Enter or key == 16777216:
+                print("funcionalidas escapar")
+                self.end_draw_geometry()                
+                self.msnConsole("Command","_cancel")
+                self.view_draw.endDrawGeometry()
+
             return super().keyPressEvent(event)
         except UnicodeDecodeError:
             print("no puede decodificar Ejemplo: Ñ ")
-    
+    '''
     def eventFilter(self, obj, event):
         """método para filtrar el tipo de widget que activo la señal."""
-        
         #Si key es esc en el line edit consola 
         if event.type() == QEvent.ShortcutOverride or event.type() == QEvent.KeyRelease:
             if event.key() == Qt.Key_Escape:
 
-                self.end_draw_geometry()
+                self.end_draw_geometry()                
                 self.msnConsole("Command","_cancel")
-                self.view_draw.is_draw_geometry = False
+                self.view_draw.endDrawGeometry()
+
 
         return super().eventFilter(obj, event)
+
+    '''

@@ -4,7 +4,7 @@ from datetime import datetime
 from PySide6.QtCore import ( QFile, Slot,QSize,Qt,QTimer)
 from PySide6.QtWidgets import (QApplication, QMainWindow,QFileDialog,
 QFrame, QSizePolicy,QLabel,QPushButton,QComboBox,QToolButton)
-from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence)
+from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence,QKeyEvent)
 from ui import ui_main_window
 from clases import class_projects
 from clases import class_ui_frame_home
@@ -66,8 +66,6 @@ class MainWindow(QMainWindow):
         self.__iniSetting(setting)
         self.setting = True
 
-        # Lista para almacenar acciones a desarollar con QShortcut ESC
-        self.list_action_esc = []
 
 
 
@@ -117,8 +115,7 @@ class MainWindow(QMainWindow):
 
 
 
-        self.shortcut_esc = QShortcut(QKeySequence('ESC'), self)
-        self.shortcut_esc.setObjectName("key_esc")
+  
 
         self.shortcut_change_thema = QShortcut(QKeySequence('Ctrl++'), self)
         self.shortcut_change_thema.setObjectName("shortcut_change_thema")
@@ -287,13 +284,18 @@ class MainWindow(QMainWindow):
         self.ui.spinBox_1.valueChanged.connect(self.__updateSetting)
         self.ui.horizontalSlider_2.valueChanged.connect(self.__updateSetting)
         self.ui.comboBox_3.currentIndexChanged.connect(self.__updateSetting)
+
+        self.ui.doubleSpinBox_grid_spacing.valueChanged.connect(self.__updateSetting)
+        self.ui.checkBox_grid_adaptative.stateChanged.connect(self.__updateSetting)
+        self.ui.doubleSpinBox_snap_grid_spacing.valueChanged.connect(self.__updateSetting)
+        self.ui.checkBox_snap_grid_adaptative.stateChanged.connect(self.__updateSetting)
+
         self.ui.comboBox_intervalAutoSave.currentIndexChanged.connect(self.__updateSetting)
         self.ui.checkBox_autoSave.stateChanged.connect(self.__updateSetting)
 
 
 
         # ::::::::::::::::::::    EVENTOS  SHORTCUT    ::::::::::::::::::::    
-        self.shortcut_esc.activated.connect(self.__activatedShortCutEsc)
         self.shortcut_change_thema.activated.connect(self.__activatedShortCutChangeTheme)
 
     ###############################################################################
@@ -304,9 +306,9 @@ class MainWindow(QMainWindow):
         Se obtiene el botón que activo la señal y se redirecciona
         al botón correspondiente"""
         
-        print("----------------btn")
+
         buttonSelected = self.sender()
-        print(buttonSelected.objectName())
+        #print(buttonSelected.objectName())
         if buttonSelected != None:
             nameButton = buttonSelected.objectName()
         else:
@@ -348,14 +350,18 @@ class MainWindow(QMainWindow):
             self.__viewToolButtonMenuLat(self.previous_selected_button)
             self.setting = True
         
-        elif nameButton==self.ui.toolButton_setting.objectName() or nameButton=="key_esc":
+        elif nameButton==self.ui.toolButton_setting.objectName():
             if self.setting == True :
                 self.__viewToolButtonMenuLat(7)
                 self.setting = False
-                self.list_action_esc.append("SETTING")
-            elif self.setting == False:             
+            elif self.setting == False:            
                 self.__viewToolButtonMenuLat(self.previous_selected_button)
                 self.setting = True
+            
+
+
+            
+        
 
     ###############################################################################
 	# ::::::::::::::::::::  MÉTODOS DE EVENTOS MENU SUPERIOR  ::::::::::::::::::::
@@ -373,10 +379,9 @@ class MainWindow(QMainWindow):
     
     def __activatedShortCutEsc(self):
         """Al presionar ESC ejecuta aciones contenidas en la lista. """
-        for action in  self.list_action_esc:
-            if action == "SETTING":
-                self.__clickedToolButtonMenuLat()
-        self.list_action_esc = []
+        self.__viewToolButtonMenuLat(self.previous_selected_button)
+        self.setting = True
+
         
     def __triggeredActionNuevoProyecto(self):
         """ Abre cuadro de dialogo para nuevo proyecto. """
@@ -491,7 +496,57 @@ class MainWindow(QMainWindow):
         if nameWidget==self.ui.comboBox_3.objectName() or updateAll:
             index_style_background_view = self.ui.comboBox_3.currentIndex()
             self.db_config_mpmun.updateSettingDB(0,"EstiloVista", index_style_background_view)
-            self.frame_draw.view_draw.setStyleBackgroundView(index_style_background_view)
+            self.frame_draw.view_draw.setStyleViewScene(index_style_background_view)
+
+
+
+
+        if nameWidget==self.ui.checkBox_grid_adaptative.objectName() or updateAll:
+            check_grid_adaptative = self.ui.checkBox_grid_adaptative.isChecked() 
+            grid_spacing = self.ui.doubleSpinBox_grid_spacing.value()           
+            if check_grid_adaptative:
+                self.ui.doubleSpinBox_grid_spacing.setEnabled(False)
+                self.frame_draw.scene_draw.grid_adaptative = True
+            else:
+                self.ui.doubleSpinBox_grid_spacing.setEnabled(True)
+                self.frame_draw.scene_draw.grid_adaptative = False
+                self.frame_draw.scene_draw.grid_spacing = grid_spacing
+
+            self.db_config_mpmun.updateSettingDB(0,"GrillaAdaptativa", check_grid_adaptative)
+            self.db_config_mpmun.updateSettingDB(0,"EspacioGrilla", grid_spacing)
+
+        if nameWidget==self.ui.doubleSpinBox_grid_spacing.objectName() or updateAll:
+            grid_spacing = self.ui.doubleSpinBox_grid_spacing.value()           
+            self.frame_draw.scene_draw.grid_spacing = grid_spacing
+            self.db_config_mpmun.updateSettingDB(0,"EspacioGrilla", grid_spacing)
+
+
+        if nameWidget==self.ui.checkBox_snap_grid_adaptative.objectName() or updateAll:
+            check_snap_grid_adaptative = self.ui.checkBox_snap_grid_adaptative.isChecked()
+            snap_grid_spacing = self.ui.doubleSpinBox_snap_grid_spacing.value() 
+
+            if check_snap_grid_adaptative:
+                self.ui.doubleSpinBox_snap_grid_spacing.setEnabled(False)
+                self.frame_draw.view_draw.snap_grid_adaptative = True
+                
+            else:
+                self.ui.doubleSpinBox_snap_grid_spacing.setEnabled(True)
+                self.frame_draw.view_draw.snap_grid_adaptative = False
+                self.frame_draw.view_draw.snap_grid_spacing = snap_grid_spacing
+
+            self.db_config_mpmun.updateSettingDB(0,"SnapGrillaAdaptativa", check_snap_grid_adaptative)
+            self.db_config_mpmun.updateSettingDB(0,"EspacioSnapGrilla", snap_grid_spacing)
+
+
+        if nameWidget==self.ui.doubleSpinBox_snap_grid_spacing.objectName() or updateAll:
+            snap_grid_spacing = self.ui.doubleSpinBox_snap_grid_spacing.value() 
+            self.frame_draw.view_draw.snap_grid_spacing = snap_grid_spacing
+            self.db_config_mpmun.updateSettingDB(0,"EspacioSnapGrilla", snap_grid_spacing)
+        
+
+
+
+
         
         if nameWidget==self.ui.checkBox_autoSave.objectName() or updateAll:
             check_auto_save = self.ui.checkBox_autoSave.isChecked()            
@@ -553,6 +608,16 @@ class MainWindow(QMainWindow):
         self.ui.horizontalSlider_2.setValue(TamanoCajaPuntero)
         EstiloVista=(setting[0]["EstiloVista"])
         self.ui.comboBox_3.setCurrentIndex(EstiloVista)
+
+        GrillaAdaptativa=(setting[0]["GrillaAdaptativa"])
+        self.ui.checkBox_grid_adaptative.setChecked(GrillaAdaptativa) 
+        EspacioGrilla=(setting[0]["EspacioGrilla"])
+        self.ui.doubleSpinBox_grid_spacing.setValue(EspacioGrilla)   
+
+        SnapGrillaAdaptativa=(setting[0]["SnapGrillaAdaptativa"])
+        self.ui.checkBox_snap_grid_adaptative.setChecked(SnapGrillaAdaptativa)
+        EspacioSnapGrilla=(setting[0]["EspacioSnapGrilla"])
+        self.ui.doubleSpinBox_snap_grid_spacing.setValue(EspacioSnapGrilla) 
 
         GuardadoAutomatico=(setting[1]["GuardadoAutomatico"])
         self.ui.checkBox_autoSave.setChecked(GuardadoAutomatico)
@@ -886,3 +951,15 @@ class MainWindow(QMainWindow):
                 event.accept()
         else:
             event.accept()
+
+
+
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        """Evento al presionar una tecla de la A a la Z,   para escribir comando en la consola."""
+        key = event.key()
+        try:
+            if key == 16777216:                       
+                self.__activatedShortCutEsc()
+            return super().keyPressEvent(event)
+        except UnicodeDecodeError:
+            print("no puede decodificar Ejemplo: Ñ ")

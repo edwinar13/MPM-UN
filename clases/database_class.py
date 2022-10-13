@@ -261,8 +261,8 @@ class DataBaseConfigMpmun():
             (bool): 
                 : True >> si se actualizo correctamente los ajustes
                 : False >> si no se encontró la db del software.
-
         """  
+        
         BD=self.__path_db_Config
         if QFile.exists(BD):		  
             try:

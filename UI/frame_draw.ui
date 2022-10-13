@@ -81,19 +81,25 @@ border-radius: 5px ;
 padding-left: 10px;
 }
 
-#label_console{
+#label_console_command{
 background-color: #444444;
-color: #DDDDDD;
-
+font: 700 10pt &quot;Ubuntu&quot;;
+color: #FFFFFF;
 border-top-left-radius: 5px ;
 border-bottom-left-radius: 5px ;
-
 margin-left: 10px;
-
 border-top: 1px solid rgb(254, 255, 198);
 border-bottom: 1px solid rgb(254, 255, 198);
 border-left: 1px solid rgb(254, 255, 198);
 }
+
+#label_console_descrip{
+background-color: #444444;
+color: #DDDDDD;
+border-top: 1px solid rgb(254, 255, 198);
+border-bottom: 1px solid rgb(254, 255, 198);
+}
+
 
 
 QLineEdit#lineEdit_console:hover {
@@ -383,7 +389,14 @@ hr { height: 1px; border-width: 0; }
                <number>0</number>
               </property>
               <item>
-               <widget class="QLabel" name="label_console">
+               <widget class="QLabel" name="label_console_command">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_console_descrip">
                 <property name="text">
                  <string/>
                 </property>

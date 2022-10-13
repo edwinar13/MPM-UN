@@ -7,94 +7,62 @@ class:
 
 """
 
-'''
-
-#from ast import Pass
-#from cmath import rect
-#from ctypes import pointer
-#from importlib.resources import path
-#from re import L
-#import weakref
-#from signal import signal
-from PySide6.QtCore import (Signal,QRectF,Qt,QPointF,QLineF,QEvent,QLineF,qAbs,QSizeF)
-from PySide6.QtWidgets import ( QGraphicsScene,QGraphicsView,QGraphicsItem,
-                            QGraphicsPolygonItem,QGraphicsLineItem,QGraphicsPixmapItem,
-                            QStyle)
-from PySide6.QtGui import (QPen,QBrush,
-                            QPainter,QPixmap,QPolygonF,QPainterPath,QFont,
-                            QTransform,QColor,QRadialGradient)
-'''
-
-from cmath import pi
+import weakref
 import math
 from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
 
-pointsCoord = [
-[   0.0000 ,  0.0000],
-[   0.0010 ,  0.0010],
-[   0.0100 ,  0.0000],
-[ 100.0000 ,  0.0000],
-[ 100.0000 , 60.9283],
-[  68.4604 , 49.7303],
-[  63.3560 , 35.7021],
-[  54.9338 , 34.4268],
-[  48.2981 , 34.9369],
-[  41.4071 , 31.1111],
-[  36.5580 , 28.3054],
-[  28.3910 , 27.7953],
-[  22.5209 , 22.6941],
-[  15.1196 , 19.3784],
-[   0.0000 , 19.2158]
-]
+
+
 
 class PointItem(QGraphicsItem):
     Type = QGraphicsItem.UserType + 1
-    def __init__(self, graphWidget ):
-        QGraphicsItem.__init__(self)
+    def __init__(self, name:str, point:QPointF):
+        QGraphicsItem.__init__(self, )
         self.setFlags(
             QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable |QGraphicsItem.ItemIgnoresTransformations)
+
+        self.newPos(point)
+        self.name =name
+        self.color = Qt.black
+        self.radius = 1.5
+
         #para dejar de escalar en cierta parte del zoom
+        '''
         print(graphWidget)
         print(type(self.scene()))
         print(self.scene()==None)
         if type(self.scene()) == None:
             print("1-",self.scene().transform())
+        '''
+    def newPos(self, pos):
+        self.setPos(pos)
+    
+    def setRadius(self, r):
+        self.radius = r
+    
+    def getName(self):
+        return self.name
+    
+
 
     def boundingRect(self) -> QRectF:
-        adjust = 1
-        #print("painter item")
-        return QRectF(-2 - adjust, -2 - adjust,
-                             4 + adjust, 4 + adjust)
-
+        adjust = 0
+        return QRectF(-0.01 - adjust, -0.01 - adjust,
+                             0.02 + adjust, 0.02 + adjust)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        #para dejar de escalar en cierta parte del zoom
-        #print(type(self.scene()))
-        #print(self.scene()==None)
-        if type(self.scene()) != None:
-            #print("2-",self.scene().transform())
-            pass
-
         if self.isSelected():
-            painter.setPen(QPen(QColor("#000099"), 0, Qt.DashLine))
-            painter.setBrush(QBrush("#203020"))
+            painter.setPen(QPen(QColor("#ff0000"), 0, Qt.DashLine))
+            painter.setBrush(QBrush("#ff0000"))
             painter.drawEllipse(-2, -2, 4, 4)
-
-        gradient = QRadialGradient(-3, -3, 10)
-        if option.state & QStyle.State_Sunken:
-            gradient.setCenter(3, 3)
-            gradient.setFocalPoint(3, 3)
-            gradient.setColorAt(1, QColor(Qt.gray).lighter(120))
-            gradient.setColorAt(0, QColor(Qt.darkGray).lighter(120))
         else:
-            gradient.setColorAt(0, Qt.gray)
-            gradient.setColorAt(1, Qt.darkGray)
+            painter.setBrush(QBrush(self.color))
+            painter.setPen(QPen(self.color, 0))
+            painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
 
-        painter.setBrush(QBrush(gradient))
-        painter.setPen(QPen(Qt.black, 0))
-        painter.drawEllipse(-1.5, -1.5, 3, 3)
+
         
 
 
@@ -109,7 +77,7 @@ class Node(QGraphicsItem):
         QGraphicsItem.__init__(self)
 
         self.graph = weakref.ref(graphWidget)
-        print(self.graph,">>>>",graphWidget)
+        # print(self.graph,">>>>",graphWidget)
         self.edgeList = []
         self.newPos = QPointF()
         self.setFlag(QGraphicsItem.ItemIsMovable)
@@ -253,102 +221,105 @@ class GraphicsViewDraw (QGraphicsView):
         #se le agrega la escena a la vista
         self.graphicsScene_draw = SceneDraw
         self.setScene(self.graphicsScene_draw)
+       
         
-        
-        # para rastrear el raton en tiempo real
+        #OTRAS PROPIEDADES
         self.setMouseTracking(True) 
+        '''
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        """
-        OTRAS PROPIEDADES
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
+        self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
+        self.setFrameShape(QFrame.NoFrame)
+        '''
         self.setRenderHint(QPainter.Antialiasing)
-        self.setResizeAnchor(QGraphicsView.AnchorViewCenter)
-        self.setMinimumSize(400, 400)
-        """
+        self.setDragMode(self.NoDrag)
+
 
         #Atributos
-        self.percent_zoom_view = 100
-        self.zoom_scale = 1 
-        self.scaleFactor = 1
-        self.startPos = None
-        self.mousePos = None
         self.mode_origin = True
         self.scale_view = 1
-        self.scale(1, -1)
-        
-        
-        # Configuracion para cursor
-        self.cursor_position_view = QPoint(0,0)
-        self.setCursor(Qt.BlankCursor)
+        self.percent_zoom_view = 100
 
-        #Obtenemos tamaño de la pantalla para escalado de paint
-        self.screen_primary = QApplication.primaryScreen()
-        self.size_screen = self.screen_primary.size()
-        self.scale_screen = self.size_screen.height()
+        # Para mover la escena
+        self.start_pos = None
 
-        #******************************************
-        # Figura inicial de prueba
-        trianglePolygon = QPolygonF()
-        for i in pointsCoord:
-            trianglePolygon.append(QPointF(i[0], i[1]))
-        
-        pen= QPen(Qt.yellow)
-        pen.setWidth(0)
-        brush = QBrush(Qt.SolidPattern)
-        brush.setColor(QColor("#400509"))
-        self.graphicsScene_draw.addPolygon(trianglePolygon,pen,brush)
-        #******************************************
-
-        #coloca un fondo por defecto en el view
-        self.setStyleBackgroundView(0)
+        #Atributos para ayudas de dibujo
+        self.mode_ortho = False
+        self.mode_osnap  = False
+        self.mode_snap_grid = False
+        self.snap_grid_adaptative  = False
+        self.snap_grid_spacing = 10
 
 
         #Atributos para dibujo
+        self.isDrawLine = False
+        self.isDrawRectangle = False
+        self.isDrawPoint = False
+        self.isDrawPolyline = False  
+        self.isDelate = False
         self.vertex = 0
-        self.is_draw_geometry = False
+        self.point_vertex = None
+
+        #elementos temporales
+        '''
+        self.point_temp = PointItem("pointTemp",QPoint(0,0))          
+        self.point_temp.setRadius(2)
+        self.graphicsScene_draw.addItem(self.point_temp)
+        self.point_temp.setVisible(False)
+        print("+++++")
+        '''
+
+        self.is_line_temp = False
+        self.line_temp = QGraphicsLineItem(QLineF(0,0,0,0))        
+        self.graphicsScene_draw.addItem(self.line_temp)
+        self.line_temp.setVisible(False)
+
+        #coloca el tema claro por defecto
+        self.setStyleViewScene(0)
+
+        # ajusta el eje vertical como positivo arriba
+        self.scale(1, -1)
+
+        self.cursor_position_view = QPoint(0,0)
+        self.mousePos = None        
+
+        #Atributos para dibujo
+        self.isDrawGeometry = False
         self.line = None        
         self.rectangle = None        
-        self.point = None 
-
-        self.draw_line = False
-        self.draw_rectangle = False
-        self.draw_point = False
-        self.draw_polyline = False     
+        self.point = None        
 
 
-        self.point_temp = False
-        self.is_line_temp = False
-        self.line_temp = QGraphicsLineItem(QLineF(0,0,0,0))
-        self.line_temp.setPen(QPen(QColor("#30ff33"),0))
-        self.graphicsScene_draw.addItem(self.line_temp)
 
-        self.isDelate = False
-        self.isClear = False
 
-        self.startX=None
-        self.startY=None
 
-        #Atributos para ayudas de dibujo
-        self.mode_snap_grid = False
-        self.mode_ortho = False
-        self.mode_osnap  = False
+        self.figura_inicial_borrar()
 
-        self.cursor = QCursor()
-        
-    def setStyleBackgroundView(self, index):       
-        
+
+
+    ###############################################################################
+	# :::::::::::::::::::::          OTROS MÉTODOS           ::::::::::::::::::::::
+	###############################################################################  
+    def setStyleViewScene(self, index):       
+        """ Establece el estilo de la escena.Primero el fondo luego, grilla selector ETC. """
         if index == 0:
-            color = "#aaaaaa"
+            self.color_element="#000000"
+            self.color_element_temp="#555555"
+            color_background = "#ffffff"
         elif index == 1:
-            color = "#888888"
+            self.color_element="#222222"
+            self.color_element_temp="#555555"
+            color_background = "#888888"
         if index == 2:
-            color = "#333333"
-            
-        self.setStyleSheet("background-color: {} ;border: 2px solid #444444;".format(color))
-        self.graphicsScene_draw.setStyleGridScene(index)
-  
+            self.color_element="#DDDDDD"
+            self.color_element_temp="#555555"
+            color_background = "#333333"            
+        self.setStyleSheet("background-color: {} ;border: 2px solid #444444;".format(color_background))
+        self.graphicsScene_draw.setStyleScene(index)
+
+        self.line_temp.setPen(QPen(QColor(self.color_element_temp),0,Qt.DashLine, Qt.RoundCap, Qt.RoundJoin))
+ 
     ###############################################################################
 	# ::::::::::::::::    MÉTODOS PARA TRANSFORMACION DE VIEW    ::::::::::::::::::
 	############################################################################### 
@@ -366,86 +337,68 @@ class GraphicsViewDraw (QGraphicsView):
         self.translate(old_matrix.dx(), old_matrix.dy())
 
         self.scale(new_scale, new_scale)
-        # para invertir el eje y
-        #revisar https://www.qtcentre.org/threads/8125-Qt-Coordinate-System-and-the-Graphics-View-Framework
         self.scale(1, -1)
 
         self.signal_zoom_view.emit(new_scale)
-        self.graphicsScene_draw.scale_view=new_scale
+
+        self.graphicsScene_draw.scale_view=new_scale        
         self.scale_view=new_scale
 
         new_point_cursor_scene = self.mapToScene(self.cursor_position_view)
         self.graphicsScene_draw.mouse_pos_scene=new_point_cursor_scene
-
-
+       
     def move_view(self, deltaX, deltaY):
-
-        #mover vista         
+               
         transform = self.transform() 
-        print("ESC H:",transform.m11())          
         deltaX =   deltaX/transform.m11()# m11 escala horizontal
         deltaY =  deltaY/transform.m22()# m22 escala vertical
         self.setSceneRect(self.sceneRect().translated(deltaX, deltaY))
-        
-    def JAJAJAscale_view(self, scaleFactor,scale_reverse):
-        
-        factor = self.transform().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width()
-        if factor < 0.05 or factor > 100000:
-            return
-
-        
-        self.graphicsScene_draw.setScaledScreenSize(scale_reverse)
-        self.scaleFactor = scaleFactor
-        self.scale(scaleFactor, scaleFactor)
-        self.scale(1, -1)
-        self.scale_screen = self.scale_screen * scale_reverse
-        self.zoom_scale = self.size_screen.height()/self.scale_screen
-        self.signal_zoom_view.emit(self.zoom_scale)
-       
 
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
 	###############################################################################    
+
     def mousePressEvent(self, mouseEvent):
-        # activa el modo desplazamiento de la escena
+        # activa el modo desplazamiento de la escena        
         if mouseEvent.button() == Qt.MiddleButton:
-            self.startPos = mouseEvent.pos()
+            
+            self.start_pos = mouseEvent.pos()
             self.graphicsScene_draw.mode_crosshair_pick_box = False
             self.setCursor(Qt.OpenHandCursor)
 
+
         #se establece el punto inicial para dibujo 
         elif mouseEvent.button() == Qt.LeftButton:   
-
             point_a = QPointF(self.mapToScene(mouseEvent.pos()))
-            
-            #::::::::::::  punto  ::::::::::::::::
-            if self.point_temp:
-                self.draw_general(point_a)
-                super(GraphicsViewDraw, self).mousePressEvent(mouseEvent)
 
-            if self.draw_point:  
-                if  self.is_draw_geometry == True:
-                    self.point.setPos(point_a.x(),point_a.y())
-                self.endDrawGeometry()
+            #::::::::::::  Eliminar  ::::::::::::::::
+            if self.isDelate:
+                self.draw_general(point_a)
+
+            #::::::::::::  punto  ::::::::::::::::
+            if self.isDrawPoint: 
+                self.drawGeometry(self.point_vertex)
+                #self.endDrawGeometry()
+
+
+
+
+
 
             #::::::::::::  rectangulo  ::::::::::::::::
             
-            if self.draw_rectangle and self.vertex == 0:
+            if self.isDrawRectangle and self.vertex == 0:
                 
-                self.startX = point_a.x()
-                self.startY = point_a.y()
                 self.vertex  += 1
-
-                self.rectangle = QGraphicsRectItem(QRectF(point_a,point_a))
-                
-                self.rectangle.setPen(QPen(QColor("#333333"),0))
+                self.rectangle = QGraphicsRectItem(QRectF(point_a,point_a))                
+                self.rectangle.setPen(QPen(QColor(self.color_element),0))
                 self.graphicsScene_draw.addItem(self.rectangle)
 
                 point1=PointItem(self)
                 point1.setPos(point_a.x(),point_a.y())
                 self.graphicsScene_draw.addItem(point1)
             
-            elif self.draw_rectangle and self.vertex == 1:
+            elif self.isDrawRectangle and self.vertex == 1:
 
                 point2=PointItem(self)
                 point2.setPos(point_a.x(),point_a.y())
@@ -454,13 +407,12 @@ class GraphicsViewDraw (QGraphicsView):
                 self.endDrawGeometry()
 
             #:::::::::::: linea ::::::::::::
-            if self.draw_line and self.vertex == 0:
-                self.startX = point_a.x()
-                self.startY = point_a.y()
+            if self.isDrawLine and self.vertex == 0:
+
                 self.vertex  += 1
 
                 self.line = QGraphicsLineItem(QLineF(point_a,point_a))
-                self.line.setPen(QPen(QColor("#333333"),0))
+                self.line.setPen(QPen(QColor(self.color_element),0))
                 self.graphicsScene_draw.addItem(self.line)
 
                 point1=PointItem(self)
@@ -471,11 +423,11 @@ class GraphicsViewDraw (QGraphicsView):
                 self.point2.setPos(point_a.x()+10,point_a.y()+10)
                 self.graphicsScene_draw.addItem(self.point2)
             
-            elif self.draw_line and self.vertex == 1:
+            elif self.isDrawLine and self.vertex == 1:
                 self.endDrawGeometry()
                 
             #:::::::::::: polilinea ::::::::::::
-            if self.draw_polyline and self.vertex == 0:
+            if self.isDrawPolyline and self.vertex == 0:
 
                 self.path = QPainterPath()
                 self.path.moveTo(point_a.x(),point_a.y())
@@ -485,63 +437,14 @@ class GraphicsViewDraw (QGraphicsView):
                 self.draw_general(point_a, point_a)
                 self.vertex += 1
 
-            elif self.draw_polyline and self.vertex >= 1:
+            elif self.isDrawPolyline and self.vertex >= 1:
                 self.path.lineTo(point_a.x(),point_a.y())
                 self.path_pline.setPath(self.path)
+                self.path_pline.setPen(QPen(QColor(self.color_element),0))
 
                 self.draw_general(point_a, point_a)
                 self.vertex += 1
-
-                
-            if self.draw_polyline and self.vertex == 0 and False:
-
-                
-                self.startX = point_a.x()
-                self.startY = point_a.y()
-                self.vertex  += 1
-
-                self.line = QGraphicsLineItem(QLineF(point_a,point_a))
-                self.line.setPen(QPen(QColor("#333333"),0))
-                self.graphicsScene_draw.addItem(self.line)
-
-                point1=PointItem(self)
-                point1.setPos(point_a.x(),point_a.y())
-                self.graphicsScene_draw.addItem(point1)
-
-                self.point2=PointItem(self)
-                self.point2.setPos(point_a.x()+10,point_a.y()+10)
-                self.graphicsScene_draw.addItem(self.point2)
-                '''
-
-                #https://doc.qt.io/qt-6/qtwidgets-painting-painterpaths-example.html
-                self.painter_path = QPainterPath()
-                self.painter_path.moveTo(point_a.x(), point_a.y())
-                self.painter_path.lineTo(point_a.x(), point_a.y())
-                self.path_item = self.graphicsScene_draw.addPath(self.painter_path)
-                print(self.path_item)
-                #self.polyline = QGraphicsPathItem()
-                #self.polyline.setPath(self.painter_path)
-                #self.graphicsScene_draw.addItem(self.polyline)
-                '''
-             
-            elif self.draw_polyline and self.vertex >= 1 and False:
-                self.line = QGraphicsLineItem(QLineF(point_a,point_a))
-                self.line.setPen(QPen(QColor("#333333"),0))
-                self.graphicsScene_draw.addItem(self.line)
-
-                self.point2=PointItem(self)
-                self.point2.setPos(point_a.x()+10,point_a.y()+10)
-                self.graphicsScene_draw.addItem(self.point2)
-                self.vertex = 1
-                #self.endDrawGeometry()
-                '''
-                
-                #self.painter_path.lineTo(point_a.x(), point_a.y())
-                #self.polyline.setPath(self.painter_path)
                 #self.painter_path.closeSubpath()
-                print("vertex: ",self.vertex)
-                self.vertex += 1
-                '''
 
         else:
             super(GraphicsViewDraw, self).mousePressEvent(mouseEvent)
@@ -549,51 +452,34 @@ class GraphicsViewDraw (QGraphicsView):
     def mouseMoveEvent(self, mouseEvent):
         self.mousePos=mouseEvent.pos()
         point_b = QPointF(self.mapToScene(self.mousePos)) 
-
-        #print("                                             VIEW →← mouseMoveEvent")
-        
-        '''
-        self.mode_snap_grid = True
-        self.mode_ortho = True
-        self.mode_osnap  = True
-        '''
-        '''
-        if self.mode_ortho == True and self.vertex == 1:
-            
-            cursor_pos = self.cursor.pos()
-            delta_cursor = self.cursor_pos_init - cursor_pos
-            try:
-                validator = delta_cursor.x()/delta_cursor.y()
-            except ZeroDivisionError:
-                validator=100
-
-            if -1 <= validator <= 1:
-                print("vertical")
-                self.cursor.setPos(self.cursor_pos_init.x(),cursor_pos.y())
-            else:
-                self.cursor.setPos(cursor_pos.x(),self.cursor_pos_init.y())
-                print("Horizontal")
-        '''
+        self.point_vertex = QPointF(self.mapToScene(self.mousePos)) 
 
         #:::::::::::: desplaza la escena ::::::::::::
-        if self.startPos is not None:
+        if self.start_pos is not None:
             self.setCursor(Qt.ClosedHandCursor)
-            # funcionalidad de :
-            '''https://stackoverflow.com/questions/59239074/how-to-translate-drag-move-qgraphicsscene'''
-            
-            delta = self.startPos - mouseEvent.pos()            
+            delta = self.start_pos - mouseEvent.pos()            
             transform = self.transform()            
             deltaX = delta.x() / transform.m11()# m11 escala horizontal
             deltaY = delta.y() / transform.m22()# m22 escala vertical
             self.setSceneRect(self.sceneRect().translated(deltaX, deltaY))
-            self.startPos = mouseEvent.pos()
+            self.start_pos = mouseEvent.pos()
 
         #::::::::::::  punto  ::::::::::::::::
-        elif self.draw_point:  
-            self.point.setPos(point_b)
+        elif self.isDrawPoint:  
+
+            if self.snap_grid_adaptative == True:
+                spacing = self.graphicsScene_draw.grid_spacing
+            else:
+                spacing = self.snap_grid_spacing            
+
+            if self.mode_snap_grid:
+                self.point_vertex = self.pointSnapGrid(spacing, self.point_vertex) 
+            self.draw_general(self.point_vertex)
+
+
 
         #:::::::::::: linea ::::::::::::
-        elif self.draw_line and self.vertex == 1 :
+        elif self.isDrawLine and self.vertex == 1 :
             point_a = QPointF(0,0)
             point_a = self.line.line().p1()
 
@@ -616,7 +502,7 @@ class GraphicsViewDraw (QGraphicsView):
             self.point2.setPos(point_b.x(),point_b.y())
 
         #::::::::::::  polilinea  ::::::::::::
-        elif self.draw_polyline and self.is_line_temp:
+        elif self.isDrawPolyline and self.is_line_temp:
             
 
             point_a = self.line_temp.line().p1()
@@ -635,30 +521,9 @@ class GraphicsViewDraw (QGraphicsView):
 
             self.draw_general(point_a, point_b)
 
-        elif self.draw_polyline and self.vertex == 1 and False:
-            
-            point_a = self.line_poly.line().p1()
-
-            if self.mode_ortho == True:
-                delta_cursor = point_b - point_a
-                try:
-                    validator = delta_cursor.x()/delta_cursor.y()
-                except ZeroDivisionError:
-                    validator=100
-
-                if -1 <= validator <= 1:
-                    point_b.setX(point_a.x())
-                else:
-                    point_b.setY(point_a.y())
-
-            new_line = QLineF(point_a, point_b)
-
-            #agigna la linea a la ya creada 
-            self.line_poly.setLine(new_line)
-
-           
+          
         #::::::::::::  rectangulo  ::::::::::::::::
-        elif self.draw_rectangle and self.vertex == 1 :
+        elif self.isDrawRectangle and self.vertex == 1 :
             point_b = QPointF(self.mapToScene(self.mousePos))  
             point_a = QPointF(self.rectangle.rect().x(),self.rectangle.rect().y())
 
@@ -667,24 +532,24 @@ class GraphicsViewDraw (QGraphicsView):
             #asigna el rectangulo al ya creado 
             self.rectangle.setRect(new_rectangle)
 
-        elif self.line_temp == True:
-            print("self.line_temp = True")
+        elif self.line_temp == True:            
             super(GraphicsViewDraw, self).mouseMoveEvent(mouseEvent)
         
         else:
             self.setCursor(Qt.BlankCursor)
             super(GraphicsViewDraw, self).mouseMoveEvent(mouseEvent)
 
+
         self.cursor_position_view = QPoint(mouseEvent.x(),mouseEvent.y())
         new_point_cursor_scene = self.mapToScene(self.cursor_position_view)
-
-        if self.vertex >= 1 or self.draw_point:
+        if self.vertex >= 1 or self.isDrawPoint:
             self.graphicsScene_draw.mouse_pos_scene=new_point_cursor_scene
+            self.graphicsScene_draw.coor_mouse.emit([new_point_cursor_scene.x(),new_point_cursor_scene.y()])    
             self.graphicsScene_draw.update()
 
     def mouseReleaseEvent(self, mouseEvent):        
         # activa el modo desplazamiento de  view
-        self.startPos = None
+        self.start_pos = None
         
         self.setCursor(Qt.BlankCursor)
         self.graphicsScene_draw.mode_crosshair_pick_box = True
@@ -697,17 +562,12 @@ class GraphicsViewDraw (QGraphicsView):
     def wheelEvent(self, event):
         angle_mouse = event.angleDelta().y()    
         scale = math.pow(1.5, angle_mouse / 240.0)
-        '''
-        star_pos_scene = self.graphicsScene_draw.mouse_pos_scene
-        star_pos_view = self.mousePos
-        # '''
-        #anchor = self.transformationAnchor()
-        #self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
-        self.prev_percent_zoom_view= self.percent_zoom_view
+
+        self.prev_percent_zoom_view = self.percent_zoom_view
         self.percent_zoom_view = self.percent_zoom_view * scale
         
-        if self.percent_zoom_view < 2:
-            self.percent_zoom_view = 2
+        if self.percent_zoom_view < 1:
+            self.percent_zoom_view = 1
             return
         elif self.percent_zoom_view > 500000:
             self.percent_zoom_view = 500000
@@ -715,73 +575,18 @@ class GraphicsViewDraw (QGraphicsView):
         
         self.view_scale_changed("{:.1f}%".format(self.percent_zoom_view))
         
-        #self.setTransformationAnchor(anchor)
-
-        '''
-        end_pos_mouse = self.graphicsScene_draw.mouse_pos_scene
-        delta_pos = star_pos_mouse -end_pos_mouse
-        print(delta_pos,star_pos_mouse, end_pos_mouse)
-        self.move_view( delta_pos.x(), delta_pos.y())
-        '''
-
-
-
-        
-        '''
-        def wheel____Event(self, event):
-            
-            factor = 1.1
-            if event.angleDelta().y() < 0:
-                factor = 0.9
-            print("\n")
-            view_pos = self.mousePos
-            print("View: ",view_pos)
-            scene_pos = self.mapToScene(view_pos)
-            print("Scene: ",scene_pos)
-            self.centerOn(scene_pos)
-            self.scale(factor, factor)
-            delta = scene_pos - self.mapToScene(self.viewport().rect().center())
-            print("delta: ",delta)
-            self.centerOn(scene_pos - delta)
-            self.centerOn()
-        
-            
-
-        def wheelEvent(self, event):
-
-            numDegrees = event.angleDelta().y() / 8
-            numSteps = numDegrees / 15
-            self.numScheduledScalings += numSteps
-            print(numDegrees,numSteps,self.numScheduledScalings)
-            if self.numScheduledScalings * numSteps < 0:
-                self.numScheduledScalings = numSteps
-                print(numDegrees,numSteps,self.numScheduledScalings)
-
-            timeLine = QTimeLine(350, self)
-            timeLine.setUpdateInterval(20)
-            timeLine.valueChanged.connect(self.scalingTime)
-            timeLine.finished.connect(self.animFinished())
-            timeLine.start()
-        '''
-
     def drawForeground(self, painter: QPainter, rect: QRectF| QRect) -> None:
-
-        """ Evento para dibujar en el primer plano, se dibuja la
-        punta de mira y la caja de selección que sigue al ratself.scale_viewón """
+        """ Evento para dibujar en el primer plano, se dibuja las fechas del origen """
         super(GraphicsViewDraw, self).drawForeground(painter, rect)
         if not hasattr(self, "sceneRect"):
             return
+
         point_view = QPoint(self.rect().x(),self.rect().height())  
-        point_scene = self.mapToScene(point_view)  
-
-        #print("VIEW ▲▼ drawForeground")
-
+        point_scene = self.mapToScene(point_view) 
         if  self.mode_origin == True :
-            painter.save() 
-            
+            painter.save()             
             xo=point_scene.x()
             yo=point_scene.y()
-
             scale_arrow = 2.1 * (1/self.scale_view)
 
             #Origen Y
@@ -839,69 +644,82 @@ class GraphicsViewDraw (QGraphicsView):
 
             painter.restore()
 
-
-    
-    
-
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS PARA DIBUJO          ::::::::::::::::::::
 	############################################################################### 
     def endDrawGeometry(self):
-        print("fin")
-        self.draw_point = False                    
-        self.draw_line = False
-        self.draw_polyline = False
-        self.draw_rectangle = False
+        self.isDrawPoint = False                    
+        self.isDrawLine = False
+        self.isDrawPolyline = False
+        self.isDrawRectangle = False
+        self.isDelate = False
+        self.isDrawGeometry = False
 
-        self.is_draw_geometry = False
+        self.scene().point_temp.setVisible(False)
+
         self.graphicsScene_draw.mode_crosshair = False  
-
         self.signal_end_draw_geometry.emit()
         self.vertex = 0
 
     def initDrawGeometry(self):
-        self.is_draw_geometry = True
+        self.isDrawGeometry = True
         self.graphicsScene_draw.mode_crosshair =True
         #self.signal_end_draw_geometry.emit()        
         self.vertex = 0
         self.update()
 
-    def drawPointScene(self):
-        self.draw_point = True
-        '''
-        self.point_temp = True
-        self.isDelate = False
-        self.isClear = False 
-        ''' 
-        pos_init = QPointF(0,0)
-        self.point=PointItem(self)
-        self.point.setPos(pos_init)        
-        self.graphicsScene_draw.addItem(self.point)
-
+    def drawPointScene(self):        
         self.initDrawGeometry()
+        self.isDrawPoint = True
 
 
     def drawLineScene(self):
-        self.draw_line = True
+        self.isDrawLine = True
         self.initDrawGeometry()
     
     def drawPolylineScene(self):   
-        self.draw_polyline = True
+        self.isDrawPolyline = True
         self.initDrawGeometry()
     
     def drawRectangleScene(self):
-        self.draw_rectangle = True
+        self.isDrawRectangle = True
         self.initDrawGeometry()
     
+    def drawEraseItemScene(self):
+        self.isDelate = True
+   
+
+    def drawGeometry(self, p1=None, p2=None):
+
+        if self.isDrawPoint:  
+            print("⌡"*50)
+
+            items = self.scene().items(self.point_vertex)
+            for item in items:
+                if type(item) == PointItem:
+                    if item.getName() != "pointTemp":
+                        return
+
+            no_items = (len(self.scene().items()))-2
+            
+            if  self.isDrawGeometry == True:
+
+                
+                new_point = PointItem(f"POINT#{no_items}",p1)
+                self.graphicsScene_draw.addItem(new_point)
+
     def draw_general(self, p1=None, p2=None):
+        
+        if self.isDrawPoint:
+            self.scene().point_temp.setVisible(True)
+            self.scene().point_temp.setPos(p1)
 
-        if self.point_temp == True:  
-            pass
         if self.is_line_temp:
-            self.line_temp.setLine(QLineF(p1,p2))
+            self.line_temp.setLine(QLineF(p1,p2))  
 
-        if self.isDelate == True:
-            items = self.items(p1.x(),p1.y())
+        if self.isDelate == True:  
+            items = self.graphicsScene_draw.items(p1)
+            print(f"(items): {items}")
             for item in items:
                 self.graphicsScene_draw.removeItem(item)
         
@@ -909,12 +727,80 @@ class GraphicsViewDraw (QGraphicsView):
 
 
 
+    def figura_inicial_borrar(self):
+        return
+        pointsCoord = [
+        [   0.0000 ,  0.0000],
+        [   0.0010 ,  0.0010],
+        [   0.0100 ,  0.0000],
+        [ 100.0000 ,  0.0000],
+        [ 100.0000 , 60.9283],
+        [  68.4604 , 49.7303],
+        [  63.3560 , 35.7021],
+        [  54.9338 , 34.4268],
+        [  48.2981 , 34.9369],
+        [  41.4071 , 31.1111],
+        [  36.5580 , 28.3054],
+        [  28.3910 , 27.7953],
+        [  22.5209 , 22.6941],
+        [  15.1196 , 19.3784],
+        [   0.0000 , 19.2158]
+        ]
+
+        #******************************************
+        # Figura inicial de prueba
+        trianglePolygon = QPolygonF()
+        for i in pointsCoord:
+            trianglePolygon.append(QPointF(i[0], i[1]))        
+        pen= QPen(Qt.yellow)
+        pen.setWidth(0)
+        brush = QBrush(Qt.SolidPattern)
+        brush.setColor(QColor("#400509"))
+        self.graphicsScene_draw.addPolygon(trianglePolygon,pen,brush)
+        #******************************************
 
 
 
 
+    def pointSnapGrid(self, spacing, point_base):
 
 
+        piX = (point_base.x()//spacing)*spacing
+        piY = (point_base.y()//spacing)*spacing
+        pfX = piX + spacing
+        pfY = piY + spacing
+
+        point_snap_1 = QPointF(piX,piY)
+        point_snap_2 = QPointF(piX,pfY)
+        point_snap_3 = QPointF(pfX,pfY)
+        point_snap_4 = QPointF(pfX,piY)
+
+        delta_point_snap_1 = QPointF(point_base-point_snap_1)
+        delta_point_snap_2 = QPointF(point_base-point_snap_2)
+        delta_point_snap_3 = QPointF(point_base-point_snap_3)
+        delta_point_snap_4 = QPointF(point_base-point_snap_4)
+
+        area_point_snap_1 = abs(delta_point_snap_1.x()*delta_point_snap_1.y())
+        area_point_snap_2 = abs(delta_point_snap_2.x()*delta_point_snap_2.y())
+        area_point_snap_3 = abs(delta_point_snap_3.x()*delta_point_snap_3.y())
+        area_point_snap_4 = abs(delta_point_snap_4.x()*delta_point_snap_4.y())
+
+        list_areas = [area_point_snap_1, area_point_snap_2, area_point_snap_3, area_point_snap_4]
+
+
+        index = list_areas.index(min(list_areas))
+
+
+        if index == 0:
+            return point_snap_1
+        elif index == 1:
+            return point_snap_2
+        elif index == 2:
+            return point_snap_3
+        elif index == 3:
+            return point_snap_4
+        else:
+            return point_base
 
 
 
@@ -1054,7 +940,7 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.screen_primary = QApplication.primaryScreen()
         self.screen_height = self.screen_primary.size().height()
         self.screen_width = self.screen_primary.size().width()
-        self.scaled_screen_size = self.screen_height
+        #self.scaled_screen_size = self.screen_height
 
         # Atributos
         self.mode_axis = True
@@ -1065,6 +951,10 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.pick_box_size = 0.005
         self.mouse_pos_scene = None
         self.scale_view = 1
+
+        self.grid_adaptative = False
+        self.grid_spacing = 50
+
 
         
         # plumas para pick_box, crosshair y mode_crosshair
@@ -1083,23 +973,29 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.pen_axis_x = QPen()
         self.pen_axis_x.setWidth(0)
 
-        self.setStyleGridScene(1)
-        #self.setScaledScreenSize(1)
+
+        #elementos temporales
+        self.point_temp = PointItem("pointTemp",QPoint(0,0))          
+        self.point_temp.setRadius(2)
+        self.addItem(self.point_temp)
+        self.point_temp.setVisible(False)
+        print("+++++")
+
+        self.setStyleScene(1)
 
     ###############################################################################
 	# :::::::::::::::::::::          OTROS MÉTODOS           ::::::::::::::::::::::
-	############################################################################### 
-
-        
-    def setStyleGridScene(self, index):        
+	###############################################################################       
+    def setStyleScene(self, index):    
+        """Establece el estilo de la escena."""    
         if index == 0:
-            self.color_grid="#bbbbbb"
-            self.color_axis_x="#742427"
-            self.color_axis_y="#ABFF77"
+            self.color_grid="#EEEEEE"
+            self.color_axis_x="#B18284"
+            self.color_axis_y="#A9CE92"
             self.color_crosshair_draw="#000000"
-
-            self.color_crosshair="#555555"
-            self.color_pick_box ="#555555"
+            self.color_crosshair="#888888"
+            self.color_pick_box ="#888888"
+            self.color_point_temp ="#00ddff"
 
         elif index == 1:
             self.color_grid="#777777"
@@ -1108,6 +1004,7 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.color_crosshair_draw="#000000"
             self.color_crosshair="#555555"
             self.color_pick_box ="#555555"
+            self.color_point_temp ="#ffdd00"
             
         elif index == 2:
             self.color_grid="#313A39"
@@ -1116,6 +1013,7 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.color_crosshair_draw="#FFFFFF"
             self.color_crosshair="#AAAAAA"
             self.color_pick_box ="#AAAAAA"
+            self.color_point_temp ="#ffdd00"
 
 
         self.pen_grid_x.setColor(QColor(self.color_grid))
@@ -1124,66 +1022,94 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.pen_crosshair_draw.setColor(QColor(self.color_crosshair_draw))
         self.pen_crosshair.setColor(self.color_crosshair)
         self.pen_pick_box.setColor(self.color_pick_box)
+
+        self.point_temp.color = QColor(self.color_point_temp)
     
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
-	###############################################################################    
+	###############################################################################  
+ 
     def drawBackground(self, painter, rect) -> None:
-        """Evento para dibujar en el plano del fondo, se dibuja los ejes principales X y Y"""
-        
+        """Evento para dibujar en el plano del fondo, se dibuja los ejes principales X, Y y la grilla """        
         super(GraphicsSceneDraw, self).drawBackground(painter, rect)
+        
+        #self.grid_adaptative = False
+        #self.grid_spacing = 50
+        
+        if self.grid_adaptative == True:
 
-        space_lines_axis = 50
-        '''
-        if min(abs(rect.top() ),        abs(rect.bottom() ),        abs(rect.right() ),        abs(rect.left() ))<50:
-            space_lines_axis = 0.5
-        elif min(abs(rect.top() ),        abs(rect.bottom() ),        abs(rect.right() ),        abs(rect.left() ))<5:
-            space_lines_axis = 0.05
-        '''
+            #ajusta a la escala los espacios de la grilla
+            if 50/(self.scale_view) < 0.5:
+                grid_spacing= 0.1
+            elif 0.5 <= 50/(self.scale_view)< 1:
+                self.grid_spacing= 0.5
+            elif 1 <= 50/(self.scale_view)< 5:
+                self.grid_spacing= 1
+            elif 5 <= 50/(self.scale_view)< 10:
+                self.grid_spacing= 5
+            elif 10 <= 50/(self.scale_view)< 20:
+                self.grid_spacing= 10
+            elif 20 <= 50/(self.scale_view)< 50:
+                self.grid_spacing= 20
+            elif 50 <= 50/(self.scale_view)< 100:
+                self.grid_spacing= 50
+            elif 100 <= 50/(self.scale_view)< 500:
+                self.grid_spacing= 100
+            elif 500 <= 50/(self.scale_view)<= 1000:
+                self.grid_spacing= 500
+            elif 1000 < 50/(self.scale_view):
+                self.grid_spacing= 1000
+            else:
+                self.grid_spacing = self.grid_spacing
+            grid_spacing = self.grid_spacing
+        else:
+            grid_spacing = self.grid_spacing
 
+        print("self.grid_adaptative:",self.grid_adaptative,"   grid_spacing:",self.grid_spacing)
 
-        lines_axis_x_top = (int(abs(rect.top() / space_lines_axis )))+1
-        lines_axis_x_bottom = (int(abs(rect.bottom() / space_lines_axis )))+1
-        lines_axis_y_right = (int(abs(rect.right() / space_lines_axis )))+1
-        lines_axis_y_left = (int(abs(rect.left() / space_lines_axis )))+1
+        lines_axis_x_top = (int(abs(rect.top() / grid_spacing )))+1
+        lines_axis_x_bottom = (int(abs(rect.bottom() / grid_spacing )))+1
+        lines_axis_y_right = (int(abs(rect.right() / grid_spacing )))+1
+        lines_axis_y_left = (int(abs(rect.left() / grid_spacing )))+1
+        print(lines_axis_x_top,lines_axis_x_bottom,lines_axis_y_right,lines_axis_y_left)
 
+        if max(lines_axis_x_top,lines_axis_x_bottom,lines_axis_y_right,lines_axis_y_left) >= 50:
+            lines_axis_x_top, lines_axis_x_bottom, lines_axis_y_right, lines_axis_y_left = 0,0,0,0
+            print("********",lines_axis_x_top,lines_axis_x_bottom,lines_axis_y_right,lines_axis_y_left)
 
         if self.mode_axis == True or self.mode_grid == True:
             painter.save()
-
             if  self.mode_grid == True:
-
-
                 painter.setPen(self.pen_grid_x)
 
                 # lineas grilla X > positivo
                 for i  in range(lines_axis_x_bottom):
-                    linex_positive = QLineF(rect.left(), (i) * space_lines_axis,
-                                rect.right(), (i) * space_lines_axis)
+                    linex_positive = QLineF(rect.left(), (i) * grid_spacing,
+                                rect.right(), (i) * grid_spacing)
                     painter.drawLine(linex_positive)
 
                 # lineas grilla X > negativo
                 for i  in range(lines_axis_x_top):
-                    linex_negative = QLineF(rect.left(), (i) * (-space_lines_axis),
-                                rect.right(), (i) * (-space_lines_axis))
+                    linex_negative = QLineF(rect.left(), (i) * (-grid_spacing),
+                                rect.right(), (i) * (-grid_spacing))
                     painter.drawLine(linex_negative)
 
                 # lineas grilla Y positivo
                 for i  in range(lines_axis_y_left):
-                    linex_positive = QLineF((i) * space_lines_axis, rect.top(),
-                                (i) * space_lines_axis, rect.bottom())
+                    linex_positive = QLineF((i) * grid_spacing, rect.top(),
+                                (i) * grid_spacing, rect.bottom())
                     painter.drawLine(linex_positive)
-                    linex_negative = QLineF( (i) * (-space_lines_axis),rect.top(),
-                                (i) * (-space_lines_axis),rect.bottom())
+                    linex_negative = QLineF( (i) * (-grid_spacing),rect.top(),
+                                (i) * (-grid_spacing),rect.bottom())
                     painter.drawLine(linex_negative)
 
                 # lineas grilla Y negativo
                 for i  in range(lines_axis_y_right):
-                    linex_positive = QLineF((i) * space_lines_axis, rect.top(),
-                                (i) * space_lines_axis, rect.bottom())
+                    linex_positive = QLineF((i) * grid_spacing, rect.top(),
+                                (i) * grid_spacing, rect.bottom())
                     painter.drawLine(linex_positive)
-                    linex_negative = QLineF( (i) * (-space_lines_axis),rect.top(),
-                                (i) * (-space_lines_axis),rect.bottom())
+                    linex_negative = QLineF( (i) * (-grid_spacing),rect.top(),
+                                (i) * (-grid_spacing),rect.bottom())
                     painter.drawLine(linex_negative)
 
             if self.mode_axis == True :
@@ -1205,9 +1131,6 @@ class GraphicsSceneDraw (QGraphicsScene):
         super(GraphicsSceneDraw, self).drawForeground(painter, rect)
         if not hasattr(self, "mouse_pos_scene"):
             return
-        #print("SCENE ▲▼ drawForeground")   
-
-
         
         if self.mode_crosshair_pick_box == True :
             if self.mouse_pos_scene == None:
@@ -1216,7 +1139,6 @@ class GraphicsSceneDraw (QGraphicsScene):
             cursor_x = self.mouse_pos_scene.x()
 
             painter.save()
-
 
             #:::::::::::::::::  pick_box   :::::::::::::::::
             painter.setPen(self.pen_pick_box)
@@ -1240,7 +1162,6 @@ class GraphicsSceneDraw (QGraphicsScene):
                             pick_box_size_min)
             painter.drawRect(rectangle)
 
-
             #:::::::::::::::::  crosshair   :::::::::::::::::
             if self.mode_crosshair == True:
                 painter.setPen(self.pen_crosshair_draw)      
@@ -1250,7 +1171,6 @@ class GraphicsSceneDraw (QGraphicsScene):
             crosshair_size = self.crosshair_size
             if crosshair_size >=1.0:
                 crosshair_size = 2.0
-
 
             crosshair_size_max = crosshair_size * (self.screen_width/2)* (1/self.scale_view)
 
@@ -1282,7 +1202,6 @@ class GraphicsSceneDraw (QGraphicsScene):
             for line in (linex_left,linex_right,liney_top,liney_botton):
                 painter.drawLine(line)
 
-
             painter.restore()
 
     def mouseMoveEvent(self, mouseEvent):
@@ -1293,8 +1212,3 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.coor_mouse.emit([self.mouse_pos_scene.x(),self.mouse_pos_scene.y()])         
         self.update()
         super(GraphicsSceneDraw, self).mouseMoveEvent(mouseEvent)
-
-    '''
-    def setScaledScreenSize(self, zoom_scale):
-        self.scaled_screen_size = self.scaled_screen_size * zoom_scale
-    '''
