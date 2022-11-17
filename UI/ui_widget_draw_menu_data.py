@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_datatFRegy.ui'
+## Form generated from reading UI file 'widget_draw_menu_datamtLUar.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -23,7 +23,7 @@ class Ui_FormDrawMenuData(object):
     def setupUi(self, FormDrawMenuData):
         if not FormDrawMenuData.objectName():
             FormDrawMenuData.setObjectName(u"FormDrawMenuData")
-        FormDrawMenuData.resize(350, 415)
+        FormDrawMenuData.resize(350, 477)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

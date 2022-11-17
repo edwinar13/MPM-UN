@@ -85,14 +85,20 @@ class CreateDataBase ():
         filePath='{}.mpm'.format(filePath)
         
         data = {}	        
-        data['INFORMACION'] = {"NOMBREPROYECTO": "",
-                                "LOCALIZACION": "",
-                                "AUTOR": "", 
-                                "DESCRIPCION": ""
-                                }
+        data['INFORMACION'] = {
+            "NOMBREPROYECTO": "",
+            "LOCALIZACION": "",
+            "AUTOR": "", 
+            "DESCRIPCION": ""
+        }
         data['CONFIGURACION'] = {
-                                "GRAVEDAD": 9.80
-                                }
+            "GRAVEDAD": 9.80
+        }
+        data['ITEMSDIBUJO'] = {
+            "PUNTOS": {},
+            "LINEAS": {},
+            "RECTANGULOS": {}
+        }
         data['MALLAS'] = {}
         data['PUNTOSMATERIAL'] = {}
         data['MATERIALES'] = {}
@@ -228,7 +234,6 @@ class DataBaseConfigMpmun():
 	# ::::::::::::::::::::        MÉTODOS DB SETTING         ::::::::::::::::::::
 	###############################################################################   
 
-
     def selectSettingDB(self):
         """Recupera los ajustes de la app de la db del sofware.
   
@@ -246,8 +251,6 @@ class DataBaseConfigMpmun():
         else:
             print("No se encontró la base de datos {}".format(self.__path_db_Config))
             return (False)
-
-
 
     def updateSettingDB(self,section, type_setting, value):
         """actualiza los ajustes del app en la db del software.
@@ -284,7 +287,6 @@ class DataBaseConfigMpmun():
         return validacion
 
 
-
 class DataBaseProject():    
     """Esta clase permite crear el objeto que interactuara con la base de datos del proyecto. 
 
@@ -299,6 +301,8 @@ class DataBaseProject():
         : updateInformationDB
         : selectConfigDB
         : updateConfigDB
+        : selectItemDrawDB
+        : updateItemDrawDB
         : checkProjectChanges
         : saveDataDb
 
@@ -372,7 +376,7 @@ class DataBaseProject():
                 self.__unguarded_copy_db_project['INFORMACION']['DESCRIPCION']=description
             return True
         except BaseException as err:
-            print("[Doc: {}] Error al agregar registro en <INFORMACION> de la base de datos".format(self.name_doc_py))
+            print("[Doc: {}] Error al agregar registro en <INFORMACION> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
 
@@ -409,7 +413,51 @@ class DataBaseProject():
                 self.__unguarded_copy_db_project['CONFIGURACION']['GRAVEDAD']=gravity
             return True
         except BaseException as err:
-            print("[Doc: {}]  Error al agregar registro en <CONFIGURACION> de la base de datos {}".format(self.name_doc_py,BD))
+            print("[Doc: {}]  Error al agregar registro en <CONFIGURACION> de la base de datos {}".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False
+
+    ###############################################################################
+	# ::::::::::::::::::::        MÉTODOS DB ITEMSDIBUJO       ::::::::::::::::::::
+	###############################################################################   
+    def selectItemDrawDB(self):
+        """Recupera los items de dibujo (puntos, lineas, rectangulos) contenidos en la copia sin guardas de la db del proyecto.
+        Returns:
+            (dict): Diccionario con los items de dibujo del proyecto.
+        """   
+
+        data_projects_items_draw = self.__unguarded_copy_db_project['ITEMSDIBUJO']
+        return data_projects_items_draw
+    
+    def updateItemDrawDB(self, no_items, points=None, lines=None,  rectangles=None):
+        """Actualiza los items de dibujo (puntos, lineas, rectangulos) en la copia sin guardar de la db del proyecto.
+
+        Args:
+            no_items (int): numero de items.
+            points (list): lista de puntos (default= None).
+            lines (list): lista de lineas (default= None).
+            rectangles (list): lista de rectangulos (default= None).
+
+        Returns:
+            (bool): 
+                : True >> si se agrega correctamente los items al proyecto
+                : False >> si no se encontró la db del proyecto.
+
+        """ 
+
+        try:  
+            if no_items != None:          
+                self.__unguarded_copy_db_project['ITEMSDIBUJO']['NOITEMS']=no_items
+            if points != None:          
+                self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS']=points
+            if lines != None:          
+                self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS']=lines
+            if rectangles != None:        
+                self.__unguarded_copy_db_project['ITEMSDIBUJO']['RECTANGULOS']=rectangles
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al agregar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
 
@@ -458,7 +506,7 @@ class DataBaseProject():
                 validacion=True
             
             except BaseException as err:
-                print("[Doc: {}]  Error al agregar registro en <CONFIGURACION> de la base de datos {}".format(self.name_doc_py,BD))
+                print("[Doc: {}]  Error al agregar registro en <CONFIGURACION> de la base de datos {}".format(self.__name_doc_py,BD))
                 print("[Tipo: {}, Erro: {}]".format(type(err),err))
                 validacion=False
             
@@ -492,7 +540,7 @@ class DataBaseProject():
             validacion=True
         
         except BaseException as err:
-            print("[Doc: {}]  Error al guardar como {}".format(self.name_doc_py,BD))
+            print("[Doc: {}]  Error al guardar como {}".format(self.__name_doc_py,BD))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             validacion=False
         

@@ -3,8 +3,8 @@ es la ventana principal del programa."""
 from datetime import datetime
 from PySide6.QtCore import ( QFile, Slot,QSize,Qt,QTimer)
 from PySide6.QtWidgets import (QApplication, QMainWindow,QFileDialog,
-QFrame, QSizePolicy,QLabel,QPushButton,QComboBox,QToolButton)
-from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence,QKeyEvent)
+QFrame, QSizePolicy,QLabel,QPushButton,QComboBox,QToolButton,QUndoView)
+from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence,QKeyEvent, QUndoStack)
 from ui import ui_main_window
 from clases import class_projects
 from clases import class_ui_frame_home
@@ -67,6 +67,10 @@ class MainWindow(QMainWindow):
         self.setting = True
 
 
+        self.undoStack = QUndoStack(self)
+        self.createUndoView()
+
+
 
 
 
@@ -85,7 +89,7 @@ class MainWindow(QMainWindow):
             self.setStyleSheet(f.read())
         self.showMaximized()
         """       
-        #self.setFixedSize(QSize(1000,600))
+        self.setFixedSize(QSize(1000,700))
 
 
 
@@ -102,6 +106,9 @@ class MainWindow(QMainWindow):
         self.ui.action_importar.setStatusTip('Importar')
         self.ui.action_exportar.setShortcut('Ctrl+e')
         self.ui.action_exportar.setStatusTip('Exportar')
+        
+        self.ui.action_deshacer.setShortcut('Ctrl+z')
+        self.ui.action_rehacer.setShortcut('Ctrl+y')
         
 
         self.ui.action_origin.setChecked(True)
@@ -130,21 +137,9 @@ class MainWindow(QMainWindow):
         self.label_coor.setMinimumSize(QSize(100, 0))
         self.label_coor.setAlignment(Qt.AlignCenter)
         self.label_coor.setVisible(False)
+  
 
-        self.label_zoom = QLabel("Zoom")
-        self.label_zoom.setStyleSheet('border: none; color:  #DDDDDD')
-        self.label_zoom.setMinimumSize(QSize(80, 0))
-        self.label_zoom.setAlignment(Qt.AlignCenter)
-        self.label_zoom.setVisible(False)
-        
 
-        self.ComboBox_zoom = QComboBox()
-        self.ComboBox_zoom.addItems(["Zoom","10%", "50%", "100%", "150%", "200%", "500%", "1000%"])
-        self.ComboBox_zoom.setCurrentIndex(0)        
-        self.ComboBox_zoom.setMinimumSize(QSize(100, 0))
-        self.ComboBox_zoom.setObjectName(u"ComboBox_zoom")
-        self.ComboBox_zoom.setStyleSheet('color: #888888')
-        self.ComboBox_zoom.setVisible(False)
 
         self.toolButton_snap_grid = QToolButton()
         self.toolButton_snap_grid.setCheckable(True)
@@ -178,8 +173,6 @@ class MainWindow(QMainWindow):
         self.statusBar().addPermanentWidget(self.toolButton_osnap)
         self.statusBar().addPermanentWidget(self.toolButton_ortho)
         self.statusBar().addPermanentWidget(self.toolButton_snap_grid)
-        self.statusBar().addPermanentWidget(self.ComboBox_zoom)
-        self.statusBar().addPermanentWidget(self.label_zoom)
         self.statusBar().addPermanentWidget(self.label_coor)
 
         self.statusBar().reformat()
@@ -244,7 +237,6 @@ class MainWindow(QMainWindow):
         self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
         self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
         self.frame_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
-        self.frame_draw.signal_zoom.connect(self._printStatusBarZoom)
         self.frame_draw.signal_console_hise_show.connect(self._console_hise_show)
 
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
@@ -261,6 +253,8 @@ class MainWindow(QMainWindow):
         self.ui.action_nuevo.triggered.connect(self.__triggeredActionNuevoProyecto)
         self.ui.action_guardar.triggered.connect(self.__triggeredActionSaveProject)
         self.ui.action_guardarComo.triggered.connect(self.__triggeredActionSaveAsProject)
+        self.ui.action_deshacer.triggered.connect(self.__triggeredActionUndo)
+        self.ui.action_rehacer.triggered.connect(self.__triggeredActionRedo)
         #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
         #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
         self.ui.action_abrir.triggered.connect(self.__triggeredActionAbrirProyecto)
@@ -275,7 +269,6 @@ class MainWindow(QMainWindow):
         self.toolButton_snap_grid.clicked.connect(self.__clickedToolButtoSnapGrid)
         self.toolButton_ortho.clicked.connect(self.__clickedToolButtoOrtho)
         self.toolButton_osnap.clicked.connect(self.__clickedToolButtoOsnap)
-        self.ComboBox_zoom.currentTextChanged.connect(self.__currentTextChangedComboBoxZoom)
 
 
 
@@ -445,7 +438,23 @@ class MainWindow(QMainWindow):
                     self.__openProject(new_path_file) 
             else:
                 self.setWindowTitle(nameCurrent)
+    def createUndoView(self):
 
+        undoView = QUndoView(self.undoStack)
+        undoView.setWindowTitle("Command List")
+        undoView.show()
+        undoView.setAttribute(Qt.WA_QuitOnClose, False)
+        print("adadadad")
+
+    def __triggeredActionUndo(self):   
+        """ """
+        self.frame_draw.undo()
+
+    def __triggeredActionRedo(self):   
+        """ """
+        self.frame_draw.redo()
+        
+    
     def __triggeredActionShowHideOrigin(self):        
         """ envia a la scena draw el modo del origen true para ver y false para ocultar"""   
         self.frame_draw.mode_origin_draw(self.ui.action_origin.isChecked())
@@ -482,21 +491,25 @@ class MainWindow(QMainWindow):
         if nameWidget==self.ui.spinBox_1.objectName() or updateAll:
             value_crosshair_size = self.ui.spinBox_1.value()
             self.ui.horizontalSlider_1.setValue(value_crosshair_size)
-            self.frame_draw.scene_draw.crosshair_size =(value_crosshair_size)/100
+            self.frame_draw.view_draw_1.crosshair_size=(value_crosshair_size)/100
+            self.frame_draw.view_draw_2.crosshair_size=(value_crosshair_size)/100
             self.db_config_mpmun.updateSettingDB(0,"TamanoCruzPuntero", value_crosshair_size)
 
         if nameWidget==self.ui.horizontalSlider_2.objectName() or updateAll:            
             value_pick_box_size = (self.ui.horizontalSlider_2.value())
             value_Margin =18 * (1-((value_pick_box_size-5)/45))           
             self.ui.frame_4.setContentsMargins(value_Margin, value_Margin, value_Margin, value_Margin)
-            self.frame_draw.scene_draw.pick_box_size =(value_pick_box_size)
+            self.frame_draw.view_draw_1.pick_box_size =(value_pick_box_size)
+            self.frame_draw.view_draw_2.pick_box_size =(value_pick_box_size)
             self.db_config_mpmun.updateSettingDB(0,"TamanoCajaPuntero", value_pick_box_size)
             
 
         if nameWidget==self.ui.comboBox_3.objectName() or updateAll:
-            index_style_background_view = self.ui.comboBox_3.currentIndex()
-            self.db_config_mpmun.updateSettingDB(0,"EstiloVista", index_style_background_view)
-            self.frame_draw.view_draw.setStyleViewScene(index_style_background_view)
+            index_style_view_scene = self.ui.comboBox_3.currentIndex()
+            self.db_config_mpmun.updateSettingDB(0,"EstiloVista", index_style_view_scene)
+            self.frame_draw.scene_draw.setStyleScene(index_style_view_scene)
+            self.frame_draw.view_draw_1.setStyleView(index_style_view_scene)
+            self.frame_draw.view_draw_2.setStyleView(index_style_view_scene)
 
 
 
@@ -506,10 +519,14 @@ class MainWindow(QMainWindow):
             grid_spacing = self.ui.doubleSpinBox_grid_spacing.value()           
             if check_grid_adaptative:
                 self.ui.doubleSpinBox_grid_spacing.setEnabled(False)
-                self.frame_draw.scene_draw.grid_adaptative = True
+                self.frame_draw.view_draw_1.grid_adaptative = True
+                self.frame_draw.view_draw_2.grid_adaptative = True
             else:
                 self.ui.doubleSpinBox_grid_spacing.setEnabled(True)
-                self.frame_draw.scene_draw.grid_adaptative = False
+                self.frame_draw.view_draw_1.grid_adaptative = False
+                self.frame_draw.view_draw_1.grid_spacing = grid_spacing
+                self.frame_draw.view_draw_2.grid_adaptative = False
+                self.frame_draw.view_draw_2.grid_spacing = grid_spacing
                 self.frame_draw.scene_draw.grid_spacing = grid_spacing
 
             self.db_config_mpmun.updateSettingDB(0,"GrillaAdaptativa", check_grid_adaptative)
@@ -517,6 +534,8 @@ class MainWindow(QMainWindow):
 
         if nameWidget==self.ui.doubleSpinBox_grid_spacing.objectName() or updateAll:
             grid_spacing = self.ui.doubleSpinBox_grid_spacing.value()           
+            self.frame_draw.view_draw_1.grid_spacing = grid_spacing
+            self.frame_draw.view_draw_2.grid_spacing = grid_spacing
             self.frame_draw.scene_draw.grid_spacing = grid_spacing
             self.db_config_mpmun.updateSettingDB(0,"EspacioGrilla", grid_spacing)
 
@@ -527,12 +546,12 @@ class MainWindow(QMainWindow):
 
             if check_snap_grid_adaptative:
                 self.ui.doubleSpinBox_snap_grid_spacing.setEnabled(False)
-                self.frame_draw.view_draw.snap_grid_adaptative = True
+                self.frame_draw.scene_draw.snap_grid_adaptative = True
                 
             else:
                 self.ui.doubleSpinBox_snap_grid_spacing.setEnabled(True)
-                self.frame_draw.view_draw.snap_grid_adaptative = False
-                self.frame_draw.view_draw.snap_grid_spacing = snap_grid_spacing
+                self.frame_draw.scene_draw.snap_grid_adaptative = False
+                self.frame_draw.scene_draw.snap_grid_spacing = snap_grid_spacing
 
             self.db_config_mpmun.updateSettingDB(0,"SnapGrillaAdaptativa", check_snap_grid_adaptative)
             self.db_config_mpmun.updateSettingDB(0,"EspacioSnapGrilla", snap_grid_spacing)
@@ -540,7 +559,7 @@ class MainWindow(QMainWindow):
 
         if nameWidget==self.ui.doubleSpinBox_snap_grid_spacing.objectName() or updateAll:
             snap_grid_spacing = self.ui.doubleSpinBox_snap_grid_spacing.value() 
-            self.frame_draw.view_draw.snap_grid_spacing = snap_grid_spacing
+            self.frame_draw.scene_draw.snap_grid_spacing = snap_grid_spacing
             self.db_config_mpmun.updateSettingDB(0,"EspacioSnapGrilla", snap_grid_spacing)
         
 
@@ -663,7 +682,6 @@ class MainWindow(QMainWindow):
         
         
         self.label_coor.setVisible(False)
-        self.ComboBox_zoom.setVisible(False)
         self.toolButton_snap_grid.setVisible(False)
         self.toolButton_ortho.setVisible(False)
         self.toolButton_osnap.setVisible(False)
@@ -675,7 +693,6 @@ class MainWindow(QMainWindow):
             if button == 2:
                 self.frame_draw.showHideDrawMenu("Data")
                 self.label_coor.setVisible(True)
-                self.ComboBox_zoom.setVisible(True)
                 self.toolButton_snap_grid.setVisible(True)
                 self.toolButton_ortho.setVisible(True)
                 self.toolButton_osnap.setVisible(True)
@@ -683,7 +700,6 @@ class MainWindow(QMainWindow):
             elif button == 3:
                 self.frame_draw.showHideDrawMenu("Mesh")
                 self.label_coor.setVisible(True)
-                self.ComboBox_zoom.setVisible(True)
                 self.toolButton_snap_grid.setVisible(True)
                 self.toolButton_ortho.setVisible(True)
                 self.toolButton_osnap.setVisible(True)
@@ -691,7 +707,6 @@ class MainWindow(QMainWindow):
             elif button == 4:
                 self.frame_draw.showHideDrawMenu("Point")
                 self.label_coor.setVisible(True)
-                self.ComboBox_zoom.setVisible(True)
                 self.toolButton_snap_grid.setVisible(True)
                 self.toolButton_ortho.setVisible(True)
                 self.toolButton_osnap.setVisible(True)
@@ -699,7 +714,6 @@ class MainWindow(QMainWindow):
             elif button == 5:
                 self.frame_draw.showHideDrawMenu("Boundary")
                 self.label_coor.setVisible(True)
-                self.ComboBox_zoom.setVisible(True)
                 self.toolButton_snap_grid.setVisible(True)
                 self.toolButton_ortho.setVisible(True)
                 self.toolButton_osnap.setVisible(True)
@@ -762,7 +776,6 @@ class MainWindow(QMainWindow):
                 self.previous_selected_button = 2
                 self.__viewToolButtonMenuLat(self.previous_selected_button)
                 self.label_coor.setVisible(True)
-                self.ComboBox_zoom.setVisible(True)
                 self.toolButton_snap_grid.setVisible(True)
                 self.toolButton_ortho.setVisible(True)
                 self.toolButton_osnap.setVisible(True)
@@ -771,6 +784,7 @@ class MainWindow(QMainWindow):
 
                 """              ███▀▀▀▀▀ deberia actualizar todo ▀▀▀▀▀███                 """
                 self.frame_draw.configDrawMenuData(project = self.__actual_project)
+                self.frame_draw.configDrawItemsScene(project = self.__actual_project)
 
         elif ( QFile.exists(file_path) and event_changes=="ignore"):
             pass
@@ -875,21 +889,15 @@ class MainWindow(QMainWindow):
 	# ::::::::::::::::        MÉTODOS PARA BARRA DE ESTADO         ::::::::::::::::
 	###############################################################################
     def __clickedToolButtoSnapGrid(self,mode):
-       self.frame_draw.view_draw.mode_snap_grid = mode
+       self.frame_draw.scene_draw.mode_snap_grid = mode
  
     def __clickedToolButtoOrtho(self,mode):
-        self.frame_draw.view_draw.mode_ortho = mode
+        self.frame_draw.scene_draw.mode_ortho = mode
        
     def __clickedToolButtoOsnap(self,mode):
-        self.frame_draw.view_draw.mode_osnap = mode
+        self.frame_draw.scene_draw.mode_osnap = mode
       
-    def __currentTextChangedComboBoxZoom(self,scale):
-        index =self.ComboBox_zoom.currentIndex()
 
-        if index == 0:
-            return
-        else:
-            self.frame_draw.view_draw.view_scale_changed(scale)
     
     @Slot(list)
     def _printStatusBarCoor(self, coor_list):
@@ -902,16 +910,7 @@ class MainWindow(QMainWindow):
         y = round(coor_list[1],4)
         self.label_coor.setText("{:.3f}, {:.3f}".format(x,y))
       
-    @Slot(float)
-    def _printStatusBarZoom(self, zoom):
-        """Imprime en la barra de estado el procenta de zoom en el  QGraphics.
-        Args:
-            zoom(floar): procentaje de zoom
-        """
-        zoom = "{:.1f}%".format(zoom*100)
-        self.label_zoom.setText(zoom)
-        self.ComboBox_zoom.setCurrentIndex(0)
-        self.ComboBox_zoom.setItemText(0,"» {}".format(zoom))
+
     
     @Slot(bool)
     def _console_hise_show(self,state):

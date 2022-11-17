@@ -186,7 +186,7 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
     def __updateDate(self, value_input, name_attribute):
-        """ Actualiza la información recibida en la copia de la bd del proyecto.
+        """ Actualiza la información recibida, en la copia de la bd del proyecto.
 
         Args:
             value_input (str): valor de entrada

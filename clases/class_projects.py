@@ -43,8 +43,9 @@ class Projects():
 	###############################################################################
     def setProjects(self):
         """Establece los proyectos recientes de la db."""
-
-        for project in self.__db_config_mpmun.selectProjectsDB():
+        list_projects = self.__db_config_mpmun.selectProjectsDB()
+        #if  type(list_projects) == list:
+        for project in list_projects:
             name = project['nombreArchivo']
             path = project['ruta']
             data = project['fecha']
