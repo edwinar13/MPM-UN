@@ -1,5 +1,6 @@
 $ git log --graph --full-history --all --pretty=format:"%x09%d%x20%s" > "Git Tree.txt"
 
+*    v0.6.1 punto de restauracion, se elimina la version anterior de la escena y vista y se deja la definitiva
 *    v0.6.0 se cambio la logica para dibujo (escena/vista), se agrega punto, linea y rectangulo, ayudas para dibujo como snap, osnap y ortho
 
 * 	 v0.5.6 se agrega en configuración opciones para grilla y snap/grilla, se ajusta la forma de insertar un punto al dibujo
