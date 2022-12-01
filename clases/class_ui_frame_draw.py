@@ -266,8 +266,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         current_command = self.label_console_command.text()
         descrip_command = self.label_console_descrip.text()
         
-        commands =     ["point", "line", "pline", "rectang", "erase", "zoom", "views"]
-        commands_min = ["p",     "l",    "pl",    "rec",     "era",   "z",    "v"]
+        commands =     ["point", "line", "pline", "rectang", "erase", "move", "copy", "zoom", "views"]
+        commands_min = ["p",     "l",    "pl",    "rec",     "era",   "mo",   "co",  "z",    "v"]
 
         #se ejecuta si la entrada es un comando
         if (data_consola in commands) or (data_consola in commands_min):
@@ -277,6 +277,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 index = commands_min.index(data_consola)
 
             command = commands[index]
+            print("comando: {}".format(command))
 
             if command == "point" :
                 self.scene_draw.drawPointScene()
@@ -297,7 +298,18 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 
             elif command == "erase" :
                 self.scene_draw.drawEraseItemScene()
-                self.init_tool_geometry(command,"Selecione un elemento  [Exit]:")
+                self.scene_draw.isSelect = True                
+                self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
+
+            elif command == "move" :
+                self.scene_draw.drawMoveItemScene()
+                self.scene_draw.isSelect = True                
+                self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
+
+            elif command == "copy" :
+                self.scene_draw.drawCopyItemScene()
+                self.scene_draw.isSelect = True                
+                self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
 
             elif command == "zoom" :
                 self.init_tool_geometry(command,"[Extents Window] <E>:")
@@ -308,7 +320,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.init_draw_geometry(command)
         
 
-        #se ejecuta si la entrada una opcion de zoom
+        #se ejecuta si la entrada es una opcion de zoom
         if current_command == "zoom" and descrip_command == "[Extents Window] <E>:":
             
             if data_consola == "" or data_consola.lower() == "e":
@@ -338,8 +350,97 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.msnConsole("Command","_end")
             self.end_draw_geometry() 
             return
+
         
-        if current_command == "rectang" or current_command == "line" or current_command == "point":
+        elif current_command == "erase" or current_command == "move" or current_command == "copy":
+            selected_items = len(self.scene_draw.selected_items)
+            print(selected_items)
+
+            #exit: salir de la edición de objeto
+            if data_consola.lower() == "e" and "Exit" in descrip_command:
+                self.msnConsole("Command","_cancel")
+
+                ######   salir
+                self.end_draw_geometry()                
+                self.scene_draw.endDrawGeometry()
+                self.view_draw_1.selectElement(False)
+                self.view_draw_2.selectElement(False)                
+                self.scene_draw.update()
+                return
+                
+
+            #entrada no valida
+            elif data_consola != "" and descrip_command == "Seleccione un elemento [Exit]:":
+                self.init_tool_geometry(current_command,"Seleccione un elemento [Exit]:")
+                return
+
+            #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+            
+            # Eliminar objetos selecionados
+            elif current_command == "erase" and data_consola == "":
+                self.scene_draw.drawTransform(current_command)
+                self.msnConsole("Command","_end")
+
+                ######   salir
+                self.end_draw_geometry()              
+                self.scene_draw.endDrawGeometry()
+                self.view_draw_1.selectElement(False)
+                self.view_draw_2.selectElement(False)                
+                return
+                
+
+
+
+            elif current_command == "move" :
+
+                if selected_items > 0 and descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "":
+                    self.view_draw_1.selectElement(False)
+                    self.view_draw_2.selectElement(False)                
+                    self.scene_draw.update()
+                    self.scene_draw.isSelect = False
+                    self.init_tool_geometry(current_command,"Seleccione el primer punto [Exit]:")
+                    return
+
+
+                elif selected_items > 0 and descrip_command == "Seleccione el primer punto [Exit]:":
+                    self.init_tool_geometry(current_command,"Seleccione el segundo punto [Exit]:")
+                    return
+
+                elif selected_items > 0 and descrip_command == "Seleccione el segundo punto [Exit]:":
+                    self.scene_draw.drawTransform(current_command)
+                    self.msnConsole("Command","_end")
+
+                    ######   salir
+                    self.end_draw_geometry()              
+                    self.scene_draw.endDrawGeometry()
+                    self.view_draw_1.selectElement(False)
+                    self.view_draw_2.selectElement(False)                
+                    return
+                    
+                else:
+                    ######   salir
+                    self.end_draw_geometry()              
+                    self.scene_draw.endDrawGeometry()
+                    self.view_draw_1.selectElement(False)
+                    self.view_draw_2.selectElement(False)                
+                    self.scene_draw.update()
+                    return
+
+
+
+
+
+
+
+
+            #punto inicial de mover o copiar
+            elif data_consola == "" and "Exit" in descrip_command and current_command == "move" :
+                print(":: ",2)
+
+            else:
+                print(":: ",3)
+                
+        elif current_command == "rectang" or current_command == "line" or current_command == "point":
             
             #exit: salir del dibujo de objeto
             if data_consola.lower() == "e" and "Exit" in descrip_command:
@@ -494,7 +595,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     def __clickedToolButtonDrawPaintMove(self):
         self.scene_draw.endDrawGeometry()
         self.scene_draw.drawMoveItemScene()
-        self.init_tool_geometry("move","Seleccione un objeto[Exit]:")
+        self.view_draw_1.selectElement(True)
+        self.view_draw_2.selectElement(True)
+        self.scene_draw.isSelect = True   
+        self.init_tool_geometry("move","Seleccione un elemento [Exit]:")
 
     def __clickedToolButtonDrawPaintRotate(self):
         pass
@@ -502,13 +606,19 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     def __clickedToolButtonDrawPaintCopy(self):
         self.scene_draw.endDrawGeometry()
         self.scene_draw.drawCopyItemScene()
-        self.init_tool_geometry("copy","Seleccione un objeto[Exit]:")
+        self.view_draw_1.selectElement(True)
+        self.view_draw_2.selectElement(True)
+        self.scene_draw.isSelect = True   
+        self.init_tool_geometry("copy","Seleccione un elemento [Exit]:")
 
 
     def __clickedToolButtonDrawPaintErase(self):
         self.scene_draw.endDrawGeometry()
         self.scene_draw.drawEraseItemScene()
-        self.init_tool_geometry("erase","Seleccione un objeto[Exit]:")
+        self.view_draw_1.selectElement(True)
+        self.view_draw_2.selectElement(True)
+        self.scene_draw.isSelect = True   
+        self.init_tool_geometry("erase","Seleccione un elemento [Exit]:")
 
 
     def showHideDrawMenu(self,name_menu_view):
@@ -836,6 +946,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 self.scene_draw.endDrawGeometry()
                 self.view_draw_1.zoomWindow(False)
                 self.view_draw_2.zoomWindow(False)
+                self.view_draw_1.selectElement(False)
+                self.view_draw_2.selectElement(False)
 
             return super().keyPressEvent(event)
         except UnicodeDecodeError:

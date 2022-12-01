@@ -3,13 +3,7 @@ from PySide6.QtGui import (QFontDatabase)
 from PySide6.QtWidgets import (QApplication)
 from clases import splash_screen
 from clases import database_class
-
-"""              ███▀▀▀▀▀ Revizar ▀▀▀▀▀███                 """
-# cuando se pase de .ui a .py
-# se debe ajustar las rutas de las imagenes
-# quitar ../
-
-        
+       
 def initFont():
     """Inicia las fuentes Ubuntu"""
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-Bold.ttf')
@@ -20,7 +14,6 @@ def initFont():
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-Medium.ttf')
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-MediumItalic.ttf')
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-Regular.ttf')
-
 
 if __name__ == '__main__':
     createDataBase = database_class.CreateDataBase()
