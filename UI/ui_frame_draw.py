@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawkORSom.ui'
+## Form generated from reading UI file 'frame_drawHDtkni.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -420,13 +420,26 @@ class Ui_FormDraw(object):
 
         self.verticalLayout.addWidget(self.toolButton_cardMeshDrawCopy)
 
+        self.toolButton_cardMeshDrawRotate = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawRotate.setObjectName(u"toolButton_cardMeshDrawRotate")
+        self.toolButton_cardMeshDrawRotate.setMinimumSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawRotate.setMaximumSize(QSize(35, 35))
+        icon10 = QIcon()
+        icon10.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rotate.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDrawRotate.setIcon(icon10)
+        self.toolButton_cardMeshDrawRotate.setIconSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawRotate.setArrowType(Qt.NoArrow)
+        self.toolButton_cardMeshDrawRotate.setProperty("style_draw_button", 1)
+
+        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawRotate)
+
         self.toolButton_cardMeshDrawErase = QToolButton(FormDraw)
         self.toolButton_cardMeshDrawErase.setObjectName(u"toolButton_cardMeshDrawErase")
         self.toolButton_cardMeshDrawErase.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawErase.setMaximumSize(QSize(35, 35))
-        icon10 = QIcon()
-        icon10.addFile(u"recursos/iconos/iconos_menu_draw_mesh/erase.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawErase.setIcon(icon10)
+        icon11 = QIcon()
+        icon11.addFile(u"recursos/iconos/iconos_menu_draw_mesh/erase.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDrawErase.setIcon(icon11)
         self.toolButton_cardMeshDrawErase.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDrawErase.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawErase.setProperty("style_draw_button", 1)
@@ -485,6 +498,7 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawRect.setText("")
         self.toolButton_cardMeshDrawMove.setText("")
         self.toolButton_cardMeshDrawCopy.setText("")
+        self.toolButton_cardMeshDrawRotate.setText("")
         self.toolButton_cardMeshDrawErase.setText("")
     # retranslateUi
 
