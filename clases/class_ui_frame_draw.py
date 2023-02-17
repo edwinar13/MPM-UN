@@ -5,20 +5,21 @@ from importlib import import_module
 from queue import Empty
 from random import seed
 from PySide6.QtCore import (Signal,QRectF,Qt,QPointF,QSize,QEvent,Slot)
-from PySide6.QtWidgets import (QFrame, QGraphicsScene,QGraphicsView,QGraphicsItem,
-                            QGraphicsPolygonItem,QMenu,QSplitter,QDockWidget)
+from PySide6.QtWidgets import (QGraphicsRectItem, QGraphicsLineItem, QFrame, QGraphicsScene,QGraphicsView,QGraphicsItem,
+                            QGraphicsPolygonItem,QMenu,QSplitter,QDockWidget, QGraphicsItemGroup)
 from PySide6.QtGui import (QPen,QBrush,
                             QPainter,QPixmap,QPolygonF,
                             QPainterPath,QFont,
                             QKeyEvent,QShortcut, QKeySequence,
-                            QFocusEvent,QIcon,QUndoStack,QAction,QUndoCommand)
+                            QFocusEvent,QIcon,QUndoStack,QAction,QUndoCommand,QTransform)
 from ui import ui_frame_draw
 from clases import class_ui_widget_draw_menu_data
 from clases import class_ui_widget_draw_menu_mesh
 from clases import class_projects
-from clases import class_graphics
+from clases.class_graphics import PointItem, GraphicsSceneDraw, GraphicsViewDraw
 from clases import general_class
 from clases.general_functions import isNumber
+from clases import class_ui_dialog_msg
 import math
 
 
@@ -37,6 +38,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
     signal_console_hise_show = Signal(bool)
 
+ 
     def __init__(self, parent = None, ):
         super(FrameDraw, self).__init__(parent)
         self.setupUi(self)
@@ -74,7 +76,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
 
         # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsScene  ::::::::::::::::::
-        self.scene_draw = class_graphics.GraphicsSceneDraw()
+        self.scene_draw = GraphicsSceneDraw()
         self.scene_draw.setSceneRect(QRectF(-10000, -10000, 20000, 20000))
         
 
@@ -91,7 +93,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
 
         # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsView 1 ::::::::::::::::::
-        self.view_draw_1 = class_graphics.GraphicsViewDraw(self) 
+        self.view_draw_1 = GraphicsViewDraw(self) 
         self.view_draw_1.setScene(self.scene_draw) 
         self.view_draw_1.setObjectName("ViewDraw1")  
         self.view_draw_1.setFocus()
@@ -99,7 +101,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.splitter_view.addWidget(self.view_draw_1)
 
         # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsView 2 ::::::::::::::::::        
-        self.view_draw_2 = class_graphics.GraphicsViewDraw(self)       
+        self.view_draw_2 = GraphicsViewDraw(self)       
         self.view_draw_2.setScene(self.scene_draw)       
         self.view_draw_2.setObjectName("ViewDraw2---------------->>")
         #self.horizontalLayout_graphics.addWidget(self.view_draw_2)
@@ -178,6 +180,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuMesh.signal_paint_erase.connect(self.__clickedToolButtonDrawPaintErase)
         self.toolButton_cardMeshDrawErase.clicked.connect(self.__clickedToolButtonDrawPaintErase)
 
+
         # ::::::::::::::::::   SEÑAL>>RANURA VIEW Y SCENE DRAW :::::::::::::::::    
         #     
         self.view_draw_1.signal_coor_mouse.connect(self.coor_mouse)
@@ -189,6 +192,11 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         self.scene_draw.signal_next_point.connect(self.nextPoint)
 
+
+        self.scene_draw.signal_point_point.connect(self.commandPoint)
+        self.scene_draw.signal_point_move.connect(self.commandMove)
+        self.scene_draw.signal_point_copy.connect(self.commandCopy)
+        self.scene_draw.signal_point_rotate.connect(self.commandRotate)
 
 
         # ::::::::::::::::::::      EVENTOS FRAME DRAW     ::::::::::::::::::::
@@ -271,7 +279,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         commands_min = ["p",     "l",    "pl",    "rec",     "era",   "mo",   "co",    "ro",      "z",    "v"]
 
         #se ejecuta si la entrada es un comando
-        if (data_consola in commands) or (data_consola in commands_min):
+        if ((data_consola in commands) or (data_consola in commands_min)) and current_command == "" :
             if data_consola in commands:
                 index = commands.index(data_consola)
             elif  data_consola in commands_min:
@@ -281,8 +289,16 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             print("comando: {}".format(command))
 
             if command == "point" :
-                self.scene_draw.drawPointScene()
-                self.init_tool_geometry(command,"Ingrese un punto [Exit]:")
+                self.commandPoint({"step":1, "data":None})                
+            elif command == "move" :
+                self.commandMove({"step":1, "data":None})    
+
+            elif command == "copy" :
+                self.commandCopy({"step":1, "data":None})    
+
+            elif command == "rotate" :
+                self.commandRotate({"step":1, "data":None})    
+
 
             elif command == "line" :
                 self.scene_draw.drawLineScene()
@@ -302,86 +318,197 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 self.scene_draw.isSelect = True                
                 self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
 
-            elif command == "move" :
-                self.scene_draw.drawMoveItemScene()
-                self.scene_draw.isSelect = True                
-                self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
 
-            elif command == "copy" :
-                self.scene_draw.drawCopyItemScene()
-                self.scene_draw.isSelect = True                
-                self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
-
-            elif command == "rotate" :
-                self.scene_draw.drawRotateItemScene()
-                self.scene_draw.isSelect = True                
-                self.init_tool_geometry(command,"Seleccione un elemento [Exit]:")
 
             elif command == "zoom" :
                 self.init_tool_geometry(command,"[Extents Window] <E>:")
 
             elif command == "views" :
                 self.init_tool_geometry(command,"[1 2] <1>:")
-            return
-            self.init_draw_geometry(command)
 
-        
-
-        #se ejecuta si la entrada es una opcion de zoom
-        if current_command == "zoom" and descrip_command == "[Extents Window] <E>:":
-            
-            if data_consola == "" or data_consola.lower() == "e":
-                self.__clickedToolButtonZoomExtend()             
-            elif data_consola == "w":
-                self.__clickedToolButtonZoomWindow()
-                self.msnConsole("Command","_zoomWindow")
-                self.init_tool_geometry("zoom","Window")
-                return
-            else:
-                return
-            self.msnConsole("Command","_end")
-            self.end_draw_geometry() 
-            return
-
-        #se ejecuta si la entrada una opcion de vistas
-        elif current_command == "views" and descrip_command == "[1 2] <1>:":
-            
-            if data_consola == "" or data_consola == "1":
-                self.isTwoViewsVisible = False                
-            elif data_consola == "2":
-                self.isTwoViewsVisible = True
-            else:
-                return
-
-            self.__clickedToolButtonViews()
-            self.msnConsole("Command","_end")
-            self.end_draw_geometry() 
-            return
-
-        
-        elif current_command == "erase" or current_command == "move" or current_command == "copy" or current_command == "rotate":
-            selected_items = len(self.scene_draw.selected_items)
-            print(selected_items)
+        #se ejecuta si ya hay un comando activo
+        elif current_command in commands:
 
             #exit: salir de la edición de objeto
-            if data_consola.lower() == "e" and "Exit" in descrip_command:
+            if (data_consola.lower() == "e" or data_consola.lower() == "exit") and "Exit" in descrip_command:
                 self.msnConsole("Command","_cancel")
-                ######   salir
                 self.end_draw_geometry()                
                 self.scene_draw.endDrawGeometry()
                 self.view_draw_1.selectElement(False)
                 self.view_draw_2.selectElement(False)                
                 self.scene_draw.update()
-                return
-                
-
-            #entrada no valida
-            elif data_consola != "" and descrip_command == "Seleccione un elemento [Exit]:":
-                self.init_tool_geometry(current_command,"Seleccione un elemento [Exit]:")
-                return
-
-            #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             
+            #se ejecuta si la entrada es una opcion de zoom
+            elif current_command == "zoom" and descrip_command == "[Extents Window] <E>:":
+                
+                if data_consola == "" or data_consola.lower() == "e":
+                    self.__clickedToolButtonZoomExtend()             
+                elif data_consola == "w":
+                    self.__clickedToolButtonZoomWindow()
+                    self.msnConsole("Command","_zoomWindow")
+                    self.init_tool_geometry("zoom","Window")
+                    return
+                else:
+                    return
+                self.msnConsole("Command","_end")
+                self.end_draw_geometry() 
+
+            #se ejecuta si la entrada es una opcion de vistas
+            elif current_command == "views" and descrip_command == "[1 2] <1>:":
+                
+                if data_consola == "" or data_consola == "1":
+                    self.isTwoViewsVisible = False                
+                elif data_consola == "2":
+                    self.isTwoViewsVisible = True
+                else:
+                    return
+
+                self.__clickedToolButtonViews()
+                self.msnConsole("Command","_end")
+                self.end_draw_geometry() 
+
+            #se ejecuta si la entrada es una opcion de mover
+            elif current_command == "move":
+
+                selected_items = len(self.scene_draw.selected_items)
+                
+                if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
+                    self.commandMove({"step":3, "data":None})
+                  
+
+                elif descrip_command == "Seleccione el primer punto [Exit]:" and selected_items > 0:
+                    
+                    point_vertex_ant = self.scene_draw.point_vertex_ant
+                    input_point = data_consola.split(",")
+                    point  = self.pointFromConsole(input_point, point_vertex_ant)
+                    if point == None:
+                        return
+                    self.commandMove({"step":4, "data":point})
+
+                    point_vertex =QPointF(point[0],point[1])
+                    self.scene_draw.point_vertex = point_vertex
+                    self.scene_draw.point_vertex_ant = point_vertex
+                    
+
+                elif descrip_command == "Seleccione el segundo punto [Exit]:" and selected_items > 0:
+                    point_ant = self.scene_draw.point_vertex_ant  
+                    input_point = data_consola.split(",")
+                    point  = self.pointFromConsole(input_point, point_ant)
+                    if point == None:
+                        return
+                    self.commandMove({"step":5, "data":[[point_ant.x(),point_ant.y()],
+                                                        point]})
+                    
+                else:
+                    return
+
+            #se ejecuta si la entrada es una opcion de copiar
+            elif current_command == "copy":
+                              
+                
+                selected_items = len(self.scene_draw.selected_items)
+                
+                if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
+                    self.commandCopy({"step":3, "data":None})
+
+                elif descrip_command == "Seleccione el primer punto [Exit]:" and selected_items > 0:
+                    point_vertex_ant = self.scene_draw.point_vertex_ant
+                    input_point = data_consola.split(",")
+                    point  = self.pointFromConsole(input_point, point_vertex_ant)
+                    if point == None:
+                        return
+                    self.commandCopy({"step":4, "data":point})
+
+                    point_vertex =QPointF(point[0],point[1])
+                    self.scene_draw.point_vertex = point_vertex
+                    self.scene_draw.point_vertex_ant = point_vertex
+                    
+
+                elif descrip_command == "Seleccione el segundo punto [Exit]:" and selected_items > 0:
+                    point_ant = self.scene_draw.point_vertex_ant  
+                    input_point = data_consola.split(",")
+                    point  = self.pointFromConsole(input_point, point_ant)
+                    if point == None:
+                        return
+                    self.commandCopy({"step":5, "data":[[point_ant.x(),point_ant.y()],
+                                                        point]})
+                    self.lineEdit_console.setText("")
+                    
+                else:
+                    return
+                    
+            #se ejecuta si la entrada es una opcion de rotar
+            elif current_command == "rotate":
+
+                selected_items = len(self.scene_draw.selected_items)
+                
+                if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
+                    self.commandRotate({"step":3, "data":None})
+                  
+
+                elif descrip_command == "Seleccione el punto base [Exit]:" and selected_items > 0:
+                    
+                    point_vertex_ant = self.scene_draw.point_vertex_ant
+                    input_point = data_consola.split(",")
+                    point  = self.pointFromConsole(input_point, point_vertex_ant)
+                    if point == None:
+                        return
+                    self.commandRotate({"step":4, "data":point})
+                    point_vertex =QPointF(point[0],point[1])
+                    self.scene_draw.point_vertex = point_vertex
+                    self.scene_draw.point_vertex_ant = point_vertex
+                    
+
+                elif descrip_command == "Seleccione el ángulo [Exit]:" and selected_items > 0:
+                    point_ant = self.scene_draw.point_vertex_ant  
+                    input_angle = data_consola
+   
+                    if not isNumber(input_angle):
+                        return
+                    input_angle = float(input_angle)
+
+
+
+                    self.commandRotate({"step":5, "data":
+                                            [[point_ant.x(),point_ant.y()],
+                                                        input_angle]
+                                        })
+                    
+                else:
+                    return
+
+            #se ejecuta si la entrada es una opcion de borrar
+            elif current_command == "erase":
+                selected_items = len(self.scene_draw.selected_items)
+                
+                if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
+                    self.commandErase({"step":3, "data":None})
+
+
+
+
+
+
+            #se ejecuta si la entrada es una opcion de punto
+            elif current_command == "point":
+                input_point = data_consola.split(",")
+                point_vertex_ant = self.scene_draw.point_vertex_ant
+                point  = self.pointFromConsole(input_point, point_vertex_ant)
+                if point == None:
+                    return
+                self.commandPoint({"step":2, "data": point})
+                self.lineEdit_console.setText("")
+
+            else:
+                return
+
+
+        else:
+            print("demas opciones")
+            return
+
+            """
+            #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
             # Eliminar objetos selecionados
             elif current_command == "erase" and data_consola == "":
                 self.scene_draw.drawTransform(current_command)
@@ -394,112 +521,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 self.view_draw_2.selectElement(False)                
                 return
                 
-            elif current_command == "move" :
-
-                if selected_items > 0 and descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "":
-                    self.view_draw_1.selectElement(False)
-                    self.view_draw_2.selectElement(False)                
-                    self.scene_draw.update()
-                    self.scene_draw.isSelect = False
-                    self.init_tool_geometry(current_command,"Seleccione el primer punto [Exit]:")
-                    return
-
-
-                elif selected_items > 0 and descrip_command == "Seleccione el primer punto [Exit]:":
-
-                    if data_consola != "":                        
-                    
-                        input_point = data_consola.split(",")
-                        point_vertex_ant = self.scene_draw.point_vertex_ant
-                        # Si es el primer punto y se recibe un solo valor input=x=y
-                        if len(input_point) == 1 and point_vertex_ant == None:
-                            x = input_point[0]
-                            if isNumber(x):
-                                x = float(x)
-                                y = x
-                            else:
-                                return
-
-                        # Si es el segundo punto y se recibe un solo valor input=dist
-                        elif len(input_point) == 1 and point_vertex_ant!= None:
-                                dist = input_point[0]
-                                if isNumber(dist):
-                                    point_vertex = self.scene_draw.point_vertex
-                                    x, y = self.pointInLine(point_vertex_ant, point_vertex,float(dist))
-                                else:
-                                    return
-                    
-                        # Si es el segundo punto y se recibe angulo y distancia input=@angulo,dist
-                        elif len(input_point) == 2 and input_point[0][0] == "@" and point_vertex_ant!= None:
-                            angle = input_point[0][1:]
-                            dist = input_point[1]
-                            if isNumber(angle) and isNumber(dist):
-                                angle = float(angle)
-                                dist = float(dist)
-                                dx = dist * math.cos(math.radians(angle))
-                                dy = dist * math.sin(math.radians(angle))
-                                x = point_vertex_ant.x() + dx
-                                y = point_vertex_ant.y() + dy                        
-                            else:
-                                return
-
-                        # Si es el segundo punto y se recibe distancia X y distancia Y input=#dx,dy
-                        elif len(input_point) == 2 and input_point[0][0] == "#" and point_vertex_ant!= None:
-                            dx = input_point[0][1:]
-                            dy = input_point[1]
-                            if isNumber(dx) and isNumber(dy):
-                                x = point_vertex_ant.x() + float(dx)
-                                y = point_vertex_ant.y() + float(dy)                        
-                            else:
-                                return
-                                
-                        # Si es el segundo punto y se recibe coordenada input=x,y
-                        elif len(input_point) == 2:
-                            x = input_point[0]
-                            y = input_point[1]
-                            if isNumber(x) and isNumber(y):
-                                x = float(x)
-                                y = float(y) 
-                            else: 
-                                return
-
-                        # en los demas casos ejem: texto
-                        else: 
-                            return
-
-
-                        point_vertex = QPointF(x,y)
-                        print("point_vertex::: ", point_vertex)
-                        self.init_tool_geometry(current_command,"Seleccione el segundo punto [Exit]:")
-                        return
-                    else:
-
-                        self.end_draw_geometry()                
-                        self.msnConsole("Command","_end")
-                        self.scene_draw.endDrawGeometry()
-                        return
-
-                    
-
-                elif selected_items > 0 and descrip_command == "Seleccione el segundo punto [Exit]:":
-                    self.scene_draw.drawTransform(current_command)
-                    self.msnConsole("Command","_end")
-
-                    ######   salir
-                    self.end_draw_geometry()              
-                    self.scene_draw.endDrawGeometry()
-                    self.view_draw_1.selectElement(False)
-                    self.view_draw_2.selectElement(False)                
-                    return
-                    
-                else:
-                    ######   salir
-                    self.end_draw_geometry()              
-                    self.scene_draw.endDrawGeometry()
-                    self.view_draw_1.selectElement(False)
-                    self.view_draw_2.selectElement(False)                
-                    self.scene_draw.update()
-                    return
+         
 
             #punto inicial de mover o copiar
             elif data_consola == "" and "Exit" in descrip_command and current_command == "move" :
@@ -509,143 +531,520 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 print(":: ",3)
         
 
+            """ 
 
-        elif current_command == "point" or current_command == "rectang" or current_command == "line":
-            
-            #exit: salir del dibujo de objeto
-            if data_consola.lower() == "e" and "Exit" in descrip_command:
-                self.end_draw_geometry()                
-                self.msnConsole("Command","_cancel")
-                self.scene_draw.endDrawGeometry()
-                return
-
-            # close: cerrar un poligono  
-            elif data_consola.lower() == "c" and "Close" in descrip_command:
-                point_vertex_init = self.scene_draw.point_vertex_init
-                point_vertex_ant = self.scene_draw.point_vertex_ant
-                self.scene_draw.drawGeometry(point_vertex_init, point_vertex_ant)
-                self.scene_draw.endDrawGeometry()
-                self.end_draw_geometry()                
-                self.msnConsole("Command","_line close")
-                return
-
-
-            if data_consola != "":
-
-                input_point = data_consola.split(",")
-                point_vertex_ant = self.scene_draw.point_vertex_ant
+            if current_command == "point" or current_command == "rectang" or current_command == "line":
                 
-                # Si es el primer punto y se recibe un solo valor input=x=y
-                if len(input_point) == 1 and point_vertex_ant == None:
-                    x = input_point[0]
-                    if isNumber(x):
-                        x = float(x)
-                        y = x
-                    else:
-                        return
-            
-                # Si es el segundo punto y se recibe un solo valor input=dist
-                elif len(input_point) == 1 and point_vertex_ant!= None:
-                        dist = input_point[0]
-                        if isNumber(dist):
-                            point_vertex = self.scene_draw.point_vertex
-                            x, y = self.pointInLine(point_vertex_ant, point_vertex,float(dist))
-                        else:
-                            return
-            
-                # Si es el segundo punto y se recibe angulo y distancia input=@angulo,dist
-                elif len(input_point) == 2 and input_point[0][0] == "@" and point_vertex_ant!= None:
-                    angle = input_point[0][1:]
-                    dist = input_point[1]
-                    if isNumber(angle) and isNumber(dist):
-                        angle = float(angle)
-                        dist = float(dist)
-                        dx = dist * math.cos(math.radians(angle))
-                        dy = dist * math.sin(math.radians(angle))
-                        x = point_vertex_ant.x() + dx
-                        y = point_vertex_ant.y() + dy                        
-                    else:
-                        return
 
-                # Si es el segundo punto y se recibe distancia X y distancia Y input=#dx,dy
-                elif len(input_point) == 2 and input_point[0][0] == "#" and point_vertex_ant!= None:
-                    dx = input_point[0][1:]
-                    dy = input_point[1]
-                    if isNumber(dx) and isNumber(dy):
-                        x = point_vertex_ant.x() + float(dx)
-                        y = point_vertex_ant.y() + float(dy)                        
-                    else:
-                        return
-                        
-                # Si es el segundo punto y se recibe coordenada input=x,y
-                elif len(input_point) == 2:
-                    x = input_point[0]
-                    y = input_point[1]
-                    if isNumber(x) and isNumber(y):
-                        x = float(x)
-                        y = float(y) 
-                    else: 
-                        return
-
-                # en los demas casos ejem: texto
-                else: 
+                """
+                # close: cerrar un poligono  
+                elif data_consola.lower() == "c" and "Close" in descrip_command:
+                    point_vertex_init = self.scene_draw.point_vertex_init
+                    point_vertex_ant = self.scene_draw.point_vertex_ant
+                    self.scene_draw.drawGeometry(point_vertex_init, point_vertex_ant)
+                    self.scene_draw.endDrawGeometry()
+                    self.end_draw_geometry()                
+                    self.msnConsole("Command","_line close")
                     return
 
-            else:
+                #se ejecuta si la entrada es un punto nuevo
+                elif current_command == "rectang":
 
-                self.end_draw_geometry()                
-                self.msnConsole("Command","_end")
-                self.scene_draw.endDrawGeometry()
-                return
-
-            #se ejecuta si la entrada es un punto nuevo
-            if current_command == "rectang":
-
-                point_vertex = QPointF(x,y)
+                    point_vertex = QPointF(x,y)
 
 
 
 
-                if point_vertex_ant == None:
-                    cancel_point = self.scene_draw.drawGeometry(point_vertex)  
+                    if point_vertex_ant == None:
+                        cancel_point = self.scene_draw.drawGeometry(point_vertex)  
+                        if not cancel_point: 
+                            self.scene_draw.point_vertex_ant = point_vertex
+                            #self.scene_draw.drawGeneral(point_vertex, point_vertex_ant)
+                            #self.scene_draw.rectangle_temp.setVisible(True)
+                            #self.scene_draw.update()
+
+                    else:
+                        cancel_point = self.scene_draw.drawGeometry(point_vertex, point_vertex_ant)
+                        if not cancel_point:
+                            self.scene_draw.point_vertex_ant = None
+                            self.scene_draw.point_vertex = None
+                            self.scene_draw.rectangle_temp.setVisible(False)
+                            self.scene_draw.update()
+
+                #se ejecuta si la entrada es un punto nuevo
+                elif current_command == "line":
+
+                    point_vertex = QPointF(x,y)
+                    cancel_point = self.scene_draw.drawGeometry(point_vertex, point_vertex_ant)  
                     if not cancel_point: 
                         self.scene_draw.point_vertex_ant = point_vertex
-                        #self.scene_draw.drawGeneral(point_vertex, point_vertex_ant)
-                        #self.scene_draw.rectangle_temp.setVisible(True)
-                        #self.scene_draw.update()
-
-                else:
-                    cancel_point = self.scene_draw.drawGeometry(point_vertex, point_vertex_ant)
-                    if not cancel_point:
-                        self.scene_draw.point_vertex_ant = None
-                        self.scene_draw.point_vertex = None
-                        self.scene_draw.rectangle_temp.setVisible(False)
-                        self.scene_draw.update()
-
-            #se ejecuta si la entrada es un punto nuevo
-            elif current_command == "line":
-
-                point_vertex = QPointF(x,y)
-                cancel_point = self.scene_draw.drawGeometry(point_vertex, point_vertex_ant)  
-                if not cancel_point: 
-                    self.scene_draw.point_vertex_ant = point_vertex
-                    self.scene_draw.drawGeneral(self.scene_draw.point_vertex, self.scene_draw.point_vertex_ant)
+                        self.scene_draw.drawGeneral(self.scene_draw.point_vertex, self.scene_draw.point_vertex_ant)
+                """
 
 
-            #se ejecuta si la entrada es un punto nuevo
-            elif current_command == "point":
+
+
+    def pointInRect(self, point:QPointF, rec:QRectF):
+        val = True
+        x = point.x()
+        y = point.y()
+
+        xi = rec.x()
+        yi = rec.y()
+        xf = rec.x()+rec.width()
+        yf = rec.y()+rec.height()
+
+        if xi <= x <= xf:
+            if yi <= y <=yf:
+                pass
+            else:
+                val = False
+        else:
+            val = False
+        return val
+
+    def commandPoint(self, input:dict):
+
+        #self.commandMove({"step":1, "data":None})
+        
+        step = input["step"]
+        coordinate = input["data"]
+        if step == 1:
+            # se activa modo punto
+            self.scene_draw.isDrawPoint = True            
+            self.init_tool_geometry("point","Ingrese un punto [Exit]:")
+            
+        elif step == 2:
+            point_vertex = QPointF(coordinate[0],coordinate[1])
+            items = self.scene_draw.items(point_vertex)
+            cancel_point = False
+            existin_point = None
+
+            # verifica si el punto esta por fuera de los limites
+            if not self.pointInRect(point_vertex,self.scene_draw.sceneRect()):
+                cancel_point = True
+                self.msnConsole(
+                    "Warning",
+                    "Posición fuera del límite del dibujo."
+                    )
+                return cancel_point
+
+            #verifica si hay puntos existentes
+            for item in items:
+                if type(item) == PointItem:
+                    if item.getData()["name"] != "pointTemp":
+                        cancel_point = True
+                        self.msnConsole(
+                            "Error",
+                            "En esta posición ya existe un punto."
+                            )
+                        return cancel_point
+
+            #::::::::::::  punto  ::::::::::::::::
+            items = self.scene_draw.items()
+            points = self.scene_draw.admin.list_points
+            id_max = 0
+            for point in points:
+                id = int(points[point]["id"])                
+                if id > id_max:
+                    id_max = id
+            no_id = id_max+1
+            new_point = PointItem(no_id, f"POINT#{no_id}",point_vertex)
+            self.scene_draw.admin.addCommand(new_point)
+            self.msnConsole("Command","Se ha creado el punto {}".format(new_point))
+
+    def commandMove(self, input:dict):
+
+        
+        step = input["step"]
+        data = input["data"]
+        
+ 
+        # 1) Inicio, selección de elementos
+        if step == 1:
+            # se activa modo mover
+            self.scene_draw.isDrawSelect = True            
+            self.scene_draw.isDrawMove= True            
+            self.init_tool_geometry("move","Seleccione un elemento [Exit]:")
+
+            self.view_draw_1.selectElement(True)
+            self.view_draw_2.selectElement(True)
+              
+        #Se recibe dos puntos para el área de selección
+        elif step == 2:  
+            coordinates = data
+            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
+            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
+            x1 = p1_select.x()
+            x2 = p2_select.x()
+
+            if p1_select==p2_select:
+                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
+            elif x1 > x2:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
+            else:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
+            count = 0
+            for item in items:                
+                item.isSelected = True
+                if not (item in self.scene_draw.selected_items):
+                    if item.getData()["name"] != "rectTemp":
+                        count += 1
+                        self.scene_draw.selected_items.append(item)
+            if count > 0:
+                self.msnConsole(
+                    "Command",
+                    "Se ha seleccionado en total {} elementos (nuevos +{}) ".format(
+                        len(self.scene_draw.selected_items),
+                        count
+                        ))
+        #Inicio de mover
+        elif step == 3:
+            selected_items = len(self.scene_draw.selected_items)
+            self.view_draw_1.selectElement(False)
+            self.view_draw_2.selectElement(False)                
+            self.scene_draw.update()
+            self.scene_draw.isDrawSelect = False
+            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items))
+            self.msnLabelConsole("move", "Seleccione el primer punto [Exit]:")
+        
+        # Se recibe el primer punto
+        elif step == 4:
+            self.msnConsole("Command","Punto inicial = {}".format(data))
+            self.msnLabelConsole("move", "Seleccione el segundo punto [Exit]:")
+
+        # Se recibe el segundo punto
+        elif step == 5:
+           
+            items = self.scene_draw.selected_items
+ 
+            dx = (data[1][0] -data[0][0] )
+            dy = (data[1][1] -data[0][1] )
+
+            for item in items:
+                xi = item.getData()["coordinates"][0]
+                yi =item.getData()["coordinates"][1]
+                point_vertex=QPointF(xi+dx, yi+dy)
+
+                # verifica si los punto se mueven por fuera de los limites
+                if not self.pointInRect(point_vertex,self.scene_draw.sceneRect()):                    
+                    self.msnConsole(
+                        "Warning",
+                        "Nueva posición del elemento {} fuera del límite del dibujo.".format(item.getData()["name"])
+                        )
+                    return 
                 
-                point_vertex = QPointF(x,y)
-                self.scene_draw.drawGeometry(point_vertex)
-                self.lineEdit_console.setText("")
-                self.msnConsole("Command",f"Ingrese un punto:{x},{y}")
+                items_in_new_pos = self.scene_draw.items(point_vertex)
 
+                #verifica si hay puntos existentes
+                for item_in_new_pos in items_in_new_pos:
+                    if type(item_in_new_pos) == PointItem:
+                        name = item_in_new_pos.getData()["name"]
+                        name_iten_to_move = item.getData()["name"]
+                        if name != "pointTemp" and item_in_new_pos not in items: 
+                            self.msnConsole(
+                                "Error",
+                                "En la nueva posición del elemento {} ya existe el punto {}.".format(name_iten_to_move,name)
+                                )
+                            return 
+
+            self.scene_draw.admin.moveCommand(items, dx=dx,dy=dy)
+            self.scene_draw.endDrawGeometry()
+            self.end_draw_geometry()
+            self.msnConsole("Command","Punto Final = {}".format(data[1]))
+            self.msnConsole("Command","Se ha movido los elementos seleccionados".format())
+
+    def commandCopy(self, input:dict):
+        
+        step = input["step"]
+        data = input["data"]
+        
+
+        # 1) Inicio, selección de elementos
+        if step == 1:
+            # se activa modo copiar
+            self.scene_draw.isDrawSelect = True            
+            self.scene_draw.isDrawCopy = True            
+            self.init_tool_geometry("copy","Seleccione un elemento [Exit]:")  
+            self.view_draw_1.selectElement(True)
+            self.view_draw_2.selectElement(True)
+              
+        #Se recibe dos puntos para el área de selección
+        elif step == 2:  
+            coordinates = data
+            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
+            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
+            x1 = p1_select.x()
+            x2 = p2_select.x()
+
+            if p1_select==p2_select:
+                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
+            elif x1 > x2:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
+            else:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
+            count = 0
+            for item in items:                
+                item.isSelected = True
+                if not (item in self.scene_draw.selected_items):
+                    if item.getData()["name"] != "rectTemp":
+                        count += 1
+                        self.scene_draw.selected_items.append(item)
+            if count > 0:
+                self.msnConsole(
+                    "Command",
+                    "Copiar Se ha seleccionado en total {} elementos (nuevos +{}) ".format(
+                        len(self.scene_draw.selected_items),
+                        count
+                        ))
+        #Inicio de copiar
+        elif step == 3:
+            selected_items = len(self.scene_draw.selected_items)
+            self.view_draw_1.selectElement(False)
+            self.view_draw_2.selectElement(False)                
+            self.scene_draw.update()
+            self.scene_draw.isDrawSelect = False
+            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items))
+            self.msnLabelConsole("copy", "Seleccione el primer punto [Exit]:")
+        
+        # Se recibe el primer punto
+        elif step == 4:
+            self.msnConsole("Command","Punto inicial = {}".format(data))
+            self.msnLabelConsole("copy", "Seleccione el segundo punto [Exit]:")
+            
+
+        # Se recibe el segundo punto
+        elif step == 5:           
+
+            items = self.scene_draw.selected_items
+            
+            dx = (data[1][0] -data[0][0] )
+            dy = (data[1][1] -data[0][1] )
+
+            for item in items:
+                xi = item.getData()["coordinates"][0]
+                yi =item.getData()["coordinates"][1]
+
+                self.commandPoint({"step":2, "data": [xi+dx,yi+dy]})
+
+    def commandRotate(self, input:dict):
+        
+        step = input["step"]
+        data = input["data"]
+        
+ 
+        # 1) Inicio, selección de elementos
+        if step == 1:
+            # se activa modo rotar
+            self.scene_draw.isDrawSelect = True            
+            self.scene_draw.isDrawRotate= True            
+            self.init_tool_geometry("rotate","Seleccione un elemento [Exit]:")
+
+            self.view_draw_1.selectElement(True)
+            self.view_draw_2.selectElement(True)
+              
+        #Se recibe dos puntos para el área de selección
+        elif step == 2:  
+            coordinates = data
+            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
+            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
+            x1 = p1_select.x()
+            x2 = p2_select.x()
+
+            if p1_select==p2_select:
+                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
+            elif x1 > x2:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
+            else:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
+            count = 0
+            for item in items:                
+                item.isSelected = True
+                if not (item in self.scene_draw.selected_items):
+                    if item.getData()["name"] != "rectTemp":
+                        count += 1
+                        self.scene_draw.selected_items.append(item)
+            if count > 0:
+                self.msnConsole(
+                    "Command",
+                    "Se ha seleccionado en total {} elementos (nuevos +{}) ".format(
+                        len(self.scene_draw.selected_items),
+                        count
+                        ))
+        #Inicio de rotar
+        elif step == 3:
+            selected_items = len(self.scene_draw.selected_items)
+            self.view_draw_1.selectElement(False)
+            self.view_draw_2.selectElement(False)                
+            self.scene_draw.update()
+            self.scene_draw.isDrawSelect = False
+            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items))
+            self.msnLabelConsole("rotate", "Seleccione el punto base [Exit]:")        
+
+        
+        # Se recibe el punto centro para rotar
+        elif step == 4:
+            self.msnConsole("Command","Punto base = {}".format(data))
+            self.msnLabelConsole("rotate", "Seleccione el ángulo [Exit]:")
+
+        # Se recibe el segundo punto
+        elif step == 5:
+
+
+
+            items = self.scene_draw.selected_items
+            x_ref, y_ref = data[0][0], data[0][1]
+            point_ref = QPointF(x_ref, y_ref)
+            angle_ref = data[1]
+
+            """
+            group_selected = QGraphicsItemGroup()
+            for item_i in items_i:                
+                group_selected.addToGroup(item_i)
+            self.scene_draw.addItem(group_selected)
+            transform = QTransform().translate(pivot.x(), pivot.y()).rotate(angle_ref).translate(-pivot.x(), -pivot.y())
+            group_selected.setTransform(transform, combine=False)
+
+            elements = group_selected.childItems()
+            self.scene_draw.removeItem(group_selected)
+            """
+            list_items_new_pos =[]
+
+ 
+            for item in items:
+                xi = item.getData()["coordinates"][0]
+                yi =item.getData()["coordinates"][1]
+                point_to_rotate =  QPointF(xi,yi)
+                angle_rad_ref = math.radians(angle_ref)     
+                dx = point_to_rotate.x() - point_ref.x()
+                dy = point_to_rotate.y() - point_ref.y()
+                dist = math.sqrt(dx*dx + dy*dy)
+                angle_point = math.atan2(dy, dx)
+                if angle_point < 0:
+                    angle_point = (2*math.pi) + angle_point
+
+                angle_new = angle_point + angle_rad_ref
+
+                # Calcular la nueva posición del punto después de la rotación
+                new_x = point_ref.x() + dist * math.cos(angle_new)
+                new_y = point_ref.y() + dist * math.sin(angle_new)              
+                
+                point_vertex=QPointF(new_x, new_y)            
+
+                # verifica si los punto se mueven por fuera de los limites
+                if not self.pointInRect(point_vertex,self.scene_draw.sceneRect()):                    
+                    self.msnConsole(
+                        "Warning",
+                        "Nueva posición del elemento {} fuera del límite del dibujo.".format(item.getData()["name"])
+                        )
+                    return 
+                
+                items_in_new_pos = self.scene_draw.items(point_vertex)
+
+                #verifica si hay puntos existentes
+                for item_in_new_pos in items_in_new_pos:
+                    if type(item_in_new_pos) == PointItem:
+                        name = item_in_new_pos.getData()["name"]
+                        name_iten_to_move = item.getData()["name"]
+                        if name != "pointTemp" and item_in_new_pos not in items: 
+                            self.msnConsole(
+                                "Error",
+                                "En la nueva posición del elemento {} ya existe el punto {}.".format(name_iten_to_move,name)
+                                )
+                            return 
+                
+                list_items_new_pos.append([item, xi, yi, new_x, new_y])
+
+
+            self.scene_draw.admin.rotateCommand(items= list_items_new_pos)
+            self.scene_draw.endDrawGeometry()
+            self.end_draw_geometry()
+            self.msnConsole("Command","ángulo = {}".format(data[1]))
+            self.msnConsole("Command","Se ha rotado los elementos seleccionados".format())
+
+    def commandErase(self, input:dict):
+        
+        step = input["step"]
+        data = input["data"]
+        
+ 
+        # 1) Inicio, selección de elementos
+        if step == 1:
+            # se activa modo rotar
+            self.scene_draw.isDrawSelect = True            
+            self.scene_draw.isDrawRotate= True            
+            self.init_tool_geometry("erase","Seleccione un elemento [Exit]:")
+
+            self.view_draw_1.selectElement(True)
+            self.view_draw_2.selectElement(True)
+              
+        #Se recibe dos puntos para el área de selección
+        elif step == 2:  
+            coordinates = data
+            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
+            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
+            x1 = p1_select.x()
+            x2 = p2_select.x()
+
+            if p1_select==p2_select:
+                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
+            elif x1 > x2:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
+            else:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
+            count = 0
+            for item in items:                
+                item.isSelected = True
+                if not (item in self.scene_draw.selected_items):
+                    if item.getData()["name"] != "rectTemp":
+                        count += 1
+                        self.scene_draw.selected_items.append(item)
+            if count > 0:
+                self.msnConsole(
+                    "Command",
+                    "Se ha seleccionado en total {} elementos (nuevos +{}) ".format(
+                        len(self.scene_draw.selected_items),
+                        count
+                        ))
+        #Inicio de borrar
+        elif step == 3:
+            selected_items = len(self.scene_draw.selected_items)
+            self.view_draw_1.selectElement(False)
+            self.view_draw_2.selectElement(False)                
+            self.scene_draw.update()
+            self.scene_draw.isDrawSelect = False
+            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items))        
+            self.scene_draw.admin.removeCommand(items= self.scene_draw.selected_items)
+            self.scene_draw.endDrawGeometry()
+            self.end_draw_geometry()
+
+            self.msnConsole("Command","Se ha eliminado los elementos seleccionados".format())
 
 
     def __clickedToolButtonDrawPaintPoint(self):
         self.scene_draw.endDrawGeometry()
-        self.scene_draw.drawPointScene()
-        self.init_tool_geometry("point","Ingrese un punto [Exit]:")
+        self.commandPoint({"step":1, "data":None})     
+
+    def __clickedToolButtonDrawPaintMove(self):
+        self.scene_draw.endDrawGeometry()
+        self.commandMove({"step":1, "data":None})
+
+    def __clickedToolButtonDrawPaintCopy(self):
+        self.scene_draw.endDrawGeometry()
+        self.commandCopy({"step":1, "data":None})  
+
+    def __clickedToolButtonDrawPaintRotate(self):
+        self.scene_draw.endDrawGeometry()
+        self.commandRotate({"step":1, "data":None})  
+
+
+
+    def __clickedToolButtonDrawPaintErase(self):
+        self.scene_draw.endDrawGeometry()
+        self.commandErase({"step":1, "data":None})  
+
+
+
 
     def __clickedToolButtonDrawPaintLine(self):
         self.scene_draw.endDrawGeometry()
@@ -662,38 +1061,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.init_draw_geometry("pline")
         self.scene_draw.drawPolylineScene()
 
-    def __clickedToolButtonDrawPaintMove(self):
-        self.scene_draw.endDrawGeometry()
-        self.scene_draw.drawMoveItemScene()
-        self.view_draw_1.selectElement(True)
-        self.view_draw_2.selectElement(True)
-        self.scene_draw.isSelect = True   
-        self.init_tool_geometry("move","Seleccione un elemento [Exit]:")
 
-    def __clickedToolButtonDrawPaintRotate(self):
-        self.scene_draw.endDrawGeometry()
-        self.scene_draw.drawRotateItemScene()
-        self.view_draw_1.selectElement(True)
-        self.view_draw_2.selectElement(True)
-        self.scene_draw.isSelect = True   
-        self.init_tool_geometry("rotate","Seleccione un elemento [Exit]:")
-
-    def __clickedToolButtonDrawPaintCopy(self):
-        self.scene_draw.endDrawGeometry()
-        self.scene_draw.drawCopyItemScene()
-        self.view_draw_1.selectElement(True)
-        self.view_draw_2.selectElement(True)
-        self.scene_draw.isSelect = True   
-        self.init_tool_geometry("copy","Seleccione un elemento [Exit]:")
-
-
-    def __clickedToolButtonDrawPaintErase(self):
-        self.scene_draw.endDrawGeometry()
-        self.scene_draw.drawEraseItemScene()
-        self.view_draw_1.selectElement(True)
-        self.view_draw_2.selectElement(True)
-        self.scene_draw.isSelect = True   
-        self.init_tool_geometry("erase","Seleccione un elemento [Exit]:")
 
 
     def showHideDrawMenu(self,name_menu_view):
@@ -726,7 +1094,124 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     # ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
     ###############################################################################
 
+    def pointFromConsole(self, input, point_prev):
+        """
+        Esta función toma una entrada `input` de consola, procesa su tipo y devuelve una nueva coordenada `point`
+        en función de la entrada y la coordenada anterior `point_prev`.
+
+        Args:
+            input (list): una lista que contiene una o más entradas de consola en función del tipo de entrada.
+                Puede contener coordenadas, distancias, ángulos, dx-dy, etc.
+            point_prev (list): una lista que contiene una coordenada previa que se utilizará como referencia para
+                calcular la siguiente coordenada.
+
+        Returns:
+            list: una lista que contiene dos valores: `x` e `y`, que representan la nueva coordenada calculada.
+
+
+        Ejemplos:
+            # Calcular una coordenada para una distancia y un ángulo con respecto a una coordenada previa (10, 10).
+            >>> pfc = pointFromConsole(["@45", "5"], [10, 10])
+            >>> print(pfc)
+            [13.535898384862247, 13.535898384862247]
+
+            # Calcular una coordenada para una distancia X y una distancia Y con respecto a una coordenada previa (10, 10).
+            >>> pfc = pointFromConsole(["#3", "4"], [10, 10])
+            >>> print(pfc)
+            [13.0, 14.0]
+
+            # Calcular una coordenada para una sola coordenada.
+            >>> pfc = pointFromConsole(["7"], None)
+            >>> print(pfc)
+            [7.0, 7.0]
+        """
+
+        # Si es el primer punto y se recibe un solo valor input=x=y
+        if len(input) == 1 and point_prev == None:
+            x = input[0]
+            if isNumber(x):
+                x = float(x)
+                y = x
+            else:
+                return None
+
+        # Si es el segundo punto y se recibe un solo valor input=dist
+        elif len(input) == 1 and point_prev!= None:
+            dist = input[0]
+            if isNumber(dist):
+                point_vertex = self.scene_draw.point_vertex
+                x, y = self.pointInLine(point_prev, point_vertex,float(dist))
+            else:
+                return None
+    
+        # Si es el segundo punto y se recibe angulo y distancia input=@angulo,dist
+        elif len(input) == 2 and input[0][0] == "@" and point_prev!= None:
+            angle = input[0][1:]
+            dist = input[1]
+            if isNumber(angle) and isNumber(dist):
+                angle = float(angle)
+                dist = float(dist)
+                dx = dist * math.cos(math.radians(angle))
+                dy = dist * math.sin(math.radians(angle))
+                x = point_prev.x() + dx
+                y = point_prev.y() + dy                        
+            else:
+                return None
+
+        # Si es el segundo punto y se recibe distancia X y distancia Y input=#dx,dy
+        elif len(input) == 2 and input[0][0] == "#" and point_prev!= None:
+            dx = input[0][1:]
+            dy = input[1]
+            if isNumber(dx) and isNumber(dy):
+                x = point_prev.x() + float(dx)
+                y = point_prev.y() + float(dy)                        
+            else:
+                return None
+                
+        # Si es el segundo punto y se recibe coordenada input=x,y
+        elif len(input) == 2:
+            x = input[0]
+            y = input[1]
+            if isNumber(x) and isNumber(y):
+                x = float(x)
+                y = float(y) 
+            else: 
+                return None
+
+        # en los demas casos ejem: texto
+        else:
+            return None
+
+        point=[x,y]
+        return point
+
+
     def pointInLine(self, p1:QPointF, p2:QPointF,dist_i):
+        """
+        Devuelve las coordenadas de un punto en la línea que va desde p1 hasta p2,
+        a una distancia determinada desde p1.
+
+        Args:
+            p1: QPointF. Punto de inicio de la línea.
+            p2: QPointF. Punto final de la línea.
+            dist_i: float. Distancia desde p1 hasta el punto que se quiere calcular.
+
+        Returns:
+            Tuple[float, float]: Coordenadas del punto en la línea, como una tupla de dos floats (x, y).
+
+        Raises:
+            ValueError: Si p1 y p2 son el mismo punto o dist_i es menor o igual a cero.
+
+        Example:
+            --------
+            >>> p1 = QPointF(1, 1)
+            >>> p2 = QPointF(5, 5)
+            >>> dist_i = 2.89
+            >>> self.pointInLine(p1, p2, dist_i)
+            (3.00111219075793, 3.00111219075793)
+
+        """
+        
         x = None
         y = None
         dx = p2.x() - p1.x()  
@@ -748,9 +1233,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         dyi = abs(dist_i * math.cos(theta)) * signY
         x = p1.x() + dxi
         y = p1.y() + dyi
+
         return (x, y)
-
-
 
 
     def configDrawMenuData(self,project:class_projects.Project):
@@ -847,6 +1331,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             "border-bottom-left-radius: 5px ;")
               
         #self.msnConsole("Command","_cancel")
+
+
+
     @Slot(int)
     def nextPoint(self, vertex):
         """Recibe la señal que ha finalizado el dibujo de geometria.""" 
@@ -1013,6 +1500,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
             elif key == Qt.Key_Enter or key == 16777220:
                 self.lineEdit_console.setFocus()
+                #self.__returnPressedLineEditConsole()
 
             elif key == Qt.Key_Enter or key == 16777216:
                 print("funcionalidad escapar")

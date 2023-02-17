@@ -89,8 +89,10 @@ class MainWindow(QMainWindow):
             self.setStyleSheet(f.read())
         self.showMaximized()
         """       
+
+        
         self.showMaximized()
-        #self.setFixedSize(QSize(1000,700))
+        self.setFixedSize(QSize(1200,700))
 
 
 
