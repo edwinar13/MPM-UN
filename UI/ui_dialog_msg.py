@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog_msgujWSpe.ui'
+## Form generated from reading UI file 'dialog_msgLbEyqw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -16,14 +16,21 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
-    QLabel, QPushButton, QSizePolicy, QSpacerItem,
-    QTextBrowser, QToolButton, QVBoxLayout, QWidget)
+    QLabel, QLayout, QPushButton, QSizePolicy,
+    QSpacerItem, QTextBrowser, QToolButton, QVBoxLayout,
+    QWidget)
 
 class Ui_DialogMsg(object):
     def setupUi(self, DialogMsg):
         if not DialogMsg.objectName():
             DialogMsg.setObjectName(u"DialogMsg")
-        DialogMsg.resize(508, 351)
+        DialogMsg.setEnabled(True)
+        DialogMsg.resize(604, 389)
+        sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(DialogMsg.sizePolicy().hasHeightForWidth())
+        DialogMsg.setSizePolicy(sizePolicy)
         DialogMsg.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro		#222222		#333333		#444444\n"
@@ -90,6 +97,8 @@ class Ui_DialogMsg(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.frame_dialog = QFrame(DialogMsg)
         self.frame_dialog.setObjectName(u"frame_dialog")
+        sizePolicy.setHeightForWidth(self.frame_dialog.sizePolicy().hasHeightForWidth())
+        self.frame_dialog.setSizePolicy(sizePolicy)
         self.frame_dialog.setFrameShape(QFrame.StyledPanel)
         self.frame_dialog.setFrameShadow(QFrame.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.frame_dialog)
@@ -104,11 +113,11 @@ class Ui_DialogMsg(object):
 
         self.toolButton_exit = QToolButton(self.frame_dialog)
         self.toolButton_exit.setObjectName(u"toolButton_exit")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.toolButton_exit.sizePolicy().hasHeightForWidth())
-        self.toolButton_exit.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.toolButton_exit.sizePolicy().hasHeightForWidth())
+        self.toolButton_exit.setSizePolicy(sizePolicy1)
         self.toolButton_exit.setMinimumSize(QSize(20, 20))
         self.toolButton_exit.setMaximumSize(QSize(20, 20))
         font = QFont()
@@ -138,11 +147,11 @@ class Ui_DialogMsg(object):
 
         self.label_icon = QLabel(self.frame_dialog)
         self.label_icon.setObjectName(u"label_icon")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label_icon.sizePolicy().hasHeightForWidth())
-        self.label_icon.setSizePolicy(sizePolicy1)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.label_icon.sizePolicy().hasHeightForWidth())
+        self.label_icon.setSizePolicy(sizePolicy2)
         self.label_icon.setMinimumSize(QSize(0, 100))
         self.label_icon.setMaximumSize(QSize(100, 100))
         self.label_icon.setPixmap(QPixmap(u"recursos/iconos/iconos_msg/question.svg"))
@@ -159,10 +168,10 @@ class Ui_DialogMsg(object):
 
         self.frame_content = QFrame(self.frame_dialog)
         self.frame_content.setObjectName(u"frame_content")
-        sizePolicy1.setHeightForWidth(self.frame_content.sizePolicy().hasHeightForWidth())
-        self.frame_content.setSizePolicy(sizePolicy1)
-        self.frame_content.setMinimumSize(QSize(450, 150))
-        self.frame_content.setMaximumSize(QSize(450, 150))
+        sizePolicy.setHeightForWidth(self.frame_content.sizePolicy().hasHeightForWidth())
+        self.frame_content.setSizePolicy(sizePolicy)
+        self.frame_content.setMinimumSize(QSize(0, 0))
+        self.frame_content.setMaximumSize(QSize(16777215, 16777215))
         self.frame_content.setFrameShape(QFrame.StyledPanel)
         self.frame_content.setFrameShadow(QFrame.Raised)
         self.verticalLayout = QVBoxLayout(self.frame_content)
@@ -170,63 +179,72 @@ class Ui_DialogMsg(object):
         self.verticalLayout.setContentsMargins(-1, 20, -1, -1)
         self.label_text = QLabel(self.frame_content)
         self.label_text.setObjectName(u"label_text")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.label_text.sizePolicy().hasHeightForWidth())
+        self.label_text.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.label_text)
 
         self.textBrowser_description = QTextBrowser(self.frame_content)
         self.textBrowser_description.setObjectName(u"textBrowser_description")
+        sizePolicy.setHeightForWidth(self.textBrowser_description.sizePolicy().hasHeightForWidth())
+        self.textBrowser_description.setSizePolicy(sizePolicy)
+        self.textBrowser_description.setMaximumSize(QSize(16777215, 100))
 
         self.verticalLayout.addWidget(self.textBrowser_description)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setSizeConstraint(QLayout.SetMinAndMaxSize)
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
         self.pushButton_save = QPushButton(self.frame_content)
         self.pushButton_save.setObjectName(u"pushButton_save")
-        self.pushButton_save.setMinimumSize(QSize(120, 30))
+        self.pushButton_save.setMinimumSize(QSize(0, 30))
         self.pushButton_save.setMaximumSize(QSize(120, 30))
 
         self.horizontalLayout_2.addWidget(self.pushButton_save)
 
         self.pushButton_yes = QPushButton(self.frame_content)
         self.pushButton_yes.setObjectName(u"pushButton_yes")
-        self.pushButton_yes.setMinimumSize(QSize(120, 30))
+        self.pushButton_yes.setMinimumSize(QSize(0, 30))
         self.pushButton_yes.setMaximumSize(QSize(120, 30))
 
         self.horizontalLayout_2.addWidget(self.pushButton_yes)
 
         self.pushButton_accept = QPushButton(self.frame_content)
         self.pushButton_accept.setObjectName(u"pushButton_accept")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(120)
-        sizePolicy2.setVerticalStretch(30)
-        sizePolicy2.setHeightForWidth(self.pushButton_accept.sizePolicy().hasHeightForWidth())
-        self.pushButton_accept.setSizePolicy(sizePolicy2)
-        self.pushButton_accept.setMinimumSize(QSize(120, 30))
+        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.pushButton_accept.sizePolicy().hasHeightForWidth())
+        self.pushButton_accept.setSizePolicy(sizePolicy4)
+        self.pushButton_accept.setMinimumSize(QSize(0, 30))
         self.pushButton_accept.setMaximumSize(QSize(120, 30))
 
         self.horizontalLayout_2.addWidget(self.pushButton_accept)
 
         self.pushButton_notSave = QPushButton(self.frame_content)
         self.pushButton_notSave.setObjectName(u"pushButton_notSave")
-        self.pushButton_notSave.setMinimumSize(QSize(120, 30))
+        self.pushButton_notSave.setMinimumSize(QSize(0, 30))
         self.pushButton_notSave.setMaximumSize(QSize(120, 30))
 
         self.horizontalLayout_2.addWidget(self.pushButton_notSave)
 
         self.pushButton_not = QPushButton(self.frame_content)
         self.pushButton_not.setObjectName(u"pushButton_not")
-        self.pushButton_not.setMinimumSize(QSize(120, 30))
+        self.pushButton_not.setMinimumSize(QSize(0, 30))
         self.pushButton_not.setMaximumSize(QSize(120, 30))
 
         self.horizontalLayout_2.addWidget(self.pushButton_not)
 
         self.pushButton_cancel = QPushButton(self.frame_content)
         self.pushButton_cancel.setObjectName(u"pushButton_cancel")
-        self.pushButton_cancel.setMinimumSize(QSize(120, 30))
+        self.pushButton_cancel.setMinimumSize(QSize(0, 30))
         self.pushButton_cancel.setMaximumSize(QSize(120, 30))
 
         self.horizontalLayout_2.addWidget(self.pushButton_cancel)

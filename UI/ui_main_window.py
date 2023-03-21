@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowGmGnVZ.ui'
+## Form generated from reading UI file 'main_windownoNarO.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -489,6 +489,9 @@ class Ui_MainWindow(object):
         self.action_axis = QAction(MainWindow)
         self.action_axis.setObjectName(u"action_axis")
         self.action_axis.setCheckable(True)
+        self.action_label = QAction(MainWindow)
+        self.action_label.setObjectName(u"action_label")
+        self.action_label.setCheckable(True)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setEnabled(True)
@@ -866,7 +869,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -276, 857, 1538))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 857, 1538))
         self.scrollAreaWidgetContents.setStyleSheet(u"")
         self.verticalLayout_8 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -884,7 +887,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_7 = QVBoxLayout(self.frame_containerSetting_1)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.frame_settingCard_1 = QFrame(self.frame_containerSetting_1)
+        self.frame_settingCard_2 = QFrame(self.frame_containerSetting_1)
+        self.frame_settingCard_2.setObjectName(u"frame_settingCard_2")
+        self.frame_settingCard_2.setMaximumSize(QSize(16777215, 16777215))
+        self.frame_settingCard_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_settingCard_2.setFrameShadow(QFrame.Raised)
+        self.frame_settingCard_2.setProperty("type_frame", 1)
+        self.verticalLayout_4 = QVBoxLayout(self.frame_settingCard_2)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.frame_settingCard_1 = QFrame(self.frame_settingCard_2)
         self.frame_settingCard_1.setObjectName(u"frame_settingCard_1")
         self.frame_settingCard_1.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_1.setFrameShape(QFrame.StyledPanel)
@@ -930,16 +941,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addLayout(self.horizontalLayout_6)
 
 
-        self.verticalLayout_7.addWidget(self.frame_settingCard_1)
+        self.verticalLayout_4.addWidget(self.frame_settingCard_1)
 
-        self.frame_settingCard_2 = QFrame(self.frame_containerSetting_1)
-        self.frame_settingCard_2.setObjectName(u"frame_settingCard_2")
-        self.frame_settingCard_2.setMaximumSize(QSize(16777215, 16777215))
-        self.frame_settingCard_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_settingCard_2.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_2.setProperty("type_frame", 1)
-        self.verticalLayout_4 = QVBoxLayout(self.frame_settingCard_2)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.label_settingSubtitle_2 = QLabel(self.frame_settingCard_2)
         self.label_settingSubtitle_2.setObjectName(u"label_settingSubtitle_2")
         self.label_settingSubtitle_2.setProperty("type_label", 3)
@@ -1841,6 +1844,7 @@ class Ui_MainWindow(object):
         self.menu_vista.addAction(self.action_axis)
         self.menu_vista.addAction(self.action_grid)
         self.menu_vista.addAction(self.action_console)
+        self.menu_vista.addAction(self.action_label)
         self.menu_vista.addAction(self.action_rule)
         self.menu_vista.addAction(self.action_dibujo)
         self.menu_vista.addSeparator()
@@ -1881,6 +1885,7 @@ class Ui_MainWindow(object):
         self.action_cortar.setText(QCoreApplication.translate("MainWindow", u"Cortar", None))
         self.action_listadoRecinetes.setText(QCoreApplication.translate("MainWindow", u"listado_recientes", None))
         self.action_axis.setText(QCoreApplication.translate("MainWindow", u"Ejes", None))
+        self.action_label.setText(QCoreApplication.translate("MainWindow", u"Etiquetas", None))
         self.toolButton_home.setText(QCoreApplication.translate("MainWindow", u"Inicio", None))
         self.toolButton_drawData.setText(QCoreApplication.translate("MainWindow", u"Datos", None))
         self.toolButton_drawMesh.setText(QCoreApplication.translate("MainWindow", u"Mallado", None))

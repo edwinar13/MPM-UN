@@ -1,5 +1,5 @@
 """ Este módulo contiene la clase Ui_DialogMsg, mostar mensajes."""
-from PySide6.QtCore import (Signal,Qt)
+from PySide6.QtCore import (Signal,Qt,QSize)
 from PySide6.QtGui import (QColor,QPixmap)
 from PySide6.QtWidgets import ( QDialog, QGraphicsDropShadowEffect )
 from ui import ui_dialog_msg
@@ -218,13 +218,15 @@ class DialogMsg(QDialog, ui_dialog_msg.Ui_DialogMsg):
 	###############################################################################
     
     def ___hideButton(self):
-        """Oculta todos los botones.""" 
+        """Oculta todos los botones."""                
+
         self.pushButton_accept.setVisible(False)
         self.pushButton_cancel.setVisible(False)
         self.pushButton_notSave.setVisible(False)
         self.pushButton_not.setVisible(False)
         self.pushButton_yes.setVisible(False)
         self.pushButton_save.setVisible(False)
+
     
     def ___selectTypeMessage(self, type_message:int):
         """Muetra los botones seleccionados.
@@ -260,6 +262,7 @@ class DialogMsg(QDialog, ui_dialog_msg.Ui_DialogMsg):
             self.pushButton_accept.setFocus()
         else:
             pass
+        self.adjustSize()
 
     def ___showIcon(self,type_icon:int ):
         """Muestra el icono seleccionado.

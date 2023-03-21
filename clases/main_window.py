@@ -91,8 +91,8 @@ class MainWindow(QMainWindow):
         """       
 
         
+        #self.setFixedSize(QSize(1200,700))
         self.showMaximized()
-        self.setFixedSize(QSize(1200,700))
 
 
 
@@ -122,10 +122,9 @@ class MainWindow(QMainWindow):
         self.ui.action_grid.setShortcut('F8')
         self.ui.action_console.setChecked(True)
         self.ui.action_console.setShortcut('F9')
-
-
-
-  
+        self.ui.action_label.setChecked(False)
+        self.ui.action_label.setShortcut('F5')
+        
 
         self.shortcut_change_thema = QShortcut(QKeySequence('Ctrl++'), self)
         self.shortcut_change_thema.setObjectName("shortcut_change_thema")
@@ -225,6 +224,7 @@ class MainWindow(QMainWindow):
 
 
         self.__showMessageInformative("Programa iniciado correctamente")
+       
         
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
@@ -266,6 +266,7 @@ class MainWindow(QMainWindow):
         self.ui.action_axis.triggered.connect(self.__triggeredActionShowHideAxis)
         self.ui.action_grid.triggered.connect(self.__triggeredActionShowHideGrid)
         self.ui.action_console.triggered.connect(self.__triggeredActionShowHideConsole)
+        self.ui.action_label.triggered.connect(self.__triggeredActionShowHideLabel)
 
 
         # ::::::::::::::::::::   EVENTOS STATUS BAR ::::::::::::::::::::
@@ -459,20 +460,24 @@ class MainWindow(QMainWindow):
         
     
     def __triggeredActionShowHideOrigin(self):        
-        """ envia a la scena draw el modo del origen true para ver y false para ocultar"""   
-        self.frame_draw.mode_origin_draw(self.ui.action_origin.isChecked())
+        """ envia a la scena draw el modo de origen true para ver y false para ocultar"""   
+        self.frame_draw.modeOriginDraw(self.ui.action_origin.isChecked())
                 
     def __triggeredActionShowHideAxis(self):        
-        """ envia a la scena draw el modo del axis true para ver y false para ocultar"""
-        self.frame_draw.mode_axis_draw(self.ui.action_axis.isChecked())
+        """ envia a la scena draw el modo de ejes true para ver y false para ocultar"""
+        self.frame_draw.modeAxisDraw(self.ui.action_axis.isChecked())
                 
     def __triggeredActionShowHideGrid(self):        
-        """ envia a la scena draw el modo del grilla true para ver y false para ocultar"""
-        self.frame_draw.mode_grid_draw(self.ui.action_grid.isChecked())
+        """ envia a la scena draw el modo de grilla true para ver y false para ocultar"""
+        self.frame_draw.modeGridDraw(self.ui.action_grid.isChecked())
                 
     def __triggeredActionShowHideConsole(self):        
-        """ envia a la scena draw el modo del grilla true para ver y false para ocultar"""
-        self.frame_draw.mode_console_draw(self.ui.action_console.isChecked())
+        """ envia a la scena draw el modo de consola true para ver y false para ocultar"""
+        self.frame_draw.modeConsoleDraw(self.ui.action_console.isChecked())
+
+    def __triggeredActionShowHideLabel(self):        
+        """ envia a la scena draw el modo de etiquetas true para ver y false para ocultar"""
+        self.frame_draw.modeLabelDraw(self.ui.action_label.isChecked())
 
           
     ###############################################################################

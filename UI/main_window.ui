@@ -1276,7 +1276,7 @@ QCheckBox::indicator {
                     <property name="geometry">
                      <rect>
                       <x>0</x>
-                      <y>-276</y>
+                      <y>0</y>
                       <width>857</width>
                       <height>1538</height>
                      </rect>
@@ -1320,99 +1320,6 @@ QCheckBox::indicator {
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QFrame" name="frame_settingCard_1">
-                          <property name="maximumSize">
-                           <size>
-                            <width>16777215</width>
-                            <height>16777215</height>
-                           </size>
-                          </property>
-                          <property name="frameShape">
-                           <enum>QFrame::StyledPanel</enum>
-                          </property>
-                          <property name="frameShadow">
-                           <enum>QFrame::Raised</enum>
-                          </property>
-                          <property name="type_frame" stdset="0">
-                           <number>1</number>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_3">
-                           <item>
-                            <widget class="QLabel" name="label_settingSubtitle_1">
-                             <property name="text">
-                              <string>Cruz del puntero</string>
-                             </property>
-                             <property name="type_label" stdset="0">
-                              <number>3</number>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_settingDescription_1">
-                             <property name="text">
-                              <string>Valor para el tamaño de la cruz del puntero cuando está en la vista de dibujo.</string>
-                             </property>
-                             <property name="wordWrap">
-                              <bool>true</bool>
-                             </property>
-                             <property name="type_label" stdset="0">
-                              <number>4</number>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout_6">
-                             <item>
-                              <widget class="QSpinBox" name="spinBox_1">
-                               <property name="minimumSize">
-                                <size>
-                                 <width>60</width>
-                                 <height>25</height>
-                                </size>
-                               </property>
-                               <property name="maximumSize">
-                                <size>
-                                 <width>16777215</width>
-                                 <height>16777215</height>
-                                </size>
-                               </property>
-                               <property name="type_spinBox" stdset="0">
-                                <number>1</number>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QSlider" name="horizontalSlider_1">
-                               <property name="minimumSize">
-                                <size>
-                                 <width>200</width>
-                                 <height>0</height>
-                                </size>
-                               </property>
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <spacer name="horizontalSpacer_2">
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                               <property name="sizeHint" stdset="0">
-                                <size>
-                                 <width>40</width>
-                                 <height>20</height>
-                                </size>
-                               </property>
-                              </spacer>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item>
                          <widget class="QFrame" name="frame_settingCard_2">
                           <property name="maximumSize">
                            <size>
@@ -1430,6 +1337,99 @@ QCheckBox::indicator {
                            <number>1</number>
                           </property>
                           <layout class="QVBoxLayout" name="verticalLayout_4">
+                           <item>
+                            <widget class="QFrame" name="frame_settingCard_1">
+                             <property name="maximumSize">
+                              <size>
+                               <width>16777215</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="frameShape">
+                              <enum>QFrame::StyledPanel</enum>
+                             </property>
+                             <property name="frameShadow">
+                              <enum>QFrame::Raised</enum>
+                             </property>
+                             <property name="type_frame" stdset="0">
+                              <number>1</number>
+                             </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_3">
+                              <item>
+                               <widget class="QLabel" name="label_settingSubtitle_1">
+                                <property name="text">
+                                 <string>Cruz del puntero</string>
+                                </property>
+                                <property name="type_label" stdset="0">
+                                 <number>3</number>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_settingDescription_1">
+                                <property name="text">
+                                 <string>Valor para el tamaño de la cruz del puntero cuando está en la vista de dibujo.</string>
+                                </property>
+                                <property name="wordWrap">
+                                 <bool>true</bool>
+                                </property>
+                                <property name="type_label" stdset="0">
+                                 <number>4</number>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                                <item>
+                                 <widget class="QSpinBox" name="spinBox_1">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>60</width>
+                                    <height>25</height>
+                                   </size>
+                                  </property>
+                                  <property name="maximumSize">
+                                   <size>
+                                    <width>16777215</width>
+                                    <height>16777215</height>
+                                   </size>
+                                  </property>
+                                  <property name="type_spinBox" stdset="0">
+                                   <number>1</number>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <widget class="QSlider" name="horizontalSlider_1">
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>200</width>
+                                    <height>0</height>
+                                   </size>
+                                  </property>
+                                  <property name="orientation">
+                                   <enum>Qt::Horizontal</enum>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_2">
+                                  <property name="orientation">
+                                   <enum>Qt::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
                            <item>
                             <widget class="QLabel" name="label_settingSubtitle_2">
                              <property name="text">
@@ -3438,6 +3438,7 @@ border: 1px solid #DDDDDD;</string>
     <addaction name="action_axis"/>
     <addaction name="action_grid"/>
     <addaction name="action_console"/>
+    <addaction name="action_label"/>
     <addaction name="action_rule"/>
     <addaction name="action_dibujo"/>
     <addaction name="separator"/>
@@ -3628,6 +3629,14 @@ border: 1px solid #DDDDDD;</string>
    </property>
    <property name="text">
     <string>Ejes</string>
+   </property>
+  </action>
+  <action name="action_label">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Etiquetas</string>
    </property>
   </action>
  </widget>

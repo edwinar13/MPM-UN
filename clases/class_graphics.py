@@ -18,14 +18,57 @@ from PySide6.QtWidgets import*
 from clases import class_projects
 import math
 
+contador = 0 
+import datetime
 
 
+class TextItem(QGraphicsItem):
+
+    TYPE = "Text"
+    COLOR = QColor("#00ff55")
+    HIGT = 10
+    WIDTH = 40
+
+    def __init__(self, text:str, position:QPointF):
+        QGraphicsItem.__init__(self)
+        
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+
+        self.item_type = self.TYPE
+        self.color = self.COLOR
+        self.higt = self.HIGT
+        self.width = self.WIDTH
+        self.text = str(text)
+        self.position = position
+        self.newPos(self.position)
+        self.pen = QPen(self.color)
+
+
+    def setColor(self, color):
+        self.color = QColor(color)
+        self.pen = QPen(self.color)
+
+
+    def newPos(self, pos:QPointF|QPoint):
+        self.coor = pos
+        self.setPos(pos)
+
+    def boundingRect(self) -> QRectF:
+        h = self.higt
+        w = self.width        
+        return QRectF(-0.1, -h,
+                             w, h+3)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        painter.setPen(self.pen)
+        painter.drawText(QPointF(0, 0), self.text)
 
 class PointItem(QGraphicsItem):
     """
     PointItem es una clase que hereda de QGraphicsItem y representa un punto en una escena.
     
     Atributos:
+        id (int): Numero único del elemento 
         name (str): Nombre del punto.
         coor (QPointF): Coordenadas del punto.
         type (str): Tipo de elemento gráfico (en este caso, siempre es "Point").
@@ -38,12 +81,12 @@ class PointItem(QGraphicsItem):
         
     """
     TYPE = "Point"
-    RADIUS = 1.5
+    RADIUS = 2.0
     COLOR = Qt.black
 
-    def __init__(self,id, name:str, coor:QPointF):
+
+    def __init__(self,id, name:str, coor:QPointF, text_id:TextItem):
         QGraphicsItem.__init__(self)
-        
         
         '''
         self.setFlags(
@@ -52,35 +95,67 @@ class PointItem(QGraphicsItem):
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
         self.id = id
         self.name = name
-        self.type = self.TYPE
+        self.item_type = self.TYPE
         self.coor = coor
 
         self.color = self.COLOR
         self.radius = self.RADIUS
 
+        self.text_id = text_id
+        self.text_id.setVisible(False)
+        self.text_id.setColor("#7E6807")
+
+        self.anchored_lines =[]
+
         self.movePoint(self.coor)
         self.draw_rect_osnap = False
         self.isSelected = False
-    """
+        self.showLabel = False
+
+
+        self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.DashLine)
+        self.pen_selected.setCosmetic(True)
+        self.pen_selected.setWidthF(0.5)
+
     def __str__ (self):
-        return self
+        return self.name
         return str(self.getData())
-    """
+    
+    def addAnchoredLine(self, line):
+        """
+        Agrega una línea a la lista de líneas ancladas.
         
+        Args:
+            line (LineItem): Objeto que representa la línea a agregar.
+        """
+        self.anchored_lines.append(line)
+
+    def removeAnchoredLine(self, line):
+        """
+        Elimina una línea de la lista de líneas ancladas.
+        
+        Args:
+            line (LineItem): Objeto que representa la línea a eliminar.
+        """
+        if line in self.anchored_lines:
+            self.anchored_lines.remove(line)
+
     def movePoint(self, pos:QPointF|QPoint):
         self.coor = pos
         self.setPos(pos)
-    
-      
+        self.text_id.newPos(self.coor)
+          
     def getData(self):
+
+        anchored_lines_names = [linea.name for linea in self.anchored_lines]
         data = {
             "id":self.id,
             'name': self.name,
-            'type': self.type,
-            'coordinates': [self.coor.x(), self.coor.y()]
+            'type': self.item_type,
+            'coordinates': [self.coor.x(), self.coor.y()],
+            'lines':anchored_lines_names
             }
         return data
-
 
     def boundingRect(self) -> QRectF:
         radius = self.radius - 1.499
@@ -91,22 +166,135 @@ class PointItem(QGraphicsItem):
         if self.draw_rect_osnap:
             painter.setPen(QPen(QColor("#34c3eb"), 0, Qt.SolidLine))
             painter.drawRect(-5,-5,10,10)
-            self.draw_rect_osnap = False
-            
+            self.draw_rect_osnap = False            
 
         if self.isSelected:
-            #painter.setBrush(QBrush("#AAAAAA"))
-            painter.setPen(QPen(QColor("#AAAAAA"), 0, Qt.DashLine))
-            painter.drawEllipse(-2, -2, 4, 4)
+            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
+            painter.setPen(self.pen_selected)
+            painter.drawEllipse(-5, -5, 10, 10)
 
         else:
-            #painter.setBrush(QBrush(self.color))
             painter.setPen(QPen(self.color, 0))
             painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
-            if self.name != "pointTemp":    
-                painter.drawText(QPointF(self.radius, 0), "{}".format(self.id))
+
+        if self.name != "pointTemp" and self.showLabel:   
+            self.text_id.newPos(self.coor)
+            self.text_id.setVisible(True)
+        else:
+            self.text_id.setVisible(False)
+
+        return
+
+class LineItem(QGraphicsItem):
+    """
+    LineItem es una clase que hereda de QGraphicsItem y representa una línea en una escena.
+    
+    Atributos:
+        id (int): Numero único del elemento 
+        name (str): Nombre de la línea.
+        start_point (PointItem): Punto de inicio de la línea.
+        end_point (PointItem): Punto final de la línea.
+        type (str): Tipo de elemento gráfico (en este caso, siempre es "Line").
+        color (Qt): Color con el que se dibujará la línea.        
+        width (float): Ancho con el que se dibujará la línea.
+        
+        isSelected (bool): Indica si la línea está seleccionada en el momento.
+        isActive (bool): Indica si la línea está activa en el momento.
+        
+    """
+    TYPE = "Line"
+    WIDTH = 2
+    COLOR = Qt.black
+
+    def __init__(self, id, name: str, start_point: PointItem, end_point: PointItem, text_id:TextItem):
+        QGraphicsItem.__init__(self)
+        
+        '''
+        self.setFlags(
+            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable )
+        '''
+        #self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, True)
+        self.id = id
+        self.name = name
+        self.item_type = self.TYPE
+        self.start_point = start_point
+        self.end_point = end_point
+        self.text_id = text_id
+        self.text_id.setVisible(False)
+        self.text_id.setColor("#1482CA")
+        
+        self.color = self.COLOR
+        self.width = self.WIDTH
+        self.isSelected = False
+        self.showLabel = False
+        
+        #self.id_text = TextItem(str(self.id), self.center())
+        #self.point_text = PointItem(1,"self.id", self.center())
+
+    def __str__ (self):
+        return self.name
+    
+    def center(self):
+        return QPointF((self.start_point.x() + self.end_point.x()) / 2, (self.start_point.y() + self.end_point.y()) / 2)
 
 
+    def shape(self):
+        # Calcula la forma de la línea
+        path = QPainterPath()
+        path.moveTo(self.start_point.pos())
+        path.lineTo(self.end_point.pos())
+        # Crea un área de selección más grande que la línea para que sea más fácil de seleccionar
+        stroker = QPainterPathStroker()
+        stroker.setWidth(1) # Ajusta el ancho del área de selección
+        return stroker.createStroke(path)
+
+   
+
+    def movePoint(self, pos:QPointF|QPoint):
+        self.coor = pos
+        self.setPos(pos)
+        self.text_id.newPos(self.center())
+    
+      
+    def getData(self):
+        data = {
+            "id":self.id,
+            'name': self.name,
+            'type': self.item_type,
+            'start_point': self.start_point.name,
+            'end_point': self.end_point.name
+            }
+        return data
+
+    def boundingRect(self) -> QRectF:
+        p1 = QPointF(self.start_point.pos().x(),self.start_point.pos().y())
+        p2 = QPointF(self.end_point.pos().x(),self.end_point.pos().y())
+        return QRectF(p1, p2)
+
+
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+
+        if self.isSelected:          
+            painter.setPen(QPen(QColor("#960b0f"), 0, Qt.DashLine))
+
+        else:            
+            painter.setPen(QPen(self.color, 0))
+            
+        painter.drawLine(self.start_point.coor, self.end_point.coor)
+        #painter.drawRect(self.boundingRect())
+
+
+        if self.name != "lineTemp" and self.showLabel:   
+            self.text_id.newPos(self.center())
+            self.text_id.setVisible(True)
+        else:
+            self.text_id.setVisible(False)
+
+        #shape__ = self.shape()
+        #painter.drawPath(shape__)
+        #return
 
 class RectItem(QGraphicsRectItem):
     TYPE = "Rect"
@@ -117,13 +305,15 @@ class RectItem(QGraphicsRectItem):
             QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
         '''
         self.name = name
-        self.type = self.TYPE
+        self.item_type = self.TYPE
         self.p1 = p1
         self.p2 = p2        
        
         self.setRect(QRectF(self.p1, self.p2))
         self.isSelected = False
         self.isActive = False
+
+    
     def __str__ (self):
         return str(self.getData())
 
@@ -141,7 +331,7 @@ class RectItem(QGraphicsRectItem):
     def getData(self):
         data = {
             'name': self.name,
-            'type': self.type,
+            'type': self.item_type,
             'p1': [self.p1.x(), self.p1.y()],
             'p2': [self.p2.x(), self.p2.y()]
             }
@@ -173,7 +363,7 @@ class RectItem2(QGraphicsItem):
             QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
         '''
         self.name = name
-        self.type = self.TYPE
+        self.item_type = self.TYPE
         self.p1 = p1
         self.p2 = p2 
         self.pen = None
@@ -214,7 +404,7 @@ class RectItem2(QGraphicsItem):
     def getData(self):
         data = {
             'name': self.name,
-            'type': self.type,
+            'type': self.item_type,
             'p1': [self.p1.x(), self.p1.y()],
             'p2': [self.p2.x(), self.p2.y()]
             }
@@ -249,300 +439,6 @@ class RectItem2(QGraphicsItem):
       
         #return super().paint(painter, option, widget)
 
-
-class LineItem(QGraphicsLineItem):
-    TYPE = "Line"
-    def __init__(self, name:str, p1:QPointF, p2:QPointF):
-        super(LineItem, self).__init__()
-        '''
-        self.setFlags(
-            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
-        '''        
-        self.name = name
-        self.type = self.TYPE
-        self.p1 = p1
-        self.p2 = p2
-
-        self.setLine(QLineF(self.p1, self.p2))
-        self.isSelected = False
-        self.isActive = False
-
-    def __str__ (self):
-        return str(self.getData()) 
-
-    def getName(self):
-        return self.name
-
-    def getType(self):
-        return self.TYPE
-
-    def getData(self):
-        data = {
-            'name': self.name,
-            'type': self.type,
-            'p1': [self.p1.x(), self.p1.y()],
-            'p2': [self.p2.x(), self.p2.y()]
-            }
-        return data
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        
-        self.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))
-        
-        if self.isSelected:
-            self.setPen(QPen(QColor("#AAAAAA"), 0, Qt.SolidLine))
-
-        if self.isActive :
-            painter.setPen(QPen(QColor("#ebdd21"), 0, Qt.SolidLine))
-            painter.drawLine(QLineF(self.p1, self.p2))
-            #self.setPen(QPen(QColor("#3AA3AA"), 0, Qt.SolidLine))
-            self.isActive = False 
-            
-        
-        return super().paint(painter, option, widget)
-
-class PointItem1(QGraphicsItem):
-    TYPE = "Point"
-    RADIUS = 1.5
-    def __init__(self, name:str, p1:QPointF):
-        QGraphicsItem.__init__(self)
-        '''
-        self.setFlags(
-            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable )
-        '''
-        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
-        
-        self.name = name
-        self.type = self.TYPE
-        self.p1 = p1
-        self.newPos(self.p1)
-
-        self.color = Qt.black
-        self.draw_rect_osnap = False
-        self.radius = self.RADIUS
-
-        self.isSelected = False
-        self.isActive = False
-
-    def __str__ (self):
-        return str(self.getData())
-        
-    def newPos(self, pos:QPointF|QPoint):
-        self.p1 = pos
-        self.setPos(pos)
-    
-    def setRadius(self, r):
-        self.radius = r
-    
-    def getName(self):
-        return self.name
-        
-    def getData(self):
-        data = {
-            'name': self.name,
-            'type': self.type,
-            'p1': [self.p1.x(), self.p1.y()]
-            }
-        return data
-
-    def getType(self):
-        return self.TYPE
-
-    def boundingRect(self) -> QRectF:
-        adjust = 0
-        return QRectF(-0.0009 - adjust, -0.0009 - adjust,
-                             0.0019 + adjust, 0.0019 + adjust)
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        if self.draw_rect_osnap:
-            painter.setPen(QPen(QColor("#34c3eb"), 0, Qt.SolidLine))
-            painter.drawRect(-5,-5,10,10)
-            self.draw_rect_osnap = False
-        '''
-        '''
-        if self.isSelected:
-            #painter.setBrush(QBrush("#AAAAAA"))
-            painter.setPen(QPen(QColor("#AAAAAA"), 0, Qt.DashLine))
-            painter.drawEllipse(-2, -2, 4, 4)
-
-        else:
-            #painter.setBrush(QBrush(self.color))
-            painter.setPen(QPen(self.color, 0))
-            painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
-    '''
-    def type(self):
-        return PointItem.Type
-    '''
-
-class LineItem2(PointItem):
-
-
-
-    TYPE = "Line"
-
-    def __init__(self, name:str, p1:QPointF, p2:QPointF):
-        super(LineItem, self).__init__()
-        '''
-        self.setFlags(
-            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
-        '''        
-        self.name = name
-        self.type = self.TYPE
-        self.p1 = p1
-        self.p2 = p2
-
-        self.setLine(QLineF(self.p1, self.p2))
-        self.isSelected = False
-        self.isActive = False
-
-    def __str__ (self):
-        return str(self.getData()) 
-
-    def getName(self):
-        return self.name
-
-    def getType(self):
-        return self.TYPE
-
-    def getData(self):
-        data = {
-            'name': self.name,
-            'type': self.type,
-            'p1': [self.p1.x(), self.p1.y()],
-            'p2': [self.p2.x(), self.p2.y()]
-            }
-        return data
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        
-        self.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))
-        
-        if self.isSelected:
-            self.setPen(QPen(QColor("#AAAAAA"), 0, Qt.SolidLine))
-
-        if self.isActive :
-            painter.setPen(QPen(QColor("#ebdd21"), 0, Qt.SolidLine))
-            painter.drawLine(QLineF(self.p1, self.p2))
-            #self.setPen(QPen(QColor("#3AA3AA"), 0, Qt.SolidLine))
-            self.isActive = False 
-            
-        
-        return super().paint(painter, option, widget)
-
-class Node(QGraphicsItem):
-    Type = QGraphicsItem.UserType + 1
-
-    def __init__(self, graphWidget):
-        QGraphicsItem.__init__(self)
-
-        self.graph = weakref.ref(graphWidget)
-        # print(self.graph,">>>>",graphWidget)
-        self.edgeList = []
-        self.newPos = QPointF()
-        self.setFlag(QGraphicsItem.ItemIsMovable)
-        self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
-        self.setCacheMode(self.DeviceCoordinateCache)
-        self.setZValue(-1)
-
-    def type(self):
-        return Node.Type
-
-    def addEdge(self, edge):
-        self.edgeList.append(weakref.ref(edge))
-        edge.adjust()
-
-    def edges(self):
-        return self.edgeList
-
-    def calculateForces(self):
-        if not self.scene() or self.scene().mouseGrabberItem() is self:
-            self.newPos = self.pos()
-            return
-
-        # Sum up all forces pushing this item away.
-        xvel = 0.0
-        yvel = 0.0
-        for item in self.scene().items():
-            if not isinstance(item, Node):
-                continue
-
-            line = QLineF(self.mapFromItem(item, 0, 0), QPointF(0, 0))
-            dx = line.dx()
-            dy = line.dy()
-            l = 2.0 * (dx * dx + dy * dy)
-            if l > 0:
-                xvel += (dx * 150.0) / l
-                yvel += (dy * 150.0) / l
-
-        # Now subtract all forces pulling items together.
-        weight = (len(self.edgeList) + 1) * 10.0
-        for edge in self.edgeList:
-            if edge().sourceNode() is self:
-                pos = self.mapFromItem(edge().destNode(), 0, 0)
-            else:
-                pos = self.mapFromItem(edge().sourceNode(), 0, 0)
-            xvel += pos.x() / weight
-            yvel += pos.y() / weight
-            
-        if qAbs(xvel) < 0.1 and qAbs(yvepathl) < 0.1:
-            xvel = yvel = 0.0
-
-        sceneRect = self.scene().sceneRect()
-        self.newPos = self.pos() + QPointF(xvel, yvel)
-        self.newPos.setX(min(max(self.newPos.x(), sceneRect.left() + 10), sceneRect.right() - 10))
-        self.newPos.setY(min(max(self.newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10))
-
-    def advance(self):
-        if self.newPos == self.pos():
-            return False
-
-        self.setPos(self.newPos)
-        return True
-
-    def boundingRect(self):
-        adjust = 2.0
-        return QRectF(-10 - adjust, -10 - adjust,
-                             23 + adjust, 23 + adjust)
-
-    def shape(self):
-        path = QPainterPath()
-        path.addEllipse(-10, -10, 20, 20)
-        return path
-
-    def paint(self, painter, option, widget):
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(Qt.darkGray)
-        painter.drawEllipse(-7, -7, 20, 20)
-
-        gradient = QRadialGradient(-3, -3, 10)
-        if option.state & QStyle.State_Sunken:
-            gradient.setCenter(3, 3)
-            gradient.setFocalPoint(3, 3)
-            gradient.setColorAt(1, QColor(Qt.yellow).lighter(120))
-            gradient.setColorAt(0, QColor(Qt.darkYellow).lighter(120))
-        else:
-            gradient.setColorAt(0, Qt.yellow)
-            gradient.setColorAt(1, Qt.darkYellow)
-
-        painter.setBrush(QBrush(gradient))
-        painter.setPen(QPen(Qt.black, 0))
-        painter.drawEllipse(-10, -10, 20, 20)
-
-    def itemChange(self, change, value):
-        if change == QGraphicsItem.ItemPositionChange:
-            for edge in self.edgeList:
-                edge().adjust()
-            #self.graph().itemMoved()
-
-        return QGraphicsItem.itemChange(self, change, value)
-
-    def mousePressEvent(self, event):
-        self.update()
-        QGraphicsItem.mousePressEvent(self, event)
-
-    def mouseReleaseEvent(self, event):
-        self.update()
-        QGraphicsItem.mouseReleaseEvent(self, event)
-
 class AdminScene():
     def __init__(self,scene:QGraphicsScene) -> None:
 
@@ -554,6 +450,11 @@ class AdminScene():
         self.list_points = {}
         self.list_lines = {}
         self.list_rects = {}
+
+        self.dict_points ={}
+        self.dict_lines ={}
+        self.dict_rects ={}
+
         self.no_items = 0
  
     def setUndoStack(self, undo_stack):
@@ -562,6 +463,7 @@ class AdminScene():
     def addCommand(self,item):
         add_command = AddCommand(self, self.__scene, item)
         self.undo_stack.push(add_command) 
+   
 
     def removeCommand(self,items):
         remove_command = RemoveCommand(self, self.__scene, items)
@@ -596,10 +498,10 @@ class AdminScene():
         db_project = self.__projectActual.db_project
         data_items_draw = db_project.selectItemDrawDB()
 
-        self.no_items=data_items_draw["NOITEMS"]
-        self.list_points=data_items_draw["PUNTOS"]
-        self.list_lines=data_items_draw["LINEAS"]
-        self.list_rects=data_items_draw["RECTANGULOS"]
+        self.no_items = data_items_draw["NOITEMS"]
+        self.list_points = data_items_draw["PUNTOS"]
+        self.list_lines = data_items_draw["LINEAS"]
+        self.list_rects = data_items_draw["RECTANGULOS"]
 
 
     def __setDrawItems(self):
@@ -608,63 +510,95 @@ class AdminScene():
         self.__scene.drawElementTemp()
         self.__scene.update()
 
-        
         for point in self.list_points:
-
             id = self.list_points[point]["id"]
             name = self.list_points[point]["name"]
             x = self.list_points[point]["coordinates"][0]
             y = self.list_points[point]["coordinates"][1]
-            p = PointItem(id, name,QPoint(x,y))  
-            self.__scene.addItem(p)
 
-        for line in self.list_lines:
-            name = self.list_lines[line]["name"]
-            x1 = self.list_lines[line]["p1"][0]
-            y1 = self.list_lines[line]["p1"][1]
-            x2 = self.list_lines[line]["p2"][0]
-            y2 = self.list_lines[line]["p2"][1]
-            p = LineItem(name,QPoint(x1,y1),QPoint(x2,y2))  
-            p.setPen(QPen(QColor(Qt.black),0))
+            
+            text_id = TextItem(id, QPointF(0,0))
+            self.__scene.addItem(text_id)
+
+
+
+            p = PointItem(id, name,QPoint(x,y), text_id)  
             self.__scene.addItem(p)
+            self.dict_points[name] = p
+
+        for line in self.list_lines:            
+            id = self.list_lines[line]["id"]
+            name = self.list_lines[line]["name"]
+            start_point = self.list_lines[line]["start_point"]
+            end_point = self.list_lines[line]["end_point"]
+
+            text_id = TextItem(id, QPointF(0,0))
+            self.__scene.addItem(text_id)
+
+
+            l = LineItem(id, name,self.dict_points[start_point],self.dict_points[end_point], text_id)  
+            self.__scene.addItem(l)
+            self.dict_lines[name] = l
+
+            point1 = self.dict_points[start_point]
+            point2 = self.dict_points[end_point]
+            point1.addAnchoredLine(l)
+            point2.addAnchoredLine(l)
+       
+            
+
 
         for rect in self.list_rects:
-            name = self.list_rects[rect]["name"]
-            x1 = self.list_rects[rect]["p1"][0]
-            y1 = self.list_rects[rect]["p1"][1]
-            x2 = self.list_rects[rect]["p2"][0]
-            y2 = self.list_rects[rect]["p2"][1]
-            p = RectItem(name,QPoint(x1,y1),QPoint(x2,y2))  
-            p.setPen(QPen(QColor(Qt.black),0))
-            self.__scene.addItem(p)
+
+            id = self.list_rects[line]["id"]
+            name = self.list_rects[line]["name"]
+            start_point = self.list_rects[line]["start_point"]
+            end_point = self.list_rects[line]["end_point"]
+
+            r = RectItem(id, name,self.dict_points[start_point],self.dict_points[end_point])  
+            r.setPen(QPen(QColor(Qt.black),0))
+            self.__scene.addItem(r)
+            self.dict_rects[name] = r
 
 
     
     def updateListItems(self, type_update:str, item:PointItem|LineItem|RectItem):
 
         type_item = item.getData()["type"]
+        name = item.getData()["name"]
+
 
         if type_update == "DELETE":
             if  type_item == "Point":
-                self.list_points.pop(item.getData()["name"])
+                self.list_points.pop(name)
+                self.dict_points.pop(name)
+
             elif  type_item == "Line":
-                self.list_lines.pop(item.getData()["name"])
+                self.list_lines.pop(name)
+                self.dict_lines.pop(name)
+
             elif type_item == "Rect":
-                self.list_rects.pop(item.getData()["name"])
+                self.list_rects.pop(name)
+                self.dict_rects.pop(name)
 
         elif type_update == "ADD":
             if  type_item == "Point":
-                self.list_points[item.getData()["name"]] = item.getData()
-            elif  type_item == "Line":
-                self.list_lines[item.getData()["name"]] = item.getData()
+                self.list_points[name] = item.getData()
+                self.dict_points[name] = item
+            elif  type_item == "Line":                
+                self.list_lines[name] = item.getData()
+                self.dict_lines[name] = item
             elif type_item == "Rect":
-                self.list_rects[item.getData()["name"]] = item.getData()
+                self.list_rects[name] = item.getData()
+                self.dict_rects[name] = item
                 
         elif type_update == "MOVE":
-            self.list_points[item.getData()["name"]]["coordinates"] = item.getData()["coordinates"]
+            self.list_points[name]["coordinates"] = item.getData()["coordinates"]
 
         else:            
             return
+        
+
 
         
         #actualizar db
@@ -682,47 +616,69 @@ class AddCommand(QUndoCommand):
         super(AddCommand, self).__init__() 
         self.graphics_scene = scene
         self.admin = admin
-        self.item = item        
+        self.item = item            
         scene.update()
         self.setText("add -> {}".format(self.item.getData()["type"]))
 
+
     def undo(self):
         self.graphics_scene.removeItem(self.item)
+        self.graphics_scene.removeItem(self.item.text_id)
         self.graphics_scene.update()
         self.admin.updateListItems("DELETE",self.item)
         #self.admin.list_points.pop(self.item.getName())
+        if isinstance(self.item, LineItem):
+            point1 = self.item.start_point
+            point2 = self.item.end_point
+            point1.removeAnchoredLine(self.item)
+            point2.removeAnchoredLine(self.item)
       
     def redo(self):
         self.graphics_scene.addItem(self.item)
+        self.graphics_scene.addItem(self.item.text_id)
+        
         self.graphics_scene.clearSelection()
         self.graphics_scene.update()
         self.admin.updateListItems("ADD",self.item)
+
+        if isinstance(self.item, LineItem):
+            point1 = self.item.start_point
+            point2 = self.item.end_point
+            point1.addAnchoredLine(self.item)
+            point2.addAnchoredLine(self.item)
+
         #self.admin.list_points[self.item.getName()] = self.item.__dict__
 
 class RemoveCommand(QUndoCommand):
     """."""
     def __init__(self,admin:AdminScene ,scene:QGraphicsScene, items):
         super(RemoveCommand, self).__init__() 
+
+        
         self.graphics_scene = scene
         self.admin = admin
         self.items = items
         scene.update()
         self.setText("del -> {} items".format(len(self.items)))
 
-    def redo(self):
+    def redo(self):        
         for item in self.items:
             self.graphics_scene.removeItem(item)
+            self.graphics_scene.removeItem(item.text_id)
             self.graphics_scene.update()
             self.admin.updateListItems("DELETE",item)
             #self.admin.list_points.pop(self.item.getName())
       
     def undo(self):
-        for item in self.items:
+        for item in self.items:            
             self.graphics_scene.addItem(item)
+            self.graphics_scene.addItem(item.text_id)
             self.graphics_scene.clearSelection()
             self.graphics_scene.update()
             self.admin.updateListItems("ADD",item)
             #self.admin.list_points[self.item.getName()] = self.item.__dict__
+            
+
 
 class MoveCommand(QUndoCommand):
     """."""
@@ -754,7 +710,6 @@ class MoveCommand(QUndoCommand):
 
             self.graphics_scene.update()
             self.admin.updateListItems("MOVE", item)
-
 
 class RotateCommand(QUndoCommand):
     """."""
@@ -792,31 +747,9 @@ class RotateCommand(QUndoCommand):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
-
-
-
-
-
-
-
-
 
 
 
@@ -1092,6 +1025,7 @@ class GraphicsViewDraw (QGraphicsView):
             if  self.isMainView == True:
                 self.scene().grid_spacing = self.grid_spacing
                 #print(self.objectName(),grid_spacing ,self.hasFocus(),self.transform())
+                
                 
 
 
@@ -1387,9 +1321,11 @@ class GraphicsSceneDraw (QGraphicsScene):
 
 
     signal_point_point = Signal(dict)
+    signal_point_line = Signal(dict)
     signal_point_move = Signal(dict)
     signal_point_copy = Signal(dict)
     signal_point_rotate = Signal(dict)
+    signal_point_erase = Signal(dict)
 
           
 
@@ -1426,6 +1362,7 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.p1_select = None
         self.p2_select = None
         self.selected_items = []
+        self.selected_items_line = []
 
 
         self.point_vertex = None
@@ -1449,7 +1386,9 @@ class GraphicsSceneDraw (QGraphicsScene):
 
     def drawElementTemp(self):
         #elementos temporales
-        self.point_temp = PointItem(0,"pointTemp",QPoint(0,0))          
+        text = TextItem("temp", QPointF(0,0))
+        self.addItem(text)
+        self.point_temp = PointItem(0,"pointTemp",QPointF(0,0),text)          
         self.addItem(self.point_temp)
         self.point_temp.color= QColor("#36C9C6")
         self.point_temp.setVisible(False)
@@ -1475,6 +1414,13 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.rect_select_temp.setBrush(self.color_select_mode1)
         self.addItem(self.rect_select_temp)
         self.rect_select_temp.setVisible(False)
+
+        self.text_temp = QGraphicsTextItem("quesote")
+        #self.text_temp = QGraphicsSimpleTextItem("quesote")
+        #self.text_temp.setPlainText("edwin")
+        self.text_temp.setPos(QPointF(0,0))
+        self.addItem(self.text_temp)
+        self.text_temp.setVisible(False)
 
 
 
@@ -1506,11 +1452,23 @@ class GraphicsSceneDraw (QGraphicsScene):
 	############################################################################### 
 
     def mousePressEvent(self, event: QGraphicsSceneMouseEvent) -> None: 
-  
+        self.text_temp.setVisible(True)
         if event.button() == Qt.LeftButton and not self.isPan:               
             #::::::::::::  punto  ::::::::::::::::
             if self.isDrawPoint: 
                 self.signal_point_point.emit({"step":2, "data": [self.point_vertex.x(),self.point_vertex.y()]})
+            
+            elif self.isDrawLine: 
+                if self.point_vertex_ant == None:
+                    self.signal_point_line.emit({"step":2, "data": [self.point_vertex.x(),self.point_vertex.y()]})
+                else:
+                    self.signal_point_line.emit(
+                        {"step":3,
+                        "data":
+                            [[self.point_vertex_ant.x(),self.point_vertex_ant.y()],
+                            [self.point_vertex.x(),self.point_vertex.y()]]
+                        })
+                self.point_vertex_ant=self.point_vertex
 
             elif self.isDrawSelect: 
                 self.p1_select = event.scenePos()
@@ -1584,42 +1542,9 @@ class GraphicsSceneDraw (QGraphicsScene):
                             angle_ref]
                         })
 
-
-
-
-
-
+            
         """
-        if  self.isMove or self.isCopy or self.isErase or self.isRotate:
-            if self.isSelect: 
-                '''establece el punto inicial para selección de área'''
-                self.p1_select = event.scenePos()
-                self.rect_select_temp.setRect(QRectF(self.p1_select,self.p1_select))
-                self.rect_select_temp.setVisible(True)
-                print("Es isSelect")
 
-            else:
-
-                if self.point_vertex_ant == None:
-                    pass
-                    self.isDrawLine=True
-                    cancel_point = self.drawGeometry(self.point_vertex)
-
-                else:
-                    pass
-                    #self.isDrawLine=True
-                    #cancel_point = self.drawGeometry(self.point_vertex, self.point_vertex_ant)
-                    
-                #if not cancel_point:
-                #    self.point_vertex_ant = self.point_vertex
-
-                #self.p1_select = event.scenePos()
-                print(self.point_vertex)
-                print(self.point_vertex_init)
-                print("NO es isSelect")
-
-
-        #se establece el punto inicial para dibujo 
         elif event.button() == Qt.LeftButton and not self.isPan:   
             #::::::::::::  punto  ::::::::::::::::
             if self.isDrawPoint: 
@@ -1659,6 +1584,10 @@ class GraphicsSceneDraw (QGraphicsScene):
     def mouseMoveEvent(self, event: QGraphicsSceneMouseEvent) -> None:
 
         self.point_vertex = event.scenePos()
+        
+        self.text_temp.setPos(self.point_vertex)
+
+
 
 
         # MODO OSNAP 
@@ -1706,23 +1635,9 @@ class GraphicsSceneDraw (QGraphicsScene):
                     self.rect_select_temp.setBrush(self.color_select_mode2)
             return            
 
-
-
         
-        #::::::::::::  move, copiar  ::::::::::::::::
-        if self.isDrawMove or self.isDrawCopy or self.isDrawRotate:
-            """
-            if self.point_vertex_ant != None:
-                point = self.point_vertex
-                point_ref = self.point_vertex_ant
-                dx = point.x() - point_ref.x()
-                dy = point.y() - point_ref.y()
-                self.angle_ref = math.degrees(math.atan2(dy, dx))
-                if self.angle_ref < 0:
-                    self.angle_ref = 360 + self.angle_ref
-                print("angle_ref: {}°".format( self.angle_ref))
-            """
-
+        #::::::::::::  move, copiar , rotar ::::::::::::::::
+        if self.isDrawMove or self.isDrawCopy or self.isDrawRotate:   
             self.drawGeneral(self.point_vertex,self.point_vertex_ant)
 
         #::::::::::::  punto  ::::::::::::::::
@@ -1741,7 +1656,7 @@ class GraphicsSceneDraw (QGraphicsScene):
         super(GraphicsSceneDraw, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QGraphicsSceneMouseEvent) -> None:  
-
+        self.text_temp.setVisible(False)
         self.p2_select = event.scenePos()
 
         #::::::::::::  mover  ::::::::::::::::
@@ -1753,6 +1668,7 @@ class GraphicsSceneDraw (QGraphicsScene):
                     [self.p2_select.x(),self.p2_select.y()]]
                 }
                 )
+      
 
             
 
@@ -1765,8 +1681,9 @@ class GraphicsSceneDraw (QGraphicsScene):
                     [self.p2_select.x(),self.p2_select.y()]]
                 }
                 )
+         
 
-        #::::::::::::  copiar ::::::::::::::::
+        #::::::::::::  rotar ::::::::::::::::
         elif  self.isDrawSelect and self.isDrawRotate and self.p1_select != None:
             self.signal_point_rotate.emit(
                 {"step":2,
@@ -1775,6 +1692,17 @@ class GraphicsSceneDraw (QGraphicsScene):
                     [self.p2_select.x(),self.p2_select.y()]]
                 }
                 )
+            
+        #::::::::::::  borrar ::::::::::::::::
+        elif  self.isDrawSelect and self.isDrawErase and self.p1_select != None:
+            self.signal_point_erase.emit(
+                {"step":2,
+                "data":
+                    [[self.p1_select.x(),self.p1_select.y()],
+                    [self.p2_select.x(),self.p2_select.y()]]
+                }
+                )
+
 
         self.rect_select_temp.setRect(0,0,0,0)
         self.rect_select_temp.setVisible(False)
@@ -1824,6 +1752,7 @@ class GraphicsSceneDraw (QGraphicsScene):
 
         """
         """
+        
         self.point_temp.setVisible(False)
         self.line_temp.setVisible(False)
         self.rectangle_temp.setVisible(False)
@@ -1835,9 +1764,15 @@ class GraphicsSceneDraw (QGraphicsScene):
 
         self.p1_select = None
         self.p2_select = None
+
         for item in self.selected_items:
             item.isSelected = False
+
+        for  line in self.selected_items_line:
+            line.isSelected = False
+            
         self.selected_items = []
+        self.selected_items_line = []
         
         self.point_vertex = None
         self.point_vertex_ant = None
@@ -1903,7 +1838,7 @@ class GraphicsSceneDraw (QGraphicsScene):
 
 
     def drawTransform (self, transformation=None):
-
+        return
 
 
         if transformation == None:

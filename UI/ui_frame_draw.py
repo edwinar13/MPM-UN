@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawHDtkni.ui'
+## Form generated from reading UI file 'frame_drawMquISn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -446,6 +446,32 @@ class Ui_FormDraw(object):
 
         self.verticalLayout.addWidget(self.toolButton_cardMeshDrawErase)
 
+        self.toolButton_cardMeshDrawImport = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawImport.setObjectName(u"toolButton_cardMeshDrawImport")
+        self.toolButton_cardMeshDrawImport.setMinimumSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawImport.setMaximumSize(QSize(35, 35))
+        icon12 = QIcon()
+        icon12.addFile(u"recursos/iconos/iconos_menu_draw_mesh/import.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDrawImport.setIcon(icon12)
+        self.toolButton_cardMeshDrawImport.setIconSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawImport.setArrowType(Qt.NoArrow)
+        self.toolButton_cardMeshDrawImport.setProperty("style_draw_button", 1)
+
+        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawImport)
+
+        self.toolButton_cardMeshDrawPointInLines = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawPointInLines.setObjectName(u"toolButton_cardMeshDrawPointInLines")
+        self.toolButton_cardMeshDrawPointInLines.setMinimumSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawPointInLines.setMaximumSize(QSize(35, 35))
+        icon13 = QIcon()
+        icon13.addFile(u"recursos/iconos/iconos_menu_draw_mesh/point_in_lines.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDrawPointInLines.setIcon(icon13)
+        self.toolButton_cardMeshDrawPointInLines.setIconSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawPointInLines.setArrowType(Qt.NoArrow)
+        self.toolButton_cardMeshDrawPointInLines.setProperty("style_draw_button", 1)
+
+        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawPointInLines)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
@@ -500,5 +526,7 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawCopy.setText("")
         self.toolButton_cardMeshDrawRotate.setText("")
         self.toolButton_cardMeshDrawErase.setText("")
+        self.toolButton_cardMeshDrawImport.setText("")
+        self.toolButton_cardMeshDrawPointInLines.setText("")
     # retranslateUi
 

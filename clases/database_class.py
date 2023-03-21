@@ -444,7 +444,7 @@ class DataBaseProject():
                 : False >> si no se encontró la db del proyecto.
 
         """ 
-
+        
         try:  
             if no_items != None:          
                 self.__unguarded_copy_db_project['ITEMSDIBUJO']['NOITEMS']=no_items
@@ -491,9 +491,26 @@ class DataBaseProject():
         """
         BD=self.__path_db_project
         if QFile.exists(BD):		  
-            try:
+            #try:
                 # se guarda en el archivo
                 with open(BD, 'w') as a:
+                    print(self.__unguarded_copy_db_project)
+                    print("\n")
+                    """
+{'INFORMACION': {'NOMBREPROYECTO': 'Prueba', 'LOCALIZACION': 'BogotÃ¡', 'AUTOR': 'Edwin Arevalo', 'DESCRIPCION': 'Pruerba'},
+  'CONFIGURACION': {'GRAVEDAD': 9.8}, 
+  'ITEMSDIBUJO': {'NOITEMS': 0, 
+                  'PUNTOS': {
+                    'POINT#8': {'id': 8, 'name': 'POINT#8', 'type': 'Point', 'coordinates': [-164.0, -22.0], 'lines': []},
+                    'POINT#9': {'id': 9, 'name': 'POINT#9', 'type': 'Point', 'coordinates': [458.9843749999999, 277.34374999999994], 'lines': [<clases.class_graphics.LineItem(0x1ee02b080a0, pos=0,0, flags=(ItemSendsGeometryChanges)) at 0x000001EE7920D440>]},
+                    'POINT#10': {'id': 10, 'name': 'POINT#10', 'type': 'Point', 'coordinates': [263.67187499999994, 7.812499999999998], 'lines': [<clases.class_graphics.LineItem(0x1ee02b080a0, pos=0,0, flags=(ItemSendsGeometryChanges)) at 0x000001EE7920D440>]}},
+                    'LINEAS': {'LINE#1': {'id': 1, 'name': 'LINE#1', 'type': 'Line', 'start_point': 'POINT#9', 'end_point': 'POINT#10'}},
+                    'RECTANGULOS': {}}, 
+ 'MALLAS': {}, 
+ 'PUNTOSMATERIAL': {}, 
+ 'MATERIALES': {}, 
+ 'RESULTADOS': {}}
+"""
                     a.write(json.dumps(self.__unguarded_copy_db_project)) 
                     a.close()
                             
@@ -505,10 +522,10 @@ class DataBaseProject():
 
                 validacion=True
             
-            except BaseException as err:
-                print("[Doc: {}]  Error al agregar registro en <CONFIGURACION> de la base de datos {}".format(self.__name_doc_py,BD))
-                print("[Tipo: {}, Erro: {}]".format(type(err),err))
-                validacion=False
+            #except BaseException as err:
+            #    print("[Doc: {}]  Error al agregar registro en <CONFIGURACION> de la base de datos {}".format(self.__name_doc_py,BD))
+            #    print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            #    validacion=False
             
         else:  
             print("[Doc: {}] No se encontró la base de datos de {}".format(self.__name_doc_py,BD))          

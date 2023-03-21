@@ -2,13 +2,22 @@
 <ui version="4.0">
  <class>DialogMsg</class>
  <widget class="QDialog" name="DialogMsg">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>508</width>
-    <height>351</height>
+    <width>604</width>
+    <height>389</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -79,6 +88,12 @@ font: 500 9pt &quot;Ubuntu&quot;;
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QFrame" name="frame_dialog">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -234,21 +249,21 @@ font: 500 9pt &quot;Ubuntu&quot;;
       <item>
        <widget class="QFrame" name="frame_content">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>450</width>
-          <height>150</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>450</width>
-          <height>150</height>
+          <width>16777215</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="frameShape">
@@ -263,6 +278,12 @@ font: 500 9pt &quot;Ubuntu&quot;;
          </property>
          <item>
           <widget class="QLabel" name="label_text">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
@@ -270,6 +291,18 @@ font: 500 9pt &quot;Ubuntu&quot;;
          </item>
          <item>
           <widget class="QTextBrowser" name="textBrowser_description">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>100</height>
+            </size>
+           </property>
            <property name="html">
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -282,6 +315,9 @@ hr { height: 1px; border-width: 0; }
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinAndMaxSize</enum>
+           </property>
            <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
@@ -299,7 +335,7 @@ hr { height: 1px; border-width: 0; }
             <widget class="QPushButton" name="pushButton_save">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>0</width>
                <height>30</height>
               </size>
              </property>
@@ -318,7 +354,7 @@ hr { height: 1px; border-width: 0; }
             <widget class="QPushButton" name="pushButton_yes">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>0</width>
                <height>30</height>
               </size>
              </property>
@@ -337,13 +373,13 @@ hr { height: 1px; border-width: 0; }
             <widget class="QPushButton" name="pushButton_accept">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>120</horstretch>
-               <verstretch>30</verstretch>
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>0</width>
                <height>30</height>
               </size>
              </property>
@@ -362,7 +398,7 @@ hr { height: 1px; border-width: 0; }
             <widget class="QPushButton" name="pushButton_notSave">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>0</width>
                <height>30</height>
               </size>
              </property>
@@ -381,7 +417,7 @@ hr { height: 1px; border-width: 0; }
             <widget class="QPushButton" name="pushButton_not">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>0</width>
                <height>30</height>
               </size>
              </property>
@@ -400,7 +436,7 @@ hr { height: 1px; border-width: 0; }
             <widget class="QPushButton" name="pushButton_cancel">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>0</width>
                <height>30</height>
               </size>
              </property>
