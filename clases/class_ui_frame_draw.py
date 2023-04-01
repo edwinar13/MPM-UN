@@ -4,7 +4,7 @@
 from importlib import import_module
 from queue import Empty
 from random import seed
-from PySide6.QtCore import (Signal,QRectF,Qt,QPointF,QSize,QEvent,Slot)
+from PySide6.QtCore import (Signal,QRectF,Qt,QPointF, QLineF,QSize,QEvent,Slot)
 from PySide6.QtWidgets import (QGraphicsRectItem, QGraphicsLineItem, QFrame, QGraphicsScene,QGraphicsView,QGraphicsItem,
                             QGraphicsPolygonItem,QMenu,QSplitter,QDockWidget, QGraphicsItemGroup, QFileDialog)
 from PySide6.QtGui import (QColor, QPen,QBrush,
@@ -171,6 +171,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         # ::::::::::::::::::   SEÑAL>>RANURA FRAME-DRAW-MENU-MESH :::::::::::::::::
         self.drawMenuMesh.signal_paint_point.connect(self.__clickedToolButtonDrawPaintPoint)
         self.toolButton_cardMeshDrawPoint.clicked.connect(self.__clickedToolButtonDrawPaintPoint)
+
         self.drawMenuMesh.signal_paint_line.connect(self.__clickedToolButtonDrawPaintLine)
         self.toolButton_cardMeshDrawLine.clicked.connect(self.__clickedToolButtonDrawPaintLine)
         self.drawMenuMesh.signal_paint_rectangle.connect(self.__clickedToolButtonDrawPaintRectangle)
@@ -185,8 +186,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.toolButton_cardMeshDrawRotate.clicked.connect(self.__clickedToolButtonDrawPaintRotate)
         self.drawMenuMesh.signal_paint_erase.connect(self.__clickedToolButtonDrawPaintErase)
         self.toolButton_cardMeshDrawErase.clicked.connect(self.__clickedToolButtonDrawPaintErase)
-
+        
         self.toolButton_cardMeshDrawImport.clicked.connect(self.__clickedToolButtonDrawPaintImport)
+        self.toolButton_cardMeshDrawIntersection.clicked.connect(self.__clickedToolButtonDrawPaintIntersection)
+        self.toolButton_cardMeshDrawRule.clicked.connect(self.__clickedToolButtonDrawPaintRule)
 
 
         # ::::::::::::::::::   SEÑAL>>RANURA VIEW Y SCENE DRAW :::::::::::::::::    
@@ -207,6 +210,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.scene_draw.signal_point_copy.connect(self.commandCopy)
         self.scene_draw.signal_point_rotate.connect(self.commandRotate)
         self.scene_draw.signal_point_erase.connect(self.commandErase)
+        self.scene_draw.signal_point_intersection.connect(self.commandIntersection)
+        self.scene_draw.signal_point_rule.connect(self.commandRule)
 
 
         # ::::::::::::::::::::      EVENTOS FRAME DRAW     ::::::::::::::::::::
@@ -285,9 +290,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         current_command = self.label_console_command.text()
         descrip_command = self.label_console_descrip.text()
         
-        commands =     ["point", "line", "pline", "rectang", "erase", "move", "copy", "rotate", "zoom", "views"]
-        commands_min = ["p",     "l",    "pl",    "rec",     "era",   "mo",   "co",    "ro",      "z",    "v"]
-
+        commands =     ["point", "line", "pline", "rectang", "erase", "move", "copy", "rotate", "zoom", "views", "import", "intersection"]
+        commands_min = ["p",     "l",    "pl",    "rec",     "er",   "mo",   "co",    "ro",      "z",    "v", "im", "in"]
+        
         #se ejecuta si la entrada es un comando
         if ((data_consola in commands) or (data_consola in commands_min)) and current_command == "" :
             if data_consola in commands:
@@ -316,28 +321,28 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             elif command == "erase" :
                 self.commandErase({"step":1, "data":None})    
 
+            elif command == "import" :
+                self.commandImport({"step":1, "data":None})    
+
+            elif command == "intersection" :
+                self.commandIntersection({"step":1, "data":None})    
 
             elif command == "rectang" :
                 self.scene_draw.drawRectangleScene()
                 self.init_tool_geometry(command,"Ingrese el primer punto [Exit]:")
-                
 
             elif command == "pline" :
                 self.scene_draw.drawPolylineScene()
                 self.init_tool_geometry(command,"Ingrese el primer punto [Exit]:")
-
-
-
 
             elif command == "zoom" :
                 self.init_tool_geometry(command,"[Extents Window] <E>:")
 
             elif command == "views" :
                 self.init_tool_geometry(command,"[1 2] <1>:")
-
+        
         #se ejecuta si ya hay un comando activo
         elif current_command in commands:
-            
 
             #exit: salir de la edición de objeto
             if (data_consola.lower() == "e" or data_consola.lower() == "exit") and "Exit" in descrip_command:
@@ -488,6 +493,16 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
                     self.commandErase({"step":3, "data":None})
 
+            #se ejecuta si la entrada es una opcion de interseccion
+            elif current_command == "intersection":
+                selected_items = len(self.scene_draw.selected_items)   
+                            
+                if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items == 2:                                    
+                    self.commandIntersection({"step":3, "data":None})
+                else:
+                    self.msnConsole("Error","Selecciona dos líneas")
+
+
 
             #se ejecuta si la entrada es una opcion de punto
             elif current_command == "point":
@@ -499,7 +514,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                     return
                 self.commandPoint({"step":2, "data": point})
                 self.lineEdit_console.setText("")
-
 
             #se ejecuta si la entrada es una opcion de linea
             elif current_command == "line":
@@ -527,7 +541,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                     
                 else:
                     return
-
 
             else:
                 return
@@ -657,8 +670,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.msnConsole("Command","Se ha creado el punto {}".format(new_point.id))
             return new_point
             
-
-
     def commandLine(self, input:dict):
         
         step = input["step"]
@@ -694,8 +705,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             #self.scene_draw.addItem(text_id)
             new_line = LineItem(no_id, f"LINE#{no_id}",self.point1,self.point2, text_id)
 
-            
-
             #new_line.setPen(QPen(QColor(Qt.red),0))
             new_line.showLabel = self.mode_label_draw
             self.scene_draw.admin.addCommand(new_line)
@@ -715,8 +724,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
             self.point1 = self.point2
             self.msnConsole("Command","Se ha creado la linea  {}".format(new_line.id))
-
-
+            return new_line
 
     def commandMove(self, input:dict):
 
@@ -1150,10 +1158,13 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 elif isinstance(item,PointItem):
                     item.isSelected = True
                     if not (item in self.scene_draw.selected_items):
-                        count += 1
-                        self.scene_draw.selected_items.append(item)
+                        if len(item.anchored_lines) != 0:
+                            self.msnConsole("Command","No se puede eliminar {}, esta anclado a mas de dos lienas ".format(item.name))
+                            item.isSelected=False
+                        else:
+                            count += 1
+                            self.scene_draw.selected_items.append(item)
           
-
                 elif isinstance(item, LineItem):
                     point_A = item.start_point
                     point_B = item.end_point
@@ -1196,15 +1207,314 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.view_draw_2.selectElement(False)                
             self.scene_draw.update()
             self.scene_draw.isDrawSelect = False
-            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items))     
+            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items)) 
+
             self.scene_draw.admin.removeCommand(items= self.scene_draw.selected_items)
             self.scene_draw.endDrawGeometry()
             self.end_draw_geometry()
 
             self.msnConsole("Command","Se ha eliminado los elementos seleccionados".format())
 
+    def commandImport(self, input:dict):
+        
+        step = input["step"]
+        data = input["data"]
+        
+        
+ 
+        # 1) Inicio, selección de elementos
+        if step == 1:
+            options = QFileDialog.Options()
+            dxf_file_path, _ = QFileDialog.getOpenFileName(self,"Importar DXF","","Data files dxf (*.dxf)", options=options)
+
+            if dxf_file_path:
+                doc = ezdxf.readfile(dxf_file_path)            
+                msp = doc.modelspace()
+
+                for entity in msp:
+                    if entity.dxftype() == "POINT":
+                        xi = entity.dxf.location[0]
+                        yi = entity.dxf.location[1]
+
+                        self.commandPoint({"step":2, "data": [xi,yi]})
+
+                    elif entity.dxftype() == "LINE":
+                        start_point = entity.dxf.start
+                        end_point = entity.dxf.end
+
+                        x_start_point =start_point[0]
+                        y_start_point =start_point[1]
+                        x_end_point =end_point[0]
+                        y_end_point =end_point[1]
+                        self.commandLine({"step":3, "data":[[x_start_point, y_start_point],[x_end_point, y_end_point]]})
 
 
+                        
+                    elif entity.dxftype() == "LWPOLYLINE":
+                        points = [(vertex[0], vertex[1]) for vertex in entity.get_points()]
+                        for i in range(len(points) - 1):
+                            start_point = points[i]
+                            end_point = points[i+1]
+                            x_start_point, y_start_point = start_point
+                            x_end_point, y_end_point = end_point
+                            self.commandLine({"step": 3, "data": [[x_start_point, y_start_point], [x_end_point, y_end_point]]})
+
+    def commandIntersection(self, input:dict):
+        
+        step = input["step"]
+        data = input["data"]
+        
+        
+        # 1) Inicio, selección de elementos
+        if step == 1:
+            # se activa modo Interseccion
+            self.scene_draw.isDrawSelect = True            
+            self.scene_draw.isDrawIntersection= True            
+            self.init_tool_geometry("intersection","Seleccione un elemento [Exit]:")
+            self.view_draw_1.selectElement(True)
+            self.view_draw_2.selectElement(True)
+
+              
+        #Se recibe dos puntos para el área de selección
+        elif step == 2:  
+            
+            coordinates = data
+            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
+            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
+            x1 = p1_select.x()
+            x2 = p2_select.x()
+
+            if p1_select==p2_select:
+                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
+            elif x1 > x2:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
+            else:
+                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
+            count = 0
+            for item in items:        
+
+                if isinstance(item, TextItem):                    
+                    continue    
+
+                elif isinstance(item,PointItem):
+                    continue
+
+                elif isinstance(item, LineItem):
+
+                    if not (item in self.scene_draw.selected_items) :
+                        count += 1
+                        self.scene_draw.selected_items.append(item)
+                        item.isSelected = True
+
+
+            if count > 0:
+                self.msnConsole(
+                    "Command",
+                    "Se ha seleccionado en total {} elementos (nuevos +{}) ".format(
+                        len(self.scene_draw.selected_items),
+                        count
+                        ))
+    
+        #Inicio de interseccion
+        elif step == 3:
+            selected_items = len(self.scene_draw.selected_items)    
+            self.view_draw_1.selectElement(False)
+            self.view_draw_2.selectElement(False)                
+            self.scene_draw.update()
+            self.scene_draw.isDrawSelect = False
+            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items)) 
+
+            line_A= self.scene_draw.selected_items[0]
+            line_B= self.scene_draw.selected_items[1]
+
+            # Obtener los puntos finales de cada línea
+            lA_p1, lA_p2 = line_A.getPoints()
+            lB_p1, lB_p2 = line_B.getPoints()
+            
+            lA_p1f, lA_p2f  = lA_p1.getCoordinates(), lA_p2.getCoordinates()
+            lB_p1f, lB_p2f = lB_p1.getCoordinates(), lB_p2.getCoordinates()
+
+            line_Af = QLineF(lA_p1f, lA_p2f )
+            line_Bf = QLineF(lB_p1f, lB_p2f)
+
+            '''
+            print("Datos:",p_1f,p_2f,p_3f,p_4f,line_1f,line_2f)
+            Datos:
+            PySide6.QtCore.QPointF(0.000000, 15.230280)
+            PySide6.QtCore.QPointF(14.769720, 15.230280)
+            PySide6.QtCore.QPointF(10.000000, 20.000000)
+            PySide6.QtCore.QPointF(20.000000, 10.000000)
+            PySide6.QtCore.QLineF(0.000000, 15.230280, 14.769720, 15.230280) 
+            PySide6.QtCore.QLineF(10.000000, 20.000000, 20.000000, 10.000000)
+            '''
+
+            #tengo un problema cuando un estremo se intresdetcva
+            #con la linea ya que se general solo tre slineas y no cuatro
+           
+            # Calcular la intersección entre las dos líneas
+            intersection_type, intersection_point = line_Af.intersects(line_Bf)
+            print("TIpo:",intersection_type)
+
+            # Verificar si las líneas se intersectan
+            if intersection_type == QLineF.IntersectionType.BoundedIntersection or intersection_type == QLineF.IntersectionType.UnboundedIntersection:
+
+                new_point = self.commandPoint({"step":2, "data": [intersection_point.x(),intersection_point.y()]})
+
+                '''
+                print(new_point)
+                d1 = (((lA_p1f.x()-intersection_point.x())**2) + ((lA_p1f.y()-intersection_point.y())**2))**0.5
+                d2 = (((lA_p2f.x()-intersection_point.x())**2) + ((lA_p2f.y()-intersection_point.y())**2))**0.5
+                d3 = (((lB_p1f.x()-intersection_point.x())**2) + ((lB_p1f.y()-intersection_point.y())**2))**0.5
+                d4 = (((lB_p2f.x()-intersection_point.x())**2) + ((lB_p2f.y()-intersection_point.y())**2))**0.5
+                print("{:.2f}::{:.2f}::{:.2f}::{:.2f}".format(d1,d2,d3,d4))
+                '''
+
+                # Linea A
+                if new_point != lA_p1 and new_point != lA_p2:
+
+                    self.scene_draw.admin.updateCommand(line_A, [lA_p1, new_point])
+                    line_A_new = self.commandLine({"step":3, "data":[
+                                [intersection_point.x(),intersection_point.y()],
+                                [lA_p2f.x(),lA_p2f.y()]]})
+                    new_point.addAnchoredLine(line_A)
+                    new_point.addAnchoredLine(line_A_new)
+                '''
+                    print("A >>>> ok")
+
+                else:
+                    print("AA>> [{} {}] el punto ya exite: {}".format(lA_p1, lA_p2, new_point))
+                '''
+
+                # Linea B
+                if new_point != lB_p1 and new_point != lB_p2:
+                    self.scene_draw.admin.updateCommand(line_B, [lB_p1, new_point])
+                    line_B_new = self.commandLine({"step":3, "data":[
+                                [intersection_point.x(),intersection_point.y()],
+                                [lB_p2f.x(),lB_p2f.y()]]})
+                    new_point.addAnchoredLine(line_B)
+                    new_point.addAnchoredLine(line_B_new)
+                '''
+                    print("B >>>> ok")
+                else:
+                    print("BB>> [{} {}] el punto ya exite: {}".format(lB_p1, lB_p2, new_point))
+                '''
+
+            self.scene_draw.endDrawGeometry()
+            self.end_draw_geometry()
+            self.msnConsole("Command","Se ha creado la intersección ".format())
+        """
+        elif step == 5:           
+
+            items = self.scene_draw.selected_items
+            
+            dx = (data[1][0] -data[0][0] )
+            dy = (data[1][1] -data[0][1] )
+
+            for item in items:
+            
+            
+                if isinstance(item, PointItem):
+                    xi = item.getData()["coordinates"][0]
+                    yi =item.getData()["coordinates"][1]
+                    self.commandPoint({"step":2, "data": [xi+dx,yi+dy]})
+                if isinstance(item, LineItem):
+
+
+                    x_start_point = (item.start_point.getData()["coordinates"][0])+ dx
+                    y_start_point = (item.start_point.getData()["coordinates"][1]) + dy
+                    x_end_point =   (item.end_point.getData()["coordinates"][0]) + dx
+                    y_end_point =   (item.end_point.getData()["coordinates"][1]) + dy
+
+                   
+                    
+                    #self.commandLine({"step":2, "data":[data[0][0], data[0][1]]})
+                    self.commandLine({"step":3, "data":[[x_start_point, y_start_point],[x_end_point, y_end_point]]})
+
+        """
+
+
+    def commandRule(self, input:dict):
+
+        
+        step = input["step"]
+        data = input["data"]
+
+        if step == 1:         
+            self.scene_draw.isDrawRule = True            
+            self.init_tool_geometry("rule", "Ingrese el primer punto [Exit]:")
+
+        if step == 2:                  
+            self.init_tool_geometry("rule", "Ingrese el segundo punto [Exit]:")
+
+
+        elif step == 3:  
+            x1, y1 = data[0][0],data[0][1]
+            x2, y2 = data[1][0],data[1][1]
+
+            dx = (data[1][0] -data[0][0] )
+            dy = (data[1][1] -data[0][1] )
+            dist = (((dx)**2)+((dy)**2))**0.5
+            if dx != 0:
+                angle = math.degrees(math.atan(dy/dx))
+            else:
+                angle = math.degrees(math.atan(dy/0.000000001))
+
+
+            self.scene_draw.endDrawGeometry()
+            self.end_draw_geometry()
+            
+            self.msnConsole("Command","Punto Inicial: [{},{}] Punto Final: [{}, {}]".format(x1,y1,x2,y2))
+            self.msnConsole("Command","dx:{} dy:{}".format(dx,dy))
+            self.msnConsole("Command","Distancia: {}".format(dist))
+            self.msnConsole("Command","Ángulo: {}".format(angle))
+
+            #self.msnConsole("Command","nose: {}".format(point_d))
+
+
+
+   
+        # Se recibe el segundo punto
+        elif step == 5:
+            return
+           
+            items = self.scene_draw.selected_items
+  
+ 
+            dx = (data[1][0] -data[0][0] )
+            dy = (data[1][1] -data[0][1] )
+
+            for item in items:
+                xi = item.getData()["coordinates"][0]
+                yi =item.getData()["coordinates"][1]
+                point_vertex=QPointF(xi+dx, yi+dy)
+
+                # verifica si los punto se mueven por fuera de los limites
+                if not self.pointInRect(point_vertex,self.scene_draw.sceneRect()):                    
+                    self.msnConsole(
+                        "Warning",
+                        "Nueva posición del elemento {} fuera del límite del dibujo.".format(item.getData()["name"])
+                        )
+                    return 
+                
+                items_in_new_pos = self.scene_draw.items(point_vertex)
+
+                #verifica si hay puntos existentes
+                for item_in_new_pos in items_in_new_pos:
+                    if type(item_in_new_pos) == PointItem:
+                        name = item_in_new_pos.getData()["name"]
+                        name_iten_to_move = item.getData()["name"]
+                        if name != "pointTemp" and item_in_new_pos not in items: 
+                            self.msnConsole(
+                                "Error",
+                                "En la nueva posición del elemento {} ya existe el punto {}.".format(name_iten_to_move,name)
+                                )
+                            return 
+
+            self.scene_draw.admin.moveCommand(items, dx=dx,dy=dy)
+            self.scene_draw.endDrawGeometry()
+            self.end_draw_geometry()
+            self.msnConsole("Command","Punto Final = {}".format(data[1]))
+            self.msnConsole("Command","Se ha movido los elementos seleccionados".format())
 
 
 
@@ -1224,52 +1534,19 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.scene_draw.endDrawGeometry()
         self.commandErase({"step":1, "data":None})  
 
-
     def __clickedToolButtonDrawPaintImport(self):
-       
-        """ Abre cuadro de dialogo para importar un dxf """
-        options = QFileDialog.Options()
-        dxf_file_path, _ = QFileDialog.getOpenFileName(self,"Importar DXF","","Data files dxf (*.dxf)", options=options)
-
-        if dxf_file_path:
-            doc = ezdxf.readfile(dxf_file_path)            
-            msp = doc.modelspace()
-
-            for entity in msp:
-                if entity.dxftype() == "POINT":
-                    xi = entity.dxf.location[0]
-                    yi = entity.dxf.location[1]
-
-                    self.commandPoint({"step":2, "data": [xi,yi]})
-
-                elif entity.dxftype() == "LINE":
-                    start_point = entity.dxf.start
-                    end_point = entity.dxf.end
-
-                    x_start_point =start_point[0]
-                    y_start_point =start_point[1]
-                    x_end_point =end_point[0]
-                    y_end_point =end_point[1]
-                    self.commandLine({"step":3, "data":[[x_start_point, y_start_point],[x_end_point, y_end_point]]})
-
-
-                    
-                elif entity.dxftype() == "LWPOLYLINE":
-                    points = [(vertex[0], vertex[1]) for vertex in entity.get_points()]
-                    for i in range(len(points) - 1):
-                        start_point = points[i]
-                        end_point = points[i+1]
-                        x_start_point, y_start_point = start_point
-                        x_end_point, y_end_point = end_point
-                        self.commandLine({"step": 3, "data": [[x_start_point, y_start_point], [x_end_point, y_end_point]]})
-
-
-                    
-                    
-
+        self.scene_draw.endDrawGeometry()
+        self.commandImport({"step":1, "data":None})       
  
+    def __clickedToolButtonDrawPaintIntersection(self):       
+        self.scene_draw.endDrawGeometry()
+        self.commandIntersection({"step":1, "data":None})  
 
-
+    def __clickedToolButtonDrawPaintRule(self):       
+        self.scene_draw.endDrawGeometry()
+        self.commandRule({"step":1, "data":None})  
+       
+        
 
 
     def __clickedToolButtonDrawPaintPoint(self):

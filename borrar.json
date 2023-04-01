@@ -1,0 +1,315 @@
+{
+    "INFORMACION": {
+        "NOMBREPROYECTO": "Prueba",
+        "LOCALIZACION": "Bogot\u00c3\u00a1",
+        "AUTOR": "Edwin Arevalo",
+        "DESCRIPCION": "Pruerba"
+    },
+    "CONFIGURACION": {
+        "GRAVEDAD": 9.8
+    },
+    "ITEMSDIBUJO": {
+        "NOITEMS": 0,
+        "PUNTOS": {
+            "POINT#1": {
+                "id": 1,
+                "name": "POINT#1",
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    0.0
+                ],
+                "lines": []
+            },
+            "POINT#2": {
+                "id": 2,
+                "name": "POINT#2",
+                "type": "Point",
+                "coordinates": [
+                    30.0,
+                    0.0
+                ],
+                "lines": []
+            },
+            "POINT#3": {
+                "id": 3,
+                "name": "POINT#3",
+                "type": "Point",
+                "coordinates": [
+                    30.0,
+                    10.0
+                ],
+                "lines": []
+            },
+            "POINT#4": {
+                "id": 4,
+                "name": "POINT#4",
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    20.0
+                ],
+                "lines": []
+            },
+            "POINT#5": {
+                "id": 5,
+                "name": "POINT#5",
+                "type": "Point",
+                "coordinates": [
+                    10.0,
+                    20.0
+                ],
+                "lines": []
+            },
+            "POINT#6": {
+                "id": 6,
+                "name": "POINT#6",
+                "type": "Point",
+                "coordinates": [
+                    20.0,
+                    9.999999999999998
+                ],
+                "lines": []
+            },
+            "POINT#7": {
+                "id": 7,
+                "name": "POINT#7",
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    9.999999999999998
+                ],
+                "lines": []
+            },
+            "POINT#8": {
+                "id": 8,
+                "name": "POINT#8",
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    15.2302795108219
+                ],
+                "lines": []
+            },
+            "POINT#9": {
+                "id": 9,
+                "name": "POINT#9",
+                "type": "Point",
+                "coordinates": [
+                    14.7697204891781,
+                    15.2302795108219
+                ],
+                "lines": []
+            },
+            "POINT#10": {
+                "id": 10,
+                "name": "POINT#10",
+                "type": "Point",
+                "coordinates": [
+                    1.749193729521721,
+                    8.002229856561598
+                ],
+                "lines": []
+            },
+            "POINT#11": {
+                "id": 11,
+                "name": "POINT#11",
+                "type": "Point",
+                "coordinates": [
+                    5.8522322086244,
+                    5.152709942219985
+                ],
+                "lines": []
+            },
+            "POINT#12": {
+                "id": 12,
+                "name": "POINT#12",
+                "type": "Point",
+                "coordinates": [
+                    9.468468510246794,
+                    4.38820468367794
+                ],
+                "lines": []
+            },
+            "POINT#13": {
+                "id": 13,
+                "name": "POINT#13",
+                "type": "Point",
+                "coordinates": [
+                    15.31008080397214,
+                    5.500212269602002
+                ],
+                "lines": []
+            },
+            "POINT#14": {
+                "id": 14,
+                "name": "POINT#14",
+                "type": "Point",
+                "coordinates": [
+                    19.83037775327739,
+                    5.083209338442088
+                ],
+                "lines": []
+            },
+            "POINT#15": {
+                "id": 15,
+                "name": "POINT#15",
+                "type": "Point",
+                "coordinates": [
+                    32.69583404405717,
+                    3.971201752518027
+                ],
+                "lines": []
+            },
+            "POINT#16": {
+                "id": 16,
+                "name": "POINT#16",
+                "type": "Point",
+                "coordinates": [
+                    18.64814604994808,
+                    7.585226925401684
+                ],
+                "lines": []
+            },
+            "POINT#17": {
+                "id": 17,
+                "name": "POINT#17",
+                "type": "Point",
+                "coordinates": [
+                    36.46512837132288,
+                    9.877692368770894
+                ],
+                "lines": []
+            },
+            "POINT#18": {
+                "id": 18,
+                "name": "POINT#18",
+                "type": "Point",
+                "coordinates": [
+                    30.0,
+                    4.204212369446735
+                ],
+                "lines": []
+            }
+        },
+        "LINEAS": {
+            "LINE#1": {
+                "id": 1,
+                "name": "LINE#1",
+                "type": "Line",
+                "start_point": "POINT#1",
+                "end_point": "POINT#2"
+            },
+            "LINE#2": {
+                "id": 2,
+                "name": "LINE#2",
+                "type": "Line",
+                "start_point": "POINT#2",
+                "end_point": "POINT#3"
+            },
+            "LINE#3": {
+                "id": 3,
+                "name": "LINE#3",
+                "type": "Line",
+                "start_point": "POINT#1",
+                "end_point": "POINT#4"
+            },
+            "LINE#4": {
+                "id": 4,
+                "name": "LINE#4",
+                "type": "Line",
+                "start_point": "POINT#4",
+                "end_point": "POINT#5"
+            },
+            "LINE#5": {
+                "id": 5,
+                "name": "LINE#5",
+                "type": "Line",
+                "start_point": "POINT#5",
+                "end_point": "POINT#6"
+            },
+            "LINE#6": {
+                "id": 6,
+                "name": "LINE#6",
+                "type": "Line",
+                "start_point": "POINT#6",
+                "end_point": "POINT#3"
+            },
+            "LINE#7": {
+                "id": 7,
+                "name": "LINE#7",
+                "type": "Line",
+                "start_point": "POINT#6",
+                "end_point": "POINT#7"
+            },
+            "LINE#8": {
+                "id": 8,
+                "name": "LINE#8",
+                "type": "Line",
+                "start_point": "POINT#8",
+                "end_point": "POINT#9"
+            },
+            "LINE#9": {
+                "id": 9,
+                "name": "LINE#9",
+                "type": "Line",
+                "start_point": "POINT#10",
+                "end_point": "POINT#11"
+            },
+            "LINE#10": {
+                "id": 10,
+                "name": "LINE#10",
+                "type": "Line",
+                "start_point": "POINT#11",
+                "end_point": "POINT#12"
+            },
+            "LINE#11": {
+                "id": 11,
+                "name": "LINE#11",
+                "type": "Line",
+                "start_point": "POINT#12",
+                "end_point": "POINT#13"
+            },
+            "LINE#12": {
+                "id": 12,
+                "name": "LINE#12",
+                "type": "Line",
+                "start_point": "POINT#14",
+                "end_point": "POINT#15"
+            },
+            "LINE#13": {
+                "id": 13,
+                "name": "LINE#13",
+                "type": "Line",
+                "start_point": "POINT#17",
+                "end_point": "POINT#15"
+            },
+            "LINE#14": {
+                "id": 14,
+                "name": "LINE#14",
+                "type": "Line",
+                "start_point": "POINT#17",
+                "end_point": "POINT#3"
+            },
+            "LINE#15": {
+                "id": 15,
+                "name": "LINE#15",
+                "type": "Line",
+                "start_point": "POINT#18",
+                "end_point": "POINT#15"
+            },
+            "LINE#16": {
+                "id": 16,
+                "name": "LINE#16",
+                "type": "Line",
+                "start_point": "POINT#18",
+                "end_point": "POINT#3"
+            }
+        },
+        "RECTANGULOS": {}
+    },
+    "MALLAS": {},
+    "PUNTOSMATERIAL": {},
+    "MATERIALES": {},
+    "RESULTADOS": {}
+}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawMquISn.ui'
+## Form generated from reading UI file 'frame_drawBCoYBj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -459,18 +459,31 @@ class Ui_FormDraw(object):
 
         self.verticalLayout.addWidget(self.toolButton_cardMeshDrawImport)
 
-        self.toolButton_cardMeshDrawPointInLines = QToolButton(FormDraw)
-        self.toolButton_cardMeshDrawPointInLines.setObjectName(u"toolButton_cardMeshDrawPointInLines")
-        self.toolButton_cardMeshDrawPointInLines.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawPointInLines.setMaximumSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawIntersection = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawIntersection.setObjectName(u"toolButton_cardMeshDrawIntersection")
+        self.toolButton_cardMeshDrawIntersection.setMinimumSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawIntersection.setMaximumSize(QSize(35, 35))
         icon13 = QIcon()
         icon13.addFile(u"recursos/iconos/iconos_menu_draw_mesh/point_in_lines.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawPointInLines.setIcon(icon13)
-        self.toolButton_cardMeshDrawPointInLines.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawPointInLines.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawPointInLines.setProperty("style_draw_button", 1)
+        self.toolButton_cardMeshDrawIntersection.setIcon(icon13)
+        self.toolButton_cardMeshDrawIntersection.setIconSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawIntersection.setArrowType(Qt.NoArrow)
+        self.toolButton_cardMeshDrawIntersection.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawPointInLines)
+        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawIntersection)
+
+        self.toolButton_cardMeshDrawRule = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawRule.setObjectName(u"toolButton_cardMeshDrawRule")
+        self.toolButton_cardMeshDrawRule.setMinimumSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawRule.setMaximumSize(QSize(35, 35))
+        icon14 = QIcon()
+        icon14.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rule.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDrawRule.setIcon(icon14)
+        self.toolButton_cardMeshDrawRule.setIconSize(QSize(35, 35))
+        self.toolButton_cardMeshDrawRule.setArrowType(Qt.NoArrow)
+        self.toolButton_cardMeshDrawRule.setProperty("style_draw_button", 1)
+
+        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawRule)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -527,6 +540,7 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawRotate.setText("")
         self.toolButton_cardMeshDrawErase.setText("")
         self.toolButton_cardMeshDrawImport.setText("")
-        self.toolButton_cardMeshDrawPointInLines.setText("")
+        self.toolButton_cardMeshDrawIntersection.setText("")
+        self.toolButton_cardMeshDrawRule.setText("")
     # retranslateUi
 

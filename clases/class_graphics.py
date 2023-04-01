@@ -96,7 +96,9 @@ class PointItem(QGraphicsItem):
         self.id = id
         self.name = name
         self.item_type = self.TYPE
+
         self.coor = coor
+
 
         self.color = self.COLOR
         self.radius = self.RADIUS
@@ -129,6 +131,7 @@ class PointItem(QGraphicsItem):
             line (LineItem): Objeto que representa la línea a agregar.
         """
         self.anchored_lines.append(line)
+        self.anchored_lines=list(set(self.anchored_lines))
 
     def removeAnchoredLine(self, line):
         """
@@ -140,7 +143,7 @@ class PointItem(QGraphicsItem):
         if line in self.anchored_lines:
             self.anchored_lines.remove(line)
 
-    def movePoint(self, pos:QPointF|QPoint):
+    def movePoint(self, pos:QPointF):
         self.coor = pos
         self.setPos(pos)
         self.text_id.newPos(self.coor)
@@ -156,6 +159,9 @@ class PointItem(QGraphicsItem):
             'lines':anchored_lines_names
             }
         return data
+    
+    def getCoordinates(self):
+        return self.coor
 
     def boundingRect(self) -> QRectF:
         radius = self.radius - 1.499
@@ -179,6 +185,10 @@ class PointItem(QGraphicsItem):
 
         if self.name != "pointTemp" and self.showLabel:   
             self.text_id.newPos(self.coor)
+            list_lines = []
+            for line in self.anchored_lines:                
+                list_lines.append(line.name)
+            self.text_id.text = "ID:{} - [{}]".format(self.id, list_lines)
             self.text_id.setVisible(True)
         else:
             self.text_id.setVisible(False)
@@ -251,7 +261,7 @@ class LineItem(QGraphicsItem):
 
    
 
-    def movePoint(self, pos:QPointF|QPoint):
+    def movePoint(self, pos:QPointF):
         self.coor = pos
         self.setPos(pos)
         self.text_id.newPos(self.center())
@@ -266,6 +276,9 @@ class LineItem(QGraphicsItem):
             'end_point': self.end_point.name
             }
         return data
+    
+    def getPoints(self):
+        return self.start_point, self.end_point 
 
     def boundingRect(self) -> QRectF:
         p1 = QPointF(self.start_point.pos().x(),self.start_point.pos().y())
@@ -323,10 +336,8 @@ class RectItem(QGraphicsRectItem):
     def getType(self):
         return self.TYPE
     def newPos(self, dx, dy):
-        print("2 dx:dy ", self.p1, self.p1)
         self.p1 = QPointF(self.p1.x()+dx, self.p1.y()+dy)
         self.p2 = QPointF(self.p2.x()+dx, self.p2.y()+dy)
-        print("1 dx:dy ", self.p1, self.p1)
 
     def getData(self):
         data = {
@@ -384,7 +395,6 @@ class RectItem2(QGraphicsItem):
         self.setPos(pos)
 
     def setRect(self, rect:QRectF|QRect):
-        print(rect, rect.size(), rect.x())
         rect.width()
 
 
@@ -476,6 +486,10 @@ class AdminScene():
     def rotateCommand(self,items):
         rotate_command = RotateCommand(self, self.__scene, items)
         self.undo_stack.push(rotate_command) 
+
+    def updateCommand(self,item, points):
+        update_command = UpdateCommand(self, self.__scene, item, points)
+        self.undo_stack.push(update_command) 
          
     def initDrawItemsSceneProject(self, project:class_projects.Project):
         """Asigna el proyecto actual a admin y actualiza los items del proyecto en la escena.
@@ -522,7 +536,7 @@ class AdminScene():
 
 
 
-            p = PointItem(id, name,QPoint(x,y), text_id)  
+            p = PointItem(id, name,QPointF(x,y), text_id)  
             self.__scene.addItem(p)
             self.dict_points[name] = p
 
@@ -592,23 +606,21 @@ class AdminScene():
                 self.list_rects[name] = item.getData()
                 self.dict_rects[name] = item
                 
-        elif type_update == "MOVE":
-            self.list_points[name]["coordinates"] = item.getData()["coordinates"]
+        elif type_update == "UPDATECOORDINATES":
+            coordinates = item.getData()["coordinates"]
+            self.list_points[name]["coordinates"] = coordinates
+
+        elif type_update == "UPDATESTARENDPOINT":
+
+            start_point = item.getData()["start_point"]
+            end_point = item.getData()["end_point"]
+            self.list_lines[name]["start_point"] = start_point
+            self.list_lines[name]["end_point"] = end_point
+            
+            self.dict_lines[name] = item
 
         else:            
             return
-        
-
-
-        
-        #actualizar db
-        '''
-        self.__projectActual.db_project.updateItemDrawDB(
-            self.no_items,
-             self.list_points, 
-             self.list_lines,
-             self.list_rects)
-        '''
     
 class AddCommand(QUndoCommand):
     """."""
@@ -620,41 +632,38 @@ class AddCommand(QUndoCommand):
         scene.update()
         self.setText("add -> {}".format(self.item.getData()["type"]))
 
-
     def undo(self):
         self.graphics_scene.removeItem(self.item)
         self.graphics_scene.removeItem(self.item.text_id)
-        self.graphics_scene.update()
-        self.admin.updateListItems("DELETE",self.item)
-        #self.admin.list_points.pop(self.item.getName())
         if isinstance(self.item, LineItem):
             point1 = self.item.start_point
             point2 = self.item.end_point
             point1.removeAnchoredLine(self.item)
             point2.removeAnchoredLine(self.item)
+        self.graphics_scene.update()
+        self.admin.updateListItems("DELETE",self.item)
+        #self.admin.list_points.pop(self.item.getName())
       
     def redo(self):
         self.graphics_scene.addItem(self.item)
         self.graphics_scene.addItem(self.item.text_id)
-        
-        self.graphics_scene.clearSelection()
-        self.graphics_scene.update()
-        self.admin.updateListItems("ADD",self.item)
 
         if isinstance(self.item, LineItem):
             point1 = self.item.start_point
             point2 = self.item.end_point
             point1.addAnchoredLine(self.item)
             point2.addAnchoredLine(self.item)
+        
+        self.graphics_scene.clearSelection()
+        self.graphics_scene.update()
+        self.admin.updateListItems("ADD",self.item)
 
         #self.admin.list_points[self.item.getName()] = self.item.__dict__
 
 class RemoveCommand(QUndoCommand):
     """."""
     def __init__(self,admin:AdminScene ,scene:QGraphicsScene, items):
-        super(RemoveCommand, self).__init__() 
-
-        
+        super(RemoveCommand, self).__init__()         
         self.graphics_scene = scene
         self.admin = admin
         self.items = items
@@ -663,20 +672,30 @@ class RemoveCommand(QUndoCommand):
 
     def redo(self):        
         for item in self.items:
+            
             self.graphics_scene.removeItem(item)
             self.graphics_scene.removeItem(item.text_id)
+            if isinstance(item, LineItem):
+                point1 = item.start_point
+                point2 = item.end_point
+                point1.removeAnchoredLine(item)
+                point2.removeAnchoredLine(item)
             self.graphics_scene.update()
             self.admin.updateListItems("DELETE",item)
-            #self.admin.list_points.pop(self.item.getName())
       
     def undo(self):
         for item in self.items:            
             self.graphics_scene.addItem(item)
             self.graphics_scene.addItem(item.text_id)
+
+            if isinstance(item, LineItem):
+                point1 = item.start_point
+                point2 = item.end_point
+                point1.addAnchoredLine(item)
+                point2.addAnchoredLine(item)
             self.graphics_scene.clearSelection()
             self.graphics_scene.update()
             self.admin.updateListItems("ADD",item)
-            #self.admin.list_points[self.item.getName()] = self.item.__dict__
             
 
 
@@ -699,7 +718,7 @@ class MoveCommand(QUndoCommand):
             self.pos = QPointF(p1.x()+self.dx, p1.y()+self.dy)
             item.movePoint(self.pos)          
             self.graphics_scene.update()
-            self.admin.updateListItems("MOVE", item)
+            self.admin.updateListItems("UPDATECOORDINATES", item)
 
       
     def undo(self):
@@ -709,7 +728,7 @@ class MoveCommand(QUndoCommand):
             item.movePoint(self.pos)
 
             self.graphics_scene.update()
-            self.admin.updateListItems("MOVE", item)
+            self.admin.updateListItems("UPDATECOORDINATES", item)
 
 class RotateCommand(QUndoCommand):
     """."""
@@ -730,7 +749,7 @@ class RotateCommand(QUndoCommand):
 
             #self.graphics_scene.removeItem(self.item)            
             self.graphics_scene.update()
-            self.admin.updateListItems("MOVE", item)
+            self.admin.updateListItems("UPDATECOORDINATES", item)
 
       
     def undo(self):
@@ -742,9 +761,36 @@ class RotateCommand(QUndoCommand):
             #self.graphics_scene.clearSelection()
      
             self.graphics_scene.update()
-            self.admin.updateListItems("MOVE", item)
+            self.admin.updateListItems("UPDATECOORDINATES", item)
+            
+class UpdateCommand(QUndoCommand):
+    """."""
+    def __init__(self,admin:AdminScene ,scene:QGraphicsScene, item, points):
+        super(UpdateCommand, self).__init__() 
+        self.graphics_scene = scene
+        self.admin = admin
+        self.item = item
+        self.points = points
+        scene.update()
+        self.setText("update -> {} item".format(self.item.name))
 
+        self.start_point_ant = self.item.start_point
+        self.end_point_ant = self.item.end_point
+        self.start_point = points[0]
+        self.end_point = points[1]
+        
+    def redo(self):        
 
+        self.item.start_point = self.start_point
+        self.item.end_point = self.end_point
+        self.admin.updateListItems("UPDATESTARENDPOINT", self.item)
+        self.graphics_scene.update()
+      
+    def undo(self):
+        self.item.start_point = self.start_point_ant
+        self.item.end_point = self.end_point_ant
+        self.admin.updateListItems("UPDATESTARENDPOINT", self.item)
+        self.graphics_scene.update()
 
 
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
@@ -1326,6 +1372,8 @@ class GraphicsSceneDraw (QGraphicsScene):
     signal_point_copy = Signal(dict)
     signal_point_rotate = Signal(dict)
     signal_point_erase = Signal(dict)
+    signal_point_intersection = Signal(dict)
+    signal_point_rule = Signal(dict)
 
           
 
@@ -1358,6 +1406,8 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.isDrawSelect = False          
         self.isDrawRotate = False
         self.isDrawErase = False
+        self.isDrawIntersection = False
+        self.isDrawRule = False
 
         self.p1_select = None
         self.p2_select = None
@@ -1453,6 +1503,7 @@ class GraphicsSceneDraw (QGraphicsScene):
 
     def mousePressEvent(self, event: QGraphicsSceneMouseEvent) -> None: 
         self.text_temp.setVisible(True)
+
         if event.button() == Qt.LeftButton and not self.isPan:               
             #::::::::::::  punto  ::::::::::::::::
             if self.isDrawPoint: 
@@ -1541,6 +1592,19 @@ class GraphicsSceneDraw (QGraphicsScene):
                             [[point_ref.x(),point_ref.y()],
                             angle_ref]
                         })
+                    
+            elif self.isDrawRule: 
+                print("rule: ", self.point_vertex_ant)
+                if self.point_vertex_ant == None:
+                    self.signal_point_rule.emit({"step":2, "data": [self.point_vertex.x(),self.point_vertex.y()]})
+                else:
+                    self.signal_point_rule.emit(
+                        {"step":3,
+                        "data":
+                            [[self.point_vertex_ant.x(),self.point_vertex_ant.y()],
+                            [self.point_vertex.x(),self.point_vertex.y()]]
+                        })
+                self.point_vertex_ant=self.point_vertex
 
             
         """
@@ -1644,6 +1708,7 @@ class GraphicsSceneDraw (QGraphicsScene):
         elif self.isDrawPoint :  
             self.drawGeneral(self.point_vertex)
 
+            
         #::::::::::::  Linea  ::::::::::::::::
         elif self.isDrawLine:
             self.drawGeneral(self.point_vertex,self.point_vertex_ant)
@@ -1652,6 +1717,9 @@ class GraphicsSceneDraw (QGraphicsScene):
         elif self.isDrawRectangle:
             self.drawGeneral(self.point_vertex,self.point_vertex_ant)
 
+        #::::::::::::  regla  ::::::::::::::::
+        elif self.isDrawRule:
+            self.drawGeneral(self.point_vertex,self.point_vertex_ant)
 
         super(GraphicsSceneDraw, self).mouseMoveEvent(event)
 
@@ -1702,6 +1770,16 @@ class GraphicsSceneDraw (QGraphicsScene):
                     [self.p2_select.x(),self.p2_select.y()]]
                 }
                 )
+            
+        #::::::::::::  interseccion ::::::::::::::::
+        elif  self.isDrawSelect and self.isDrawIntersection and self.p1_select != None:
+            self.signal_point_intersection.emit(
+                {"step":2,
+                "data":
+                    [[self.p1_select.x(),self.p1_select.y()],
+                    [self.p2_select.x(),self.p2_select.y()]]
+                }
+                )
 
 
         self.rect_select_temp.setRect(0,0,0,0)
@@ -1744,7 +1822,8 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.isDrawSelect = False          
         self.isDrawRotate = False
         self.isDrawCopy = False
-        self.isDrawMove =False
+        self.isDrawMove = False
+        self.isDrawRule = False
 
         """
         self.isDrawGeometry = False
@@ -1801,7 +1880,6 @@ class GraphicsSceneDraw (QGraphicsScene):
     def drawMoveItemScene(self):
         self.isMove = True  
         return
-        print("Move:", self.admin.list_points)
 
     def drawLineScene(self):
         self.isDrawLine = True
@@ -1870,7 +1948,7 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.point_temp.setVisible(True)
             self.point_temp.setPos(p1)
 
-        elif self.isDrawLine or self.isDrawMove or self.isDrawCopy or self.isDrawRotate:
+        elif self.isDrawLine or self.isDrawMove or self.isDrawCopy or self.isDrawRotate or self.isDrawRule:
             self.point_temp.setVisible(True)
             self.point_temp.setPos(p1)
             if p2 != None:
