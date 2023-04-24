@@ -81,9 +81,11 @@ QToolButton#toolButton_exit{
 background-color: transparent;
 }
 
-QPushButton{
+QPushButton[style_msn_button=&quot;1&quot;]{
 font: 500 9pt &quot;Ubuntu&quot;;
-}</string>
+}
+
+</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -348,6 +350,9 @@ hr { height: 1px; border-width: 0; }
              <property name="text">
               <string>Guardar</string>
              </property>
+             <property name="style_msn_button" stdset="0">
+              <number>1</number>
+             </property>
             </widget>
            </item>
            <item>
@@ -366,6 +371,9 @@ hr { height: 1px; border-width: 0; }
              </property>
              <property name="text">
               <string>Si</string>
+             </property>
+             <property name="style_msn_button" stdset="0">
+              <number>1</number>
              </property>
             </widget>
            </item>
@@ -392,6 +400,9 @@ hr { height: 1px; border-width: 0; }
              <property name="text">
               <string>Aceptar</string>
              </property>
+             <property name="style_msn_button" stdset="0">
+              <number>1</number>
+             </property>
             </widget>
            </item>
            <item>
@@ -410,6 +421,9 @@ hr { height: 1px; border-width: 0; }
              </property>
              <property name="text">
               <string>No Guardar</string>
+             </property>
+             <property name="style_msn_button" stdset="0">
+              <number>1</number>
              </property>
             </widget>
            </item>
@@ -430,6 +444,9 @@ hr { height: 1px; border-width: 0; }
              <property name="text">
               <string>No</string>
              </property>
+             <property name="style_msn_button" stdset="0">
+              <number>1</number>
+             </property>
             </widget>
            </item>
            <item>
@@ -448,6 +465,9 @@ hr { height: 1px; border-width: 0; }
              </property>
              <property name="text">
               <string>Cancelar</string>
+             </property>
+             <property name="style_msn_button" stdset="0">
+              <number>1</number>
              </property>
             </widget>
            </item>

@@ -53,6 +53,13 @@ class DialogMsg(QDialog, ui_dialog_msg.Ui_DialogMsg):
         # Establece los eventos de la UI
         self.__initEventUi()
 
+    def showEvent(self, event):
+        # Llamamos al showEvent de la clase base para asegurarnos de que se ejecuten las operaciones normales
+        super().showEvent(event)
+
+        # Anulamos los estilos del botón
+        self.pushButton_yes.setStyleSheet('')
+
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
 	###############################################################################
@@ -177,7 +184,7 @@ class DialogMsg(QDialog, ui_dialog_msg.Ui_DialogMsg):
 
     def __clickedPushButtonCancel(self):
         """ Establece como botón deseleccionado cancel.""" 
-        self.__button_selected = "cancel"
+        self.__button_selected = "cancel"   
         self.accept()
 
     def __clickedPushButtonNotSave(self):

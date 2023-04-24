@@ -5,7 +5,7 @@ import sys
 from PySide6.QtGui import (QFontDatabase)
 from PySide6.QtWidgets import (QApplication)
 from clases import splash_screen
-from clases import database_class
+from clases import class_database
 
 def initFont():
     """Inicia las fuentes Ubuntu"""
@@ -19,8 +19,7 @@ def initFont():
     QFontDatabase.addApplicationFont('recursos/fuentes/Ubuntu-Regular.ttf')
 
 if __name__ == '__main__':
-    createDataBase = database_class.CreateDataBase()
-    createDataBase.newFileApp()
+    createDataBase = class_database.CreateDataBase()
     app = QApplication(sys.argv)
     initFont()
     window = splash_screen.SplashScreen(createDataBase)

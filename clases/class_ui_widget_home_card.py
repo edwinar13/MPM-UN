@@ -4,7 +4,7 @@ from PySide6.QtCore import ( QObject,QEvent, Signal)
 from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect )
 from ui import ui_widget_home_card
-from clases import general_class
+from clases import class_general
 
 class viewCardProject(QFrame, ui_widget_home_card.Ui_FormHomeCard):
     """Esta clase crea el QFrame home-card para agregarlo a Frame Home. 
@@ -41,7 +41,7 @@ class viewCardProject(QFrame, ui_widget_home_card.Ui_FormHomeCard):
         self.setTextLabel()
 
         #este es una forma de darle evento a un frame
-        observer = general_class.MouseObserver(self.label_cardName)
+        observer = class_general.MouseObserver(self.label_cardName)
                 
 
     ###############################################################################

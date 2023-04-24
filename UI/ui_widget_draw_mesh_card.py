@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_mesh_cardsQURTJ.ui'
+## Form generated from reading UI file 'widget_draw_mesh_cardntGakG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -16,13 +16,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QSizePolicy, QSpacerItem, QToolButton, QWidget)
+    QLineEdit, QSizePolicy, QSpacerItem, QToolButton,
+    QWidget)
 
 class Ui_FormDrawMeshCard(object):
     def setupUi(self, FormDrawMeshCard):
         if not FormDrawMeshCard.objectName():
             FormDrawMeshCard.setObjectName(u"FormDrawMeshCard")
-        FormDrawMeshCard.resize(268, 46)
+        FormDrawMeshCard.resize(391, 46)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -56,7 +57,7 @@ class Ui_FormDrawMeshCard(object):
 "\n"
 "\n"
 "QLabel#label_cardNameMesh{\n"
-"font: 500 11pt \"Ubuntu\";\n"
+"font: 500 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "margin-left: 10px;\n"
 "}\n"
@@ -73,23 +74,33 @@ class Ui_FormDrawMeshCard(object):
 "\n"
 ""
                         "\n"
-"QToolButton#toolButton_showHideMesh,\n"
-"QToolButton#toolButton_closeMesh{\n"
+"QToolButton[style_mesh_card_button=\"1\"]{\n"
 "background-color: transparent;\n"
 "border: 1px solid #222222;\n"
 "border-radius: 3px ;\n"
 "}\n"
 "\n"
-"QToolButton#toolButton_showHideMesh:hover, \n"
-"QToolButton#toolButton_closeMesh:hover{ \n"
+"QToolButton[style_mesh_card_button=\"1\"]:hover{ \n"
 "background-color: #444444;\n"
 "}\n"
 "\n"
-"QToolButton#toolButton_showHideMesh:pressed,\n"
-"QToolButton#toolButton_closeMesh:pressed{\n"
+"QToolButton[style_mesh_card_button=\"1\"]:pressed{\n"
 "border-top: 2px solid #222222;\n"
 "border-left: 2px solid #222222;\n"
-"}  ")
+"}  \n"
+"\n"
+"\n"
+"QLineEdit#lineEdit_nameMesh{\n"
+"font: 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 6px;\n"
+"padding-left: 6px;\n"
+"\n"
+"}\n"
+"\n"
+"")
         self.horizontalLayout_2 = QHBoxLayout(FormDrawMeshCard)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -106,17 +117,28 @@ class Ui_FormDrawMeshCard(object):
         self.frame_card.setFrameShape(QFrame.StyledPanel)
         self.frame_card.setFrameShadow(QFrame.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_card)
-        self.horizontalLayout.setSpacing(10)
+        self.horizontalLayout.setSpacing(5)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 3, 0, 3)
         self.frame_color = QFrame(self.frame_card)
         self.frame_color.setObjectName(u"frame_color")
-        self.frame_color.setMinimumSize(QSize(10, 35))
-        self.frame_color.setMaximumSize(QSize(10, 35))
+        self.frame_color.setMinimumSize(QSize(10, 30))
+        self.frame_color.setMaximumSize(QSize(10, 30))
         self.frame_color.setFrameShape(QFrame.StyledPanel)
         self.frame_color.setFrameShadow(QFrame.Raised)
 
         self.horizontalLayout.addWidget(self.frame_color)
+
+        self.toolButton_colorMesh = QToolButton(self.frame_card)
+        self.toolButton_colorMesh.setObjectName(u"toolButton_colorMesh")
+        icon = QIcon()
+        icon.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_colorMesh.setIcon(icon)
+        self.toolButton_colorMesh.setIconSize(QSize(20, 20))
+        self.toolButton_colorMesh.setArrowType(Qt.NoArrow)
+        self.toolButton_colorMesh.setProperty("style_mesh_card_button", 1)
+
+        self.horizontalLayout.addWidget(self.toolButton_colorMesh)
 
         self.label_cardNameMesh = QLabel(self.frame_card)
         self.label_cardNameMesh.setObjectName(u"label_cardNameMesh")
@@ -125,54 +147,99 @@ class Ui_FormDrawMeshCard(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_cardNameMesh.sizePolicy().hasHeightForWidth())
         self.label_cardNameMesh.setSizePolicy(sizePolicy2)
-        self.label_cardNameMesh.setMinimumSize(QSize(160, 0))
+        self.label_cardNameMesh.setMinimumSize(QSize(150, 0))
         self.label_cardNameMesh.setMaximumSize(QSize(160, 16777215))
         self.label_cardNameMesh.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.horizontalLayout.addWidget(self.label_cardNameMesh)
 
+        self.lineEdit_nameMesh = QLineEdit(self.frame_card)
+        self.lineEdit_nameMesh.setObjectName(u"lineEdit_nameMesh")
+        sizePolicy2.setHeightForWidth(self.lineEdit_nameMesh.sizePolicy().hasHeightForWidth())
+        self.lineEdit_nameMesh.setSizePolicy(sizePolicy2)
+        self.lineEdit_nameMesh.setMinimumSize(QSize(0, 0))
+        self.lineEdit_nameMesh.setMaximumSize(QSize(160, 16777215))
+
+        self.horizontalLayout.addWidget(self.lineEdit_nameMesh)
+
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.toolButton_showHideMesh = QToolButton(self.frame_card)
-        self.toolButton_showHideMesh.setObjectName(u"toolButton_showHideMesh")
+        self.toolButton_okMesh = QToolButton(self.frame_card)
+        self.toolButton_okMesh.setObjectName(u"toolButton_okMesh")
         sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
-        sizePolicy3.setHorizontalStretch(25)
-        sizePolicy3.setVerticalStretch(25)
-        sizePolicy3.setHeightForWidth(self.toolButton_showHideMesh.sizePolicy().hasHeightForWidth())
-        self.toolButton_showHideMesh.setSizePolicy(sizePolicy3)
-        self.toolButton_showHideMesh.setMinimumSize(QSize(25, 25))
-        self.toolButton_showHideMesh.setMaximumSize(QSize(25, 25))
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.toolButton_okMesh.sizePolicy().hasHeightForWidth())
+        self.toolButton_okMesh.setSizePolicy(sizePolicy3)
+        self.toolButton_okMesh.setMinimumSize(QSize(25, 25))
+        self.toolButton_okMesh.setMaximumSize(QSize(25, 25))
         font = QFont()
         font.setFamilies([u"Ubuntu"])
         font.setPointSize(7)
+        self.toolButton_okMesh.setFont(font)
+        self.toolButton_okMesh.setStyleSheet(u"")
+        icon1 = QIcon()
+        icon1.addFile(u"recursos/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_okMesh.setIcon(icon1)
+        self.toolButton_okMesh.setIconSize(QSize(15, 15))
+        self.toolButton_okMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_okMesh.setProperty("style_mesh_card_button", 1)
+
+        self.horizontalLayout.addWidget(self.toolButton_okMesh)
+
+        self.toolButton_editMesh = QToolButton(self.frame_card)
+        self.toolButton_editMesh.setObjectName(u"toolButton_editMesh")
+        sizePolicy3.setHeightForWidth(self.toolButton_editMesh.sizePolicy().hasHeightForWidth())
+        self.toolButton_editMesh.setSizePolicy(sizePolicy3)
+        self.toolButton_editMesh.setMinimumSize(QSize(25, 25))
+        self.toolButton_editMesh.setMaximumSize(QSize(25, 25))
+        self.toolButton_editMesh.setFont(font)
+        self.toolButton_editMesh.setStyleSheet(u"")
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_editMesh.setIcon(icon2)
+        self.toolButton_editMesh.setIconSize(QSize(15, 15))
+        self.toolButton_editMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_editMesh.setProperty("style_mesh_card_button", 1)
+
+        self.horizontalLayout.addWidget(self.toolButton_editMesh)
+
+        self.toolButton_showHideMesh = QToolButton(self.frame_card)
+        self.toolButton_showHideMesh.setObjectName(u"toolButton_showHideMesh")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy4.setHorizontalStretch(25)
+        sizePolicy4.setVerticalStretch(25)
+        sizePolicy4.setHeightForWidth(self.toolButton_showHideMesh.sizePolicy().hasHeightForWidth())
+        self.toolButton_showHideMesh.setSizePolicy(sizePolicy4)
+        self.toolButton_showHideMesh.setMinimumSize(QSize(25, 25))
+        self.toolButton_showHideMesh.setMaximumSize(QSize(25, 25))
         self.toolButton_showHideMesh.setFont(font)
         self.toolButton_showHideMesh.setStyleSheet(u"")
-        icon = QIcon()
-        icon.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_showHideMesh.setIcon(icon)
+        icon3 = QIcon()
+        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideMesh.setIcon(icon3)
         self.toolButton_showHideMesh.setIconSize(QSize(15, 15))
         self.toolButton_showHideMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_showHideMesh.setProperty("style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_showHideMesh)
 
         self.toolButton_closeMesh = QToolButton(self.frame_card)
         self.toolButton_closeMesh.setObjectName(u"toolButton_closeMesh")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.toolButton_closeMesh.sizePolicy().hasHeightForWidth())
-        self.toolButton_closeMesh.setSizePolicy(sizePolicy4)
+        sizePolicy3.setHeightForWidth(self.toolButton_closeMesh.sizePolicy().hasHeightForWidth())
+        self.toolButton_closeMesh.setSizePolicy(sizePolicy3)
         self.toolButton_closeMesh.setMinimumSize(QSize(25, 25))
         self.toolButton_closeMesh.setMaximumSize(QSize(25, 25))
         self.toolButton_closeMesh.setFont(font)
         self.toolButton_closeMesh.setStyleSheet(u"")
-        icon1 = QIcon()
-        icon1.addFile(u"recursos/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_closeMesh.setIcon(icon1)
+        icon4 = QIcon()
+        icon4.addFile(u"recursos/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_closeMesh.setIcon(icon4)
         self.toolButton_closeMesh.setIconSize(QSize(15, 15))
         self.toolButton_closeMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_closeMesh.setProperty("style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_closeMesh)
 
@@ -187,7 +254,11 @@ class Ui_FormDrawMeshCard(object):
 
     def retranslateUi(self, FormDrawMeshCard):
         FormDrawMeshCard.setWindowTitle(QCoreApplication.translate("FormDrawMeshCard", u"Form", None))
+        self.toolButton_colorMesh.setText("")
         self.label_cardNameMesh.setText(QCoreApplication.translate("FormDrawMeshCard", u"Mesh 1", None))
+        self.lineEdit_nameMesh.setText("")
+        self.toolButton_okMesh.setText("")
+        self.toolButton_editMesh.setText("")
         self.toolButton_showHideMesh.setText("")
         self.toolButton_closeMesh.setText("")
     # retranslateUi

@@ -76,7 +76,7 @@ class PointItem(QGraphicsItem):
         radius (float): Radio con el que se dibujará el punto.
         draw_rect_osnap (bool): Indica si se debe dibujar un rectángulo para facilitar la selección del punto.
 
-        isSelected (bool): Indica si el punto está seleccionado en el momento.
+        isSelectedDraw (bool): Indica si el punto está seleccionado en el momento.
         isActive (bool): Indica si el punto está activo en el momento.
         
     """
@@ -111,7 +111,7 @@ class PointItem(QGraphicsItem):
 
         self.movePoint(self.coor)
         self.draw_rect_osnap = False
-        self.isSelected = False
+        self.isSelectedDraw = False
         self.showLabel = False
 
 
@@ -174,7 +174,7 @@ class PointItem(QGraphicsItem):
             painter.drawRect(-5,-5,10,10)
             self.draw_rect_osnap = False            
 
-        if self.isSelected:
+        if self.isSelectedDraw:
             self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
             painter.setPen(self.pen_selected)
             painter.drawEllipse(-5, -5, 10, 10)
@@ -208,7 +208,8 @@ class LineItem(QGraphicsItem):
         color (Qt): Color con el que se dibujará la línea.        
         width (float): Ancho con el que se dibujará la línea.
         
-        isSelected (bool): Indica si la línea está seleccionada en el momento.
+        isSelectedDraw (bool): Indica si la línea está seleccionada en el momento.
+        isSelectedMesh (bool): Indica si la línea está seleccionada para mallado.
         isActive (bool): Indica si la línea está activa en el momento.
         
     """
@@ -236,7 +237,8 @@ class LineItem(QGraphicsItem):
         
         self.color = self.COLOR
         self.width = self.WIDTH
-        self.isSelected = False
+        self.isSelectedDraw = False
+        self.isSelectedMesh = False
         self.showLabel = False
         
         #self.id_text = TextItem(str(self.id), self.center())
@@ -289,8 +291,11 @@ class LineItem(QGraphicsItem):
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
 
-        if self.isSelected:          
+        if self.isSelectedDraw:          
             painter.setPen(QPen(QColor("#960b0f"), 0, Qt.DashLine))
+
+        elif self.isSelectedMesh:          
+            painter.setPen(QPen(QColor("#1482CA"), 0, Qt.DashDotDotLine))
 
         else:            
             painter.setPen(QPen(self.color, 0))
@@ -309,6 +314,52 @@ class LineItem(QGraphicsItem):
         #painter.drawPath(shape__)
         #return
 
+class TriangleItem (QGraphicsItem):
+    """
+    TriangleItem es una clase que hereda de QGraphicsItem y representa un triángulo en una escena.
+
+    Atributos:
+        id (int): Numero del triángulo 
+        points (list): Lista de puntos que forman el triángulo.
+        type (str): Tipo de elemento gráfico (en este caso, siempre es "Triangle").
+        color (Qt): Color con el que se dibujará el triángulo.        
+        width (float): Ancho con el que se dibujará el triángulo.
+    """
+    TYPE = "Triangle"
+    WIDTH = 2
+    COLOR = Qt.black
+
+       
+    def __init__(self, id:int, points:list):
+        QGraphicsItem.__init__(self)        
+        self.id = id
+        self.points = points
+        self.item_type = self.TYPE
+        self.color = self.COLOR
+        self.width = self.WIDTH
+
+
+
+    def __str__ (self):
+        return "Triángulo No:{} puntos:{}  ".format(self.id, self.points)
+    
+    def center(self):
+        # Calcula el centro del triángulo
+        center_x = (self.points[0].x() + self.points[1].x() + self.points[2].x()) / 3
+        center_y = (self.points[0].y() + self.points[1].y() + self.points[2].y()) / 3
+        return QPointF(center_x, center_y)
+    
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        
+        
+        points = self.points
+        path = QPainterPath()
+        path.moveTo(points[0])
+        path.lineTo(points[1])
+        path.lineTo(points[2])
+        path.lineTo(points[0])
+        painter.drawPath(path)
+
 class RectItem(QGraphicsRectItem):
     TYPE = "Rect"
     def __init__(self,  name:str, p1:QPointF, p2:QPointF):
@@ -323,7 +374,7 @@ class RectItem(QGraphicsRectItem):
         self.p2 = p2        
        
         self.setRect(QRectF(self.p1, self.p2))
-        self.isSelected = False
+        self.isSelectedDraw = False
         self.isActive = False
 
     
@@ -353,7 +404,7 @@ class RectItem(QGraphicsRectItem):
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         
         self.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))                
-        if self.isSelected == True:
+        if self.isSelectedDraw == True:
             self.setPen(QPen(QColor("#AAAAAA"), 0, Qt.SolidLine))
 
   
@@ -385,7 +436,7 @@ class RectItem2(QGraphicsItem):
         self.newPos(self.p1)           
         self.setRect(QRectF(self.p1, self.p2))
 
-        self.isSelected = False
+        self.isSelectedDraw = False
         self.isActive = False
         
     def __str__ (self):
@@ -431,7 +482,7 @@ class RectItem2(QGraphicsItem):
 
         #self.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))
 
-        if self.isSelected:
+        if self.isSelectedDraw:
             painter.setPen(QPen(QColor("#AAAAAA"), 0, Qt.DashLine))
             painter.setBrush(QBrush("#AAAAAA"))
             painter.drawRect(self.rect)
@@ -469,6 +520,15 @@ class AdminScene():
  
     def setUndoStack(self, undo_stack):
         self.undo_stack = undo_stack
+
+    def addMesh(self,name, data):        
+        self.updateListMesh("ADD", name, data)
+
+    def updateMesh(self,name, data):        
+        self.updateListMesh("UPDATE", name, data)
+
+    def deleteMesh(self,name):        
+        self.updateListMesh("DELETE", name, "")
 
     def addCommand(self,item):
         add_command = AddCommand(self, self.__scene, item)
@@ -524,6 +584,8 @@ class AdminScene():
         self.__scene.drawElementTemp()
         self.__scene.update()
 
+         
+
         for point in self.list_points:
             id = self.list_points[point]["id"]
             name = self.list_points[point]["name"]
@@ -576,6 +638,45 @@ class AdminScene():
 
 
     
+    def updateListMesh(self, type_update:str,name:str, data:dict):
+
+
+        """
+        type_action = type_update
+        name =data["name"]
+        color =data["color"]
+        points= data["points"]
+        triangles= data["triangles"]
+        """
+
+
+
+        """
+                self.scene_draw.admin.addCommand({"name":self.__card_name_mesh,
+                                          "color":self.__card_color_mesh,
+                                          "points":self.__points,
+                                          "triangles":self.__triangles,
+                                          })
+        """
+
+        error_update = False
+        if type_update == "ADD" or type_update == "UPDATE":            
+            error_update = self.__projectActual.db_project.updateMeshDB(name=name, triangle_mesh=data)
+
+
+            if(error_update == True):
+                checkProjectChanges = self.__projectActual.checkProjectChanges() 
+                
+            else:
+                self.signal_msn_critical.emit("Error al guardar la malla ")
+
+        elif type_update == "DELETE" :            
+            error_update = self.__projectActual.db_project.deleteMeshDB(name=name)
+
+        else:            
+            return
+   
+    
     def updateListItems(self, type_update:str, item:PointItem|LineItem|RectItem):
 
         type_item = item.getData()["type"]
@@ -622,6 +723,7 @@ class AdminScene():
         else:            
             return
     
+
 class AddCommand(QUndoCommand):
     """."""
     def __init__(self,admin:AdminScene ,scene:QGraphicsScene, item:PointItem):
@@ -696,9 +798,7 @@ class RemoveCommand(QUndoCommand):
             self.graphics_scene.clearSelection()
             self.graphics_scene.update()
             self.admin.updateListItems("ADD",item)
-            
-
-
+          
 class MoveCommand(QUndoCommand):
     """."""
     def __init__(self,admin:AdminScene ,scene:QGraphicsScene, items:PointItem, dx, dy):
@@ -1375,6 +1475,8 @@ class GraphicsSceneDraw (QGraphicsScene):
     signal_point_intersection = Signal(dict)
     signal_point_rule = Signal(dict)
 
+    signal_mesh_select = Signal(dict)
+    signal_mesh_size = Signal(dict)
           
 
 
@@ -1403,11 +1505,20 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.isDrawPolyline = False  
         self.isDrawMove = False          
         self.isDrawCopy = False
-        self.isDrawSelect = False          
         self.isDrawRotate = False
         self.isDrawErase = False
         self.isDrawIntersection = False
         self.isDrawRule = False
+        self.isDrawSelect = False          
+
+  
+
+        self.isMeshSelect = False   
+        self.isMeshCua = False   
+        self.isMeshSize = False   
+
+
+
 
         self.p1_select = None
         self.p2_select = None
@@ -1504,7 +1615,8 @@ class GraphicsSceneDraw (QGraphicsScene):
     def mousePressEvent(self, event: QGraphicsSceneMouseEvent) -> None: 
         self.text_temp.setVisible(True)
 
-        if event.button() == Qt.LeftButton and not self.isPan:               
+        if event.button() == Qt.LeftButton and not self.isPan:        
+
             #::::::::::::  punto  ::::::::::::::::
             if self.isDrawPoint: 
                 self.signal_point_point.emit({"step":2, "data": [self.point_vertex.x(),self.point_vertex.y()]})
@@ -1521,7 +1633,7 @@ class GraphicsSceneDraw (QGraphicsScene):
                         })
                 self.point_vertex_ant=self.point_vertex
 
-            elif self.isDrawSelect: 
+            elif self.isDrawSelect or self.isMeshSelect: 
                 self.p1_select = event.scenePos()
                 self.rect_select_temp.setRect(QRectF(self.p1_select,self.p1_select))
                 self.rect_select_temp.setVisible(True)
@@ -1564,6 +1676,27 @@ class GraphicsSceneDraw (QGraphicsScene):
                             [self.point_vertex.x(),self.point_vertex.y()]]
                         })
 
+            #::::::::::::  malla  ::::::::::::::::    
+            elif self.isMeshCua and not self.isMeshSelect:
+
+                if self.point_vertex_ant == None:
+                    return
+                    self.signal_point_copy.emit(
+                        {"step":4,
+                        "data":
+                            [self.point_vertex.x(),self.point_vertex.y()]
+                        })
+
+                    self.point_vertex_ant=self.point_vertex
+                else:         
+                    return
+                    self.signal_point_copy.emit(
+                        {"step":5,
+                        "data":
+                            [[self.point_vertex_ant.x(),self.point_vertex_ant.y()],
+                            [self.point_vertex.x(),self.point_vertex.y()]]
+                        })
+
             #::::::::::::  rotar  ::::::::::::::::    
             elif self.isDrawRotate and not self.isDrawSelect:
 
@@ -1594,7 +1727,7 @@ class GraphicsSceneDraw (QGraphicsScene):
                         })
                     
             elif self.isDrawRule: 
-                print("rule: ", self.point_vertex_ant)
+                
                 if self.point_vertex_ant == None:
                     self.signal_point_rule.emit({"step":2, "data": [self.point_vertex.x(),self.point_vertex.y()]})
                 else:
@@ -1606,40 +1739,18 @@ class GraphicsSceneDraw (QGraphicsScene):
                         })
                 self.point_vertex_ant=self.point_vertex
 
+            elif self.isMeshSize: 
+
+                if self.point_vertex_ant != None:
+                    self.signal_mesh_size.emit(
+                        {"step":2,
+                        "data":
+                            [[self.point_vertex_ant.x(),self.point_vertex_ant.y()],
+                            [self.point_vertex.x(),self.point_vertex.y()]]
+                        })
+                self.point_vertex_ant=self.point_vertex
+
             
-        """
-
-        elif event.button() == Qt.LeftButton and not self.isPan:   
-            #::::::::::::  punto  ::::::::::::::::
-            if self.isDrawPoint: 
-                self.drawGeometry(self.point_vertex)  
-
-            #::::::::::::  linea  ::::::::::::::::
-            if self.isDrawLine: 
-                if self.point_vertex_ant == None:
-                    cancel_point = self.drawGeometry(self.point_vertex)
-
-                else:
-                    cancel_point = self.drawGeometry(self.point_vertex, self.point_vertex_ant)
-
-                if not cancel_point:
-                    self.point_vertex_ant = self.point_vertex
-
-            #::::::::::::  rectangulo  ::::::::::::::::
-            if self.isDrawRectangle: 
-                if self.point_vertex_ant == None:
-
-                    cancel_point = self.drawGeometry(self.point_vertex)
-                    
-                    if not cancel_point:
-                        self.point_vertex_ant = self.point_vertex
-                else:
-                    cancel_point = self.drawGeometry(self.point_vertex, self.point_vertex_ant)
-                    if not cancel_point:
-                        self.point_vertex_ant = None
-                        self.point_vertex = None
-                        self.rectangle_temp.setVisible(False)
-        """
 
 
 
@@ -1650,10 +1761,6 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.point_vertex = event.scenePos()
         
         self.text_temp.setPos(self.point_vertex)
-
-
-
-
         # MODO OSNAP 
         if self.mode_osnap:        
             point_osnap = self.pointInCursor(self.point_vertex,self.rect_pick_box)
@@ -1686,7 +1793,7 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.point_vertex = point_b
         
         #::::::::::::  mover, copiar, rotar, borrar  ::::::::::::::::
-        if self.isDrawSelect:
+        if self.isDrawSelect or self.isMeshSelect:
             
             #self.drawGeneral(self.point_vertex,self.point_vertex_ant)
             if self.p1_select != None:
@@ -1721,71 +1828,84 @@ class GraphicsSceneDraw (QGraphicsScene):
         elif self.isDrawRule:
             self.drawGeneral(self.point_vertex,self.point_vertex_ant)
 
+        #::::::::::::  mesh  ::::::::::::::::
+        elif self.isMeshSize:
+            self.drawGeneral(self.point_vertex,self.point_vertex_ant)
+
         super(GraphicsSceneDraw, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QGraphicsSceneMouseEvent) -> None:  
         self.text_temp.setVisible(False)
         self.p2_select = event.scenePos()
-
-        #::::::::::::  mover  ::::::::::::::::
-        if  self.isDrawSelect and self.isDrawMove and self.p1_select != None:
-            self.signal_point_move.emit(
-                {"step":2,
-                "data":
-                    [[self.p1_select.x(),self.p1_select.y()],
-                    [self.p2_select.x(),self.p2_select.y()]]
-                }
-                )
-      
-
+        if event.button() == Qt.LeftButton and not self.isPan:               
+            #::::::::::::  mover  ::::::::::::::::
+            if  self.isDrawSelect and self.isDrawMove and self.p1_select != None:
+                self.signal_point_move.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+        
+            #::::::::::::  copiar ::::::::::::::::
+            elif  self.isDrawSelect and self.isDrawCopy and self.p1_select != None:
+                self.signal_point_copy.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
             
 
-        #::::::::::::  copiar ::::::::::::::::
-        elif  self.isDrawSelect and self.isDrawCopy and self.p1_select != None:
-            self.signal_point_copy.emit(
-                {"step":2,
-                "data":
-                    [[self.p1_select.x(),self.p1_select.y()],
-                    [self.p2_select.x(),self.p2_select.y()]]
-                }
-                )
-         
-
-        #::::::::::::  rotar ::::::::::::::::
-        elif  self.isDrawSelect and self.isDrawRotate and self.p1_select != None:
-            self.signal_point_rotate.emit(
-                {"step":2,
-                "data":
-                    [[self.p1_select.x(),self.p1_select.y()],
-                    [self.p2_select.x(),self.p2_select.y()]]
-                }
-                )
-            
-        #::::::::::::  borrar ::::::::::::::::
-        elif  self.isDrawSelect and self.isDrawErase and self.p1_select != None:
-            self.signal_point_erase.emit(
-                {"step":2,
-                "data":
-                    [[self.p1_select.x(),self.p1_select.y()],
-                    [self.p2_select.x(),self.p2_select.y()]]
-                }
-                )
-            
-        #::::::::::::  interseccion ::::::::::::::::
-        elif  self.isDrawSelect and self.isDrawIntersection and self.p1_select != None:
-            self.signal_point_intersection.emit(
-                {"step":2,
-                "data":
-                    [[self.p1_select.x(),self.p1_select.y()],
-                    [self.p2_select.x(),self.p2_select.y()]]
-                }
-                )
+            #::::::::::::  rotar ::::::::::::::::
+            elif  self.isDrawSelect and self.isDrawRotate and self.p1_select != None:
+                self.signal_point_rotate.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+                
+            #::::::::::::  borrar ::::::::::::::::
+            elif  self.isDrawSelect and self.isDrawErase and self.p1_select != None:
+                self.signal_point_erase.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+                
+            #::::::::::::  malla ::::::::::::::::
+            elif  self.isMeshSelect and self.isMeshCua and self.p1_select != None:                    
+                self.signal_mesh_select.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+                
 
 
-        self.rect_select_temp.setRect(0,0,0,0)
-        self.rect_select_temp.setVisible(False)
-        self.p1_select = None
-        self.p2_select = None
+            #::::::::::::  interseccion ::::::::::::::::
+            elif  self.isDrawSelect and self.isDrawIntersection and self.p1_select != None:
+                self.signal_point_intersection.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+
+
+            self.rect_select_temp.setRect(0,0,0,0)
+            self.rect_select_temp.setVisible(False)
+            self.p1_select = None
+            self.p2_select = None
 
                  
         super(GraphicsSceneDraw, self).mouseReleaseEvent(event)
@@ -1825,6 +1945,11 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.isDrawMove = False
         self.isDrawRule = False
 
+        self.isMeshSelect = False
+        self.isMeshCua = False
+        self.isMeshSize = False
+
+
         """
         self.isDrawGeometry = False
         """
@@ -1845,10 +1970,10 @@ class GraphicsSceneDraw (QGraphicsScene):
         self.p2_select = None
 
         for item in self.selected_items:
-            item.isSelected = False
+            item.isSelectedDraw = False
 
         for  line in self.selected_items_line:
-            line.isSelected = False
+            line.isSelectedDraw = False
             
         self.selected_items = []
         self.selected_items_line = []
@@ -1948,7 +2073,7 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.point_temp.setVisible(True)
             self.point_temp.setPos(p1)
 
-        elif self.isDrawLine or self.isDrawMove or self.isDrawCopy or self.isDrawRotate or self.isDrawRule:
+        elif self.isDrawLine or self.isDrawMove or self.isDrawCopy or self.isDrawRotate or self.isDrawRule or self.isMeshSize:
             self.point_temp.setVisible(True)
             self.point_temp.setPos(p1)
             if p2 != None:

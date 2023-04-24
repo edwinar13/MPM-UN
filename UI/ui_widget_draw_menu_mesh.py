@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_meshsAILpP.ui'
+## Form generated from reading UI file 'widget_draw_menu_meshNPuJKg.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -180,10 +180,7 @@ class Ui_FormDrawMenuMesh(object):
 "\n"
 "#doubleSpinBoxl_textMesh4,\n"
 "QLineEdit#lineEdit_textMesh1,\n"
-"QLineEdit#lineEdit_textMesh2,\n"
-"QLineEdit#lineEdit_textMesh3,\n"
-"QLineEdit#lineEdit_textMesh4,\n"
-"QLineEdit#lineEdit_textMesh5{\n"
+"QLineEdit#lineEdit_textMesh4{\n"
 "font: 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "background-color: #444444;\n"
@@ -194,13 +191,41 @@ class Ui_FormDrawMenuMesh(object):
 "}\n"
 "\n"
 "\n"
+"QLineEdit#lineEdit_textMesh2,\n"
+"QLineEdit#lineEdit_textMesh5{\n"
+"font: 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #333333;\n"
+"border: 1px solid #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 6px;\n"
+"padding-left: 6px;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"QLineEdit#lineEdit_textMesh3{\n"
+"font: 7pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #333333;\n"
+"border: 1px solid #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 2px;\n"
+"padding-left: 2px;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"\n"
 "QLineEdit#lineEdit_textMesh3,\n"
 "QLineEdit#lineEdit_textMesh5{\n"
 "color: #888888;\n"
 "}\n"
 "\n"
 "\n"
-"QToolButton#toolButton_cardMeshDraw7,\n"
+"QToolButton#toolButton"
+                        "_cardMeshDraw7,\n"
 "QToolButton#toolButton_cardMeshDraw5,\n"
 "QToolButton#toolButton_cardMeshDraw6{\n"
 "background-color: transparent;\n"
@@ -215,8 +240,7 @@ class Ui_FormDrawMenuMesh(object):
 "QToolButton#toolButton_cardMeshDraw6:hover{ \n"
 "background-color: #444444;\n"
 "}\n"
-""
-                        "QToolButton#toolButton_cardMeshDraw7:pressed,\n"
+"QToolButton#toolButton_cardMeshDraw7:pressed,\n"
 "QToolButton#toolButton_cardMeshDraw5:pressed,\n"
 "QToolButton#toolButton_cardMeshDraw6:pressed{\n"
 "border-top: 2px solid #222222;\n"
@@ -240,7 +264,8 @@ class Ui_FormDrawMenuMesh(object):
 "\n"
 "\n"
 "\n"
-"/*###########################################################*/\n"
+"/*####################################"
+                        "#######################*/\n"
 "/*###############          FRAME LISTA MALLAS         ##################*/\n"
 "/*###########################################################*/\n"
 "\n"
@@ -252,8 +277,7 @@ class Ui_FormDrawMenuMesh(object):
 "\n"
 "\n"
 "/*###########################################################*/\n"
-"/*##############"
-                        "##                 FRAME MSN          #####################*/\n"
+"/*################                 FRAME MSN          #####################*/\n"
 "/*###########################################################*/\n"
 "\n"
 "\n"
@@ -281,7 +305,8 @@ class Ui_FormDrawMenuMesh(object):
 "    min-height: 14px;\n"
 "	border-radius: 7px;\n"
 "}\n"
-"QScrollBar::handle:vertical:hover {\n"
+""
+                        "QScrollBar::handle:vertical:hover {\n"
 "    background-color: #777777;\n"
 "}\n"
 "QScrollBar::handle:vertical:pressed {\n"
@@ -296,8 +321,7 @@ class Ui_FormDrawMenuMesh(object):
 "	border-top-right-radius: 7px;\n"
 "	height: 15px;\n"
 "	subcontrol-position: top;\n"
-"	subcontrol-origin: margi"
-                        "n;\n"
+"	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "\n"
@@ -324,7 +348,8 @@ class Ui_FormDrawMenuMesh(object):
 "    background-color: #777777;\n"
 "}\n"
 "QScrollBar::add-line:vertical:pressed{\n"
-"   background-color: #666666;\n"
+"   backgrou"
+                        "nd-color: #666666;\n"
 "}\n"
 "\n"
 "\n"
@@ -341,8 +366,7 @@ class Ui_FormDrawMenuMesh(object):
 "QScrollBar:horizontal{\n"
 "height: 14px;\n"
 "border: none;\n"
-"border-radius: 0px"
-                        ";\n"
+"border-radius: 0px;\n"
 "margin: 0px 15px 0px 15px;\n"
 "}\n"
 "\n"
@@ -369,7 +393,8 @@ class Ui_FormDrawMenuMesh(object):
 "subcontrol-position: left;\n"
 "subcontrol-origin: margin;\n"
 "}\n"
-"\n"
+""
+                        "\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover{\n"
 "    background-color: #777777;\n"
@@ -385,8 +410,7 @@ class Ui_FormDrawMenuMesh(object):
 "	border-bottom-right-radius: 7px;\n"
 "	width: 15px;\n"
 "	subcontrol-position: right;\n"
-"	subcontrol-o"
-                        "rigin: margin;\n"
+"	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover{\n"
@@ -520,154 +544,6 @@ class Ui_FormDrawMenuMesh(object):
         self.frame_info.setFrameShadow(QFrame.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_info)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.frame_meshSubTitle1 = QFrame(self.frame_info)
-        self.frame_meshSubTitle1.setObjectName(u"frame_meshSubTitle1")
-        self.frame_meshSubTitle1.setFrameShape(QFrame.StyledPanel)
-        self.frame_meshSubTitle1.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_4 = QHBoxLayout(self.frame_meshSubTitle1)
-        self.horizontalLayout_4.setSpacing(0)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(10, 0, 0, 0)
-        self.label_cardMeshSubTitle1 = QLabel(self.frame_meshSubTitle1)
-        self.label_cardMeshSubTitle1.setObjectName(u"label_cardMeshSubTitle1")
-
-        self.horizontalLayout_4.addWidget(self.label_cardMeshSubTitle1)
-
-        self.toolButton_cardMeshSubTitle1 = QToolButton(self.frame_meshSubTitle1)
-        self.toolButton_cardMeshSubTitle1.setObjectName(u"toolButton_cardMeshSubTitle1")
-        icon1 = QIcon()
-        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshSubTitle1.setIcon(icon1)
-        self.toolButton_cardMeshSubTitle1.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_4.addWidget(self.toolButton_cardMeshSubTitle1)
-
-
-        self.verticalLayout_5.addWidget(self.frame_meshSubTitle1)
-
-        self.frame_mesh1 = QFrame(self.frame_info)
-        self.frame_mesh1.setObjectName(u"frame_mesh1")
-        self.frame_mesh1.setFrameShape(QFrame.StyledPanel)
-        self.frame_mesh1.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.frame_mesh1)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.toolButton_cardMeshDraw4 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw4.setObjectName(u"toolButton_cardMeshDraw4")
-        self.toolButton_cardMeshDraw4.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw4.setMaximumSize(QSize(35, 35))
-        icon2 = QIcon()
-        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/point.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw4.setIcon(icon2)
-        self.toolButton_cardMeshDraw4.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw4.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_8.addWidget(self.toolButton_cardMeshDraw4)
-
-        self.toolButton_cardMeshDraw1 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw1.setObjectName(u"toolButton_cardMeshDraw1")
-        self.toolButton_cardMeshDraw1.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw1.setMaximumSize(QSize(35, 35))
-        icon3 = QIcon()
-        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/line.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw1.setIcon(icon3)
-        self.toolButton_cardMeshDraw1.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw1.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_8.addWidget(self.toolButton_cardMeshDraw1)
-
-        self.toolButton_cardMeshDraw2 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw2.setObjectName(u"toolButton_cardMeshDraw2")
-        self.toolButton_cardMeshDraw2.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw2.setMaximumSize(QSize(35, 35))
-        icon4 = QIcon()
-        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/polyline.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw2.setIcon(icon4)
-        self.toolButton_cardMeshDraw2.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw2.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_8.addWidget(self.toolButton_cardMeshDraw2)
-
-        self.toolButton_cardMeshDraw3 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw3.setObjectName(u"toolButton_cardMeshDraw3")
-        self.toolButton_cardMeshDraw3.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw3.setMaximumSize(QSize(35, 35))
-        icon5 = QIcon()
-        icon5.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rectangle.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw3.setIcon(icon5)
-        self.toolButton_cardMeshDraw3.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw3.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_8.addWidget(self.toolButton_cardMeshDraw3)
-
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_8.addItem(self.horizontalSpacer_2)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_8)
-
-        self.horizontalLayout_15 = QHBoxLayout()
-        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.toolButton_cardMeshDraw8 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw8.setObjectName(u"toolButton_cardMeshDraw8")
-        self.toolButton_cardMeshDraw8.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw8.setMaximumSize(QSize(35, 35))
-        icon6 = QIcon()
-        icon6.addFile(u"recursos/iconos/iconos_menu_draw_mesh/move.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw8.setIcon(icon6)
-        self.toolButton_cardMeshDraw8.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw8.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_15.addWidget(self.toolButton_cardMeshDraw8)
-
-        self.toolButton_cardMeshDraw9 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw9.setObjectName(u"toolButton_cardMeshDraw9")
-        self.toolButton_cardMeshDraw9.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw9.setMaximumSize(QSize(35, 35))
-        icon7 = QIcon()
-        icon7.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rotate.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw9.setIcon(icon7)
-        self.toolButton_cardMeshDraw9.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw9.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_15.addWidget(self.toolButton_cardMeshDraw9)
-
-        self.toolButton_cardMeshDraw10 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw10.setObjectName(u"toolButton_cardMeshDraw10")
-        self.toolButton_cardMeshDraw10.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw10.setMaximumSize(QSize(35, 35))
-        icon8 = QIcon()
-        icon8.addFile(u"recursos/iconos/iconos_menu_draw_mesh/copy.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw10.setIcon(icon8)
-        self.toolButton_cardMeshDraw10.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw10.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_15.addWidget(self.toolButton_cardMeshDraw10)
-
-        self.toolButton_cardMeshDraw11 = QToolButton(self.frame_mesh1)
-        self.toolButton_cardMeshDraw11.setObjectName(u"toolButton_cardMeshDraw11")
-        self.toolButton_cardMeshDraw11.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw11.setMaximumSize(QSize(35, 35))
-        icon9 = QIcon()
-        icon9.addFile(u"recursos/iconos/iconos_menu_draw_mesh/erase.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw11.setIcon(icon9)
-        self.toolButton_cardMeshDraw11.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDraw11.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_15.addWidget(self.toolButton_cardMeshDraw11)
-
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_15.addItem(self.horizontalSpacer_5)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_15)
-
-
-        self.verticalLayout_5.addWidget(self.frame_mesh1)
-
         self.frame_meshSubTitle2 = QFrame(self.frame_info)
         self.frame_meshSubTitle2.setObjectName(u"frame_meshSubTitle2")
         self.frame_meshSubTitle2.setFrameShape(QFrame.StyledPanel)
@@ -678,11 +554,14 @@ class Ui_FormDrawMenuMesh(object):
         self.horizontalLayout_3.setContentsMargins(10, 0, 0, 0)
         self.label_cardMeshSubTitle2 = QLabel(self.frame_meshSubTitle2)
         self.label_cardMeshSubTitle2.setObjectName(u"label_cardMeshSubTitle2")
+        self.label_cardMeshSubTitle2.setMinimumSize(QSize(262, 0))
 
         self.horizontalLayout_3.addWidget(self.label_cardMeshSubTitle2)
 
         self.toolButton_cardMeshSubTitle2 = QToolButton(self.frame_meshSubTitle2)
         self.toolButton_cardMeshSubTitle2.setObjectName(u"toolButton_cardMeshSubTitle2")
+        icon1 = QIcon()
+        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_cardMeshSubTitle2.setIcon(icon1)
         self.toolButton_cardMeshSubTitle2.setArrowType(Qt.NoArrow)
 
@@ -730,15 +609,48 @@ class Ui_FormDrawMenuMesh(object):
         self.lineEdit_textMesh2.setEnabled(False)
         self.lineEdit_textMesh2.setMinimumSize(QSize(120, 25))
         self.lineEdit_textMesh2.setMaximumSize(QSize(16777215, 16777215))
-        self.lineEdit_textMesh2.setStyleSheet(u"background-color: rgb(255, 221, 215);")
+        palette = QPalette()
+        brush = QBrush(QColor(221, 221, 221, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        brush1 = QBrush(QColor(51, 51, 51, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Text, brush)
+        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Active, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Window, brush1)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush)
+#endif
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush)
+#endif
+        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Text, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush)
+#endif
+        self.lineEdit_textMesh2.setPalette(palette)
+        self.lineEdit_textMesh2.setStyleSheet(u"")
 
         self.horizontalLayout_9.addWidget(self.lineEdit_textMesh2)
 
         self.toolButton_cardMeshDraw7 = QToolButton(self.frame_3)
         self.toolButton_cardMeshDraw7.setObjectName(u"toolButton_cardMeshDraw7")
-        icon10 = QIcon()
-        icon10.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw7.setIcon(icon10)
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw7.setIcon(icon2)
         self.toolButton_cardMeshDraw7.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDraw7.setArrowType(Qt.NoArrow)
 
@@ -772,37 +684,20 @@ class Ui_FormDrawMenuMesh(object):
         self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.doubleSpinBoxl_textMesh4 = QDoubleSpinBox(self.frame)
         self.doubleSpinBoxl_textMesh4.setObjectName(u"doubleSpinBoxl_textMesh4")
-        self.doubleSpinBoxl_textMesh4.setMinimumSize(QSize(0, 25))
-        self.doubleSpinBoxl_textMesh4.setDecimals(1)
-        self.doubleSpinBoxl_textMesh4.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textMesh4.setEnabled(True)
+        self.doubleSpinBoxl_textMesh4.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textMesh4.setDecimals(2)
+        self.doubleSpinBoxl_textMesh4.setMinimum(0.010000000000000)
+        self.doubleSpinBoxl_textMesh4.setSingleStep(0.010000000000000)
         self.doubleSpinBoxl_textMesh4.setValue(1.000000000000000)
 
         self.horizontalLayout_10.addWidget(self.doubleSpinBoxl_textMesh4)
 
-        self.frame_2 = QFrame(self.frame)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setMinimumSize(QSize(10, 0))
-        self.frame_2.setMaximumSize(QSize(10, 16777215))
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-
-        self.horizontalLayout_10.addWidget(self.frame_2)
-
-        self.lineEdit_textMesh3 = QLineEdit(self.frame)
-        self.lineEdit_textMesh3.setObjectName(u"lineEdit_textMesh3")
-        self.lineEdit_textMesh3.setEnabled(False)
-        sizePolicy4.setHeightForWidth(self.lineEdit_textMesh3.sizePolicy().hasHeightForWidth())
-        self.lineEdit_textMesh3.setSizePolicy(sizePolicy4)
-        self.lineEdit_textMesh3.setMinimumSize(QSize(0, 25))
-        self.lineEdit_textMesh3.setMaximumSize(QSize(16777215, 16777215))
-
-        self.horizontalLayout_10.addWidget(self.lineEdit_textMesh3)
-
         self.toolButton_cardMeshDraw5 = QToolButton(self.frame)
         self.toolButton_cardMeshDraw5.setObjectName(u"toolButton_cardMeshDraw5")
-        icon11 = QIcon()
-        icon11.addFile(u"recursos/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw5.setIcon(icon11)
+        icon3 = QIcon()
+        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw5.setIcon(icon3)
         self.toolButton_cardMeshDraw5.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDraw5.setArrowType(Qt.NoArrow)
 
@@ -830,9 +725,9 @@ class Ui_FormDrawMenuMesh(object):
 
         self.toolButton_cardMeshDraw6 = QToolButton(self.frame_3)
         self.toolButton_cardMeshDraw6.setObjectName(u"toolButton_cardMeshDraw6")
-        icon12 = QIcon()
-        icon12.addFile(u"recursos/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw6.setIcon(icon12)
+        icon4 = QIcon()
+        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardMeshDraw6.setIcon(icon4)
         self.toolButton_cardMeshDraw6.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDraw6.setArrowType(Qt.NoArrow)
 
@@ -877,6 +772,7 @@ class Ui_FormDrawMenuMesh(object):
         self.horizontalLayout_7.setContentsMargins(10, 0, 0, 0)
         self.label_cardMeshSubTitle3 = QLabel(self.frame_meshSubTitle3)
         self.label_cardMeshSubTitle3.setObjectName(u"label_cardMeshSubTitle3")
+        self.label_cardMeshSubTitle3.setMinimumSize(QSize(262, 0))
 
         self.horizontalLayout_7.addWidget(self.label_cardMeshSubTitle3)
 
@@ -922,6 +818,7 @@ class Ui_FormDrawMenuMesh(object):
         self.frame_empty.setObjectName(u"frame_empty")
         sizePolicy5.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
         self.frame_empty.setSizePolicy(sizePolicy5)
+        self.frame_empty.setStyleSheet(u"")
         self.frame_empty.setFrameShape(QFrame.StyledPanel)
         self.frame_empty.setFrameShadow(QFrame.Raised)
 
@@ -937,7 +834,7 @@ class Ui_FormDrawMenuMesh(object):
 
         self.verticalLayout_5.addWidget(self.frame_mesh3)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_5.addItem(self.verticalSpacer_2)
 
@@ -977,28 +874,18 @@ class Ui_FormDrawMenuMesh(object):
         FormDrawMenuMesh.setWindowTitle(QCoreApplication.translate("FormDrawMenuMesh", u"Form", None))
         self.toolButton_hideShow.setText("")
         self.label_cardMeshTitle.setText(QCoreApplication.translate("FormDrawMenuMesh", u"MALLADO", None))
-        self.label_cardMeshSubTitle1.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Dibujo", None))
-        self.toolButton_cardMeshSubTitle1.setText("")
-        self.toolButton_cardMeshDraw4.setText("")
-        self.toolButton_cardMeshDraw1.setText("")
-        self.toolButton_cardMeshDraw2.setText("")
-        self.toolButton_cardMeshDraw3.setText("")
-        self.toolButton_cardMeshDraw8.setText("")
-        self.toolButton_cardMeshDraw9.setText("")
-        self.toolButton_cardMeshDraw10.setText("")
-        self.toolButton_cardMeshDraw11.setText("")
         self.label_cardMeshSubTitle2.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Malla Regular \u2013 Cuadril\u00e1tero", None))
         self.toolButton_cardMeshSubTitle2.setText("")
         self.label_textMesh1.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Nombre:", None))
         self.label_textMesh2.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Color:", None))
+        self.lineEdit_textMesh2.setText("")
         self.toolButton_cardMeshDraw7.setText("")
         self.label_textMesh3.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Tama\u00f1o de la malla:", None))
-        self.lineEdit_textMesh1.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Mesh", None))
+        self.lineEdit_textMesh1.setText("")
         self.doubleSpinBoxl_textMesh4.setSuffix(QCoreApplication.translate("FormDrawMenuMesh", u"m", None))
-        self.lineEdit_textMesh3.setText(QCoreApplication.translate("FormDrawMenuMesh", u"5%", None))
         self.toolButton_cardMeshDraw5.setText("")
         self.label_textMesh4.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Seleccionar:", None))
-        self.lineEdit_textMesh5.setText(QCoreApplication.translate("FormDrawMenuMesh", u"3 objetos", None))
+        self.lineEdit_textMesh5.setText("")
         self.toolButton_cardMeshDraw6.setText("")
         self.toolButton_mesh.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Mallar", None))
         self.label_cardMeshSubTitle3.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Lista de mallas", None))

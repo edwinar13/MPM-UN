@@ -8,7 +8,7 @@ class:
 from time import strftime
 from PySide6.QtCore import (QTime)
 from PySide6.QtWidgets import (QMessageBox)
-from clases import database_class
+from clases import class_database
 
 
 class Projects():
@@ -28,7 +28,7 @@ class Projects():
         : newFileProject
 
     """ 
-    def __init__(self, dataBaseConfigMpmun:database_class.DataBaseConfigMpmun) -> None:
+    def __init__(self, dataBaseConfigMpmun:class_database.DataBaseConfigMpmun) -> None:
 
         # Atributos
         self.__list_projects = []
@@ -127,10 +127,8 @@ class Projects():
                 : False >> si hay un error
 
         """ 
-        createDataBaseProject =database_class.CreateDataBase()
+        createDataBaseProject =class_database.CreateDataBase()
         return createDataBaseProject.newFileProject(filePath)
-
-
 
 class Project():
     """Esta clase crear el objeto proyecto. 
@@ -245,10 +243,6 @@ class Project():
 
         """    
         return self.db_project.projectSaveAs(new_path_file)
-
-
-
-
         
     def checkProjectChanges(self):
         """ Verifica si hay cambios en el proyecto.
@@ -268,5 +262,5 @@ class Project():
             filePath(str): Ruta del proyecto
 
         """
-        self.db_project = database_class.DataBaseProject(path=path)
+        self.db_project = class_database.DataBaseProject(path=path)
 

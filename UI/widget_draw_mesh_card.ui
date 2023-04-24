@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
+    <width>391</width>
     <height>46</height>
    </rect>
   </property>
@@ -48,7 +48,7 @@ bold: font: 700 9pt &quot;Ubuntu&quot;;
 
 
 QLabel#label_cardNameMesh{
-font: 500 11pt &quot;Ubuntu&quot;;
+font: 500 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 margin-left: 10px;
 }
@@ -64,23 +64,33 @@ border-bottom-right-radius: 3px
 }
 
 
-QToolButton#toolButton_showHideMesh,
-QToolButton#toolButton_closeMesh{
+QToolButton[style_mesh_card_button=&quot;1&quot;]{
 background-color: transparent;
 border: 1px solid #222222;
 border-radius: 3px ;
 }
 
-QToolButton#toolButton_showHideMesh:hover, 
-QToolButton#toolButton_closeMesh:hover{ 
+QToolButton[style_mesh_card_button=&quot;1&quot;]:hover{ 
 background-color: #444444;
 }
 
-QToolButton#toolButton_showHideMesh:pressed,
-QToolButton#toolButton_closeMesh:pressed{
+QToolButton[style_mesh_card_button=&quot;1&quot;]:pressed{
 border-top: 2px solid #222222;
 border-left: 2px solid #222222;
-}  </string>
+}  
+
+
+QLineEdit#lineEdit_nameMesh{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="spacing">
@@ -126,7 +136,7 @@ border-left: 2px solid #222222;
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
-       <number>10</number>
+       <number>5</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -145,13 +155,13 @@ border-left: 2px solid #222222;
         <property name="minimumSize">
          <size>
           <width>10</width>
-          <height>35</height>
+          <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>10</width>
-          <height>35</height>
+          <height>30</height>
          </size>
         </property>
         <property name="frameShape">
@@ -159,6 +169,29 @@ border-left: 2px solid #222222;
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_colorMesh">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+        <property name="style_mesh_card_button" stdset="0">
+         <number>1</number>
         </property>
        </widget>
       </item>
@@ -172,7 +205,7 @@ border-left: 2px solid #222222;
         </property>
         <property name="minimumSize">
          <size>
-          <width>160</width>
+          <width>150</width>
           <height>0</height>
          </size>
         </property>
@@ -191,6 +224,31 @@ border-left: 2px solid #222222;
        </widget>
       </item>
       <item>
+       <widget class="QLineEdit" name="lineEdit_nameMesh">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>160</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -202,6 +260,106 @@ border-left: 2px solid #222222;
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_okMesh">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+          <pointsize>7</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../recursos/iconos/iconos_generales/ok.svg</normaloff>../recursos/iconos/iconos_generales/ok.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>15</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonIconOnly</enum>
+        </property>
+        <property name="style_mesh_card_button" stdset="0">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_editMesh">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+          <pointsize>7</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../recursos/iconos/iconos_generales/edit.svg</normaloff>../recursos/iconos/iconos_generales/edit.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>15</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonIconOnly</enum>
+        </property>
+        <property name="style_mesh_card_button" stdset="0">
+         <number>1</number>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolButton_showHideMesh">
@@ -247,6 +405,9 @@ border-left: 2px solid #222222;
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonIconOnly</enum>
+        </property>
+        <property name="style_mesh_card_button" stdset="0">
+         <number>1</number>
         </property>
        </widget>
       </item>
@@ -294,6 +455,9 @@ border-left: 2px solid #222222;
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonIconOnly</enum>
+        </property>
+        <property name="style_mesh_card_button" stdset="0">
+         <number>1</number>
         </property>
        </widget>
       </item>

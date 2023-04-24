@@ -9,7 +9,7 @@ from ui import ui_main_window
 from clases import class_projects
 from clases import class_ui_frame_home
 from clases import class_ui_frame_draw
-from clases import database_class
+from clases import class_database
 from clases import class_ui_dialog_msg
 
 
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         self.timer_save.start( self.mili_second_save)
 
         #Inicia el objeto db de del programa
-        self.db_config_mpmun = database_class.DataBaseConfigMpmun()
+        self.db_config_mpmun = class_database.DataBaseConfigMpmun()
         
 
         # Iniciando objeto proyectos 
@@ -320,13 +320,13 @@ class MainWindow(QMainWindow):
         elif nameButton==self.ui.toolButton_drawData.objectName() :
             self.previous_selected_button = 2
             self.__viewToolButtonMenuLat(self.previous_selected_button)
-            self.frame_draw.showHideDrawMenu("Data")
+            self.frame_draw.showHideDrawMenu("Data")            
             self.setting = True
 
         elif nameButton==self.ui.toolButton_drawMesh.objectName() :
             self.previous_selected_button = 3
             self.__viewToolButtonMenuLat(self.previous_selected_button)
-            self.frame_draw.showHideDrawMenu("Mesh")
+            self.frame_draw.showHideDrawMenu("Mesh")            
             self.setting = True
 
         elif nameButton==self.ui.toolButton_drawPoint.objectName() :
@@ -793,6 +793,7 @@ class MainWindow(QMainWindow):
                 """              ███▀▀▀▀▀ deberia actualizar todo ▀▀▀▀▀███                 """
                 self.frame_draw.configDrawMenuData(project = self.__actual_project)
                 self.frame_draw.configDrawItemsScene(project = self.__actual_project)
+                self.frame_draw.configDrawMenuMesh(project = self.__actual_project)
 
         elif ( QFile.exists(file_path) and event_changes=="ignore"):
             pass

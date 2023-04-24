@@ -2,12 +2,10 @@
 
 from PySide6.QtCore import (Qt,  QTimer)
 from PySide6.QtGui import (QColor)
-from PySide6.QtWidgets import ( QMainWindow, QGraphicsDropShadowEffect,QDialog)
+from PySide6.QtWidgets import ( QMainWindow, QGraphicsDropShadowEffect)
 from ui import ui_splash_screen
 from clases import main_window
-from clases import class_ui_dialog_msg
-import sys
-import os
+
 
 class SplashScreen(QMainWindow):
     """Esta clase crea la ventana QMainWindow de la ventana de cargando.

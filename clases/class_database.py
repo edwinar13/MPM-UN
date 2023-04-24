@@ -35,6 +35,7 @@ class CreateDataBase ():
     """
     def __init__(self) -> None:
         self.__path_db_Config="db/db_mpmun.json"
+        self.newFileApp()
     
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS NUEVA DB           ::::::::::::::::::::
@@ -286,7 +287,6 @@ class DataBaseConfigMpmun():
             validacion=False        
         return validacion
 
-
 class DataBaseProject():    
     """Esta clase permite crear el objeto que interactuara con la base de datos del proyecto. 
 
@@ -417,6 +417,78 @@ class DataBaseProject():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
 
+
+    ###############################################################################
+	# ::::::::::::::::::::        MÉTODOS DB MALLA       ::::::::::::::::::::
+	###############################################################################   
+    def selectMeshDB(self):
+        """Recupera las mallas contenidas en la copia sin guardas de la db del proyecto.
+        Returns:
+            (dict): Diccionario con las mallas del proyecto.
+        """   
+
+        data_projects_information = self.__unguarded_copy_db_project['MALLAS']
+        return data_projects_information
+    
+    def updateMeshDB(self, triangle_mesh=None,name=None, rectangular_mesh=None):
+        """Actualiza las mallas en la copia sin guardar de la db del proyecto.
+
+        Args:
+            triangle_mesh (list): Puntos de la malla (default= None).
+            rectangular_mesh (list): Elementos de la malla (default= None).
+
+        Returns:
+            (bool): 
+                : True >> si se agrega correctamente la malla al proyecto
+                : False >> si no se encontró la db del proyecto.
+
+        """ 
+        try:  
+            if triangle_mesh != None:    
+    
+                self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][ name]=triangle_mesh
+            if rectangular_mesh != None:  
+       
+                self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][name]=rectangular_mesh
+
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al agregar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def deleteMeshDB(self, name=None):
+        """Elimina la malla en la copia sin guardar de la db del proyecto.
+
+        Args:
+            name (str): Nombre de la malla a eliminar (default= None).
+
+        Returns:
+            (bool): 
+                : True >> si se agrega correctamente la malla al proyecto
+                : False >> si no se encontró la db del proyecto.
+
+        """ 
+        
+ 
+        try:  
+
+            if name in self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES']:
+                del self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][name]
+
+            elif name in self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES']:
+                del self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][name]
+
+
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+
+
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS DB ITEMSDIBUJO       ::::::::::::::::::::
 	###############################################################################   
@@ -460,6 +532,35 @@ class DataBaseProject():
             print("[Doc: {}] Error al agregar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
+    
+    def deleteItemDrawDB(self, name=None):
+        """elimina el item de dibujo (puntos, lineas) de la copia sin guardar de la db del proyecto.
+
+        Args:
+            name (dic): Nombre del item a eliminar (default= None).
+
+
+        Returns:
+            (bool): 
+                : True >> si se agrega correctamente los items al proyecto
+                : False >> si no se encontró la db del proyecto.
+
+        """ 
+
+
+        try:  
+            if  name in self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS']:
+                del self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][name]
+   
+            elif  name in self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS']:
+                del self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][name]
+
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -473,7 +574,6 @@ class DataBaseProject():
                 : False >> si no hay cambios en el proyecto
 
         """
-        #print("------\n{}\n{}\n------".format(self.__original_copy_db_project , self.__unguarded_copy_db_project))
 
         if(self.__original_copy_db_project == self.__unguarded_copy_db_project):
             return False
@@ -488,8 +588,11 @@ class DataBaseProject():
                 : True >> si se guardo correctamente en la base de datos
                 : False >> si no se guardo correctamente en la base de datos
 
+                
         """
         BD=self.__path_db_project
+
+
         if QFile.exists(BD):		  
             #try:
                 # se guarda en el archivo
@@ -514,7 +617,6 @@ class DataBaseProject():
             print("[Doc: {}] No se encontró la base de datos de {}".format(self.__name_doc_py,BD))          
             validacion=False
         return validacion
-
 
     def projectSaveAs(self, new_path_file):  
         """Guarda la información de la copia sin guardar en la nueva ruta de la db del proyecto.

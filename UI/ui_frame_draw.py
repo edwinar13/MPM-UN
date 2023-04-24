@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawBCoYBj.ui'
+## Form generated from reading UI file 'frame_drawVAyqvh.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -24,7 +24,7 @@ class Ui_FormDraw(object):
     def setupUi(self, FormDraw):
         if not FormDraw.objectName():
             FormDraw.setObjectName(u"FormDraw")
-        FormDraw.resize(462, 513)
+        FormDraw.resize(616, 948)
         FormDraw.setStyleSheet(u"\n"
 "/*Colores primarios*/\n"
 "/* \n"
@@ -188,6 +188,7 @@ class Ui_FormDraw(object):
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.textBrowser_2 = QTextBrowser(self.frame_3)
         self.textBrowser_2.setObjectName(u"textBrowser_2")
+        self.textBrowser_2.setEnabled(False)
         sizePolicy.setHeightForWidth(self.textBrowser_2.sizePolicy().hasHeightForWidth())
         self.textBrowser_2.setSizePolicy(sizePolicy)
         self.textBrowser_2.setMinimumSize(QSize(0, 38))
@@ -361,7 +362,16 @@ class Ui_FormDraw(object):
         self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(3, 3, 3, 3)
-        self.toolButton_cardMeshDrawPoint = QToolButton(FormDraw)
+        self.frame_hide = QFrame(FormDraw)
+        self.frame_hide.setObjectName(u"frame_hide")
+        self.frame_hide.setEnabled(True)
+        self.frame_hide.setFrameShape(QFrame.StyledPanel)
+        self.frame_hide.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.frame_hide)
+        self.verticalLayout_2.setSpacing(5)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.toolButton_cardMeshDrawPoint = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawPoint.setObjectName(u"toolButton_cardMeshDrawPoint")
         self.toolButton_cardMeshDrawPoint.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawPoint.setMaximumSize(QSize(35, 35))
@@ -371,9 +381,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawPoint.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDrawPoint.setArrowType(Qt.NoArrow)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawPoint)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawPoint)
 
-        self.toolButton_cardMeshDrawLine = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawLine = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawLine.setObjectName(u"toolButton_cardMeshDrawLine")
         self.toolButton_cardMeshDrawLine.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawLine.setMaximumSize(QSize(35, 35))
@@ -381,9 +391,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawLine.setIconSize(QSize(35, 35))
         self.toolButton_cardMeshDrawLine.setArrowType(Qt.NoArrow)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawLine)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawLine)
 
-        self.toolButton_cardMeshDrawRect = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawRect = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawRect.setObjectName(u"toolButton_cardMeshDrawRect")
         self.toolButton_cardMeshDrawRect.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawRect.setMaximumSize(QSize(35, 35))
@@ -392,9 +402,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawRect.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawRect.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawRect)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawRect)
 
-        self.toolButton_cardMeshDrawMove = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawMove = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawMove.setObjectName(u"toolButton_cardMeshDrawMove")
         self.toolButton_cardMeshDrawMove.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawMove.setMaximumSize(QSize(35, 35))
@@ -405,9 +415,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawMove.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawMove.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawMove)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawMove)
 
-        self.toolButton_cardMeshDrawCopy = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawCopy = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawCopy.setObjectName(u"toolButton_cardMeshDrawCopy")
         self.toolButton_cardMeshDrawCopy.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawCopy.setMaximumSize(QSize(35, 35))
@@ -418,9 +428,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawCopy.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawCopy.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawCopy)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawCopy)
 
-        self.toolButton_cardMeshDrawRotate = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawRotate = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawRotate.setObjectName(u"toolButton_cardMeshDrawRotate")
         self.toolButton_cardMeshDrawRotate.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawRotate.setMaximumSize(QSize(35, 35))
@@ -431,9 +441,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawRotate.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawRotate.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawRotate)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawRotate)
 
-        self.toolButton_cardMeshDrawErase = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawErase = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawErase.setObjectName(u"toolButton_cardMeshDrawErase")
         self.toolButton_cardMeshDrawErase.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawErase.setMaximumSize(QSize(35, 35))
@@ -444,9 +454,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawErase.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawErase.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawErase)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawErase)
 
-        self.toolButton_cardMeshDrawImport = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawImport = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawImport.setObjectName(u"toolButton_cardMeshDrawImport")
         self.toolButton_cardMeshDrawImport.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawImport.setMaximumSize(QSize(35, 35))
@@ -457,9 +467,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawImport.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawImport.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawImport)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawImport)
 
-        self.toolButton_cardMeshDrawIntersection = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawIntersection = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawIntersection.setObjectName(u"toolButton_cardMeshDrawIntersection")
         self.toolButton_cardMeshDrawIntersection.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawIntersection.setMaximumSize(QSize(35, 35))
@@ -470,9 +480,9 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawIntersection.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawIntersection.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawIntersection)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawIntersection)
 
-        self.toolButton_cardMeshDrawRule = QToolButton(FormDraw)
+        self.toolButton_cardMeshDrawRule = QToolButton(self.frame_hide)
         self.toolButton_cardMeshDrawRule.setObjectName(u"toolButton_cardMeshDrawRule")
         self.toolButton_cardMeshDrawRule.setMinimumSize(QSize(35, 35))
         self.toolButton_cardMeshDrawRule.setMaximumSize(QSize(35, 35))
@@ -483,7 +493,10 @@ class Ui_FormDraw(object):
         self.toolButton_cardMeshDrawRule.setArrowType(Qt.NoArrow)
         self.toolButton_cardMeshDrawRule.setProperty("style_draw_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_cardMeshDrawRule)
+        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawRule)
+
+
+        self.verticalLayout.addWidget(self.frame_hide)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 

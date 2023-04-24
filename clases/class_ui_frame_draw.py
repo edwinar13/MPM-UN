@@ -17,7 +17,7 @@ from clases import class_ui_widget_draw_menu_data
 from clases import class_ui_widget_draw_menu_mesh
 from clases import class_projects
 from clases.class_graphics import PointItem,LineItem,TextItem, GraphicsSceneDraw, GraphicsViewDraw
-from clases import general_class
+from clases import class_general
 from clases.general_functions import isNumber
 from clases import class_ui_dialog_msg
 import math
@@ -114,8 +114,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         self.horizontalLayout_graphics.addWidget(self.splitter_view)
   
-
-
         
         # ::::::::::::::::::   INICIANDO FRAME DRAW-MENU-DATA  ::::::::::::::::::
         self.drawMenuData = class_ui_widget_draw_menu_data.WidgetDrawMenuData()        
@@ -126,26 +124,11 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.scene_draw.setUndoStackToAdmin(self.undoStack)
 
 
-        '''
-        #self.undoView.setWindowTitle(QDockWidget.tr("Lista de comandos"))
-        #self.undoView.show()
-        #self.undoView.setAttribute(Qt.WA_QuitOnClose, False)
-        self.deleteAction = QAction(("Delete Item"), self)
-        self.deleteAction.setShortcut(QKeySequence.Delete)
-        #self.deleteAction.triggered.connect(self.deleteItem)
-        self.undoAction = self.undoStack.createUndoAction(self, ("Undo"))
-        self.undoAction.setShortcuts(QKeySequence.Undo)
-        self.redoAction = self.undoStack.createRedoAction(self, ("Redo"))
-        self.redoAction.setShortcuts(QKeySequence.Redo)
-        addCommand = QUndoCommand()
-        self.undoStack.push(addCommand)
-        '''
-
-
 
         # ::::::::::::::::::   INICIANDO FRAME DRAW-MENU-MESH  ::::::::::::::::::
-        self.drawMenuMesh = class_ui_widget_draw_menu_mesh.WidgetDrawMenuMesh()        
+        self.drawMenuMesh = class_ui_widget_draw_menu_mesh.WidgetDrawMenuMesh(self.scene_draw, self.view_draw_1, self.view_draw_1)        
         self.horizontalLayout_draw.addWidget(self.drawMenuMesh)
+       
 
         # ::::::::::::::::::   AJUSTES ADICIONALES  ::::::::::::::::::
         self.label_console_command.setVisible(False)
@@ -160,6 +143,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.shortcut_select_items = QShortcut(QKeySequence('Ctrl+a'), self)
         self.shortcut_select_items.activated.connect(self.__activatedShortCutSelectItems)
 
+
+
+        self.frame_hide.setVisible(False)
+
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
         # ::::::::::::::::::   SEÑAL>>RANURA FRAME-DRAW-MENU-DATA :::::::::::::::::
@@ -169,26 +156,31 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuData.signal_project_save_state.connect(self.__projectSaveState)
 
         # ::::::::::::::::::   SEÑAL>>RANURA FRAME-DRAW-MENU-MESH :::::::::::::::::
-        self.drawMenuMesh.signal_paint_point.connect(self.__clickedToolButtonDrawPaintPoint)
+        self.drawMenuData.signal_paint_point.connect(self.__clickedToolButtonDrawPaintPoint)
         self.toolButton_cardMeshDrawPoint.clicked.connect(self.__clickedToolButtonDrawPaintPoint)
 
-        self.drawMenuMesh.signal_paint_line.connect(self.__clickedToolButtonDrawPaintLine)
+        self.drawMenuData.signal_paint_line.connect(self.__clickedToolButtonDrawPaintLine)
         self.toolButton_cardMeshDrawLine.clicked.connect(self.__clickedToolButtonDrawPaintLine)
-        self.drawMenuMesh.signal_paint_rectangle.connect(self.__clickedToolButtonDrawPaintRectangle)
-        self.toolButton_cardMeshDrawRect.clicked.connect(self.__clickedToolButtonDrawPaintRectangle)
-        self.drawMenuMesh.signal_paint_polyline.connect(self.__clickedToolButtonDrawPaintPolyline)
 
-        self.drawMenuMesh.signal_paint_move.connect(self.__clickedToolButtonDrawPaintMove)
+        self.drawMenuData.signal_paint_move.connect(self.__clickedToolButtonDrawPaintMove)
         self.toolButton_cardMeshDrawMove.clicked.connect(self.__clickedToolButtonDrawPaintMove)
-        self.drawMenuMesh.signal_paint_copy.connect(self.__clickedToolButtonDrawPaintCopy)
+
+        self.drawMenuData.signal_paint_copy.connect(self.__clickedToolButtonDrawPaintCopy)
         self.toolButton_cardMeshDrawCopy.clicked.connect(self.__clickedToolButtonDrawPaintCopy)
-        self.drawMenuMesh.signal_paint_rotate.connect(self.__clickedToolButtonDrawPaintRotate)
+
+        self.drawMenuData.signal_paint_rotate.connect(self.__clickedToolButtonDrawPaintRotate)
         self.toolButton_cardMeshDrawRotate.clicked.connect(self.__clickedToolButtonDrawPaintRotate)
-        self.drawMenuMesh.signal_paint_erase.connect(self.__clickedToolButtonDrawPaintErase)
+
+        self.drawMenuData.signal_paint_erase.connect(self.__clickedToolButtonDrawPaintErase)
         self.toolButton_cardMeshDrawErase.clicked.connect(self.__clickedToolButtonDrawPaintErase)
         
+        self.drawMenuData.signal_paint_import.connect(self.__clickedToolButtonDrawPaintImport)
         self.toolButton_cardMeshDrawImport.clicked.connect(self.__clickedToolButtonDrawPaintImport)
+
+        self.drawMenuData.signal_paint_intersection.connect(self.__clickedToolButtonDrawPaintIntersection)
         self.toolButton_cardMeshDrawIntersection.clicked.connect(self.__clickedToolButtonDrawPaintIntersection)
+
+        self.drawMenuData.signal_paint_rule.connect(self.__clickedToolButtonDrawPaintRule)
         self.toolButton_cardMeshDrawRule.clicked.connect(self.__clickedToolButtonDrawPaintRule)
 
 
@@ -290,8 +282,8 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         current_command = self.label_console_command.text()
         descrip_command = self.label_console_descrip.text()
         
-        commands =     ["point", "line", "pline", "rectang", "erase", "move", "copy", "rotate", "zoom", "views", "import", "intersection"]
-        commands_min = ["p",     "l",    "pl",    "rec",     "er",   "mo",   "co",    "ro",      "z",    "v", "im", "in"]
+        commands =     ["point", "line",  "erase", "move", "copy", "rotate", "zoom", "views", "import", "intersection"]
+        commands_min = ["p",     "l",     "er",   "mo",   "co",    "ro",      "z",    "v", "im", "in"]
         
         #se ejecuta si la entrada es un comando
         if ((data_consola in commands) or (data_consola in commands_min)) and current_command == "" :
@@ -327,13 +319,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             elif command == "intersection" :
                 self.commandIntersection({"step":1, "data":None})    
 
-            elif command == "rectang" :
-                self.scene_draw.drawRectangleScene()
-                self.init_tool_geometry(command,"Ingrese el primer punto [Exit]:")
-
-            elif command == "pline" :
-                self.scene_draw.drawPolylineScene()
-                self.init_tool_geometry(command,"Ingrese el primer punto [Exit]:")
 
             elif command == "zoom" :
                 self.init_tool_geometry(command,"[Extents Window] <E>:")
@@ -765,7 +750,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                     continue    
 
                 elif isinstance(item,PointItem):
-                    item.isSelected = True
+                    item.isSelectedDraw = True
                     if not (item in self.scene_draw.selected_items):
                         count += 1
                         self.scene_draw.selected_items.append(item)
@@ -773,9 +758,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                 elif isinstance(item, LineItem):
                     point_A = item.start_point
                     point_B = item.end_point
-                    point_A.isSelected = True
-                    point_B.isSelected = True
-                    item.isSelected = True
+                    point_A.isSelectedDraw = True
+                    point_B.isSelectedDraw = True
+                    item.isSelectedDraw = True
 
                     if not (point_A in self.scene_draw.selected_items) :
                         count += 1
@@ -895,7 +880,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
 
 
-                item.isSelected = True
+                item.isSelectedDraw = True
                 if not (item in self.scene_draw.selected_items) and not isinstance(item, TextItem):
                     if item.getData()["name"] != "rectTemp":
                         count += 1
@@ -988,16 +973,16 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                     continue    
 
                 elif isinstance(item,PointItem):
-                    item.isSelected = True
+                    item.isSelectedDraw  = True
                     if not (item in self.scene_draw.selected_items):
                         count += 1
                         self.scene_draw.selected_items.append(item)
                 elif isinstance(item, LineItem):
                     point_A = item.start_point
                     point_B = item.end_point
-                    point_A.isSelected = True
-                    point_B.isSelected = True
-                    item.isSelected = True
+                    point_A.isSelectedDraw  = True
+                    point_B.isSelectedDraw  = True
+                    item.isSelectedDraw  = True
 
                     if not (point_A in self.scene_draw.selected_items) :
                         count += 1
@@ -1012,7 +997,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                         self.scene_draw.selected_items_line.append(item)
 
                 '''
-                item.isSelected = True
+                item.isSelectedDraw  = True
                 if not (item in self.scene_draw.selected_items) and not isinstance(item, TextItem):
                     if item.getData()["name"] != "rectTemp":
                         count += 1
@@ -1156,11 +1141,11 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                     continue    
 
                 elif isinstance(item,PointItem):
-                    item.isSelected = True
+                    item.isSelectedDraw  = True
                     if not (item in self.scene_draw.selected_items):
                         if len(item.anchored_lines) != 0:
                             self.msnConsole("Command","No se puede eliminar {}, esta anclado a mas de dos lienas ".format(item.name))
-                            item.isSelected=False
+                            item.isSelectedDraw =False
                         else:
                             count += 1
                             self.scene_draw.selected_items.append(item)
@@ -1175,7 +1160,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                         count += 1
                         if item in point_A.anchored_lines and len(point_A.anchored_lines) == 1:
                             self.scene_draw.selected_items.append(point_A)
-                            point_A.isSelected = True
+                            point_A.isSelectedDraw  = True
 
 
                         
@@ -1184,12 +1169,12 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                         if item in point_B.anchored_lines and len(point_B.anchored_lines) == 1:
 
                             self.scene_draw.selected_items.append(point_B)
-                            point_B.isSelected = True
+                            point_B.isSelectedDraw  = True
 
                     if not (item in self.scene_draw.selected_items) :
                         count += 1
                         self.scene_draw.selected_items.append(item)
-                        item.isSelected = True
+                        item.isSelectedDraw  = True
 
 
             if count > 0:
@@ -1304,7 +1289,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                     if not (item in self.scene_draw.selected_items) :
                         count += 1
                         self.scene_draw.selected_items.append(item)
-                        item.isSelected = True
+                        item.isSelectedDraw  = True
 
 
             if count > 0:
@@ -1337,19 +1322,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             line_Af = QLineF(lA_p1f, lA_p2f )
             line_Bf = QLineF(lB_p1f, lB_p2f)
 
-            '''
-            print("Datos:",p_1f,p_2f,p_3f,p_4f,line_1f,line_2f)
-            Datos:
-            PySide6.QtCore.QPointF(0.000000, 15.230280)
-            PySide6.QtCore.QPointF(14.769720, 15.230280)
-            PySide6.QtCore.QPointF(10.000000, 20.000000)
-            PySide6.QtCore.QPointF(20.000000, 10.000000)
-            PySide6.QtCore.QLineF(0.000000, 15.230280, 14.769720, 15.230280) 
-            PySide6.QtCore.QLineF(10.000000, 20.000000, 20.000000, 10.000000)
-            '''
-
-            #tengo un problema cuando un estremo se intresdetcva
-            #con la linea ya que se general solo tre slineas y no cuatro
            
             # Calcular la intersección entre las dos líneas
             intersection_type, intersection_point = line_Af.intersects(line_Bf)
@@ -1445,7 +1417,6 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         if step == 2:                  
             self.init_tool_geometry("rule", "Ingrese el segundo punto [Exit]:")
-
 
         elif step == 3:  
             x1, y1 = data[0][0],data[0][1]
@@ -1545,8 +1516,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     def __clickedToolButtonDrawPaintRule(self):       
         self.scene_draw.endDrawGeometry()
         self.commandRule({"step":1, "data":None})  
-       
-        
+               
 
 
     def __clickedToolButtonDrawPaintPoint(self):
@@ -1554,22 +1524,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.commandPoint({"step":1, "data":None})     
 
 
-
     def __clickedToolButtonDrawPaintLine(self):
         self.scene_draw.endDrawGeometry()
         self.commandLine({"step":1, "data":None})     
-
-    def __clickedToolButtonDrawPaintRectangle(self):
-        self.scene_draw.endDrawGeometry()
-        self.scene_draw.drawRectangleScene()
-        self.init_tool_geometry("rectang","Ingrese el primer punto [Exit]:")
-      
-    def __clickedToolButtonDrawPaintPolyline(self):
-        return
-        self.init_draw_geometry("pline")
-        self.scene_draw.drawPolylineScene()
-
-
 
 
     def showHideDrawMenu(self,name_menu_view):
@@ -1581,12 +1538,26 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
                                 : "Mesh"
 
         """
+
+        self.end_draw_geometry()
+        self.scene_draw.endDrawGeometry()
+        self.view_draw_1.selectElement(False)
+        self.view_draw_2.selectElement(False)
+
+        
         self.drawMenuData.setVisible(False)
         self.drawMenuMesh.setVisible(False)
+
         if name_menu_view == "Data":
             self.drawMenuData.setVisible(True)
+            self.drawMenuMesh.hideShowSelectedObjects(False)
+            
         elif name_menu_view == "Mesh":
             self.drawMenuMesh.setVisible(True)
+            self.drawMenuMesh.hideShowSelectedObjects(True)
+
+
+
         elif name_menu_view == "Point":
             pass
             #self.drawMenuPoint.setVisible(True)
@@ -1759,6 +1730,17 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
         self.drawMenuData.initDrawMenuDataProject(project)
 
+    def configDrawMenuMesh(self,project:class_projects.Project):
+        """Configura el menú mesh de la vista draw.
+
+        Args:
+            project(Project): Objeto del proyecto actual
+
+        """ 
+        self.drawMenuMesh.initDrawMenuDataProject(project)
+        
+
+
     def configDrawItemsScene(self,project:class_projects.Project):
         """Configura la escena de draw.
 
@@ -1857,6 +1839,10 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             "border-bottom-left-radius: 5px ;")
               
         #self.msnConsole("Command","_cancel")
+
+    def end_draw_mesh(self):
+        """Recibe la señal que ha finalizado el dibujo de la malla.""" 
+        
 
 
 
@@ -2031,7 +2017,9 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         elif key == Qt.Key_Enter or key == 16777216:
             print("funcionalidad escapar")
-            self.end_draw_geometry()                
+            self.end_draw_geometry()     
+            self.end_draw_mesh()     
+
             self.msnConsole("Command","_cancel")
             self.scene_draw.endDrawGeometry()
             self.view_draw_1.zoomWindow(False)
