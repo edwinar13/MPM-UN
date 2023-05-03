@@ -69,54 +69,6 @@ class CreateDataBase ():
         except Exception as e:
             print('EL ERROR ES: {}'.format(e))
   
-    def newFileProject(self, filePath):       
-        """crea la base de datos de cada proyecto Guardado Como o lo remplaza si ya existe.
-
-        Args:
-            filePath(str): Ruta para crear el archivo.
-            data(dict): informacion de proyecto anterior 
-
-        Returns:
-            (bool): 
-                : True >> si se crea correctamente el archivo de proyecto .mpm
-                : False >> si hay un error
-
-        """  
-        filePath = filePath.replace('.mpm', '')
-        filePath='{}.mpm'.format(filePath)
-        
-        data = {}	        
-        data['INFORMACION'] = {
-            "NOMBREPROYECTO": "",
-            "LOCALIZACION": "",
-            "AUTOR": "", 
-            "DESCRIPCION": ""
-        }
-        data['CONFIGURACION'] = {
-            "GRAVEDAD": 9.80
-        }
-        data['ITEMSDIBUJO'] = {
-            "PUNTOS": {},
-            "LINEAS": {},
-            "RECTANGULOS": {}
-        }
-        data['MALLAS'] = {}
-        data['PUNTOSMATERIAL'] = {}
-        data['MATERIALES'] = {}
-        data['RESULTADOS'] = {}
-        
-        try:
-
-            with open(filePath, 'w') as file:
-                file.write(json.dumps(data))  
-                print('Archivo (mpm) del proyecto fue creado correctamente en: [{}]'.format(filePath))               
-                validacion=True
-
-        except Exception as e:
-            print('EL ERROR ES: {}'.format(e))
-            validacion=False
-
-        return validacion
 
 class DataBaseConfigMpmun():    
     """Esta clase permite crear el objeto que interactuara con la base de datos del programa. 

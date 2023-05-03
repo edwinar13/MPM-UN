@@ -16,7 +16,7 @@ class Projects():
 
     Args:
         dataBaseConfigMpmun(DataBaseConfigMpmun):Objeto para interactuar con la base de datos del programa
-        
+
     Attributes:
         db_config_mpmun(DataBaseConfigMpmun):Objeto para interactuar con la base de datos del programa
         list_projects (list): Lista de objetos de proyectos recientes.
@@ -114,21 +114,7 @@ class Projects():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             validacion=False
         return validacion
-    
-    def newFileProject(self, filePath):       
-        """Crea nueva base de datos de un proyecto.
 
-        Args:
-            filePath(str): Ruta para crear el archivo.
-
-        Returns:
-            (bool): 
-                : True >> si se crea correctamente el archivo de proyecto .mpm
-                : False >> si hay un error
-
-        """ 
-        createDataBaseProject =class_database.CreateDataBase()
-        return createDataBaseProject.newFileProject(filePath)
 
 class Project():
     """Esta clase crear el objeto proyecto. 

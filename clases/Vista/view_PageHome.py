@@ -1,15 +1,18 @@
-""" Este módulo contiene la clase Ui_FormHome, para incluirla en main window
-es el frame que contiene la parte del inicio."""
+""" Este módulo contiene la vista Ui_FormHome, para incluirla en la vista main window"""
+
+
 import os
 from PySide6.QtCore import (Signal)
-from PySide6.QtWidgets import ( QFrame,QSizePolicy)
+from PySide6.QtWidgets import ( QFrame,QSizePolicy, QFileDialog)
 from ui import ui_frame_home
-from clases import class_ui_widget_home_card
+from clases.Vista.view_WidgetCardProject import ViewWidgetCardProjectHome
 
-class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
-    """Esta clase crea el QFrame home para agregarlo a main window. 
+class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
+    
+    """Esta clase crea la vista  QFrame home para agregarlo a main window. 
 
     Attributes:
+            controller(ControllerMainWindow): Controlador de la vista ViewMainWindow
             list_view_card (lits): Lista con widget card de cada proyecto.
             pathApp (str): Ruta de donde se ejecuta este archivo.
     Method:
@@ -18,10 +21,12 @@ class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
         : addCardEmptyProjectsRecent
 
     """
-    signal_home_open = Signal(str)
-    signal_home_new = Signal()
-    def __init__(self, parent = None):
-        super(FrameHome, self).__init__(parent)
+    signal_open_project = Signal(str)
+    signal_new_project = Signal(str)
+
+
+    def __init__(self ):
+        super(ViewPageHome, self).__init__()
         self.setupUi(self)
 
         # Atributo
@@ -34,7 +39,6 @@ class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
 
         # Establece los eventos de la UI
         self.initEventUi()
-
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -60,7 +64,11 @@ class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
     
     def __clickedToolButtonNewProject(self):
         """Emite una señal para crear nuevo proyecto""" 
-        self.signal_home_new.emit()
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
+        if file_path:
+            self.signal_new_project.emit(file_path)
+
     
     def __clickedToolButtonOpenProject_2(self):        
         """ Emite señal para abrir ejemplo barra empotrada """
@@ -93,7 +101,7 @@ class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
 
         """ 
         path = path.replace('\\','/')
-        self.signal_home_open.emit(path)
+        self.signal_open_project.emit(path)
     
     def removeCardsProjectsRecent(self):
         """ Elimina las tarjetas de los proyectos si existen. """
@@ -104,31 +112,16 @@ class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
                 view_card.deleteLater()
             self.__list_view_card=[]
     
-    def addCardProjectsRecent(self,  name, path, data, hour):
+    def addCardProjectsRecent(self,  cardProject:ViewWidgetCardProjectHome):
         """ Agrega una tarjeta de proyecto a recientes. 
         
         Args:
-            name (str): Nombre del archivo del proyecto.
-            path (str): Ruta del archivo del proyecto.
-            data (str): Fecha en la que se abrió por última vez el proyecto.
-            hour (str): Hora en la que se abrió por última vez el proyecto.
+            cardProject (ViewWidgetCardProjectHome): Objeto tarjeta de proyecto
 
         """
-        cardProject = class_ui_widget_home_card.viewCardProject(self, cardName = name,
-                                cardDataTime = data, cardPath= path, cardHour= hour)
-        #self.cardProject.setStyleSheet("background-color: #36C{}C6;".format(No_proyecto))
-        #self.cardProject.setNamesWidges(No_proyecto)
 
-        '''  
-        Forma de agregar a un grid layout
-        #projects = self.projects.getProjects()
-        #positions = [(i,j) for i in range(5) for j in range(3)]
-        #   for position, project in zip(positions, projects):
-        #self.frame_home.gridLayout_proyectos.addWidget(self.cardProject,*position)
-        '''
         self.verticalLayout_containerCard.addWidget(cardProject)
-        self.__list_view_card.append(cardProject)
-        cardProject.signal_open_project.connect(self.__emitSignalOpen)
+        self.__list_view_card.append(cardProject)       
 
     def addCardEmptyProjectsRecent(self):
         """ Agrega una tarjeta vacia proyectos a recientes."""
@@ -137,3 +130,9 @@ class FrameHome(QFrame, ui_frame_home.Ui_FormHome):
                                                  QSizePolicy.Expanding))
         self.verticalLayout_containerCard.addWidget(frame_end) 
         self.__list_view_card.append(frame_end)
+
+
+
+
+
+

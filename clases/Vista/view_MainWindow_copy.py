@@ -7,8 +7,8 @@ QFrame, QSizePolicy,QLabel,QPushButton,QComboBox,QToolButton,QUndoView)
 from PySide6.QtGui import (QIcon,QScreen,QShortcut,QKeySequence,QKeyEvent, QUndoStack)
 from ui import ui_main_window
 from clases import class_projects
-from clases import class_ui_frame_home
-from clases import class_ui_frame_draw
+from clases.Vista import view_PageHome
+from clases.Vista import view_PageDraw
 from clases import class_database
 from clases import class_ui_dialog_msg
 
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
     """ 
     
         
-    def __init__(self, createDataBase):
+    def __init__(self,controller,  createDataBase):
         QMainWindow.__init__(self)
         self.ui = ui_main_window.Ui_MainWindow()        
         self.ui.setupUi(self)
@@ -191,11 +191,11 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_setting.setShortcut('Ctrl+p')
 
         # ::::::::::::::::::::   CONFIGURANDO  FRAME INICIO ::::::::::::::::::::
-        self.frame_home = class_ui_frame_home.FrameHome(self)
+        self.frame_home = view_PageHome.FrameHome(self)
         self.ui.verticalLayout_emptyHome.addWidget(self.frame_home)
 
         # ::::::::::::::::::::   CONFIGURANDO  FRAME DRAW ::::::::::::::::::::
-        self.frame_draw = class_ui_frame_draw.FrameDraw(self)
+        self.frame_draw = view_PageDraw.FrameDraw(self)
         self.ui.verticalLayout_emptyDraw.addWidget(self.frame_draw)
 
 
@@ -379,29 +379,27 @@ class MainWindow(QMainWindow):
         self.__viewToolButtonMenuLat(self.previous_selected_button)
         self.setting = True
 
-        
-    def __triggeredActionNuevoProyecto(self):
-        """ Abre cuadro de dialogo para nuevo proyecto. """
-        nameCurrent = self.windowTitle()
-        self.setWindowTitle("MPM-UN    Untitled document*")
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
-        if file_path:
-            if self.projects.newFileProject(file_path):
-                fileName = file_path.split('/')[-1]
-                self.setWindowTitle("MPM-UN    {}".format(fileName))
-                self.__showMessageInformative("Proyecto creado con éxito")
-                self.__openProject(file_path) 
-        else:
-            self.setWindowTitle(nameCurrent)
 
-    def __triggeredActionAbrirProyecto(self):
-        """ Abre cuadro de dialogo para abrir proyecto. """
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files mpm (*.mpm)", options=options)
-        if file_path:
-            self.__openProject(file_path)
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def __triggeredaccionRecienteClear(self):
         """Borra los proyectos recientes."""
         if self.projects.deleteProjects():
@@ -653,82 +651,35 @@ class MainWindow(QMainWindow):
 
         self.__updateSetting(updateAll=True)
 
-    # ::::::::::::::::::::  FUNCIONES MENU LATERAL  ::::::::::::::::::::
-    def __resetToolButtonMenuLat(self):
-        """ Reinicializa el estado de los botones del menú lateral  """
-        self.ui.frame_home.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawData.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawMesh.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawPoint.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawBoundary.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_viewResult.setStyleSheet("background-color: #333333;") 
 
-        self.ui.frame_viewResultInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_homeInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawDataInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawPointInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawMeshInf.setStyleSheet("background-color: #333333;")
 
-        self.ui.toolButton_setting.setIcon(self.icon_config)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    def __viewToolButtonMenuLat(self, button):
-        """ Muestra el botón seleccionado
-        Args:
-            button(int) numero de boton seleccionado
-        """
-        self.__resetToolButtonMenuLat()
-
-        list_button = [
-            [self.ui.frame_home, self.ui.frame_homeInf,self.ui.page_home],
-            [self.ui.frame_drawData, self.ui.frame_drawDataInf,self.ui.page_draw],
-            [self.ui.frame_drawMesh, self.ui.frame_drawMeshInf,self.ui.page_draw],
-            [self.ui.frame_drawPoint, self.ui.frame_drawPointInf,self.ui.page_draw],
-            [self.ui.frame_drawBoundary, self.ui.frame_drawBoundaryInf,self.ui.page_draw],
-            [self.ui.frame_viewResult, self.ui.frame_viewResultInf,self.ui.page_view]
-            ]
-        
-        
-        self.label_coor.setVisible(False)
-        self.toolButton_snap_grid.setVisible(False)
-        self.toolButton_ortho.setVisible(False)
-        self.toolButton_osnap.setVisible(False)
-
-        if button == 1 or button == 2 or button == 3 or button == 4 or button == 5 or button == 6:
-            list_button[button-1][0].setStyleSheet("background-color: #36C9C6;") 
-            list_button[button-1][1].setStyleSheet("background-color: #2B2B2B;")
-            self.ui.stackedWidget_container.setCurrentWidget(list_button[button-1][2])
-            if button == 2:
-                self.frame_draw.showHideDrawMenu("Data")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
-
-            elif button == 3:
-                self.frame_draw.showHideDrawMenu("Mesh")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
-
-            elif button == 4:
-                self.frame_draw.showHideDrawMenu("Point")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
-
-            elif button == 5:
-                self.frame_draw.showHideDrawMenu("Boundary")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
-
-        elif button == 7:            
-            self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
-            self.ui.toolButton_setting.setIcon(self.icon_config_select)
 
     # ::::::::::::::::::::  FUNCIONES MENU SUPERIOR  ::::::::::::::::::::
     @Slot(str)
@@ -801,7 +752,44 @@ class MainWindow(QMainWindow):
             self.__showMessageCritical("No se ha encontrado el documento {}".format(file_name)) 
         self.__updateProjectsRecent()
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def __updateProjectsRecent(self):
+
+
+        self.projects = class_projects.Project(self.db_config_mpmun)  
+
+
         """ Actualiza los proyectos recientes. """
         self.frame_home.removeCardsProjectsRecent()
         self.ui.menu_recientes.clear()
@@ -847,51 +835,8 @@ class MainWindow(QMainWindow):
         else:
             self.setWindowTitle("MPM-UN    {}".format(self.__actual_project.getName()))
 
-    ###############################################################################
-	# ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
-	###############################################################################
-    @Slot(str)
-    def __showMessageCommand(self, command):
-        """ imprime en la consola un comando.
 
-        Args:
-            command(str): comando  
 
-        """
-        self.frame_draw.msnConsole("Command",command)
-    
-    @Slot(str)
-    def __showMessageCritical(self, message):
-        """ imprime en la barra de estado un mensaje critico.
-
-        Args:
-            message(str): Mensaje critico 
-        """
-        self.ui.statusbar.setStyleSheet("color: #F94646;") 
-        self.ui.statusbar.showMessage(message,6000)
-        self.frame_draw.msnConsole("Error",message)
-    
-    @Slot(str)
-    def __showMessageSatisfactory(self, message):
-        """ imprime en la barra de estado un mensaje satisfactorio.
-
-        Args:
-            message(str): Mensaje satisfactorio 
-        """
-        self.ui.statusbar.setStyleSheet("color: #36C9C6;") 
-        self.ui.statusbar.showMessage(message,6000)
-        self.frame_draw.msnConsole("Running",message)
-    
-    @Slot(str)
-    def __showMessageInformative(self, message):
-        """ imprime en la barra de estado un mensaje informativo.
-
-        Args:
-            message(str): Mensaje informativo 
-        """
-        self.ui.statusbar.setStyleSheet("color: #DDDDDD;") 
-        self.ui.statusbar.showMessage(message,6000)
-        self.frame_draw.msnConsole("Information",message)
 
 
     ###############################################################################

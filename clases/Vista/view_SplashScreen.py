@@ -4,21 +4,20 @@ from PySide6.QtCore import (Qt,  QTimer)
 from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QMainWindow, QGraphicsDropShadowEffect)
 from ui import ui_splash_screen
-from clases import main_window
+from clases.controlador import controller_MainWindow
 
 
 class SplashScreen(QMainWindow):
     """Esta clase crea la ventana QMainWindow de la ventana de cargando.
 
     Args:
-        createDataBase(CreateDataBase): Objeto para crear bases de datos.          
+                 
 
     Attributes:
         counter (int): Contador para tiempo.
-        createDataBase(CreateDataBase): Objeto para crear bases de datos.
     
     """ 
-    def __init__(self, createDataBase):
+    def __init__(self):
         QMainWindow.__init__(self)
 
         # Instancia de ui de pantalla de bienvenida
@@ -26,7 +25,6 @@ class SplashScreen(QMainWindow):
         self.ui.setupUi(self)
 
         # Atributo
-        self.__createDataBase = createDataBase
         self.counter = 0
         
         # Tiempo de espera para iniciar main window
@@ -70,8 +68,7 @@ class SplashScreen(QMainWindow):
         self.ui.progressBar_load.setValue(self.counter)
         if self.counter > 100:
             self.timer_splash.stop()
-            self.main_window = main_window.MainWindow(self.__createDataBase)
-            self.main_window.show()
+            self.controller_main_window = controller_MainWindow.ControllerMainWindow()
             self.close()                
         self.counter +=1
 

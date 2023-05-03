@@ -25,7 +25,7 @@ import ezdxf
 
 
 
-class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
+class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     """Esta clase crea el QFrame draw para agregarlo a main window. """ 
     signal_home_open = Signal(str)
     signal_home_new = Signal()
@@ -41,7 +41,7 @@ class FrameDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
  
     def __init__(self, parent = None, ):
-        super(FrameDraw, self).__init__(parent)
+        super(ViewPageDraw, self).__init__(parent)
         self.setupUi(self)
 
         self.lineEdit_console.installEventFilter(self)
