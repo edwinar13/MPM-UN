@@ -17,7 +17,7 @@ from PySide6.QtGui import*
 from PySide6.QtWidgets import*
 from clases import class_projects
 import math
-
+import uuid
 contador = 0 
 import datetime
 
@@ -500,6 +500,93 @@ class RectItem2(QGraphicsItem):
       
         #return super().paint(painter, option, widget)
 
+class MeshItem(QGraphicsItem):
+    """
+    MeshItem es una clase que hereda de QGraphicsItem y representa una malla en una escena.
+
+    Atributos:
+        id (int): Número único del elemento
+        name (str): Nombre de la malla.
+        triangles (list): Lista de triángulos que componen la malla.
+        color (Qt): Color con el que se dibujará la malla.
+        width (float): Ancho con el que se dibujará la malla.
+
+        isSelected (bool): Indica si la malla está seleccionada en el momento.
+        isActive (bool): Indica si la malla está activa en el momento.
+
+    """
+    WIDTH = 0
+
+
+    def __init__(self,id, name, color, points, triangles):
+        QGraphicsItem.__init__(self)
+        self.id = id
+        self.name = name
+        self.points = points
+        self.triangles = triangles
+        self.color = color
+        self.width = self.WIDTH
+        self.isSelected = False
+        self.isActive = False
+        print("Cantidad triangulos: ",len(triangles))
+        self.generatePath()
+    
+    def getName(self):
+        return self.name
+    def setColor(self, color):
+        self.color = color
+    def setName(self, name):
+        self.name = name
+
+    def generatePath(self):
+        self.path = QPainterPath()
+        for triangle in self.triangles:
+            points = [QPointF(self.points[index][0], self.points[index][1]) for index in triangle]
+            self.path.addPolygon(QPolygonF(points))
+
+
+    def boundingRect(self):
+        # Calcula el rectángulo que envuelve la malla
+        # según los puntos que forman los triángulos
+        rect = None
+        for triangle in self.triangles:
+            
+            points = [QPointF(self.points[index][0], self.points[index][1]) for index in triangle]
+
+            triangle_rect = self._triangleBoundingRect(points)
+            if rect is None:
+                rect = triangle_rect
+            else:
+                rect = rect.united(triangle_rect)
+        return rect
+
+    def _triangleBoundingRect(self, points):
+        # Calcula el rectángulo que envuelve un triángulo
+        left = min(point.x() for point in points)
+        top = min(point.y() for point in points)
+        right = max(point.x() for point in points)
+        bottom = max(point.y() for point in points)
+        return QRectF(left, top, right - left, bottom - top)
+
+    def paint(self, painter, option, widget):
+        pen = QPen(QColor(self.color), self.width)
+        painter.setPen(pen)
+        if self.isSelected:
+            painter.setPen(QPen(QColor("#960b0f"), self.width, Qt.DashLine))
+
+        painter.drawPath(self.path)       
+        return
+
+        pen = QPen(QColor(self.color), self.width)
+        painter.setPen(pen)
+        if self.isSelected:
+            painter.setPen(QPen(QColor("#960b0f"), self.width, Qt.DashLine))
+        # Dibuja los triángulos de la malla
+        for triangle in self.triangles:
+            points = [QPointF(self.points[index][0], self.points[index][1]) for index in triangle]
+            painter.drawPolygon(points)
+
+
 class AdminScene():
     def __init__(self,scene:QGraphicsScene) -> None:
 
@@ -516,6 +603,8 @@ class AdminScene():
         self.dict_lines ={}
         self.dict_rects ={}
 
+
+
         self.no_items = 0
  
     def setUndoStack(self, undo_stack):
@@ -527,14 +616,15 @@ class AdminScene():
     def updateMesh(self,name, data):        
         self.updateListMesh("UPDATE", name, data)
 
+    #esto de abajo tra no lo necesito 
     def deleteMesh(self,name):        
         self.updateListMesh("DELETE", name, "")
+
 
     def addCommand(self,item):
         add_command = AddCommand(self, self.__scene, item)
         self.undo_stack.push(add_command) 
    
-
     def removeCommand(self,items):
         remove_command = RemoveCommand(self, self.__scene, items)
         self.undo_stack.push(remove_command)
@@ -551,62 +641,38 @@ class AdminScene():
         update_command = UpdateCommand(self, self.__scene, item, points)
         self.undo_stack.push(update_command) 
          
-    def initDrawItemsSceneProject(self, project:class_projects.Project):
-        """Asigna el proyecto actual a admin y actualiza los items del proyecto en la escena.
+    def initDrawItemsSceneProject(self, data_items_draw):
 
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        self.__projectActual = project  
-        self.__setDbAttributes()
-        self.__setDrawItems()
-    
-    def __setDbAttributes(self):
-        """ Recupera información de la base de datos del proyecto y los asigna a los atributos
-        
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        
-        # Obtiene los datos db del proyecto actual
-        db_project = self.__projectActual.db_project
-        data_items_draw = db_project.selectItemDrawDB()
+        no_items = data_items_draw["NOITEMS"]
+        list_points = data_items_draw["PUNTOS"]
+        list_lines = data_items_draw["LINEAS"]
+        list_rects = data_items_draw["RECTANGULOS"]
 
-        self.no_items = data_items_draw["NOITEMS"]
-        self.list_points = data_items_draw["PUNTOS"]
-        self.list_lines = data_items_draw["LINEAS"]
-        self.list_rects = data_items_draw["RECTANGULOS"]
-
-
-    def __setDrawItems(self):
-        """ Recupera información de los atributos y dibuja los items """
         self.__scene.clear()
         self.__scene.drawElementTemp()
         self.__scene.update()
-
          
 
-        for point in self.list_points:
-            id = self.list_points[point]["id"]
-            name = self.list_points[point]["name"]
-            x = self.list_points[point]["coordinates"][0]
-            y = self.list_points[point]["coordinates"][1]
+        for point in list_points:
+            id = list_points[point]["id"]
+            name = list_points[point]["name"]
+            x = list_points[point]["coordinates"][0]
+            y = list_points[point]["coordinates"][1]
 
             
             text_id = TextItem(id, QPointF(0,0))
             self.__scene.addItem(text_id)
 
 
-
             p = PointItem(id, name,QPointF(x,y), text_id)  
             self.__scene.addItem(p)
             self.dict_points[name] = p
 
-        for line in self.list_lines:            
-            id = self.list_lines[line]["id"]
-            name = self.list_lines[line]["name"]
-            start_point = self.list_lines[line]["start_point"]
-            end_point = self.list_lines[line]["end_point"]
+        for line in list_lines:            
+            id = list_lines[line]["id"]
+            name = list_lines[line]["name"]
+            start_point = list_lines[line]["start_point"]
+            end_point = list_lines[line]["end_point"]
 
             text_id = TextItem(id, QPointF(0,0))
             self.__scene.addItem(text_id)
@@ -623,45 +689,64 @@ class AdminScene():
        
             
 
+        for rect in list_rects:
 
-        for rect in self.list_rects:
-
-            id = self.list_rects[line]["id"]
-            name = self.list_rects[line]["name"]
-            start_point = self.list_rects[line]["start_point"]
-            end_point = self.list_rects[line]["end_point"]
+            id = list_rects[line]["id"]
+            name = list_rects[line]["name"]
+            start_point = list_rects[line]["start_point"]
+            end_point = list_rects[line]["end_point"]
 
             r = RectItem(id, name,self.dict_points[start_point],self.dict_points[end_point])  
             r.setPen(QPen(QColor(Qt.black),0))
             self.__scene.addItem(r)
             self.dict_rects[name] = r
 
+    def initDrawMeshScene(self, data_meshs_draw):
+
+        meshs = []
+        self.__group_triangle = QGraphicsItemGroup()
+        self.__scene.addItem(self.__group_triangle)
+        
+        for mesh in data_meshs_draw["TRIANGULARES"]:
+
+            name_mesh = data_meshs_draw["TRIANGULARES"][mesh]["name"]
+            color_mesh = data_meshs_draw["TRIANGULARES"][mesh]["color"]
+            points = data_meshs_draw["TRIANGULARES"][mesh]["points"]
+            triangles = data_meshs_draw["TRIANGULARES"][mesh]["triangles"]
+            mesh_item = self.addMeshNew(name_mesh=name_mesh,
+                                      color_mesh=color_mesh,
+                                      points=points,
+                                      triangles=triangles
+                                      )
+
+            self.__group_triangle.addToGroup(mesh_item)            
+            meshs.append(mesh_item)
+        
+        self.__group_triangle.setZValue(-10)
+            
+        return meshs
+    
+
 
     
+    def addMeshNew(self, name_mesh,color_mesh, points, triangles):
+        id = uuid.uuid4()            
+        mesh_item = MeshItem(id, name_mesh, color_mesh, points, triangles)        
+        return mesh_item
+        
+
+
+    def showHideMesh(self, value):
+        self.__group_triangle.setVisible(value)     
+    
+
+
+    ## esto de acca bajao ya no va
     def updateListMesh(self, type_update:str,name:str, data:dict):
-
-
-        """
-        type_action = type_update
-        name =data["name"]
-        color =data["color"]
-        points= data["points"]
-        triangles= data["triangles"]
-        """
-
-
-
-        """
-                self.scene_draw.admin.addCommand({"name":self.__card_name_mesh,
-                                          "color":self.__card_color_mesh,
-                                          "points":self.__points,
-                                          "triangles":self.__triangles,
-                                          })
-        """
 
         error_update = False
         if type_update == "ADD" or type_update == "UPDATE":            
-            error_update = self.__projectActual.db_project.updateMeshDB(name=name, triangle_mesh=data)
+            error_update = self.__projectActual.updateMeshDB(name=name, triangle_mesh=data)
 
 
             if(error_update == True):
@@ -671,7 +756,7 @@ class AdminScene():
                 self.signal_msn_critical.emit("Error al guardar la malla ")
 
         elif type_update == "DELETE" :            
-            error_update = self.__projectActual.db_project.deleteMeshDB(name=name)
+            error_update = self.__projectActual.deleteMeshDB(name=name)
 
         else:            
             return
@@ -722,8 +807,7 @@ class AdminScene():
 
         else:            
             return
-    
-
+   
 class AddCommand(QUndoCommand):
     """."""
     def __init__(self,admin:AdminScene ,scene:QGraphicsScene, item:PointItem):
@@ -898,25 +982,15 @@ class UpdateCommand(QUndoCommand):
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
 
 
-
-
-
-
-
-
-
-
-
-
-class GraphicsViewDraw (QGraphicsView):
+class ViewGraphicsViewDraw (QGraphicsView):
     signal_coor_mouse = Signal(list)
     signal_main_view = Signal(str)
     signal_end_draw_geometry = Signal()
     
 
 
-    def __init__(self,parent):
-        super(GraphicsViewDraw, self).__init__(parent) 
+    def __init__(self):
+        super(ViewGraphicsViewDraw, self).__init__() 
 
         #self.setCursor(Qt.BlankCursor)
         #print(self.cursor())
@@ -926,6 +1000,9 @@ class GraphicsViewDraw (QGraphicsView):
         self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setViewportUpdateMode(QGraphicsView.MinimalViewportUpdate )
+
+
         #self.setMouseTracking(True) 
                 
         # ajusta el eje vertical como positivo arriba
@@ -1083,7 +1160,7 @@ class GraphicsViewDraw (QGraphicsView):
             QGraphicsView.mousePressEvent(self, handmade_event)
             self.scene().isPan = False
 
-        super(GraphicsViewDraw, self).mousePressEvent(event)
+        super(ViewGraphicsViewDraw, self).mousePressEvent(event)
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
         """Evento al mover el ratón, se emite una señal con
@@ -1097,7 +1174,7 @@ class GraphicsViewDraw (QGraphicsView):
         #Emite la señal para seleccionar view como principal
         self.signal_main_view.emit(self.objectName())
         self.scene().update()
-        super(GraphicsViewDraw, self).mouseMoveEvent(event)
+        super(ViewGraphicsViewDraw, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         #mover la escena
@@ -1121,7 +1198,9 @@ class GraphicsViewDraw (QGraphicsView):
                 self.scale(scale_h,scale_h) 
 
             self.centerOn(center)
-            self.update()
+
+            self.signal_end_draw_geometry.emit()
+            
 
         if event.button() == Qt.MiddleButton:
             self.setDragMode(self.NoDrag)
@@ -1135,7 +1214,7 @@ class GraphicsViewDraw (QGraphicsView):
         self.update()
         '''
 
-        super(GraphicsViewDraw, self).mouseReleaseEvent(event)
+        super(ViewGraphicsViewDraw, self).mouseReleaseEvent(event)
 
     def drawBackground(self, painter: QPainter, rect: QRectF|QRect) -> None:
         
@@ -1238,7 +1317,7 @@ class GraphicsViewDraw (QGraphicsView):
                 painter.drawLine(linex)
             painter.restore()
         
-        return super(GraphicsViewDraw, self).drawBackground(painter, rect)
+        return super(ViewGraphicsViewDraw, self).drawBackground(painter, rect)
 
     def drawForeground(self, painter: QPainter, rect: QRectF | QRect) -> None:
         """ Evento para dibujar en el primer plano, se dibuja las fechas
@@ -1400,7 +1479,7 @@ class GraphicsViewDraw (QGraphicsView):
 
             painter.restore()
         
-        super(GraphicsViewDraw, self).drawForeground(painter, rect)
+        super(ViewGraphicsViewDraw, self).drawForeground(painter, rect)
 
     def zoomWindow(self, state):
         if state == True:
@@ -1408,7 +1487,7 @@ class GraphicsViewDraw (QGraphicsView):
             self.viewport().setCursor(Qt.UpArrowCursor)
             self.isModeCrosshairPickbox = False 
         else:
-            self.signal_end_draw_geometry.emit()
+            
             self.setDragMode(self.NoDrag)
             self.isZoomWindow = False  
             self.viewport().setCursor(Qt.BlankCursor)
@@ -1425,44 +1504,17 @@ class GraphicsViewDraw (QGraphicsView):
             #self.setDragMode(self.NoDrag)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def endDrawGeometry(self):        
+        self.zoomWindow(False)
+        self.selectElement(False)
+        self.update()
+        
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class GraphicsSceneDraw (QGraphicsScene): 
+class ViewGraphicsSceneDraw (QGraphicsScene): 
     signal_next_point = Signal(int)
 
 
@@ -1481,7 +1533,7 @@ class GraphicsSceneDraw (QGraphicsScene):
 
 
     def __init__(self):
-        super(GraphicsSceneDraw, self).__init__()
+        super(ViewGraphicsSceneDraw, self).__init__()
         # Atributos
         self.grid_spacing = 50
 
@@ -1544,6 +1596,30 @@ class GraphicsSceneDraw (QGraphicsScene):
     ###############################################################################
 	# :::::::::::::::::::::          OTROS MÉTODOS           ::::::::::::::::::::::
 	############################################################################### 
+
+    def getPointVertex(self):
+        return self.point_vertex
+    
+    def setPointVertex(self, point):
+        self.point_vertex = point
+
+        
+
+    def getPointVertexAnt(self):
+        return self.point_vertex_ant
+    
+    def setPointVertexAnt(self, point):
+        self.point_vertex_ant = point
+    
+    def getSelectedItems(self):
+        return self.selected_items
+
+    def addSelectedItems(self,item):
+         self.selected_items.append(item)
+
+    def removeSelectedItems(self,item):
+         self.selected_items.remove(item)
+
 
     def drawElementTemp(self):
         #elementos temporales
@@ -1750,16 +1826,15 @@ class GraphicsSceneDraw (QGraphicsScene):
                         })
                 self.point_vertex_ant=self.point_vertex
 
-            
+    
 
 
 
-        super(GraphicsSceneDraw, self).mousePressEvent(event)
+        super(ViewGraphicsSceneDraw, self).mousePressEvent(event)
     
     def mouseMoveEvent(self, event: QGraphicsSceneMouseEvent) -> None:
 
-        self.point_vertex = event.scenePos()
-        
+        self.point_vertex = event.scenePos()        
         self.text_temp.setPos(self.point_vertex)
         # MODO OSNAP 
         if self.mode_osnap:        
@@ -1832,7 +1907,7 @@ class GraphicsSceneDraw (QGraphicsScene):
         elif self.isMeshSize:
             self.drawGeneral(self.point_vertex,self.point_vertex_ant)
 
-        super(GraphicsSceneDraw, self).mouseMoveEvent(event)
+        super(ViewGraphicsSceneDraw, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QGraphicsSceneMouseEvent) -> None:  
         self.text_temp.setVisible(False)
@@ -1908,7 +1983,7 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.p2_select = None
 
                  
-        super(GraphicsSceneDraw, self).mouseReleaseEvent(event)
+        super(ViewGraphicsSceneDraw, self).mouseReleaseEvent(event)
 
     def drawBackground(self, painter: QPainter, rect: QRectF| QRect) -> None:
 
@@ -1924,12 +1999,12 @@ class GraphicsSceneDraw (QGraphicsScene):
         painter.drawRect(self.sceneRect())
         painter.restore()
         
-        super(GraphicsSceneDraw, self).drawBackground(painter, rect)
+        super(ViewGraphicsSceneDraw, self).drawBackground(painter, rect)
 
     def drawForeground(self, painter: QPainter, rect: QRectF | QRect) -> None:
         """ Evento para dibujar en el primer plano, se dibuja las fechas
         del origen, punta de mira y la caja de selección que sigue al ratón """
-        super(GraphicsSceneDraw, self).drawForeground(painter, rect)
+        super(ViewGraphicsSceneDraw, self).drawForeground(painter, rect)
     ###############################################################################
 	# ::::::::::::::::::::      MÉTODOS PARA DIBUJO     ::::::::::::::::::::
 	############################################################################### 
@@ -1964,7 +2039,7 @@ class GraphicsSceneDraw (QGraphicsScene):
 
 
         #self.graphicsScene_draw.mode_crosshair = False  
-        #self.signal_end_draw_geometry.emit()
+     
 
         self.p1_select = None
         self.p2_select = None
@@ -1986,12 +2061,15 @@ class GraphicsSceneDraw (QGraphicsScene):
             self.removeItem(self.point_init)
         self.point_init = None
         self.vertex = 0
+        self.update()
 
     
     """
     def initDrawGeometry(self):
         self.isDrawGeometry = True
         #self.graphicsScene_draw.mode_crosshair =True
+        #seguro se que la sigueomte linbea va es necesario?
+        al iniciar se supone que ya se dio finalizar
         #self.signal_end_draw_geometry.emit()        
         self.vertex = 0
         #self.update()
@@ -2051,7 +2129,7 @@ class GraphicsSceneDraw (QGraphicsScene):
                 #self.removeItem(selected_item)                
                 self.admin.removeCommand(selected_item)
             
-            #self.endDrawGeometry()
+            
         elif transformation == "move":
 
             dx=10

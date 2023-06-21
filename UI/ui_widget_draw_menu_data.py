@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_datatHUAOu.ui'
+## Form generated from reading UI file 'widget_draw_menu_dataVNHinn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -644,7 +644,7 @@ class Ui_FormDrawMenuData(object):
     def retranslateUi(self, FormDrawMenuData):
         FormDrawMenuData.setWindowTitle(QCoreApplication.translate("FormDrawMenuData", u"Form", None))
         self.toolButton_hideShow.setText("")
-        self.label_cardDataTitle.setText(QCoreApplication.translate("FormDrawMenuData", u"DIBUJO Y INFORMACI\u00d3N DEL PROYECTO", None))
+        self.label_cardDataTitle.setText(QCoreApplication.translate("FormDrawMenuData", u"DIBUJO E INFORMACI\u00d3N DEL PROYECTO", None))
         self.label_cardDataSubTitle0.setText(QCoreApplication.translate("FormDrawMenuData", u"Dibujo", None))
         self.toolButton_cardDataSubTitle0.setText("")
         self.toolButton_cardMeshDrawRule.setText("")

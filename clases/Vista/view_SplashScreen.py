@@ -4,7 +4,7 @@ from PySide6.QtCore import (Qt,  QTimer)
 from PySide6.QtGui import (QColor)
 from PySide6.QtWidgets import ( QMainWindow, QGraphicsDropShadowEffect)
 from ui import ui_splash_screen
-from clases.controlador import controller_MainWindow
+from clases.Controlador.controller_MainWindow import ControllerMainWindow
 
 
 class SplashScreen(QMainWindow):
@@ -68,7 +68,7 @@ class SplashScreen(QMainWindow):
         self.ui.progressBar_load.setValue(self.counter)
         if self.counter > 100:
             self.timer_splash.stop()
-            self.controller_main_window = controller_MainWindow.ControllerMainWindow()
+            self.controller_main_window = ControllerMainWindow()
             self.close()                
         self.counter +=1
 

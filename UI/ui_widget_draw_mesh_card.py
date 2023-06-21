@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_mesh_cardntGakG.ui'
+## Form generated from reading UI file 'widget_draw_mesh_cardSCHvYC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -23,7 +23,7 @@ class Ui_FormDrawMeshCard(object):
     def setupUi(self, FormDrawMeshCard):
         if not FormDrawMeshCard.objectName():
             FormDrawMeshCard.setObjectName(u"FormDrawMeshCard")
-        FormDrawMeshCard.resize(391, 46)
+        FormDrawMeshCard.resize(451, 46)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -189,6 +189,23 @@ class Ui_FormDrawMeshCard(object):
 
         self.horizontalLayout.addWidget(self.toolButton_okMesh)
 
+        self.toolButton_exitMesh = QToolButton(self.frame_card)
+        self.toolButton_exitMesh.setObjectName(u"toolButton_exitMesh")
+        sizePolicy3.setHeightForWidth(self.toolButton_exitMesh.sizePolicy().hasHeightForWidth())
+        self.toolButton_exitMesh.setSizePolicy(sizePolicy3)
+        self.toolButton_exitMesh.setMinimumSize(QSize(25, 25))
+        self.toolButton_exitMesh.setMaximumSize(QSize(25, 25))
+        self.toolButton_exitMesh.setFont(font)
+        self.toolButton_exitMesh.setStyleSheet(u"")
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_exitMesh.setIcon(icon2)
+        self.toolButton_exitMesh.setIconSize(QSize(15, 15))
+        self.toolButton_exitMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_exitMesh.setProperty("style_mesh_card_button", 1)
+
+        self.horizontalLayout.addWidget(self.toolButton_exitMesh)
+
         self.toolButton_editMesh = QToolButton(self.frame_card)
         self.toolButton_editMesh.setObjectName(u"toolButton_editMesh")
         sizePolicy3.setHeightForWidth(self.toolButton_editMesh.sizePolicy().hasHeightForWidth())
@@ -197,9 +214,9 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_editMesh.setMaximumSize(QSize(25, 25))
         self.toolButton_editMesh.setFont(font)
         self.toolButton_editMesh.setStyleSheet(u"")
-        icon2 = QIcon()
-        icon2.addFile(u"recursos/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_editMesh.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"recursos/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_editMesh.setIcon(icon3)
         self.toolButton_editMesh.setIconSize(QSize(15, 15))
         self.toolButton_editMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_editMesh.setProperty("style_mesh_card_button", 1)
@@ -217,9 +234,9 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_showHideMesh.setMaximumSize(QSize(25, 25))
         self.toolButton_showHideMesh.setFont(font)
         self.toolButton_showHideMesh.setStyleSheet(u"")
-        icon3 = QIcon()
-        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_showHideMesh.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideMesh.setIcon(icon4)
         self.toolButton_showHideMesh.setIconSize(QSize(15, 15))
         self.toolButton_showHideMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_showHideMesh.setProperty("style_mesh_card_button", 1)
@@ -234,9 +251,9 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_closeMesh.setMaximumSize(QSize(25, 25))
         self.toolButton_closeMesh.setFont(font)
         self.toolButton_closeMesh.setStyleSheet(u"")
-        icon4 = QIcon()
-        icon4.addFile(u"recursos/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_closeMesh.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u"recursos/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_closeMesh.setIcon(icon5)
         self.toolButton_closeMesh.setIconSize(QSize(15, 15))
         self.toolButton_closeMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_closeMesh.setProperty("style_mesh_card_button", 1)
@@ -258,6 +275,7 @@ class Ui_FormDrawMeshCard(object):
         self.label_cardNameMesh.setText(QCoreApplication.translate("FormDrawMeshCard", u"Mesh 1", None))
         self.lineEdit_nameMesh.setText("")
         self.toolButton_okMesh.setText("")
+        self.toolButton_exitMesh.setText("")
         self.toolButton_editMesh.setText("")
         self.toolButton_showHideMesh.setText("")
         self.toolButton_closeMesh.setText("")

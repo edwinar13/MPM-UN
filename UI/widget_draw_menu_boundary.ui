@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDrawMenuMesh</class>
- <widget class="QWidget" name="FormDrawMenuMesh">
+ <class>FormDrawMenuBoundary</class>
+ <widget class="QWidget" name="FormDrawMenuBoundary">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -70,7 +70,7 @@ padding: 2px 0px;
 
 
 
-QFrame#frame_meshProject{
+QFrame#frame_boundaryProject{
 background: #333333;
 border-radius: 8px
 }
@@ -96,7 +96,7 @@ background-color: transparent;
 /*#################################################################*/
 /*####################       FRAME MESH       ###########################*/
 /*#################################################################*/
-QFrame#frame_mesh{
+QFrame#frame_boundary{
 background: transparent;
 }
 QFrame#frame_title{
@@ -437,7 +437,7 @@ background: none;
     <number>5</number>
    </property>
    <item>
-    <widget class="QFrame" name="frame_meshProject">
+    <widget class="QFrame" name="frame_boundaryProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -605,7 +605,7 @@ background: none;
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_mesh">
+       <widget class="QFrame" name="frame_boundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -667,7 +667,7 @@ background: none;
             <item>
              <widget class="QLabel" name="label_cardMeshTitle">
               <property name="text">
-               <string>MALLADO</string>
+               <string>CONTORNO</string>
               </property>
              </widget>
             </item>
@@ -729,7 +729,7 @@ background: none;
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear Malla Regular – Cuadrilátero</string>
+                  <string>???????</string>
                  </property>
                 </widget>
                </item>
@@ -1283,7 +1283,7 @@ background: none;
                     </size>
                    </property>
                    <property name="text">
-                    <string>Mallar</string>
+                    <string>?????????</string>
                    </property>
                   </widget>
                  </item>
@@ -1338,7 +1338,7 @@ background: none;
                   </size>
                  </property>
                  <property name="text">
-                  <string>Lista de mallas</string>
+                  <string>Lista de contornos</string>
                  </property>
                 </widget>
                </item>

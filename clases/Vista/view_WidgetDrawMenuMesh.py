@@ -7,15 +7,16 @@ from PySide6.QtWidgets import ( QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDi
 from ui import ui_widget_draw_menu_mesh
 from clases import general_functions
 from clases import class_general
-from clases import class_ui_widget_draw_mesh_card
-from clases.class_graphics import PointItem,LineItem,TextItem, GraphicsSceneDraw, GraphicsViewDraw
+from clases.Vista import view_WidgetCardMesh
+#from clases.Vista.view_GraphicsDraw import PointItem,LineItem,TextItem, GraphicsSceneDraw, GraphicsViewDraw
+from clases.Vista.view_GraphicsDraw import PointItem,LineItem,TextItem
 import math
 import numpy as np
 import meshpy.triangle as triangle
 from scipy.spatial import Delaunay
 import scipy
-print(scipy.__version__)
-import pygmsh
+print("scipy.__version__",scipy.__version__)
+
 from clases import class_projects
 
 
@@ -33,7 +34,7 @@ class Mesh:
 
 
 
-class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
+class ViewWidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     """Esta clase crea el QFrame draw-menu-mesh para agregarlo a Frame Draw.
 
     Args:
@@ -62,17 +63,29 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
     signal_msn_critical = Signal(str)    
     signal_msn_satisfactory = Signal(str)    
     signal_msn_informative = Signal(str)  
-    signal_project_save_state = Signal(bool) 
     signal_deleted_card_mesh = Signal(bool) 
+    signal_end_draw_geometry = Signal() 
+
+    signal_select_line_mesh= Signal() 
+    signal_size_mesh= Signal() 
+    signal_new_mesh= Signal() 
     
     
-    def __init__(self, scene:GraphicsSceneDraw, view1:GraphicsViewDraw, view2:GraphicsViewDraw):
-        super(WidgetDrawMenuMesh, self).__init__()
+    #def __init__(self, scene:GraphicsSceneDraw, view1:GraphicsViewDraw, view2:GraphicsViewDraw):
+    def __init__(self):
+
+        super(ViewWidgetDrawMenuMesh, self).__init__()
         self.setupUi(self)
 
+        '''
         self.scene_draw = scene
         self.view_draw_1 = view1
         self.view_draw_2 = view2
+        '''
+
+        self.scene_draw = None
+        self.view_draw_1 = None
+        self.view_draw_2 = None
 
         # Atributo
         """
@@ -82,10 +95,7 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         self.__color_mesh = None
         self.__selected_objects=[]
 
-        self.__projectActual= None
-        self.__meshs= None
-
-        self.__hide_show_frame_mesh_1=True
+ 
         self.__hide_show_frame_mesh_2=True
         self.__hide_show_frame_mesh_3=True
         self.__hide_show_frame_mesh=True
@@ -138,14 +148,19 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         self.toolButton_cardMeshSubTitle3.clicked.connect(self.__clickedToolButtonCardMeshSubTitle3)
 
 
-        # ::::::::::::::::::   SEÑAL>>RANURA VIEW Y SCENE MESH :::::::::::::::::    
-        self.scene_draw.signal_mesh_select.connect(self.commandMeshSelectLine)      
-        self.scene_draw.signal_mesh_size.connect(self.commandMeshSize)      
+
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
     """ Métodos para los eventos de los botones y widget """
+
+    def addCardMesh(self, card_mesh):                   
+
+        self.verticalLayout_containerCardMesh.addWidget(card_mesh)
+        last_index = self.verticalLayout_containerCardMesh.count() - 1
+        self.verticalLayout_containerCardMesh.insertWidget(last_index, self.frame_empty)
+    
 
     def __editingFinishedLineEditMesh1(self):
         #self.__name_mesh = self.lineEdit_textMesh1.text()
@@ -160,17 +175,30 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
             self.__color_mesh=color.name()
             self.lineEdit_textMesh2.setStyleSheet('background-color : {}'.format(self.__color_mesh))
 
-    def __clickedToolButtonSelectLine(self):
-        self.scene_draw.endDrawGeometry
-        self.commandMeshSelectLine({"step":1, "data":None})  
     
     def __valueChangedDoubleSpinBoxlSizeMesh(self):
-        #self.__size_element_mesh = self.doubleSpinBoxl_textMesh4.value()
-        pass
+        self.__size_element_mesh = self.doubleSpinBoxl_textMesh4.value()
+
+
+    def __clickedToolButtonSelectLine(self):
+        self.signal_end_draw_geometry.emit()
+        self.signal_select_line_mesh.emit()
+        self.hideShowSelectedObjects(False) 
+        self.lineEdit_textMesh5.setText("{} Elementos".format(0)) 
 
     def __clickedToolButtonSizeMesh(self):
-        self.scene_draw.endDrawGeometry
-        self.commandMeshSize({"step":1, "data":None})  
+        self.signal_end_draw_geometry.emit()
+        self.signal_size_mesh.emit()
+
+    def selectLineMesh(self, no_lines):
+        self.lineEdit_textMesh5.setText("{} Elementos".format(no_lines))   
+
+
+    def sizeMesh(self, dist):
+        self.__size_element_mesh = dist
+        self.doubleSpinBoxl_textMesh4.setValue(self.__size_element_mesh)
+
+
 
     def hideShowSelectedObjects(self, state):     
 
@@ -188,112 +216,25 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
         """
         for object_selected in self.__selected_objects:
             object_selected.isSelectedMesh = state
-        self.scene_draw.update()
+        #### #self.scene_draw.update()
 
-
-    def commandMeshSelectLine(self, input:dict):
-        
-        step = input["step"]
-        data = input["data"]
-
-        if step == 1:    
-            self.hideShowSelectedObjects(False) 
-            self.__selected_objects = []
-            self.scene_draw.isMeshSelect = True            
-            self.scene_draw.isMeshCua = True            
-            self.view_draw_1.selectElement(True)
-            self.view_draw_2.selectElement(True)
-            self.lineEdit_textMesh5.setText("{} Elementos".format(0))
-
-        elif step == 2:  
-            coordinates = data
-            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
-            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
-            x1 = p1_select.x()
-            x2 = p2_select.x()
-
-            if p1_select==p2_select:
-                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
-            elif x1 > x2:
-                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
-            else:
-                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
-            count = 0
-            for item in items:        
-
-                if isinstance(item, TextItem) or isinstance(item,PointItem):                    
-                    continue    
-          
-                elif isinstance(item, LineItem):
-                    if not (item in self.__selected_objects) :
-                        count += 1
-                        self.__selected_objects.append(item)
-                        item.isSelectedMesh = True
-
-            if count > 0:
-                lines = len(self.__selected_objects)
-                print( "Se ha seleccionado en total {} elementos (nuevos +{}) ".format(lines,  count))
-                self.lineEdit_textMesh5.setText("{} Elementos".format(lines))   
-
-               
-                 
-        
-        """
-        
-        # 1) Inicio, selección de elementos
-        if step == 3:
-            # se activa modo borrar
-            self.scene_draw.isDrawSelect = True            
-            self.scene_draw.isDrawMeshCua= True            
-            #self.init_tool_geometry("erase","Seleccione un elemento [Exit]:")
-            self.view_draw_1.selectElement(True)
-            self.view_draw_2.selectElement(True)
-            self.lineEdit_textMesh5.setText("{} Elementos".format(0))
-
-        #tamaño de la malla
-        if step == 3:
-            selected_items = len(self.scene_draw.selected_items)
-            self.view_draw_1.selectElement(False)
-            self.view_draw_2.selectElement(False)                
-            self.scene_draw.update()
-            self.scene_draw.isDrawSelect = False
-            self.msnConsole("Command","{} Elementos seleccionados".format(selected_items)) 
-
-            self.scene_draw.admin.removeCommand(items= self.scene_draw.selected_items)
-            self.scene_draw.endDrawGeometry()
-            self.end_draw_geometry()
-
-            self.msnConsole("Command","Se ha eliminado los elementos seleccionados".format())
-
-        """
-
-    def commandMeshSize(self, input:dict):
-        
-        step = input["step"]
-        data = input["data"]        
-        
-        if step == 1:            
-            self.scene_draw.isMeshSize = True           
-
-        elif step == 2:
-            dx = (data[1][0] -data[0][0] )
-            dy = (data[1][1] -data[0][1] )
-            dist = (((dx)**2)+((dy)**2))**0.5
-            self.__size_element_mesh = dist
-            self.doubleSpinBoxl_textMesh4.setValue(self.__size_element_mesh)
-            self.scene_draw.endDrawGeometry()
-
-
-        
-    def __clickedToolButton_mesh(self):
-
+    def getNameNewMesh (self):
         name_mesh = self.lineEdit_textMesh1.text()
-        color_mesh = self.__color_mesh
-        selected_objects = self.__selected_objects
-        size_element_mesh = self.doubleSpinBoxl_textMesh4.value()
+        return name_mesh
+    
+    def getcolorNewMesh (self):        
+        return self.__color_mesh
+    
+    def getSizeNewMesh (self):    
+        size_element_mesh = self.doubleSpinBoxl_textMesh4.value()    
+        return size_element_mesh
+        
+    
 
-        # Validación de los datos de entrada
-        if name_mesh != "":
+
+    def msnAlertName(self, error, msn=""):
+        if not error:
+            # self.lineEdit_textMesh2.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_mesh))
             self.lineEdit_textMesh1.setStyleSheet("border-color: #444444")
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
@@ -302,37 +243,49 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
             self.lineEdit_textMesh1.setFocus()
             self.lineEdit_textMesh1.setStyleSheet("border: 1px solid #F94646")  
             self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa el nombre  de la malla")          
+            self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-            return     
 
-        print("&"*10000, "\n falalreviar el nom,bre")
-
-        if color_mesh != None:
-            self.lineEdit_textMesh2.setStyleSheet("border-color: #444444;background-color: {};".format(color_mesh))
+    def msnAlertColor(self, error, msn=""):
+        if not error:
+            self.lineEdit_textMesh2.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_mesh))
+            #self.lineEdit_textMesh2.setStyleSheet("border-color: #444444")
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
             
-        else:            
-
+        else:
+            self.lineEdit_textMesh2.setFocus()
             self.lineEdit_textMesh2.setStyleSheet("border: 1px solid #F94646")  
             self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa el color de la malla")          
+            self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-            return               
 
-
-        if len(selected_objects) >= 3 :
+    def msnAlertSelected(self, error, msn=""):
+        if not error:
             self.lineEdit_textMesh5.setStyleSheet("border-color: #444444")
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
             
-        else:            
+        else:
+            self.lineEdit_textMesh5.setFocus()
             self.lineEdit_textMesh5.setStyleSheet("border: 1px solid #F94646")  
             self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Selecciona más de 3 elementos")          
+            self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-            return
+
+
+    def __clickedToolButton_mesh(self):
+
+        self.signal_new_mesh.emit()
+        return
+
+        name_mesh = self.lineEdit_textMesh1.text()
+        color_mesh = self.__color_mesh
+        selected_objects = self.__selected_objects
+        size_element_mesh = self.doubleSpinBoxl_textMesh4.value()
+         
+
+
         
         # Validación de las líneas seleccionadas
         lines = []
@@ -507,13 +460,10 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
 
 
 
-                
 
 
 
-
-
-        card_mesh = class_ui_widget_draw_mesh_card.viewCardDrawMesh(
+        card_mesh = view_WidgetCardMesh.viewCardDrawMesh(
                                             parent=self,
                                             scene_draw=self.scene_draw,
                                             points = mesh.points,
@@ -609,131 +559,6 @@ class WidgetDrawMenuMesh(QFrame, ui_widget_draw_menu_mesh.Ui_FormDrawMenuMesh):
 	###############################################################################
 
 
-    def initDrawMenuDataProject(self,project:class_projects.Project):
-        """Asigna el proyecto actual a la vista menu-mesh  y actualiza las mallas del proyecto en el menú mesh y en scene.
-
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        self.__projectActual = project        
-        self.__setDbAttributes()
-        self.__setCardWidget()
-
-    def __setDbAttributes(self):
-        """ Recupera información de la base de datos del proyecto y los asigna a los atributos >> masllas
-        
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        
-        # Obtiene los datos db del proyecto actual
-        db_project = self.__projectActual.db_project
-        data_info = db_project.selectMeshDB()
-        self.__meshs = data_info["TRIANGULARES"]
-  
-
-
-    def __setCardWidget(self):
-        """ Recupera información de los atributos >> mallas y las coloca en los campos del draw-menu-mesh y scene """
-        
-        for mesh_name in self.__meshs:
-            name = self.__meshs[mesh_name]["name"]
-            color = self.__meshs[mesh_name]["color"]
-            points = self.__meshs[mesh_name]["points"]
-            triangles = self.__meshs[mesh_name]["triangles"]
-
-            print(name)
-            
-            card_mesh = class_ui_widget_draw_mesh_card.viewCardDrawMesh(
-                                                parent=self,
-                                                scene_draw=self.scene_draw,
-                                                points = points,
-                                                triangles=triangles,
-                                                cardNameMesh=name,
-                                                cardColorMesh = color,
-                                                cardShowHideMesh = True)
-            
-            self.verticalLayout_containerCardMesh.addWidget(card_mesh)
-
-            last_index = self.verticalLayout_containerCardMesh.count() - 1
-            self.verticalLayout_containerCardMesh.insertWidget(last_index, self.frame_empty)
 
     
     
-    ###############################################################################
-	# ::::::::::::::::::::        OTROS MÉTODOS          ::::::::::::::::::::
-	###############################################################################
-
-    def line_Intersection(self, polygon):
-        len_lines = len(polygon)
-        linesF = []
-        for line in polygon:
-            p1=QPointF(line[0][0], line[0][1])
-            p2=QPointF(line[1][0], line[1][1])
-            linesF.append(QLineF(p1, p2 ))
-            
-        new_list_line=[]
-        while True:
-            line_ref = linesF[-1]
-            linesF.pop(-1)   
-            for line in linesF:
-                intersection_type, intersection_point = line_ref.intersects(line)
-                #print("TIpo:",intersection_type, intersection_point)               
-                if intersection_type == QLineF.IntersectionType.BoundedIntersection:
-                    if line_ref.p1()!=intersection_point and line_ref.p2()!=intersection_point and  line.p1()!=intersection_point and line.p2()!=intersection_point:
-                    
-                        return True
-            new_list_line.append(line_ref)
-            if len(linesF)==0:
-                return False
-    
-    def is_closed_polygon(self, lines:list):
-
-        polygon = []
-        current_line = lines.pop(0)
-        star_point = current_line[0]
-        end_point = current_line[1]
-        polygon.append(current_line)        
-
-        while True:
-
-            if len(lines) <= 0:
-                break
-
-            index = 0
-            joined_lines = False
-
-            for line in lines:
-                p1 = line[0]
-                p2 = line[1]
-             
-                if p1 == end_point:
-                    current_line = line
-                    lines.pop(index)
-                    star_point = p1
-                    end_point = p2
-                    polygon.append((star_point,end_point))
-                    joined_lines = True
-                    break
-            
-                elif  p2 == end_point:
-                    current_line = line
-                    lines.pop(index)
-                    star_point = p2
-                    end_point = p1
-                    polygon.append((star_point,end_point))
-                    joined_lines = True
-                    break
-                index += 1
-
-            if not joined_lines:
-                return False
-        
-        polygon_star_point = polygon[0][0]
-        polygon_end_point = polygon[-1][-1]
-
-        if polygon_star_point ==polygon_end_point:
-            return polygon
-        else:
-            return False
-        

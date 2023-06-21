@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_meshflhtsi.ui'
+## Form generated from reading UI file 'widget_draw_menu_boundaryYUwrID.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -20,19 +20,19 @@ from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFormLayout, QFrame
     QSizePolicy, QSpacerItem, QToolButton, QVBoxLayout,
     QWidget)
 
-class Ui_FormDrawMenuMesh(object):
-    def setupUi(self, FormDrawMenuMesh):
-        if not FormDrawMenuMesh.objectName():
-            FormDrawMenuMesh.setObjectName(u"FormDrawMenuMesh")
-        FormDrawMenuMesh.resize(350, 644)
+class Ui_FormDrawMenuBoundary(object):
+    def setupUi(self, FormDrawMenuBoundary):
+        if not FormDrawMenuBoundary.objectName():
+            FormDrawMenuBoundary.setObjectName(u"FormDrawMenuBoundary")
+        FormDrawMenuBoundary.resize(350, 644)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(FormDrawMenuMesh.sizePolicy().hasHeightForWidth())
-        FormDrawMenuMesh.setSizePolicy(sizePolicy)
-        FormDrawMenuMesh.setMinimumSize(QSize(0, 0))
-        FormDrawMenuMesh.setMaximumSize(QSize(350, 16777215))
-        FormDrawMenuMesh.setStyleSheet(u"/*Colores primarios*/\n"
+        sizePolicy.setHeightForWidth(FormDrawMenuBoundary.sizePolicy().hasHeightForWidth())
+        FormDrawMenuBoundary.setSizePolicy(sizePolicy)
+        FormDrawMenuBoundary.setMinimumSize(QSize(0, 0))
+        FormDrawMenuBoundary.setMaximumSize(QSize(350, 16777215))
+        FormDrawMenuBoundary.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro #222222 #333333 #444444\n"
 "gris claro #999999 #DDDDDD\n"
@@ -70,13 +70,13 @@ class Ui_FormDrawMenuMesh(object):
 "\n"
 "\n"
 "\n"
-"QFrame#frame_meshProject{\n"
+"QFrame#frame_boundaryProject{\n"
 "background: #333333;\n"
 "border-radius: 8px\n"
 "}\n"
 "\n"
-"/*########################"
-                        "#########################################*/\n"
+"/*####################"
+                        "#############################################*/\n"
 "/*####################       FRAME HIDE       ###########################*/\n"
 "/*#################################################################*/\n"
 "\n"
@@ -97,7 +97,7 @@ class Ui_FormDrawMenuMesh(object):
 "/*#################################################################*/\n"
 "/*####################       FRAME MESH       ###########################*/\n"
 "/*#################################################################*/\n"
-"QFrame#frame_mesh{\n"
+"QFrame#frame_boundary{\n"
 "background: transparent;\n"
 "}\n"
 "QFrame#frame_title{\n"
@@ -110,8 +110,8 @@ class Ui_FormDrawMenuMesh(object):
 "}\n"
 "QFrame#frame_meshSubTitle1,\n"
 "QFrame#frame_meshSubTitle2,\n"
-"QFrame#frame_meshSu"
-                        "bTitle3{\n"
+"QFrame#fram"
+                        "e_meshSubTitle3{\n"
 "background: #222222;\n"
 "border-radius:2px;\n"
 "}\n"
@@ -140,8 +140,8 @@ class Ui_FormDrawMenuMesh(object):
 "QToolButton#toolButton_cardMeshDraw10,\n"
 "QToolButton#toolButton_cardMeshDraw11{\n"
 "background-color: transparent;\n"
-"bord"
-                        "er: 1px solid #222222;\n"
+""
+                        "border: 1px solid #222222;\n"
 "border-radius: 3px ;\n"
 "}\n"
 "QToolButton#toolButton_cardMeshDraw1:hover,\n"
@@ -170,8 +170,8 @@ class Ui_FormDrawMenuMesh(object):
 "QLabel#label_textMesh1,\n"
 "QLabel#label_textMesh2,\n"
 "QLabel#label_textMesh3,\n"
-"QLabel"
-                        "#label_textMesh4,\n"
+"QL"
+                        "abel#label_textMesh4,\n"
 "QLabel#label_textMesh5{\n"
 "font: 300 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
@@ -224,8 +224,8 @@ class Ui_FormDrawMenuMesh(object):
 "}\n"
 "\n"
 "\n"
-"QToolButton#toolButton"
-                        "_cardMeshDraw7,\n"
+"QToolButton#toolBu"
+                        "tton_cardMeshDraw7,\n"
 "QToolButton#toolButton_cardMeshDraw5,\n"
 "QToolButton#toolButton_cardMeshDraw6{\n"
 "background-color: transparent;\n"
@@ -264,8 +264,8 @@ class Ui_FormDrawMenuMesh(object):
 "\n"
 "\n"
 "\n"
-"/*####################################"
-                        "#######################*/\n"
+"/*################################"
+                        "###########################*/\n"
 "/*###############          FRAME LISTA MALLAS         ##################*/\n"
 "/*###########################################################*/\n"
 "\n"
@@ -304,9 +304,9 @@ class Ui_FormDrawMenuMesh(object):
 "    background-color: #888888;\n"
 "    min-height: 14px;\n"
 "	border-radius: 7px;\n"
-"}\n"
-""
-                        "QScrollBar::handle:vertical:hover {\n"
+"}"
+                        "\n"
+"QScrollBar::handle:vertical:hover {\n"
 "    background-color: #777777;\n"
 "}\n"
 "QScrollBar::handle:vertical:pressed {\n"
@@ -348,8 +348,8 @@ class Ui_FormDrawMenuMesh(object):
 "    background-color: #777777;\n"
 "}\n"
 "QScrollBar::add-line:vertical:pressed{\n"
-"   backgrou"
-                        "nd-color: #666666;\n"
+"   bac"
+                        "kground-color: #666666;\n"
 "}\n"
 "\n"
 "\n"
@@ -392,9 +392,9 @@ class Ui_FormDrawMenuMesh(object):
 "width: 15px;\n"
 "subcontrol-position: left;\n"
 "subcontrol-origin: margin;\n"
-"}\n"
-""
+"}"
                         "\n"
+"\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover{\n"
 "    background-color: #777777;\n"
@@ -428,24 +428,24 @@ class Ui_FormDrawMenuMesh(object):
 "}\n"
 "\n"
 "")
-        self.horizontalLayout_6 = QHBoxLayout(FormDrawMenuMesh)
+        self.horizontalLayout_6 = QHBoxLayout(FormDrawMenuBoundary)
         self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
-        self.frame_meshProject = QFrame(FormDrawMenuMesh)
-        self.frame_meshProject.setObjectName(u"frame_meshProject")
+        self.frame_boundaryProject = QFrame(FormDrawMenuBoundary)
+        self.frame_boundaryProject.setObjectName(u"frame_boundaryProject")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.frame_meshProject.sizePolicy().hasHeightForWidth())
-        self.frame_meshProject.setSizePolicy(sizePolicy1)
-        self.frame_meshProject.setFrameShape(QFrame.StyledPanel)
-        self.frame_meshProject.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout = QHBoxLayout(self.frame_meshProject)
+        sizePolicy1.setHeightForWidth(self.frame_boundaryProject.sizePolicy().hasHeightForWidth())
+        self.frame_boundaryProject.setSizePolicy(sizePolicy1)
+        self.frame_boundaryProject.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundaryProject.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout = QHBoxLayout(self.frame_boundaryProject)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.frame_hide = QFrame(self.frame_meshProject)
+        self.frame_hide = QFrame(self.frame_boundaryProject)
         self.frame_hide.setObjectName(u"frame_hide")
         sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
@@ -502,17 +502,17 @@ class Ui_FormDrawMenuMesh(object):
 
         self.horizontalLayout.addWidget(self.frame_hide)
 
-        self.frame_mesh = QFrame(self.frame_meshProject)
-        self.frame_mesh.setObjectName(u"frame_mesh")
-        sizePolicy1.setHeightForWidth(self.frame_mesh.sizePolicy().hasHeightForWidth())
-        self.frame_mesh.setSizePolicy(sizePolicy1)
-        self.frame_mesh.setFrameShape(QFrame.StyledPanel)
-        self.frame_mesh.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_3 = QVBoxLayout(self.frame_mesh)
+        self.frame_boundary = QFrame(self.frame_boundaryProject)
+        self.frame_boundary.setObjectName(u"frame_boundary")
+        sizePolicy1.setHeightForWidth(self.frame_boundary.sizePolicy().hasHeightForWidth())
+        self.frame_boundary.setSizePolicy(sizePolicy1)
+        self.frame_boundary.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundary.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_boundary)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.frame_title = QFrame(self.frame_mesh)
+        self.frame_title = QFrame(self.frame_boundary)
         self.frame_title.setObjectName(u"frame_title")
         sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy4.setHorizontalStretch(0)
@@ -538,7 +538,7 @@ class Ui_FormDrawMenuMesh(object):
 
         self.verticalLayout_3.addWidget(self.frame_title)
 
-        self.frame_info = QFrame(self.frame_mesh)
+        self.frame_info = QFrame(self.frame_boundary)
         self.frame_info.setObjectName(u"frame_info")
         self.frame_info.setFrameShape(QFrame.StyledPanel)
         self.frame_info.setFrameShadow(QFrame.Raised)
@@ -859,37 +859,37 @@ class Ui_FormDrawMenuMesh(object):
         self.verticalLayout_3.addWidget(self.frame_info)
 
 
-        self.horizontalLayout.addWidget(self.frame_mesh)
+        self.horizontalLayout.addWidget(self.frame_boundary)
 
 
-        self.horizontalLayout_6.addWidget(self.frame_meshProject)
+        self.horizontalLayout_6.addWidget(self.frame_boundaryProject)
 
 
-        self.retranslateUi(FormDrawMenuMesh)
+        self.retranslateUi(FormDrawMenuBoundary)
 
-        QMetaObject.connectSlotsByName(FormDrawMenuMesh)
+        QMetaObject.connectSlotsByName(FormDrawMenuBoundary)
     # setupUi
 
-    def retranslateUi(self, FormDrawMenuMesh):
-        FormDrawMenuMesh.setWindowTitle(QCoreApplication.translate("FormDrawMenuMesh", u"Form", None))
+    def retranslateUi(self, FormDrawMenuBoundary):
+        FormDrawMenuBoundary.setWindowTitle(QCoreApplication.translate("FormDrawMenuBoundary", u"Form", None))
         self.toolButton_hideShow.setText("")
-        self.label_cardMeshTitle.setText(QCoreApplication.translate("FormDrawMenuMesh", u"MALLADO", None))
-        self.label_cardMeshSubTitle2.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Crear Malla Regular \u2013 Cuadril\u00e1tero", None))
+        self.label_cardMeshTitle.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"CONTORNO", None))
+        self.label_cardMeshSubTitle2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"???????", None))
         self.toolButton_cardMeshSubTitle2.setText("")
-        self.label_textMesh1.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Nombre:", None))
-        self.label_textMesh2.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Color:", None))
+        self.label_textMesh1.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Nombre:", None))
+        self.label_textMesh2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Color:", None))
         self.lineEdit_textMesh2.setText("")
         self.toolButton_cardMeshDraw7.setText("")
-        self.label_textMesh3.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Tama\u00f1o de la malla:", None))
+        self.label_textMesh3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tama\u00f1o de la malla:", None))
         self.lineEdit_textMesh1.setText("")
-        self.doubleSpinBoxl_textMesh4.setSuffix(QCoreApplication.translate("FormDrawMenuMesh", u"m", None))
+        self.doubleSpinBoxl_textMesh4.setSuffix(QCoreApplication.translate("FormDrawMenuBoundary", u"m", None))
         self.toolButton_cardMeshDraw5.setText("")
-        self.label_textMesh4.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Seleccionar:", None))
+        self.label_textMesh4.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Seleccionar:", None))
         self.lineEdit_textMesh5.setText("")
         self.toolButton_cardMeshDraw6.setText("")
-        self.toolButton_mesh.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Mallar", None))
-        self.label_cardMeshSubTitle3.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Lista de mallas", None))
+        self.toolButton_mesh.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"?????????", None))
+        self.label_cardMeshSubTitle3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Lista de contornos", None))
         self.toolButton_cardMeshSubTitle3.setText("")
-        self.label_msn.setText(QCoreApplication.translate("FormDrawMenuMesh", u"Empty", None))
+        self.label_msn.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Empty", None))
     # retranslateUi
 

@@ -2,8 +2,7 @@
 """ Este módulo contiene controlador de la vista pagina home """
 from PySide6.QtCore import ( QFile, Slot)
 from clases.Vista.view_PageHome import  ViewPageHome
-from clases.Vista.view_WidgetCardProject import ViewWidgetCardProjectHome
-from clases.controlador.controller_CardProject import ControllerCardProject
+from clases.Controlador.controller_CardProject import ControllerCardProject
 from clases.Modelo.model_Projects import ModelProject
 import typing
 
@@ -15,12 +14,13 @@ class ControllerPageHome():
         self.controller_main = controller_main 
         self.controller_card_projects = []
 
-        #Crea la vista MainWindow
+        #Crea la vista ViewPageHome
         self.view_page_home = ViewPageHome()
 
 
         self.view_page_home.signal_new_project.connect(self.newProject)
         self.view_page_home.signal_open_project.connect(self.openProject)      
+        
         
 
         self.updateProjectsCartView(list_projects)

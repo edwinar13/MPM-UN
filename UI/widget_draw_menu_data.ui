@@ -440,7 +440,7 @@ border-left: 2px solid #222222;
             <item>
              <widget class="QLabel" name="label_cardDataTitle">
               <property name="text">
-               <string>DIBUJO Y INFORMACIÓN DEL PROYECTO</string>
+               <string>DIBUJO E INFORMACIÓN DEL PROYECTO</string>
               </property>
              </widget>
             </item>

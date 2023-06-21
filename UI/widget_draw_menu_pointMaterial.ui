@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDrawMenuMesh</class>
- <widget class="QWidget" name="FormDrawMenuMesh">
+ <class>FormDrawMenuPointMaterial</class>
+ <widget class="QWidget" name="FormDrawMenuPointMaterial">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -70,7 +70,7 @@ padding: 2px 0px;
 
 
 
-QFrame#frame_meshProject{
+QFrame#frame_pointMaterialProject{
 background: #333333;
 border-radius: 8px
 }
@@ -103,33 +103,14 @@ QFrame#frame_title{
 background: #222222;
 border-top-right-radius: 8px;
 }
-QLabel#label_cardMeshTitle{
-font: 700 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-}
-QFrame#frame_meshSubTitle1,
-QFrame#frame_meshSubTitle2,
-QFrame#frame_meshSubTitle3{
-background: #222222;
-border-radius:2px;
-}
-QLabel#label_cardMeshSubTitle1,
-QLabel#label_cardMeshSubTitle2,
-QLabel#label_cardMeshSubTitle3{
-font: 500 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-}
-QToolButton#toolButton_cardMeshSubTitle1,
-QToolButton#toolButton_cardMeshSubTitle2,
-QToolButton#toolButton_cardMeshSubTitle3{
-background-color: transparent;
-}
+
 
 
 /*###########################################################################*/
 /*################      FRAME MALLA REGULAR CUADRILÁTERO       ######################*/
 /*###########################################################################*/
 
+/*
 QToolButton#toolButton_cardMeshDraw1,
 QToolButton#toolButton_cardMeshDraw2,
 QToolButton#toolButton_cardMeshDraw3,
@@ -163,99 +144,12 @@ border-left: 2px solid #222222;
 
 
 
-/*******************************************/
-QLabel#label_textMesh1,
-QLabel#label_textMesh2,
-QLabel#label_textMesh3,
-QLabel#label_textMesh4,
-QLabel#label_textMesh5{
-font: 300 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-}
-
-
-#doubleSpinBoxl_textMesh4,
-QLineEdit#lineEdit_textMesh1,
-QLineEdit#lineEdit_textMesh4{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
-
-}
-
-
-QLineEdit#lineEdit_textMesh2,
-QLineEdit#lineEdit_textMesh5{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
-
-}
+*/
 
 
 
-QLineEdit#lineEdit_textMesh3{
-font: 7pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 2px;
-padding-left: 2px;
-
-}
 
 
-
-QLineEdit#lineEdit_textMesh3,
-QLineEdit#lineEdit_textMesh5{
-color: #888888;
-}
-
-
-QToolButton#toolButton_cardMeshDraw7,
-QToolButton#toolButton_cardMeshDraw5,
-QToolButton#toolButton_cardMeshDraw6{
-background-color: transparent;
-border: 1px solid #222222;
-border-radius: 3px;
-margin-left: 4px;
-}
-
-
-QToolButton#toolButton_cardMeshDraw7:hover,
-QToolButton#toolButton_cardMeshDraw5:hover, 
-QToolButton#toolButton_cardMeshDraw6:hover{ 
-background-color: #444444;
-}
-QToolButton#toolButton_cardMeshDraw7:pressed,
-QToolButton#toolButton_cardMeshDraw5:pressed,
-QToolButton#toolButton_cardMeshDraw6:pressed{
-border-top: 2px solid #222222;
-border-left: 2px solid #222222;
-}  
-
-
-
-/*******************************************/
-QToolButton#toolButton_mesh{
-font: 500 10pt &quot;Ubuntu&quot;;
-color: #222222;
-background-color: #77ACA2;
-border: none;
-padding: 6px 25px;
-border-radius: 8px ;
-}
-QToolButton#toolButton_mesh:hover{
-background-color: #36C9C6;
-}
 
 
 
@@ -418,6 +312,165 @@ QScrollBar::add-page:horizontal,QScrollBar::sub-page:horizontal{
 background: none;
 }
 
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+/*******************************************/
+QToolButton[QToolButtonStyle=&quot;2&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #222222;
+background-color: #77ACA2;
+border: none;
+padding: 6px 25px;
+border-radius: 8px ;
+}
+QToolButton[QToolButtonStyle=&quot;2&quot;]:hover{
+background-color: #36C9C6;
+}
+
+
+/*****************************************/
+QToolButton[QToolButtonStyle=&quot;3&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #910D3F;
+border: none;
+padding: 6px 5px;
+border-radius: 8px ;
+}
+QToolButton[QToolButtonStyle=&quot;3&quot;]:hover{
+background-color: #C70039;
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+
+
+QLineEdit[QLineEditStyle=&quot;1&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+QLineEdit[QLineEditStyle=&quot;2&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #333333;
+border: 1px solid #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+
+
+QLineEdit#lineEdit_textMesh3{
+font: 7pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #333333;
+border: 1px solid #444444;
+border-radius: 2px ;
+padding-right: 2px;
+padding-left: 2px;
+
+}
+
+
+/*
+QLineEdit#lineEdit_textMesh3,
+QLineEdit#lineEdit_textMesh5{
+color: #888888;
+}
+*/
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QFrame          ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QFrame[QFrameSubTitleStyle=&quot;1&quot;] {
+background: #222222;
+border-radius:2px;
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QToolButton[QToolButtonSubTitleStyle=&quot;1&quot;] {
+background-color: transparent;
+}
+
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLabel           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QLabel[QLabelStyle=&quot;1&quot;] {
+font: 700 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+QLabel[QLabelStyle=&quot;2&quot;] {
+font: 500 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+QLabel[QLabelStyle=&quot;3&quot;] {
+font: 300 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QComboBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QComboBox[QComboBoxStyle=&quot;1&quot;] {
+    border: none;
+    background-color: #444444;
+	color: #DDDDDD;
+    border-radius: 2px;
+    padding: 5px;
+	font:  9pt &quot;Ubuntu&quot;;
+    selection-background-color: #808080;
+}
+QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
+    border: none;
+    background-color: #404040;
+    color: white;
+    selection-background-color: #808080;
+    font: 700 9pt &quot;Ubuntu&quot;;
+}
+
+
+
+
+
+
+
+
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -437,7 +490,7 @@ background: none;
     <number>5</number>
    </property>
    <item>
-    <widget class="QFrame" name="frame_meshProject">
+    <widget class="QFrame" name="frame_pointMaterialProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -605,7 +658,7 @@ background: none;
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_mesh">
+       <widget class="QFrame" name="frame_pointMaterial">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -665,9 +718,12 @@ background: none;
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLabel" name="label_cardMeshTitle">
+             <widget class="QLabel" name="label_cardPointMaterialTitle">
               <property name="text">
-               <string>MALLADO</string>
+               <string>PUNTO MATERIAL</string>
+              </property>
+              <property name="QLabelStyle" stdset="0">
+               <number>1</number>
               </property>
              </widget>
             </item>
@@ -697,12 +753,15 @@ background: none;
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_meshSubTitle2">
+             <widget class="QFrame" name="frame_PointMaterialSubTitle2">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
+              </property>
+              <property name="QFrameSubTitleStyle" stdset="0">
+               <number>1</number>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
@@ -721,7 +780,7 @@ background: none;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardMeshSubTitle2">
+                <widget class="QLabel" name="label_cardPointMaterialSubTitle2">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -729,12 +788,15 @@ background: none;
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear Malla Regular – Cuadrilátero</string>
+                  <string>Crear Puntos Material</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardMeshSubTitle2">
+                <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle2">
                  <property name="text">
                   <string/>
                  </property>
@@ -744,6 +806,9 @@ background: none;
                  </property>
                  <property name="arrowType">
                   <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
                  </property>
                 </widget>
                </item>
@@ -799,7 +864,7 @@ background: none;
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QLabel" name="label_textMesh1">
+                   <widget class="QLabel" name="label_textPointMaterialName">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -809,10 +874,35 @@ background: none;
                     <property name="text">
                      <string>Nombre:</string>
                     </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
                    </widget>
                   </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_textMesh2">
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="lineEdit_textPointMaterialName">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="QLineEditStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_textPointMaterialColor">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -822,15 +912,18 @@ background: none;
                     <property name="text">
                      <string>Color:</string>
                     </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
                    </widget>
                   </item>
-                  <item row="1" column="1">
+                  <item row="2" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_9">
                     <property name="spacing">
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_textMesh2">
+                     <widget class="QLineEdit" name="lineEdit_textPointMaterialColor">
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
@@ -1051,10 +1144,13 @@ background: none;
                       <property name="text">
                        <string/>
                       </property>
+                      <property name="QLineEditStyle" stdset="0">
+                       <number>2</number>
+                      </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QToolButton" name="toolButton_cardMeshDraw7">
+                     <widget class="QToolButton" name="toolButton_PointMaterialColor">
                       <property name="text">
                        <string/>
                       </property>
@@ -1071,12 +1167,38 @@ background: none;
                       <property name="arrowType">
                        <enum>Qt::NoArrow</enum>
                       </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
                      </widget>
                     </item>
                    </layout>
                   </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_textMesh3">
+                  <item row="3" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_11">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_PointMaterialBaseMesh">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="focusPolicy">
+                       <enum>Qt::WheelFocus</enum>
+                      </property>
+                      <property name="QComboBoxStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_textPointMaterialNPoints">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -1084,30 +1206,14 @@ background: none;
                      </size>
                     </property>
                     <property name="text">
-                     <string>Tamaño de la malla:</string>
+                     <string>Puntos x elemento:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_textMesh1">
-                    <property name="minimumSize">
-                     <size>
-                      <width>150</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
+                  <item row="4" column="1">
                    <widget class="QFrame" name="frame">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1138,58 +1244,23 @@ background: none;
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMesh4">
-                       <property name="enabled">
-                        <bool>true</bool>
-                       </property>
+                      <widget class="QComboBox" name="comboBox_PointMaterialNPoints">
                        <property name="minimumSize">
                         <size>
-                         <width>120</width>
+                         <width>0</width>
                          <height>25</height>
                         </size>
                        </property>
-                       <property name="suffix">
-                        <string>m</string>
-                       </property>
-                       <property name="decimals">
-                        <number>2</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.010000000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.010000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>1.000000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QToolButton" name="toolButton_cardMeshDraw5">
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>../recursos/iconos/iconos_menu_draw_mesh/click.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/click.svg</iconset>
-                       </property>
-                       <property name="iconSize">
-                        <size>
-                         <width>20</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                       <property name="arrowType">
-                        <enum>Qt::NoArrow</enum>
+                       <property name="QComboBoxStyle" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
                     </layout>
                    </widget>
                   </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_textMesh4">
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_textPointMaterialBaseMesh">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -1197,58 +1268,12 @@ background: none;
                      </size>
                     </property>
                     <property name="text">
-                     <string>Seleccionar:</string>
+                     <string>Malla Base:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
                     </property>
                    </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_11">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QLineEdit" name="lineEdit_textMesh5">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>120</width>
-                        <height>25</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QToolButton" name="toolButton_cardMeshDraw6">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>../recursos/iconos/iconos_menu_draw_mesh/select.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/select.svg</iconset>
-                      </property>
-                      <property name="iconSize">
-                       <size>
-                        <width>20</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="arrowType">
-                       <enum>Qt::NoArrow</enum>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
                   </item>
                  </layout>
                 </widget>
@@ -1269,7 +1294,29 @@ background: none;
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton_mesh">
+                  <widget class="QToolButton" name="toolButton_PointMaterialCancel">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Cancelar</string>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="toolButton_PointMaterial">
                    <property name="minimumSize">
                     <size>
                      <width>150</width>
@@ -1283,7 +1330,10 @@ background: none;
                     </size>
                    </property>
                    <property name="text">
-                    <string>Mallar</string>
+                    <string>Crear Puntos</string>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>2</number>
                    </property>
                   </widget>
                  </item>
@@ -1306,12 +1356,15 @@ background: none;
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_meshSubTitle3">
+             <widget class="QFrame" name="frame_PointMaterialSubTitle3">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
+              </property>
+              <property name="QFrameSubTitleStyle" stdset="0">
+               <number>1</number>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
@@ -1330,7 +1383,7 @@ background: none;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardMeshSubTitle3">
+                <widget class="QLabel" name="label_cardPointMaterialSubTitle3">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1338,12 +1391,15 @@ background: none;
                   </size>
                  </property>
                  <property name="text">
-                  <string>Lista de mallas</string>
+                  <string>Lista de puntos materiales</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardMeshSubTitle3">
+                <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle3">
                  <property name="text">
                   <string/>
                  </property>
@@ -1353,6 +1409,9 @@ background: none;
                  </property>
                  <property name="arrowType">
                   <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
                  </property>
                 </widget>
                </item>

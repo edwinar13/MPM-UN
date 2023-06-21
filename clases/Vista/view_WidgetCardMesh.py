@@ -7,7 +7,7 @@ from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QGraphicsItem
 from ui import ui_widget_draw_mesh_card
 from clases import class_general
 from clases import class_ui_dialog_msg
-from clases.class_graphics import GraphicsSceneDraw
+
 
  
 
@@ -25,25 +25,28 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
             __card_show_hide_mesh (bool): Estado para mostrar u ocultar la malla.
 
     """    
-    signal_open_project = Signal(str)
+    signal_hide_show_mesh = Signal(bool)
+    signal_delete_mesh = Signal()
+    signal_update_mesh = Signal(dict)
+    
 
-    def __init__(self, parent, scene_draw:GraphicsSceneDraw, points, triangles, cardNameMesh="", cardColorMesh="#ffffff",cardShowHideMesh=True):
-        super(viewCardDrawMesh, self).__init__(parent)
+
+    ##def __init__(self, parent, scene_draw, points, triangles, cardNameMesh="", cardColorMesh="#ffffff",cardShowHideMesh=True):
+    def __init__(self,controller_CardMesh, points, triangles, cardNameMesh="", cardColorMesh="#ffffff"):
+        #super(viewCardDrawMesh, self).__init__(parent)
+        super(viewCardDrawMesh, self).__init__()
         self.setupUi(self)
         
         # Atributo
-        self.__parent = parent
-        self.__card_name_mesh = cardNameMesh.replace("Mesh: ","")
+        ##self.__parent = parent
+        self.controller_CardMesh = controller_CardMesh
+        self.__card_name_mesh = cardNameMesh
         self.__card_color_mesh = cardColorMesh
-        self.__card_show_hide_mesh = cardShowHideMesh
+        self.__card_show_hide_mesh = True
 
         self.__points = points
         self.__triangles = triangles
 
-        self.__draw_triangle = []
-        self.__group_triangle = QGraphicsItemGroup()
-        self.scene_draw = scene_draw
-        self.scene_draw.addItem(self.__group_triangle)
 
         # Configura la UI
         self._configUi()
@@ -53,7 +56,7 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
 
 
         self.setPointsTriangles()
-        self.drawTriangles()
+        #self.drawTriangles()
 
 
         data={"name":self.__card_name_mesh,
@@ -62,7 +65,7 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
             "triangles":self.__triangles,
             }
       
-        self.scene_draw.admin.addMesh(name=self.__card_name_mesh,data=data)
+        ##self.scene_draw.admin.addMesh(name=self.__card_name_mesh,data=data)
 
    
     def setPointsTriangles(self):
@@ -106,6 +109,7 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
         self.lineEdit_nameMesh.setVisible(False)
         self.toolButton_colorMesh.setVisible(False)
         self.toolButton_okMesh.setVisible(False)
+        self.toolButton_exitMesh.setVisible(False)
      
 
 
@@ -117,59 +121,92 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
         self.toolButton_editMesh.clicked.connect(self.__clickedToolButtonEditMesh)
         self.toolButton_colorMesh.clicked.connect(self.__clickedToolButtonColorMesh)
         self.toolButton_okMesh.clicked.connect(self.__clickedToolButtonOkMesh)
+        self.toolButton_exitMesh.clicked.connect(self.__clickedToolButtonExitMesh)
 
         
      
-
+        '''
         #este es una forma de darle evento a un frame
         observer = class_general.MouseObserver(self.label_cardNameMesh)
+        '''
 
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
 
-    def __clickedToolButtonOkMesh(self):
 
+
+
+    def __clickedToolButtonExitMesh(self):
+
+ 
         self.lineEdit_nameMesh.setVisible(False)
         self.toolButton_colorMesh.setVisible(False)
         self.toolButton_okMesh.setVisible(False)
-
+        self.toolButton_exitMesh.setVisible(False)
+        self.frame_color.setFixedWidth(10)
         self.toolButton_closeMesh.setVisible(True)
         self.toolButton_editMesh.setVisible(True)
         self.toolButton_showHideMesh.setVisible(True)
         self.label_cardNameMesh.setVisible(True)
 
+        self.__card_color_mesh=self.card_color_mesh_prev
+        self.card_color_mesh_prev = None
+        self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_mesh))
+
+ 
+
+
+    def __clickedToolButtonOkMesh(self):
+
+        name_prev =self.label_cardNameMesh.text()
+
+        self.lineEdit_nameMesh.setVisible(False)
+        self.toolButton_colorMesh.setVisible(False)
+        self.toolButton_okMesh.setVisible(False)
+        self.toolButton_exitMesh.setVisible(False)
+        self.frame_color.setFixedWidth(10)
+        self.toolButton_closeMesh.setVisible(True)
+        self.toolButton_editMesh.setVisible(True)
+        self.toolButton_showHideMesh.setVisible(True)
+        self.label_cardNameMesh.setVisible(True)
+
+
         self.__card_name_mesh = self.lineEdit_nameMesh.text()
         self.lineEdit_nameMesh.setText("")
         self.label_cardNameMesh.setText(self.__card_name_mesh)
 
-        data={"name":self.__card_name_mesh,
+
+        self.card_color_mesh_prev = None
+
+        data={"name_prev":name_prev,
+            "name":self.__card_name_mesh,
             "color":self.__card_color_mesh,
             "points":self.__points,
             "triangles":self.__triangles,
-            }      
-        self.scene_draw.admin.updateMesh(name=self.__card_name_mesh,data=data)
+            }        
+        self.signal_update_mesh.emit(data)
 
-        color_mesh = self.__card_color_mesh
-        pen= QPen(color_mesh)
-        pen.setWidth(0)
-        for triangle_draw in self.__draw_triangle: 
-            triangle_draw.setPen(pen)
+
 
 
     def __clickedToolButtonEditMesh(self):
         self.lineEdit_nameMesh.setVisible(True)
         self.toolButton_colorMesh.setVisible(True)
         self.toolButton_okMesh.setVisible(True)
+        self.toolButton_exitMesh.setVisible(True)
 
         self.toolButton_closeMesh.setVisible(False)
         self.toolButton_editMesh.setVisible(False)
         self.toolButton_showHideMesh.setVisible(False)
         self.label_cardNameMesh.setVisible(False)
+        self.frame_color.setFixedWidth(20)
 
         self.lineEdit_nameMesh.setText(self.__card_name_mesh)
         self.lineEdit_nameMesh.setFocus()
+        self.card_color_mesh_prev = self.__card_color_mesh
+
 
     def __clickedToolButtonColorMesh(self):
         color = QColorDialog.getColor()
@@ -177,30 +214,26 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
             self.__card_color_mesh=color.name()
             self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_mesh))
 
+
     def __clickedToolButtonShowHideMesh(self):
         """ Muestra u oculta la malla """
-        print(self.__card_show_hide_mesh)
-        if self.__card_show_hide_mesh == True:            
-            self.__card_show_hide_mesh = False
-            self.__group_triangle.setVisible(False)    
-            self.toolButton_showHideMesh.setIcon(self.icon_hide)
-            '''
-            for item in self.__draw_triangle:
-                #alkgo = QGraphicsPolygonItem() 
-                item.setVisible(False)
-            '''    
-            
 
-        elif self.__card_show_hide_mesh == False:            
+        if self.__card_show_hide_mesh:            
+            self.__card_show_hide_mesh = False
+            self.toolButton_showHideMesh.setIcon(self.icon_hide)
+            
+        else :            
             self.__card_show_hide_mesh = True
-            self.toolButton_showHideMesh.setIcon(self.icon_show)            
-            self.__group_triangle.setVisible(True)     
+            self.toolButton_showHideMesh.setIcon(self.icon_show)    
+      
+        self.signal_hide_show_mesh.emit(self.__card_show_hide_mesh)
+
+
         
-    
     def __clickedToolButtonCloseMesh(self):
         
 
-        dialoMsg = class_ui_dialog_msg.DialogMsg(self.__parent, 3, 
+        dialoMsg = class_ui_dialog_msg.DialogMsg(self, 3, 
                                 "¿Quieres eliminar la malla {} ?".format(self.__card_name_mesh), 
                                 "")
         dialoMsg.setTypeIcon(1)
@@ -222,26 +255,12 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
             print("# Cancelar")
             return
             
-
-
-
-        # Obtener los elementos del grupo que son QGraphicsPolygonItem
-        polygons = []
-        
-        for item in self.__group_triangle.childItems():
-            if isinstance(item, QGraphicsPolygonItem):
-                polygons.append(item)
-
-        # Eliminar los elementos QGraphicsPolygonItem
-        for polygon in polygons:
-            self.scene_draw.removeItem(polygon)
-        self.scene_draw.removeItem(self.__group_triangle)
-
-
-        self.scene_draw.admin.deleteMesh(name=self.__card_name_mesh)
+        self.signal_delete_mesh.emit()
 
         # Elimina la tarjeta
         self.deleteLater()
+
+
 
 
 
@@ -249,36 +268,13 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
-    def drawTriangles(self):
-        #METODO PYGMSH
-        points = self.__points
-        triangles = self.__triangles
-        color_mesh = self.__card_color_mesh
-
-        trianglePolygon = QPolygonF()
-        pen= QPen(color_mesh)
-        for triangle_mesh in triangles:
-
-            trianglePolygon.clear()
-            vertex_1 = points[triangle_mesh[0]]
-            vertex_2 = points[triangle_mesh[1]]
-            vertex_3 = points[triangle_mesh[2]] 
-            trianglePolygon.append( QPointF(vertex_1[0], vertex_1[1]))
-            trianglePolygon.append(QPointF(vertex_2[0], vertex_2[1]))
-            trianglePolygon.append(QPointF(vertex_3[0], vertex_3[1]))  
-            pen.setWidth(0) 
-            tria = self.scene_draw.addPolygon(trianglePolygon,pen)  
-
-
-            self.__group_triangle.addToGroup(tria)
-            self.__draw_triangle.append(tria)
-
-        self.__group_triangle.setZValue(-10)
-     
+ 
 
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
 	###############################################################################
+
+    '''
     def mousePressEvent(self, event):
         """Reimplantado el método mousePressEvent
         Args:
@@ -286,5 +282,6 @@ class viewCardDrawMesh(QFrame, ui_widget_draw_mesh_card.Ui_FormDrawMeshCard):
         """ 
         super().mousePressEvent(event)
         print("***** {}=  Reimplementando mousePressEvent {} *****".format(self.__card_name_mesh,event))
+    '''
 
 

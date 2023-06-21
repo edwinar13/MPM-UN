@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawVAyqvh.ui'
+## Form generated from reading UI file 'frame_drawMkoLtN.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -16,15 +16,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
-    QLabel, QLineEdit, QSizePolicy, QSpacerItem,
-    QSplitter, QTextBrowser, QToolButton, QUndoView,
-    QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QSizePolicy, QSplitter,
+    QTextBrowser, QToolButton, QUndoView, QVBoxLayout,
+    QWidget)
 
 class Ui_FormDraw(object):
     def setupUi(self, FormDraw):
         if not FormDraw.objectName():
             FormDraw.setObjectName(u"FormDraw")
-        FormDraw.resize(616, 948)
+        FormDraw.resize(616, 295)
         FormDraw.setStyleSheet(u"\n"
 "/*Colores primarios*/\n"
 "/* \n"
@@ -188,7 +188,7 @@ class Ui_FormDraw(object):
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.textBrowser_2 = QTextBrowser(self.frame_3)
         self.textBrowser_2.setObjectName(u"textBrowser_2")
-        self.textBrowser_2.setEnabled(False)
+        self.textBrowser_2.setEnabled(True)
         sizePolicy.setHeightForWidth(self.textBrowser_2.sizePolicy().hasHeightForWidth())
         self.textBrowser_2.setSizePolicy(sizePolicy)
         self.textBrowser_2.setMinimumSize(QSize(0, 38))
@@ -358,153 +358,6 @@ class Ui_FormDraw(object):
 
         self.horizontalLayout_draw.addWidget(self.splitter)
 
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setSpacing(10)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(3, 3, 3, 3)
-        self.frame_hide = QFrame(FormDraw)
-        self.frame_hide.setObjectName(u"frame_hide")
-        self.frame_hide.setEnabled(True)
-        self.frame_hide.setFrameShape(QFrame.StyledPanel)
-        self.frame_hide.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.frame_hide)
-        self.verticalLayout_2.setSpacing(5)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_cardMeshDrawPoint = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawPoint.setObjectName(u"toolButton_cardMeshDrawPoint")
-        self.toolButton_cardMeshDrawPoint.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawPoint.setMaximumSize(QSize(35, 35))
-        icon7 = QIcon()
-        icon7.addFile(u"recursos/iconos/iconos_menu_draw_mesh/point.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawPoint.setIcon(icon7)
-        self.toolButton_cardMeshDrawPoint.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawPoint.setArrowType(Qt.NoArrow)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawPoint)
-
-        self.toolButton_cardMeshDrawLine = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawLine.setObjectName(u"toolButton_cardMeshDrawLine")
-        self.toolButton_cardMeshDrawLine.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawLine.setMaximumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawLine.setIcon(icon4)
-        self.toolButton_cardMeshDrawLine.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawLine.setArrowType(Qt.NoArrow)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawLine)
-
-        self.toolButton_cardMeshDrawRect = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawRect.setObjectName(u"toolButton_cardMeshDrawRect")
-        self.toolButton_cardMeshDrawRect.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRect.setMaximumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRect.setIcon(icon6)
-        self.toolButton_cardMeshDrawRect.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRect.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawRect.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawRect)
-
-        self.toolButton_cardMeshDrawMove = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawMove.setObjectName(u"toolButton_cardMeshDrawMove")
-        self.toolButton_cardMeshDrawMove.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawMove.setMaximumSize(QSize(35, 35))
-        icon8 = QIcon()
-        icon8.addFile(u"recursos/iconos/iconos_menu_draw_mesh/move.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawMove.setIcon(icon8)
-        self.toolButton_cardMeshDrawMove.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawMove.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawMove.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawMove)
-
-        self.toolButton_cardMeshDrawCopy = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawCopy.setObjectName(u"toolButton_cardMeshDrawCopy")
-        self.toolButton_cardMeshDrawCopy.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawCopy.setMaximumSize(QSize(35, 35))
-        icon9 = QIcon()
-        icon9.addFile(u"recursos/iconos/iconos_menu_draw_mesh/copy.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawCopy.setIcon(icon9)
-        self.toolButton_cardMeshDrawCopy.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawCopy.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawCopy.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawCopy)
-
-        self.toolButton_cardMeshDrawRotate = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawRotate.setObjectName(u"toolButton_cardMeshDrawRotate")
-        self.toolButton_cardMeshDrawRotate.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRotate.setMaximumSize(QSize(35, 35))
-        icon10 = QIcon()
-        icon10.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rotate.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawRotate.setIcon(icon10)
-        self.toolButton_cardMeshDrawRotate.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRotate.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawRotate.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawRotate)
-
-        self.toolButton_cardMeshDrawErase = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawErase.setObjectName(u"toolButton_cardMeshDrawErase")
-        self.toolButton_cardMeshDrawErase.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawErase.setMaximumSize(QSize(35, 35))
-        icon11 = QIcon()
-        icon11.addFile(u"recursos/iconos/iconos_menu_draw_mesh/erase.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawErase.setIcon(icon11)
-        self.toolButton_cardMeshDrawErase.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawErase.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawErase.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawErase)
-
-        self.toolButton_cardMeshDrawImport = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawImport.setObjectName(u"toolButton_cardMeshDrawImport")
-        self.toolButton_cardMeshDrawImport.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawImport.setMaximumSize(QSize(35, 35))
-        icon12 = QIcon()
-        icon12.addFile(u"recursos/iconos/iconos_menu_draw_mesh/import.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawImport.setIcon(icon12)
-        self.toolButton_cardMeshDrawImport.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawImport.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawImport.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawImport)
-
-        self.toolButton_cardMeshDrawIntersection = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawIntersection.setObjectName(u"toolButton_cardMeshDrawIntersection")
-        self.toolButton_cardMeshDrawIntersection.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawIntersection.setMaximumSize(QSize(35, 35))
-        icon13 = QIcon()
-        icon13.addFile(u"recursos/iconos/iconos_menu_draw_mesh/point_in_lines.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawIntersection.setIcon(icon13)
-        self.toolButton_cardMeshDrawIntersection.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawIntersection.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawIntersection.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawIntersection)
-
-        self.toolButton_cardMeshDrawRule = QToolButton(self.frame_hide)
-        self.toolButton_cardMeshDrawRule.setObjectName(u"toolButton_cardMeshDrawRule")
-        self.toolButton_cardMeshDrawRule.setMinimumSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRule.setMaximumSize(QSize(35, 35))
-        icon14 = QIcon()
-        icon14.addFile(u"recursos/iconos/iconos_menu_draw_mesh/rule.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDrawRule.setIcon(icon14)
-        self.toolButton_cardMeshDrawRule.setIconSize(QSize(35, 35))
-        self.toolButton_cardMeshDrawRule.setArrowType(Qt.NoArrow)
-        self.toolButton_cardMeshDrawRule.setProperty("style_draw_button", 1)
-
-        self.verticalLayout_2.addWidget(self.toolButton_cardMeshDrawRule)
-
-
-        self.verticalLayout.addWidget(self.frame_hide)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer)
-
-
-        self.horizontalLayout_draw.addLayout(self.verticalLayout)
-
 
         self.horizontalLayout_3.addLayout(self.horizontalLayout_draw)
 
@@ -543,17 +396,5 @@ class Ui_FormDraw(object):
         self.lineEdit_console.setInputMask("")
         self.lineEdit_console.setText("")
         self.lineEdit_console.setPlaceholderText(QCoreApplication.translate("FormDraw", u"Ingrese comando", None))
-        self.toolButton_cardMeshDrawPoint.setText("")
-        self.toolButton_cardMeshDrawPoint.setProperty("style_draw_button", QCoreApplication.translate("FormDraw", u"1", None))
-        self.toolButton_cardMeshDrawLine.setText("")
-        self.toolButton_cardMeshDrawLine.setProperty("style_draw_button", QCoreApplication.translate("FormDraw", u"1", None))
-        self.toolButton_cardMeshDrawRect.setText("")
-        self.toolButton_cardMeshDrawMove.setText("")
-        self.toolButton_cardMeshDrawCopy.setText("")
-        self.toolButton_cardMeshDrawRotate.setText("")
-        self.toolButton_cardMeshDrawErase.setText("")
-        self.toolButton_cardMeshDrawImport.setText("")
-        self.toolButton_cardMeshDrawIntersection.setText("")
-        self.toolButton_cardMeshDrawRule.setText("")
     # retranslateUi
 

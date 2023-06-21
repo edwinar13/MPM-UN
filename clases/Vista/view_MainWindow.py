@@ -21,8 +21,23 @@ class ViewMainWindow(QMainWindow):
 
     """ 
     
+    signal_clear_recent_project = Signal()
     signal_open_project = Signal(str)
     signal_new_project = Signal(str)
+    signal_action_menu_save = Signal()
+    signal_action_menu_saveAs = Signal(str)
+    signal_action_menu_undo = Signal()
+    signal_action_menu_redo = Signal()
+
+    signal_selected_menu_button = Signal(str)
+    signal_toolButton_statusBar = Signal(list)
+    signal_action_menu_viewDraw = Signal(list)
+    signal_close_app = Signal()
+    signal_change_theme = Signal()
+
+
+
+
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -41,12 +56,15 @@ class ViewMainWindow(QMainWindow):
         self.__initEventUi()
 
 
+
+        
+
+
         self.showMessageStatusBar("informative","Programa iniciado correctamente")
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
 	###############################################################################
-
     def __configUi(self):
         """ Configura la interface de usuario (ui) """ 
 
@@ -77,18 +95,18 @@ class ViewMainWindow(QMainWindow):
         self.ui.action_rehacer.setShortcut('Ctrl+y')        
 
         self.ui.action_origin.setChecked(True)
-        self.ui.action_origin.setShortcut('F6')
+        self.ui.action_origin.setShortcut('F5')
         self.ui.action_axis.setChecked(True)
-        self.ui.action_axis.setShortcut('F7')
+        self.ui.action_axis.setShortcut('F6')
         self.ui.action_grid.setChecked(True)
-        self.ui.action_grid.setShortcut('F8')
+        self.ui.action_grid.setShortcut('F7')
         self.ui.action_console.setChecked(True)
-        self.ui.action_console.setShortcut('F9')
+        self.ui.action_console.setShortcut('F8')
         self.ui.action_label.setChecked(False)
-        self.ui.action_label.setShortcut('F5')       
+        self.ui.action_label.setShortcut('F9')       
 
-        ##self.shortcut_change_thema = QShortcut(QKeySequence('Ctrl++'), self)
-        ##self.shortcut_change_thema.setObjectName("shortcut_change_thema")
+        self.shortcut_change_thema = QShortcut(QKeySequence('Ctrl++'), self)
+        self.shortcut_change_thema.setObjectName("shortcut_change_thema")
 
         # ::::::::::::::::::::   WIDGET BARRA DE ESTADO ::::::::::::::::::::        
         self.label_coor = QLabel("Coor")
@@ -142,15 +160,12 @@ class ViewMainWindow(QMainWindow):
         self.icon_config_select.addFile(u"recursos/iconos/iconos_menu_lateral/config_select.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_config = QIcon()
         self.icon_config.addFile(u"recursos/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.ui.horizontalSlider_1.setRange(0,100)
-        self.ui.spinBox_1.setRange(0,100)
-        self.ui.horizontalSlider_2.setRange(5,50)
 
 
     
         # :::::::::::::::::::: BOTÓN Y PAGINA POR DEFECTO ::::::::::::::::::::
         self.previous_selected_button = 1
-        self.__viewToolButtonMenuLat(self.previous_selected_button)
+        self.viewToolButtonMenuLat(self.previous_selected_button)
         #self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_home)
         #self.ui.frame_home.setStyleSheet("background-color: #36C9C6;")
         #self.ui.frame_homeInf.setStyleSheet("background-color: #2B2B2B;")       
@@ -163,20 +178,25 @@ class ViewMainWindow(QMainWindow):
         # ::::::::::::::::::::   EVENTOS  MENU SUPERIOR ::::::::::::::::::::
         self.ui.action_nuevo.triggered.connect(self.__triggeredActionNuevoProyecto)
         self.ui.action_abrir.triggered.connect(self.__triggeredActionAbrirProyecto)
-        """
         self.ui.action_guardar.triggered.connect(self.__triggeredActionSaveProject)
         self.ui.action_guardarComo.triggered.connect(self.__triggeredActionSaveAsProject)
         self.ui.action_deshacer.triggered.connect(self.__triggeredActionUndo)
         self.ui.action_rehacer.triggered.connect(self.__triggeredActionRedo)
+        """
         #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
         #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
 
+        """
         self.ui.action_origin.triggered.connect(self.__triggeredActionShowHideOrigin)
         self.ui.action_axis.triggered.connect(self.__triggeredActionShowHideAxis)
         self.ui.action_grid.triggered.connect(self.__triggeredActionShowHideGrid)
         self.ui.action_console.triggered.connect(self.__triggeredActionShowHideConsole)
         self.ui.action_label.triggered.connect(self.__triggeredActionShowHideLabel)
         """
+        """
+
+
+
         # ::::::::::::::::::::   EVENTOS MENU LATERAL ::::::::::::::::::::
         self.ui.toolButton_home.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_drawData.clicked.connect(self.__clickedToolButtonMenuLat)
@@ -186,29 +206,16 @@ class ViewMainWindow(QMainWindow):
         self.ui.toolButton_viewResult.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_setting.clicked.connect(self.__clickedToolButtonMenuLat)
 
-
-
-        return
+        
+   
         # ::::::::::::::::::::   EVENTOS STATUS BAR ::::::::::::::::::::
         self.toolButton_snap_grid.clicked.connect(self.__clickedToolButtoSnapGrid)
         self.toolButton_ortho.clicked.connect(self.__clickedToolButtoOrtho)
         self.toolButton_osnap.clicked.connect(self.__clickedToolButtoOsnap)
-
-
-
-        # ::::::::::::::::::::    EVENTOS  SETTING    ::::::::::::::::::::    
-        self.ui.horizontalSlider_1.valueChanged.connect(self.__updateSetting)
-        self.ui.spinBox_1.valueChanged.connect(self.__updateSetting)
-        self.ui.horizontalSlider_2.valueChanged.connect(self.__updateSetting)
-        self.ui.comboBox_3.currentIndexChanged.connect(self.__updateSetting)
-
-        self.ui.doubleSpinBox_grid_spacing.valueChanged.connect(self.__updateSetting)
-        self.ui.checkBox_grid_adaptative.stateChanged.connect(self.__updateSetting)
-        self.ui.doubleSpinBox_snap_grid_spacing.valueChanged.connect(self.__updateSetting)
-        self.ui.checkBox_snap_grid_adaptative.stateChanged.connect(self.__updateSetting)
-
-        self.ui.comboBox_intervalAutoSave.currentIndexChanged.connect(self.__updateSetting)
-        self.ui.checkBox_autoSave.stateChanged.connect(self.__updateSetting)
+        
+        # ::::::::::::::::::::    EVENTOS  SHORTCUT    ::::::::::::::::::::    
+        self.shortcut_change_thema.activated.connect(self.__activatedShortCutChangeTheme)
+        return
 
         
         # ::::::::::::::::::::   EVENTOS DE WIDGET FRAME INICIO ::::::::::::::::::::
@@ -219,44 +226,33 @@ class ViewMainWindow(QMainWindow):
         self.frame_draw.signal_msn_critical.connect(self.__showMessageCritical)
         self.frame_draw.signal_msn_satisfactory.connect(self.__showMessageSatisfactory)
         self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
-        self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
-        self.frame_draw.signal_project_save_state.connect(self.__projectSaveState)
+   
         self.frame_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
-        self.frame_draw.signal_console_hise_show.connect(self._console_hise_show)
+        
 
 
 
 
-        # ::::::::::::::::::::    EVENTOS  SHORTCUT    ::::::::::::::::::::    
-        self.shortcut_change_thema.activated.connect(self.__activatedShortCutChangeTheme)
 
     ###############################################################################
 	# ::::::::::::::::::::           OTROS MÉTODOS             ::::::::::::::::::::
 	###############################################################################
-
-    def setPageWidget(self,page, view_pages):  
+    def setPageWidget(self,page, view_page):  
 
         if page == "home":
-            self.ui.verticalLayout_emptyHome.addWidget(view_pages)
+            self.ui.verticalLayout_emptyHome.addWidget(view_page)
 
         elif page == "draw":
-            self.ui.verticalLayout_emptyDraw.addWidget(view_pages)
-            
+            self.ui.verticalLayout_emptyDraw.addWidget(view_page)
+
+        elif page == "setting":
+            self.ui.verticalLayout_emptySetting.addWidget(view_page)
+
         return
-        
-        # ::::::::::::::::::::   CONFIGURANDO  FRAME INICIO ::::::::::::::::::::
-
-        self.frame_home = class_ui_frame_home.FrameHome(self)
-        self.ui.verticalLayout_emptyHome.addWidget(self.frame_home)
-
-        # ::::::::::::::::::::   CONFIGURANDO  FRAME DRAW ::::::::::::::::::::
-        self.frame_draw = class_ui_frame_draw.FrameDraw(self)
-        self.ui.verticalLayout_emptyDraw.addWidget(self.frame_draw)
 
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS PARA MENSAJES        ::::::::::::::::::::
 	###############################################################################
-    
     def showMessageStatusBar(self,type_msn, message):
         """ imprime en la barra de estado un mensaje.               
 
@@ -284,10 +280,14 @@ class ViewMainWindow(QMainWindow):
             #self.frame_draw.msnConsole("Information",message)
 
     ###############################################################################
-	# ::::::::::::::::::::        GENERALES UI      ::::::::::::::::::::
+	# ::::::::::::::::::::::::      MÉTODOS GENERALES      ::::::::::::::::::::::
 	###############################################################################
+    def updateTitleWindow(self, name_project):
+        self.setWindowTitle("MPM-UN    {}".format(name_project))
 
-    # ::::::::::::::::::::   MENU LATERAL  ::::::::::::::::::::
+    ###############################################################################
+	# ::::::::::::::::::::::::      MÉTODOS MENU LATERAL     ::::::::::::::::::::::
+	###############################################################################
     def __resetToolButtonMenuLat(self):
         """ Reinicializa el estado de los botones del menú lateral  """
         self.ui.frame_home.setStyleSheet("background-color: #333333;") 
@@ -306,7 +306,7 @@ class ViewMainWindow(QMainWindow):
 
         self.ui.toolButton_setting.setIcon(self.icon_config)
 
-    def __viewToolButtonMenuLat(self, button):
+    def viewToolButtonMenuLat(self, button):
         """ Muestra el botón seleccionado
         Args:
             button(int) numero de boton seleccionado
@@ -329,46 +329,42 @@ class ViewMainWindow(QMainWindow):
         self.toolButton_osnap.setVisible(False)
 
         if button == 1 or button == 2 or button == 3 or button == 4 or button == 5 or button == 6:
+
             list_button[button-1][0].setStyleSheet("background-color: #36C9C6;") 
-            list_button[button-1][1].setStyleSheet("background-color: #2B2B2B;")
+            list_button[button-1][1].setStyleSheet("background-color: #526585;")            
             self.ui.stackedWidget_container.setCurrentWidget(list_button[button-1][2])
+            '''
             if button == 2:
                 self.frame_draw.showHideDrawMenu("Data")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
-
             elif button == 3:
                 self.frame_draw.showHideDrawMenu("Mesh")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
 
             elif button == 4:
                 self.frame_draw.showHideDrawMenu("Point")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
 
             elif button == 5:
                 self.frame_draw.showHideDrawMenu("Boundary")
-                self.label_coor.setVisible(True)
-                self.toolButton_snap_grid.setVisible(True)
-                self.toolButton_ortho.setVisible(True)
-                self.toolButton_osnap.setVisible(True)
+            '''
+
+            self.label_coor.setVisible(True)
+            self.toolButton_snap_grid.setVisible(True)
+            self.toolButton_ortho.setVisible(True)
+            self.toolButton_osnap.setVisible(True)
 
         elif button == 7:            
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
             self.ui.toolButton_setting.setIcon(self.icon_config_select)
     
+    def activateMenuLat(self):
+
+        self.ui.toolButton_drawData.setEnabled(True)
+        self.ui.toolButton_drawMesh.setEnabled(True)
+        self.ui.toolButton_drawPoint.setEnabled(True)
+        self.ui.toolButton_drawBoundary.setEnabled(True) 
+        self.ui.toolButton_viewResult.setEnabled(True)
 
 
-    ###############################################################################
-	# ::::::::::::::::::::    MÉTODOS DE EVENTOS MENU LATERAL   ::::::::::::::::::::
-	###############################################################################
+
     def __clickedToolButtonMenuLat(self):
         """ Método para los eventos de los botones del menú lateral
         Se obtiene el botón que activo la señal y se redirecciona
@@ -381,75 +377,66 @@ class ViewMainWindow(QMainWindow):
             nameButton = buttonSelected.objectName()
         else:
             return
+        self.signal_selected_menu_button.emit(nameButton)      
+
+        return
         
         if nameButton==self.ui.toolButton_home.objectName() : 
             self.previous_selected_button = 1
-            self.__viewToolButtonMenuLat(self.previous_selected_button)
+            self.viewToolButtonMenuLat(self.previous_selected_button)
             self.setting = True
 
 
         elif nameButton==self.ui.toolButton_drawData.objectName() :
             self.previous_selected_button = 2
-            self.__viewToolButtonMenuLat(self.previous_selected_button)
-            self.frame_draw.showHideDrawMenu("Data")            
+            self.viewToolButtonMenuLat(self.previous_selected_button)
+            self.signal_select_menu.emit("Data")
+            
+            #self.frame_draw.showHideDrawMenu("Data")            
             self.setting = True
 
         elif nameButton==self.ui.toolButton_drawMesh.objectName() :
             self.previous_selected_button = 3
-            self.__viewToolButtonMenuLat(self.previous_selected_button)
-            self.frame_draw.showHideDrawMenu("Mesh")            
+            self.viewToolButtonMenuLat(self.previous_selected_button)
+            self.signal_select_menu.emit("Mesh")
+            #self.frame_draw.showHideDrawMenu("Mesh")            
             self.setting = True
 
         elif nameButton==self.ui.toolButton_drawPoint.objectName() :
             self.previous_selected_button = 4
-            self.__viewToolButtonMenuLat(self.previous_selected_button) 
+            self.viewToolButtonMenuLat(self.previous_selected_button) 
             self.frame_draw.showHideDrawMenu("Point")
             self.setting = True
 
         elif nameButton==self.ui.toolButton_drawBoundary.objectName() :
             self.previous_selected_button = 5
-            self.__viewToolButtonMenuLat(self.previous_selected_button) 
+            self.viewToolButtonMenuLat(self.previous_selected_button) 
             self.frame_draw.showHideDrawMenu("Boundary")
             self.setting = True
             
 
         elif nameButton==self.ui.toolButton_viewResult.objectName():
             self.previous_selected_button = 6
-            self.__viewToolButtonMenuLat(self.previous_selected_button)
+            self.viewToolButtonMenuLat(self.previous_selected_button)
             self.setting = True
         
         elif nameButton==self.ui.toolButton_setting.objectName():
             if self.setting == True :
-                self.__viewToolButtonMenuLat(7)
+                self.viewToolButtonMenuLat(7)
                 self.setting = False
             elif self.setting == False:            
-                self.__viewToolButtonMenuLat(self.previous_selected_button)
+                self.viewToolButtonMenuLat(self.previous_selected_button)
                 self.setting = True
             
 
-    # ::::::::::::::::::::   MENU SUPERIOR  ::::::::::::::::::::
-    
-
-    def __triggeredActionNuevoProyecto(self):
-        """ Abre cuadro de dialogo para nuevo proyecto. """
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
-        if file_path:
-            self.signal_new_project.emit(file_path)
 
 
-    def __triggeredActionAbrirProyecto(self):
-        """ Abre cuadro de dialogo para abrir proyecto. """
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files mpm (*.mpm)", options=options)
-        if file_path:
-            self.signal_open_project.emit(file_path)
 
-           
 
-    def updateTitleWindow(self, name_project):
-        self.setWindowTitle("MPM-UN    {}".format(name_project))
-
+    ##############################################################################
+	# :::::::::::::::::::::::    MÉTODOS MENU SUPERIOR   :::::::::::::::::::::::::
+	##############################################################################
+ 
 
     def updateProjectsRecentMenuSup(self, list_projects_paths):
         self.clearProjectsRecentMenuSup()
@@ -480,6 +467,7 @@ class ViewMainWindow(QMainWindow):
                 pass
                 accion.triggered.connect(self.__triggeredAccionRecienteMenuSup)
    
+
     def __triggeredAccionRecienteMenuSup(self):
         """Método para los eventos del menú superior >> recientes"""
     
@@ -489,17 +477,132 @@ class ViewMainWindow(QMainWindow):
         return
 
     def __triggeredAccionRecienteClearMenuSup(self):
-        """Borra los proyectos recientes. del menú superior"""
-        print("limpiar")
+        """Borra los proyectos recientes."""
+        self.signal_clear_recent_project.emit()
+   
+    def __triggeredActionNuevoProyecto(self):
+        """ Abre cuadro de dialogo para nuevo proyecto. """
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
+        if file_path:
+            self.signal_new_project.emit(file_path)
+   
+    def __triggeredActionAbrirProyecto(self):
+        """ Abre cuadro de dialogo para abrir proyecto. """
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files mpm (*.mpm)", options=options)
+        if file_path:
+            self.signal_open_project.emit(file_path)
+
+    def __triggeredActionSaveProject(self):   
+        """Guarda el proyecto"""     
+        self.signal_action_menu_save.emit()
+
+
+    def __triggeredActionSaveAsProject(self):   
+        """ Guarda en ruta diferente el proyecto """
+
+        options = QFileDialog.Options()
+        new_path_file, _ = QFileDialog.getSaveFileName(self,"Guardar proyecto como","","Data files mpm (*.mpm)", options=options)
+        if new_path_file:
+            self.signal_action_menu_saveAs.emit(new_path_file)
+
+
+    def __triggeredActionUndo(self):   
+        """ """
+        self.signal_action_menu_undo.emit()
+  
+
+    def __triggeredActionRedo(self):   
+        """ """
+        self.signal_action_menu_redo.emit()
+
+
+
+
+    def __triggeredActionShowHideOrigin(self):        
+        """ envia a la scena draw el modo de origen true para ver y false para ocultar"""   
+        value = self.ui.action_origin.isChecked()
+        self.signal_action_menu_viewDraw.emit(["ShowHideOrigin",value])
+                
+    def __triggeredActionShowHideAxis(self):        
+        """ envia a la scena draw el modo de ejes true para ver y false para ocultar"""
+        value = self.ui.action_axis.isChecked()
+        self.signal_action_menu_viewDraw.emit(["ShowHideAxis",value])
+                
+    def __triggeredActionShowHideGrid(self):        
+        """ envia a la scena draw el modo de grilla true para ver y false para ocultar"""
+        value = self.ui.action_grid.isChecked()
+        self.signal_action_menu_viewDraw.emit(["ShowHideGrid",value])     
+
+    def __triggeredActionShowHideConsole(self):        
+        """ envia a la scena draw el modo de consola true para ver y false para ocultar"""
+        value = self.ui.action_console.isChecked()
+        self.signal_action_menu_viewDraw.emit(["ShowHideConsole",value])
+
+    def __triggeredActionShowHideLabel(self):        
+        """ envia a la scena draw el modo de etiquetas true para ver y false para ocultar"""
+        value = self.ui.action_label.isChecked()
+        self.signal_action_menu_viewDraw.emit(["ShowHideLabel",value])
+
+
+    def __activatedShortCutChangeTheme(self):
+        """cambia de tema en los tres disponibles"""
+        self.signal_change_theme.emit()
         return
-        
 
-        if self.projects.deleteProjects():
-            self.__updateProjectsRecent()
+        index_theme = self.ui.comboBox_3.currentIndex()
+        if index_theme ==2:
+            self.ui.comboBox_3.setCurrentIndex(0)
         else:
-            pass
+            self.ui.comboBox_3.setCurrentIndex(index_theme+1)
 
 
 
 
-    #signal_new_project = Signal()
+    ###############################################################################
+	# ::::::::::::::::        MÉTODOS PARA BARRA DE ESTADO         ::::::::::::::::
+	###############################################################################
+    def __clickedToolButtoSnapGrid(self,mode):
+       
+       self.signal_toolButton_statusBar.emit(["SnapGrid",mode])
+ 
+    def __clickedToolButtoOrtho(self,mode):
+       self.signal_toolButton_statusBar.emit(["Ortho",mode])
+       
+    def __clickedToolButtoOsnap(self,mode):
+       self.signal_toolButton_statusBar.emit(["Osnap",mode])
+
+
+    def setTextStatusCoor(self, x, y):
+        self.label_coor.setText("{:.3f}, {:.3f}".format(x,y))
+    
+    def modeConsoleDraw(self,state):
+        self.ui.action_console.setChecked(state)
+
+  
+    def projectChanges(self, name_project, there_are_changes):
+        """cambia el estado del proyecto 
+
+        Args:
+            there_are_changes(bool): 
+                        True >>> si se realizó cambios en el proyecto
+                        False >>> si no hay cambios en el proyecto
+
+        """
+        if there_are_changes == True:     
+            self.setWindowTitle("MPM-UN    •• {} ••".format(name_project))
+        else:
+            self.setWindowTitle("MPM-UN    {}".format(name_project))
+
+     
+
+
+    ###############################################################################
+	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
+	###############################################################################
+    
+    def closeEvent(self, event):
+        """Evento al cerrar la ventana main window"""
+        event.ignore()
+        self.signal_close_app.emit()

@@ -68,32 +68,31 @@ class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
         file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
         if file_path:
             self.signal_new_project.emit(file_path)
-
     
     def __clickedToolButtonOpenProject_2(self):        
         """ Emite señal para abrir ejemplo barra empotrada """
         path=r"{}\recursos\ejemplos\Ejemplo vibracion barra empotrada.mpm".format(self.__pathApp)
-        self.__emitSignalOpen(path=path)
+        self.openReferenceProject(path=path)
 
     def __clickedToolButtonOpenProject_3(self):
         """ Emite señal para abrir ejemplo capacidad portante """
         path=r"{}\recursos\ejemplos\Ejemplo capacidad portante.mpm".format(self.__pathApp)
-        self.__emitSignalOpen(path=path)
+        self.openReferenceProject(path=path)
 
     def __clickedToolButtonOpenProject_4(self):
         """ Emite señal para abrir ejemplo disco en plano inclinado """
         path=r"{}\recursos\ejemplos\Ejemplo disco deslizando en plano inclinado.mpm".format(self.__pathApp)
-        self.__emitSignalOpen(path=path)
+        self.openReferenceProject(path=path)
 
     def __clickedToolButtonOpenProject_5(self):
         """ Emite señal para abrir ejemplo talud elastoplastico """
         path=r"{}\recursos\ejemplos\Ejemplo falla de talud elastoplastico.mpm".format(self.__pathApp)
-        self.__emitSignalOpen(path=path) 
+        self.openReferenceProject(path=path) 
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES   UI     ::::::::::::::::::::
 	###############################################################################
-    def __emitSignalOpen(self, path):
+    def openReferenceProject(self, path):
         """Emite una señal para abrir nuevo proyecto.
 
         Args:

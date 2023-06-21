@@ -7,9 +7,9 @@ from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy)
 from ui import ui_widget_draw_menu_data
 from clases import general_functions
 from clases import class_general
-from clases import class_projects
 
-class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
+
+class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
     """Esta clase crea el QFrame draw-menu-data para agregarlo a Frame Draw.
 
     Attributes:
@@ -29,7 +29,7 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
     signal_msn_critical = Signal(str)    
     signal_msn_satisfactory = Signal(str)    
     signal_msn_informative = Signal(str)  
-    signal_project_save_state = Signal(bool) 
+    signal_data_project = Signal(dict)
 
     signal_paint_point = Signal() 
     signal_paint_line = Signal() 
@@ -42,24 +42,16 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
     signal_paint_intersection = Signal()
     
     def __init__(self):
-        super(WidgetDrawMenuData, self).__init__()
+        super(ViewWidgetDrawMenuData, self).__init__()
         self.setupUi(self)
         
-        # Atributo
-        self.__name_project=""
-        self.__location=""
-        self.__author=""
-        self.__description=""
-        self.__gravity = None
 
         self.__hide_show_frame_data_0=True
         self.__hide_show_frame_data_1=True
         self.__hide_show_frame_data_2=True
         self.__hide_show_frame_data=True
 
-        self.__projectActual= None
-
-        
+          
 
         # Configura la UI
         self.__configUi()
@@ -93,7 +85,14 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
 
-        # ::::::::::::::::::::      EVENTOS DRAW MENU DRAWA     ::::::::::::::::::::
+        # ::::::::::::::::::::      EVENTOS DRAW MENU DATA     ::::::::::::::::::::
+        self.lineEdit_textData1.editingFinished.connect(self.__editingFinishedLineEditWDP1)
+        self.lineEdit_textData2.editingFinished.connect(self.__editingFinishedLineEditWDP2)
+        self.lineEdit_textData3.editingFinished.connect(self.__editingFinishedLineEditWDP3)
+        self.textEdit_textData4.textChanged.connect(self.__textChangedTextEditWDP4)
+        self.lineEdit_textData5.editingFinished.connect(self.__editingFinishedLineEditWDP5)
+
+        # ::::::::::::::::::::      EVENTOS DRAW MENU DRAW     ::::::::::::::::::::
         self.toolButton_cardMeshDrawPoint.clicked.connect(self.__clickedToolButtonCardMeshDrawPoint)
         self.toolButton_cardMeshDrawLine.clicked.connect(self.__clickedToolButtonCardMeshDrawLine)
         self.toolButton_cardMeshDrawRotate.clicked.connect(self.__clickedToolButtonCardMeshDrawRotate)
@@ -103,14 +102,6 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
         self.toolButton_cardMeshDrawImport.clicked.connect(self.__clickedToolButtonCardMeshDrawImport)
         self.toolButton_cardMeshDrawRule.clicked.connect(self.__clickedToolButtonCardMeshDrawRule)
         self.toolButton_cardMeshDrawIntersection.clicked.connect(self.__clickedToolButtonCardMeshDrawIntersection)
-
-        # ::::::::::::::::::::      EVENTOS DRAW MENU DATA     ::::::::::::::::::::
-        self.lineEdit_textData1.editingFinished.connect(self.__editingFinishedLineEditWDP1)
-        self.lineEdit_textData2.editingFinished.connect(self.__editingFinishedLineEditWDP2)
-        self.lineEdit_textData3.editingFinished.connect(self.__editingFinishedLineEditWDP3)
-        self.textEdit_textData4.textChanged.connect(self.__textChangedTextEditWDP4)
-        self.lineEdit_textData5.editingFinished.connect(self.__editingFinishedLineEditWDP5)
-        #self.toolButton_updateData.clicked.connect(self.saveData)
         
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardDataSubTitle0.clicked.connect(self.__clickedToolButtonCardDataSubTitle0)
@@ -126,26 +117,23 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
     def __editingFinishedLineEditWDP1(self):
         """ Actualiza name_project en la copia de la bd del proyecto """ 
         name_project = self.lineEdit_textData1.text()
-        self.__name_project = name_project
-        self.__updateDate(self.__name_project,"name_project")
+        self.signal_data_project.emit({"name_project":name_project})
+        return
 
     def __editingFinishedLineEditWDP2(self):
         """ Actualiza location en la copia de la bd del proyecto """ 
         location = self.lineEdit_textData2.text()
-        self.__location = location
-        self.__updateDate(self.__location,"location")
+        self.signal_data_project.emit({"location":location})
 
     def __editingFinishedLineEditWDP3(self):
         """Actualiza author en la copia de la bd del proyecto """ 
         author = self.lineEdit_textData3.text()
-        self.__author = author
-        self.__updateDate(self.__author,"author")
+        self.signal_data_project.emit({"author":author})
 
     def __textChangedTextEditWDP4(self):
         """Actualiza description en la copia de la bd del proyecto """         
         description = self.textEdit_textData4.toPlainText()
-        self.__description = description
-        self.__updateDate(self.__description,"description")
+        self.signal_data_project.emit({"description":description})
 
     def __editingFinishedLineEditWDP5(self):
         """Verifica al salir del QLineEdit si el texto es
@@ -154,22 +142,23 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
         si no es número da mensaje de error""" 
         gravity = self.lineEdit_textData5.text()
         if general_functions.isNumber(gravity):
-       
             self.lineEdit_textData5.setText(str(float(gravity)))            
             self.lineEdit_textData5.setStyleSheet("border-color: #444444")
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
-            self.__gravity = float(gravity)
-            self.__updateDate(self.__gravity,"gravity")
-        else:
-            
+            self.signal_data_project.emit({"gravity":gravity})       
+
+        else:            
             self.lineEdit_textData5.setFocus()
             self.lineEdit_textData5.setStyleSheet("border: 1px solid #F94646")  
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText("Revisa la gravedad")          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
-    # ::::::::::::::::::::      EVENTOS MENU DATA     ::::::::::::::::::::
+
+            
+
+    # ::::::::::::::::::::      EVENTOS MENU DRAW     ::::::::::::::::::::
     def __clickedToolButtonCardMeshDrawPoint(self):
         self.signal_paint_point.emit()
 
@@ -248,78 +237,21 @@ class WidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuData):
             self.toolButton_cardDataSubTitle2.setIcon(self.icon_minimize)
 
     ###############################################################################
-	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
+	# ::::::::::::::::::::          MÉTODOS  GENERALES        ::::::::::::::::::::
 	###############################################################################
-    def __updateDate(self, value_input, name_attribute):
-        """ Actualiza la información recibida, en la copia de la bd del proyecto.
 
-        Args:
-            value_input (str): valor de entrada
-            name_attribute (str): nombre del atributo
+    def setTextWidget(self, data_info, data_config):
+   
+        self.name_project=data_info["NOMBREPROYECTO"]
+        self.location=data_info["LOCALIZACION"]
+        self.author=data_info["AUTOR"]
+        self.description=data_info["DESCRIPCION"]
+        self.gravity=data_config["GRAVEDAD"]
+  
 
-        """
-        error_update = False
-
-        if name_attribute == "name_project":
-            error_update = self.__projectActual.db_project.updateInformationDB(name_project=value_input)
-            
-        elif name_attribute == "location":
-            error_update = self.__projectActual.db_project.updateInformationDB(location=value_input)
-            
-        elif name_attribute == "author":
-            error_update = self.__projectActual.db_project.updateInformationDB(author=value_input)
-            
-        elif name_attribute == "description":
-            error_update = self.__projectActual.db_project.updateInformationDB(description=value_input)
-            
-        elif name_attribute == "gravity":
-            error_update = self.__projectActual.db_project.updateConfigDB(gravity=value_input)
-        
-
-
-        if(error_update == True):
-            checkProjectChanges = self.__projectActual.checkProjectChanges() 
-            if checkProjectChanges: 
-                #self.signal_msn_satisfactory.emit("Información de {} actualizada correctamente.".format(name_attribute))
-                self.signal_project_save_state.emit(True)
-            else:
-                self.signal_project_save_state.emit(False)
-            
-        else:
-            self.signal_msn_critical.emit("Error al guardar la información ")
-
-    def initDrawMenuDataProject(self,project:class_projects.Project):
-        """Asigna el proyecto actual a la vista menu-data y actualiza los campos de datos del proyecto en el menú data.
-
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        self.__projectActual = project        
-        self.__setDbAttributes()
-        self.__setTextWidget()
-
-    def __setTextWidget(self):
         """ Recupera información de los atributos y la coloca en los campos del draw-menu-data """
-        self.lineEdit_textData1.setText(self.__name_project)
-        self.lineEdit_textData2.setText(self.__location)
-        self.lineEdit_textData3.setText(self.__author)
-        self.textEdit_textData4.setText(self.__description)
-        self.lineEdit_textData5.setText("{}".format(self.__gravity))
-    
-    def __setDbAttributes(self):
-        """ Recupera información de la base de datos del proyecto y los asigna a los atributos
-        
-        Args:
-            project(Project): Objeto de tipo del proyecto actual
-        """ 
-        
-        # Obtiene los datos db del proyecto actual
-        db_project = self.__projectActual.db_project
-        data_info = db_project.selectInformationDB()
-        data_config = db_project.selectConfigDB()
-
-        self.__name_project=data_info["NOMBREPROYECTO"]
-        self.__location=data_info["LOCALIZACION"]
-        self.__author=data_info["AUTOR"]
-        self.__description=data_info["DESCRIPCION"]
-        self.__gravity=data_config["GRAVEDAD"]
+        self.lineEdit_textData1.setText(self.name_project)
+        self.lineEdit_textData2.setText(self.location)
+        self.lineEdit_textData3.setText(self.author)
+        self.textEdit_textData4.setText(self.description)
+        self.lineEdit_textData5.setText("{}".format(self.gravity))
