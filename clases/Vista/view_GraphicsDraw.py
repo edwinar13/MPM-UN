@@ -587,6 +587,8 @@ class MeshItem(QGraphicsItem):
             painter.drawPolygon(points)
 
 
+
+
 class AdminScene():
     def __init__(self,scene:QGraphicsScene) -> None:
 
@@ -730,6 +732,7 @@ class AdminScene():
 
     
     def addMeshNew(self, name_mesh,color_mesh, points, triangles):
+        
         id = uuid.uuid4()            
         mesh_item = MeshItem(id, name_mesh, color_mesh, points, triangles)        
         return mesh_item

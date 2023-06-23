@@ -1477,7 +1477,7 @@ border: none;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_containerCardMesh">
+                    <layout class="QVBoxLayout" name="verticalLayout_containerCardMaterialPoint">
                      <property name="spacing">
                       <number>0</number>
                      </property>

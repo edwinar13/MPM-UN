@@ -5,6 +5,8 @@ import typing
 from datetime import datetime
 from clases.Vista.view_MainWindow import ViewMainWindow
 from clases.Modelo.model_Projects import ModelProjects, ModelProject, ModelProjectCurrent
+from clases.Modelo.model_ProjectCurrent import ModelProjectCurrentOK
+
 from clases.Controlador.controller_PageHome import ControllerPageHome
 from clases.Controlador.controller_PageDraw import ControllerPageDraw
 from clases.Controlador.controller_PageSetting import ControllerPageSetting
@@ -173,21 +175,31 @@ class ControllerMainWindow():
         self.controller_page_home.updateProjectsCartView(self.getProjects())
 
 
+
+
         #Configura nuevo proyecto
         self.current_project = ModelProjectCurrent(path_project)   
         self.current_project.signal_project_changes.connect(self.projectChanges)
         self.view_main_window.activateMenuLat()
-        self.selectedMenuSide("toolButton_drawData")  
+        self.selectedMenuSide("toolButton_drawData")   
 
-        
+
+
         self.controller_page_draw.openCurrentProject(self.current_project)
 
+        #Configura nuevo proyecto NUEVA VERSION
+        scene = self.controller_page_draw.controller_graphics_draw.scene_draw
+        self.model_current_project = ModelProjectCurrentOK(scene, path_doc=path_project)
+        self.controller_page_draw.setCurrentProject(self.model_current_project)
+        self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
+        
+
+
+
+        
         #inicializar el proyecto ...
 
-
-
         self.view_main_window.showMessageStatusBar("satisfactory","Proyecto <<{}>> abierto con éxito".format(current_project_.getName().replace(".mpm","")))
-
 
     @Slot(str)
     def newProject(self, path_project):
@@ -206,8 +218,11 @@ class ControllerMainWindow():
          en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""
        
         if self.current_project != None:
-            checkProjectChanges = self.current_project.checkProjectChanges()            
-            if checkProjectChanges: 
+            checkProjectChanges = self.current_project.checkProjectChanges()    
+            checkProjectChangesACTUALIZADO = self.model_current_project.checkProjectChanges()    
+            print(checkProjectChangesACTUALIZADO)
+
+            if checkProjectChanges or checkProjectChangesACTUALIZADO: 
                 dialoMsg = DialogMsg(self.view_main_window, 1, 
                                         "¿Quiere guardar los cambios de este proyecto?", 
                                         "has realizado cambios")
@@ -219,6 +234,7 @@ class ControllerMainWindow():
                 #Guardar
                 if result == "save":
                     print("# Guardar = {}".format(self.current_project.saveDataDb()))
+                    self.model_current_project.saveDataDb()
                     #??? event.accept()
                     self.view_main_window.close()
                 # No Guardar

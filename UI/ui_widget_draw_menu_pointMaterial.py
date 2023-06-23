@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_pointMaterialqSilMI.ui'
+## Form generated from reading UI file 'widget_draw_menu_pointMaterialMHAGXA.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -865,9 +865,9 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.horizontalLayout_14.setSpacing(0)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_containerCardMesh = QVBoxLayout()
-        self.verticalLayout_containerCardMesh.setSpacing(0)
-        self.verticalLayout_containerCardMesh.setObjectName(u"verticalLayout_containerCardMesh")
+        self.verticalLayout_containerCardMaterialPoint = QVBoxLayout()
+        self.verticalLayout_containerCardMaterialPoint.setSpacing(0)
+        self.verticalLayout_containerCardMaterialPoint.setObjectName(u"verticalLayout_containerCardMaterialPoint")
         self.frame_empty = QFrame(self.scrollAreaWidgetContents)
         self.frame_empty.setObjectName(u"frame_empty")
         sizePolicy5.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
@@ -876,10 +876,10 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.frame_empty.setFrameShape(QFrame.StyledPanel)
         self.frame_empty.setFrameShadow(QFrame.Raised)
 
-        self.verticalLayout_containerCardMesh.addWidget(self.frame_empty)
+        self.verticalLayout_containerCardMaterialPoint.addWidget(self.frame_empty)
 
 
-        self.horizontalLayout_14.addLayout(self.verticalLayout_containerCardMesh)
+        self.horizontalLayout_14.addLayout(self.verticalLayout_containerCardMaterialPoint)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 

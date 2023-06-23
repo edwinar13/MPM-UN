@@ -316,6 +316,7 @@ class ControllerMenuMesh(QObject):
 
 
     def createMeshCard(self, mesh):
+
         controller_card_mesh = ControllerCardMesh( mesh=mesh)
         self.view_menu_mesh.addCardMesh(controller_card_mesh.view_card_mesh)
         controller_card_mesh.signal_hide_show_mesh.connect(self.showHideMesh)

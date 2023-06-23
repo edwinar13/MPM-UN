@@ -5,6 +5,7 @@ from PySide6.QtCore import ( QFile, Slot, QObject,QPointF)
 from clases.general_functions import isNumber
 from clases.Vista.view_PageDraw import  ViewPageDraw
 from clases.Modelo.model_Projects import ModelProjectCurrent
+from clases.Modelo.model_ProjectCurrent import ModelProjectCurrentOK
 
 
 from clases.Controlador.controller_graphicsDraw import ControllerGraphicsDraw
@@ -623,6 +624,12 @@ class ControllerPageDraw(QObject):
     def getView(self):
         return self.view_page_draw
     
+    def setCurrentProject(self, model_current_project:ModelProjectCurrentOK):
+        self.controller_menu_pointMaterial.setCurrentProject(model_current_project)
+    
+
+
+    
     def openCurrentProject(self, current_project:ModelProjectCurrent):
 
         #se inicia proyecto actual en los controladores
@@ -638,8 +645,6 @@ class ControllerPageDraw(QObject):
         self.controller_graphics_draw.configDrawItemsScene()
         self.meshs = self.controller_graphics_draw.configDrawMeshScene()
         self.controller_menu_mesh.setMeshs(self.meshs)
-
-
 
         #voy en estas tres
         
@@ -658,6 +663,7 @@ class ControllerPageDraw(QObject):
                                                 triangles=triangles)
         
         self.controller_menu_mesh.createMeshCard(mesh_item)
+
     
     @Slot(str)
     def selectMenu(self, menu):
