@@ -113,111 +113,23 @@ QFrame#frame_meshSubTitle3{
 background: #222222;
 border-radius:2px;
 }
-QLabel#label_cardMeshSubTitle1,
-QLabel#label_cardMeshSubTitle2,
-QLabel#label_cardMeshSubTitle3{
-font: 500 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-}
-QToolButton#toolButton_cardMeshSubTitle1,
-QToolButton#toolButton_cardMeshSubTitle2,
-QToolButton#toolButton_cardMeshSubTitle3{
-background-color: transparent;
-}
+
 
 
 /*###########################################################################*/
 /*################      FRAME MALLA REGULAR CUADRILÁTERO       ######################*/
 /*###########################################################################*/
 
-QToolButton#toolButton_cardMeshDraw1,
-QToolButton#toolButton_cardMeshDraw2,
-QToolButton#toolButton_cardMeshDraw3,
-QToolButton#toolButton_cardMeshDraw8,
-QToolButton#toolButton_cardMeshDraw9,
-QToolButton#toolButton_cardMeshDraw10,
-QToolButton#toolButton_cardMeshDraw11{
-background-color: transparent;
-border: 1px solid #222222;
-border-radius: 3px ;
-}
-QToolButton#toolButton_cardMeshDraw1:hover,
-QToolButton#toolButton_cardMeshDraw2:hover, 
-QToolButton#toolButton_cardMeshDraw3:hover, 
-QToolButton#toolButton_cardMeshDraw8:hover, 
-QToolButton#toolButton_cardMeshDraw9:hover, 
-QToolButton#toolButton_cardMeshDraw10:hover, 
-QToolButton#toolButton_cardMeshDraw11:hover{ 
-background-color: #444444;
-}
-QToolButton#toolButton_cardMeshDraw1:pressed,
-QToolButton#toolButton_cardMeshDraw2:pressed,
-QToolButton#toolButton_cardMeshDraw3:pressed,
-QToolButton#toolButton_cardMeshDraw8:pressed,
-QToolButton#toolButton_cardMeshDraw9:pressed,
-QToolButton#toolButton_cardMeshDraw10:pressed,
-QToolButton#toolButton_cardMeshDraw11:pressed{
-border-top: 2px solid #222222;
-border-left: 2px solid #222222;
-}  
 
 
 
-/*******************************************/
-QLabel#label_textMesh1,
-QLabel#label_textMesh2,
-QLabel#label_textMesh3,
-QLabel#label_textMesh4,
-QLabel#label_textMesh5{
-font: 300 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-}
-
-
-#doubleSpinBoxl_textMesh4,
-QLineEdit#lineEdit_textMesh1,
-QLineEdit#lineEdit_textMesh4{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
-
-}
-
-
-QLineEdit#lineEdit_textMesh2,
-QLineEdit#lineEdit_textMesh5{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
-
-}
 
 
 
-QLineEdit#lineEdit_textMesh3{
-font: 7pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 2px;
-padding-left: 2px;
-
-}
 
 
 
-QLineEdit#lineEdit_textMesh3,
-QLineEdit#lineEdit_textMesh5{
-color: #888888;
-}
+
 
 
 QToolButton#toolButton_cardMeshDraw7,
@@ -243,19 +155,6 @@ border-left: 2px solid #222222;
 }  
 
 
-
-/*******************************************/
-QToolButton#toolButton_mesh{
-font: 500 10pt &quot;Ubuntu&quot;;
-color: #222222;
-background-color: #77ACA2;
-border: none;
-padding: 6px 25px;
-border-radius: 8px ;
-}
-QToolButton#toolButton_mesh:hover{
-background-color: #36C9C6;
-}
 
 
 
@@ -416,6 +315,173 @@ background: none;
 }
 QScrollBar::add-page:horizontal,QScrollBar::sub-page:horizontal{
 background: none;
+}
+
+
+
+
+
+
+QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+QToolButton[QToolButtonStyle=&quot;4&quot;]{
+
+background-color: #77ACA2;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+}
+
+QToolButton[QToolButtonStyle=&quot;4&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;4&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+
+
+/*******************************************/
+QToolButton[QToolButtonStyle=&quot;2&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #222222;
+background-color: #77ACA2;
+border: none;
+padding: 6px 25px;
+border-radius: 8px ;
+}
+QToolButton[QToolButtonStyle=&quot;2&quot;]:hover{
+background-color: #36C9C6;
+}
+
+
+/*****************************************/
+QToolButton[QToolButtonStyle=&quot;3&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #910D3F;
+border: none;
+padding: 6px 5px;
+border-radius: 8px ;
+}
+QToolButton[QToolButtonStyle=&quot;3&quot;]:hover{
+background-color: #C70039;
+}
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+
+
+QLineEdit[QLineEditStyle=&quot;1&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+QLineEdit[QLineEditStyle=&quot;2&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #333333;
+border: 1px solid #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+
+
+QLineEdit#lineEdit_textMesh3{
+font: 7pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #333333;
+border: 1px solid #444444;
+border-radius: 2px ;
+padding-right: 2px;
+padding-left: 2px;
+
+}
+
+
+/*
+QLineEdit#lineEdit_textMesh3,
+QLineEdit#lineEdit_textMesh5{
+color: #888888;
+}
+*/
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QFrame          ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QFrame[QFrameSubTitleStyle=&quot;1&quot;] {
+background: #222222;
+border-radius:2px;
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QToolButton[QToolButtonSubTitleStyle=&quot;1&quot;] {
+background-color: transparent;
+}
+
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLabel           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QLabel[QLabelStyle=&quot;1&quot;] {
+font: 700 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+QLabel[QLabelStyle=&quot;2&quot;] {
+font: 500 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+QLabel[QLabelStyle=&quot;3&quot;] {
+font: 300 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
 }
 
 </string>
@@ -669,6 +735,9 @@ background: none;
               <property name="text">
                <string>MALLADO</string>
               </property>
+              <property name="QLabelStyle" stdset="0">
+               <number>1</number>
+              </property>
              </widget>
             </item>
             <item>
@@ -731,6 +800,9 @@ background: none;
                  <property name="text">
                   <string>Crear Malla Regular – Cuadrilátero</string>
                  </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -744,6 +816,9 @@ background: none;
                  </property>
                  <property name="arrowType">
                   <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
                  </property>
                 </widget>
                </item>
@@ -809,6 +884,9 @@ background: none;
                     <property name="text">
                      <string>Nombre:</string>
                     </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="1" column="0">
@@ -822,6 +900,9 @@ background: none;
                     <property name="text">
                      <string>Color:</string>
                     </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="1" column="1">
@@ -830,7 +911,7 @@ background: none;
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_textMesh2">
+                     <widget class="QLineEdit" name="lineEdit_textMeshColor">
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
@@ -1051,10 +1132,13 @@ background: none;
                       <property name="text">
                        <string/>
                       </property>
+                      <property name="QLineEditStyle" stdset="0">
+                       <number>2</number>
+                      </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QToolButton" name="toolButton_cardMeshDraw7">
+                     <widget class="QToolButton" name="toolButton_cardMeshDrawColor">
                       <property name="text">
                        <string/>
                       </property>
@@ -1071,6 +1155,9 @@ background: none;
                       <property name="arrowType">
                        <enum>Qt::NoArrow</enum>
                       </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -1086,10 +1173,13 @@ background: none;
                     <property name="text">
                      <string>Tamaño de la malla:</string>
                     </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_textMesh1">
+                   <widget class="QLineEdit" name="lineEdit_textMeshName">
                     <property name="minimumSize">
                      <size>
                       <width>150</width>
@@ -1104,6 +1194,9 @@ background: none;
                     </property>
                     <property name="text">
                      <string/>
+                    </property>
+                    <property name="QLineEditStyle" stdset="0">
+                     <number>1</number>
                     </property>
                    </widget>
                   </item>
@@ -1138,7 +1231,7 @@ background: none;
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMesh4">
+                      <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMeshSize">
                        <property name="enabled">
                         <bool>true</bool>
                        </property>
@@ -1163,10 +1256,13 @@ background: none;
                        <property name="value">
                         <double>1.000000000000000</double>
                        </property>
+                       <property name="QDoubleSpinBoxStyle" stdset="0">
+                        <number>1</number>
+                       </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="toolButton_cardMeshDraw5">
+                      <widget class="QToolButton" name="toolButton_cardMeshDrawSize">
                        <property name="text">
                         <string/>
                        </property>
@@ -1182,6 +1278,9 @@ background: none;
                        </property>
                        <property name="arrowType">
                         <enum>Qt::NoArrow</enum>
+                       </property>
+                       <property name="QToolButtonStyle" stdset="0">
+                        <number>1</number>
                        </property>
                       </widget>
                      </item>
@@ -1199,6 +1298,9 @@ background: none;
                     <property name="text">
                      <string>Seleccionar:</string>
                     </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
                    </widget>
                   </item>
                   <item row="2" column="1">
@@ -1207,7 +1309,7 @@ background: none;
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_textMesh5">
+                     <widget class="QLineEdit" name="lineEdit_textMeshSelected">
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
@@ -1226,10 +1328,13 @@ background: none;
                       <property name="text">
                        <string/>
                       </property>
+                      <property name="QLineEditStyle" stdset="0">
+                       <number>2</number>
+                      </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QToolButton" name="toolButton_cardMeshDraw6">
+                     <widget class="QToolButton" name="toolButton_cardMeshDrawSelected">
                       <property name="text">
                        <string/>
                       </property>
@@ -1245,6 +1350,9 @@ background: none;
                       </property>
                       <property name="arrowType">
                        <enum>Qt::NoArrow</enum>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
                       </property>
                      </widget>
                     </item>
@@ -1269,7 +1377,29 @@ background: none;
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton_mesh">
+                  <widget class="QToolButton" name="toolButton_meshCancel">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Cancelar</string>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="toolButton_meshMeshing">
                    <property name="minimumSize">
                     <size>
                      <width>150</width>
@@ -1284,6 +1414,9 @@ background: none;
                    </property>
                    <property name="text">
                     <string>Mallar</string>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>2</number>
                    </property>
                   </widget>
                  </item>
@@ -1340,6 +1473,9 @@ background: none;
                  <property name="text">
                   <string>Lista de mallas</string>
                  </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -1353,6 +1489,9 @@ background: none;
                  </property>
                  <property name="arrowType">
                   <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
                  </property>
                 </widget>
                </item>

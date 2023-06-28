@@ -5,7 +5,6 @@ from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
 from ui.ui_widget_draw_menu_pointMaterial import Ui_FormDrawMenuPointMaterial
 from clases import class_general
 
-
 class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
     signal_new_points_material = Signal()  
@@ -14,10 +13,10 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         super(ViewWidgetDrawMenuPointMaterial, self).__init__()
         self.setupUi(self)
 
-        self.hide_show_frame_mesh = True
-        self.__hide_show_frame_mesh_2=True
-        self.__hide_show_frame_mesh_3=True
-        self.__color_mesh = None
+        self.hide_show_frame_material_point = True
+        self.__hide_show_frame_material_point_2=True
+        self.__hide_show_frame_material_point=True
+        self.__color_material_point = None
 
         # Configura la UI
         self.__configUi()
@@ -55,50 +54,48 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.toolButton_PointMaterialColor.clicked.connect(self.__clickedToolButtonPointMaterialColorPicker)        
         self.toolButton_PointMaterialCancel.clicked.connect(self.__clickedToolButtonPointMaterialCancel)
         self.toolButton_PointMaterial.clicked.connect(self.__clickedToolButtonPointMaterial)
-
         
-
-
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
     def __clickedToolButtonHideShow(self):
         """ Muestra o oculta el menú data de draw """
 
-        if self.hide_show_frame_mesh == True:
+        if self.hide_show_frame_material_point == True:
             self.frame_pointMaterial.setVisible(False)
-            self.hide_show_frame_mesh = False
+            self.hide_show_frame_material_point = False
             self.frame_hide.setStyleSheet(u"background: transparent;border-top-left-radius: 8px;border-top-right-radius: 8px;")
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;border-top-right-radius: 8px;")
             self.label_lat.setVisible(True)
-        elif self.hide_show_frame_mesh == False:
+        elif self.hide_show_frame_material_point == False:
             self.frame_pointMaterial.setVisible(True)
-            self.hide_show_frame_mesh = True
+            self.hide_show_frame_material_point = True
             self.frame_hide.setStyleSheet(u"background: transparent;border-top-left-radius: 8px;")
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;")
             self.label_lat.setVisible(False)
     
     def __clickedToolButtonCardMeshSubTitle2(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
-        if self.__hide_show_frame_mesh_2 == True:
-            self.frame_mesh2.setVisible(False)
-            self.__hide_show_frame_mesh_2 = False
+        if self.__hide_show_frame_material_point_2 == True:
+            self.frame_materialPoint2.setVisible(False)
+            self.__hide_show_frame_material_point_2 = False
             self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_mesh_2 == False:
-            self.frame_mesh2.setVisible(True)
-            self.__hide_show_frame_mesh_2 = True
+        elif self.__hide_show_frame_material_point_2 == False:
+            self.frame_materialPoint2.setVisible(True)
+            self.__hide_show_frame_material_point_2 = True
             self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_minimize)
 
     def __clickedToolButtonCardMeshSubTitle3(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
-        if self.__hide_show_frame_mesh_3 == True:
-            self.frame_mesh3.setVisible(False)
-            self.__hide_show_frame_mesh_3 = False
+        if self.__hide_show_frame_material_point == True:
+            self.frame_materialPoint3.setVisible(False)
+            self.__hide_show_frame_material_point = False
             self.toolButton_cardPointMaterialSubTitle3.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_mesh_3 == False:
-            self.frame_mesh3.setVisible(True)
-            self.__hide_show_frame_mesh_3 = True
+        elif self.__hide_show_frame_material_point == False:
+            self.frame_materialPoint3.setVisible(True)
+            self.__hide_show_frame_material_point = True
             self.toolButton_cardPointMaterialSubTitle3.setIcon(self.icon_minimize)
+
 
     def __editingFinishedLineEditPointMaterialName(self):
         self.lineEdit_textPointMaterialName.setStyleSheet("border-color: #444444")
@@ -108,8 +105,8 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     def __clickedToolButtonPointMaterialColorPicker(self):
         color = QColorDialog.getColor()
         if color.isValid():
-            self.__color_mesh=color.name()
-            self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : {}'.format(self.__color_mesh))
+            self.__color_material_point=color.name()
+            self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : {}'.format(self.__color_material_point))
 
     def __clickedToolButtonPointMaterialCancel(self):
         self.endPointMaterial()
@@ -126,7 +123,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         return self.lineEdit_textPointMaterialName.text()
     
     def getColor(self):     
-        return self.__color_mesh
+        return self.__color_material_point
     
     def getBaseMesh(self):
         name = self.comboBox_PointMaterialBaseMesh.currentText()
@@ -149,7 +146,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.verticalLayout_containerCardMaterialPoint.insertWidget(last_index, self.frame_empty)
     
     def setListBaseMesh(self, mesh_data):              
-
+        self.comboBox_PointMaterialBaseMesh.clear()
         for item_index in range(len(mesh_data)):
             mesh_id =mesh_data[item_index][0]
             mesh_name =mesh_data[item_index][1]
@@ -181,11 +178,10 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     
     def endPointMaterial(self):
         self.lineEdit_textPointMaterialName.setText("")
-        self.__color_mesh=None
+        self.__color_material_point=None
         self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : #333333')
         self.setBaseMesh(-1)
         self.setNoPoints(-1)
-
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  MENSAJES         ::::::::::::::::::::
@@ -206,7 +202,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
     def msnAlertColor(self, error, msn=""):
         if not error:
-            self.lineEdit_textPointMaterialColor.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_mesh))
+            self.lineEdit_textPointMaterialColor.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_material_point))
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
             

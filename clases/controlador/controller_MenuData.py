@@ -1,6 +1,6 @@
 from PySide6.QtCore import ( Slot, Signal,QObject)
 from clases.Vista.view_WidgetDrawMenuData import ViewWidgetDrawMenuData
-from clases.Modelo.model_Projects import ModelProjectCurrent
+from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
  
 class ControllerMenuData(QObject):
 
@@ -15,19 +15,44 @@ class ControllerMenuData(QObject):
         self.view_menu_data.signal_data_project.connect(self.updateDate)
 
 
-        self.view_menu_data.signal_paint_point.connect(lambda: self.paintDraw("point"))
-        self.view_menu_data.signal_paint_line.connect(lambda: self.paintDraw("line"))
-        self.view_menu_data.signal_paint_move.connect(lambda: self.paintDraw("move"))
-        self.view_menu_data.signal_paint_copy.connect(lambda: self.paintDraw("copy"))
-        self.view_menu_data.signal_paint_rotate.connect(lambda: self.paintDraw("rotate"))
-        self.view_menu_data.signal_paint_erase.connect(lambda: self.paintDraw("erase"))
-        self.view_menu_data.signal_paint_import.connect(lambda: self.paintDraw("import"))
-        self.view_menu_data.signal_paint_intersection.connect(lambda: self.paintDraw("intersection"))
-        self.view_menu_data.signal_paint_rule.connect(lambda: self.paintDraw("rule"))
+        self.view_menu_data.signal_paint_point.connect(lambda: self.paintDrawCommand("point"))
+        self.view_menu_data.signal_paint_line.connect(lambda: self.paintDrawCommand("line"))
+        self.view_menu_data.signal_paint_move.connect(lambda: self.paintDrawCommand("move"))
+        self.view_menu_data.signal_paint_copy.connect(lambda: self.paintDrawCommand("copy"))
+        self.view_menu_data.signal_paint_rotate.connect(lambda: self.paintDrawCommand("rotate"))
+        self.view_menu_data.signal_paint_erase.connect(lambda: self.paintDrawCommand("erase"))
+        self.view_menu_data.signal_paint_import.connect(lambda: self.paintDrawCommand("import"))
+        self.view_menu_data.signal_paint_intersection.connect(lambda: self.paintDrawCommand("intersection"))
+        self.view_menu_data.signal_paint_rule.connect(lambda: self.paintDrawCommand("rule"))
 
 
-    def paintDraw(self, signal_type):
-           self.signal_paint_draw.emit(signal_type)
+    def paintDrawCommand(self, command):           
+        if command == "point" :
+            self.current_project.commandPoint({"step":1, "data":None})                
+
+        elif command == "line" :
+            self.current_project.commandLine({"step":1, "data":None})    
+
+        elif command == "move" :
+            self.current_project.commandMove({"step":1, "data":None})    
+
+        elif command == "copy" :
+            self.current_project.commandCopy({"step":1, "data":None})    
+
+        elif command == "rotate" :
+            self.current_project.commandRotate({"step":1, "data":None})    
+            
+        elif command == "erase" :
+            self.current_project.commandErase({"step":1, "data":None})    
+
+        elif command == "import" :
+            self.current_project.commandImport({"step":1, "data":None})    
+
+        elif command == "intersection" :
+            self.current_project.commandIntersection({"step":1, "data":None})   
+
+        elif command == "rule" :
+           self.current_project.commandRule({"step":1, "data":None})  
 
 
     def getView(self):
@@ -37,8 +62,8 @@ class ControllerMenuData(QObject):
         self.current_project = current_project
     
     def configDrawMenuData(self):
-        dataInfo = self.current_project.selectInformationDB()
-        dataConf = self.current_project.selectConfigDB()
+        dataInfo = self.current_project.getDataInfo()
+        dataConf = self.current_project.getDataConfig()
         self.view_menu_data.setTextWidget(dataInfo, dataConf)
         
  
@@ -57,16 +82,16 @@ class ControllerMenuData(QObject):
         value_input = date[name_attribute]
 
         if name_attribute == "name_project":     
-            self.current_project.updateInformationDB(name_project=value_input)
+            self.current_project.updateInformation(name_project=value_input)
             
         elif name_attribute == "location":          
-            self.current_project.updateInformationDB(location=value_input)
+            self.current_project.updateInformation(location=value_input)
             
         elif name_attribute == "author":
-            self.current_project.updateInformationDB(author=value_input)
+            self.current_project.updateInformation(author=value_input)
             
         elif name_attribute == "description":
-            self.current_project.updateInformationDB(description=value_input)
+            self.current_project.updateInformation(description=value_input)
             
         elif name_attribute == "gravity":
-            self.current_project.updateConfigDB(gravity=value_input)
+            self.current_project.updateConfig(gravity=value_input)

@@ -816,7 +816,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_mesh2">
+             <widget class="QFrame" name="frame_materialPoint2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1419,7 +1419,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_mesh3">
+             <widget class="QFrame" name="frame_materialPoint3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>

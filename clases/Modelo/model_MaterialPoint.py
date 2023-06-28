@@ -1,11 +1,12 @@
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
-from clases.Vista.items_GraphicsDraw import PointMaterialItem
+from clases.items_GraphicsDraw import PointMaterialItem
 from clases.Vista.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
 
 class ModelMaterialPoint:
 
-    def __init__(self, scene_draw:QGraphicsScene, model_project_current_repository:ModelProjectCurrentRepository, id, name, color, points) -> None:
+    def __init__(self, scene_draw:QGraphicsScene, model_project_current_repository:ModelProjectCurrentRepository,
+                  id, name, color, points) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository

@@ -4,8 +4,7 @@ from PySide6.QtCore import ( QFile, Slot, QObject,QPointF)
 
 from clases.general_functions import isNumber
 from clases.Vista.view_PageDraw import  ViewPageDraw
-from clases.Modelo.model_Projects import ModelProjectCurrent
-from clases.Modelo.model_ProjectCurrent import ModelProjectCurrentOK
+from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 
 
 from clases.Controlador.controller_graphicsDraw import ControllerGraphicsDraw
@@ -35,7 +34,7 @@ class ControllerPageDraw(QObject):
 
         self.view_page_draw.setViewGraphicsWidget(self.controller_graphics_draw.getView1())
         self.view_page_draw.setViewGraphicsWidget(self.controller_graphics_draw.getView2())
-        self.view_page_draw.setUndoStack(self.controller_graphics_draw.getUndoStack())
+        
         self.viewsTwo()
 
 
@@ -54,24 +53,23 @@ class ControllerPageDraw(QObject):
         
         self.view_page_draw.signal_zoom_draw.connect(self.zoomDraw)
         self.view_page_draw.signal_end_draw_geometry.connect(self.endDrawGeometry)
+        self.view_page_draw.signal_end_draw_mesh.connect(self.endDrawMesh)
         self.view_page_draw.signal_deselect_draw_geometry.connect(self.deselectDrawGeometry)
   
 
 
-        self.controller_menu_data.signal_paint_draw.connect(self.__clickedToolButtonDrawPaintPoint)
-        self.controller_menu_mesh.signal_select_line_mesh.connect(self.signalSelectLineMesh)
-        self.controller_menu_mesh.signal_size_mesh.connect(self.signalSizeMesh)
+        '''
         self.controller_menu_mesh.signal_delete_mesh.connect(self.deleteMesh)
         self.controller_menu_mesh.signal_update_mesh.connect(self.updateMesh)
-        self.controller_menu_mesh.signal_end_draw_geometry.connect(self.endDrawGeometry)
+        '''
         self.controller_menu_mesh.signal_new_mesh.connect(self.addMesh)
+        self.controller_menu_mesh.signal_end_draw_geometry.connect(self.endDrawGeometry)
 
-        self.controller_graphics_draw.signal_init_geometry.connect(self.initToolGeometry)
-        self.controller_graphics_draw.signal_msn_console.connect(self.msnConsole)
+        
+        self.controller_graphics_draw.signal_msn_console.connect(self.msnConsoleView)
         self.controller_graphics_draw.signal_msn_label_console.connect(self.msnLabelConsole)
         self.controller_graphics_draw.signal_end_draw_geometry.connect(self.endDrawGeometry)
-        self.controller_graphics_draw.signal_size_mesh.connect(self.sizeMesh)
-        self.controller_graphics_draw.signal_select_line_mesh.connect(self.selectLineMesh)
+
 
 
         
@@ -96,12 +94,14 @@ class ControllerPageDraw(QObject):
         self.controller_graphics_draw.modeButtonStatusBar(ToolButton_mode)
 
 
+    @Slot()
+    def addMesh(self):
+        self.controller_menu_pointMaterial.setListBaseMeshView()
 
 
     @Slot(list)
     def commandConsole(self, data):
         """Método presionar enter en el line edit de la consola para ejecutar el comando."""
-
 
         data_consola = data[0]
         current_command = data[1]
@@ -119,38 +119,36 @@ class ControllerPageDraw(QObject):
                 index = commands_min.index(data_consola)
 
             command = commands[index]
-            print("comando: {}".format(command))
 
             if command == "point" :
-                self.controller_graphics_draw.commandPoint({"step":1, "data":None})        
+                self.current_project.commandPoint({"step":1, "data":None})        
 
             elif command == "line" :
-                self.controller_graphics_draw.commandLine({"step":1, "data":None})    
+                self.current_project.commandLine({"step":1, "data":None})    
 
             elif command == "move" :
-                self.controller_graphics_draw.commandMove({"step":1, "data":None})    
+                self.current_project.commandMove({"step":1, "data":None})    
 
             elif command == "copy" :
-                self.controller_graphics_draw.commandCopy({"step":1, "data":None})    
+                self.current_project.commandCopy({"step":1, "data":None})    
 
             elif command == "rotate" :
-                self.controller_graphics_draw.commandRotate({"step":1, "data":None})    
+                self.current_project.commandRotate({"step":1, "data":None})    
                 
             elif command == "erase" :
-                self.controller_graphics_draw.commandErase({"step":1, "data":None})    
+                self.current_project.commandErase({"step":1, "data":None})    
 
             elif command == "import" :
-                self.controller_graphics_draw.commandImport({"step":1, "data":None})    
+                self.current_project.commandImport({"step":1, "data":None})    
 
             elif command == "intersection" :
-                self.controller_graphics_draw.commandIntersection({"step":1, "data":None})    
-
+                self.current_project.commandIntersection({"step":1, "data":None})    
 
             elif command == "zoom" :
-                self.initToolGeometry([command,"[Extents Window] <E>:"])
+                self.msnLabelAndView([command,"[Extents Window] <E>:", None])
 
             elif command == "views" :
-                self.initToolGeometry([command,"[1 2] <1>:"])
+                self.msnLabelAndView([command,"[1 2] <1>:",None])
         
         #se ejecuta si ya hay un comando activo
         elif current_command in commands:
@@ -183,8 +181,8 @@ class ControllerPageDraw(QObject):
            
                 elif data_consola == "w":
                     self.zoomDraw("ZoomWindow")
-                    self.msnConsole(["Command","_zoomWindow"])
-                    self.initToolGeometry(["zoom","Window"])
+                    self.msnConsoleView(["Command","_zoomWindow"])
+                    self.msnLabelAndView(["zoom","Window",None])
                     return
                 else:
                     return
@@ -196,10 +194,10 @@ class ControllerPageDraw(QObject):
             #se ejecuta si la entrada es una opcion de mover
             elif current_command == "move":
 
-                selected_items = len(self.controller_graphics_draw.getSelectedItems())
+                selected_items = len(self.current_project.getSelectedItems())
                 
                 if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
-                    self.controller_graphics_draw.commandMove({"step":3, "data":None})
+                    self.current_project.commandMove({"step":3, "data":None})
                   
 
                 elif descrip_command == "Ingrese el primer punto [Exit]:" and selected_items > 0:
@@ -209,7 +207,7 @@ class ControllerPageDraw(QObject):
                     point  = self.pointFromConsole(input_point, point_vertex_ant)
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandMove({"step":4, "data":point})
+                    self.current_project.commandMove({"step":4, "data":point})
 
 
                     
@@ -220,7 +218,7 @@ class ControllerPageDraw(QObject):
                     point  = self.pointFromConsole(input_point, point_ant)
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandMove({"step":5, "data":[[point_ant.x(),point_ant.y()],
+                    self.current_project.commandMove({"step":5, "data":[[point_ant.x(),point_ant.y()],
                                                         point]})
                     
                 else:
@@ -229,24 +227,24 @@ class ControllerPageDraw(QObject):
             #se ejecuta si la entrada es una opcion de copiar
             elif current_command == "copy":                              
                 
-                selected_items = len(self.controller_graphics_draw.getSelectedItems())                
+                selected_items = len(self.current_project.getSelectedItems())                
                 point_ant = self.controller_graphics_draw.getPointVertexAnt()
                 input_point = data_consola.split(",")
                 point  = self.pointFromConsole(input_point, point_ant)
 
                 if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
-                    self.controller_graphics_draw.commandCopy({"step":3, "data":None})
+                    self.current_project.commandCopy({"step":3, "data":None})
 
                 elif descrip_command == "Ingrese el primer punto [Exit]:" and selected_items > 0:
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandCopy({"step":4, "data":point})
+                    self.current_project.commandCopy({"step":4, "data":point})
              
 
                 elif descrip_command == "Ingrese el segundo punto [Exit]:" and selected_items > 0:
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandCopy({"step":5, "data":[[point_ant.x(),point_ant.y()],
+                    self.current_project.commandCopy({"step":5, "data":[[point_ant.x(),point_ant.y()],
                                                         point]})
                     self.view_page_draw.lineEdit_console.setText("")
                     
@@ -256,10 +254,10 @@ class ControllerPageDraw(QObject):
             #se ejecuta si la entrada es una opcion de rotar
             elif current_command == "rotate":
 
-                selected_items = len(self.controller_graphics_draw.getSelectedItems())
+                selected_items = len(self.current_project.getSelectedItems())
                 
                 if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
-                    self.controller_graphics_draw.commandRotate({"step":3, "data":None})
+                    self.current_project.commandRotate({"step":3, "data":None})
                   
 
                 elif descrip_command == "Ingrese el punto base [Exit]:" and selected_items > 0:
@@ -269,7 +267,7 @@ class ControllerPageDraw(QObject):
                     point  = self.pointFromConsole(input_point, point_vertex_ant)
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandRotate({"step":4, "data":point})
+                    self.current_project.commandRotate({"step":4, "data":point})
                     
 
                 elif descrip_command == "Ingrese el ángulo [Exit]:" and selected_items > 0:
@@ -282,7 +280,7 @@ class ControllerPageDraw(QObject):
 
 
 
-                    self.controller_graphics_draw.commandRotate({"step":5, "data":
+                    self.current_project.commandRotate({"step":5, "data":
                                             [[point_ant.x(),point_ant.y()],
                                                         input_angle]
                                         })
@@ -293,18 +291,18 @@ class ControllerPageDraw(QObject):
             #se ejecuta si la entrada es una opcion de borrar
             elif current_command == "erase":
 
-                selected_items = len(self.controller_graphics_draw.getSelectedItems())                
+                selected_items = len(self.current_project.getSelectedItems())                
                 if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "" and selected_items > 0:                                    
-                    self.controller_graphics_draw.commandErase({"step":3, "data":None})
+                    self.current_project.commandErase({"step":3, "data":None})
 
             #se ejecuta si la entrada es una opcion de interseccion
             elif current_command == "intersection":
-                selected_items = len(self.controller_graphics_draw.getSelectedItems())   
+                selected_items = len(self.current_project.getSelectedItems())   
                             
                 if  descrip_command == "Seleccione un elemento [Exit]:" and data_consola == "":# and selected_items == 2:                                    
-                    self.controller_graphics_draw.commandIntersection({"step":3, "data":None})
+                    self.current_project.commandIntersection({"step":3, "data":None})
                 else:
-                    self.msnConsole(["Error","Selecciona dos líneas"])
+                    self.msnConsoleView(["Error","Selecciona dos líneas"])
 
 
 
@@ -316,7 +314,7 @@ class ControllerPageDraw(QObject):
                 point_ant = self.controller_graphics_draw.getPointVertexAnt()
                 if point == None:
                     return
-                self.controller_graphics_draw.commandPoint({"step":2, "data": point})
+                self.current_project.commandPoint({"step":2, "data": point})
                 self.view_page_draw.lineEdit_console.setText("")
 
             #se ejecuta si la entrada es una opcion de linea
@@ -330,12 +328,12 @@ class ControllerPageDraw(QObject):
                 if descrip_command == "Ingrese el primer punto [Exit]:" and point_ant == None:
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandLine({"step":2, "data":point})
+                    self.current_project.commandLine({"step":2, "data":point})
       
                 elif descrip_command == "Ingrese el siguiente punto [Exit]:" and point_ant != None:
                     if point == None:
                         return
-                    self.controller_graphics_draw.commandLine({"step":3, "data":[[point_ant.x(),point_ant.y()],
+                    self.current_project.commandLine({"step":3, "data":[[point_ant.x(),point_ant.y()],
                                                         point]})
                                  
                     self.view_page_draw.lineEdit_console.setText("")
@@ -501,12 +499,25 @@ class ControllerPageDraw(QObject):
         return (x, y)
 
     @Slot(list)
-    def initToolGeometry(self,data):        
+    def msnLabelAndView(self,data):  
+        """
+        tercer dato:
+            type_msn=none colocar el msn en consola y view
+            type_msn=1 view
+        
+        """      
         command = data[0]
         input = data[1]
-
-        self.msnConsole(["Command","_{}".format(command)])
-        self.msnLabelConsole([command, input])
+        type_msn=data[2]
+        if type_msn == None:
+            self.msnConsoleView(["Command","_{}".format(command)])
+            self.msnLabelConsole([command, input])
+        if type_msn == 1:
+            self.msnConsoleView([command,input])
+        if type_msn == 2:
+            self.msnLabelConsole([command, input])
+        if type_msn == 3:
+            self.endDrawGeometry()
 
 
 
@@ -514,6 +525,10 @@ class ControllerPageDraw(QObject):
     def endDrawGeometry(self, show_msn=True):
         self.controller_graphics_draw.endDrawGeometry()
         self.view_page_draw.endDrawGeometry(show_msn)
+
+    @Slot(bool)
+    def endDrawMesh(self, show_msn=True):
+        self.controller_menu_mesh.endDrawMesh()
 
 
 
@@ -528,61 +543,22 @@ class ControllerPageDraw(QObject):
 
 
     @Slot(list)
-    def msnConsole(self,data):
+    def msnConsoleView(self,data):
         type_msn = data[0]
         msn = data[1]
-        self.view_page_draw.msnConsole(type_msn, msn)
+        self.view_page_draw.msnConsoleView(type_msn, msn)
 
 
-    @Slot(str)
-    def __clickedToolButtonDrawPaintPoint(self,command):
-            #self.endDrawGeometry()
 
-            if command == "point" :
-                self.controller_graphics_draw.commandPoint({"step":1, "data":None})                
 
-            elif command == "line" :
-                self.controller_graphics_draw.commandLine({"step":1, "data":None})    
-
-            elif command == "move" :
-                self.controller_graphics_draw.commandMove({"step":1, "data":None})    
-
-            elif command == "copy" :
-                self.controller_graphics_draw.commandCopy({"step":1, "data":None})    
-
-            elif command == "rotate" :
-                self.controller_graphics_draw.commandRotate({"step":1, "data":None})    
-                
-            elif command == "erase" :
-                self.controller_graphics_draw.commandErase({"step":1, "data":None})    
-
-            elif command == "import" :
-                self.controller_graphics_draw.commandImport({"step":1, "data":None})    
-
-            elif command == "intersection" :
-                self.controller_graphics_draw.commandIntersection({"step":1, "data":None})   
-
-            elif command == "rule" :
-                self.controller_graphics_draw.commandRule({"step":1, "data":None})  
-
-    @Slot()
-    def signalSelectLineMesh(self):
-        self.controller_graphics_draw.commandMeshSelectLine({"step":1, "data":None}) 
     @Slot(int)
     def selectLineMesh(self, no_lines):
         selected_objects = self.controller_graphics_draw.getSelectedObjects()
-
         self.controller_menu_mesh.selectLineMesh(no_lines, selected_objects)
 
 
 
-    @Slot()
-    def signalSizeMesh(self):
-        self.controller_graphics_draw.commandMeshSize({"step":1, "data":None})  
-    @Slot(float)
-    def sizeMesh(self, dist):
-        self.controller_menu_mesh.sizeMesh(dist)
-        
+
 
     @Slot(str)
     def deleteMesh(self, name):
@@ -599,7 +575,8 @@ class ControllerPageDraw(QObject):
 
     @Slot(bool)
     def deselectDrawGeometry(self, shift_pressed ):
-        self.controller_graphics_draw.deselectDrawGeometry(shift_pressed)
+        self.current_project.deselectDrawGeometry(shift_pressed)
+        
 
     @Slot(str)
     def zoomDraw(self,type_zoom):
@@ -613,22 +590,27 @@ class ControllerPageDraw(QObject):
 
     def undo(self):   
         """ """
-        self.controller_graphics_draw.undo()
+        self.current_project.undo()
 
 
     def redo(self):   
         """ """
-        self.controller_graphics_draw.redo()
+        self.current_project.redo()
 
            
     def getView(self):
         return self.view_page_draw
     
-    def setCurrentProject(self, model_current_project:ModelProjectCurrentOK):
+    def setCurrentProject(self, model_current_project:ModelProjectCurrent):
+        self.current_project = model_current_project
+        self.controller_menu_data.setCurrentProject(model_current_project)
+        self.controller_menu_mesh.setCurrentProject(model_current_project)
         self.controller_menu_pointMaterial.setCurrentProject(model_current_project)
-    
 
+        self.current_project.signal_msn_label_view.connect(self.msnLabelAndView)
+        self.view_page_draw.setUndoStack(self.current_project.getUndoStack())
 
+    '''
     
     def openCurrentProject(self, current_project:ModelProjectCurrent):
 
@@ -636,38 +618,42 @@ class ControllerPageDraw(QObject):
         self.current_project = current_project
         self.controller_graphics_draw.setCurrentProject(self.current_project)
         self.controller_menu_data.setCurrentProject(self.current_project)
-        self.controller_menu_mesh.setCurrentProject(self.current_project)
+        #self.controller_menu_mesh.setCurrentProject(self.current_project)
 
         #carga los datos del proyecto en las diferentes vistas
         self.controller_menu_data.configDrawMenuData()
-        self.controller_menu_mesh.configDrawMenuMesh()
+        #self.controller_menu_mesh.configDrawMenuMesh()
 
-        self.controller_graphics_draw.configDrawItemsScene()
-        self.meshs = self.controller_graphics_draw.configDrawMeshScene()
-        self.controller_menu_mesh.setMeshs(self.meshs)
+ 
 
-        #voy en estas tres
-        
+ 
 
         self.selectMenu("data")
 
-    @Slot(list)
-    def addMesh(self,data):        
-        name_mesh = data[0]
-        color_mesh = data[1]
-        points = data[2]
-        triangles = data[3]
-        mesh_item = self.controller_graphics_draw.addMesh(name_mesh=name_mesh,
-                                                color_mesh=color_mesh,
-                                                points=points,
-                                                triangles=triangles)
-        
-        self.controller_menu_mesh.createMeshCard(mesh_item)
+    '''
+
 
     
     @Slot(str)
     def selectMenu(self, menu):
+
         self.view_page_draw.showHideDrawMenu(menu)
+       
+        '''
+        if menu == "data":
+            self.drawMenuMesh.hideShowSelectedObjects(False)
+            
+        elif menu == "mesh":
+            self.drawMenuMesh.hideShowSelectedObjects(True)
+
+        elif menu == "pointMaterial":
+            self.drawMenuPointMaterial.hideShowSelectedObjects(True)
+
+        elif menu == "boundary":
+            self.drawMenuBoundary.hideShowSelectedObjects(True)
+        '''
+
+
 
 
     @Slot(list)

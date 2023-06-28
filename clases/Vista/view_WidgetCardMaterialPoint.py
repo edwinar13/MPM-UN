@@ -153,11 +153,9 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
       
         self.signal_hide_show_material_point.emit(self.__card_show_hide_material_point)
          
-    def __clickedToolButtonCloseMaterialPoint(self):
-        
-
+    def __clickedToolButtonCloseMaterialPoint(self):       
         dialoMsg = class_ui_dialog_msg.DialogMsg(self, 3, 
-                                "¿Quieres eliminar la malla {} ?".format(self.__card_name_material_point), 
+                                "¿Quieres eliminar los puntos materiales {} ?".format(self.getName()), 
                                 "")
         dialoMsg.setTypeIcon(1)
         dialoMsg.setTextDescription("")
@@ -188,6 +186,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 	###############################################################################
 
     def getName(self):
+        self.__card_name_material_point = self.label_cardNameMaterialPoint.text()
         return self.__card_name_material_point
 
     def getColor(self):

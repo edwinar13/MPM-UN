@@ -1,11 +1,11 @@
 
-""" Este módulo contiene controlador de la vista Ui_MainWindow"""
+""" Este módulo contiene controlador de la vistaself.current_project Ui_MainWindow"""
 from PySide6.QtCore import ( Slot, QFile,QTimer)
 import typing
 from datetime import datetime
 from clases.Vista.view_MainWindow import ViewMainWindow
-from clases.Modelo.model_Projects import ModelProjects, ModelProject, ModelProjectCurrent
-from clases.Modelo.model_ProjectCurrent import ModelProjectCurrentOK
+from clases.Modelo.model_Projects import ModelProjects, ModelProject
+from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 
 from clases.Controlador.controller_PageHome import ControllerPageHome
 from clases.Controlador.controller_PageDraw import ControllerPageDraw
@@ -18,7 +18,7 @@ class ControllerMainWindow():
 
     def __init__(self) -> None:
 
-        self.current_project = None
+        self.model_current_project = None
 
         # cargar proyectos recientes
         self.model_projects = ModelProjects()
@@ -57,7 +57,6 @@ class ControllerMainWindow():
         # crea el controlador de las page
         self.controller_page_home = ControllerPageHome(self, self.getProjects())
         self.controller_page_draw = ControllerPageDraw(self)
-
         self.controller_page_setting = ControllerPageSetting(self)
 
 
@@ -87,6 +86,9 @@ class ControllerMainWindow():
         """ """
         self.controller_page_draw.redo()
         
+       
+        
+
 
 
     @Slot(str)
@@ -104,12 +106,14 @@ class ControllerMainWindow():
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
             self.controller_page_draw.selectMenu("data")       
             self.setting = True
+       
 
         elif nameButton==self.view_main_window.ui.toolButton_drawMesh.objectName() :
             self.previous_selected_button = 3
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
-            self.controller_page_draw.selectMenu("mesh")               
+            self.controller_page_draw.selectMenu("mesh")   
             self.setting = True
+
 
         elif nameButton==self.view_main_window.ui.toolButton_drawPoint.objectName() :
             self.previous_selected_button = 4
@@ -155,8 +159,8 @@ class ControllerMainWindow():
 
 
         #verifica si hay un proyecto actual y si es el mimo que se abre
-        if self.current_project:
-            if self.current_project.getPath() == path_project:
+        if self.model_current_project:
+            if self.model_current_project.getPathDoc() == path_project:
                 self.view_main_window.viewToolButtonMenuLat(2)  
                 return  
 
@@ -177,26 +181,32 @@ class ControllerMainWindow():
 
 
 
+
+        '''
         #Configura nuevo proyecto
         self.current_project = ModelProjectCurrent(path_project)   
-        self.current_project.signal_project_changes.connect(self.projectChanges)
-        self.view_main_window.activateMenuLat()
-        self.selectedMenuSide("toolButton_drawData")   
-
-
+        self.current_project.signal_project_changes.connect(self.projectChanges)  
 
         self.controller_page_draw.openCurrentProject(self.current_project)
+        '''
 
-        #Configura nuevo proyecto NUEVA VERSION
+
         scene = self.controller_page_draw.controller_graphics_draw.scene_draw
-        self.model_current_project = ModelProjectCurrentOK(scene, path_doc=path_project)
+        view_draw_1 = self.controller_page_draw.controller_graphics_draw.view_draw_1
+        view_draw_2 = self.controller_page_draw.controller_graphics_draw.view_draw_2
+        self.model_current_project = ModelProjectCurrent(scene,view_draw_1, view_draw_2, path_doc=path_project)
         self.controller_page_draw.setCurrentProject(self.model_current_project)
+
+        self.controller_page_draw.controller_menu_data.configDrawMenuData()
+        self.controller_page_draw.controller_menu_mesh.configDrawMenuMesh()
         self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
         
+       
+        self.view_main_window.activateMenuLat()
+        self.selectedMenuSide("toolButton_drawData")
 
 
 
-        
         #inicializar el proyecto ...
 
         self.view_main_window.showMessageStatusBar("satisfactory","Proyecto <<{}>> abierto con éxito".format(current_project_.getName().replace(".mpm","")))
@@ -216,24 +226,23 @@ class ControllerMainWindow():
     def closeApp(self):
         """Evento al cerrar la ventana main window, se valida si hay proyecto actual y hay cambio,
          en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""
-       
-        if self.current_project != None:
-            checkProjectChanges = self.current_project.checkProjectChanges()    
-            checkProjectChangesACTUALIZADO = self.model_current_project.checkProjectChanges()    
-            print(checkProjectChangesACTUALIZADO)
+        print(self.model_current_project)
+        if self.model_current_project != None:
+            checkProjectChanges = self.model_current_project.checkProjectChanges() 
+            print("checkProjectChanges: ", checkProjectChanges)
 
-            if checkProjectChanges or checkProjectChangesACTUALIZADO: 
+            if checkProjectChanges: 
                 dialoMsg = DialogMsg(self.view_main_window, 1, 
                                         "¿Quiere guardar los cambios de este proyecto?", 
                                         "has realizado cambios")
                 dialoMsg.setTypeIcon(0)
-                dialoMsg.setTextDescription("Has realizado cambios en el archivo {}".format(self.current_project.getPath()))
+                dialoMsg.setTextDescription("Has realizado cambios en el archivo {}".format(self.model_current_project.getPathDoc()))
                 dialoMsg.setModal(True)
                 dialoMsg.exec()
                 result = dialoMsg.getButtonSelected()
                 #Guardar
                 if result == "save":
-                    print("# Guardar = {}".format(self.current_project.saveDataDb()))
+                    print("# Guardar = {}".format(self.model_current_project.saveDataDb()))
                     self.model_current_project.saveDataDb()
                     #??? event.accept()
                     self.view_main_window.close()
@@ -288,14 +297,14 @@ class ControllerMainWindow():
      
     @Slot()
     def saveData(self):        
-        if self.current_project:
-            print("Save [{}]".format(self.current_project.saveDataDb()))
+        if self.model_current_project:
+            print("Save [{}]".format(self.model_current_project.saveDataDb()))
             self.__showMessageCommand("_save")
 
     @Slot(str)    
     def saveAsData(self, new_path_file):        
-        if self.current_project:
-            print("SaveAs [{}]".format(self.current_project.projectSaveAs(new_path_file)))
+        if self.model_current_project:
+            print("SaveAs [{}]".format(self.model_current_project.projectSaveAs(new_path_file)))
             self.openProject(new_path_file)
             self.__showMessageCommand("_saveAs")
 
@@ -308,7 +317,7 @@ class ControllerMainWindow():
         """Método para la señal de tiempo para auto guardado,
         debe estar activada la función para guardar """
 
-        if self.autosave and self.current_project:
+        if self.autosave and self.model_current_project:
             self.now = datetime.now() 
             self.hour = self.now.hour
             self.minute = self.now.minute
@@ -317,7 +326,7 @@ class ControllerMainWindow():
         
 
             print("autoSave [{}]: {}:{}:{},{}".format(
-                self.current_project.saveDataDb(),
+                self.model_current_project.saveDataDb(),
                 self.hour, self.minute ,self.second, self.microsecond ))
             self.__showMessageCommand("_autoSave")
 

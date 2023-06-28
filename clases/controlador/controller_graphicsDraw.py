@@ -24,11 +24,11 @@ from PySide6.QtGui import (QColor, QPen,QBrush,
                             QFocusEvent,QIcon,QUndoStack,QAction,QUndoCommand,QTransform)
 from ui import ui_frame_draw
 
-from clases.Modelo.model_Projects import ModelProjectCurrent
+
 from clases.Vista import view_WidgetDrawMenuData
 from clases.Vista import view_WidgetDrawMenuMesh
 from clases import class_projects
-from clases.Vista.view_GraphicsDraw import PointItem,LineItem,TextItem,MeshItem
+#from clases.Vista.view_GraphicsDraw import PointItem,LineItem,TextItem,MeshItem
 from clases import class_general
 from clases.general_functions import isNumber
 from clases import class_ui_dialog_msg
@@ -42,13 +42,12 @@ from clases.Vista.view_GraphicsDraw import ViewGraphicsSceneDraw, ViewGraphicsVi
 class ControllerGraphicsDraw(QObject):
 
     signal_coor_mouse = Signal(list)
-    signal_init_geometry = Signal(list)
+    
     signal_msn_console = Signal(list)
     signal_msn_label_console = Signal(list)
     signal_end_draw_geometry = Signal(bool)
 
-    signal_select_line_mesh= Signal(int) 
-    signal_size_mesh= Signal(float) 
+   
 
 
     def __init__(self) -> None:  
@@ -62,7 +61,7 @@ class ControllerGraphicsDraw(QObject):
 
         self.current_project = None
 
-        self.deselect_draw_geometry = None
+       
 
         self.scene_draw = ViewGraphicsSceneDraw()
         self.scene_draw.setSceneRect(QRectF(-10000, -10000, 20000, 20000))
@@ -79,11 +78,8 @@ class ControllerGraphicsDraw(QObject):
         self.view_draw_2.setObjectName("ViewDraw2")
         self.view_draw_2.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
 
-        self.undoStack = QUndoStack()
-        self.createUndoView()
 
-        self.scene_draw.setUndoStackToAdmin(self.undoStack)
-
+        
         self.modeLabelDraw(False)
 
 
@@ -105,6 +101,7 @@ class ControllerGraphicsDraw(QObject):
         '''
 
         # ::::::::::::::::::   SEÑAL>>RANURA VIEW Y SCENE MESH :::::::::::::::::   
+        '''
         self.scene_draw.signal_point_point.connect(self.commandPoint)
         self.scene_draw.signal_point_line.connect(self.commandLine)
         self.scene_draw.signal_point_move.connect(self.commandMove)
@@ -113,50 +110,18 @@ class ControllerGraphicsDraw(QObject):
         self.scene_draw.signal_point_erase.connect(self.commandErase)
         self.scene_draw.signal_point_intersection.connect(self.commandIntersection)
         self.scene_draw.signal_point_rule.connect(self.commandRule)
-
-        self.scene_draw.signal_mesh_select.connect(self.commandMeshSelectLine)      
-        self.scene_draw.signal_mesh_size.connect(self.commandMeshSize)      
+        '''
 
 
-
+    '''
 
     def setCurrentProject(self,current_project:ModelProjectCurrent):
         self.current_project = current_project
+    '''
 
-    
-    def configDrawItemsScene(self):
-        data_items_draw = self.current_project.selectItemDrawDB()
-        self.scene_draw.admin.initDrawItemsSceneProject(data_items_draw)
-    
-    def configDrawMeshScene(self):
-        data_meshs_draw = self.current_project.selectMeshDB()
-        return self.scene_draw.admin.initDrawMeshScene(data_meshs_draw)
-
-    def addMesh(self,name_mesh, color_mesh, points, triangles):
-        mesh_item = self.scene_draw.admin.addMeshNew(name_mesh=name_mesh,
-                                                color_mesh=color_mesh,
-                                                points=points,
-                                                triangles=triangles)
-        
-        self.scene_draw.addItem(mesh_item)
-        return mesh_item
-        
 
         
 
-
-    def createUndoView(self):
-
-        undoView = QUndoView(self.undoStack)
-        undoView.setWindowTitle("Command List")
-        undoView.show()
-        undoView.setAttribute(Qt.WA_QuitOnClose, False)
-
-    def undo(self):
-        self.undoStack.undo()
-
-    def redo(self):
-        self.undoStack.redo()    
 
 
     def modeButtonStatusBar(self, ToolButton_mode):
@@ -168,7 +133,7 @@ class ControllerGraphicsDraw(QObject):
         elif name_button == "Ortho":
             self.scene_draw.mode_ortho = mode
 
-        elif name_button == "Osnap":            
+        elif name_button == "Osnap":    
             self.scene_draw.mode_osnap = mode
 
     def modeOriginDraw(self,mode:bool):
@@ -224,21 +189,13 @@ class ControllerGraphicsDraw(QObject):
     def getPointVertex(self):
         return self.scene_draw.getPointVertex()
 
-    def setPointVertex(self, point):
-        self.scene_draw.setPointVertex(point)
+
 
     def getPointVertexAnt(self):
         return self.scene_draw.getPointVertexAnt()
 
-    def setPointVertexAnt(self, point):
-        self.scene_draw.setPointVertexAnt(point)
 
 
-    def getSelectedItems(self):
-        return self.scene_draw.getSelectedItems()
-
-    def addSelectedItems(self, item):   
-         self.scene_draw.addSelectedItems(item)
 
     def removeSelectedItems(self, item):   
          self.scene_draw.removeSelectedItems(item)
@@ -328,8 +285,7 @@ class ControllerGraphicsDraw(QObject):
     def getView2(self):
         return self.view_draw_2
     
-    def getUndoStack(self):
-        return self.undoStack
+
     
     def modeLabelDraw(self,mode:bool):
         """Establece el modo en la escena para ocultar o mostrar las etiquetas de los elemetos.
@@ -350,15 +306,14 @@ class ControllerGraphicsDraw(QObject):
         self.scene_draw.endDrawGeometry()
         self.view_draw_1.endDrawGeometry()
         self.view_draw_2.endDrawGeometry()
+        
+
     
     def signalEndDrawGeometry(self,show_msn=True):
         self.scene_draw.endDrawGeometry()
         self.signal_end_draw_geometry.emit(show_msn)
 
  
-    def deselectDrawGeometry(self, shift_pressed ):
-        self.deselect_draw_geometry = shift_pressed
-
 
 
 
@@ -393,15 +348,12 @@ class ControllerGraphicsDraw(QObject):
         
 
 
-    def initToolGeometry(self,command,input):
-        self.signal_init_geometry.emit([command,input])
-
     def msnConsole(self, type_msn, msn):
         self.signal_msn_console.emit([type_msn, msn])
 
     def msnLabelConsole(self,command, msn):
         self.signal_msn_label_console.emit([command, msn])
-
+    '''
     def commandPoint(self, input:dict):        
         
         step = input["step"]
@@ -454,7 +406,7 @@ class ControllerGraphicsDraw(QObject):
             self.scene_draw.admin.addCommand(new_point)
             self.msnConsole("Command","Se ha creado el punto {}".format(new_point.id))
             return new_point
-            
+     
     def commandLine(self, input:dict):
         
         step = input["step"]
@@ -499,17 +451,6 @@ class ControllerGraphicsDraw(QObject):
             self.scene_draw.admin.addCommand(new_line)
 
 
-            '''
-            print("\n",self.point1.getData()['name'])
-            lineas = self.point1.anchored_lines
-            for line in lineas:
-                print(line.getData()['name'])
-
-            print("\n",self.point2.getData()['name'])
-            lineas = self.point2.anchored_lines
-            for line in lineas:
-                print(line.name)
-            '''
 
             self.point1 = self.point2
             self.msnConsole("Command","Se ha creado la linea  {}".format(new_line.id))
@@ -815,13 +756,13 @@ class ControllerGraphicsDraw(QObject):
                         count += 1
                         self.scene_draw.selected_items_line.append(item)
 
-                '''
+                """
                 item.isSelectedDraw  = True
                 if not (item in self.scene_draw.selected_items) and not isinstance(item, TextItem):
                     if item.getData()["name"] != "rectTemp":
                         count += 1
                         self.addSelectedItems(item)
-                '''
+                """
 
 
             if count > 0:
@@ -1224,154 +1165,12 @@ class ControllerGraphicsDraw(QObject):
 
             """
 
-
-
-    def commandMeshSelectLine(self, input:dict):
-        
-        step = input["step"]
-        data = input["data"]
-
-        if step == 1:    
-            #self.hideShowSelectedObjects(False) 
-            self.__selected_objects = []
-            print(self.scene_draw)
-            self.scene_draw.isMeshSelect = True            
-            self.scene_draw.isMeshCua = True            
-            self.view_draw_1.selectElement(True)
-            self.view_draw_2.selectElement(True)
-            #self.lineEdit_textMesh5.setText("{} Elementos".format(0))
-
-        elif step == 2:  
-            coordinates = data
-            p1_select = QPointF(coordinates[0][0],coordinates[0][1])
-            p2_select = QPointF(coordinates[1][0],coordinates[1][1])
-            x1 = p1_select.x()
-            x2 = p2_select.x()
-
-            if p1_select==p2_select:
-                items = self.scene_draw.items(self.scene_draw.rect_pick_box,mode=Qt.IntersectsItemShape)
-            elif x1 > x2:
-                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.IntersectsItemShape)
-            else:
-                items = self.scene_draw.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
-            count = 0
-            for item in items:        
-
-                if isinstance(item, TextItem) or isinstance(item,PointItem):                    
-                    continue    
-          
-                elif isinstance(item, LineItem):
-                    if not (item in self.__selected_objects) :
-                        count += 1
-                        self.__selected_objects.append(item)
-                        item.isSelectedMesh = True
-
-            if count > 0:
-                no_lines = len(self.__selected_objects)
-                self.signal_select_line_mesh.emit(no_lines)
-                print( "Se ha seleccionado en total {} elementos (nuevos +{}) ".format(no_lines,  count))
+    '''
 
     def getSelectedObjects (self):
         return self.__selected_objects
                
         
 
-    def commandMeshSize(self, input:dict):
-        
-        step = input["step"]
-        data = input["data"]        
-        
-        if step == 1:            
-            self.scene_draw.isMeshSize = True           
-
-        elif step == 2:
-            dx = (data[1][0] -data[0][0] )
-            dy = (data[1][1] -data[0][1] )
-            dist = (((dx)**2)+((dy)**2))**0.5
-
-            self.signal_size_mesh.emit(dist)
-            self.signal_end_draw_geometry.emit(False)
 
 
-
-
-
-
-
-    def intersectionLinesDraw(self, selected_items:list):
-
-            len_selected_items= len(selected_items)
-
-            for i in range(len_selected_items): 
-                for j in range(i+1,len_selected_items): 
-
-                    line_A= selected_items[i]
-                    line_B= selected_items[j]
-
-                    # Obtener los puntos finales de cada línea
-                    lA_p1, lA_p2 = line_A.getPoints()
-                    lB_p1, lB_p2 = line_B.getPoints()
-                    
-                    lA_p1f, lA_p2f  = lA_p1.getCoordinates(), lA_p2.getCoordinates()
-                    lB_p1f, lB_p2f = lB_p1.getCoordinates(), lB_p2.getCoordinates()
-
-                    line_Af = QLineF(lA_p1f, lA_p2f )
-                    line_Bf = QLineF(lB_p1f, lB_p2f)
-                
-                    # Calcular la intersección entre las dos líneas
-                    intersection_type, intersection_point = line_Af.intersects(line_Bf)
-
-                    # Verificar si las líneas se intersectan
-                    if intersection_type == QLineF.IntersectionType.BoundedIntersection:# or intersection_type == QLineF.IntersectionType.IntersectsWithLine:
-
-                        new_point = self.commandPoint({"step":2, "data": [intersection_point.x(),intersection_point.y()]})
-                        line_A_new =None
-                        line_B_new =None
-                        # Linea A
-                        if new_point != lA_p1 and new_point != lA_p2:
-
-                            self.scene_draw.admin.updateCommand(line_A, [lA_p1, new_point])
-                            line_A_new = self.commandLine({"step":3, "data":[
-                                        [intersection_point.x(),intersection_point.y()],
-                                        [lA_p2f.x(),lA_p2f.y()]]})
-                            new_point.addAnchoredLine(line_A)
-                            new_point.addAnchoredLine(line_A_new)
-            
-                        # Linea B
-                        if new_point != lB_p1 and new_point != lB_p2:
-                            self.scene_draw.admin.updateCommand(line_B, [lB_p1, new_point])
-                            line_B_new = self.commandLine({"step":3, "data":[
-                                        [intersection_point.x(),intersection_point.y()],
-                                        [lB_p2f.x(),lB_p2f.y()]]})
-                            new_point.addAnchoredLine(line_B)
-                            new_point.addAnchoredLine(line_B_new)
-
-                        if line_A_new != None or line_B_new != None:
-                            if line_A_new != None:
-                                selected_items.append(line_A_new)
-                            if line_B_new != None:
-                                selected_items.append(line_B_new)
-                            print(intersection_type)
-                            self.intersectionLinesDraw(selected_items)
-                            return
-
-
-    def pointInRect(self, point:QPointF, rec:QRectF):
-        val = True
-        x = point.x()
-        y = point.y()
-
-        xi = rec.x()
-        yi = rec.y()
-        xf = rec.x()+rec.width()
-        yf = rec.y()+rec.height()
-
-        if xi <= x <= xf:
-            if yi <= y <=yf:
-                pass
-            else:
-                val = False
-        else:
-            val = False
-        return val
-    

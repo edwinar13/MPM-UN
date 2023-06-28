@@ -141,15 +141,20 @@ class ModelProjectCurrentRepository():
 	###############################################################################   
     
 	# ::::::::::::::::::::        PUNTOS       ::::::::::::::::::::
-    def createItemPointDrawDB(self, id_point, name, coordinates):
-        try:           
-            self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point]["NAME"]=name
-            self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point]["COORDINATES"]=coordinates
+    def createItemPointDrawDB(self, id_point, name, coordinates, lines):
+        #try:           
+            self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point] = {
+            "NAME": name,
+            "COORDINATES": coordinates,
+            "LINES": lines
+            }  
+            '''
             return True
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
+        '''
         
     def readItemPointDrawDB(self):
         """
@@ -209,10 +214,12 @@ class ModelProjectCurrentRepository():
     
     # ::::::::::::::::::::        LINEAS       ::::::::::::::::::::
     def createItemLineDrawDB(self, id_line, name, id_start_point, id_end_point):
-        try:                 
-            self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["NAME"]=name
-            self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["IDSTARTPOINT"]=id_start_point
-            self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["IDENDPOINT"]=id_end_point
+        try:         
+            self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line] = {
+            "NAME": name,
+            "STARTPOINT": id_start_point,
+            "ENDPOINT": id_end_point
+            }  
             return True
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))            
@@ -262,38 +269,22 @@ class ModelProjectCurrentRepository():
 	############################################################################### 
     # ::::::::::::::::::::        TRIANGULARES       ::::::::::::::::::::
     def createMeshTriangularDB(self, id_Mesh, name, color, points, triangles):
+         
+        #try:  
+        self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh] = {
+            "NAME": name,
+            "COLOR": color,
+            "POINTS": points,
+            "TRIANGLES":triangles
+        }         
 
-        """
-        "TRIANGULARES": {
-            "edwin": {
-                "name": "edwin",
-                "color": "#ffffff",
-                "points": [
-                    [
-                        19.83037775327739,
-                        5.083209338442088
-                    ]
-                ],
-                "triangles": [
-                    [
-                        77,
-                        12,
-                        148
-                    ]
-                ]
-            },
-        """
-        try:  
-          
-            self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["NAME"]=name
-            self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["COLOR"]=color
-            self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["POINTS"]=points
-            self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["TRIANGLES"]=triangles
-            return True
+        return True
+        '''
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
+        '''
     
     def readMeshTriangularDB(self):
         """
@@ -336,12 +327,12 @@ class ModelProjectCurrentRepository():
         try:  
 
             if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES']:
-                del self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]
+                del self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]            
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
+            return False   
 
     # ::::::::::::::::::::        RECTANGULARES       ::::::::::::::::::::
     def createMeshRectangularDB(self, id_Mesh,  name, color, points, rectangles):
@@ -413,14 +404,15 @@ class ModelProjectCurrentRepository():
     ###############################################################################
 	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::
 	###############################################################################   
-    def createMaterialPointDB(self, id_MP, name, color, points):       
+    def createMaterialPointDB(self, id_MP, name, color, points):    
+        
         #try:                 
         self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP] = {
             "NAME": name,
             "COLOR": color,
             "POINTS": points
         }
-        self.saveDataDb()
+        
         return True
         '''
         except BaseException as err:
@@ -453,14 +445,16 @@ class ModelProjectCurrentRepository():
             return False    
     
     def deleteMaterialPointDB(self, id_MP):
+
         try:            
             if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']:
-                del self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]
+                del self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]             
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
+        
   
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES         ::::::::::::::::::::

@@ -260,7 +260,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         """
 
         self.signal_end_draw_geometry.emit()
-        self.signal_end_draw_mesh.emit()
+        #self.signal_end_draw_mesh.emit()
 
         
         self.drawMenuData.setVisible(False)
@@ -270,19 +270,15 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         if name_menu_view == "data":
             self.drawMenuData.setVisible(True)
-            self.drawMenuMesh.hideShowSelectedObjects(False)
             
         elif name_menu_view == "mesh":
             self.drawMenuMesh.setVisible(True)
-            self.drawMenuMesh.hideShowSelectedObjects(True)
 
         elif name_menu_view == "pointMaterial":
             self.drawMenuPointMaterial.setVisible(True)
-            #self.drawMenuPointMaterial.hideShowSelectedObjects(True)
 
         elif name_menu_view == "boundary":
             self.drawMenuBoundary.setVisible(True)
-            #self.drawMenuBoundary.hideShowSelectedObjects(True)
     
 
     ###############################################################################
@@ -350,9 +346,9 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             "border-top-left-radius: 5px;\n"
             "border-bottom-left-radius: 5px ;")     
         if show_msn:         
-            self.msnConsole("Information","_end")
+            self.msnConsoleView("Information","_end")
         else:         
-            self.msnConsole("Information","_init")
+            self.msnConsoleView("Information","_init")
     '''
     def end_draw_mesh(self):
         """Recibe la señal que ha finalizado el dibujo de la malla.""" 
@@ -369,7 +365,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             msn(str): Mensaje critico
 
         """
-        self.msnConsole("Error",msn)
+        self.msnConsoleView("Error",msn)
         self.signal_msn_critical.emit(msn)
 
     def showMessageStatusBarSatisfactory(self,msn):
@@ -379,7 +375,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             msn(str): Mensaje satisfactorio
 
         """ 
-        self.msnConsole("Running",msn)
+        self.msnConsoleView("Running",msn)
         self.signal_msn_satisfactory.emit(msn)
 
     def showMessageStatusBarInformative(self,msn):
@@ -389,13 +385,13 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             msn(str): Mensaje informativo
 
         """ 
-        self.msnConsole("Command",msn)
+        self.msnConsoleView("Command",msn)
         self.signal_msn_informative.emit(msn)
 
 
 
 
-    def msnConsole(self, type_msn, msn):
+    def msnConsoleView(self, type_msn, msn):
         """Imprime mensaje en la consola.
 
         Args:
@@ -469,6 +465,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """Evento al presionar una tecla de la A a la Z,   para escribir comando en la consola."""
         key = event.key()
+        
         #try:
             #Presiono tecla de A-Z
             #print()dejar tabien numero, punto coma y espacoipn- 
@@ -481,6 +478,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             #self.__returnPressedLineEditConsole()
 
         elif key == Qt.Key_Enter or key == 16777216:
+
             self.signal_end_draw_geometry.emit()
             self.signal_end_draw_mesh.emit()
             return  

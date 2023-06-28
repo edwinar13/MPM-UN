@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_pointMaterialMHAGXA.ui'
+## Form generated from reading UI file 'widget_draw_menu_pointMaterialDwGwAG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -629,16 +629,16 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle2)
 
-        self.frame_mesh2 = QFrame(self.frame_info)
-        self.frame_mesh2.setObjectName(u"frame_mesh2")
-        sizePolicy1.setHeightForWidth(self.frame_mesh2.sizePolicy().hasHeightForWidth())
-        self.frame_mesh2.setSizePolicy(sizePolicy1)
-        self.frame_mesh2.setFrameShape(QFrame.StyledPanel)
-        self.frame_mesh2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_6 = QVBoxLayout(self.frame_mesh2)
+        self.frame_materialPoint2 = QFrame(self.frame_info)
+        self.frame_materialPoint2.setObjectName(u"frame_materialPoint2")
+        sizePolicy1.setHeightForWidth(self.frame_materialPoint2.sizePolicy().hasHeightForWidth())
+        self.frame_materialPoint2.setSizePolicy(sizePolicy1)
+        self.frame_materialPoint2.setFrameShape(QFrame.StyledPanel)
+        self.frame_materialPoint2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_6 = QVBoxLayout(self.frame_materialPoint2)
         self.verticalLayout_6.setSpacing(20)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.frame_3 = QFrame(self.frame_mesh2)
+        self.frame_3 = QFrame(self.frame_materialPoint2)
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setStyleSheet(u"")
         self.frame_3.setFrameShape(QFrame.StyledPanel)
@@ -787,7 +787,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_3)
 
-        self.toolButton_PointMaterialCancel = QToolButton(self.frame_mesh2)
+        self.toolButton_PointMaterialCancel = QToolButton(self.frame_materialPoint2)
         self.toolButton_PointMaterialCancel.setObjectName(u"toolButton_PointMaterialCancel")
         self.toolButton_PointMaterialCancel.setMinimumSize(QSize(80, 0))
         self.toolButton_PointMaterialCancel.setMaximumSize(QSize(150, 16777215))
@@ -795,7 +795,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.horizontalLayout_12.addWidget(self.toolButton_PointMaterialCancel)
 
-        self.toolButton_PointMaterial = QToolButton(self.frame_mesh2)
+        self.toolButton_PointMaterial = QToolButton(self.frame_materialPoint2)
         self.toolButton_PointMaterial.setObjectName(u"toolButton_PointMaterial")
         self.toolButton_PointMaterial.setMinimumSize(QSize(150, 0))
         self.toolButton_PointMaterial.setMaximumSize(QSize(150, 16777215))
@@ -811,7 +811,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.verticalLayout_6.addLayout(self.horizontalLayout_12)
 
 
-        self.verticalLayout_5.addWidget(self.frame_mesh2)
+        self.verticalLayout_5.addWidget(self.frame_materialPoint2)
 
         self.frame_PointMaterialSubTitle3 = QFrame(self.frame_info)
         self.frame_PointMaterialSubTitle3.setObjectName(u"frame_PointMaterialSubTitle3")
@@ -840,20 +840,20 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle3)
 
-        self.frame_mesh3 = QFrame(self.frame_info)
-        self.frame_mesh3.setObjectName(u"frame_mesh3")
+        self.frame_materialPoint3 = QFrame(self.frame_info)
+        self.frame_materialPoint3.setObjectName(u"frame_materialPoint3")
         sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         sizePolicy5.setHorizontalStretch(0)
         sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.frame_mesh3.sizePolicy().hasHeightForWidth())
-        self.frame_mesh3.setSizePolicy(sizePolicy5)
-        self.frame_mesh3.setMinimumSize(QSize(0, 150))
-        self.frame_mesh3.setStyleSheet(u"")
-        self.frame_mesh3.setFrameShape(QFrame.StyledPanel)
-        self.frame_mesh3.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_mesh3)
+        sizePolicy5.setHeightForWidth(self.frame_materialPoint3.sizePolicy().hasHeightForWidth())
+        self.frame_materialPoint3.setSizePolicy(sizePolicy5)
+        self.frame_materialPoint3.setMinimumSize(QSize(0, 150))
+        self.frame_materialPoint3.setStyleSheet(u"")
+        self.frame_materialPoint3.setFrameShape(QFrame.StyledPanel)
+        self.frame_materialPoint3.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_materialPoint3)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.scrollArea = QScrollArea(self.frame_mesh3)
+        self.scrollArea = QScrollArea(self.frame_materialPoint3)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setStyleSheet(u"background-color: transparent;\n"
 "border: none;")
@@ -886,7 +886,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.horizontalLayout_13.addWidget(self.scrollArea)
 
 
-        self.verticalLayout_5.addWidget(self.frame_mesh3)
+        self.verticalLayout_5.addWidget(self.frame_materialPoint3)
 
         self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
 

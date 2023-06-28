@@ -242,11 +242,11 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
 
     def setTextWidget(self, data_info, data_config):
    
-        self.name_project=data_info["NOMBREPROYECTO"]
-        self.location=data_info["LOCALIZACION"]
-        self.author=data_info["AUTOR"]
-        self.description=data_info["DESCRIPCION"]
-        self.gravity=data_config["GRAVEDAD"]
+        self.name_project=data_info[0]
+        self.location=data_info[1]
+        self.author=data_info[2]
+        self.description=data_info[3]
+        self.gravity=data_config[0]
   
 
         """ Recupera información de los atributos y la coloca en los campos del draw-menu-data """

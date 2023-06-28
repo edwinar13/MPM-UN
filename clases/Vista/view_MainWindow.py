@@ -39,6 +39,7 @@ class ViewMainWindow(QMainWindow):
 
 
 
+
     def __init__(self):
         QMainWindow.__init__(self)
        
@@ -333,18 +334,6 @@ class ViewMainWindow(QMainWindow):
             list_button[button-1][0].setStyleSheet("background-color: #36C9C6;") 
             list_button[button-1][1].setStyleSheet("background-color: #526585;")            
             self.ui.stackedWidget_container.setCurrentWidget(list_button[button-1][2])
-            '''
-            if button == 2:
-                self.frame_draw.showHideDrawMenu("Data")
-            elif button == 3:
-                self.frame_draw.showHideDrawMenu("Mesh")
-
-            elif button == 4:
-                self.frame_draw.showHideDrawMenu("Point")
-
-            elif button == 5:
-                self.frame_draw.showHideDrawMenu("Boundary")
-            '''
 
             self.label_coor.setVisible(True)
             self.toolButton_snap_grid.setVisible(True)
@@ -379,55 +368,6 @@ class ViewMainWindow(QMainWindow):
             return
         self.signal_selected_menu_button.emit(nameButton)      
 
-        return
-        
-        if nameButton==self.ui.toolButton_home.objectName() : 
-            self.previous_selected_button = 1
-            self.viewToolButtonMenuLat(self.previous_selected_button)
-            self.setting = True
-
-
-        elif nameButton==self.ui.toolButton_drawData.objectName() :
-            self.previous_selected_button = 2
-            self.viewToolButtonMenuLat(self.previous_selected_button)
-            self.signal_select_menu.emit("Data")
-            
-            #self.frame_draw.showHideDrawMenu("Data")            
-            self.setting = True
-
-        elif nameButton==self.ui.toolButton_drawMesh.objectName() :
-            self.previous_selected_button = 3
-            self.viewToolButtonMenuLat(self.previous_selected_button)
-            self.signal_select_menu.emit("Mesh")
-            #self.frame_draw.showHideDrawMenu("Mesh")            
-            self.setting = True
-
-        elif nameButton==self.ui.toolButton_drawPoint.objectName() :
-            self.previous_selected_button = 4
-            self.viewToolButtonMenuLat(self.previous_selected_button) 
-            self.frame_draw.showHideDrawMenu("Point")
-            self.setting = True
-
-        elif nameButton==self.ui.toolButton_drawBoundary.objectName() :
-            self.previous_selected_button = 5
-            self.viewToolButtonMenuLat(self.previous_selected_button) 
-            self.frame_draw.showHideDrawMenu("Boundary")
-            self.setting = True
-            
-
-        elif nameButton==self.ui.toolButton_viewResult.objectName():
-            self.previous_selected_button = 6
-            self.viewToolButtonMenuLat(self.previous_selected_button)
-            self.setting = True
-        
-        elif nameButton==self.ui.toolButton_setting.objectName():
-            if self.setting == True :
-                self.viewToolButtonMenuLat(7)
-                self.setting = False
-            elif self.setting == False:            
-                self.viewToolButtonMenuLat(self.previous_selected_button)
-                self.setting = True
-            
 
 
 

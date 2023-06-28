@@ -20,7 +20,7 @@ class TextItem(QGraphicsItem):
     HIGT = 10
     WIDTH = 40
 
-    def __init__(self, text:str, position:QPointF):
+    def __init__(self, text:str, coordinatesX, coordinatesY):
         QGraphicsItem.__init__(self)
         
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
@@ -30,7 +30,7 @@ class TextItem(QGraphicsItem):
         self.higt = self.HIGT
         self.width = self.WIDTH
         self.text = str(text)
-        self.position = position
+        self.position = QPointF(coordinatesX,coordinatesY)
         self.newPos(self.position)
         self.pen = QPen(self.color)
 
@@ -76,7 +76,7 @@ class PointItem(QGraphicsItem):
     COLOR = Qt.black
 
 
-    def __init__(self,id, name:str, coor:QPointF, text_id:TextItem):
+    def __init__(self,id, name:str, coordinatesX, coordinatesY, text_name:TextItem):
         QGraphicsItem.__init__(self)
         
         '''
@@ -88,15 +88,15 @@ class PointItem(QGraphicsItem):
         self.name = name
         self.item_type = self.TYPE
 
-        self.coor = coor
+        self.coor = QPointF(coordinatesX, coordinatesY)
 
 
         self.color = self.COLOR
         self.radius = self.RADIUS
 
-        self.text_id = text_id
-        self.text_id.setVisible(False)
-        self.text_id.setColor("#7E6807")
+        self.text_name = text_name
+        self.text_name.setVisible(False)
+        self.text_name.setColor("#7E6807")
 
         self.anchored_lines =[]
 
@@ -137,7 +137,9 @@ class PointItem(QGraphicsItem):
     def movePoint(self, pos:QPointF):
         self.coor = pos
         self.setPos(pos)
-        self.text_id.newPos(self.coor)
+        self.text_name.newPos(self.coor)
+    def getId(self):
+        return self.id
           
     def getData(self):
 
@@ -175,14 +177,14 @@ class PointItem(QGraphicsItem):
             painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
 
         if self.name != "pointTemp" and self.showLabel:   
-            self.text_id.newPos(self.coor)
+            self.text_name.newPos(self.coor)
             list_lines = []
             for line in self.anchored_lines:                
                 list_lines.append(line.name)
-            self.text_id.text = "ID:{} - [{}]".format(self.id, list_lines)
-            self.text_id.setVisible(True)
+            #self.text_name.text = ":{} - [{}]".format(self.id,)
+            self.text_name.setVisible(True)
         else:
-            self.text_id.setVisible(False)
+            self.text_name.setVisible(False)
 
         return
 
@@ -208,7 +210,7 @@ class LineItem(QGraphicsItem):
     WIDTH = 2
     COLOR = Qt.black
 
-    def __init__(self, id, name: str, start_point: PointItem, end_point: PointItem, text_id:TextItem):
+    def __init__(self, id, name: str, start_point: PointItem, end_point: PointItem, text_name:TextItem):
         QGraphicsItem.__init__(self)
         
         '''
@@ -222,9 +224,9 @@ class LineItem(QGraphicsItem):
         self.item_type = self.TYPE
         self.start_point = start_point
         self.end_point = end_point
-        self.text_id = text_id
-        self.text_id.setVisible(False)
-        self.text_id.setColor("#1482CA")
+        self.text_name = text_name
+        self.text_name.setVisible(False)
+        self.text_name.setColor("#1482CA")
         
         self.color = self.COLOR
         self.width = self.WIDTH
@@ -257,16 +259,18 @@ class LineItem(QGraphicsItem):
     def movePoint(self, pos:QPointF):
         self.coor = pos
         self.setPos(pos)
-        self.text_id.newPos(self.center())
+        self.text_name.newPos(self.center())
     
-      
+    def getId(self):
+        return self.id
+    
     def getData(self):
         data = {
             "id":self.id,
             'name': self.name,
             'type': self.item_type,
-            'start_point': self.start_point.name,
-            'end_point': self.end_point.name
+            'start_point': self.start_point.id,
+            'end_point': self.end_point.id
             }
         return data
     
@@ -290,16 +294,16 @@ class LineItem(QGraphicsItem):
 
         else:            
             painter.setPen(QPen(self.color, 0))
-            
+       
         painter.drawLine(self.start_point.coor, self.end_point.coor)
         #painter.drawRect(self.boundingRect())
 
 
         if self.name != "lineTemp" and self.showLabel:   
-            self.text_id.newPos(self.center())
-            self.text_id.setVisible(True)
+            self.text_name.newPos(self.center())
+            self.text_name.setVisible(True)
         else:
-            self.text_id.setVisible(False)
+            self.text_name.setVisible(False)
 
         #shape__ = self.shape()
         #painter.drawPath(shape__)
@@ -388,6 +392,7 @@ class TriangleMeshItem(QGraphicsItem):
     def generatePath(self):
         self.path = QPainterPath()
         points = []
+        
         for point in self.coordinates:
             point = QPointF(point[0], point[1])
             points.append(point)
@@ -417,11 +422,7 @@ class TriangleMeshItem(QGraphicsItem):
     def paint(self, painter, option, widget):
         
         painter.setPen(self.pen)        
-        painter.drawPath(self.path)     
- 
-
-
-        
+        painter.drawPath(self.path)   
 
 class PointMaterialItem(QGraphicsItem):
    
@@ -473,7 +474,64 @@ class PointMaterialItem(QGraphicsItem):
         painter.setPen(self.pen)
         painter.setBrush(self.brush)
         painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
-     
+          
+class RectItem(QGraphicsRectItem):
+    TYPE = "Rect"
+    def __init__(self,  name:str, p1:QPointF, p2:QPointF):
+        super(RectItem, self).__init__()
+        '''
+        self.setFlags(
+            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
+        '''
+        self.name = name
+        self.item_type = self.TYPE
+        self.p1 = p1
+        self.p2 = p2        
+       
+        self.setRect(QRectF(self.p1, self.p2))
+        self.isSelectedDraw = False
+        self.isActive = False
+
+    
+    def __str__ (self):
+        return str(self.getData())
+
+    def getName(self):
+        return self.name
+
+    def getType(self):
+        return self.TYPE
+    def newPos(self, dx, dy):
+        self.p1 = QPointF(self.p1.x()+dx, self.p1.y()+dy)
+        self.p2 = QPointF(self.p2.x()+dx, self.p2.y()+dy)
+
+    def getData(self):
+        data = {
+            'name': self.name,
+            'type': self.item_type,
+            'p1': [self.p1.x(), self.p1.y()],
+            'p2': [self.p2.x(), self.p2.y()]
+            }
+        return data
+        
+
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        
+        self.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))                
+        if self.isSelectedDraw == True:
+            self.setPen(QPen(QColor("#AAAAAA"), 0, Qt.SolidLine))
+
+  
+        if self.isActive :
+            painter.setPen(QPen(QColor("#ebdd21"), 0, Qt.SolidLine))
+            painter.drawRect(QRectF(self.p1, self.p2))
+            #self.setPen(QPen(QColor("#3AA3AA"), 0, Qt.SolidLine))
+            self.isActive = False    
+    
+        return super().paint(painter, option, widget)
+
+
 
 
 

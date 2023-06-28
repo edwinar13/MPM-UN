@@ -5,7 +5,7 @@ from clases.Modelo.model_MaterialPoint import ModelMaterialPoint
  
 class ControllerCardMaterialPoint(QObject):
 
-    signal_hide_show_material_point = Signal(list)
+    
     signal_delete_material_point= Signal(str)
 
     def __init__(self, model_point_material:ModelMaterialPoint) -> None:
@@ -15,6 +15,7 @@ class ControllerCardMaterialPoint(QObject):
         self.id, self.name, self.color, self.points = model_point_material.getData()
 
         self.__initCard()
+        self.__initEvent()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR        ::::::::::::::::::::
@@ -23,6 +24,8 @@ class ControllerCardMaterialPoint(QObject):
         self.view_card_material_point = viewCardDrawMaterialPoint(self)
         self.view_card_material_point.showData(name = self.name, color = self.color)
 
+    def __initEvent(self):
+        """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_card_material_point.signal_hide_show_material_point.connect(self.showHideMaterialPoint)
         self.view_card_material_point.signal_delete_material_point.connect(self.deleteMaterialPoint)
         self.view_card_material_point.signal_update_material_point.connect(self.updateMaterialPoint)
