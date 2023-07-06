@@ -9,7 +9,7 @@ from clases.Vista.view_GraphicsDraw import QGraphicsScene
 class ModelItemPoint:
 
     def __init__(self, scene_draw:QGraphicsScene,model_project_current_repository:ModelProjectCurrentRepository,
-                 id, name, coordinates, lines) -> None:
+                 id, name, coordinates, lines:list) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
@@ -69,7 +69,16 @@ class ModelItemPoint:
         self.scene_draw.removeItem(self.point_item.text_name)
         self.scene_draw.update()
 
-    
+    def addLineAnchored(self, line):
+        self.__lines.append(line)
+        self.updatePoint(id_point=self.__id,lines=self.__lines)
+        
+    def deleteLineAnchored(self, id_line):
+        self.__lines.remove(id_line)
+        self.updatePoint(id_point=self.__id,lines=self.__lines)
+
+
+
     def updatePoint(self,  id_point, name = None, coordinates = None, lines = None):
 
         if name != None:
@@ -87,23 +96,3 @@ class ModelItemPoint:
         )        
 
 
-    '''
-   
-    def showHideMesh(self, value):
-        self.group_mesh.setVisible(value)
-    def setColorItem(self, color):
-        for item in self.group_mesh.childItems():
-            if isinstance(item, TriangleMeshItem):
-                item.setColor(color)
-        self.scene_draw.update()
-    
-    def deleteMesh(self):
-
-        for item in self.group_mesh.childItems():
-            self.group_mesh.removeFromGroup(item)
-            self.scene_draw.removeItem(item)
-        self.scene_draw.removeItem(self.group_mesh)
-        self.scene_draw.update()
-
-        
-    '''

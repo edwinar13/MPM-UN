@@ -58,6 +58,7 @@ class AddLineCommand(QUndoCommand):
         )        
     def getId(self):
         return self.id_line
+
 class MoveCommand(QUndoCommand):
     """."""
     def __init__(self, current_project, items:PointItem, dx, dy):
@@ -106,9 +107,6 @@ class RotateCommand(QUndoCommand):
             item.movePoint(self.pos)
             self.current_project.updateItemPoint( id_point= item.getId(),
                 coordinates=[new_x, new_y])
-            #self.graphics_scene.removeItem(self.item)            
-            #self.graphics_scene.update()
-            #self.admin.updateListItems("UPDATECOORDINATES", item)
 
       
     def undo(self):
@@ -117,11 +115,65 @@ class RotateCommand(QUndoCommand):
             item.movePoint(self.pos)
             self.current_project.updateItemPoint( id_point= item.getId(),
                 coordinates=[xi, yi])
-            #self.graphics_scene.addItem(self.item)
-            #self.graphics_scene.clearSelection()
-            #self.graphics_scene.update()
-            #self.admin.updateListItems("UPDATECOORDINATES", item)
 
+
+class RemoveLineCommand(QUndoCommand):
+    
+    def __init__(self, current_project, items):
+        super(RemoveLineCommand, self).__init__()         
+        self.current_project = current_project
+        self.items = items
+        #scene.update()
+        self.setText("del -> {} lines".format(len(self.items)))
+        
+    def redo(self):        
+
+        for item in self.items:    
+            if isinstance(item, LineItem):
+                id_item = item.getId()   
+                self.current_project.deleteItemLine(id_item)
+      
+    def undo(self):  
+
+        for item in self.items:    
+            if isinstance(item, LineItem ):
+                data = item.getData()
+                self.current_project.createItemLine(
+                    id_line= data["id"],
+                    name=data["name"],
+                    id_start_point=data["start_point"],
+                    id_end_point=data["end_point"]
+                )   
+
+class RemovePointCommand(QUndoCommand):
+    """."""
+    def __init__(self, current_project, items):
+        super(RemovePointCommand, self).__init__()         
+        self.current_project = current_project
+        self.items = items
+        #scene.update()
+        self.setText("del -> {} points".format(len(self.items)))
+        
+    def redo(self):        
+
+        for item in self.items:    
+            if isinstance(item, PointItem):
+                id_item = item.getId()
+                self.current_project.deleteItemPoint(id_item)
+      
+    def undo(self):  
+
+        for item in self.items:    
+            if isinstance(item, PointItem):
+                data = item.getData()   
+                self.current_project.createItemPoint(
+                    id_point = data["id"],
+                    name=data["name"],
+                    coordinates=data["coordinates"]
+                ) 
+
+
+              
 class RemoveCommand(QUndoCommand):
     """."""
     def __init__(self, current_project, items):
@@ -143,20 +195,6 @@ class RemoveCommand(QUndoCommand):
                 id_item = item.getId()
                 self.current_project.deleteItemPoint(id_item)
 
-
-
-
-            '''
-            self.graphics_scene.removeItem(item)
-            self.graphics_scene.removeItem(item.text_id)
-            if isinstance(item, LineItem):
-                point1 = item.start_point
-                point2 = item.end_point
-                point1.removeAnchoredLine(item)
-                point2.removeAnchoredLine(item)
-            #self.graphics_scene.update()
-            #self.admin.updateListItems("DELETE",item)
-            '''
       
     def undo(self):  
 
@@ -174,7 +212,6 @@ class RemoveCommand(QUndoCommand):
         for item in self.items:    
             if isinstance(item, LineItem ):
                 data = item.getData()
-                print(data)
                 self.current_project.createItemLine(
                     id_line= data["id"],
                     name=data["name"],
@@ -182,20 +219,6 @@ class RemoveCommand(QUndoCommand):
                     id_end_point=data["end_point"]
                 )   
 
-
-            '''
-            self.graphics_scene.addItem(item)
-            self.graphics_scene.addItem(item.text_id)
-
-            if isinstance(item, LineItem):
-                point1 = item.start_point
-                point2 = item.end_point
-                point1.addAnchoredLine(item)
-                point2.addAnchoredLine(item)
-            #self.graphics_scene.clearSelection()
-            #self.graphics_scene.update()
-            #self.admin.updateListItems("ADD",item)
-            '''
 
      
 class UpdateCommand(QUndoCommand):
@@ -223,8 +246,7 @@ class UpdateCommand(QUndoCommand):
             id_start_point = self.start_point.getId(), 
             id_end_point = self.end_point.getId()
              )
-        #self.admin.updateListItems("UPDATESTARENDPOINT", self.item)
-        #self.graphics_scene.update()
+
       
     def undo(self):
         self.item.start_point = self.start_point_ant
@@ -234,48 +256,4 @@ class UpdateCommand(QUndoCommand):
             id_start_point = self.start_point_ant.getId(), 
             id_end_point = self.end_point_ant.getId()
             )
-        #self.admin.updateListItems("UPDATESTARENDPOINT", self.item)
-        #self.graphics_scene.update()
 
-'''
-
-
-class AddCommand(QUndoCommand):
-    """."""
-    def __init__(self,admin:AdminScene ,scene:QGraphicsScene, item:PointItem):
-        super(AddCommand, self).__init__() 
-        self.graphics_scene = scene
-        self.admin = admin
-        self.item = item            
-        scene.update()
-        self.setText("add -> {}".format(self.item.getData()["type"]))
-
-    def undo(self):
-        self.graphics_scene.removeItem(self.item)
-        self.graphics_scene.removeItem(self.item.text_id)
-        if isinstance(self.item, LineItem):
-            point1 = self.item.start_point
-            point2 = self.item.end_point
-            point1.removeAnchoredLine(self.item)
-            point2.removeAnchoredLine(self.item)
-        self.graphics_scene.update()
-        self.admin.updateListItems("DELETE",self.item)
-        #self.admin.list_points.pop(self.item.getName())
-      
-    def redo(self):
-        self.graphics_scene.addItem(self.item)
-        self.graphics_scene.addItem(self.item.text_id)
-
-        if isinstance(self.item, LineItem):
-            point1 = self.item.start_point
-            point2 = self.item.end_point
-            point1.addAnchoredLine(self.item)
-            point2.addAnchoredLine(self.item)
-        
-        self.graphics_scene.clearSelection()
-        self.graphics_scene.update()
-        self.admin.updateListItems("ADD",self.item)
-
-        #self.admin.list_points[self.item.getName()] = self.item.__dict__
-
-'''

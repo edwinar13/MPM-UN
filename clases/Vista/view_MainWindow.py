@@ -36,10 +36,6 @@ class ViewMainWindow(QMainWindow):
     signal_change_theme = Signal()
 
 
-
-
-
-
     def __init__(self):
         QMainWindow.__init__(self)
        
@@ -56,11 +52,7 @@ class ViewMainWindow(QMainWindow):
         # Establece los eventos de la UI
         self.__initEventUi()
 
-
-
-        
-
-
+     
         self.showMessageStatusBar("informative","Programa iniciado correctamente")
 
     ###############################################################################
@@ -218,19 +210,6 @@ class ViewMainWindow(QMainWindow):
         self.shortcut_change_thema.activated.connect(self.__activatedShortCutChangeTheme)
         return
 
-        
-        # ::::::::::::::::::::   EVENTOS DE WIDGET FRAME INICIO ::::::::::::::::::::
-        self.frame_home.signal_home_open.connect(self.__openProject)
-        self.frame_home.signal_home_new.connect(self.__triggeredActionNuevoProyecto)
-        
-        # ::::::::::::::::::::   EVENTOS DE WIDGET FRAME DRAW  ::::::::::::::::::::
-        self.frame_draw.signal_msn_critical.connect(self.__showMessageCritical)
-        self.frame_draw.signal_msn_satisfactory.connect(self.__showMessageSatisfactory)
-        self.frame_draw.signal_msn_informative.connect(self.__showMessageInformative)
-   
-        self.frame_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
-        
-
 
 
 
@@ -370,9 +349,6 @@ class ViewMainWindow(QMainWindow):
 
 
 
-
-
-
     ##############################################################################
 	# :::::::::::::::::::::::    MÉTODOS MENU SUPERIOR   :::::::::::::::::::::::::
 	##############################################################################
@@ -458,8 +434,6 @@ class ViewMainWindow(QMainWindow):
         self.signal_action_menu_redo.emit()
 
 
-
-
     def __triggeredActionShowHideOrigin(self):        
         """ envia a la scena draw el modo de origen true para ver y false para ocultar"""   
         value = self.ui.action_origin.isChecked()
@@ -489,16 +463,7 @@ class ViewMainWindow(QMainWindow):
     def __activatedShortCutChangeTheme(self):
         """cambia de tema en los tres disponibles"""
         self.signal_change_theme.emit()
-        return
-
-        index_theme = self.ui.comboBox_3.currentIndex()
-        if index_theme ==2:
-            self.ui.comboBox_3.setCurrentIndex(0)
-        else:
-            self.ui.comboBox_3.setCurrentIndex(index_theme+1)
-
-
-
+        
 
     ###############################################################################
 	# ::::::::::::::::        MÉTODOS PARA BARRA DE ESTADO         ::::::::::::::::
@@ -536,8 +501,6 @@ class ViewMainWindow(QMainWindow):
             self.setWindowTitle("MPM-UN    {}".format(name_project))
 
      
-
-
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
 	###############################################################################

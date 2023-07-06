@@ -753,7 +753,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_PointMaterialSubTitle2">
+             <widget class="QFrame" name="frame_PointMaterialSubTitle1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -780,7 +780,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardPointMaterialSubTitle2">
+                <widget class="QLabel" name="label_cardPointMaterialSubTitle1">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -796,7 +796,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle2">
+                <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle1">
                  <property name="text">
                   <string/>
                  </property>
@@ -1356,7 +1356,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_PointMaterialSubTitle3">
+             <widget class="QFrame" name="frame_PointMaterialSubTitle2">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -1383,7 +1383,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardPointMaterialSubTitle3">
+                <widget class="QLabel" name="label_cardPointMaterialSubTitle2">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1399,7 +1399,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle3">
+                <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle2">
                  <property name="text">
                   <string/>
                  </property>

@@ -3,43 +3,55 @@ from clases.Vista.view_WidgetDrawMenuPointMaterial import ViewWidgetDrawMenuPoin
 from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 from clases.Controlador.controller_CardMaterialPoint import ControllerCardMaterialPoint
 
+
 class ControllerMenuPointMaterial():
 
     def __init__(self) -> None:
 
         self.view_menu_pointMaterial = ViewWidgetDrawMenuPointMaterial()
+        self.model_current_project = None
         self.list_controller_card=[]
 
         self.__config()
         self.__initEvent()
-
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR        ::::::::::::::::::::
 	###############################################################################
 
     def __config(self):
-        '''
-        self.setListBaseMeshView()
-        self.setBaseMeshView()
-        '''
         self.setListNoPointsView()
         self.setNoPointsView()
+        self.setBaseMeshView()
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_pointMaterial.signal_new_points_material.connect(self.newPointsMaterial)
 
+    def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
+        self.model_current_project = model_current_project
+
+    def configDrawMenuPointMaterial(self):
+        models_points_materials = self.model_current_project.getModelsPointsMaterials()
+        for id_point_material in models_points_materials:
+            self.createPointsMaterialsCard(models_points_materials[id_point_material])        
+        self.setListBaseMeshView()
+        
+    def getView(self):
+        return self.view_menu_pointMaterial
+
+    def createPointsMaterialsCard(self, model_point_material):
+        controller_card_material_point = ControllerCardMaterialPoint( model_point_material=model_point_material)
+        self.view_menu_pointMaterial.addCardMaterialPoint(controller_card_material_point.view_card_material_point)
+        controller_card_material_point.signal_delete_material_point.connect(self.deleteMaterialPoint)
+        self.list_controller_card.append(controller_card_material_point)
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
 	###############################################################################
-   
-
-    @Slot(str)
-    def deleteMaterialPoint(self, id):
-        self.model_current_project.deleteMaterialPoint(id)
-
+    
+    # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
+    
     @Slot()
     def newPointsMaterial(self):
 
@@ -84,9 +96,6 @@ class ControllerMenuPointMaterial():
         coordenates_triangles= base_mesh.getPoints()
         triangles= base_mesh.getTriangles()
 
-
-
-
         point_material_points =[]
 
         for triangle in triangles:
@@ -114,36 +123,7 @@ class ControllerMenuPointMaterial():
                 center_y = (point3[1] + point1[1] + center_point[1]) / 3
                 center_point_3 = (center_x, center_y)
                 point_material_points.append(center_point_3)  
-
       
-
-        point_material_name 
-        point_material_color 
-        point_material_base_mesh 
-        point_material_no_points 
-        point_material_points
-
-
-        print("#SE CREAR LOS MODELOS DE PUNTOS EN EL MODELO DE PROYECTO ACTUAL,")
-        print("# LUEDO SE PASA POR EL ADMIN QUIN CARGA A LA SCENE y LA BD")
-
-        # 1) Se le dice al ProjectCurrent que debe crear una MP y se le pasa los cuatro datos
-        #        el modelo intanaciado lo guarda en una lista
-        # 2) el crea un Modelo de pointMaterial,
-        #           se guarda la info como argumentos,
-        #           se debe guardar la infor en la bd
-        #           se crea el itemQGRAPHICS y se agrega a la scena
-        #card?
-        #admin?
-        # 3) el modelo de MP 
-
-
-
-
-
-
-
-
         id = self.model_current_project.createMaterialPoint(name=point_material_name ,
                                                     color=point_material_color,
                                                     points=point_material_points)
@@ -152,37 +132,16 @@ class ControllerMenuPointMaterial():
 
         self.view_menu_pointMaterial.endPointMaterial()
 
+    # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
+
+    @Slot(str)
+    def deleteMaterialPoint(self, id):
+        self.model_current_project.deleteMaterialPoint(id)
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
-
-    
-    def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
-        self.model_current_project = model_current_project
-
-    def configDrawMenuPointMaterial(self):
-        models_points_materials = self.model_current_project.getModelsPointsMaterials()
-        for id_point_material in models_points_materials:
-            self.createPointsMaterialsCard(models_points_materials[id_point_material])        
-        self.setListBaseMeshView()
-
-
-
-
-        
-
-    def createPointsMaterialsCard(self, model_point_material):
-        controller_card_material_point = ControllerCardMaterialPoint( model_point_material=model_point_material)
-        self.view_menu_pointMaterial.addCardMaterialPoint(controller_card_material_point.view_card_material_point)
-        controller_card_material_point.signal_delete_material_point.connect(self.deleteMaterialPoint)
-
-        self.list_controller_card.append(controller_card_material_point)
-
-    def getView(self):
-        return self.view_menu_pointMaterial
-
-
+   
     def setListBaseMeshView(self):  
         mesh_data = []   
         meshs = self.model_current_project.getModelsMeshs()

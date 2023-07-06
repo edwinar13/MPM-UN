@@ -7,9 +7,7 @@ from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog)
 from ui.ui_widget_draw_material_point_card import Ui_FormDrawMaterialPointCard
 from clases import class_ui_dialog_msg
 
-
  
-
 class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
     """Esta clase crea el QFrame materialPoint-card para agregarlo a Frame draw-menu-materialPoint. 
 
@@ -78,7 +76,6 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.toolButton_okMaterialPoint.clicked.connect(self.__clickedToolButtonOkMaterialPoint)
         self.toolButton_exitMaterialPoint.clicked.connect(self.__clickedToolButtonExitMaterialPoint)
     
-
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
@@ -115,13 +112,12 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.card_color_material_point_prev = self.__card_color_material_point
 
     def __clickedToolButtonColorMaterialPoint(self):
-        color = QColorDialog.getColor()
+        color = QColorDialog.getColor(initial=QColor(200,200,200))
         if color.isValid():
             self.__card_color_material_point=color.name()
             self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_material_point))
 
     def __clickedToolButtonOkMaterialPoint(self):
-        name_prev =self.label_cardNameMaterialPoint.text()
 
         self.lineEdit_nameMaterialPoint.setVisible(False)
         self.toolButton_colorMaterialPoint.setVisible(False)

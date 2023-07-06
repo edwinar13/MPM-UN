@@ -233,9 +233,7 @@ class LineItem(QGraphicsItem):
         self.isSelectedDraw = False
         self.isSelectedMesh = False
         self.showLabel = False
-        
-        #self.id_text = TextItem(str(self.id), self.center())
-        #self.point_text = PointItem(1,"self.id", self.center())
+
 
     def __str__ (self):
         return self.name
@@ -305,9 +303,6 @@ class LineItem(QGraphicsItem):
         else:
             self.text_name.setVisible(False)
 
-        #shape__ = self.shape()
-        #painter.drawPath(shape__)
-        #return
 
 class TriangleItem (QGraphicsItem):
     """
@@ -448,10 +443,7 @@ class PointMaterialItem(QGraphicsItem):
         self.pen.setWidthF(0.5)
 
         self.brush = QBrush(QColor(self.color))
-    '''
-    def __str__ (self):
-        return self.name
-    '''
+
     
     def setColor(self, color):
         self.color = color

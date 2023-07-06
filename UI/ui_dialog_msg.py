@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog_msgSqPeup.ui'
+## Form generated from reading UI file 'dialog_msgXhbfrC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -93,6 +93,58 @@ class Ui_DialogMsg(object):
 "QPushButton[style_msn_button=\"1\"]{\n"
 "font: 500 9pt \"Ubuntu\";\n"
 "}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QPushButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"QPushButton[QPushButtonStyle=\"1\"]{\n"
+"font: 500 10pt \"Ubuntu\";\n"
+"color: #222222;\n"
+"background-color: #77ACA2;\n"
+"border: none;\n"
+"padding: 6px 25px;\n"
+"border-radius: 8px ;\n"
+"}\n"
+"QPushButton[QPushButtonStyle=\"1\"]:hover{\n"
+"background-color: #36C9C6;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"/*************************"
+                        "****************/\n"
+"QPushButton[QPushButtonStyle=\"2\"]{\n"
+"font: 500 10pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #910D3F;\n"
+"border: none;\n"
+"padding: 6px 5px;\n"
+"border-radius: 8px ;\n"
+"}\n"
+"QPushButton[QPushButtonStyle=\"2\"]:hover{\n"
+"background-color: #C70039;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"/*****************************************/\n"
+"QPushButton[QPushButtonStyle=\"3\"]{\n"
+"font: 500 10pt \"Ubuntu\";\n"
+"color: #222222;\n"
+"background-color: #999999;\n"
+"border: none;\n"
+"padding: 6px 5px;\n"
+"border-radius: 8px ;\n"
+"}\n"
+"QPushButton[QPushButtonStyle=\"3\"]:hover{\n"
+"background-color: #DDDDDD;\n"
+"}\n"
+"\n"
 "\n"
 "")
         self.horizontalLayout = QHBoxLayout(DialogMsg)
@@ -208,7 +260,7 @@ class Ui_DialogMsg(object):
         self.pushButton_save.setObjectName(u"pushButton_save")
         self.pushButton_save.setMinimumSize(QSize(0, 30))
         self.pushButton_save.setMaximumSize(QSize(120, 30))
-        self.pushButton_save.setProperty("style_msn_button", 1)
+        self.pushButton_save.setProperty("QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_save)
 
@@ -216,7 +268,7 @@ class Ui_DialogMsg(object):
         self.pushButton_yes.setObjectName(u"pushButton_yes")
         self.pushButton_yes.setMinimumSize(QSize(0, 30))
         self.pushButton_yes.setMaximumSize(QSize(120, 30))
-        self.pushButton_yes.setProperty("style_msn_button", 1)
+        self.pushButton_yes.setProperty("QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_yes)
 
@@ -230,6 +282,7 @@ class Ui_DialogMsg(object):
         self.pushButton_accept.setMinimumSize(QSize(0, 30))
         self.pushButton_accept.setMaximumSize(QSize(120, 30))
         self.pushButton_accept.setProperty("style_msn_button", 1)
+        self.pushButton_accept.setProperty("QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_accept)
 
@@ -237,7 +290,7 @@ class Ui_DialogMsg(object):
         self.pushButton_notSave.setObjectName(u"pushButton_notSave")
         self.pushButton_notSave.setMinimumSize(QSize(0, 30))
         self.pushButton_notSave.setMaximumSize(QSize(120, 30))
-        self.pushButton_notSave.setProperty("style_msn_button", 1)
+        self.pushButton_notSave.setProperty("QPushButtonStyle", 2)
 
         self.horizontalLayout_2.addWidget(self.pushButton_notSave)
 
@@ -245,7 +298,7 @@ class Ui_DialogMsg(object):
         self.pushButton_not.setObjectName(u"pushButton_not")
         self.pushButton_not.setMinimumSize(QSize(0, 30))
         self.pushButton_not.setMaximumSize(QSize(120, 30))
-        self.pushButton_not.setProperty("style_msn_button", 1)
+        self.pushButton_not.setProperty("QPushButtonStyle", 2)
 
         self.horizontalLayout_2.addWidget(self.pushButton_not)
 
@@ -253,7 +306,7 @@ class Ui_DialogMsg(object):
         self.pushButton_cancel.setObjectName(u"pushButton_cancel")
         self.pushButton_cancel.setMinimumSize(QSize(0, 30))
         self.pushButton_cancel.setMaximumSize(QSize(120, 30))
-        self.pushButton_cancel.setProperty("style_msn_button", 1)
+        self.pushButton_cancel.setProperty("QPushButtonStyle", 3)
 
         self.horizontalLayout_2.addWidget(self.pushButton_cancel)
 
@@ -287,7 +340,7 @@ class Ui_DialogMsg(object):
         self.pushButton_yes.setText(QCoreApplication.translate("DialogMsg", u"Si", None))
         self.pushButton_accept.setText(QCoreApplication.translate("DialogMsg", u"Aceptar", None))
         self.pushButton_notSave.setText(QCoreApplication.translate("DialogMsg", u"No Guardar", None))
-        self.pushButton_not.setText(QCoreApplication.translate("DialogMsg", u"No", None))
-        self.pushButton_cancel.setText(QCoreApplication.translate("DialogMsg", u"Cancelar", None))
+        self.pushButton_not.setText(QCoreApplication.translate("DialogMsg", u"     No     ", None))
+        self.pushButton_cancel.setText(QCoreApplication.translate("DialogMsg", u"  Cancelar  ", None))
     # retranslateUi
 

@@ -64,13 +64,10 @@ class ViewPageSetting(QFrame, ui_frame_setting.Ui_FormSetting):
         """Método para los eventos de los widget de setting. Se obtiene el widget
          que activo la señal y se redirecciona al widget correspondiente"""
         
-
-
         widgetSelected = self.sender()
         nameWidget=""
         if widgetSelected != None:        
             nameWidget = widgetSelected.objectName()
-
         
 	    # ::::::::::::::::::::    SETTING Pantalla de dibujo    ::::::::::::::::::::
 

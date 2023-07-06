@@ -26,9 +26,7 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             : initDrawMenuDataProject
 
     """ 
-    signal_msn_critical = Signal(str)    
-    signal_msn_satisfactory = Signal(str)    
-    signal_msn_informative = Signal(str)  
+
     signal_data_project = Signal(dict)
 
     signal_paint_point = Signal() 
@@ -45,20 +43,16 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         super(ViewWidgetDrawMenuData, self).__init__()
         self.setupUi(self)
         
-
-        self.__hide_show_frame_data_0=True
+        self.__hide_show_frame_data=True
         self.__hide_show_frame_data_1=True
         self.__hide_show_frame_data_2=True
-        self.__hide_show_frame_data=True
-
-          
-
+        self.__hide_show_frame_data_3=True
+        
         # Configura la UI
         self.__configUi()
 
         # Establece los eventos de la UI
         self.__initEventUi()
-
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -84,108 +78,33 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
-
-        # ::::::::::::::::::::      EVENTOS DRAW MENU DATA     ::::::::::::::::::::
-        self.lineEdit_textData1.editingFinished.connect(self.__editingFinishedLineEditWDP1)
-        self.lineEdit_textData2.editingFinished.connect(self.__editingFinishedLineEditWDP2)
-        self.lineEdit_textData3.editingFinished.connect(self.__editingFinishedLineEditWDP3)
-        self.textEdit_textData4.textChanged.connect(self.__textChangedTextEditWDP4)
-        self.lineEdit_textData5.editingFinished.connect(self.__editingFinishedLineEditWDP5)
-
-        # ::::::::::::::::::::      EVENTOS DRAW MENU DRAW     ::::::::::::::::::::
-        self.toolButton_cardMeshDrawPoint.clicked.connect(self.__clickedToolButtonCardMeshDrawPoint)
-        self.toolButton_cardMeshDrawLine.clicked.connect(self.__clickedToolButtonCardMeshDrawLine)
-        self.toolButton_cardMeshDrawRotate.clicked.connect(self.__clickedToolButtonCardMeshDrawRotate)
-        self.toolButton_cardMeshDrawMove.clicked.connect(self.__clickedToolButtonCardMeshDrawMove)
-        self.toolButton_cardMeshDrawCopy.clicked.connect(self.__clickedToolButtonCardMeshDrawCopy)
-        self.toolButton_cardMeshDrawErase.clicked.connect(self.__clickedToolButtonCardMeshDrawErase)
-        self.toolButton_cardMeshDrawImport.clicked.connect(self.__clickedToolButtonCardMeshDrawImport)
-        self.toolButton_cardMeshDrawRule.clicked.connect(self.__clickedToolButtonCardMeshDrawRule)
-        self.toolButton_cardMeshDrawIntersection.clicked.connect(self.__clickedToolButtonCardMeshDrawIntersection)
-        
+        # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
-        self.toolButton_cardDataSubTitle0.clicked.connect(self.__clickedToolButtonCardDataSubTitle0)
         self.toolButton_cardDataSubTitle1.clicked.connect(self.__clickedToolButtonCardDataSubTitle1)
         self.toolButton_cardDataSubTitle2.clicked.connect(self.__clickedToolButtonCardDataSubTitle2)
+        self.toolButton_cardDataSubTitle3.clicked.connect(self.__clickedToolButtonCardDataSubTitle3)
+
+        # ::::::::::::::::::::      EVENTOS DRAW MENU DRAW     ::::::::::::::::::::
+        self.toolButton_cardDataDrawPoint.clicked.connect(self.__clickedToolButtonCardDataDrawPoint)
+        self.toolButton_cardDataDrawLine.clicked.connect(self.__clickedToolButtonCardDataDrawLine)
+        self.toolButton_cardDataDrawRotate.clicked.connect(self.__clickedToolButtonCardDataDrawRotate)
+        self.toolButton_cardDataDrawMove.clicked.connect(self.__clickedToolButtonCardDataDrawMove)
+        self.toolButton_cardDataDrawCopy.clicked.connect(self.__clickedToolButtonCardDataDrawCopy)
+        self.toolButton_cardDataDrawErase.clicked.connect(self.__clickedToolButtonCardDataDrawErase)
+        self.toolButton_cardDataDrawImport.clicked.connect(self.__clickedToolButtonCardDataDrawImport)
+        self.toolButton_cardDataDrawRule.clicked.connect(self.__clickedToolButtonCardDataDrawRule)
+        self.toolButton_cardDataDrawIntersection.clicked.connect(self.__clickedToolButtonCardDataDrawIntersection)
+        
+        # ::::::::::::::::::::      EVENTOS DRAW MENU DATA     ::::::::::::::::::::
+        self.lineEdit_textData_DataTitleProject.editingFinished.connect(self.__editingFinishedLineEditDataTitleProject)
+        self.lineEdit_textData_DataLocation.editingFinished.connect(self.__editingFinishedLineEditDataLocation)
+        self.lineEdit_textData_DataAuthor.editingFinished.connect(self.__editingFinishedLineEditDataAuthor)
+        self.textEdit_textData_DataDescription.textChanged.connect(self.__textChangedTextEditDataDescription)
+        self.lineEdit_textData_DataGravity.editingFinished.connect(self.__editingFinishedLineEditDataGravity)
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
-    """ Métodos para los eventos de los botones y widget """
-
-    # ::::::::::::::::::::      EVENTOS MENU DATA     ::::::::::::::::::::
-    def __editingFinishedLineEditWDP1(self):
-        """ Actualiza name_project en la copia de la bd del proyecto """ 
-        name_project = self.lineEdit_textData1.text()
-        self.signal_data_project.emit({"name_project":name_project})
-        return
-
-    def __editingFinishedLineEditWDP2(self):
-        """ Actualiza location en la copia de la bd del proyecto """ 
-        location = self.lineEdit_textData2.text()
-        self.signal_data_project.emit({"location":location})
-
-    def __editingFinishedLineEditWDP3(self):
-        """Actualiza author en la copia de la bd del proyecto """ 
-        author = self.lineEdit_textData3.text()
-        self.signal_data_project.emit({"author":author})
-
-    def __textChangedTextEditWDP4(self):
-        """Actualiza description en la copia de la bd del proyecto """         
-        description = self.textEdit_textData4.toPlainText()
-        self.signal_data_project.emit({"description":description})
-
-    def __editingFinishedLineEditWDP5(self):
-        """Verifica al salir del QLineEdit si el texto es
-        un número, si es verdadero le da formato decimal y
-        actualiza gravity en la copia de la bd del proyecto.
-        si no es número da mensaje de error""" 
-        gravity = self.lineEdit_textData5.text()
-        if general_functions.isNumber(gravity):
-            self.lineEdit_textData5.setText(str(float(gravity)))            
-            self.lineEdit_textData5.setStyleSheet("border-color: #444444")
-            self.label_msn.setText("Empty")
-            self.label_msn.setStyleSheet("color: #333333") 
-            self.signal_data_project.emit({"gravity":gravity})       
-
-        else:            
-            self.lineEdit_textData5.setFocus()
-            self.lineEdit_textData5.setStyleSheet("border: 1px solid #F94646")  
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa la gravedad")          
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-
-
-            
-
-    # ::::::::::::::::::::      EVENTOS MENU DRAW     ::::::::::::::::::::
-    def __clickedToolButtonCardMeshDrawPoint(self):
-        self.signal_paint_point.emit()
-
-    def __clickedToolButtonCardMeshDrawLine(self):
-        self.signal_paint_line.emit()  
-
-    def __clickedToolButtonCardMeshDrawMove(self):
-        self.signal_paint_move.emit()
-
-    def __clickedToolButtonCardMeshDrawRotate(self):
-        self.signal_paint_rotate.emit()
-
-    def __clickedToolButtonCardMeshDrawCopy(self):
-        self.signal_paint_copy.emit()
-        
-    def __clickedToolButtonCardMeshDrawErase(self):
-        self.signal_paint_erase.emit()
-
-    def __clickedToolButtonCardMeshDrawImport(self):
-        self.signal_paint_import.emit()
-
-    def __clickedToolButtonCardMeshDrawRule(self):
-        self.signal_paint_rule.emit()
-
-    def __clickedToolButtonCardMeshDrawIntersection(self):
-        self.signal_paint_intersection.emit()
-
 
     # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
     def __clickedToolButtonHideShow(self):
@@ -203,38 +122,108 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;")
             self.label_lat.setVisible(False)
         
-    def __clickedToolButtonCardDataSubTitle0(self):
-        """ Muestra o oculta el submenú data de draw  >  botones dibujo  """
-        if self.__hide_show_frame_data_0 == True:
-            self.frame_data0.setVisible(False)
-            self.__hide_show_frame_data_0 = False
-            self.toolButton_cardDataSubTitle0.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_data_0 == False:
-            self.frame_data0.setVisible(True)
-            self.__hide_show_frame_data_0 = True
-            self.toolButton_cardDataSubTitle0.setIcon(self.icon_minimize)
-        
     def __clickedToolButtonCardDataSubTitle1(self):
-        """ Muestra o oculta el submenú data de draw  >  datos del proyecto  """
+        """ Muestra o oculta el submenú data de draw  >  botones dibujo  """
         if self.__hide_show_frame_data_1 == True:
-            self.frame_data1.setVisible(False)
+            self.frame_data0.setVisible(False)
             self.__hide_show_frame_data_1 = False
             self.toolButton_cardDataSubTitle1.setIcon(self.icon_maximize)
         elif self.__hide_show_frame_data_1 == False:
-            self.frame_data1.setVisible(True)
+            self.frame_data0.setVisible(True)
             self.__hide_show_frame_data_1 = True
             self.toolButton_cardDataSubTitle1.setIcon(self.icon_minimize)
-
+        
     def __clickedToolButtonCardDataSubTitle2(self):
-        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        """ Muestra o oculta el submenú data de draw  >  datos del proyecto  """
         if self.__hide_show_frame_data_2 == True:
-            self.frame_data2.setVisible(False)
+            self.frame_data1.setVisible(False)
             self.__hide_show_frame_data_2 = False
             self.toolButton_cardDataSubTitle2.setIcon(self.icon_maximize)
         elif self.__hide_show_frame_data_2 == False:
-            self.frame_data2.setVisible(True)
+            self.frame_data1.setVisible(True)
             self.__hide_show_frame_data_2 = True
             self.toolButton_cardDataSubTitle2.setIcon(self.icon_minimize)
+
+    def __clickedToolButtonCardDataSubTitle3(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_frame_data_3 == True:
+            self.frame_data2.setVisible(False)
+            self.__hide_show_frame_data_3 = False
+            self.toolButton_cardDataSubTitle3.setIcon(self.icon_maximize)
+        elif self.__hide_show_frame_data_3 == False:
+            self.frame_data2.setVisible(True)
+            self.__hide_show_frame_data_3 = True
+            self.toolButton_cardDataSubTitle3.setIcon(self.icon_minimize)
+
+    # ::::::::::::::::::::      EVENTOS MENU DRAW     ::::::::::::::::::::
+    def __clickedToolButtonCardDataDrawPoint(self):
+        self.signal_paint_point.emit()
+
+    def __clickedToolButtonCardDataDrawLine(self):
+        self.signal_paint_line.emit()  
+
+    def __clickedToolButtonCardDataDrawMove(self):
+        self.signal_paint_move.emit()
+
+    def __clickedToolButtonCardDataDrawRotate(self):
+        self.signal_paint_rotate.emit()
+
+    def __clickedToolButtonCardDataDrawCopy(self):
+        self.signal_paint_copy.emit()
+        
+    def __clickedToolButtonCardDataDrawErase(self):
+        self.signal_paint_erase.emit()
+
+    def __clickedToolButtonCardDataDrawImport(self):
+        self.signal_paint_import.emit()
+
+    def __clickedToolButtonCardDataDrawRule(self):
+        self.signal_paint_rule.emit()
+
+    def __clickedToolButtonCardDataDrawIntersection(self):
+        self.signal_paint_intersection.emit()
+
+    # ::::::::::::::::::::      EVENTOS MENU DATA     ::::::::::::::::::::
+    def __editingFinishedLineEditDataTitleProject(self):
+        """ Actualiza name_project en la copia de la bd del proyecto """ 
+        name_project = self.lineEdit_textData_DataTitleProject.text()
+        self.signal_data_project.emit({"name_project":name_project})
+        
+    def __editingFinishedLineEditDataLocation(self):
+        """ Actualiza location en la copia de la bd del proyecto """ 
+        location = self.lineEdit_textData_DataLocation.text()
+        self.signal_data_project.emit({"location":location})
+
+    def __editingFinishedLineEditDataAuthor(self):
+        """Actualiza author en la copia de la bd del proyecto """ 
+        author = self.lineEdit_textData_DataAuthor.text()
+        self.signal_data_project.emit({"author":author})
+
+    def __textChangedTextEditDataDescription(self):
+        """Actualiza description en la copia de la bd del proyecto """         
+        description = self.textEdit_textData_DataDescription.toPlainText()
+        self.signal_data_project.emit({"description":description})
+
+    def __editingFinishedLineEditDataGravity(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza gravity en la copia de la bd del proyecto.
+        si no es número da mensaje de error""" 
+        gravity = self.lineEdit_textData_DataGravity.text()
+        if general_functions.isNumber(gravity):
+            self.lineEdit_textData_DataGravity.setText(str(float(gravity)))            
+            self.lineEdit_textData_DataGravity.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            self.signal_data_project.emit({"gravity":gravity})       
+
+        else:            
+            self.lineEdit_textData_DataGravity.setFocus()
+            self.lineEdit_textData_DataGravity.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa la gravedad")          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES        ::::::::::::::::::::
@@ -248,10 +237,9 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.description=data_info[3]
         self.gravity=data_config[0]
   
+        self.lineEdit_textData_DataTitleProject.setText(self.name_project)
+        self.lineEdit_textData_DataLocation.setText(self.location)
+        self.lineEdit_textData_DataAuthor.setText(self.author)
+        self.textEdit_textData_DataDescription.setText(self.description)
+        self.lineEdit_textData_DataGravity.setText("{}".format(self.gravity))
 
-        """ Recupera información de los atributos y la coloca en los campos del draw-menu-data """
-        self.lineEdit_textData1.setText(self.name_project)
-        self.lineEdit_textData2.setText(self.location)
-        self.lineEdit_textData3.setText(self.author)
-        self.textEdit_textData4.setText(self.description)
-        self.lineEdit_textData5.setText("{}".format(self.gravity))

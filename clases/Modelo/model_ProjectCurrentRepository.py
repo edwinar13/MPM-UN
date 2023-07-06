@@ -243,9 +243,9 @@ class ModelProjectCurrentRepository():
                 if name != None:          
                     self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["NAME"]=name
                 if id_start_point != None:          
-                    self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["IDSTARTPOINT"]=id_start_point
+                    self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["STARTPOINT"]=id_start_point
                 if id_end_point != None:          
-                    self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["IDENDPOINT"]=id_end_point
+                    self.__unguarded_copy_db_project['ITEMSDIBUJO']['LINEAS'][id_line]["ENDPOINT"]=id_end_point
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
@@ -486,7 +486,6 @@ class ModelProjectCurrentRepository():
                 
         """
         BD=self.__path_db_project
-
 
         if QFile.exists(BD):		  
             #try:

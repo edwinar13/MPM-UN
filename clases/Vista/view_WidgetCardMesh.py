@@ -8,27 +8,21 @@ from ui.ui_widget_draw_mesh_card import Ui_FormDrawMeshCard
 from clases import class_ui_dialog_msg
 
 
- 
-
 class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
     """Esta clase crea el QFrame mesh-card para agregarlo a Frame draw-menu-mesh. 
-
     Args:
             cardNameMesh (str):      Nombre de la malla (default = "").
             cardColorMesh (str):     Color de la malla (default = "").
             cardShowHideMesh (bool): Estado para mostrar u ocultar la malla (default = True).
-            
     Attributes:
             __card_name_mesh (str):       Nombre de la malla.
             __card_color_mesh (str):      Color de la malla.
             __card_show_hide_mesh (bool): Estado para mostrar u ocultar la malla.
-
     """    
     signal_hide_show_mesh = Signal(bool)
     signal_delete_mesh = Signal()
     signal_update_mesh = Signal()
-    
- 
+        
     def __init__(self,controller_CardMesh):
         super(viewCardDrawMesh, self).__init__()
         self.setupUi(self)
@@ -41,16 +35,9 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.__card_name_mesh = None
         self.card_color_mesh_prev = None
 
-
-
-
-        # Configura la UI
         self.__configUi()
         self.__initEventUi()
 
-
- 
-       
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
 	###############################################################################
@@ -70,18 +57,11 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.icon_hide = QIcon()
         self.icon_hide.addFile(u"recursos/iconos/iconos_menu_draw_mesh/not_view.svg", QSize(), QIcon.Normal, QIcon.Off)
         
-        '''
-        # se actualiza informacion del card
-        self.label_cardNameMesh.setText(u"{}".format(self.__card_name_mesh))
-        self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_mesh))
-        '''
         self.lineEdit_nameMesh.setVisible(False)
         self.toolButton_colorMesh.setVisible(False)
         self.toolButton_okMesh.setVisible(False)
         self.toolButton_exitMesh.setVisible(False)
      
-
-
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.toolButton_showHideMesh.clicked.connect(self.__clickedToolButtonShowHideMesh)
@@ -90,7 +70,6 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.toolButton_colorMesh.clicked.connect(self.__clickedToolButtonColorMesh)
         self.toolButton_okMesh.clicked.connect(self.__clickedToolButtonOkMesh)
         self.toolButton_exitMesh.clicked.connect(self.__clickedToolButtonExitMesh)
-
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -129,15 +108,13 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.card_color_mesh_prev = self.__card_color_mesh
 
     def __clickedToolButtonColorMesh(self):
-        color = QColorDialog.getColor()
+        color = QColorDialog.getColor(initial=QColor(200,200,200))
         if color.isValid():
             self.__card_color_mesh=color.name()
             self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_mesh))
 
     def __clickedToolButtonOkMesh(self):
-
-        name_prev =self.label_cardNameMesh.text()
-
+       
         self.lineEdit_nameMesh.setVisible(False)
         self.toolButton_colorMesh.setVisible(False)
         self.toolButton_okMesh.setVisible(False)
@@ -148,11 +125,9 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.toolButton_showHideMesh.setVisible(True)
         self.label_cardNameMesh.setVisible(True)
 
-
         self.__card_name_mesh = self.lineEdit_nameMesh.text()
         self.lineEdit_nameMesh.setText("")
         self.label_cardNameMesh.setText(self.__card_name_mesh)
-
 
         self.card_color_mesh_prev = None     
         self.signal_update_mesh.emit()
@@ -200,7 +175,6 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         # Elimina la tarjeta
         self.deleteLater()
 
-
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
 	###############################################################################
@@ -210,7 +184,6 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
 
     def getColor(self):
         return self.__card_color_mesh
-
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::

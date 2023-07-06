@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_pointMaterialDwGwAG.ui'
+## Form generated from reading UI file 'widget_draw_menu_pointMaterialNrtXlm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -540,7 +540,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"recursos/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"../recursos/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -600,34 +600,34 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.frame_info.setFrameShadow(QFrame.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_info)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.frame_PointMaterialSubTitle2 = QFrame(self.frame_info)
-        self.frame_PointMaterialSubTitle2.setObjectName(u"frame_PointMaterialSubTitle2")
-        self.frame_PointMaterialSubTitle2.setFrameShape(QFrame.StyledPanel)
-        self.frame_PointMaterialSubTitle2.setFrameShadow(QFrame.Raised)
-        self.frame_PointMaterialSubTitle2.setProperty("QFrameSubTitleStyle", 1)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_PointMaterialSubTitle2)
+        self.frame_PointMaterialSubTitle1 = QFrame(self.frame_info)
+        self.frame_PointMaterialSubTitle1.setObjectName(u"frame_PointMaterialSubTitle1")
+        self.frame_PointMaterialSubTitle1.setFrameShape(QFrame.StyledPanel)
+        self.frame_PointMaterialSubTitle1.setFrameShadow(QFrame.Raised)
+        self.frame_PointMaterialSubTitle1.setProperty("QFrameSubTitleStyle", 1)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_PointMaterialSubTitle1)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(10, 0, 0, 0)
-        self.label_cardPointMaterialSubTitle2 = QLabel(self.frame_PointMaterialSubTitle2)
-        self.label_cardPointMaterialSubTitle2.setObjectName(u"label_cardPointMaterialSubTitle2")
-        self.label_cardPointMaterialSubTitle2.setMinimumSize(QSize(262, 0))
-        self.label_cardPointMaterialSubTitle2.setProperty("QLabelStyle", 2)
+        self.label_cardPointMaterialSubTitle1 = QLabel(self.frame_PointMaterialSubTitle1)
+        self.label_cardPointMaterialSubTitle1.setObjectName(u"label_cardPointMaterialSubTitle1")
+        self.label_cardPointMaterialSubTitle1.setMinimumSize(QSize(262, 0))
+        self.label_cardPointMaterialSubTitle1.setProperty("QLabelStyle", 2)
 
-        self.horizontalLayout_3.addWidget(self.label_cardPointMaterialSubTitle2)
+        self.horizontalLayout_3.addWidget(self.label_cardPointMaterialSubTitle1)
 
-        self.toolButton_cardPointMaterialSubTitle2 = QToolButton(self.frame_PointMaterialSubTitle2)
-        self.toolButton_cardPointMaterialSubTitle2.setObjectName(u"toolButton_cardPointMaterialSubTitle2")
+        self.toolButton_cardPointMaterialSubTitle1 = QToolButton(self.frame_PointMaterialSubTitle1)
+        self.toolButton_cardPointMaterialSubTitle1.setObjectName(u"toolButton_cardPointMaterialSubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardPointMaterialSubTitle2.setIcon(icon1)
-        self.toolButton_cardPointMaterialSubTitle2.setArrowType(Qt.NoArrow)
-        self.toolButton_cardPointMaterialSubTitle2.setProperty("QToolButtonSubTitleStyle", 1)
+        icon1.addFile(u"../recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardPointMaterialSubTitle1.setIcon(icon1)
+        self.toolButton_cardPointMaterialSubTitle1.setArrowType(Qt.NoArrow)
+        self.toolButton_cardPointMaterialSubTitle1.setProperty("QToolButtonSubTitleStyle", 1)
 
-        self.horizontalLayout_3.addWidget(self.toolButton_cardPointMaterialSubTitle2)
+        self.horizontalLayout_3.addWidget(self.toolButton_cardPointMaterialSubTitle1)
 
 
-        self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle2)
+        self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle1)
 
         self.frame_materialPoint2 = QFrame(self.frame_info)
         self.frame_materialPoint2.setObjectName(u"frame_materialPoint2")
@@ -719,7 +719,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_PointMaterialColor = QToolButton(self.frame_3)
         self.toolButton_PointMaterialColor.setObjectName(u"toolButton_PointMaterialColor")
         icon2 = QIcon()
-        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"../recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_PointMaterialColor.setIcon(icon2)
         self.toolButton_PointMaterialColor.setIconSize(QSize(20, 20))
         self.toolButton_PointMaterialColor.setArrowType(Qt.NoArrow)
@@ -813,32 +813,32 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.verticalLayout_5.addWidget(self.frame_materialPoint2)
 
-        self.frame_PointMaterialSubTitle3 = QFrame(self.frame_info)
-        self.frame_PointMaterialSubTitle3.setObjectName(u"frame_PointMaterialSubTitle3")
-        self.frame_PointMaterialSubTitle3.setFrameShape(QFrame.StyledPanel)
-        self.frame_PointMaterialSubTitle3.setFrameShadow(QFrame.Raised)
-        self.frame_PointMaterialSubTitle3.setProperty("QFrameSubTitleStyle", 1)
-        self.horizontalLayout_7 = QHBoxLayout(self.frame_PointMaterialSubTitle3)
+        self.frame_PointMaterialSubTitle2 = QFrame(self.frame_info)
+        self.frame_PointMaterialSubTitle2.setObjectName(u"frame_PointMaterialSubTitle2")
+        self.frame_PointMaterialSubTitle2.setFrameShape(QFrame.StyledPanel)
+        self.frame_PointMaterialSubTitle2.setFrameShadow(QFrame.Raised)
+        self.frame_PointMaterialSubTitle2.setProperty("QFrameSubTitleStyle", 1)
+        self.horizontalLayout_7 = QHBoxLayout(self.frame_PointMaterialSubTitle2)
         self.horizontalLayout_7.setSpacing(0)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(10, 0, 0, 0)
-        self.label_cardPointMaterialSubTitle3 = QLabel(self.frame_PointMaterialSubTitle3)
-        self.label_cardPointMaterialSubTitle3.setObjectName(u"label_cardPointMaterialSubTitle3")
-        self.label_cardPointMaterialSubTitle3.setMinimumSize(QSize(262, 0))
-        self.label_cardPointMaterialSubTitle3.setProperty("QLabelStyle", 2)
+        self.label_cardPointMaterialSubTitle2 = QLabel(self.frame_PointMaterialSubTitle2)
+        self.label_cardPointMaterialSubTitle2.setObjectName(u"label_cardPointMaterialSubTitle2")
+        self.label_cardPointMaterialSubTitle2.setMinimumSize(QSize(262, 0))
+        self.label_cardPointMaterialSubTitle2.setProperty("QLabelStyle", 2)
 
-        self.horizontalLayout_7.addWidget(self.label_cardPointMaterialSubTitle3)
+        self.horizontalLayout_7.addWidget(self.label_cardPointMaterialSubTitle2)
 
-        self.toolButton_cardPointMaterialSubTitle3 = QToolButton(self.frame_PointMaterialSubTitle3)
-        self.toolButton_cardPointMaterialSubTitle3.setObjectName(u"toolButton_cardPointMaterialSubTitle3")
-        self.toolButton_cardPointMaterialSubTitle3.setIcon(icon1)
-        self.toolButton_cardPointMaterialSubTitle3.setArrowType(Qt.NoArrow)
-        self.toolButton_cardPointMaterialSubTitle3.setProperty("QToolButtonSubTitleStyle", 1)
+        self.toolButton_cardPointMaterialSubTitle2 = QToolButton(self.frame_PointMaterialSubTitle2)
+        self.toolButton_cardPointMaterialSubTitle2.setObjectName(u"toolButton_cardPointMaterialSubTitle2")
+        self.toolButton_cardPointMaterialSubTitle2.setIcon(icon1)
+        self.toolButton_cardPointMaterialSubTitle2.setArrowType(Qt.NoArrow)
+        self.toolButton_cardPointMaterialSubTitle2.setProperty("QToolButtonSubTitleStyle", 1)
 
-        self.horizontalLayout_7.addWidget(self.toolButton_cardPointMaterialSubTitle3)
+        self.horizontalLayout_7.addWidget(self.toolButton_cardPointMaterialSubTitle2)
 
 
-        self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle3)
+        self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle2)
 
         self.frame_materialPoint3 = QFrame(self.frame_info)
         self.frame_materialPoint3.setObjectName(u"frame_materialPoint3")
@@ -928,8 +928,8 @@ class Ui_FormDrawMenuPointMaterial(object):
         FormDrawMenuPointMaterial.setWindowTitle(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Form", None))
         self.toolButton_hideShow.setText("")
         self.label_cardPointMaterialTitle.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"PUNTO MATERIAL", None))
-        self.label_cardPointMaterialSubTitle2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Crear Puntos Material", None))
-        self.toolButton_cardPointMaterialSubTitle2.setText("")
+        self.label_cardPointMaterialSubTitle1.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Crear Puntos Material", None))
+        self.toolButton_cardPointMaterialSubTitle1.setText("")
         self.label_textPointMaterialName.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Nombre:", None))
         self.lineEdit_textPointMaterialName.setText("")
         self.label_textPointMaterialColor.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Color:", None))
@@ -939,8 +939,8 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.label_textPointMaterialBaseMesh.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Malla Base:", None))
         self.toolButton_PointMaterialCancel.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Cancelar", None))
         self.toolButton_PointMaterial.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Crear Puntos", None))
-        self.label_cardPointMaterialSubTitle3.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Lista de puntos materiales", None))
-        self.toolButton_cardPointMaterialSubTitle3.setText("")
+        self.label_cardPointMaterialSubTitle2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Lista de puntos materiales", None))
+        self.toolButton_cardPointMaterialSubTitle2.setText("")
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Empty", None))
     # retranslateUi
 

@@ -2,6 +2,8 @@ from PySide6.QtCore import ( Slot, Signal,QObject)
 from clases.Vista.view_WidgetDrawMenuData import ViewWidgetDrawMenuData
 from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
  
+
+
 class ControllerMenuData(QObject):
 
     signal_paint_draw = Signal(str)
@@ -9,12 +11,18 @@ class ControllerMenuData(QObject):
     def __init__(self) -> None:
         super().__init__()
 
-        #Crea la vista menu data
         self.view_menu_data = ViewWidgetDrawMenuData()
-        self.current_project = None
+        self.model_current_project = None
+        
+        self.__initEvent()
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS CONFIGURAR        ::::::::::::::::::::
+	###############################################################################
+
+    def __initEvent(self):
+        """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_data.signal_data_project.connect(self.updateDate)
-
-
         self.view_menu_data.signal_paint_point.connect(lambda: self.paintDrawCommand("point"))
         self.view_menu_data.signal_paint_line.connect(lambda: self.paintDrawCommand("line"))
         self.view_menu_data.signal_paint_move.connect(lambda: self.paintDrawCommand("move"))
@@ -25,49 +33,21 @@ class ControllerMenuData(QObject):
         self.view_menu_data.signal_paint_intersection.connect(lambda: self.paintDrawCommand("intersection"))
         self.view_menu_data.signal_paint_rule.connect(lambda: self.paintDrawCommand("rule"))
 
-
-    def paintDrawCommand(self, command):           
-        if command == "point" :
-            self.current_project.commandPoint({"step":1, "data":None})                
-
-        elif command == "line" :
-            self.current_project.commandLine({"step":1, "data":None})    
-
-        elif command == "move" :
-            self.current_project.commandMove({"step":1, "data":None})    
-
-        elif command == "copy" :
-            self.current_project.commandCopy({"step":1, "data":None})    
-
-        elif command == "rotate" :
-            self.current_project.commandRotate({"step":1, "data":None})    
-            
-        elif command == "erase" :
-            self.current_project.commandErase({"step":1, "data":None})    
-
-        elif command == "import" :
-            self.current_project.commandImport({"step":1, "data":None})    
-
-        elif command == "intersection" :
-            self.current_project.commandIntersection({"step":1, "data":None})   
-
-        elif command == "rule" :
-           self.current_project.commandRule({"step":1, "data":None})  
-
+    def setCurrentProject(self,model_current_project:ModelProjectCurrent):
+        self.model_current_project = model_current_project
+    
+    def configDrawMenuData(self):
+        dataInfo = self.model_current_project.getDataInfo()
+        dataConf = self.model_current_project.getDataConfig()
+        self.view_menu_data.setTextWidget(dataInfo, dataConf)
 
     def getView(self):
         return self.view_menu_data    
 
-    def setCurrentProject(self,current_project:ModelProjectCurrent):
-        self.current_project = current_project
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
+	###############################################################################
     
-    def configDrawMenuData(self):
-        dataInfo = self.current_project.getDataInfo()
-        dataConf = self.current_project.getDataConfig()
-        self.view_menu_data.setTextWidget(dataInfo, dataConf)
-        
- 
-
     @Slot(dict)
     def updateDate(self,date:dict):
 
@@ -82,16 +62,47 @@ class ControllerMenuData(QObject):
         value_input = date[name_attribute]
 
         if name_attribute == "name_project":     
-            self.current_project.updateInformation(name_project=value_input)
+            self.model_current_project.updateInformation(name_project=value_input)
             
         elif name_attribute == "location":          
-            self.current_project.updateInformation(location=value_input)
+            self.model_current_project.updateInformation(location=value_input)
             
         elif name_attribute == "author":
-            self.current_project.updateInformation(author=value_input)
+            self.model_current_project.updateInformation(author=value_input)
             
         elif name_attribute == "description":
-            self.current_project.updateInformation(description=value_input)
+            self.model_current_project.updateInformation(description=value_input)
             
         elif name_attribute == "gravity":
-            self.current_project.updateConfig(gravity=value_input)
+            self.model_current_project.updateConfig(gravity=value_input)
+    
+    @Slot(str)
+    def paintDrawCommand(self, command:str):           
+        if command == "point" :
+            self.model_current_project.commandPoint({"step":1, "data":None})                
+
+        elif command == "line" :
+            self.model_current_project.commandLine({"step":1, "data":None})    
+
+        elif command == "move" :
+            self.model_current_project.commandMove({"step":1, "data":None})    
+
+        elif command == "copy" :
+            self.model_current_project.commandCopy({"step":1, "data":None})    
+
+        elif command == "rotate" :
+            self.model_current_project.commandRotate({"step":1, "data":None})    
+            
+        elif command == "erase" :
+            self.model_current_project.commandErase({"step":1, "data":None})    
+
+        elif command == "import" :
+            self.model_current_project.commandImport({"step":1, "data":None})    
+
+        elif command == "intersection" :
+            self.model_current_project.commandIntersection({"step":1, "data":None})   
+
+        elif command == "rule" :
+           self.model_current_project.commandRule({"step":1, "data":None})  
+
+

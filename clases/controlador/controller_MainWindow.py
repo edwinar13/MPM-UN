@@ -180,17 +180,6 @@ class ControllerMainWindow():
 
 
 
-
-
-        '''
-        #Configura nuevo proyecto
-        self.current_project = ModelProjectCurrent(path_project)   
-        self.current_project.signal_project_changes.connect(self.projectChanges)  
-
-        self.controller_page_draw.openCurrentProject(self.current_project)
-        '''
-
-
         scene = self.controller_page_draw.controller_graphics_draw.scene_draw
         view_draw_1 = self.controller_page_draw.controller_graphics_draw.view_draw_1
         view_draw_2 = self.controller_page_draw.controller_graphics_draw.view_draw_2

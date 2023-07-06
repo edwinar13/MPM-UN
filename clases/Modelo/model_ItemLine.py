@@ -15,10 +15,7 @@ class ModelItemLine:
         self.__name = name
         self.__start_point = start_point
         self.__end_point = end_point    
-
-
         
-
 
 
         text_name = TextItem(self.__name, 0,0)
@@ -27,21 +24,6 @@ class ModelItemLine:
         self.line_item = LineItem(id, name,start_point.getPointItem(),end_point.getPointItem() , text_name) 
         
         self.scene_draw.addItem(self.line_item)
-
-        return
-
-
-
-
-        self.dict_lines[name] = l
-
-        point1 = self.dict_points[start_point]
-        point2 = self.dict_points[end_point]
-        point1.addAnchoredLine(l)
-        point2.addAnchoredLine(l)
-
-
-
 
 
     ###############################################################################
@@ -75,40 +57,21 @@ class ModelItemLine:
         self.scene_draw.update()
 
         
-    def updateLine(self,  id_line, name = None, id_start_point = None, id_end_point = None):
+    def updateLine(self,  id_line, name = None, start_point = None, end_point = None):
 
         if name != None:
             self.__name = name
-        if id_start_point != None:
-            self.__start_point = id_start_point
-        if id_end_point != None:
-            self.__end_point = id_end_point
+        if start_point != None:
+            self.__start_point = start_point
+            self.line_item.start_point = start_point.getPointItem()
+
+        if end_point != None:
+            self.__end_point = end_point
+            self.line_item.end_point = end_point.getPointItem()
 
         self.model_project_current_repository.updateItemLineDrawDB(
             id_line=id_line,
             name=name,
-            id_start_point=id_start_point,
-            id_end_point=id_end_point
+            id_start_point=start_point.getId(),
+            id_end_point=end_point.getId()
         )     
-    
-    '''
-    def showHideMesh(self, value):
-        self.group_mesh.setVisible(value)
-    
-
-
-    def setColorItem(self, color):
-        for item in self.group_mesh.childItems():
-            if isinstance(item, TriangleMeshItem):
-                item.setColor(color)
-        self.scene_draw.update()
-    
-    def deleteMesh(self):
-
-        for item in self.group_mesh.childItems():
-            self.group_mesh.removeFromGroup(item)
-            self.scene_draw.removeItem(item)
-        self.scene_draw.removeItem(self.group_mesh)
-        self.scene_draw.update()
-
-    '''

@@ -13,15 +13,14 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         super(ViewWidgetDrawMenuPointMaterial, self).__init__()
         self.setupUi(self)
 
-        self.hide_show_frame_material_point = True
+        self.__hide_show_frame_material_point = True
+        self.__hide_show_frame_material_point_1=True
         self.__hide_show_frame_material_point_2=True
-        self.__hide_show_frame_material_point=True
         self.__color_material_point = None
 
         # Configura la UI
         self.__configUi()
         self.__initEventUi()
-
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -42,14 +41,16 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.verticalSpacer = QSpacerItem(20, 507, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(self.verticalSpacer)
         self.label_lat.setVisible(False)
+        self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
-
+        # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
+        self.toolButton_cardPointMaterialSubTitle1.clicked.connect(self.__clickedToolButtonCardMeshSubTitle1)
         self.toolButton_cardPointMaterialSubTitle2.clicked.connect(self.__clickedToolButtonCardMeshSubTitle2)
-        self.toolButton_cardPointMaterialSubTitle3.clicked.connect(self.__clickedToolButtonCardMeshSubTitle3)
         
+        # ::::::::::::::::::::      EVENTOS DRAW MENU POINT MATERIAL     ::::::::::::::::::::
         self.lineEdit_textPointMaterialName.editingFinished.connect(self.__editingFinishedLineEditPointMaterialName)
         self.toolButton_PointMaterialColor.clicked.connect(self.__clickedToolButtonPointMaterialColorPicker)        
         self.toolButton_PointMaterialCancel.clicked.connect(self.__clickedToolButtonPointMaterialCancel)
@@ -58,52 +59,56 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
+    # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
     def __clickedToolButtonHideShow(self):
         """ Muestra o oculta el menú data de draw """
 
-        if self.hide_show_frame_material_point == True:
+        if self.__hide_show_frame_material_point == True:
             self.frame_pointMaterial.setVisible(False)
-            self.hide_show_frame_material_point = False
+            self.__hide_show_frame_material_point = False
             self.frame_hide.setStyleSheet(u"background: transparent;border-top-left-radius: 8px;border-top-right-radius: 8px;")
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;border-top-right-radius: 8px;")
             self.label_lat.setVisible(True)
-        elif self.hide_show_frame_material_point == False:
+        elif self.__hide_show_frame_material_point == False:
             self.frame_pointMaterial.setVisible(True)
-            self.hide_show_frame_material_point = True
+            self.__hide_show_frame_material_point = True
             self.frame_hide.setStyleSheet(u"background: transparent;border-top-left-radius: 8px;")
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;")
             self.label_lat.setVisible(False)
     
+    def __clickedToolButtonCardMeshSubTitle1(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_frame_material_point_1 == True:
+            self.frame_materialPoint2.setVisible(False)
+            self.__hide_show_frame_material_point_1 = False
+            self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_maximize)
+        elif self.__hide_show_frame_material_point_1 == False:
+            self.frame_materialPoint2.setVisible(True)
+            self.__hide_show_frame_material_point_1 = True
+            self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_minimize)
+
     def __clickedToolButtonCardMeshSubTitle2(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
         if self.__hide_show_frame_material_point_2 == True:
-            self.frame_materialPoint2.setVisible(False)
+            self.frame_materialPoint3.setVisible(False)
             self.__hide_show_frame_material_point_2 = False
             self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_maximize)
+            self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         elif self.__hide_show_frame_material_point_2 == False:
-            self.frame_materialPoint2.setVisible(True)
+            self.frame_materialPoint3.setVisible(True)
             self.__hide_show_frame_material_point_2 = True
             self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_minimize)
-
-    def __clickedToolButtonCardMeshSubTitle3(self):
-        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
-        if self.__hide_show_frame_material_point == True:
-            self.frame_materialPoint3.setVisible(False)
-            self.__hide_show_frame_material_point = False
-            self.toolButton_cardPointMaterialSubTitle3.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_material_point == False:
-            self.frame_materialPoint3.setVisible(True)
-            self.__hide_show_frame_material_point = True
-            self.toolButton_cardPointMaterialSubTitle3.setIcon(self.icon_minimize)
+            self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
 
+    # ::::::::::::::::::::      EVENTOS DRAW MENU POINT MATERIAL     ::::::::::::::::::::
     def __editingFinishedLineEditPointMaterialName(self):
         self.lineEdit_textPointMaterialName.setStyleSheet("border-color: #444444")
         self.label_msn.setText("Empty")
         self.label_msn.setStyleSheet("color: #333333") 
 
     def __clickedToolButtonPointMaterialColorPicker(self):
-        color = QColorDialog.getColor()
+        color = QColorDialog.getColor(initial=QColor(200,200,200))
         if color.isValid():
             self.__color_material_point=color.name()
             self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : {}'.format(self.__color_material_point))
@@ -113,7 +118,6 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
     def __clickedToolButtonPointMaterial(self):
         self.signal_new_points_material.emit()
-
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -134,17 +138,6 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     def getNoPoints(self):
         return self.comboBox_PointMaterialNPoints.currentText()
 
-
-    ###############################################################################
-	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
-	###############################################################################
-    
-    def addCardMaterialPoint(self, card_material_point):                  
-
-        self.verticalLayout_containerCardMaterialPoint.addWidget(card_material_point)
-        last_index = self.verticalLayout_containerCardMaterialPoint.count() - 1
-        self.verticalLayout_containerCardMaterialPoint.insertWidget(last_index, self.frame_empty)
-    
     def setListBaseMesh(self, mesh_data):              
         self.comboBox_PointMaterialBaseMesh.clear()
         for item_index in range(len(mesh_data)):
@@ -175,6 +168,16 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
     def setNoPoints(self, index):     
         self.comboBox_PointMaterialNPoints.setCurrentIndex(index)
+    
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
+	###############################################################################
+    
+    def addCardMaterialPoint(self, card_material_point):                  
+
+        self.verticalLayout_containerCardMaterialPoint.addWidget(card_material_point)
+        last_index = self.verticalLayout_containerCardMaterialPoint.count() - 1
+        self.verticalLayout_containerCardMaterialPoint.insertWidget(last_index, self.frame_empty)
     
     def endPointMaterial(self):
         self.lineEdit_textPointMaterialName.setText("")

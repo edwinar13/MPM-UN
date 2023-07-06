@@ -10,8 +10,7 @@ from clases.Modelo.model_MaterialPoint import ModelMaterialPoint
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
 from clases.Vista.view_GraphicsDraw import ViewGraphicsSceneDraw, ViewGraphicsViewDraw
 from clases.items_GraphicsDraw import TextItem, PointItem, LineItem
-from clases.Vista.view_GraphicsDraw import AdminScene
-from clases.command_GraphicsDraw import AddPointCommand, AddLineCommand, MoveCommand, RotateCommand, RemoveCommand, UpdateCommand
+from clases.command_GraphicsDraw import AddPointCommand, AddLineCommand, MoveCommand, RotateCommand, RemoveLineCommand,RemovePointCommand, UpdateCommand
 import uuid
 import math
 import ezdxf
@@ -252,7 +251,7 @@ class ModelProjectCurrent(QObject):
         
         self.items_points_models[id]=model_point      
 
-    def createItemPoint(self, id_point, name, coordinates, ):
+    def createItemPoint(self, id_point, name, coordinates ):
             
         lines = []
         self.model_project_current_repository.createItemPointDrawDB(
@@ -269,9 +268,11 @@ class ModelProjectCurrent(QObject):
     
     def deleteItemPoint(self, id):
         self.model_project_current_repository.deleteItemPointDrawDB(id)  
-        removed_model_item_point = self.items_points_models.pop(id)
-        removed_model_item_point.deletePoint()
-        del removed_model_item_point
+        removed_model_item_point = self.items_points_models.pop(id, None)
+        if removed_model_item_point is not None:
+            removed_model_item_point.deletePoint()
+            del removed_model_item_point
+
     
     def updateItemPoint(self,  id_point, name = None, coordinates = None, lines = None):
 
@@ -280,10 +281,6 @@ class ModelProjectCurrent(QObject):
                                       name = name,
                                         coordinates = coordinates, 
                                         lines = lines)
-
-
-
-
 
 
     def addItemLineToCurrentProject(self,id, name, start_point, end_point):   
@@ -298,35 +295,63 @@ class ModelProjectCurrent(QObject):
         self.items_lines_models[id]=model_line       
 
     def createItemLine(self, id_line, name, id_start_point, id_end_point):
+
+        
+
        
         self.model_project_current_repository.createItemLineDrawDB(
                 id_line= id_line,
                 name = name,  
                 id_start_point = id_start_point,
                 id_end_point = id_end_point)
-        
+        model_point_start=self.items_points_models[id_start_point]
+        model_point_end =self.items_points_models[id_end_point]
         self.addItemLineToCurrentProject(
                 id=id_line,
                 name=name,
-                start_point = self.items_points_models[id_start_point],
-                end_point = self.items_points_models[id_end_point])
-        
+                start_point = model_point_start,
+                end_point = model_point_end)
+
+        model_point_start.addLineAnchored(id_line) 
+        model_point_end.addLineAnchored(id_line)        
         return id_line
+       
 
     def deleteItemLine(self, id):
         self.model_project_current_repository.deleteItemLineDrawDB(id)  
         removed_model_item_line = self.items_lines_models.pop(id)
         removed_model_item_line.deleteLine()
+
+
+        model_start_point = removed_model_item_line.getStartPoint()
+        model_end_point = removed_model_item_line.getEndPoint()
+
+        model_start_point.deleteLineAnchored(removed_model_item_line.getId())
+        model_end_point.deleteLineAnchored(removed_model_item_line.getId())
+
+
         del removed_model_item_line
 
     def updateItemLine(self,  id_line, name = None, id_start_point = None, id_end_point = None):
 
-        model_item_point = self.items_lines_models[id_line]
+        model_item_line = self.items_lines_models[id_line]
+
+        model_start_point = model_item_line.getStartPoint()
+        model_end_point = model_item_line.getEndPoint()
+
+
+        model_start_point.deleteLineAnchored(model_item_line.getId())
+        model_end_point.deleteLineAnchored(model_item_line.getId())
+
+        model_point_start=self.items_points_models[id_start_point]
+        model_point_end =self.items_points_models[id_end_point]
+
+        model_item_line.updateLine(id_line=id_line,
+                                        start_point = model_point_start, 
+                                        end_point = model_point_end)
         
-        model_item_point.updateLine(id_line=id_line,
-                                      name = name,
-                                        id_start_point = id_start_point, 
-                                        id_end_point = id_end_point)
+        model_point_start.addLineAnchored(id_line) 
+        model_point_end.addLineAnchored(id_line)  
 
 
     # ::::::::::::::::::::                MALLAS               ::::::::::::::::::::
@@ -589,6 +614,7 @@ class ModelProjectCurrent(QObject):
                     return id
 
 
+
             #::::::::::::  linea  ::::::::::::::::
             no_max = 0
             for id_line_item in self.items_lines_models:
@@ -608,9 +634,13 @@ class ModelProjectCurrent(QObject):
             self.signal_msn_label_view.emit(["Command","Se ha creado la linea {}".format(name), 1])  
             point=data[1]
             point_vertex =QPointF(point[0],point[1])
-            self.setPointVertexAnt(point_vertex)
-            print(add_line_command.getId())
-            return add_line_command.getId()
+            self.setPointVertexAnt(point_vertex) 
+
+            id_new_line = add_line_command.getId()
+
+
+
+            return id_new_line
 
     def commandMove(self, input:dict):
                 
@@ -1065,46 +1095,15 @@ class ModelProjectCurrent(QObject):
             else:
                 items = self.__scene.items(QRectF(p1_select, p2_select),mode=Qt.ContainsItemShape)
             count = 0
-            
-            for item in items:        
 
+
+            for item in items: 
                 if isinstance(item, TextItem):                    
-                    continue    
-
-                elif isinstance(item,PointItem):
+                    continue   
+                elif isinstance(item,PointItem) or isinstance(item, LineItem):
+                    count += 1
+                    self.addSelectedItems(item)      
                     item.isSelectedDraw  = True
-                    if not (item in self.getSelectedItems()):
-                        if len(item.anchored_lines) != 0:
-                            self.signal_msn_label_view.emit(["Command","No se puede eliminar {}, esta anclado a mas de dos lienas ".format(item.name), 1])  
-                            item.isSelectedDraw =False
-                        else:
-                            count += 1
-                            self.addSelectedItems(item)
-          
-                elif isinstance(item, LineItem):
-                    point_A = item.start_point
-                    point_B = item.end_point
-
-
-
-                    if not (point_A in self.getSelectedItems()) :
-                        count += 1
-                        if item in point_A.anchored_lines and len(point_A.anchored_lines) == 1:
-                            self.addSelectedItems(point_A)
-                            point_A.isSelectedDraw  = True
-
-
-                        
-                    if not (point_B in self.getSelectedItems()) :
-                        count += 1
-                        if item in point_B.anchored_lines and len(point_B.anchored_lines) == 1:
-                            self.addSelectedItems(point_B)
-                            point_B.isSelectedDraw  = True
-
-                    if not (item in self.getSelectedItems()) :
-                        count += 1
-                        self.addSelectedItems(item)
-                        item.isSelectedDraw  = True
 
 
             if count > 0:
@@ -1119,14 +1118,38 @@ class ModelProjectCurrent(QObject):
                 
         #Inicio de borrar
         elif step == 3:
-            selected_items = len(self.getSelectedItems())         
-
-
-            remove_command = RemoveCommand(current_project=self, items= self.getSelectedItems())
-            self.undo_stack.push(remove_command)
-
+            items= self.getSelectedItems()
+            selected_items = len(items)      
             self.signal_msn_label_view.emit(["Command","{} Elementos seleccionados".format(selected_items), 1]) 
-            self.signal_msn_label_view.emit(["Command","Se ha eliminado los elementos seleccionados".format(), 1]) 
+
+
+            point_items = []
+            line_items = []
+
+            for item in items:
+                if isinstance(item, PointItem):
+                    point_items.append(item)
+                elif isinstance(item, LineItem):
+                    line_items.append(item)
+
+           
+            remove_line_command = RemoveLineCommand(current_project=self, items= line_items)
+            self.undo_stack.push(remove_line_command)
+
+            point_items_corrected = []
+            for point in point_items:                
+                model_point = self.items_points_models[point.getId()]
+                no_lines = len(model_point.getLines())
+                if no_lines == 0:
+                    point_items_corrected.append(point)
+             
+
+                
+            remove_point_command = RemovePointCommand(current_project=self, items= point_items_corrected)
+            self.undo_stack.push(remove_point_command)
+
+
+            self.signal_msn_label_view.emit(["Command","Se ha eliminado {} de los elementos seleccionados".format(len(point_items_corrected)), 1]) 
             self.signal_msn_label_view.emit(["", "", 3]) 
 
  
@@ -1137,8 +1160,7 @@ class ModelProjectCurrent(QObject):
         
         step = input["step"]
         data = input["data"]
-        
-        
+               
  
         # 1) Inicio, selección de elementos
         if step == 1:
@@ -1327,8 +1349,6 @@ class ModelProjectCurrent(QObject):
     def projectSaveAs(self, new_path_file):
         return self.model_project_current_repository.projectSaveAs(new_path_file)
 
-
-
     def pointInRect(self, point:QPointF, rec:QRectF):
         val = True
         x = point.x()
@@ -1347,11 +1367,7 @@ class ModelProjectCurrent(QObject):
         else:
             val = False
         return val
-    
-    
-
-
-
+        
     def intersectionLinesDraw(self, selected_items:list):
 
             len_selected_items= len(selected_items)
@@ -1386,12 +1402,13 @@ class ModelProjectCurrent(QObject):
                         
                         line_A_new =None
                         line_B_new =None
-           
+                        
                         # Linea A
                         if new_point != lA_p1 and new_point != lA_p2:
                             update_command = UpdateCommand(current_project=self,
                                                             item = line_A, 
                                                             points= [lA_p1, new_point])
+
                             self.undo_stack.push(update_command)
                             line_A_new = self.commandLine({"step":3, "data":[
                                         [intersection_point.x(),intersection_point.y()],
@@ -1405,6 +1422,7 @@ class ModelProjectCurrent(QObject):
                             update_command = UpdateCommand(current_project=self,
                                                             item = line_B,
                                                             points=  [lB_p1, new_point])
+
                             self.undo_stack.push(update_command)
                             line_B_new = self.commandLine({"step":3, "data":[
                                         [intersection_point.x(),intersection_point.y()],

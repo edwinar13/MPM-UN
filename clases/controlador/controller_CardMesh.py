@@ -7,6 +7,7 @@ class ControllerCardMesh(QObject):
 
   
     signal_delete_mesh = Signal(str)
+    signal_edit_mesh= Signal() 
 
     def __init__(self, model_mesh:ModelMeshTriangle) -> None:
         super().__init__()
@@ -50,6 +51,7 @@ class ControllerCardMesh(QObject):
             name=self.name,
             color=self.color
             )
+        self.signal_edit_mesh.emit()
 
 
 

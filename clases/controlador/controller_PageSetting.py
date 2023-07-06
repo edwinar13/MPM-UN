@@ -19,20 +19,6 @@ class ControllerPageSetting():
         self.view_page_setting.iniSetting(self.getSetting())
 
 
-        """
-        self.view_main_window = self.controller_main.view_main_window
-
-        la vista tiene que general una señal con el listado acrtualizados de los ajustes 
-        este controllador toma esa lista y gurda la inf en la DB
-        tambien ordena actualizar lo demas como vista draw y scena
-
-        """
-
-
-
-
-
-
     def getView(self):
         return self.view_page_setting
 
@@ -43,28 +29,15 @@ class ControllerPageSetting():
     @Slot(dict)
     def updateSetting(self,setting_update):
 
-        """
-        self.frame_draw.view_draw_1.crosshair_size=(value_crosshair_size)/100
-        self.frame_draw.view_draw_2.crosshair_size=(value_crosshair_size)/100    
-        """
-          
+         
         self.model_setting_app.updateSetting(setting_update)
-
-
 
         if setting_update["setting"] == "style_view_scene" or setting_update["setting"] == "crosshair_size"  or setting_update["setting"] == "pick_box_size"  or setting_update["setting"] == "grid_adaptative" or setting_update["setting"] == "grid_spacing" or setting_update["setting"] == "snap_grid_adaptative" or setting_update["setting"] == "snap_grid_spacing":
             self.controller_main.settingDraw(setting_update)    
 
-
         if setting_update["setting"] == "check_auto_save":
             autosave = setting_update["setting_data"][2]
             self.controller_main.autosave = autosave
-
-
-
-
-
-
 
         if setting_update["setting"] == "interval_auto_save":
             index = setting_update["setting_data"][2]

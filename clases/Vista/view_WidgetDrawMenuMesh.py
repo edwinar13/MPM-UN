@@ -47,22 +47,17 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         super(ViewWidgetDrawMenuMesh, self).__init__()
         self.setupUi(self)
 
-
-
-        # Atributo
-   
-        self.__color_mesh = None
-
- 
-        self.__hide_show_frame_mesh_2=True
-        self.__hide_show_frame_mesh_3=True
         self.__hide_show_frame_mesh=True
+        self.__hide_show_frame_mesh_1=True
+        self.__hide_show_frame_mesh_2=True
+
+        self.__color_mesh = None
+        self.contador=0
 
         # Configura la UI
         self.__configUi()
         self.__initEventUi()
 
-        self.contador=0
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -84,24 +79,27 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.verticalLayout_2.addItem(self.verticalSpacer)
         self.label_lat.setVisible(False)
 
+        self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
+        # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
+        self.toolButton_cardMeshSubTitle1.clicked.connect(self.__clickedToolButtonCardMeshSubTitle1)
         self.toolButton_cardMeshSubTitle2.clicked.connect(self.__clickedToolButtonCardMeshSubTitle2)
-        self.toolButton_cardMeshSubTitle3.clicked.connect(self.__clickedToolButtonCardMeshSubTitle3)
 
+        # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
         self.lineEdit_textMeshName.editingFinished.connect(self.__editingFinishedLineEditMeshName)
         self.toolButton_cardMeshDrawSize.clicked.connect(self.__clickedToolButtonSizeMesh)  
         self.toolButton_cardMeshDrawSelected.clicked.connect(self.__clickedToolButtonSelectLine)  
         self.toolButton_cardMeshDrawColor.clicked.connect(self.__clickedToolButtonColorPicker)        
         self.toolButton_meshCancel.clicked.connect(self.__clickedToolButtonMeshCancel)
         self.toolButton_meshMeshing.clicked.connect(self.__clickedToolButton_mesh)
-
         
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
-       
+    # ::::::::::::::::::::      EVENTOS MENU     :::::::::::::::::::: 
     def __clickedToolButtonHideShow(self):
         """ Muestra o oculta el menú data de draw """
         if self.__hide_show_frame_mesh == True:
@@ -117,29 +115,31 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;")
             self.label_lat.setVisible(False)
 
+    def __clickedToolButtonCardMeshSubTitle1(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_frame_mesh_1 == True:
+            self.frame_mesh2.setVisible(False)
+            self.__hide_show_frame_mesh_1 = False
+            self.toolButton_cardMeshSubTitle1.setIcon(self.icon_maximize)
+        elif self.__hide_show_frame_mesh_1 == False:
+            self.frame_mesh2.setVisible(True)
+            self.__hide_show_frame_mesh_1 = True
+            self.toolButton_cardMeshSubTitle1.setIcon(self.icon_minimize)
+
     def __clickedToolButtonCardMeshSubTitle2(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
         if self.__hide_show_frame_mesh_2 == True:
-            self.frame_mesh2.setVisible(False)
+            self.frame_mesh3.setVisible(False)
             self.__hide_show_frame_mesh_2 = False
             self.toolButton_cardMeshSubTitle2.setIcon(self.icon_maximize)
+            self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         elif self.__hide_show_frame_mesh_2 == False:
-            self.frame_mesh2.setVisible(True)
+            self.frame_mesh3.setVisible(True)
             self.__hide_show_frame_mesh_2 = True
             self.toolButton_cardMeshSubTitle2.setIcon(self.icon_minimize)
+            self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-    def __clickedToolButtonCardMeshSubTitle3(self):
-        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
-        if self.__hide_show_frame_mesh_3 == True:
-            self.frame_mesh3.setVisible(False)
-            self.__hide_show_frame_mesh_3 = False
-            self.toolButton_cardMeshSubTitle3.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_mesh_3 == False:
-            self.frame_mesh3.setVisible(True)
-            self.__hide_show_frame_mesh_3 = True
-            self.toolButton_cardMeshSubTitle3.setIcon(self.icon_minimize)
-
-
+    # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
     def __editingFinishedLineEditMeshName(self):
         self.lineEdit_textMeshName.setStyleSheet("border-color: #444444")
         self.label_msn.setText("Empty")
@@ -147,7 +147,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
           
     def __clickedToolButtonColorPicker(self):
         self.setPropertyStyle(self.toolButton_cardMeshDrawColor, 4)       
-        color = QColorDialog.getColor()
+        color = QColorDialog.getColor(initial=QColor(200,200,200))
         if color.isValid():
             self.__color_mesh=color.name()
             self.lineEdit_textMeshColor.setStyleSheet('background-color : {}'.format(self.__color_mesh))
@@ -157,18 +157,18 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.signal_select_line_mesh.emit()
         self.lineEdit_textMeshSelected.setText("{} Elementos".format(0)) 
         self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 4)
+        self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 1)
 
     def __clickedToolButtonSizeMesh(self):
         self.signal_size_mesh.emit()
         self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 4)
-
+        self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 1)
 
     def __clickedToolButtonMeshCancel(self):
         self.endMesh()
 
     def __clickedToolButton_mesh(self):
         self.signal_new_mesh.emit()
-
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -183,6 +183,13 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     def getSize (self):
         return self.doubleSpinBoxl_textMeshSize.value()    
 
+    def setNoSelectLineMesh(self, no_lines):
+        self.lineEdit_textMeshSelected.setText("{} Elementos".format(no_lines))   
+        self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 1)
+    
+    def setSizeMesh(self, dist):
+        self.doubleSpinBoxl_textMeshSize.setValue(dist)
+        self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 1)
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -193,21 +200,14 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         last_index = self.verticalLayout_containerCardMesh.count() - 1
         self.verticalLayout_containerCardMesh.insertWidget(last_index, self.frame_empty)
 
-    def setNoSelectLineMesh(self, no_lines):
-        self.lineEdit_textMeshSelected.setText("{} Elementos".format(no_lines))   
-        self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 1)
-    
-    def setSizeMesh(self, dist):
-        self.doubleSpinBoxl_textMeshSize.setValue(dist)
-        self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 1)
-
-
     def endMesh(self):
         self.lineEdit_textMeshName.setText("")
         self.__color_mesh=None
         self.lineEdit_textMeshColor.setStyleSheet('background-color : #333333')
         self.lineEdit_textMeshSelected.setText("")
         self.doubleSpinBoxl_textMeshSize.setValue(1)
+        self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 1)
+        self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 1)
 
     def setPropertyStyle(self, widget, property: int):
 
@@ -236,7 +236,6 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     def msnAlertColor(self, error, msn=""):
         if not error:
             self.lineEdit_textMeshColor.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_mesh))
-            #self.lineEdit_textMesh2.setStyleSheet("border-color: #444444")
             self.label_msn.setText("Empty")
             self.label_msn.setStyleSheet("color: #333333") 
             

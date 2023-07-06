@@ -1,34 +1,24 @@
 from PySide6.QtCore import (Slot,Signal, QObject,QPointF,QLineF)
-
 from clases.Vista.view_WidgetDrawMenuMesh import ViewWidgetDrawMenuMesh
 from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 from clases.Controlador.controller_CardMesh import ControllerCardMesh
 import pygmsh
 
+
 class ControllerMenuMesh(QObject):
 
-    signal_end_draw_geometry = Signal()
-    '''
-    signal_delete_mesh = Signal(str)
-    signal_update_mesh = Signal(dict)
-
-    '''
     signal_new_mesh= Signal() 
-    signal_select_line_mesh= Signal() 
-    signal_size_mesh= Signal() 
+    signal_edit_mesh= Signal() 
+    signal_end_draw_geometry = Signal()
     
-
     def __init__(self) -> None:
         super().__init__()
 
-
         self.view_menu_mesh = ViewWidgetDrawMenuMesh()
+        self.model_current_project = None
         self.list_controller_card=[]
-        '''
-        self.__selected_objects=[]
-        '''
-        self.__initEvent()
 
+        self.__initEvent()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR        ::::::::::::::::::::
@@ -39,19 +29,50 @@ class ControllerMenuMesh(QObject):
         self.view_menu_mesh.signal_select_line_mesh.connect(self.signalSelectLineMesh)
         self.view_menu_mesh.signal_size_mesh.connect(self.signalSizeMesh)
         self.view_menu_mesh.signal_new_mesh.connect(self.newMesh)
+        
 
+    def setCurrentProject(self,model_current_project:ModelProjectCurrent):
+        self.model_current_project = model_current_project
+        self.model_current_project.signal_size_mesh.connect(self.sizeMesh)
+        self.model_current_project.signal_select_line_mesh.connect(self.selectLineMesh)
+        
+    def configDrawMenuMesh(self):
+        models_mesh = self.model_current_project.getModelsMeshs()
+        for id_mesh in models_mesh:
+            self.createMeshCard(models_mesh[id_mesh])
+
+    def getView(self):
+        return self.view_menu_mesh
+
+    def createMeshCard(self, model_mesh):
+        controller_card_mesh = ControllerCardMesh( model_mesh = model_mesh)
+        self.view_menu_mesh.addCardMesh(controller_card_mesh.view_card_mesh)
+        controller_card_mesh.signal_delete_mesh.connect(self.deleteMesh)
+        controller_card_mesh.signal_edit_mesh.connect(self.editMesh)
+
+        self.list_controller_card.append(controller_card_mesh)
+        self.signal_new_mesh.emit()
+
+        
+    @Slot()
+    def editMesh(self):
+        self.signal_edit_mesh.emit()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
 	###############################################################################
-
     
-
-    @Slot(str)
-    def deleteMesh(self, id):
-        self.model_current_project.deleteMeshTriangular(id)
-
-    #FALTA DESDE ACA
+    # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
+	
+    @Slot()
+    def signalSelectLineMesh(self):
+        self.signalEndDrawGeometry()
+        self.model_current_project.commandMeshSelectLine({"step":1, "data":None}) 
+    
+    @Slot()
+    def signalSizeMesh(self):
+        self.signalEndDrawGeometry()
+        self.model_current_project.commandMeshSize({"step":1, "data":None}) 
 
     @Slot()
     def newMesh(self):
@@ -60,8 +81,7 @@ class ControllerMenuMesh(QObject):
         color_mesh =self.view_menu_mesh.getColor()
         selected_objects = self.model_current_project.getSelectedObjects()      
         size_element_mesh = self.view_menu_mesh.getSize()
-       
-  
+         
         if name_mesh == "":
             self.view_menu_mesh.msnAlertName(True, "Revisa el nombre  de la malla")
             return     
@@ -80,7 +100,6 @@ class ControllerMenuMesh(QObject):
             return
         else:
             self.view_menu_mesh.msnAlertSelected(False)
-
 
         # Validación de las líneas seleccionadas
         lines = []
@@ -104,14 +123,9 @@ class ControllerMenuMesh(QObject):
         else:
             self.view_menu_mesh.msnAlertSelected(False)
 
-
         vertices = []
         for line in polygon:
             vertices.append(line[0])    
-
-
-   
-
 
         #METODO PYGMSH
         with pygmsh.geo.Geometry() as geom:
@@ -130,9 +144,7 @@ class ControllerMenuMesh(QObject):
         triangles =[] 
         for triangle in _triangles:
             triangles.append([int(triangle[0]),int(triangle[1]),int(triangle[2])])
-
-
-         
+        
         id = self.model_current_project.createMesh(name=name_mesh ,
                                                     color=color_mesh,
                                                     points=points,
@@ -142,86 +154,38 @@ class ControllerMenuMesh(QObject):
 
         self.view_menu_mesh.endMesh()
         self.endDrawMesh()
-        
-     
-    @Slot()
-    def signalSelectLineMesh(self):
-        self.model_current_project.commandMeshSelectLine({"step":1, "data":None}) 
 
+    # ::::::::::::::::::::         MÉTODOS  CURRENT        ::::::::::::::::::::
+	
     @Slot(int)
     def selectLineMesh(self, no_lines):
         self.view_menu_mesh.setNoSelectLineMesh(no_lines)
-        #self.signalEndDrawGeometry()
-    '''
-        print(no_lines)
-        selected_objects = self.controller_graphics_draw.getSelectedObjects()
-        self.controller_menu_mesh.selectLineMesh(no_lines, selected_objects)
-
-    def selectLineMesh(self, no_lines, selected_objects):
-        self.__selected_objects = selected_objects
-        self.view_menu_mesh.selectLineMesh(no_lines)
-    '''
-
-
-    @Slot()
-    def signalSizeMesh(self):
-        self.model_current_project.commandMeshSize({"step":1, "data":None}) 
-
 
     @Slot(float)
     def sizeMesh(self, dist):
         self.view_menu_mesh.setSizeMesh(dist)
         self.signalEndDrawGeometry()
 
+    # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
 
+    @Slot(str)
+    def deleteMesh(self, id):
+        self.model_current_project.deleteMeshTriangular(id)
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
-
-    def configDrawMenuMesh(self):   
-        
-        models_mesh = self.model_current_project.getModelsMeshs()
-        for id_mesh in models_mesh:
-            self.createMeshCard(models_mesh[id_mesh])
-
-    def createMeshCard(self, model_mesh):
-        controller_card_mesh = ControllerCardMesh( model_mesh = model_mesh)
-        self.view_menu_mesh.addCardMesh(controller_card_mesh.view_card_mesh)
-        controller_card_mesh.signal_delete_mesh.connect(self.deleteMesh)
-        self.list_controller_card.append(controller_card_mesh)
-        self.signal_new_mesh.emit()
-
-    def getView(self):
-        return self.view_menu_mesh
-
-    def setCurrentProject(self,model_current_project:ModelProjectCurrent):
-        self.model_current_project = model_current_project
-        self.model_current_project.signal_size_mesh.connect(self.sizeMesh)
-        self.model_current_project.signal_select_line_mesh.connect(self.selectLineMesh)
-        
-
     def endDrawMesh(self):
         self.model_current_project.endMeshSelectLine()
         self.selectLineMesh(0)
-
-    #FALTA DESDE ACA
-
-
-
-
-    def setMeshs (self, meshs):
-        self.meshs = meshs
-        
-    def addMeshs (self, mesh):
-        self.meshs.append(mesh)
+        self.view_menu_mesh.setPropertyStyle(self.view_menu_mesh.toolButton_cardMeshDrawSize, 1)
 
     def signalEndDrawGeometry(self):
         self.signal_end_draw_geometry.emit()
-    
+
     ###############################################################################
-	# ::::::::::::::::::::        OTROS MÉTODOS          ::::::::::::::::::::
+	# ::::::::::::::::::::           OTROS MÉTODOS             ::::::::::::::::::::
 	###############################################################################
     
     def is_closed_polygon(self, lines:list):

@@ -68,9 +68,6 @@ class ViewWidgetCardProjectHome(QFrame, ui_widget_home_card.Ui_FormHomeCard):
       
         #se colocan los atributos en las etiquetas
         self.setTextCard()
-
-        #este es una forma de darle evento a un frame
-        #observer = class_general.MouseObserver(self.label_cardName)
                 
 
     ###############################################################################

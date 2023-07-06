@@ -15,7 +15,7 @@ from PySide6.QtGui import (QColor, QPen,QBrush,
 from ui import ui_frame_draw
 from clases.Vista import view_WidgetDrawMenuData
 from clases.Vista import view_WidgetDrawMenuMesh
-from clases import class_projects
+
 from clases.Vista.view_GraphicsDraw import PointItem,LineItem,TextItem
 from clases import class_general
 from clases.general_functions import isNumber
@@ -42,9 +42,6 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     signal_deselect_draw_geometry = Signal(bool)
     
 
-
-
-
  
     def __init__(self, parent = None, ):
         super(ViewPageDraw, self).__init__(parent)
@@ -61,12 +58,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
         #Atributos
         self.isTwoViewsVisible = False   
-    """
-    def resizeEvent(self, event):
-        #print("Tamaño: {}".format(self.viewport().rect()))
-        #self.graphicsView_draw.setSceneRect(QRectF(0,0,1000,1000))
-        pass
-    """
+
 
     ###############################################################################
     # ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -93,9 +85,6 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         
         self.horizontalLayout_graphics.addWidget(self.splitter_view)
   
-        
-         
-
         # ::::::::::::::::::   AJUSTES ADICIONALES  ::::::::::::::::::
         self.label_console_command.setVisible(False)
         self.label_console_descrip.setVisible(False)
@@ -104,27 +93,12 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         #self.splitter_view.setSizes([1,0])
         self.mode_label_draw = False
 
-
-
         self.shortcut_select_items = QShortcut(QKeySequence('Ctrl+a'), self)
         self.shortcut_select_items.activated.connect(self.__activatedShortCutSelectItems)
 
 
-
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """   
-
-
-        #### #
-        '''
-        # ::::::::::::::::::   SEÑAL>>RANURA FRAME-DRAW-MENU-DATA :::::::::::::::::
-        self.drawMenuData.signal_msn_critical.connect(self.showMessageStatusBarCritical)
-        self.drawMenuData.signal_msn_satisfactory.connect(self.showMessageStatusBarSatisfactory)
-        self.drawMenuData.signal_msn_informative.connect(self.showMessageStatusBarInformative)
-  
-
-        '''
-
 
 
         # ::::::::::::::::::::      EVENTOS FRAME DRAW     ::::::::::::::::::::
@@ -132,8 +106,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.toolButton_zoomExtend.clicked.connect(self.__clickedToolButtonZoomExtend)
         self.toolButton_zoomWindow.clicked.connect(self.__clickedToolButtonZoomWindow)
         self.toolButton_views.clicked.connect(self.__clickedToolButtonViews)
-        # para que se aga un clik en un boton desde codigo
-        # ejemplo ==> self.lineEdit_console.returnPressed.connect(self.toolButton_closeConsole.click)
+
         self.lineEdit_console.returnPressed.connect(self.__returnPressedLineEditConsole)
         self.splitter.splitterMoved.connect(self.__splitterMovedSplitter)
 
@@ -172,8 +145,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     ###############################################################################
     """ Métodos para los eventos de los botones y widget """
     def __activatedShortCutSelectItems(self):
-        items = self.scene_draw.items()
-        print("@"*50)
+        items = self.scene_draw.items()        
         for item in items:
             print(item)
             try:
@@ -284,36 +256,6 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     ###############################################################################
     # ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
     ###############################################################################
-
-
-    def configDrawMenuData(self,project:class_projects.Project):
-        """Configura el menú data de la vista draw.
-
-        Args:
-            project(Project): Objeto del proyecto actual
-
-        """ 
-        
-        self.drawMenuData.initDrawMenuDataProject(project)
-
-    def configDrawMenuMesh(self,project:class_projects.Project):
-        """Configura el menú mesh de la vista draw.
-
-        Args:
-            project(Project): Objeto del proyecto actual
-
-        """ 
-        self.drawMenuMesh.initDrawMenuDataProject(project)
-
-    def configDrawItemsScene(self,project:class_projects.Project):
-        """Configura la escena de draw.
-
-        Args:
-            project(Project): Objeto del proyecto actual
-
-        """ 
-        
-        self.scene_draw.admin.initDrawItemsSceneProject(project)
 
 
     def modeConsoleDraw(self,isVisible:bool):
@@ -456,8 +398,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.lineEdit_console.setFocus()
     
 
-   
-  
+     
      
     ###############################################################################
 	# ::::::::::::::::::::      REIMPLANTACIÓN DE MÉTODOS     ::::::::::::::::::::
@@ -478,7 +419,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             #self.__returnPressedLineEditConsole()
 
         elif key == Qt.Key_Enter or key == 16777216:
-
+            # ESC
             self.signal_end_draw_geometry.emit()
             self.signal_end_draw_mesh.emit()
             return  

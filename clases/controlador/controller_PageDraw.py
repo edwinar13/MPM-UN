@@ -57,12 +57,8 @@ class ControllerPageDraw(QObject):
         self.view_page_draw.signal_deselect_draw_geometry.connect(self.deselectDrawGeometry)
   
 
-
-        '''
-        self.controller_menu_mesh.signal_delete_mesh.connect(self.deleteMesh)
-        self.controller_menu_mesh.signal_update_mesh.connect(self.updateMesh)
-        '''
         self.controller_menu_mesh.signal_new_mesh.connect(self.addMesh)
+        self.controller_menu_mesh.signal_edit_mesh.connect(self.editMesh)
         self.controller_menu_mesh.signal_end_draw_geometry.connect(self.endDrawGeometry)
 
         
@@ -71,24 +67,7 @@ class ControllerPageDraw(QObject):
         self.controller_graphics_draw.signal_end_draw_geometry.connect(self.endDrawGeometry)
 
 
-
-        
-        '''
-        self.controller_menu_data.signal_paint_line.connect(self.__clickedToolButtonDrawPaintLine)
-        self.controller_menu_data.signal_paint_move.connect(self.__clickedToolButtonDrawPaintMove)
-        self.controller_menu_data.signal_paint_copy.connect(self.__clickedToolButtonDrawPaintCopy)
-        self.controller_menu_data.signal_paint_rotate.connect(self.__clickedToolButtonDrawPaintRotate)
-        self.controller_menu_data.signal_paint_erase.connect(self.__clickedToolButtonDrawPaintErase)        
-        self.controller_menu_data.signal_paint_import.connect(self.__clickedToolButtonDrawPaintImport)
-        self.controller_menu_data.signal_paint_intersection.connect(self.__clickedToolButtonDrawPaintIntersection)
-        self.controller_menu_data.signal_paint_rule.connect(self.__clickedToolButtonDrawPaintRule)
-
-        
-        '''
-
         self.view_page_draw.signal_command_console.connect(self.commandConsole)
-
-
 
     def buttonStatusBar(self, ToolButton_mode):
         self.controller_graphics_draw.modeButtonStatusBar(ToolButton_mode)
@@ -97,6 +76,11 @@ class ControllerPageDraw(QObject):
     @Slot()
     def addMesh(self):
         self.controller_menu_pointMaterial.setListBaseMeshView()
+    
+    @Slot()
+    def editMesh(self):
+        self.controller_menu_pointMaterial.setListBaseMeshView()
+    
 
 
     @Slot(list)
@@ -557,20 +541,6 @@ class ControllerPageDraw(QObject):
         self.controller_menu_mesh.selectLineMesh(no_lines, selected_objects)
 
 
-
-
-
-    @Slot(str)
-    def deleteMesh(self, name):
-        self.controller_graphics_draw.deleteMesh(name)
-
-
-
-          
-    @Slot(dict)
-    def updateMesh(self, data):
-        self.controller_graphics_draw.updateMesh(data)
-
  
 
     @Slot(bool)
@@ -610,51 +580,12 @@ class ControllerPageDraw(QObject):
         self.current_project.signal_msn_label_view.connect(self.msnLabelAndView)
         self.view_page_draw.setUndoStack(self.current_project.getUndoStack())
 
-    '''
-    
-    def openCurrentProject(self, current_project:ModelProjectCurrent):
-
-        #se inicia proyecto actual en los controladores
-        self.current_project = current_project
-        self.controller_graphics_draw.setCurrentProject(self.current_project)
-        self.controller_menu_data.setCurrentProject(self.current_project)
-        #self.controller_menu_mesh.setCurrentProject(self.current_project)
-
-        #carga los datos del proyecto en las diferentes vistas
-        self.controller_menu_data.configDrawMenuData()
-        #self.controller_menu_mesh.configDrawMenuMesh()
-
- 
-
- 
-
-        self.selectMenu("data")
-
-    '''
-
-
     
     @Slot(str)
     def selectMenu(self, menu):
 
         self.view_page_draw.showHideDrawMenu(menu)
        
-        '''
-        if menu == "data":
-            self.drawMenuMesh.hideShowSelectedObjects(False)
-            
-        elif menu == "mesh":
-            self.drawMenuMesh.hideShowSelectedObjects(True)
-
-        elif menu == "pointMaterial":
-            self.drawMenuPointMaterial.hideShowSelectedObjects(True)
-
-        elif menu == "boundary":
-            self.drawMenuBoundary.hideShowSelectedObjects(True)
-        '''
-
-
-
 
     @Slot(list)
     def actionMenuSup(self,data):       
