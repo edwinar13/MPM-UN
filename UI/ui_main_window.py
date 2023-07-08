@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowoXPrnj.ui'
+## Form generated from reading UI file 'main_windowNogbeY.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -372,10 +372,10 @@ class Ui_MainWindow(object):
 "\n"
 "/*QSlider#horizontalSlider_1::handle:horizontal {*/\n"
 "\n"
-"\n"
+"/*\n"
 "QSlider::groove:horizontal {\n"
 "    border: 1px solid #999999;\n"
-"    height: 1px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */\n"
+"    height: 1px; \n"
 "    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"
 "    margin: 2px 0;\n"
 "}\n"
@@ -384,11 +384,10 @@ class Ui_MainWindow(object):
 "    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);\n"
 "    border: 1px solid #5c5c5c;\n"
 "    width: 12px;\n"
-"    margin: -10px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */\n"
+"    margin: -10px 0;\n"
 "    border-radius: 3px;\n"
 "}\n"
-"QSlider:"
-                        ":handle:horizontal:hover {\n"
+"QSlider::handle:horizontal:hover {\n"
 "    border: 1px solid #0D99FF;\n"
 "\n"
 "}\n"
@@ -399,9 +398,12 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QSlider::sub-page:horizontal {\n"
-"    background: #C8CC8E;\n"
+"    "
+                        "background: #C8CC8E;\n"
 "}\n"
 "\n"
+"\n"
+"*/\n"
 "\n"
 "QCheckBox{\n"
 "	color: #DDDDDD;\n"

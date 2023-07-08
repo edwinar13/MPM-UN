@@ -362,6 +362,61 @@ QToolButton[QToolButtonStyle=&quot;3&quot;]:hover{
 background-color: #C70039;
 }
 
+
+
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
+/*******************************************/
+QToolButton[QToolButtonStyle=&quot;5&quot;],
+QToolButton[QToolButtonStyle=&quot;6&quot;],
+QToolButton[QToolButtonStyle=&quot;7&quot;],
+QToolButton[QToolButtonStyle=&quot;8&quot;] {
+    font: 500 10pt &quot;Ubuntu&quot;;    
+    padding: 4px 20px;
+	border: 2px solid #C8CC8E;
+    
+}
+
+QToolButton[QToolButtonStyle=&quot;5&quot;] {
+    background-color: transparent;    
+	border-top-left-radius: 10px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 10px;
+	color: #DDDDDD;
+}
+
+QToolButton[QToolButtonStyle=&quot;6&quot;] {
+    background-color: #C8CC8E;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 10px;
+	color: #222222;
+}
+
+QToolButton[QToolButtonStyle=&quot;7&quot;] {
+    background-color: transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 0px;
+	color: #DDDDDD;
+}
+
+QToolButton[QToolButtonStyle=&quot;8&quot;] {
+    background-color: #C8CC8E;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 0px;
+	color: #222222;
+}
+
+
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
 
 
@@ -466,11 +521,33 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
 
 
 
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QComboBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+    QSlider[QSliderStyle=&quot;1&quot;] {
+        background-color: transparent;
+		margin: 2px 5px ;
+    }
+
+    QSlider[QSliderStyle=&quot;1&quot;]::groove:horizontal {
+        border: none;
+        background-color: #444444;
+        height: 18px;
+		border-radius: 9px;
+    }
 
 
+    QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal {
+        background-color: #fd5959;
+        border: none;
+        width: 18px;
+        height: 18px;        
+        border-radius: 9px;
+    }
 
-
-
+QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
+    background-color: #fecdcd;
+    /*box-shadow: 0 0 3px rgba(255, 0, 0, 0.5); */
+}
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1386,15 +1463,92 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 <widget class="QLabel" name="label_cardPointMaterialSubTitle2">
                  <property name="minimumSize">
                   <size>
-                   <width>262</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Lista de puntos materiales</string>
+                  <string>Lista de puntos</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="horizontalSlider_PointMaterialSize">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>299</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>10</number>
+                 </property>
+                 <property name="value">
+                  <number>100</number>
+                 </property>
+                 <property name="tracking">
+                  <bool>false</bool>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="invertedAppearance">
+                  <bool>true</bool>
+                 </property>
+                 <property name="invertedControls">
+                  <bool>true</bool>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::NoTicks</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>0</number>
+                 </property>
+                 <property name="QSliderStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_showHideLabel">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_showHidePointMaterial">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
                  </property>
                 </widget>
                </item>

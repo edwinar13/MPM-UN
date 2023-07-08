@@ -356,10 +356,10 @@ QComboBox QAbstractItemView {
 
 /*QSlider#horizontalSlider_1::handle:horizontal {*/
 
-
+/*
 QSlider::groove:horizontal {
     border: 1px solid #999999;
-    height: 1px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    height: 1px; 
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
     margin: 2px 0;
 }
@@ -368,7 +368,7 @@ QSlider::handle:horizontal {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
     border: 1px solid #5c5c5c;
     width: 12px;
-    margin: -10px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+    margin: -10px 0;
     border-radius: 3px;
 }
 QSlider::handle:horizontal:hover {
@@ -385,6 +385,8 @@ QSlider::sub-page:horizontal {
     background: #C8CC8E;
 }
 
+
+*/
 
 QCheckBox{
 	color: #DDDDDD;

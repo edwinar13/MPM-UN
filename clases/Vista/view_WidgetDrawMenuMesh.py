@@ -40,6 +40,10 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     signal_select_line_mesh= Signal() 
     signal_size_mesh= Signal() 
     signal_new_mesh= Signal() 
+    signal_mesh_back_changed = Signal()
+    signal_mesh_back_show= Signal(bool) 
+    signal_show_hide_meshs = Signal(bool)
+    signal_show_hide_label = Signal(bool)
     
     
     def __init__(self):
@@ -48,8 +52,15 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.setupUi(self)
 
         self.__hide_show_frame_mesh=True
+        self.__hide_show_frame_mesh_0=True
         self.__hide_show_frame_mesh_1=True
         self.__hide_show_frame_mesh_2=True
+
+        self.__hide_show_mesh=True
+        self.__hide_show_label=True
+
+
+        self.user_interaction = False
 
         self.__color_mesh = None
         self.contador=0
@@ -57,6 +68,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         # Configura la UI
         self.__configUi()
         self.__initEventUi()
+
 
 
     ###############################################################################
@@ -70,6 +82,22 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.icon_maximize = QIcon()
         self.icon_maximize.addFile(u"recursos/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
         
+        # Se agrega los dos iconos para maximizar y minimizar
+        self.icon_show_mesh = QIcon()
+        self.icon_show_mesh.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_mesh = QIcon()
+        self.icon_hide_mesh.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+        
+        # Se agrega los dos iconos para maximizar y minimizar
+        self.icon_show_label = QIcon()
+        self.icon_show_label.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_label = QIcon()
+        self.icon_hide_label.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+
+
+
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('MALLADO')
         self.label_lat.setFont(QFont('Ubuntu', 9))
@@ -85,10 +113,18 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
+        self.toolButton_cardMeshSubTitle0.clicked.connect(self.__clickedToolButtonCardMeshSubTitle0)
         self.toolButton_cardMeshSubTitle1.clicked.connect(self.__clickedToolButtonCardMeshSubTitle1)
         self.toolButton_cardMeshSubTitle2.clicked.connect(self.__clickedToolButtonCardMeshSubTitle2)
+        self.toolButton_showHideMesh.clicked.connect(self.__clickedToolButtonShowHideMesh)
+        self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
 
         # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
+        self.doubleSpinBoxl_textMeshDx.valueChanged.connect(self.__valueChangedDoubleSpinBoxMeshDx)
+        self.doubleSpinBoxl_textMeshDy.valueChanged.connect(self.__valueChangedDoubleSpinBoxMeshDy)
+        self.doubleSpinBoxl_textMeshSize_2.valueChanged.connect(self.__valueChangedDoubleSpinBoxMeshSize)
+        self.toolButton_meshShow.clicked.connect(self.__clickedToolButton_meshShow)
+        self.toolButton_meshHide.clicked.connect(self.__clickedToolButton_meshHide)        
         self.lineEdit_textMeshName.editingFinished.connect(self.__editingFinishedLineEditMeshName)
         self.toolButton_cardMeshDrawSize.clicked.connect(self.__clickedToolButtonSizeMesh)  
         self.toolButton_cardMeshDrawSelected.clicked.connect(self.__clickedToolButtonSelectLine)  
@@ -115,6 +151,17 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             self.frame_hide2.setStyleSheet(u"background: #222222;border-top-left-radius: 8px;")
             self.label_lat.setVisible(False)
 
+    def __clickedToolButtonCardMeshSubTitle0(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_frame_mesh_0 == True:
+            self.frame_mesh2_2.setVisible(False)
+            self.__hide_show_frame_mesh_0 = False
+            self.toolButton_cardMeshSubTitle0.setIcon(self.icon_maximize)
+        elif self.__hide_show_frame_mesh_0 == False:
+            self.frame_mesh2_2.setVisible(True)
+            self.__hide_show_frame_mesh_0 = True
+            self.toolButton_cardMeshSubTitle0.setIcon(self.icon_minimize)
+
     def __clickedToolButtonCardMeshSubTitle1(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
         if self.__hide_show_frame_mesh_1 == True:
@@ -139,7 +186,54 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             self.toolButton_cardMeshSubTitle2.setIcon(self.icon_minimize)
             self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
+    def __clickedToolButtonShowHideMesh(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_mesh == True:
+            self.__hide_show_mesh = False
+            self.signal_show_hide_meshs.emit(self.__hide_show_mesh)
+            self.toolButton_showHideMesh.setIcon(self.icon_hide_mesh)
+        elif self.__hide_show_mesh == False:  
+            self.__hide_show_mesh = True
+            self.signal_show_hide_meshs.emit(self.__hide_show_mesh)
+            self.toolButton_showHideMesh.setIcon(self.icon_show_mesh)
+
+    def __clickedToolButtonShowHideLabel(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_label == True:
+            self.signal_show_hide_label.emit(self.__hide_show_label)
+            self.__hide_show_label = False
+            self.toolButton_showHideLabel.setIcon(self.icon_show_label)
+        elif self.__hide_show_label == False:
+            self.signal_show_hide_label.emit(self.__hide_show_label)
+            self.__hide_show_label = True
+            self.toolButton_showHideLabel.setIcon(self.icon_hide_label)
+
+
     # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
+
+  
+    def __valueChangedDoubleSpinBoxMeshDx(self):
+        if self.user_interaction:
+            self.signal_mesh_back_changed.emit()
+
+    def __valueChangedDoubleSpinBoxMeshDy(self):
+        if self.user_interaction:
+            self.signal_mesh_back_changed.emit()
+        
+    def __valueChangedDoubleSpinBoxMeshSize(self):
+        if self.user_interaction:
+            self.signal_mesh_back_changed.emit()
+        
+    def __clickedToolButton_meshShow(self):
+        self.setPropertyStyle(self.toolButton_meshShow, 6)
+        self.setPropertyStyle(self.toolButton_meshHide, 7)
+        self.signal_mesh_back_show.emit(True)
+
+    def __clickedToolButton_meshHide(self):
+        self.setPropertyStyle(self.toolButton_meshShow, 5)
+        self.setPropertyStyle(self.toolButton_meshHide, 8)
+        self.signal_mesh_back_show.emit(False)
+     
     def __editingFinishedLineEditMeshName(self):
         self.lineEdit_textMeshName.setStyleSheet("border-color: #444444")
         self.label_msn.setText("Empty")
@@ -182,6 +276,20 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     
     def getSize (self):
         return self.doubleSpinBoxl_textMeshSize.value()    
+    
+    def getType (self):
+        return self.comboBox_MeshType.currentText()
+    
+    def getMeshDx(self):
+        return self.doubleSpinBoxl_textMeshDx.value()
+
+    def getMeshDy(self):
+        return self.doubleSpinBoxl_textMeshDy.value()
+        
+    def getMeshBackSize(self):
+        return self.doubleSpinBoxl_textMeshSize_2.value()
+
+
 
     def setNoSelectLineMesh(self, no_lines):
         self.lineEdit_textMeshSelected.setText("{} Elementos".format(no_lines))   
@@ -208,6 +316,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.doubleSpinBoxl_textMeshSize.setValue(1)
         self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 1)
         self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 1)
+        self.setType(0)
 
     def setPropertyStyle(self, widget, property: int):
 
@@ -215,6 +324,30 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         widget.style().unpolish(widget)
         widget.style().polish(widget)
         widget.update()
+
+    def setListTypes(self):
+        list_types = ["Triangular","Cuadrilátera"]
+        for item_index in range(len(list_types)):
+            self.comboBox_MeshType.addItem(list_types[item_index])  
+
+    def setType(self, index):     
+        self.comboBox_MeshType.setCurrentIndex(index)
+    
+
+    def setTextWidgetMeshBack(self, data):
+        size_dx=data[0]
+        size_dy=data[1]
+        size_element=data[2]
+        color=data[3]
+
+        self.doubleSpinBoxl_textMeshDx.setValue(size_dx)
+        self.doubleSpinBoxl_textMeshDy.setValue(size_dy)
+        self.doubleSpinBoxl_textMeshSize_2.setValue(size_element)
+        self.user_interaction =True
+
+
+
+
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  MENSAJES         ::::::::::::::::::::
@@ -258,5 +391,4 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-
 

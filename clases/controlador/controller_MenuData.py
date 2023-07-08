@@ -32,6 +32,8 @@ class ControllerMenuData(QObject):
         self.view_menu_data.signal_paint_import.connect(lambda: self.paintDrawCommand("import"))
         self.view_menu_data.signal_paint_intersection.connect(lambda: self.paintDrawCommand("intersection"))
         self.view_menu_data.signal_paint_rule.connect(lambda: self.paintDrawCommand("rule"))
+        self.view_menu_data.signal_show_hide_items.connect(self.showHideItems)
+        self.view_menu_data.signal_show_hide_label.connect(self.showHideLabel)
 
     def setCurrentProject(self,model_current_project:ModelProjectCurrent):
         self.model_current_project = model_current_project
@@ -48,6 +50,16 @@ class ControllerMenuData(QObject):
 	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
 	###############################################################################
     
+    @Slot(bool)
+    def showHideItems(self, show_items):
+        self.model_current_project.showHideItems(show_items)
+
+
+    @Slot(bool)
+    def showHideLabel(self, show_label):
+        self.model_current_project.showHideLabel(show_label)
+
+
     @Slot(dict)
     def updateDate(self,date:dict):
 

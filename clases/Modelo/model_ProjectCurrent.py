@@ -5,7 +5,7 @@ from PySide6.QtGui import (QUndoStack)
 
 from clases.Modelo.model_ItemPoint import ModelItemPoint
 from clases.Modelo.model_ItemLine import ModelItemLine
-from clases.Modelo.model_Mesh import ModelMeshTriangle
+from clases.Modelo.model_Mesh import ModelMeshTriangle, ModelMeshQuadrilateral, ModelMeshBack
 from clases.Modelo.model_MaterialPoint import ModelMaterialPoint
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
 from clases.Vista.view_GraphicsDraw import ViewGraphicsSceneDraw, ViewGraphicsViewDraw
@@ -47,7 +47,9 @@ class ModelProjectCurrent(QObject):
         self.items_lines_models={}
         self.items_models={}
         self.meshs_models={}
+        self.meshs_quadrilaterals_models={}
         self.material_point_models={}
+        self.mesh_black_model= None
 
 
         self.__selected_objects = []
@@ -125,22 +127,60 @@ class ModelProjectCurrent(QObject):
 
 
     def __initMesh(self):
+
+        mesh_back = self.model_project_current_repository.readMeshBackDB()
+
+        
+        size_dx = mesh_back["SIZEDX"]
+        size_dy = mesh_back["SIZEDY"]
+        size_element = mesh_back["SIZEELEMENT"]
+        color = mesh_back["COLOR"]
+        points = mesh_back["POINTS"]
+        quadrilaterals = mesh_back["QUADRILATERALS"]
+
+
+
+
+        model_mesh_back = ModelMeshBack(scene_draw=self.__scene,
+                                                      model_project_current_repository=self.model_project_current_repository,
+                                                      size_dx=size_dx,
+                                                      size_dy=size_dy,
+                                                      size_element=size_element,
+                                                      color=color,
+                                                      points=points,
+                                                      quadrilaterals=quadrilaterals)
+        
+        self.mesh_black_model=model_mesh_back        
+
+
+
+
         meshs = self.model_project_current_repository.readMeshTriangularDB()
         for id_mesh_triangular in meshs: 
             name = meshs[id_mesh_triangular]["NAME"]
             color = meshs[id_mesh_triangular]["COLOR"]
             points = meshs[id_mesh_triangular]["POINTS"]
             triangles = meshs[id_mesh_triangular]["TRIANGLES"]
-            self.addMeshToCurrentProject(
+            self.addMeshTrianglesToCurrentProject(
                 id=id_mesh_triangular,
                 name=name,
                 color=color,
                 points=points,
                 triangles=triangles)           
         
-        meshs = self.model_project_current_repository.readMeshRectangularDB()
-        for mesh in meshs:
-            pass
+        meshs = self.model_project_current_repository.readMeshQuadrilateralDB()
+
+        for id_mesh_quadrilateral in meshs: 
+            name = meshs[id_mesh_quadrilateral]["NAME"]
+            color = meshs[id_mesh_quadrilateral]["COLOR"]
+            points = meshs[id_mesh_quadrilateral]["POINTS"]
+            quadrilaterals = meshs[id_mesh_quadrilateral]["QUADRILATERALS"]
+            self.addMeshQuadrilateralToCurrentProject(
+                id=id_mesh_quadrilateral,
+                name=name,
+                color=color,
+                points=points,
+                quadrilaterals=quadrilaterals) 
 
     def __initMaterialPoint(self):
         materials_points = self.model_project_current_repository.readMaterialPointhDB()
@@ -236,8 +276,6 @@ class ModelProjectCurrent(QObject):
             self.__gravity = gravity
 
 
-
-
     # ::::::::::::::::::::                ITEMS               ::::::::::::::::::::
 
     def addItemPointToCurrentProject(self,id, name, coordinates, lines):    
@@ -272,7 +310,6 @@ class ModelProjectCurrent(QObject):
         if removed_model_item_point is not None:
             removed_model_item_point.deletePoint()
             del removed_model_item_point
-
     
     def updateItemPoint(self,  id_point, name = None, coordinates = None, lines = None):
 
@@ -281,6 +318,7 @@ class ModelProjectCurrent(QObject):
                                       name = name,
                                         coordinates = coordinates, 
                                         lines = lines)
+
 
 
     def addItemLineToCurrentProject(self,id, name, start_point, end_point):   
@@ -315,8 +353,7 @@ class ModelProjectCurrent(QObject):
         model_point_start.addLineAnchored(id_line) 
         model_point_end.addLineAnchored(id_line)        
         return id_line
-       
-
+    
     def deleteItemLine(self, id):
         self.model_project_current_repository.deleteItemLineDrawDB(id)  
         removed_model_item_line = self.items_lines_models.pop(id)
@@ -353,10 +390,20 @@ class ModelProjectCurrent(QObject):
         model_point_start.addLineAnchored(id_line) 
         model_point_end.addLineAnchored(id_line)  
 
+    def getModelsPoints(self):
+        return self.items_points_models
+    
+    def getModelsLines(self):
+        return self.items_lines_models
+    
+
 
     # ::::::::::::::::::::                MALLAS               ::::::::::::::::::::
 
-    def createMesh(self, name, color, points, triangles):
+    def getMeshBack(self):
+        return self.mesh_black_model
+         
+    def createMeshTriangular(self, name, color, points, triangles):
         id = str(uuid.uuid4())
         self.model_project_current_repository.createMeshTriangularDB(
             id_Mesh = id,
@@ -364,15 +411,32 @@ class ModelProjectCurrent(QObject):
             color = color, 
             points = points,
             triangles = triangles)
-        self.addMeshToCurrentProject(
+        self.addMeshTrianglesToCurrentProject(
                 id=id,
                 name=name,
                 color=color,
                 points=points,
                 triangles=triangles)
         return id
+   
+    def createMeshQuadrilateral(self, name, color, points, quadrilaterals):
+        id = str(uuid.uuid4())
+        self.model_project_current_repository.createMeshQuadrilateralDB(
+            id_Mesh = id,
+            name = name, 
+            color = color, 
+            points = points,
+            quadrilaterals = quadrilaterals)
+        
+        self.addMeshQuadrilateralToCurrentProject(
+                id=id,
+                name=name,
+                color=color,
+                points=points,
+                quadrilaterals=quadrilaterals)
+        return id
     
-    def addMeshToCurrentProject(self,id, name, color, points, triangles):    
+    def addMeshTrianglesToCurrentProject(self,id, name, color, points, triangles):    
         model_mesh = ModelMeshTriangle(scene_draw=self.__scene,
                                                       model_project_current_repository=self.model_project_current_repository,
                                                       id=id,
@@ -383,15 +447,34 @@ class ModelProjectCurrent(QObject):
         
         self.meshs_models[id]=model_mesh        
 
-    def getModelsMeshs(self):
+    def addMeshQuadrilateralToCurrentProject(self,id, name, color, points, quadrilaterals):    
+        model_mesh_quadrilaterals = ModelMeshQuadrilateral(scene_draw=self.__scene,
+                                                      model_project_current_repository=self.model_project_current_repository,
+                                                      id=id,
+                                                      name=name,
+                                                      color=color,
+                                                      points=points,
+                                                      quadrilaterals=quadrilaterals)
+        
+        self.meshs_quadrilaterals_models[id]=model_mesh_quadrilaterals        
+
+    def getModelsMeshsTriangular(self):
         return self.meshs_models
+    
+    def getModelsMeshsQuadrilaterals(self):
+        return self.meshs_quadrilaterals_models
     
     def deleteMeshTriangular(self, id):
         self.model_project_current_repository.deleteMeshTriangularDB(id)  
-
         removed_model_mesh_triangular = self.meshs_models.pop(id)
         removed_model_mesh_triangular.deleteMesh()
         del removed_model_mesh_triangular
+
+    def deleteMeshQuadrilaterals(self, id):
+        self.model_project_current_repository.deleteMeshQuadrilateralDB(id)  
+        removed_model_mesh_quadrilaterals = self.meshs_quadrilaterals_models.pop(id)
+        removed_model_mesh_quadrilaterals.deleteMesh()
+        del removed_model_mesh_quadrilaterals
 
 
     # ::::::::::::::::::::           PUNTOS MATERIALES         ::::::::::::::::::::
@@ -427,8 +510,6 @@ class ModelProjectCurrent(QObject):
         removed_model_material_point = self.material_point_models.pop(id)
         removed_model_material_point.deleteMaterialPoint()
         del removed_model_material_point
-
-
 
 
     def getSelectedObjects(self):
@@ -1333,8 +1414,46 @@ class ModelProjectCurrent(QObject):
         self.__selected_objects=[]
         self.__scene.update()
 
+
+
+
     def deselectDrawGeometry(self, shift_pressed ):
         self.deselect_draw_geometry = shift_pressed
+
+
+  
+    def showHideItems(self, show_items):
+
+        for id_model_point in self.getModelsPoints():
+            model_point = self.getModelsPoints()[id_model_point]
+            model_point.showHideItems(show_items)
+
+        for id_model_line in self.getModelsLines():
+            model_line = self.getModelsLines()[id_model_line]
+            model_line.showHideItems(show_items)
+        
+        self.__scene.update()
+
+
+  
+    def showHideLabel(self, show_label):
+
+        for id_model_point in self.getModelsPoints():
+            model_point = self.getModelsPoints()[id_model_point]
+            item_point = model_point.getPointItem()
+            item_point.showLabel = show_label
+
+
+        for id_model_line in self.getModelsLines():
+            model_line = self.getModelsLines()[id_model_line]
+            item_line = model_line.getLineItem()
+            item_line.showLabel = show_label        
+        self.__scene.update()
+
+
+
+
+
 
     ###############################################################################
     # ::::::::::::::::::::          GUARDAR PROYECTO           ::::::::::::::::::::

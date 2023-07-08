@@ -1,5 +1,5 @@
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
-from clases.items_GraphicsDraw import PointMaterialItem
+from clases.items_GraphicsDraw import TextFrameItem, PointMaterialItem
 from clases.Vista.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
 
@@ -25,6 +25,20 @@ class ModelMaterialPoint:
                                      coor=point)
             self.group_material_point.addToGroup(item)
         self.scene_draw.addItem(self.group_material_point)
+
+        sum_x = 0
+        sum_y = 0
+        for point in self.__points:
+            sum_x += point[0]
+            sum_y += point[1]
+        average_x = sum_x / len(points)
+        average_y = sum_y / len(points)
+
+        self.text_name = TextFrameItem("PM:{}".format(self.__name), average_x,average_y)
+        self.scene_draw.addItem(self.text_name)
+        self.text_name.setVisible(False)
+        self.text_name.setColor("#222333")
+        
               
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -53,11 +67,21 @@ class ModelMaterialPoint:
     
     def showHideMaterialPoint(self, value):
         self.group_material_point.setVisible(value)
+        
+    def showHideLabel(self, value):   
+        self.text_name.setVisible(value)   
+
+    def ChangeSizePoint(self, value):   
+        for item in self.group_material_point.childItems():
+            if isinstance(item, PointMaterialItem):
+                item.setRadius(value)
+        self.scene_draw.update()
     
     def updateMaterialPoint(self,id_MP, name= None, color= None, points= None ):
 
         if name != None:
             self.__name = name
+            self.text_name.text= "PM:{}".format(self.__name)
         if color != None:
             self.__color = color
             self.setColorItem(self.__color)

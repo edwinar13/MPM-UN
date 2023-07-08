@@ -93,6 +93,11 @@ class ModelItemPoint:
             name=name,
             coordinates=coordinates,
             lines=lines
-        )        
+        )      
+
+    def showHideItems(self, value):
+        item_point = self.getPointItem()
+        item_point.setVisible(value)
+
 
 

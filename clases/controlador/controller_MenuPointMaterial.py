@@ -27,6 +27,9 @@ class ControllerMenuPointMaterial():
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_pointMaterial.signal_new_points_material.connect(self.newPointsMaterial)
+        self.view_menu_pointMaterial.signal_show_hide_points_materials.connect(self.showHidePointsMaterials)
+        self.view_menu_pointMaterial.signal_show_hide_label.connect(self.showHideLabel)
+        self.view_menu_pointMaterial.signal_change_size_point.connect(self.ChangeSizePoint)
 
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
         self.model_current_project = model_current_project
@@ -51,15 +54,34 @@ class ControllerMenuPointMaterial():
 	###############################################################################
     
     # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
+    @Slot(bool)
+    def showHidePointsMaterials(self, show_points_materials):
+        for controller in self.list_controller_card:
+            controller.showHideMaterialPoint(show_points_materials)
+
+    @Slot(bool)
+    def showHideLabel(self, show_label):
+        
+        for controller in self.list_controller_card:
+            controller.showHideLabel(show_label)
+
+    @Slot()
+    def ChangeSizePoint(self):
+        value = self.view_menu_pointMaterial.getSizePoint()
+        for controller in self.list_controller_card:
+            controller.ChangeSizePoint(value)
     
+        
+
+        
     @Slot()
     def newPointsMaterial(self):
 
         point_material_name = self.view_menu_pointMaterial.getName()
         point_material_color = self.view_menu_pointMaterial.getColor()
-        point_material_id_base_mesh, point_material_base_mesh = self.view_menu_pointMaterial.getBaseMesh()
         point_material_no_points = self.view_menu_pointMaterial.getNoPoints()
-
+        point_material_id_base_mesh, point_material_base_mesh, point_material_base_mesh_type = self.view_menu_pointMaterial.getBaseMesh()
+        print(point_material_base_mesh)
         if point_material_name == "":
             self.view_menu_pointMaterial.msnAlertName(True, "Revisa el nombre de los puntos materiales")
             return     
@@ -91,46 +113,121 @@ class ControllerMenuPointMaterial():
             self.view_menu_pointMaterial.msnAlertNoPoints(False)
         
 
-        base_mesh =self.model_current_project.getModelsMeshs()[point_material_id_base_mesh]
 
-        coordenates_triangles= base_mesh.getPoints()
-        triangles= base_mesh.getTriangles()
 
-        point_material_points =[]
+        if point_material_base_mesh_type == "QUADRILATERAL":
+            base_mesh =self.model_current_project.getModelsMeshsQuadrilaterals()[point_material_id_base_mesh]
+        
+            coordenates_quadrilaterals= base_mesh.getPoints()
+            quadrilaterals= base_mesh.getQuadrilaterals()
 
-        for triangle in triangles:
-            point1  = coordenates_triangles[triangle[0]]
-            point2  = coordenates_triangles[triangle[1]]
-            point3  = coordenates_triangles[triangle[2]]
+            point_material_points =[]
 
-            center_x = (point1[0] + point2[0] + point3[0]) / 3
-            center_y = (point1[1] + point2[1] + point3[1]) / 3
-            center_point = (center_x, center_y)
+            for quadrilateral in quadrilaterals:
+                point1  = coordenates_quadrilaterals[quadrilateral[0]]
+                point2  = coordenates_quadrilaterals[quadrilateral[1]]
+                point3  = coordenates_quadrilaterals[quadrilateral[2]]
+                point4  = coordenates_quadrilaterals[quadrilateral[3]]
 
-            if point_material_no_points == "1x":
-                point_material_points.append(center_point)  
+                center_x = (point1[0] + point2[0] + point3[0] + point4[0]) / 4
+                center_y = (point1[1] + point2[1] + point3[1] + point4[1]) / 4
+                center_point = (center_x, center_y)
 
-            elif point_material_no_points == "2x":
-                center_x = (point1[0] + point2[0] + center_point[0]) / 3
-                center_y = (point1[1] + point2[1] + center_point[1]) / 3
-                center_point_1 = (center_x, center_y)
-                point_material_points.append(center_point_1)  
-                center_x = (point2[0] + point3[0] + center_point[0]) / 3
-                center_y = (point2[1] + point3[1] + center_point[1]) / 3
-                center_point_2 = (center_x, center_y)
-                point_material_points.append(center_point_2)  
-                center_x = (point3[0] + point1[0] + center_point[0]) / 3
-                center_y = (point3[1] + point1[1] + center_point[1]) / 3
-                center_point_3 = (center_x, center_y)
-                point_material_points.append(center_point_3)  
-      
-        id = self.model_current_project.createMaterialPoint(name=point_material_name ,
-                                                    color=point_material_color,
-                                                    points=point_material_points)
-        model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
-        self.createPointsMaterialsCard(model_point_material)
+                if point_material_no_points == "1x":
+                    point_material_points.append(center_point)  
 
-        self.view_menu_pointMaterial.endPointMaterial()
+                elif point_material_no_points == "2x":
+                    center_x = (point1[0] + center_point[0]) / 2
+                    center_y = (point1[1] + center_point[1]) / 2
+                    center_point_1 = (center_x, center_y)
+                    point_material_points.append(center_point_1)  
+
+
+                    center_x = (point2[0] + center_point[0]) / 2
+                    center_y = (point2[1] + center_point[1]) / 2
+                    center_point_2 = (center_x, center_y)
+                    point_material_points.append(center_point_2)  
+
+                    
+                    center_x = (point3[0] + center_point[0]) / 2
+                    center_y = (point3[1] + center_point[1]) / 2
+                    center_point_3 = (center_x, center_y)
+                    point_material_points.append(center_point_3)  
+
+                    
+                    center_x = (point4[0] + center_point[0]) / 2
+                    center_y = (point4[1] + center_point[1]) / 2
+                    center_point_4 = (center_x, center_y)
+                    point_material_points.append(center_point_4)  
+        
+            id = self.model_current_project.createMaterialPoint(name=point_material_name ,
+                                                        color=point_material_color,
+                                                        points=point_material_points)
+            model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
+            self.createPointsMaterialsCard(model_point_material)
+
+            self.view_menu_pointMaterial.endPointMaterial()
+
+        elif point_material_base_mesh_type == "TRIANGULAR":
+            
+
+            base_mesh =self.model_current_project.getModelsMeshsTriangular()[point_material_id_base_mesh]
+        
+            coordenates_triangles= base_mesh.getPoints()
+            triangles= base_mesh.getTriangles()
+
+            point_material_points =[]
+
+            for triangle in triangles:
+                point1  = coordenates_triangles[triangle[0]]
+                point2  = coordenates_triangles[triangle[1]]
+                point3  = coordenates_triangles[triangle[2]]
+
+                center_x = (point1[0] + point2[0] + point3[0]) / 3
+                center_y = (point1[1] + point2[1] + point3[1]) / 3
+                center_point = (center_x, center_y)
+
+                if point_material_no_points == "1x":
+                    point_material_points.append(center_point)  
+
+                elif point_material_no_points == "2x":
+                    center_x = (point1[0] + (center_point[0]*2)) / 3
+                    center_y = (point1[1] + (center_point[1]*2)) / 3
+                    center_point_1 = (center_x, center_y)
+                    point_material_points.append(center_point_1)  
+                    center_x = (point2[0] + (center_point[0]*2)) / 3
+                    center_y = (point2[1] + (center_point[1]*2)) / 3
+                    center_point_2 = (center_x, center_y)
+                    point_material_points.append(center_point_2)  
+                    center_x = (point3[0] + (center_point[0]*2)) / 3
+                    center_y = (point3[1] + (center_point[1]*2)) / 3
+                    center_point_3 = (center_x, center_y)
+                    point_material_points.append(center_point_3)  
+
+
+                '''
+                elif point_material_no_points == "2x":
+                    center_x = (point1[0] + point2[0] + center_point[0]) / 3
+                    center_y = (point1[1] + point2[1] + center_point[1]) / 3
+                    center_point_1 = (center_x, center_y)
+                    point_material_points.append(center_point_1)  
+                    center_x = (point2[0] + point3[0] + center_point[0]) / 3
+                    center_y = (point2[1] + point3[1] + center_point[1]) / 3
+                    center_point_2 = (center_x, center_y)
+                    point_material_points.append(center_point_2)  
+                    center_x = (point3[0] + point1[0] + center_point[0]) / 3
+                    center_y = (point3[1] + point1[1] + center_point[1]) / 3
+                    center_point_3 = (center_x, center_y)
+                    point_material_points.append(center_point_3)  
+                '''
+        
+            id = self.model_current_project.createMaterialPoint(name=point_material_name ,
+                                                        color=point_material_color,
+                                                        points=point_material_points)
+            model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
+            self.createPointsMaterialsCard(model_point_material)
+
+            self.view_menu_pointMaterial.endPointMaterial()
 
     # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
 
@@ -144,19 +241,29 @@ class ControllerMenuPointMaterial():
    
     def setListBaseMeshView(self):  
         mesh_data = []   
-        meshs = self.model_current_project.getModelsMeshs()
+
+        meshs = self.model_current_project.getModelsMeshsTriangular()
         for id_mesh in meshs:
             name = meshs[id_mesh].getName()
             color = meshs[id_mesh].getColor()
-            mesh_data.append([id_mesh, name, color])
+            type_mesh = meshs[id_mesh].getType()
+            mesh_data.append([id_mesh, name, color, type_mesh])
+        meshs = self.model_current_project.getModelsMeshsQuadrilaterals()
+        for id_mesh in meshs:
+            name = meshs[id_mesh].getName()
+            color = meshs[id_mesh].getColor()
+            type_mesh = meshs[id_mesh].getType()
+            mesh_data.append([id_mesh, name, color, type_mesh])
+
+
         self.view_menu_pointMaterial.setListBaseMesh(mesh_data=mesh_data)
     
-    def setBaseMeshView(self, index=-1):        
+    def setBaseMeshView(self, index=0):        
         self.view_menu_pointMaterial.setBaseMesh(index=index)
     
     def setListNoPointsView(self):  
         self.view_menu_pointMaterial.setListNoPoints()
     
-    def setNoPointsView(self, index=-1):        
+    def setNoPointsView(self, index=0):        
         self.view_menu_pointMaterial.setNoPoints(index=index)
     

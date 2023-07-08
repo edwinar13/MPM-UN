@@ -75,3 +75,7 @@ class ModelItemLine:
             id_start_point=start_point.getId(),
             id_end_point=end_point.getId()
         )     
+
+    def showHideItems(self, value):
+        item_line = self.getLineItem()
+        item_line.setVisible(value)

@@ -54,6 +54,49 @@ class TextItem(QGraphicsItem):
         painter.setPen(self.pen)
         painter.drawText(QPointF(0, 0), self.text)
 
+class TextFrameItem(TextItem):
+    def __init__(self, text: str, coordinatesX, coordinatesY):
+        super().__init__(text, coordinatesX, coordinatesY)
+
+        self.frame_pen = QPen(QColor("#333333"))
+        self.frame_radius = 3
+        self.gradient_start_color = QColor("#DDDDDD")
+        self.gradient_end_color = QColor("#FFFFFF")
+        self.gradient_start_color.setAlpha(200)  # Establecer transparencia al 50%
+        self.gradient_end_color.setAlpha(200)  # Establecer transparencia al 50%
+        
+        self.extra_width = 1  # Ancho adicional del marco
+        self.font = QFont("Arial", 12)  # Define la fuente del texto
+
+    def boundingRect(self) -> QRectF:
+
+        h = self.higt + 2
+
+        font_metrics = QFontMetrics(self.font)
+        text_width = font_metrics.horizontalAdvance(self.text)  # Ancho del texto
+        w = text_width + 3 * self.extra_width  # Ancho ajustado
+        return QRectF(-w/2, -h/2, w, h + 3)
+        return QRectF(-self.extra_width, -h, w, h + 3)
+
+
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        # Dibujar marco con esquinas curvas
+        frame_rect = self.boundingRect()
+
+        # Dibujar fondo degradado
+        gradient = QLinearGradient(frame_rect.topLeft(), frame_rect.bottomLeft())
+        gradient.setColorAt(0, self.gradient_start_color)
+        gradient.setColorAt(1, self.gradient_end_color)
+        painter.setBrush(QBrush(gradient))
+        painter.drawRoundedRect(frame_rect.adjusted(1, 1, -1, -1), self.frame_radius - 1, self.frame_radius - 1)
+
+        # Dibujar texto centrado
+        text_rect = self.boundingRect().adjusted(self.extra_width, 0, -self.extra_width, 0)
+        painter.setPen(self.pen)
+        painter.drawText(text_rect, Qt.AlignCenter, self.text)
+
+
 class PointItem(QGraphicsItem):
     """
     PointItem es una clase que hereda de QGraphicsItem y representa un punto en una escena.
@@ -303,7 +346,7 @@ class LineItem(QGraphicsItem):
         else:
             self.text_name.setVisible(False)
 
-
+'''
 class TriangleItem (QGraphicsItem):
     """
     TriangleItem es una clase que hereda de QGraphicsItem y representa un triángulo en una escena.
@@ -350,7 +393,77 @@ class TriangleItem (QGraphicsItem):
         path.lineTo(points[0])
         painter.drawPath(path)
 
+'''
 class TriangleMeshItem(QGraphicsItem):
+    """
+    TriangleMeshItem es una clase que hereda de QGraphicsItem y representa un triangulo de malla en una escena.
+
+    Atributos:
+        id (int): Número único del elemento
+        name (str): Nombre de la malla.
+        color (Qt): Color con el que se dibujará la malla.        
+        triangles (list): Lista de triángulos que componen la malla.
+        width (float): Ancho con el que se dibujará la malla.
+        isSelected (bool): Indica si la malla está seleccionada en el momento.
+        isActive (bool): Indica si la malla está activa en el momento.
+
+    """
+    WIDTH = 0
+
+
+    def __init__(self,id, name:str, color:str, coordinates:list):
+        QGraphicsItem.__init__(self)
+        self.id = id
+        self.name = name
+        self.color = color
+        self.coordinates = coordinates
+
+        self.width = self.WIDTH
+        self.isSelected = False
+        self.isActive = False
+        
+        self.generatePath()
+        
+        self.pen = QPen(QColor(self.color), self.width, Qt.DashLine)
+        self.pen.setCosmetic(True)
+        self.pen.setWidthF(0.5)
+    
+    def generatePath(self):
+        self.path = QPainterPath()
+        points = []
+        for point in self.coordinates:
+            point = QPointF(point[0], point[1])
+            points.append(point)        
+
+        self.path.addPolygon(QPolygonF(points))
+
+    def setColor(self, color):
+        self.color = color
+        self.pen.setColor(QColor(self.color))
+        self.update()
+
+
+
+    def boundingRect(self):
+        rect = self._triangleBoundingRect(self.coordinates)
+        return rect
+
+
+
+    def _triangleBoundingRect(self, points):
+        # Calcula el rectángulo que envuelve un triángulo
+        left = min(point[0] for point in points)
+        top = min(point[1] for point in points)
+        right = max(point[0] for point in points)
+        bottom = max(point[1] for point in points)
+        return QRectF(left, top, right - left, bottom - top)
+
+    def paint(self, painter, option, widget):
+        
+        painter.setPen(self.pen)        
+        painter.drawPath(self.path)   
+
+class QuadrilateraLMeshItem(QGraphicsItem):
     """
     TriangleMeshItem es una clase que hereda de QGraphicsItem y representa un triangulo de malla en una escena.
 
@@ -391,6 +504,7 @@ class TriangleMeshItem(QGraphicsItem):
         for point in self.coordinates:
             point = QPointF(point[0], point[1])
             points.append(point)
+        points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
         self.path.addPolygon(QPolygonF(points))
 
     def setColor(self, color):
@@ -418,6 +532,77 @@ class TriangleMeshItem(QGraphicsItem):
         
         painter.setPen(self.pen)        
         painter.drawPath(self.path)   
+
+class QuadrilateraLMeshBackItem(QGraphicsItem):
+    """
+    TriangleMeshItem es una clase que hereda de QGraphicsItem y representa un triangulo de malla en una escena.
+
+    Atributos:
+        id (int): Número único del elemento
+        name (str): Nombre de la malla.
+        color (Qt): Color con el que se dibujará la malla.        
+        triangles (list): Lista de triángulos que componen la malla.
+        width (float): Ancho con el que se dibujará la malla.
+        isSelected (bool): Indica si la malla está seleccionada en el momento.
+        isActive (bool): Indica si la malla está activa en el momento.
+
+    """
+    WIDTH = 0
+
+
+    def __init__(self, color:str, coordinates:list):
+        QGraphicsItem.__init__(self)
+
+        self.color = color
+        self.coordinates = coordinates
+
+        self.width = self.WIDTH
+        self.isSelected = False
+        self.isActive = False
+        
+        self.generatePath()
+        
+        self.pen = QPen(QColor(self.color), self.width, Qt.SolidLine)
+        self.pen.setCosmetic(True)
+        self.pen.setWidthF(1.1)
+    
+    def generatePath(self):
+        self.path = QPainterPath()
+        points = []
+        
+        for point in self.coordinates:
+            point = QPointF(point[0], point[1])
+            points.append(point)
+        points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
+        self.path.addPolygon(QPolygonF(points))
+
+    def setColor(self, color):
+        self.color = color
+        self.pen.setColor(QColor(self.color))
+        self.update()
+
+
+
+    def boundingRect(self):
+        rect = self._triangleBoundingRect(self.coordinates)
+        return rect
+
+    def _triangleBoundingRect(self, points):
+        # Calcula el rectángulo que envuelve un triángulo
+        left = min(point[0] for point in points)
+        top = min(point[1] for point in points)
+        right = max(point[0] for point in points)
+        bottom = max(point[1] for point in points)
+        return QRectF(left, top, right - left, bottom - top)
+
+    def paint(self, painter, option, widget):
+        
+        painter.setPen(self.pen)        
+        painter.drawPath(self.path)   
+
+
+
+
 
 class PointMaterialItem(QGraphicsItem):
    
@@ -450,6 +635,14 @@ class PointMaterialItem(QGraphicsItem):
         self.pen.setColor(QColor(self.color))
         self.brush.setColor(QColor(self.color))
         self.update()
+        
+    
+    def setRadius(self, percentage_radius):
+        print(percentage_radius)
+        #1-100-199
+        self.radius = self.RADIUS*(percentage_radius/100)
+        self.update()
+
 
     def movePoint(self, pos:QPointF):
         self.coor = pos

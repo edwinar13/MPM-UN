@@ -35,7 +35,17 @@ class ControllerCardMaterialPoint(QObject):
 	###############################################################################
     @Slot(bool)
     def showHideMaterialPoint(self, value):
-        self.model_point_material.showHideMaterialPoint(value)        
+        self.model_point_material.showHideMaterialPoint(value)  
+
+    @Slot(bool)
+    def showHideLabel(self, value):
+        self.model_point_material.showHideLabel(value)     
+          
+    @Slot(bool)
+    def ChangeSizePoint(self, value):
+        self.model_point_material.ChangeSizePoint(value)     
+
+          
 
     @Slot()
     def deleteMaterialPoint(self):        

@@ -2,8 +2,9 @@ from PySide6.QtCore import (Slot,Signal, QObject,QPointF,QLineF)
 from clases.Vista.view_WidgetDrawMenuMesh import ViewWidgetDrawMenuMesh
 from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 from clases.Controlador.controller_CardMesh import ControllerCardMesh
+from motorMPM.mesh import create_uniform
 import pygmsh
-
+import math
 
 class ControllerMenuMesh(QObject):
 
@@ -16,30 +17,53 @@ class ControllerMenuMesh(QObject):
 
         self.view_menu_mesh = ViewWidgetDrawMenuMesh()
         self.model_current_project = None
+        self.model_mesh_back = None
         self.list_controller_card=[]
 
+        self.__config()
         self.__initEvent()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR        ::::::::::::::::::::
 	###############################################################################
+    def __config(self):
+        self.setListTypeView()
+        self.setTypeView()
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_mesh.signal_select_line_mesh.connect(self.signalSelectLineMesh)
         self.view_menu_mesh.signal_size_mesh.connect(self.signalSizeMesh)
         self.view_menu_mesh.signal_new_mesh.connect(self.newMesh)
+        self.view_menu_mesh.signal_mesh_back_changed.connect(self.updateMeshBack)
+        self.view_menu_mesh.signal_mesh_back_show.connect(self.showMeshBack)
+        self.view_menu_mesh.signal_show_hide_meshs.connect(self.showHideMeshs)        
+        self.view_menu_mesh.signal_show_hide_label.connect(self.showHideLabel)
+        
         
 
     def setCurrentProject(self,model_current_project:ModelProjectCurrent):
         self.model_current_project = model_current_project
         self.model_current_project.signal_size_mesh.connect(self.sizeMesh)
         self.model_current_project.signal_select_line_mesh.connect(self.selectLineMesh)
+        self.model_mesh_back = self.model_current_project.getMeshBack()
+
         
     def configDrawMenuMesh(self):
-        models_mesh = self.model_current_project.getModelsMeshs()
+        data = self.model_mesh_back.getData()
+        self.view_menu_mesh.setTextWidgetMeshBack(data=data)
+
+
+
+        models_mesh = self.model_current_project.getModelsMeshsTriangular()
         for id_mesh in models_mesh:
             self.createMeshCard(models_mesh[id_mesh])
+
+        models_mesh = self.model_current_project.getModelsMeshsQuadrilaterals()
+        for id_mesh in models_mesh:
+            self.createMeshCard(models_mesh[id_mesh])
+
+
 
     def getView(self):
         return self.view_menu_mesh
@@ -53,17 +77,61 @@ class ControllerMenuMesh(QObject):
         self.list_controller_card.append(controller_card_mesh)
         self.signal_new_mesh.emit()
 
-        
-    @Slot()
-    def editMesh(self):
-        self.signal_edit_mesh.emit()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
 	###############################################################################
     
     # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
+        
+    @Slot(bool)
+    def showHideMeshs(self, show_meshs):
+        for controller in self.list_controller_card:
+            controller.showHideMesh(show_meshs)
+        	
+    @Slot(bool)
+    def showHideLabel(self, show_label):     
+        for controller in self.list_controller_card:
+            controller.showHideLabel(show_label)
+        
+        
+    @Slot()
+    def editMesh(self):
+        self.signal_edit_mesh.emit()
 	
+
+    @Slot(bool)
+    def showMeshBack(self, value):
+        self.model_mesh_back.showHideMesh(value)
+
+    @Slot()
+    def updateMeshBack(self):
+
+        size_dx= self.view_menu_mesh.getMeshDx()
+        size_dy= self.view_menu_mesh.getMeshDy()
+        size_element= self.view_menu_mesh.getMeshBackSize()
+        color= self.view_menu_mesh.getColor()
+
+
+        mesh_cuad_coord, mesh_cuad_inci, mesh_cuad_nelex = create_uniform(size_dx,size_dy,size_element)
+
+        points =[]
+        for point in mesh_cuad_coord:
+            points.append([point[0],point[1]])  
+
+        quadrilaterals =[] 
+        for triangle in mesh_cuad_inci:
+            quadrilaterals.append([int(triangle[0])-1,int(triangle[1])-1,int(triangle[2])-1,int(triangle[3])-1])
+        
+        self.model_mesh_back.updateMesh(size_dx=size_dx,
+                                        size_dy=size_dy,
+                                        size_element=size_element,
+                                        color=color,
+                                        points=points,
+                                        quadrilaterals=quadrilaterals)
+
+     
+    
     @Slot()
     def signalSelectLineMesh(self):
         self.signalEndDrawGeometry()
@@ -81,6 +149,7 @@ class ControllerMenuMesh(QObject):
         color_mesh =self.view_menu_mesh.getColor()
         selected_objects = self.model_current_project.getSelectedObjects()      
         size_element_mesh = self.view_menu_mesh.getSize()
+        type_mesh = self.view_menu_mesh.getType()
          
         if name_mesh == "":
             self.view_menu_mesh.msnAlertName(True, "Revisa el nombre  de la malla")
@@ -123,37 +192,79 @@ class ControllerMenuMesh(QObject):
         else:
             self.view_menu_mesh.msnAlertSelected(False)
 
-        vertices = []
-        for line in polygon:
-            vertices.append(line[0])    
 
-        #METODO PYGMSH
-        with pygmsh.geo.Geometry() as geom:
-            geom.add_polygon(
-                vertices,
-                mesh_size=size_element_mesh,
-            )
-            mesh = geom.generate_mesh()
-    
-        _points = mesh.points  
-        points =[]
-        for point in _points:
-            points.append([point[0],point[1]])  
- 
-        _triangles = mesh.cells_dict["triangle"]
-        triangles =[] 
-        for triangle in _triangles:
-            triangles.append([int(triangle[0]),int(triangle[1]),int(triangle[2])])
+
         
-        id = self.model_current_project.createMesh(name=name_mesh ,
-                                                    color=color_mesh,
-                                                    points=points,
-                                                    triangles = triangles)
-        model_mesh = self.model_current_project.getModelsMeshs()[id]
-        self.createMeshCard(model_mesh)
+        if type_mesh == "Cuadrilátera" and not len(selected_objects) == 4 :
+            self.view_menu_mesh.msnAlertSelected(True, "Para Cuadrilátera únicamente 4 líneas ")
+            return
+        else:
+            self.view_menu_mesh.msnAlertSelected(False)
+        
 
-        self.view_menu_mesh.endMesh()
-        self.endDrawMesh()
+
+        if type_mesh == "Cuadrilátera":
+ 
+            points, quadrilaterals, n_element = self.generate_mesh_quadrilateral(
+                lines= polygon,
+                mesh_size=size_element_mesh
+                )
+
+            mesh_points =[]
+            for point in points:
+                mesh_points.append([point[0],point[1]]) 
+  
+            mesh_quadrilaterals =[] 
+
+            for quadrilaterals in quadrilaterals:
+                mesh_quadrilaterals.append([int(quadrilaterals[0])-1,int(quadrilaterals[1])-1,int(quadrilaterals[3])-1,int(quadrilaterals[2])-1])
+
+
+            id = self.model_current_project.createMeshQuadrilateral(name=name_mesh ,
+                                                        color=color_mesh,
+                                                        points=mesh_points,
+                                                        quadrilaterals = mesh_quadrilaterals)
+            model_mesh = self.model_current_project.getModelsMeshsQuadrilaterals()[id]
+            self.createMeshCard(model_mesh)
+
+            self.view_menu_mesh.endMesh()
+            self.endDrawMesh()
+            
+
+        elif type_mesh == "Triangular":
+             
+            vertices = []
+            for line in polygon:
+                vertices.append(line[0])    
+
+            #METODO PYGMSH
+            with pygmsh.geo.Geometry() as geom:
+                geom.add_polygon(
+                    vertices,
+                    mesh_size=size_element_mesh,
+                )
+                mesh = geom.generate_mesh()
+        
+            _points = mesh.points  
+            points =[]
+            for point in _points:
+                points.append([point[0],point[1]])  
+    
+            _triangles = mesh.cells_dict["triangle"]
+            triangles =[] 
+            for triangle in _triangles:
+                triangles.append([int(triangle[0]),int(triangle[1]),int(triangle[2])])
+                
+               
+            id = self.model_current_project.createMeshTriangular(name=name_mesh ,
+                                                        color=color_mesh,
+                                                        points=points,
+                                                        triangles = triangles)
+            model_mesh = self.model_current_project.getModelsMeshsTriangular()[id]
+            self.createMeshCard(model_mesh)
+
+            self.view_menu_mesh.endMesh()
+            self.endDrawMesh()
 
     # ::::::::::::::::::::         MÉTODOS  CURRENT        ::::::::::::::::::::
 	
@@ -168,9 +279,21 @@ class ControllerMenuMesh(QObject):
 
     # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
 
-    @Slot(str)
-    def deleteMesh(self, id):
-        self.model_current_project.deleteMeshTriangular(id)
+    @Slot(list)
+    def deleteMesh(self, data):
+        type_mesh =data[0]
+        id =data[1]
+
+        if type_mesh == "TRIANGLE":
+            self.model_current_project.deleteMeshTriangular(id)
+            
+        elif type_mesh == "QUADRILATERAL":
+            self.model_current_project.deleteMeshQuadrilaterals(id)
+        
+        
+
+
+
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -184,6 +307,12 @@ class ControllerMenuMesh(QObject):
     def signalEndDrawGeometry(self):
         self.signal_end_draw_geometry.emit()
 
+    def setListTypeView(self):  
+        self.view_menu_mesh.setListTypes()
+    
+    def setTypeView(self, index=0):        
+        self.view_menu_mesh.setType(index=index)
+
     ###############################################################################
 	# ::::::::::::::::::::           OTROS MÉTODOS             ::::::::::::::::::::
 	###############################################################################
@@ -192,9 +321,10 @@ class ControllerMenuMesh(QObject):
 
         polygon = []
         current_line = lines.pop(0)
+        
         star_point = current_line[0]
         end_point = current_line[1]
-        polygon.append(current_line)        
+        polygon.append(tuple(current_line))        
 
         while True:
 
@@ -263,5 +393,81 @@ class ControllerMenuMesh(QObject):
 
 
 
+
+
+
+    def generate_mesh_quadrilateral(self, lines, mesh_size):
+
+
+        polygon = self.is_closed_polygon(lines)
+        line_A = polygon[0]
+        #line_B = polygon[1]
+        line_AA = polygon[2]
+        #line_D = polygon[3]
+
+        pA1 = line_A[0]
+        pA2 = line_A[1]
+        dist_A = math.sqrt((pA2[0] - pA1[0])**2 + (pA2[1] - pA1[1])**2)
+
+        pAA1 = line_AA[0]
+        pAA2 = line_AA[1]
+        dist_AA = math.sqrt((pAA2[0] - pAA1[0])**2 + (pAA2[1] - pAA1[1])**2)
+
+        if dist_A >= dist_AA:
+            dist_max = dist_A
+        else:
+            dist_max = dist_AA
+
+
+        parts = int(dist_max/mesh_size)
+
+        result_A = self.divide_line(line_A, parts)
+        #result_B = self.divide_line(line_B, parts)
+        result_AA = self.divide_line(line_AA, parts)
+        #result_D = self.divide_line(line_D, parts)
+
+        result_AA.reverse()
+        #result_D.reverse()
+
+        points = []
+        for i in range(0, len(result_A)):
+            result_B_i = self.divide_line([result_A[i],result_AA[i]], parts)
+            for point in result_B_i:
+                points.append(point)
+
+        quadrilaterals = []
+        nx = ny = parts
+        n_nodos = parts + 1 
+        for j in range(0, nx):
+            for k in range(1, ny+1):
+
+                vertex_1 = (k) + (j * n_nodos)
+                vertex_2 = (k + 1) + (j * n_nodos)
+                vertex_3 = (k) + ((j + 1) * n_nodos)
+                vertex_4 = (k + 1) + ((j + 1) * n_nodos)
+
+
+                quadrilaterals.append([vertex_1,vertex_2,vertex_3,vertex_4])
+
+        n_element = len(quadrilaterals)
+        
+        return points, quadrilaterals, n_element
+
+    def divide_line(self, line, parts):
+        x1, y1 = line[0]
+        x2, y2 = line[1]
+        
+        # Calcula la distancia entre los puntos
+        dx = (x2 - x1) / parts
+        dy = (y2 - y1) / parts
+        
+        # Calcula las coordenadas de la división
+        coordinates = []
+        for i in range(parts + 1):
+            x = x1 + dx * i
+            y = y1 + dy * i
+            coordinates.append([x, y])
+        
+        return coordinates
 
 

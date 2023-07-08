@@ -38,6 +38,9 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
     signal_paint_import = Signal()
     signal_paint_rule = Signal()
     signal_paint_intersection = Signal()
+
+    signal_show_hide_items = Signal(bool)  
+    signal_show_hide_label = Signal(bool)  
     
     def __init__(self):
         super(ViewWidgetDrawMenuData, self).__init__()
@@ -47,6 +50,9 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.__hide_show_frame_data_1=True
         self.__hide_show_frame_data_2=True
         self.__hide_show_frame_data_3=True
+
+        self.__hide_show_items=True
+        self.__hide_show_label=True 
         
         # Configura la UI
         self.__configUi()
@@ -65,6 +71,20 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.icon_maximize = QIcon()
         self.icon_maximize.addFile(u"recursos/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
         
+        # Se agrega los dos iconos para maximizar y minimizar
+        self.icon_show_poin_material = QIcon()
+        self.icon_show_poin_material.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_poin_material = QIcon()
+        self.icon_hide_poin_material.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+        
+        # Se agrega los dos iconos para maximizar y minimizar
+        self.icon_show_label = QIcon()
+        self.icon_show_label.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_label = QIcon()
+        self.icon_hide_label.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('INFORMACIÓN DEL PROYECTO')
         self.label_lat.setFont(QFont('Ubuntu', 9))
@@ -83,6 +103,8 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.toolButton_cardDataSubTitle1.clicked.connect(self.__clickedToolButtonCardDataSubTitle1)
         self.toolButton_cardDataSubTitle2.clicked.connect(self.__clickedToolButtonCardDataSubTitle2)
         self.toolButton_cardDataSubTitle3.clicked.connect(self.__clickedToolButtonCardDataSubTitle3)
+        self.toolButton_showHideItem.clicked.connect(self.__clickedToolButtonShowHideItems)
+        self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
 
         # ::::::::::::::::::::      EVENTOS DRAW MENU DRAW     ::::::::::::::::::::
         self.toolButton_cardDataDrawPoint.clicked.connect(self.__clickedToolButtonCardDataDrawPoint)
@@ -154,6 +176,33 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             self.frame_data2.setVisible(True)
             self.__hide_show_frame_data_3 = True
             self.toolButton_cardDataSubTitle3.setIcon(self.icon_minimize)
+
+
+    def __clickedToolButtonShowHideItems(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_items == True:
+            self.__hide_show_items = False
+            self.signal_show_hide_items.emit(self.__hide_show_items)
+            self.toolButton_showHideItem.setIcon(self.icon_hide_poin_material)
+        elif self.__hide_show_items == False:  
+            self.__hide_show_items = True
+            self.signal_show_hide_items.emit(self.__hide_show_items)
+            self.toolButton_showHideItem.setIcon(self.icon_show_poin_material)
+
+    def __clickedToolButtonShowHideLabel(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_label == True:
+            self.signal_show_hide_label.emit(self.__hide_show_label)
+            self.__hide_show_label = False
+            self.toolButton_showHideLabel.setIcon(self.icon_show_label)
+        elif self.__hide_show_label == False:
+            self.signal_show_hide_label.emit(self.__hide_show_label)
+            self.__hide_show_label = True
+            self.toolButton_showHideLabel.setIcon(self.icon_hide_label)
+
+
+
+
 
     # ::::::::::::::::::::      EVENTOS MENU DRAW     ::::::::::::::::::::
     def __clickedToolButtonCardDataDrawPoint(self):

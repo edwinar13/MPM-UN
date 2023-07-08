@@ -356,9 +356,17 @@ class ModelProjects:
                 "LINEAS": {},
             }
             data['MALLAS'] = {
+                "MALLAFONDO":{
+                    "SIZEDX": 1,
+                    "SIZEDY": 1,
+                    "SIZEELEMENT": 1,
+                    "COLOR": "#555696",
+                    "POINTS":[[0,0,],[1,0],[1,1],[0,1]],
+                    "QUADRILATERALS": [1,2,3,4]
+                    },
                 "TRIANGULARES": {},
                 "RECTANGULARES": {}
-            }
+                }
             data['PUNTOSMATERIAL'] = {}
             data['MATERIALES'] = {}
             data['RESULTADOS'] = {}

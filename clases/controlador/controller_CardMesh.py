@@ -1,20 +1,25 @@
 
 from PySide6.QtCore import (Slot, Signal, QObject)
 from clases.Vista.view_WidgetCardMesh import viewCardDrawMesh
-from clases.Modelo.model_Mesh import ModelMeshTriangle
+from clases.Modelo.model_Mesh import ModelMeshTriangle, ModelMeshQuadrilateral
 
 class ControllerCardMesh(QObject):
 
   
-    signal_delete_mesh = Signal(str)
+    signal_delete_mesh = Signal(list)
     signal_edit_mesh= Signal() 
 
-    def __init__(self, model_mesh:ModelMeshTriangle) -> None:
+    def __init__(self, model_mesh:ModelMeshTriangle|ModelMeshQuadrilateral) -> None:
         super().__init__()
 
         self.model_mesh = model_mesh
-        self.id, self.name, self.color, self.points, self.triangles = model_mesh.getData()
-
+        self.id, self.name, self.color, self.points, self.elements = model_mesh.getData()
+        if  isinstance(model_mesh, ModelMeshTriangle):
+            self.type = "TRIANGLE"
+            
+        elif  isinstance(model_mesh, ModelMeshQuadrilateral):
+            self.type = "QUADRILATERAL"
+   
         self.__initCard()
         self.__initEvent()
 
@@ -31,14 +36,20 @@ class ControllerCardMesh(QObject):
         self.view_card_mesh.signal_delete_mesh.connect(self.deleteMesh)
         self.view_card_mesh.signal_update_mesh.connect(self.updateMesh)
 
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
+	###############################################################################
     @Slot(bool)
     def showHideMesh(self, value):
         self.model_mesh.showHideMesh(value)
 
+    @Slot(bool)
+    def showHideLabel(self, value):
+        self.model_mesh.showHideLabel(value)
 
     @Slot()
     def deleteMesh(self):
-        self.signal_delete_mesh.emit(self.id)
+        self.signal_delete_mesh.emit([self.type, self.id])
         del self
 
 

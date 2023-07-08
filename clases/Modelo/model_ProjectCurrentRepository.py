@@ -267,6 +267,44 @@ class ModelProjectCurrentRepository():
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS DB MALLA       ::::::::::::::::::::
 	############################################################################### 
+
+
+
+    # ::::::::::::::::::::        MALLA DE FONDO       ::::::::::::::::::::
+
+    def readMeshBackDB(self):
+        """
+        Lee la malla de fondo almacenadas en la base de datos del proyecto actual.
+        Returns:
+            (dict): Diccionario con la malla de fondo del proyecto.
+        """   
+        return self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']
+    
+    def updateMeshBackDB(self, size_dx=None, size_dy=None, size_element=None,color=None,points=None,quadrilaterals=None):
+
+        try:                  
+            
+            if size_dx != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["SIZEDX"]=size_dx
+            if size_dy != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["SIZEDY"]=size_dy
+            if size_element != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["SIZEELEMENT"]=size_element
+            if color != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["COLOR"]=color
+            if points != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTS"]=points
+            if quadrilaterals != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["QUADRILATERALS"]=quadrilaterals
+
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+
+    
     # ::::::::::::::::::::        TRIANGULARES       ::::::::::::::::::::
     def createMeshTriangularDB(self, id_Mesh, name, color, points, triangles):
          
@@ -334,51 +372,54 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False   
 
-    # ::::::::::::::::::::        RECTANGULARES       ::::::::::::::::::::
-    def createMeshRectangularDB(self, id_Mesh,  name, color, points, rectangles):
+   
+    # ::::::::::::::::::::        CUADRILATEROS       ::::::::::::::::::::
+    def createMeshQuadrilateralDB(self, id_Mesh,  name, color, points, quadrilaterals):
         try:  
-        
-            self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["NAME"]=name
-            self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["COLOR"]=color
-            self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["POINTS"]=points
-            self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["RECTANGLES"]=rectangles
+
+            self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh] = {
+                "NAME": name,
+                "COLOR": color,
+                "POINTS": points,
+                "QUADRILATERALS":quadrilaterals
+            }   
             return True
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
     
-    def readMeshRectangularDB(self):
+    def readMeshQuadrilateralDB(self):
         """
         Lee las mallas (rectangulares) almacenadas en la base de datos del proyecto actual.
         Returns:
             (dict): Diccionario con las mallas (rectangulares) del proyecto.
         """    
-        return self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES']
+        return self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS']
     
-    def updateMeshRectangularDB(self,id_Mesh, name=None, color=None, points=None, rectangles=None):
+    def updateMeshQuadrilateralDB(self,id_Mesh, name=None, color=None, points=None, quadrilaterals=None):
         """
         triangle_type:
             TRIANGULARES
-            RECTANGULARES
+            CUADRILATEROS
         """
         try:  
-            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['RECTANGULARE']:
+            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS']:
                 if name != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["NAME"]=name
+                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["NAME"]=name
                 if color != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["COLOR"]=color
+                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["COLOR"]=color
                 if points != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["POINTS"]=points
-                if rectangles != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]["RECTANGLES"]=rectangles
+                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["POINTS"]=points
+                if quadrilaterals != None:   
+                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["QUADRILATERALS"]=quadrilaterals
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
     
-    def deleteMeshRectangularDB(self, id_Mesh):
+    def deleteMeshQuadrilateralDB(self, id_Mesh):
         """Elimina la malla en la copia sin guardar de la db del proyecto.
 
         Args:
@@ -393,8 +434,8 @@ class ModelProjectCurrentRepository():
 
         try:  
 
-            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES']:
-                del self.__unguarded_copy_db_project['MALLAS']['RECTANGULARES'][id_Mesh]
+            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS']:
+                del self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
