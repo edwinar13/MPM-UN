@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDrawMenuBoundary</class>
- <widget class="QWidget" name="FormDrawMenuBoundary">
+ <class>FormDrawMenuProperties</class>
+ <widget class="QWidget" name="FormDrawMenuProperties">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -70,7 +70,7 @@ padding: 2px 0px;
 
 
 
-QFrame#frame_boundaryProject{
+QFrame#frame_propertiesProject{
 background: #333333;
 border-radius: 8px
 }
@@ -94,23 +94,23 @@ background-color: transparent;
 
 
 /*#################################################################*/
-/*####################       FRAME boundary       ###########################*/
+/*####################       FRAME MESH       ###########################*/
 /*#################################################################*/
-QFrame#frame_boundary{
+QFrame#frame_properties{
 background: transparent;
 }
 QFrame#frame_title{
 background: #222222;
 border-top-right-radius: 8px;
 }
-QLabel#label_cardBoundaryTitle{
+QLabel#label_cardPropertiesTitle{
 font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-QFrame#frame_boundarySubTitle0,
-QFrame#frame_boundarySubTitle1,
-QFrame#frame_boundarySubTitle2,
-QFrame#frame_boundarySubTitle3{
+QFrame#frame_propertiesSubTitle0,
+QFrame#frame_propertiesSubTitle1,
+QFrame#frame_propertiesSubTitle2,
+QFrame#frame_propertiesSubTitle3{
 background: #222222;
 border-radius:2px;
 }
@@ -133,9 +133,9 @@ border-radius:2px;
 
 
 
-QToolButton#toolButton_cardBoundaryDraw7,
-QToolButton#toolButton_cardBoundaryDraw5,
-QToolButton#toolButton_cardBoundaryDraw6{
+QToolButton#toolButton_cardPropertiesDraw7,
+QToolButton#toolButton_cardPropertiesDraw5,
+QToolButton#toolButton_cardPropertiesDraw6{
 background-color: transparent;
 border: 1px solid #222222;
 border-radius: 3px;
@@ -143,14 +143,14 @@ margin-left: 4px;
 }
 
 
-QToolButton#toolButton_cardBoundaryDraw7:hover,
-QToolButton#toolButton_cardBoundaryDraw5:hover, 
-QToolButton#toolButton_cardBoundaryDraw6:hover{ 
+QToolButton#toolButton_cardPropertiesDraw7:hover,
+QToolButton#toolButton_cardPropertiesDraw5:hover, 
+QToolButton#toolButton_cardPropertiesDraw6:hover{ 
 background-color: #444444;
 }
-QToolButton#toolButton_cardBoundaryDraw7:pressed,
-QToolButton#toolButton_cardBoundaryDraw5:pressed,
-QToolButton#toolButton_cardBoundaryDraw6:pressed{
+QToolButton#toolButton_cardPropertiesDraw7:pressed,
+QToolButton#toolButton_cardPropertiesDraw5:pressed,
+QToolButton#toolButton_cardPropertiesDraw6:pressed{
 border-top: 2px solid #222222;
 border-left: 2px solid #222222;
 }  
@@ -164,7 +164,7 @@ border-left: 2px solid #222222;
 /*###########################################################*/
 
 QScrollArea#scrollArea,
-#verticalLayout_containerCardBoundary,
+#verticalLayout_containerCardProperties,
 #scrollAreaWidgetContents{
 background-color: transparent;
 }
@@ -486,7 +486,7 @@ padding-left: 6px;
 
 
 
-QLineEdit#lineEdit_textBoundary3{
+QLineEdit#lineEdit_textProperties3{
 font: 7pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #333333;
@@ -562,17 +562,6 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
 }
 
 
-
-
-/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QCheckBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
-QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
-    
-    background-color: #444444;
-	color: #DDDDDD;
-    padding: 5px;
-	font:  9pt &quot;Ubuntu&quot;;
-    selection-background-color: #808080;
-}
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -592,7 +581,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
     <number>5</number>
    </property>
    <item>
-    <widget class="QFrame" name="frame_boundaryProject">
+    <widget class="QFrame" name="frame_propertiesProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -760,7 +749,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_boundary">
+       <widget class="QFrame" name="frame_properties">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -820,9 +809,9 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLabel" name="label_cardBoundaryTitle">
+             <widget class="QLabel" name="label_cardPropertiesTitle">
               <property name="text">
-               <string>CONTORNO</string>
+               <string>PROPIEDADES</string>
               </property>
               <property name="QLabelStyle" stdset="0">
                <number>1</number>
@@ -855,7 +844,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_boundarySubTitle0">
+             <widget class="QFrame" name="frame_propertiesSubTitle1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -879,7 +868,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardBoundarySubTitle0">
+                <widget class="QLabel" name="label_cardPropertiesSubTitle1">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -887,7 +876,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear restricción de contorno automático</string>
+                  <string>Crear propiedad</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>
@@ -895,7 +884,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle0">
+                <widget class="QToolButton" name="toolButton_cardPropertiesSubTitle1">
                  <property name="text">
                   <string/>
                  </property>
@@ -915,7 +904,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_boundary2_2">
+             <widget class="QFrame" name="frame_properties1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -963,477 +952,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QLabel" name="label_textBoundary1_2">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Superior:</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                    <property name="QCheckBoxStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_textBoundary2_2">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Inferior:</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_textBoundary2_3">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Derecho:</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QFrame" name="frame_2">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_17">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox">
-                       <property name="text">
-                        <string>Tx</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_2">
-                       <property name="text">
-                        <string>Ty</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_textBoundary2_4">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Izquierdo:</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QFrame" name="frame_5">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_19">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_3">
-                       <property name="text">
-                        <string>Tx</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_4">
-                       <property name="text">
-                        <string>Ty</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QFrame" name="frame_6">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_20">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_5">
-                       <property name="text">
-                        <string>Tx</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_6">
-                       <property name="text">
-                        <string>Ty</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QFrame" name="frame_7">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_21">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_7">
-                       <property name="text">
-                        <string>Tx</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_8">
-                       <property name="text">
-                        <string>Ty</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_18">
-                 <property name="spacing">
-                  <number>6</number>
-                 </property>
-                 <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_boundaryCancel_2">
-                   <property name="minimumSize">
-                    <size>
-                     <width>80</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Cancelar</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>3</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_boundaryMeshing_2">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Crear restricción</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>2</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_8">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_boundarySubTitle1">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_cardBoundarySubTitle1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>262</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Crear restricción contorno manual</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>2</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle1">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_boundary2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <property name="spacing">
-                <number>15</number>
-               </property>
-               <item>
-                <widget class="QFrame" name="frame_3">
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QFormLayout" name="formLayout_3">
-                  <property name="horizontalSpacing">
-                   <number>0</number>
-                  </property>
-                  <property name="verticalSpacing">
-                   <number>6</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_textBoundary1">
+                   <widget class="QLabel" name="label_textProperties1">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -1449,7 +968,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_textBoundaryName">
+                   <widget class="QLineEdit" name="lineEdit_textPropertiesName">
                     <property name="minimumSize">
                      <size>
                       <width>150</width>
@@ -1471,15 +990,18 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLabel" name="label_textBoundary4">
+                   <widget class="QLabel" name="label_textProperties2">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
                       <height>0</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Módulo de espasticidad</string>
+                    </property>
                     <property name="text">
-                     <string>Seleccionar:</string>
+                     <string>E (KPa):</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
@@ -1487,70 +1009,52 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_11">
-                    <property name="spacing">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textPropertiesE">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="suffix">
+                     <string> KPa</string>
+                    </property>
+                    <property name="decimals">
                      <number>0</number>
                     </property>
-                    <item>
-                     <widget class="QLineEdit" name="lineEdit_textBoundarySelected">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>120</width>
-                        <height>25</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="QLineEditStyle" stdset="0">
-                       <number>2</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QToolButton" name="toolButton_cardBoundaryDrawSelected">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>../recursos/iconos/iconos_menu_draw_mesh/select.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/select.svg</iconset>
-                      </property>
-                      <property name="iconSize">
-                       <size>
-                        <width>20</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="arrowType">
-                       <enum>Qt::NoArrow</enum>
-                      </property>
-                      <property name="QToolButtonStyle" stdset="0">
-                       <number>1</number>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                    <property name="minimum">
+                     <double>1.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>1000000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>1000.000000000000000</double>
+                    </property>
+                    <property name="QDoubleSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
                   </item>
                   <item row="2" column="0">
-                   <widget class="QLabel" name="label_textBoundary3">
+                   <widget class="QLabel" name="label_textProperties3">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
                       <height>0</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Coeficiente de poisson</string>
+                    </property>
                     <property name="text">
-                     <string>Restricción:</string>
+                     <string>ν :</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
@@ -1558,140 +1062,298 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <widget class="QFrame" name="frame_8">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textPropertiesV">
+                    <property name="enabled">
+                     <bool>true</bool>
                     </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>25</height>
+                     </size>
                     </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
+                    <property name="suffix">
+                     <string/>
                     </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_22">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_9">
-                       <property name="text">
-                        <string>Tx</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_10">
-                       <property name="text">
-                        <string>Ty</string>
-                       </property>
-                       <property name="QCheckBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <property name="decimals">
+                     <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>0.500000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>0.300000000000000</double>
+                    </property>
+                    <property name="QDoubleSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_textProperties4">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Cohesión </string>
+                    </property>
+                    <property name="text">
+                     <string>C' (KPa):</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label_textProperties5">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Ángulo  de fricción </string>
+                    </property>
+                    <property name="text">
+                     <string>ϕ (°):</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QLabel" name="label_textProperties6">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Ángulo  de dilatancia </string>
+                    </property>
+                    <property name="text">
+                     <string>ψ (°):</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textPropertiesPsi">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="suffix">
+                     <string> °</string>
+                    </property>
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
+                    <property name="stepType">
+                     <enum>QAbstractSpinBox::DefaultStepType</enum>
+                    </property>
+                    <property name="value">
+                     <double>5.000000000000000</double>
+                    </property>
+                    <property name="QDoubleSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textPropertiesPhi">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="suffix">
+                     <string> °</string>
+                    </property>
+                    <property name="decimals">
+                     <number>1</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.100000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>5.000000000000000</double>
+                    </property>
+                    <property name="QDoubleSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textPropertiesC">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="suffix">
+                     <string> KPa</string>
+                    </property>
+                    <property name="decimals">
+                     <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>10000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>5.000000000000000</double>
+                    </property>
+                    <property name="QDoubleSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
                    </widget>
                   </item>
                  </layout>
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_12">
-                 <item>
-                  <spacer name="horizontalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_boundaryCancel">
-                   <property name="minimumSize">
-                    <size>
-                     <width>80</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Cancelar</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>3</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_boundaryMeshing">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Crear restricción</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>2</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
+                <widget class="QFrame" name="frame_properties1_1">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_6">
+                  <property name="spacing">
+                   <number>15</number>
+                  </property>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <item>
+                     <spacer name="horizontalSpacer_3">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_PropertiesCancel">
+                      <property name="minimumSize">
+                       <size>
+                        <width>80</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Cancelar</string>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>3</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_PropertiesCreateProperty">
+                      <property name="minimumSize">
+                       <size>
+                        <width>150</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Crear propiedad</string>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>2</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_boundarySubTitle2">
+             <widget class="QFrame" name="frame_propertiesSubTitle2">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -1715,7 +1377,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardBoundarySubTitle2">
+                <widget class="QLabel" name="label_cardPropertiesSubTitle2">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1723,7 +1385,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                   </size>
                  </property>
                  <property name="text">
-                  <string>Lista de restricciones de contorno</string>
+                  <string>Lista de propiedades</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>
@@ -1731,41 +1393,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_showHideLabel">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_showHideBoundary">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle2">
+                <widget class="QToolButton" name="toolButton_cardPropertiesSubTitle2">
                  <property name="text">
                   <string/>
                  </property>
@@ -1785,7 +1413,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_boundary3">
+             <widget class="QFrame" name="frame_properties2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1843,7 +1471,7 @@ border: none;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_containerCardBoundary">
+                    <layout class="QVBoxLayout" name="verticalLayout_containerCardProperties">
                      <property name="spacing">
                       <number>0</number>
                      </property>

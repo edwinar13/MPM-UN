@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1118</width>
-    <height>871</height>
+    <width>474</width>
+    <height>820</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,6 +112,8 @@ QToolButton#toolButton_drawPoint,
 QToolButton#toolButton_drawBoundary,
 QToolButton#toolButton_drawData,
 QToolButton#toolButton_drawMesh,
+QToolButton#toolButton_drawProperties,
+QToolButton#toolButton_drawExecute,
 QToolButton#toolButton_viewResult,
 QToolButton#toolButton_setting{
 background-color: transparent;
@@ -128,10 +130,13 @@ border-radius: 2px;
 }
 
 
+
 QFrame#frame_viewResult,
 QFrame#frame_drawPoint,
 QFrame#frame_drawBoundary,
 QFrame#frame_drawData,
+QFrame#frame_drawProperties,
+QFrame#frame_drawExecute,
 QFrame#frame_drawMesh{
 background: #333333;
 border-radius: 2px ;
@@ -839,6 +844,87 @@ QCheckBox::indicator {
            </widget>
           </item>
           <item>
+           <widget class="QFrame" name="frame_drawPropertiesInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawProperties">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Propiedades</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_lateral/file.svg</normaloff>../recursos/iconos/iconos_menu_lateral/file.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawProperties">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
            <widget class="QFrame" name="frame_drawBoundaryInf">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -878,7 +964,7 @@ QCheckBox::indicator {
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../recursos/iconos/iconos_menu_lateral/file.svg</normaloff>../recursos/iconos/iconos_menu_lateral/file.svg</iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_lateral/boundary.svg</normaloff>../recursos/iconos/iconos_menu_lateral/boundary.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -893,6 +979,87 @@ QCheckBox::indicator {
              </item>
              <item>
               <widget class="QFrame" name="frame_drawBoundary">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawExecuteInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawExecute">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Ejecutar</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../recursos/iconos/iconos_menu_lateral/execute.svg</normaloff>../recursos/iconos/iconos_menu_lateral/execute.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawExecute">
                <property name="minimumSize">
                 <size>
                  <width>5</width>
@@ -1210,7 +1377,7 @@ QCheckBox::indicator {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1118</width>
+     <width>474</width>
      <height>26</height>
     </rect>
    </property>

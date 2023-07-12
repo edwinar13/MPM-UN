@@ -7,6 +7,7 @@ from clases.Modelo.model_ItemPoint import ModelItemPoint
 from clases.Modelo.model_ItemLine import ModelItemLine
 from clases.Modelo.model_Mesh import ModelMeshTriangle, ModelMeshQuadrilateral, ModelMeshBack
 from clases.Modelo.model_MaterialPoint import ModelMaterialPoint
+from clases.Modelo.model_Property import ModelProperty
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
 from clases.Vista.view_GraphicsDraw import ViewGraphicsSceneDraw, ViewGraphicsViewDraw
 from clases.items_GraphicsDraw import TextItem, PointItem, LineItem
@@ -50,6 +51,7 @@ class ModelProjectCurrent(QObject):
         self.meshs_quadrilaterals_models={}
         self.material_point_models={}
         self.mesh_black_model= None
+        self.properties_models={}
 
 
         self.__selected_objects = []
@@ -66,6 +68,7 @@ class ModelProjectCurrent(QObject):
         self.__initItem()
         self.__initMesh()
         self.__initMaterialPoint()
+        self.__initProperties()
         self.__scene.drawElementTemp()
         self.__scene.update()
         
@@ -183,7 +186,7 @@ class ModelProjectCurrent(QObject):
                 quadrilaterals=quadrilaterals) 
 
     def __initMaterialPoint(self):
-        materials_points = self.model_project_current_repository.readMaterialPointhDB()
+        materials_points = self.model_project_current_repository.readMaterialPointDB()
         for id_material_point in materials_points:
             name = materials_points[id_material_point]["NAME"]
             color = materials_points[id_material_point]["COLOR"]
@@ -193,6 +196,26 @@ class ModelProjectCurrent(QObject):
                 name=name,
                 color=color,
                 points=points)
+            
+    def __initProperties(self):
+        properties = self.model_project_current_repository.readPropertiesDB()
+        for id_property in properties:
+            name = properties[id_property]["NAME"]
+            modulus_elasticity = properties[id_property]["MODULOELASTICIDAD"]
+            poisson_ratio = properties[id_property]["RELACIONPOISSON"]
+            cohesion = properties[id_property]["COHESION"]
+            friction_angle = properties[id_property]["ANGULOFRICCION"]
+            angle_dilatancy = properties[id_property]["ANGULODILATANCIA"]
+
+
+            self.addPropertyToCurrentProject(
+                id=id_property,
+                name=name,
+                modulus_elasticity=modulus_elasticity,
+                poisson_ratio=poisson_ratio,
+                cohesion=cohesion,
+                friction_angle=friction_angle,
+                angle_dilatancy=angle_dilatancy)
 
 
     def createUndoView(self):
@@ -476,7 +499,11 @@ class ModelProjectCurrent(QObject):
         removed_model_mesh_quadrilaterals.deleteMesh()
         del removed_model_mesh_quadrilaterals
 
+    def removeMesh(self):
+        self.meshs_models.clear()
+        self.meshs_quadrilaterals_models.clear()
 
+        
     # ::::::::::::::::::::           PUNTOS MATERIALES         ::::::::::::::::::::
 
     def createMaterialPoint(self, name, color, points):
@@ -510,6 +537,76 @@ class ModelProjectCurrent(QObject):
         removed_model_material_point = self.material_point_models.pop(id)
         removed_model_material_point.deleteMaterialPoint()
         del removed_model_material_point
+
+    def removeMaterialPoint(self):
+        self.material_point_models.clear()
+        
+        
+    # ::::::::::::::::::::           PUNTOS PROPOIEDADES         ::::::::::::::::::::
+
+
+
+    def createProperty(self, name, 
+                            modulus_elasticity,
+                            poisson_ratio,
+                            cohesion,
+                            friction_angle,
+                            angle_dilatancy):
+        id = str(uuid.uuid4())
+        self.model_project_current_repository.createPropertiesDB(
+            id_properties = id,
+            name = name, 
+            modulus_elasticity=modulus_elasticity,
+            poisson_ratio=poisson_ratio,
+            cohesion=cohesion,
+            friction_angle=friction_angle,
+            angle_dilatancy=angle_dilatancy)
+        self.addPropertyToCurrentProject(
+                id=id,
+                name=name,
+                modulus_elasticity=modulus_elasticity,
+                poisson_ratio=poisson_ratio,
+                cohesion=cohesion,
+                friction_angle=friction_angle,
+                angle_dilatancy=angle_dilatancy)
+        return id
+    
+    def addPropertyToCurrentProject(self,id, name, 
+                                    modulus_elasticity,
+                                    poisson_ratio,
+                                    cohesion,
+                                    friction_angle,
+                                    angle_dilatancy):    
+        model_property = ModelProperty(scene_draw=self.__scene,
+                                        model_project_current_repository=self.model_project_current_repository,
+                                        id=id,
+                                        name=name,
+                                        modulus_elasticity=modulus_elasticity,
+                                        poisson_ratio=poisson_ratio,
+                                        cohesion=cohesion,
+                                        friction_angle=friction_angle,
+                                        angle_dilatancy=angle_dilatancy)
+        self.properties_models[id]=model_property        
+
+    def getModelsProperties(self):
+        return self.properties_models
+    
+    def deleteProperty(self, id):
+        self.model_project_current_repository.deletePropertiesDB(id)        
+        removed_model_property = self.properties_models.pop(id)        
+        del removed_model_property
+
+    def removeProperties(self):
+        self.properties_models.clear()
+        
+        
+
+
+
+
+
+
+
 
 
     def getSelectedObjects(self):

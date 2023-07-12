@@ -7,9 +7,6 @@ from PySide6.QtWidgets import ( QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDi
 from ui.ui_widget_draw_menu_mesh import Ui_FormDrawMenuMesh
 from clases import class_general
 
-import meshpy.triangle as triangle
-from scipy.spatial import Delaunay
-import scipy
 
 class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     """Esta clase crea el QFrame draw-menu-mesh para agregarlo a Frame Draw.
@@ -59,7 +56,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.__hide_show_mesh=True
         self.__hide_show_label=True
 
-
+        self.list_view_card =[]
         self.user_interaction = False
 
         self.__color_mesh = None
@@ -288,6 +285,10 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         
     def getMeshBackSize(self):
         return self.doubleSpinBoxl_textMeshSize_2.value()
+    
+        
+    def getShowMesh(self):
+        return self.__hide_show_mesh
 
 
 
@@ -303,8 +304,18 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
+    def removeCardMesh(self ):
+        view_card=None
+        if len(self.list_view_card) != 0:
+            for view_card in self.list_view_card: 
+                self.verticalLayout_containerCardMesh.removeWidget(view_card)
+                view_card.deleteLater()
+            self.list_view_card=[]
+
+
     def addCardMesh(self, card_mesh):
         self.verticalLayout_containerCardMesh.addWidget(card_mesh)
+        self.list_view_card.append(card_mesh)
         last_index = self.verticalLayout_containerCardMesh.count() - 1
         self.verticalLayout_containerCardMesh.insertWidget(last_index, self.frame_empty)
 

@@ -195,8 +195,10 @@ class ViewMainWindow(QMainWindow):
         self.ui.toolButton_drawData.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_drawMesh.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_drawPoint.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_drawProperties.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_drawBoundary.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_viewResult.clicked.connect(self.__clickedToolButtonMenuLat)
+        self.ui.toolButton_drawExecute.clicked.connect(self.__clickedToolButtonMenuLat)
         self.ui.toolButton_setting.clicked.connect(self.__clickedToolButtonMenuLat)
 
         
@@ -274,14 +276,18 @@ class ViewMainWindow(QMainWindow):
         self.ui.frame_drawData.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawMesh.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawPoint.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawProperties.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawBoundary.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawExecute.setStyleSheet("background-color: #333333;") 
         self.ui.frame_viewResult.setStyleSheet("background-color: #333333;") 
 
         self.ui.frame_viewResultInf.setStyleSheet("background-color: #333333;") 
         self.ui.frame_homeInf.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawDataInf.setStyleSheet("background-color: #333333;") 
-        self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawPointInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawPropertiesInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawBoundaryInf.setStyleSheet("background-color: #333333;") 
+        self.ui.frame_drawExecuteInf.setStyleSheet("background-color: #333333;") 
         self.ui.frame_drawMeshInf.setStyleSheet("background-color: #333333;")
 
         self.ui.toolButton_setting.setIcon(self.icon_config)
@@ -298,7 +304,9 @@ class ViewMainWindow(QMainWindow):
             [self.ui.frame_drawData, self.ui.frame_drawDataInf,self.ui.page_draw],
             [self.ui.frame_drawMesh, self.ui.frame_drawMeshInf,self.ui.page_draw],
             [self.ui.frame_drawPoint, self.ui.frame_drawPointInf,self.ui.page_draw],
+            [self.ui.frame_drawProperties, self.ui.frame_drawPropertiesInf,self.ui.page_draw],
             [self.ui.frame_drawBoundary, self.ui.frame_drawBoundaryInf,self.ui.page_draw],
+            [self.ui.frame_drawExecute, self.ui.frame_drawExecuteInf,self.ui.page_draw],
             [self.ui.frame_viewResult, self.ui.frame_viewResultInf,self.ui.page_view]
             ]
         
@@ -308,7 +316,7 @@ class ViewMainWindow(QMainWindow):
         self.toolButton_ortho.setVisible(False)
         self.toolButton_osnap.setVisible(False)
 
-        if button == 1 or button == 2 or button == 3 or button == 4 or button == 5 or button == 6:
+        if button == 1 or button == 2 or button == 3 or button == 4 or button == 5 or button == 6 or button == 7 or button == 8:
 
             list_button[button-1][0].setStyleSheet("background-color: #36C9C6;") 
             list_button[button-1][1].setStyleSheet("background-color: #526585;")            
@@ -319,7 +327,7 @@ class ViewMainWindow(QMainWindow):
             self.toolButton_ortho.setVisible(True)
             self.toolButton_osnap.setVisible(True)
 
-        elif button == 7:            
+        elif button == 9:            
             self.ui.stackedWidget_container.setCurrentWidget(self.ui.page_config)
             self.ui.toolButton_setting.setIcon(self.icon_config_select)
     
@@ -328,8 +336,11 @@ class ViewMainWindow(QMainWindow):
         self.ui.toolButton_drawData.setEnabled(True)
         self.ui.toolButton_drawMesh.setEnabled(True)
         self.ui.toolButton_drawPoint.setEnabled(True)
+        self.ui.toolButton_drawProperties.setEnabled(True)
         self.ui.toolButton_drawBoundary.setEnabled(True) 
+        self.ui.toolButton_drawExecute.setEnabled(True)
         self.ui.toolButton_viewResult.setEnabled(True)
+
 
 
 

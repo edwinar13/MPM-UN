@@ -362,13 +362,14 @@ class ModelProjects:
                     "SIZEELEMENT": 1,
                     "COLOR": "#555696",
                     "POINTS":[[0,0,],[1,0],[1,1],[0,1]],
-                    "QUADRILATERALS": [1,2,3,4]
+                    "QUADRILATERALS": [[0,1,2,3]]
                     },
                 "TRIANGULARES": {},
-                "RECTANGULARES": {}
+                "CUADRILATEROS": {}
                 }
             data['PUNTOSMATERIAL'] = {}
             data['MATERIALES'] = {}
+            data['CONTORNOS'] = {}
             data['RESULTADOS'] = {}
 
             with open(filePath, 'w') as file:

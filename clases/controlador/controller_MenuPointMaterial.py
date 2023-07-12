@@ -35,6 +35,10 @@ class ControllerMenuPointMaterial():
         self.model_current_project = model_current_project
 
     def configDrawMenuPointMaterial(self):
+
+        self.view_menu_pointMaterial.removeCardMaterialPoint()
+        self.list_controller_card =[]
+        
         models_points_materials = self.model_current_project.getModelsPointsMaterials()
         for id_point_material in models_points_materials:
             self.createPointsMaterialsCard(models_points_materials[id_point_material])        

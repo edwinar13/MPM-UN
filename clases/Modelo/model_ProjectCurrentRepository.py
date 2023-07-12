@@ -268,10 +268,7 @@ class ModelProjectCurrentRepository():
 	# ::::::::::::::::::::        MÉTODOS DB MALLA       ::::::::::::::::::::
 	############################################################################### 
 
-
-
     # ::::::::::::::::::::        MALLA DE FONDO       ::::::::::::::::::::
-
     def readMeshBackDB(self):
         """
         Lee la malla de fondo almacenadas en la base de datos del proyecto actual.
@@ -303,7 +300,6 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al actualizar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-
     
     # ::::::::::::::::::::        TRIANGULARES       ::::::::::::::::::::
     def createMeshTriangularDB(self, id_Mesh, name, color, points, triangles):
@@ -371,7 +367,6 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False   
-
    
     # ::::::::::::::::::::        CUADRILATEROS       ::::::::::::::::::::
     def createMeshQuadrilateralDB(self, id_Mesh,  name, color, points, quadrilaterals):
@@ -442,9 +437,7 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
 
-    ###############################################################################
-	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::
-	###############################################################################   
+	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
     def createMaterialPointDB(self, id_MP, name, color, points):    
         
         #try:                 
@@ -462,7 +455,7 @@ class ModelProjectCurrentRepository():
             return False    
         '''
     
-    def readMaterialPointhDB(self):
+    def readMaterialPointDB(self):
         """
         Lee los puntos materiales almacenados en la base de datos del proyecto actual.
         Returns:
@@ -493,6 +486,75 @@ class ModelProjectCurrentRepository():
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        
+	# ::::::::::::::::::::       MÉTODOS DB PROPIEDADES     ::::::::::::::::::::   
+    def createPropertiesDB(self, id_properties, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, angle_dilatancy):    
+        
+        try:                 
+            self.__unguarded_copy_db_project['MATERIALES'][id_properties] = {
+                "NAME": name,
+                "MODULOELASTICIDAD": modulus_elasticity,
+                "RELACIONPOISSON": poisson_ratio,
+                "COHESION": cohesion,
+                "ANGULOFRICCION": friction_angle,
+                "ANGULODILATANCIA": angle_dilatancy
+            }
+            
+            return True
+        
+        except BaseException as err:
+            print("[Doc: {}] Error al agregar registro en <MATERIALES> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+       
+    def readPropertiesDB(self):
+        """
+        Lee los puntos materiales almacenados en la base de datos del proyecto actual.
+        Returns:
+            (dict): Diccionario con los puntos materiales del proyecto.
+        """ 
+        return self.__unguarded_copy_db_project['MATERIALES']
+    
+    def updatePropertiesDB(self,id_properties, 
+                           name=None, 
+                           modulus_elasticity=None,
+                           poisson_ratio=None,
+                           cohesion=None,
+                           friction_angle=None,
+                           angle_dilatancy=None):
+
+        try: 
+            if id_properties in self.__unguarded_copy_db_project['MATERIALES']: 
+                if name != None:                      
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["NAME"]=name
+
+                if modulus_elasticity != None:   
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["MODULOELASTICIDAD"]=modulus_elasticity
+                if poisson_ratio != None:   
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["RELACIONPOISSON"]=poisson_ratio
+                if cohesion != None:   
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["COHESION"]=cohesion
+                if friction_angle != None:   
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULOFRICCION"]=friction_angle
+                if angle_dilatancy != None:   
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULODILATANCIA"]=angle_dilatancy
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <MATERIALES> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def deletePropertiesDB(self, id_properties):
+
+        try:            
+            if id_properties in self.__unguarded_copy_db_project['MATERIALES']:
+                del self.__unguarded_copy_db_project['MATERIALES'][id_properties]             
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <MATERIALES> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
         

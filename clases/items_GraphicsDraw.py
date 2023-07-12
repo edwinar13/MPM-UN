@@ -96,7 +96,6 @@ class TextFrameItem(TextItem):
         painter.setPen(self.pen)
         painter.drawText(text_rect, Qt.AlignCenter, self.text)
 
-
 class PointItem(QGraphicsItem):
     """
     PointItem es una clase que hereda de QGraphicsItem y representa un punto en una escena.
@@ -231,6 +230,63 @@ class PointItem(QGraphicsItem):
 
         return
 
+class PointMeshBackItem(QGraphicsItem):
+
+
+    SIZE = 3
+    COLOR = QColor("#aaaaaa")
+
+
+    def __init__(self, name:str, coordinatesX, coordinatesY ):
+        QGraphicsItem.__init__(self)
+        
+        '''
+        self.setFlags(
+            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable )
+        '''
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+
+        self.name = name
+        self.coor = QPointF(coordinatesX, coordinatesY)
+
+
+        self.color = self.COLOR
+        self.size = self.SIZE
+        self.setPos(self.coor)
+        self.isSelected = False
+
+        
+        self.pen = QPen(self.color, 0)
+
+        self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.DashLine)
+        self.pen_selected.setCosmetic(True)
+        self.pen_selected.setWidthF(0.5)
+
+    def __str__ (self):
+        return "nodo: {}".format(self.name)
+
+
+    def getPoint(self):
+        return self.coor
+
+
+
+    def boundingRect(self) -> QRectF:
+        size = self.size/2
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        if self.isSelected:
+            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
+            painter.setPen(self.pen_selected)
+            painter.drawRect(-5, -5, 10, 10)
+
+        else:
+            painter.setPen(self.pen)
+            painter.drawRect(self.boundingRect())
+        return
+
 class LineItem(QGraphicsItem):
     """
     LineItem es una clase que hereda de QGraphicsItem y representa una línea en una escena.
@@ -250,7 +306,7 @@ class LineItem(QGraphicsItem):
         
     """
     TYPE = "Line"
-    WIDTH = 2
+    WIDTH = 5
     COLOR = Qt.black
 
     def __init__(self, id, name: str, start_point: PointItem, end_point: PointItem, text_name:TextItem):
@@ -426,7 +482,7 @@ class TriangleMeshItem(QGraphicsItem):
         
         self.pen = QPen(QColor(self.color), self.width, Qt.DashLine)
         self.pen.setCosmetic(True)
-        self.pen.setWidthF(0.5)
+        self.pen.setWidthF(1.5)
     
     def generatePath(self):
         self.path = QPainterPath()
@@ -495,17 +551,18 @@ class QuadrilateraLMeshItem(QGraphicsItem):
         
         self.pen = QPen(QColor(self.color), self.width, Qt.DashLine)
         self.pen.setCosmetic(True)
-        self.pen.setWidthF(0.5)
+        self.pen.setWidthF(1.5)
     
     def generatePath(self):
         self.path = QPainterPath()
         points = []
-        
+
         for point in self.coordinates:
             point = QPointF(point[0], point[1])
             points.append(point)
         points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
         self.path.addPolygon(QPolygonF(points))
+
 
     def setColor(self, color):
         self.color = color
@@ -550,11 +607,16 @@ class QuadrilateraLMeshBackItem(QGraphicsItem):
     WIDTH = 0
 
 
-    def __init__(self, color:str, coordinates:list):
+    def __init__(self, color:str, coordinates:list, p1:PointMeshBackItem ,
+                 p2:PointMeshBackItem, p3:PointMeshBackItem, p4:PointMeshBackItem ):
         QGraphicsItem.__init__(self)
 
         self.color = color
         self.coordinates = coordinates
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+        self.p4 = p4
 
         self.width = self.WIDTH
         self.isSelected = False
@@ -564,16 +626,25 @@ class QuadrilateraLMeshBackItem(QGraphicsItem):
         
         self.pen = QPen(QColor(self.color), self.width, Qt.SolidLine)
         self.pen.setCosmetic(True)
-        self.pen.setWidthF(1.1)
+        self.pen.setWidthF(1.5)
     
     def generatePath(self):
         self.path = QPainterPath()
-        points = []
+        points = [] 
+        points.append(self.p1.getPoint())
+        points.append(self.p2.getPoint())
+        points.append(self.p3.getPoint())
+        points.append(self.p4.getPoint())
+        points.append(self.p1.getPoint())
         
+        '''
         for point in self.coordinates:
             point = QPointF(point[0], point[1])
             points.append(point)
         points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
+        '''
+
+
         self.path.addPolygon(QPolygonF(points))
 
     def setColor(self, color):
@@ -600,6 +671,52 @@ class QuadrilateraLMeshBackItem(QGraphicsItem):
         painter.setPen(self.pen)        
         painter.drawPath(self.path)   
 
+class RectMeshBackItem(QGraphicsRectItem):
+ 
+    def __init__(self,  name:str, p1:QPointF, p2:QPointF):
+        super(RectItem, self).__init__()
+        '''
+        self.setFlags(
+            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
+        '''
+        self.name = name
+        self.p1 = p1
+        self.p2 = p2        
+       
+        self.setRect(QRectF(self.p1, self.p2))
+        self.isSelected = False
+
+
+    
+    def __str__ (self):
+        return str(self.getData())
+
+    def getName(self):
+        return self.name
+
+    
+    def newPos(self, dx, dy):
+        self.p1 = QPointF(self.p1.x()+dx, self.p1.y()+dy)
+        self.p2 = QPointF(self.p2.x()+dx, self.p2.y()+dy)
+
+    def getData(self):
+        data = {
+            'name': self.name,
+            'p1': [self.p1.x(), self.p1.y()],
+            'p2': [self.p2.x(), self.p2.y()]
+            }
+        return data
+        
+
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        
+        self.setPen(QPen(QColor("#ebdd21"), 0, Qt.SolidLine))  
+
+        if self.isSelected == True:
+            self.setPen(QPen(QColor("#3AA3AA"), 0, Qt.SolidLine))
+
+        return super().paint(painter, option, widget)
 
 
 
@@ -686,6 +803,7 @@ class RectItem(QGraphicsRectItem):
 
     def getType(self):
         return self.TYPE
+    
     def newPos(self, dx, dy):
         self.p1 = QPointF(self.p1.x()+dx, self.p1.y()+dy)
         self.p2 = QPointF(self.p2.x()+dx, self.p2.y()+dy)

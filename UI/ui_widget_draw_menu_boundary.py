@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_boundaryYUwrID.ui'
+## Form generated from reading UI file 'widget_draw_menu_boundaryOHOwZS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -15,7 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFormLayout, QFrame,
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFormLayout, QFrame,
     QHBoxLayout, QLabel, QLineEdit, QScrollArea,
     QSizePolicy, QSpacerItem, QToolButton, QVBoxLayout,
     QWidget)
@@ -24,7 +24,7 @@ class Ui_FormDrawMenuBoundary(object):
     def setupUi(self, FormDrawMenuBoundary):
         if not FormDrawMenuBoundary.objectName():
             FormDrawMenuBoundary.setObjectName(u"FormDrawMenuBoundary")
-        FormDrawMenuBoundary.resize(350, 644)
+        FormDrawMenuBoundary.resize(350, 782)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -95,7 +95,7 @@ class Ui_FormDrawMenuBoundary(object):
 "\n"
 "\n"
 "/*#################################################################*/\n"
-"/*####################       FRAME MESH       ###########################*/\n"
+"/*####################       FRAME boundary       ###########################*/\n"
 "/*#################################################################*/\n"
 "QFrame#frame_boundary{\n"
 "background: transparent;\n"
@@ -104,130 +104,40 @@ class Ui_FormDrawMenuBoundary(object):
 "background: #222222;\n"
 "border-top-right-radius: 8px;\n"
 "}\n"
-"QLabel#label_cardMeshTitle{\n"
+"QLabel#label_cardBoundaryTitle{\n"
 "font: 700 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "}\n"
-"QFrame#frame_meshSubTitle1,\n"
-"QFrame#frame_meshSubTitle2,\n"
-"QFrame#fram"
-                        "e_meshSubTitle3{\n"
+"QFrame#frame_boundarySubTitle0,\n"
+"QFrame#frame_boundarySubTitle1,"
+                        "\n"
+"QFrame#frame_boundarySubTitle2,\n"
+"QFrame#frame_boundarySubTitle3{\n"
 "background: #222222;\n"
 "border-radius:2px;\n"
 "}\n"
-"QLabel#label_cardMeshSubTitle1,\n"
-"QLabel#label_cardMeshSubTitle2,\n"
-"QLabel#label_cardMeshSubTitle3{\n"
-"font: 500 9pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"}\n"
-"QToolButton#toolButton_cardMeshSubTitle1,\n"
-"QToolButton#toolButton_cardMeshSubTitle2,\n"
-"QToolButton#toolButton_cardMeshSubTitle3{\n"
-"background-color: transparent;\n"
-"}\n"
+"\n"
 "\n"
 "\n"
 "/*###########################################################################*/\n"
 "/*################      FRAME MALLA REGULAR CUADRIL\u00c1TERO       ######################*/\n"
 "/*###########################################################################*/\n"
 "\n"
-"QToolButton#toolButton_cardMeshDraw1,\n"
-"QToolButton#toolButton_cardMeshDraw2,\n"
-"QToolButton#toolButton_cardMeshDraw3,\n"
-"QToolButton#toolButton_cardMeshDraw8,\n"
-"QToolButton#toolButton_cardMeshDraw9,\n"
-"QToolButton#toolButton_cardMeshDraw10,\n"
-"QToolButton#toolButton_cardMeshDraw11{\n"
-"background-color: transparent;\n"
-""
-                        "border: 1px solid #222222;\n"
-"border-radius: 3px ;\n"
-"}\n"
-"QToolButton#toolButton_cardMeshDraw1:hover,\n"
-"QToolButton#toolButton_cardMeshDraw2:hover, \n"
-"QToolButton#toolButton_cardMeshDraw3:hover, \n"
-"QToolButton#toolButton_cardMeshDraw8:hover, \n"
-"QToolButton#toolButton_cardMeshDraw9:hover, \n"
-"QToolButton#toolButton_cardMeshDraw10:hover, \n"
-"QToolButton#toolButton_cardMeshDraw11:hover{ \n"
-"background-color: #444444;\n"
-"}\n"
-"QToolButton#toolButton_cardMeshDraw1:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw2:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw3:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw8:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw9:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw10:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw11:pressed{\n"
-"border-top: 2px solid #222222;\n"
-"border-left: 2px solid #222222;\n"
-"}  \n"
 "\n"
 "\n"
 "\n"
-"/*******************************************/\n"
-"QLabel#label_textMesh1,\n"
-"QLabel#label_textMesh2,\n"
-"QLabel#label_textMesh3,\n"
-"QL"
-                        "abel#label_textMesh4,\n"
-"QLabel#label_textMesh5{\n"
-"font: 300 9pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"}\n"
-"\n"
-"\n"
-"#doubleSpinBoxl_textMesh4,\n"
-"QLineEdit#lineEdit_textMesh1,\n"
-"QLineEdit#lineEdit_textMesh4{\n"
-"font: 9pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"background-color: #444444;\n"
-"border-radius: 2px ;\n"
-"padding-right: 6px;\n"
-"padding-left: 6px;\n"
-"\n"
-"}\n"
-"\n"
-"\n"
-"QLineEdit#lineEdit_textMesh2,\n"
-"QLineEdit#lineEdit_textMesh5{\n"
-"font: 9pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"background-color: #333333;\n"
-"border: 1px solid #444444;\n"
-"border-radius: 2px ;\n"
-"padding-right: 6px;\n"
-"padding-left: 6px;\n"
-"\n"
-"}\n"
 "\n"
 "\n"
 "\n"
-"QLineEdit#lineEdit_textMesh3{\n"
-"font: 7pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"background-color: #333333;\n"
-"border: 1px solid #444444;\n"
-"border-radius: 2px ;\n"
-"padding-right: 2px;\n"
-"padding-left: 2px;\n"
-"\n"
-"}\n"
 "\n"
 "\n"
 "\n"
-"QLineEdit#lineEdit_textMesh3,\n"
-"QLineEdit#lineEdit_textMesh5{\n"
-"color: #888888;\n"
-"}\n"
 "\n"
 "\n"
-"QToolButton#toolBu"
-                        "tton_cardMeshDraw7,\n"
-"QToolButton#toolButton_cardMeshDraw5,\n"
-"QToolButton#toolButton_cardMeshDraw6{\n"
+"\n"
+"QToolButton#toolButton_cardBoundaryDraw7,\n"
+"QToolButton#toolButton_cardBoundaryDraw5,\n"
+"QToolButton#toolButton_cardBoundaryDraw6{\n"
 "background-color: transparent;\n"
 "border: 1px solid #222222;\n"
 "border-radius: 3px;\n"
@@ -235,42 +145,29 @@ class Ui_FormDrawMenuBoundary(object):
 "}\n"
 "\n"
 "\n"
-"QToolButton#toolButton_cardMeshDraw7:hover,\n"
-"QToolButton#toolButton_cardMeshDraw5:hover, \n"
-"QToolButton#toolButton_cardMeshDraw6:hover{ \n"
+"QToolButton#toolButton_cardBoundaryDraw7:hover,\n"
+"QToolButton#toolButton_cardBoundaryDraw5:hover, \n"
+"QToolButton#toolButton_cardBoundaryDraw6:hover{ \n"
 "background-color: #444444;\n"
 "}\n"
-"QToolButton#toolButton_cardMeshDraw7:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw5:pressed,\n"
-"QToolButton#toolButton_cardMeshDraw6:pressed{\n"
+"QToolButton#toolButton_cardBoundaryDraw7:pressed,\n"
+"QToolButton#toolButton_cardBoundar"
+                        "yDraw5:pressed,\n"
+"QToolButton#toolButton_cardBoundaryDraw6:pressed{\n"
 "border-top: 2px solid #222222;\n"
 "border-left: 2px solid #222222;\n"
 "}  \n"
 "\n"
 "\n"
 "\n"
-"/*******************************************/\n"
-"QToolButton#toolButton_mesh{\n"
-"font: 500 10pt \"Ubuntu\";\n"
-"color: #222222;\n"
-"background-color: #77ACA2;\n"
-"border: none;\n"
-"padding: 6px 25px;\n"
-"border-radius: 8px ;\n"
-"}\n"
-"QToolButton#toolButton_mesh:hover{\n"
-"background-color: #36C9C6;\n"
-"}\n"
 "\n"
 "\n"
-"\n"
-"/*################################"
-                        "###########################*/\n"
+"/*###########################################################*/\n"
 "/*###############          FRAME LISTA MALLAS         ##################*/\n"
 "/*###########################################################*/\n"
 "\n"
 "QScrollArea#scrollArea,\n"
-"#verticalLayout_containerCardMesh,\n"
+"#verticalLayout_containerCardBoundary,\n"
 "#scrollAreaWidgetContents{\n"
 "background-color: transparent;\n"
 "}\n"
@@ -293,7 +190,8 @@ class Ui_FormDrawMenuBoundary(object):
 "\n"
 "QScrollBar:vertical {    \n"
 "	border: none;\n"
-"    width: 14px;\n"
+"    "
+                        "width: 14px;\n"
 "	border-radius: 0px;\n"
 "	margin: 15px 0px 15px 0px;\n"
 "}\n"
@@ -304,8 +202,7 @@ class Ui_FormDrawMenuBoundary(object):
 "    background-color: #888888;\n"
 "    min-height: 14px;\n"
 "	border-radius: 7px;\n"
-"}"
-                        "\n"
+"}\n"
 "QScrollBar::handle:vertical:hover {\n"
 "    background-color: #777777;\n"
 "}\n"
@@ -339,7 +236,8 @@ class Ui_FormDrawMenuBoundary(object):
 "	border-bottom-left-radius: 7px;\n"
 "	border-bottom-right-radius: 7px;\n"
 "	height: 15px;\n"
-"	subcontrol-position: bottom;\n"
+""
+                        "	subcontrol-position: bottom;\n"
 "	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
@@ -348,8 +246,7 @@ class Ui_FormDrawMenuBoundary(object):
 "    background-color: #777777;\n"
 "}\n"
 "QScrollBar::add-line:vertical:pressed{\n"
-"   bac"
-                        "kground-color: #666666;\n"
+"   background-color: #666666;\n"
 "}\n"
 "\n"
 "\n"
@@ -384,7 +281,8 @@ class Ui_FormDrawMenuBoundary(object):
 "    background-color: #666666;\n"
 "}\n"
 "  \n"
-"QScrollBar::sub-line:horizontal{\n"
+"QScrollBar::sub-line:h"
+                        "orizontal{\n"
 "background-color: #666666;\n"
 "border: none;\n"
 "border-top-left-radius: 7px;\n"
@@ -392,8 +290,7 @@ class Ui_FormDrawMenuBoundary(object):
 "width: 15px;\n"
 "subcontrol-position: left;\n"
 "subcontrol-origin: margin;\n"
-"}"
-                        "\n"
+"}\n"
 "\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover{\n"
@@ -425,8 +322,271 @@ class Ui_FormDrawMenuBoundary(object):
 "}\n"
 "QScrollBar::add-page:horizontal,QScrollBar::sub-page:horizontal{\n"
 "background: none;\n"
+""
+                        "}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"QDoubleSpinBox[QDoubleSpinBoxStyle=\"1\"]{\n"
+"font: 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 6px;\n"
+"padding-left: 6px;\n"
+"\n"
 "}\n"
 "\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"1\"]{\n"
+"background-color: transparent;\n"
+"border: 1px solid #222222;\n"
+"border-radius: 3px;\n"
+"margin-left: 4px;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"1\"]:hover{ \n"
+"background-color: #444444;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"1\"]:pressed{\n"
+"border-top: 2px solid #222222;\n"
+"border-left: 2px solid #222222;\n"
+"}  \n"
+"\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"4\"]{\n"
+"\n"
+"background-color: #77ACA2;\n"
+"border: 1p"
+                        "x solid #222222;\n"
+"border-radius: 3px;\n"
+"margin-left: 4px;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"4\"]:hover{ \n"
+"background-color: #444444;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"4\"]:pressed{\n"
+"border-top: 2px solid #222222;\n"
+"border-left: 2px solid #222222;\n"
+"}  \n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*******************************************/\n"
+"QToolButton[QToolButtonStyle=\"2\"]{\n"
+"font: 500 10pt \"Ubuntu\";\n"
+"color: #222222;\n"
+"background-color: #77ACA2;\n"
+"border: none;\n"
+"padding: 6px 25px;\n"
+"border-radius: 8px ;\n"
+"}\n"
+"QToolButton[QToolButtonStyle=\"2\"]:hover{\n"
+"background-color: #36C9C6;\n"
+"}\n"
+"\n"
+"\n"
+"/*****************************************/\n"
+"QToolButton[QToolButtonStyle=\"3\"]{\n"
+"font: 500 10pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #910D3F;\n"
+"border: none;\n"
+"padding: 6px 5px;\n"
+"border-radius: 8px ;\n"
+"}\n"
+"QToolButton[QToolButtonStyle=\"3\"]:hover{\n"
+"background-color: #C70039;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/* \n"
+"Azules #36C9C6 #"
+                        "00BDB9 #77ACA2\n"
+"rojos #910D3F #C70039 #F94646\n"
+"naranjas #D34E24 #F28123 #F7F052\n"
+"*/\n"
+"/*******************************************/\n"
+"QToolButton[QToolButtonStyle=\"5\"],\n"
+"QToolButton[QToolButtonStyle=\"6\"],\n"
+"QToolButton[QToolButtonStyle=\"7\"],\n"
+"QToolButton[QToolButtonStyle=\"8\"] {\n"
+"    font: 500 10pt \"Ubuntu\";    \n"
+"    padding: 4px 20px;\n"
+"	border: 2px solid #C8CC8E;\n"
+"    \n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"5\"] {\n"
+"    background-color: transparent;    \n"
+"	border-top-left-radius: 10px;\n"
+"	border-top-right-radius: 0px;\n"
+"	border-bottom-right-radius: 0px;\n"
+"	border-bottom-left-radius: 10px;\n"
+"	color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"6\"] {\n"
+"    background-color: #C8CC8E;\n"
+"	border-top-left-radius: 10px;\n"
+"	border-top-right-radius: 0px;\n"
+"	border-bottom-right-radius: 0px;\n"
+"	border-bottom-left-radius: 10px;\n"
+"	color: #222222;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"7\"] {\n"
+"    background-color: transparent;\n"
+""
+                        "	border-top-left-radius: 0px;\n"
+"	border-top-right-radius: 10px;\n"
+"	border-bottom-right-radius: 10px;\n"
+"	border-bottom-left-radius: 0px;\n"
+"	color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"8\"] {\n"
+"    background-color: #C8CC8E;\n"
+"	border-top-left-radius: 0px;\n"
+"	border-top-right-radius: 10px;\n"
+"	border-bottom-right-radius: 10px;\n"
+"	border-bottom-left-radius: 0px;\n"
+"	color: #222222;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"QLineEdit[QLineEditStyle=\"1\"]{\n"
+"font: 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 6px;\n"
+"padding-left: 6px;\n"
+"\n"
+"}\n"
+"\n"
+"QLineEdit[QLineEditStyle=\"2\"]{\n"
+"font: 9pt \"Ubuntu\";\n"
+"color:"
+                        " #DDDDDD;\n"
+"background-color: #333333;\n"
+"border: 1px solid #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 6px;\n"
+"padding-left: 6px;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"QLineEdit#lineEdit_textBoundary3{\n"
+"font: 7pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"background-color: #333333;\n"
+"border: 1px solid #444444;\n"
+"border-radius: 2px ;\n"
+"padding-right: 2px;\n"
+"padding-left: 2px;\n"
+"\n"
+"}\n"
+"\n"
+"\n"
+"/*\n"
+"QLineEdit#lineEdit_textMesh3,\n"
+"QLineEdit#lineEdit_textMesh5{\n"
+"color: #888888;\n"
+"}\n"
+"*/\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QFrame          \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"QFrame[QFrameSubTitleStyle=\"1\"] {\n"
+"background: #222222;\n"
+"border-radius:2px;\n"
+"}\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"QToolButton[QToolButtonSubTitleStyle=\"1\"] {\n"
+"background-color: transparent;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"QLabel[QLabelStyle=\"1\"] {\n"
+"font: 700 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QLabel[QLabelStyle=\"2\"] {\n"
+"font: 500 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QLabel[QLabelStyle=\"3\"] {\n"
+"font: 300 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QComboBox[QComboBoxStyle=\"1\"] {\n"
+"    border: none;\n"
+"    background-color: #444444;\n"
+"	color: #DDDDDD;\n"
+"    border-radius: 2px;\n"
+"    padding: 5px;\n"
+"	font:  9pt \"Ubuntu\";\n"
+"    selection-background-color: #808080;\n"
+"}\n"
+"QComboBox[QComboBoxStyle=\"1\"] QAbstractItemView {\n"
+"    border: none;\n"
+"    background-color: #404040;\n"
+"    color: white;\n"
+"    selection-background-color: #808080;\n"
+"    font: 700 9pt \"Ubuntu\";\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QCheckBox[QCheckBoxStyle=\"1\"] {\n"
+"    \n"
+"    background-color: #444444;\n"
+"	color: #DDDDDD;\n"
+"    padding"
+                        ": 5px;\n"
+"	font:  9pt \"Ubuntu\";\n"
+"    selection-background-color: #808080;\n"
+"}\n"
 "")
         self.horizontalLayout_6 = QHBoxLayout(FormDrawMenuBoundary)
         self.horizontalLayout_6.setSpacing(0)
@@ -526,10 +686,11 @@ class Ui_FormDrawMenuBoundary(object):
         self.frame_title.setLineWidth(0)
         self.horizontalLayout_2 = QHBoxLayout(self.frame_title)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label_cardMeshTitle = QLabel(self.frame_title)
-        self.label_cardMeshTitle.setObjectName(u"label_cardMeshTitle")
+        self.label_cardBoundaryTitle = QLabel(self.frame_title)
+        self.label_cardBoundaryTitle.setObjectName(u"label_cardBoundaryTitle")
+        self.label_cardBoundaryTitle.setProperty("QLabelStyle", 1)
 
-        self.horizontalLayout_2.addWidget(self.label_cardMeshTitle)
+        self.horizontalLayout_2.addWidget(self.label_cardBoundaryTitle)
 
         self.horizontalSpacer = QSpacerItem(58, 7, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -544,42 +705,254 @@ class Ui_FormDrawMenuBoundary(object):
         self.frame_info.setFrameShadow(QFrame.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_info)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.frame_meshSubTitle2 = QFrame(self.frame_info)
-        self.frame_meshSubTitle2.setObjectName(u"frame_meshSubTitle2")
-        self.frame_meshSubTitle2.setFrameShape(QFrame.StyledPanel)
-        self.frame_meshSubTitle2.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_meshSubTitle2)
+        self.frame_boundarySubTitle0 = QFrame(self.frame_info)
+        self.frame_boundarySubTitle0.setObjectName(u"frame_boundarySubTitle0")
+        self.frame_boundarySubTitle0.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundarySubTitle0.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_16 = QHBoxLayout(self.frame_boundarySubTitle0)
+        self.horizontalLayout_16.setSpacing(0)
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalLayout_16.setContentsMargins(10, 0, 0, 0)
+        self.label_cardBoundarySubTitle0 = QLabel(self.frame_boundarySubTitle0)
+        self.label_cardBoundarySubTitle0.setObjectName(u"label_cardBoundarySubTitle0")
+        self.label_cardBoundarySubTitle0.setMinimumSize(QSize(262, 0))
+        self.label_cardBoundarySubTitle0.setProperty("QLabelStyle", 2)
+
+        self.horizontalLayout_16.addWidget(self.label_cardBoundarySubTitle0)
+
+        self.toolButton_cardBoundarySubTitle0 = QToolButton(self.frame_boundarySubTitle0)
+        self.toolButton_cardBoundarySubTitle0.setObjectName(u"toolButton_cardBoundarySubTitle0")
+        icon1 = QIcon()
+        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardBoundarySubTitle0.setIcon(icon1)
+        self.toolButton_cardBoundarySubTitle0.setArrowType(Qt.NoArrow)
+        self.toolButton_cardBoundarySubTitle0.setProperty("QToolButtonSubTitleStyle", 1)
+
+        self.horizontalLayout_16.addWidget(self.toolButton_cardBoundarySubTitle0)
+
+
+        self.verticalLayout_5.addWidget(self.frame_boundarySubTitle0)
+
+        self.frame_boundary2_2 = QFrame(self.frame_info)
+        self.frame_boundary2_2.setObjectName(u"frame_boundary2_2")
+        sizePolicy1.setHeightForWidth(self.frame_boundary2_2.sizePolicy().hasHeightForWidth())
+        self.frame_boundary2_2.setSizePolicy(sizePolicy1)
+        self.frame_boundary2_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundary2_2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_7 = QVBoxLayout(self.frame_boundary2_2)
+        self.verticalLayout_7.setSpacing(8)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.frame_4 = QFrame(self.frame_boundary2_2)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setStyleSheet(u"")
+        self.frame_4.setFrameShape(QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QFrame.Raised)
+        self.formLayout_4 = QFormLayout(self.frame_4)
+        self.formLayout_4.setObjectName(u"formLayout_4")
+        self.formLayout_4.setHorizontalSpacing(0)
+        self.formLayout_4.setVerticalSpacing(6)
+        self.formLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.label_textBoundary1_2 = QLabel(self.frame_4)
+        self.label_textBoundary1_2.setObjectName(u"label_textBoundary1_2")
+        self.label_textBoundary1_2.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary1_2.setProperty("QLabelStyle", 3)
+        self.label_textBoundary1_2.setProperty("QCheckBoxStyle", 1)
+
+        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_textBoundary1_2)
+
+        self.label_textBoundary2_2 = QLabel(self.frame_4)
+        self.label_textBoundary2_2.setObjectName(u"label_textBoundary2_2")
+        self.label_textBoundary2_2.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary2_2.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_textBoundary2_2)
+
+        self.label_textBoundary2_3 = QLabel(self.frame_4)
+        self.label_textBoundary2_3.setObjectName(u"label_textBoundary2_3")
+        self.label_textBoundary2_3.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary2_3.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(2, QFormLayout.LabelRole, self.label_textBoundary2_3)
+
+        self.frame_2 = QFrame(self.frame_4)
+        self.frame_2.setObjectName(u"frame_2")
+        sizePolicy1.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
+        self.frame_2.setSizePolicy(sizePolicy1)
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_17 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_17.setSpacing(0)
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
+        self.checkBox = QCheckBox(self.frame_2)
+        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_17.addWidget(self.checkBox)
+
+        self.checkBox_2 = QCheckBox(self.frame_2)
+        self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_2.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_17.addWidget(self.checkBox_2)
+
+
+        self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.frame_2)
+
+        self.label_textBoundary2_4 = QLabel(self.frame_4)
+        self.label_textBoundary2_4.setObjectName(u"label_textBoundary2_4")
+        self.label_textBoundary2_4.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary2_4.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(3, QFormLayout.LabelRole, self.label_textBoundary2_4)
+
+        self.frame_5 = QFrame(self.frame_4)
+        self.frame_5.setObjectName(u"frame_5")
+        sizePolicy1.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
+        self.frame_5.setSizePolicy(sizePolicy1)
+        self.frame_5.setFrameShape(QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_19 = QHBoxLayout(self.frame_5)
+        self.horizontalLayout_19.setSpacing(0)
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
+        self.horizontalLayout_19.setContentsMargins(0, 0, 0, 0)
+        self.checkBox_3 = QCheckBox(self.frame_5)
+        self.checkBox_3.setObjectName(u"checkBox_3")
+        self.checkBox_3.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_19.addWidget(self.checkBox_3)
+
+        self.checkBox_4 = QCheckBox(self.frame_5)
+        self.checkBox_4.setObjectName(u"checkBox_4")
+        self.checkBox_4.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_19.addWidget(self.checkBox_4)
+
+
+        self.formLayout_4.setWidget(2, QFormLayout.FieldRole, self.frame_5)
+
+        self.frame_6 = QFrame(self.frame_4)
+        self.frame_6.setObjectName(u"frame_6")
+        sizePolicy1.setHeightForWidth(self.frame_6.sizePolicy().hasHeightForWidth())
+        self.frame_6.setSizePolicy(sizePolicy1)
+        self.frame_6.setFrameShape(QFrame.StyledPanel)
+        self.frame_6.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_20 = QHBoxLayout(self.frame_6)
+        self.horizontalLayout_20.setSpacing(0)
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.checkBox_5 = QCheckBox(self.frame_6)
+        self.checkBox_5.setObjectName(u"checkBox_5")
+        self.checkBox_5.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_20.addWidget(self.checkBox_5)
+
+        self.checkBox_6 = QCheckBox(self.frame_6)
+        self.checkBox_6.setObjectName(u"checkBox_6")
+        self.checkBox_6.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_20.addWidget(self.checkBox_6)
+
+
+        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.frame_6)
+
+        self.frame_7 = QFrame(self.frame_4)
+        self.frame_7.setObjectName(u"frame_7")
+        sizePolicy1.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
+        self.frame_7.setSizePolicy(sizePolicy1)
+        self.frame_7.setFrameShape(QFrame.StyledPanel)
+        self.frame_7.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_21 = QHBoxLayout(self.frame_7)
+        self.horizontalLayout_21.setSpacing(0)
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
+        self.checkBox_7 = QCheckBox(self.frame_7)
+        self.checkBox_7.setObjectName(u"checkBox_7")
+        self.checkBox_7.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_21.addWidget(self.checkBox_7)
+
+        self.checkBox_8 = QCheckBox(self.frame_7)
+        self.checkBox_8.setObjectName(u"checkBox_8")
+        self.checkBox_8.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_21.addWidget(self.checkBox_8)
+
+
+        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.frame_7)
+
+
+        self.verticalLayout_7.addWidget(self.frame_4)
+
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setSpacing(6)
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_18.addItem(self.horizontalSpacer_7)
+
+        self.toolButton_boundaryCancel_2 = QToolButton(self.frame_boundary2_2)
+        self.toolButton_boundaryCancel_2.setObjectName(u"toolButton_boundaryCancel_2")
+        self.toolButton_boundaryCancel_2.setMinimumSize(QSize(80, 0))
+        self.toolButton_boundaryCancel_2.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_boundaryCancel_2.setProperty("QToolButtonStyle", 3)
+
+        self.horizontalLayout_18.addWidget(self.toolButton_boundaryCancel_2)
+
+        self.toolButton_boundaryMeshing_2 = QToolButton(self.frame_boundary2_2)
+        self.toolButton_boundaryMeshing_2.setObjectName(u"toolButton_boundaryMeshing_2")
+        self.toolButton_boundaryMeshing_2.setMinimumSize(QSize(150, 0))
+        self.toolButton_boundaryMeshing_2.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_boundaryMeshing_2.setProperty("QToolButtonStyle", 2)
+
+        self.horizontalLayout_18.addWidget(self.toolButton_boundaryMeshing_2)
+
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_18.addItem(self.horizontalSpacer_8)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_18)
+
+
+        self.verticalLayout_5.addWidget(self.frame_boundary2_2)
+
+        self.frame_boundarySubTitle1 = QFrame(self.frame_info)
+        self.frame_boundarySubTitle1.setObjectName(u"frame_boundarySubTitle1")
+        self.frame_boundarySubTitle1.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundarySubTitle1.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_boundarySubTitle1)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(10, 0, 0, 0)
-        self.label_cardMeshSubTitle2 = QLabel(self.frame_meshSubTitle2)
-        self.label_cardMeshSubTitle2.setObjectName(u"label_cardMeshSubTitle2")
-        self.label_cardMeshSubTitle2.setMinimumSize(QSize(262, 0))
+        self.label_cardBoundarySubTitle1 = QLabel(self.frame_boundarySubTitle1)
+        self.label_cardBoundarySubTitle1.setObjectName(u"label_cardBoundarySubTitle1")
+        self.label_cardBoundarySubTitle1.setMinimumSize(QSize(262, 0))
+        self.label_cardBoundarySubTitle1.setProperty("QLabelStyle", 2)
 
-        self.horizontalLayout_3.addWidget(self.label_cardMeshSubTitle2)
+        self.horizontalLayout_3.addWidget(self.label_cardBoundarySubTitle1)
 
-        self.toolButton_cardMeshSubTitle2 = QToolButton(self.frame_meshSubTitle2)
-        self.toolButton_cardMeshSubTitle2.setObjectName(u"toolButton_cardMeshSubTitle2")
-        icon1 = QIcon()
-        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshSubTitle2.setIcon(icon1)
-        self.toolButton_cardMeshSubTitle2.setArrowType(Qt.NoArrow)
+        self.toolButton_cardBoundarySubTitle1 = QToolButton(self.frame_boundarySubTitle1)
+        self.toolButton_cardBoundarySubTitle1.setObjectName(u"toolButton_cardBoundarySubTitle1")
+        self.toolButton_cardBoundarySubTitle1.setIcon(icon1)
+        self.toolButton_cardBoundarySubTitle1.setArrowType(Qt.NoArrow)
+        self.toolButton_cardBoundarySubTitle1.setProperty("QToolButtonSubTitleStyle", 1)
 
-        self.horizontalLayout_3.addWidget(self.toolButton_cardMeshSubTitle2)
+        self.horizontalLayout_3.addWidget(self.toolButton_cardBoundarySubTitle1)
 
 
-        self.verticalLayout_5.addWidget(self.frame_meshSubTitle2)
+        self.verticalLayout_5.addWidget(self.frame_boundarySubTitle1)
 
-        self.frame_mesh2 = QFrame(self.frame_info)
-        self.frame_mesh2.setObjectName(u"frame_mesh2")
-        sizePolicy1.setHeightForWidth(self.frame_mesh2.sizePolicy().hasHeightForWidth())
-        self.frame_mesh2.setSizePolicy(sizePolicy1)
-        self.frame_mesh2.setFrameShape(QFrame.StyledPanel)
-        self.frame_mesh2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_6 = QVBoxLayout(self.frame_mesh2)
-        self.verticalLayout_6.setSpacing(20)
+        self.frame_boundary2 = QFrame(self.frame_info)
+        self.frame_boundary2.setObjectName(u"frame_boundary2")
+        sizePolicy1.setHeightForWidth(self.frame_boundary2.sizePolicy().hasHeightForWidth())
+        self.frame_boundary2.setSizePolicy(sizePolicy1)
+        self.frame_boundary2.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundary2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_6 = QVBoxLayout(self.frame_boundary2)
+        self.verticalLayout_6.setSpacing(15)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.frame_3 = QFrame(self.frame_mesh2)
+        self.frame_3 = QFrame(self.frame_boundary2)
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setStyleSheet(u"")
         self.frame_3.setFrameShape(QFrame.StyledPanel)
@@ -589,152 +962,85 @@ class Ui_FormDrawMenuBoundary(object):
         self.formLayout_3.setHorizontalSpacing(0)
         self.formLayout_3.setVerticalSpacing(6)
         self.formLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.label_textMesh1 = QLabel(self.frame_3)
-        self.label_textMesh1.setObjectName(u"label_textMesh1")
-        self.label_textMesh1.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary1 = QLabel(self.frame_3)
+        self.label_textBoundary1.setObjectName(u"label_textBoundary1")
+        self.label_textBoundary1.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary1.setProperty("QLabelStyle", 3)
 
-        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_textMesh1)
+        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_textBoundary1)
 
-        self.label_textMesh2 = QLabel(self.frame_3)
-        self.label_textMesh2.setObjectName(u"label_textMesh2")
-        self.label_textMesh2.setMinimumSize(QSize(110, 0))
+        self.lineEdit_textBoundaryName = QLineEdit(self.frame_3)
+        self.lineEdit_textBoundaryName.setObjectName(u"lineEdit_textBoundaryName")
+        self.lineEdit_textBoundaryName.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textBoundaryName.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textBoundaryName.setProperty("QLineEditStyle", 1)
 
-        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_textMesh2)
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.lineEdit_textBoundaryName)
 
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setSpacing(0)
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.lineEdit_textMesh2 = QLineEdit(self.frame_3)
-        self.lineEdit_textMesh2.setObjectName(u"lineEdit_textMesh2")
-        self.lineEdit_textMesh2.setEnabled(False)
-        self.lineEdit_textMesh2.setMinimumSize(QSize(120, 25))
-        self.lineEdit_textMesh2.setMaximumSize(QSize(16777215, 16777215))
-        palette = QPalette()
-        brush = QBrush(QColor(221, 221, 221, 255))
-        brush.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
-        brush1 = QBrush(QColor(51, 51, 51, 255))
-        brush1.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Active, QPalette.Button, brush1)
-        palette.setBrush(QPalette.Active, QPalette.Text, brush)
-        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush)
-        palette.setBrush(QPalette.Active, QPalette.Base, brush1)
-        palette.setBrush(QPalette.Active, QPalette.Window, brush1)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush)
-#endif
-        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
-        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
-        palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush)
-#endif
-        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
-        palette.setBrush(QPalette.Disabled, QPalette.Text, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
-        palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush)
-#endif
-        self.lineEdit_textMesh2.setPalette(palette)
-        self.lineEdit_textMesh2.setStyleSheet(u"")
+        self.label_textBoundary4 = QLabel(self.frame_3)
+        self.label_textBoundary4.setObjectName(u"label_textBoundary4")
+        self.label_textBoundary4.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary4.setProperty("QLabelStyle", 3)
 
-        self.horizontalLayout_9.addWidget(self.lineEdit_textMesh2)
-
-        self.toolButton_cardMeshDraw7 = QToolButton(self.frame_3)
-        self.toolButton_cardMeshDraw7.setObjectName(u"toolButton_cardMeshDraw7")
-        icon2 = QIcon()
-        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw7.setIcon(icon2)
-        self.toolButton_cardMeshDraw7.setIconSize(QSize(20, 20))
-        self.toolButton_cardMeshDraw7.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_9.addWidget(self.toolButton_cardMeshDraw7)
-
-
-        self.formLayout_3.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_9)
-
-        self.label_textMesh3 = QLabel(self.frame_3)
-        self.label_textMesh3.setObjectName(u"label_textMesh3")
-        self.label_textMesh3.setMinimumSize(QSize(110, 0))
-
-        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_textMesh3)
-
-        self.lineEdit_textMesh1 = QLineEdit(self.frame_3)
-        self.lineEdit_textMesh1.setObjectName(u"lineEdit_textMesh1")
-        self.lineEdit_textMesh1.setMinimumSize(QSize(150, 25))
-        self.lineEdit_textMesh1.setMaximumSize(QSize(16777215, 16777215))
-
-        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.lineEdit_textMesh1)
-
-        self.frame = QFrame(self.frame_3)
-        self.frame.setObjectName(u"frame")
-        sizePolicy1.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy1)
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_10 = QHBoxLayout(self.frame)
-        self.horizontalLayout_10.setSpacing(0)
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
-        self.doubleSpinBoxl_textMesh4 = QDoubleSpinBox(self.frame)
-        self.doubleSpinBoxl_textMesh4.setObjectName(u"doubleSpinBoxl_textMesh4")
-        self.doubleSpinBoxl_textMesh4.setEnabled(True)
-        self.doubleSpinBoxl_textMesh4.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textMesh4.setDecimals(2)
-        self.doubleSpinBoxl_textMesh4.setMinimum(0.010000000000000)
-        self.doubleSpinBoxl_textMesh4.setSingleStep(0.010000000000000)
-        self.doubleSpinBoxl_textMesh4.setValue(1.000000000000000)
-
-        self.horizontalLayout_10.addWidget(self.doubleSpinBoxl_textMesh4)
-
-        self.toolButton_cardMeshDraw5 = QToolButton(self.frame)
-        self.toolButton_cardMeshDraw5.setObjectName(u"toolButton_cardMeshDraw5")
-        icon3 = QIcon()
-        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw5.setIcon(icon3)
-        self.toolButton_cardMeshDraw5.setIconSize(QSize(20, 20))
-        self.toolButton_cardMeshDraw5.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout_10.addWidget(self.toolButton_cardMeshDraw5)
-
-
-        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.frame)
-
-        self.label_textMesh4 = QLabel(self.frame_3)
-        self.label_textMesh4.setObjectName(u"label_textMesh4")
-        self.label_textMesh4.setMinimumSize(QSize(110, 0))
-
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_textMesh4)
+        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_textBoundary4)
 
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setSpacing(0)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.lineEdit_textMesh5 = QLineEdit(self.frame_3)
-        self.lineEdit_textMesh5.setObjectName(u"lineEdit_textMesh5")
-        self.lineEdit_textMesh5.setEnabled(False)
-        self.lineEdit_textMesh5.setMinimumSize(QSize(120, 25))
-        self.lineEdit_textMesh5.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textBoundarySelected = QLineEdit(self.frame_3)
+        self.lineEdit_textBoundarySelected.setObjectName(u"lineEdit_textBoundarySelected")
+        self.lineEdit_textBoundarySelected.setEnabled(False)
+        self.lineEdit_textBoundarySelected.setMinimumSize(QSize(120, 25))
+        self.lineEdit_textBoundarySelected.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textBoundarySelected.setProperty("QLineEditStyle", 2)
 
-        self.horizontalLayout_11.addWidget(self.lineEdit_textMesh5)
+        self.horizontalLayout_11.addWidget(self.lineEdit_textBoundarySelected)
 
-        self.toolButton_cardMeshDraw6 = QToolButton(self.frame_3)
-        self.toolButton_cardMeshDraw6.setObjectName(u"toolButton_cardMeshDraw6")
-        icon4 = QIcon()
-        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_cardMeshDraw6.setIcon(icon4)
-        self.toolButton_cardMeshDraw6.setIconSize(QSize(20, 20))
-        self.toolButton_cardMeshDraw6.setArrowType(Qt.NoArrow)
+        self.toolButton_cardBoundaryDrawSelected = QToolButton(self.frame_3)
+        self.toolButton_cardBoundaryDrawSelected.setObjectName(u"toolButton_cardBoundaryDrawSelected")
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardBoundaryDrawSelected.setIcon(icon2)
+        self.toolButton_cardBoundaryDrawSelected.setIconSize(QSize(20, 20))
+        self.toolButton_cardBoundaryDrawSelected.setArrowType(Qt.NoArrow)
+        self.toolButton_cardBoundaryDrawSelected.setProperty("QToolButtonStyle", 1)
 
-        self.horizontalLayout_11.addWidget(self.toolButton_cardMeshDraw6)
+        self.horizontalLayout_11.addWidget(self.toolButton_cardBoundaryDrawSelected)
 
 
-        self.formLayout_3.setLayout(2, QFormLayout.FieldRole, self.horizontalLayout_11)
+        self.formLayout_3.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_11)
+
+        self.label_textBoundary3 = QLabel(self.frame_3)
+        self.label_textBoundary3.setObjectName(u"label_textBoundary3")
+        self.label_textBoundary3.setMinimumSize(QSize(110, 0))
+        self.label_textBoundary3.setProperty("QLabelStyle", 3)
+
+        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_textBoundary3)
+
+        self.frame_8 = QFrame(self.frame_3)
+        self.frame_8.setObjectName(u"frame_8")
+        sizePolicy1.setHeightForWidth(self.frame_8.sizePolicy().hasHeightForWidth())
+        self.frame_8.setSizePolicy(sizePolicy1)
+        self.frame_8.setFrameShape(QFrame.StyledPanel)
+        self.frame_8.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_22 = QHBoxLayout(self.frame_8)
+        self.horizontalLayout_22.setSpacing(0)
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.checkBox_9 = QCheckBox(self.frame_8)
+        self.checkBox_9.setObjectName(u"checkBox_9")
+        self.checkBox_9.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_22.addWidget(self.checkBox_9)
+
+        self.checkBox_10 = QCheckBox(self.frame_8)
+        self.checkBox_10.setObjectName(u"checkBox_10")
+        self.checkBox_10.setProperty("QCheckBoxStyle", 1)
+
+        self.horizontalLayout_22.addWidget(self.checkBox_10)
+
+
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.frame_8)
 
 
         self.verticalLayout_6.addWidget(self.frame_3)
@@ -745,12 +1051,21 @@ class Ui_FormDrawMenuBoundary(object):
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_3)
 
-        self.toolButton_mesh = QToolButton(self.frame_mesh2)
-        self.toolButton_mesh.setObjectName(u"toolButton_mesh")
-        self.toolButton_mesh.setMinimumSize(QSize(150, 0))
-        self.toolButton_mesh.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_boundaryCancel = QToolButton(self.frame_boundary2)
+        self.toolButton_boundaryCancel.setObjectName(u"toolButton_boundaryCancel")
+        self.toolButton_boundaryCancel.setMinimumSize(QSize(80, 0))
+        self.toolButton_boundaryCancel.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_boundaryCancel.setProperty("QToolButtonStyle", 3)
 
-        self.horizontalLayout_12.addWidget(self.toolButton_mesh)
+        self.horizontalLayout_12.addWidget(self.toolButton_boundaryCancel)
+
+        self.toolButton_boundaryMeshing = QToolButton(self.frame_boundary2)
+        self.toolButton_boundaryMeshing.setObjectName(u"toolButton_boundaryMeshing")
+        self.toolButton_boundaryMeshing.setMinimumSize(QSize(150, 0))
+        self.toolButton_boundaryMeshing.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_boundaryMeshing.setProperty("QToolButtonStyle", 2)
+
+        self.horizontalLayout_12.addWidget(self.toolButton_boundaryMeshing)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -760,46 +1075,68 @@ class Ui_FormDrawMenuBoundary(object):
         self.verticalLayout_6.addLayout(self.horizontalLayout_12)
 
 
-        self.verticalLayout_5.addWidget(self.frame_mesh2)
+        self.verticalLayout_5.addWidget(self.frame_boundary2)
 
-        self.frame_meshSubTitle3 = QFrame(self.frame_info)
-        self.frame_meshSubTitle3.setObjectName(u"frame_meshSubTitle3")
-        self.frame_meshSubTitle3.setFrameShape(QFrame.StyledPanel)
-        self.frame_meshSubTitle3.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_7 = QHBoxLayout(self.frame_meshSubTitle3)
+        self.frame_boundarySubTitle2 = QFrame(self.frame_info)
+        self.frame_boundarySubTitle2.setObjectName(u"frame_boundarySubTitle2")
+        self.frame_boundarySubTitle2.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundarySubTitle2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_7 = QHBoxLayout(self.frame_boundarySubTitle2)
         self.horizontalLayout_7.setSpacing(0)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(10, 0, 0, 0)
-        self.label_cardMeshSubTitle3 = QLabel(self.frame_meshSubTitle3)
-        self.label_cardMeshSubTitle3.setObjectName(u"label_cardMeshSubTitle3")
-        self.label_cardMeshSubTitle3.setMinimumSize(QSize(262, 0))
+        self.label_cardBoundarySubTitle2 = QLabel(self.frame_boundarySubTitle2)
+        self.label_cardBoundarySubTitle2.setObjectName(u"label_cardBoundarySubTitle2")
+        self.label_cardBoundarySubTitle2.setMinimumSize(QSize(262, 0))
+        self.label_cardBoundarySubTitle2.setProperty("QLabelStyle", 2)
 
-        self.horizontalLayout_7.addWidget(self.label_cardMeshSubTitle3)
+        self.horizontalLayout_7.addWidget(self.label_cardBoundarySubTitle2)
 
-        self.toolButton_cardMeshSubTitle3 = QToolButton(self.frame_meshSubTitle3)
-        self.toolButton_cardMeshSubTitle3.setObjectName(u"toolButton_cardMeshSubTitle3")
-        self.toolButton_cardMeshSubTitle3.setIcon(icon1)
-        self.toolButton_cardMeshSubTitle3.setArrowType(Qt.NoArrow)
+        self.toolButton_showHideLabel = QToolButton(self.frame_boundarySubTitle2)
+        self.toolButton_showHideLabel.setObjectName(u"toolButton_showHideLabel")
+        icon3 = QIcon()
+        icon3.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideLabel.setIcon(icon3)
+        self.toolButton_showHideLabel.setArrowType(Qt.NoArrow)
+        self.toolButton_showHideLabel.setProperty("QToolButtonSubTitleStyle", 1)
 
-        self.horizontalLayout_7.addWidget(self.toolButton_cardMeshSubTitle3)
+        self.horizontalLayout_7.addWidget(self.toolButton_showHideLabel)
+
+        self.toolButton_showHideBoundary = QToolButton(self.frame_boundarySubTitle2)
+        self.toolButton_showHideBoundary.setObjectName(u"toolButton_showHideBoundary")
+        icon4 = QIcon()
+        icon4.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideBoundary.setIcon(icon4)
+        self.toolButton_showHideBoundary.setArrowType(Qt.NoArrow)
+        self.toolButton_showHideBoundary.setProperty("QToolButtonSubTitleStyle", 1)
+
+        self.horizontalLayout_7.addWidget(self.toolButton_showHideBoundary)
+
+        self.toolButton_cardBoundarySubTitle2 = QToolButton(self.frame_boundarySubTitle2)
+        self.toolButton_cardBoundarySubTitle2.setObjectName(u"toolButton_cardBoundarySubTitle2")
+        self.toolButton_cardBoundarySubTitle2.setIcon(icon1)
+        self.toolButton_cardBoundarySubTitle2.setArrowType(Qt.NoArrow)
+        self.toolButton_cardBoundarySubTitle2.setProperty("QToolButtonSubTitleStyle", 1)
+
+        self.horizontalLayout_7.addWidget(self.toolButton_cardBoundarySubTitle2)
 
 
-        self.verticalLayout_5.addWidget(self.frame_meshSubTitle3)
+        self.verticalLayout_5.addWidget(self.frame_boundarySubTitle2)
 
-        self.frame_mesh3 = QFrame(self.frame_info)
-        self.frame_mesh3.setObjectName(u"frame_mesh3")
+        self.frame_boundary3 = QFrame(self.frame_info)
+        self.frame_boundary3.setObjectName(u"frame_boundary3")
         sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         sizePolicy5.setHorizontalStretch(0)
         sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.frame_mesh3.sizePolicy().hasHeightForWidth())
-        self.frame_mesh3.setSizePolicy(sizePolicy5)
-        self.frame_mesh3.setMinimumSize(QSize(0, 150))
-        self.frame_mesh3.setStyleSheet(u"")
-        self.frame_mesh3.setFrameShape(QFrame.StyledPanel)
-        self.frame_mesh3.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_mesh3)
+        sizePolicy5.setHeightForWidth(self.frame_boundary3.sizePolicy().hasHeightForWidth())
+        self.frame_boundary3.setSizePolicy(sizePolicy5)
+        self.frame_boundary3.setMinimumSize(QSize(0, 150))
+        self.frame_boundary3.setStyleSheet(u"")
+        self.frame_boundary3.setFrameShape(QFrame.StyledPanel)
+        self.frame_boundary3.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_boundary3)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.scrollArea = QScrollArea(self.frame_mesh3)
+        self.scrollArea = QScrollArea(self.frame_boundary3)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setStyleSheet(u"background-color: transparent;\n"
 "border: none;")
@@ -811,9 +1148,9 @@ class Ui_FormDrawMenuBoundary(object):
         self.horizontalLayout_14.setSpacing(0)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_containerCardMesh = QVBoxLayout()
-        self.verticalLayout_containerCardMesh.setSpacing(0)
-        self.verticalLayout_containerCardMesh.setObjectName(u"verticalLayout_containerCardMesh")
+        self.verticalLayout_containerCardBoundary = QVBoxLayout()
+        self.verticalLayout_containerCardBoundary.setSpacing(0)
+        self.verticalLayout_containerCardBoundary.setObjectName(u"verticalLayout_containerCardBoundary")
         self.frame_empty = QFrame(self.scrollAreaWidgetContents)
         self.frame_empty.setObjectName(u"frame_empty")
         sizePolicy5.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
@@ -822,17 +1159,17 @@ class Ui_FormDrawMenuBoundary(object):
         self.frame_empty.setFrameShape(QFrame.StyledPanel)
         self.frame_empty.setFrameShadow(QFrame.Raised)
 
-        self.verticalLayout_containerCardMesh.addWidget(self.frame_empty)
+        self.verticalLayout_containerCardBoundary.addWidget(self.frame_empty)
 
 
-        self.horizontalLayout_14.addLayout(self.verticalLayout_containerCardMesh)
+        self.horizontalLayout_14.addLayout(self.verticalLayout_containerCardBoundary)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.horizontalLayout_13.addWidget(self.scrollArea)
 
 
-        self.verticalLayout_5.addWidget(self.frame_mesh3)
+        self.verticalLayout_5.addWidget(self.frame_boundary3)
 
         self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -873,23 +1210,39 @@ class Ui_FormDrawMenuBoundary(object):
     def retranslateUi(self, FormDrawMenuBoundary):
         FormDrawMenuBoundary.setWindowTitle(QCoreApplication.translate("FormDrawMenuBoundary", u"Form", None))
         self.toolButton_hideShow.setText("")
-        self.label_cardMeshTitle.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"CONTORNO", None))
-        self.label_cardMeshSubTitle2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"???????", None))
-        self.toolButton_cardMeshSubTitle2.setText("")
-        self.label_textMesh1.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Nombre:", None))
-        self.label_textMesh2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Color:", None))
-        self.lineEdit_textMesh2.setText("")
-        self.toolButton_cardMeshDraw7.setText("")
-        self.label_textMesh3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tama\u00f1o de la malla:", None))
-        self.lineEdit_textMesh1.setText("")
-        self.doubleSpinBoxl_textMesh4.setSuffix(QCoreApplication.translate("FormDrawMenuBoundary", u"m", None))
-        self.toolButton_cardMeshDraw5.setText("")
-        self.label_textMesh4.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Seleccionar:", None))
-        self.lineEdit_textMesh5.setText("")
-        self.toolButton_cardMeshDraw6.setText("")
-        self.toolButton_mesh.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"?????????", None))
-        self.label_cardMeshSubTitle3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Lista de contornos", None))
-        self.toolButton_cardMeshSubTitle3.setText("")
+        self.label_cardBoundaryTitle.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"CONTORNO", None))
+        self.label_cardBoundarySubTitle0.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Crear restricci\u00f3n de contorno autom\u00e1tico", None))
+        self.toolButton_cardBoundarySubTitle0.setText("")
+        self.label_textBoundary1_2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Superior:", None))
+        self.label_textBoundary2_2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Inferior:", None))
+        self.label_textBoundary2_3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Derecho:", None))
+        self.checkBox.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tx", None))
+        self.checkBox_2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Ty", None))
+        self.label_textBoundary2_4.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Izquierdo:", None))
+        self.checkBox_3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tx", None))
+        self.checkBox_4.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Ty", None))
+        self.checkBox_5.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tx", None))
+        self.checkBox_6.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Ty", None))
+        self.checkBox_7.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tx", None))
+        self.checkBox_8.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Ty", None))
+        self.toolButton_boundaryCancel_2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Cancelar", None))
+        self.toolButton_boundaryMeshing_2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Crear restricci\u00f3n", None))
+        self.label_cardBoundarySubTitle1.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Crear restricci\u00f3n contorno manual", None))
+        self.toolButton_cardBoundarySubTitle1.setText("")
+        self.label_textBoundary1.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Nombre:", None))
+        self.lineEdit_textBoundaryName.setText("")
+        self.label_textBoundary4.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Seleccionar:", None))
+        self.lineEdit_textBoundarySelected.setText("")
+        self.toolButton_cardBoundaryDrawSelected.setText("")
+        self.label_textBoundary3.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Restricci\u00f3n:", None))
+        self.checkBox_9.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Tx", None))
+        self.checkBox_10.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Ty", None))
+        self.toolButton_boundaryCancel.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Cancelar", None))
+        self.toolButton_boundaryMeshing.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Crear restricci\u00f3n", None))
+        self.label_cardBoundarySubTitle2.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Lista de restricciones de contorno", None))
+        self.toolButton_showHideLabel.setText("")
+        self.toolButton_showHideBoundary.setText("")
+        self.toolButton_cardBoundarySubTitle2.setText("")
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuBoundary", u"Empty", None))
     # retranslateUi
 

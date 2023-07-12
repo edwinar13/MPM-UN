@@ -50,10 +50,12 @@ class ControllerMenuMesh(QObject):
 
         
     def configDrawMenuMesh(self):
+        
         data = self.model_mesh_back.getData()
         self.view_menu_mesh.setTextWidgetMeshBack(data=data)
 
-
+        self.view_menu_mesh.removeCardMesh()
+        self.list_controller_card=[]
 
         models_mesh = self.model_current_project.getModelsMeshsTriangular()
         for id_mesh in models_mesh:
@@ -86,8 +88,10 @@ class ControllerMenuMesh(QObject):
         
     @Slot(bool)
     def showHideMeshs(self, show_meshs):
+        #self.state_prev_show_mesh =
         for controller in self.list_controller_card:
             controller.showHideMesh(show_meshs)
+        
         	
     @Slot(bool)
     def showHideLabel(self, show_label):     
@@ -113,7 +117,9 @@ class ControllerMenuMesh(QObject):
         color= self.view_menu_mesh.getColor()
 
 
-        mesh_cuad_coord, mesh_cuad_inci, mesh_cuad_nelex = create_uniform(size_dx,size_dy,size_element)
+        mesh_cuad_coord, mesh_cuad_inci, mesh_cuad_nelex, error = create_uniform(size_dx,size_dy,size_element)
+        if error:            
+            return
 
         points =[]
         for point in mesh_cuad_coord:
@@ -206,7 +212,7 @@ class ControllerMenuMesh(QObject):
         if type_mesh == "Cuadrilátera":
  
             points, quadrilaterals, n_element = self.generate_mesh_quadrilateral(
-                lines= polygon,
+                polygon= polygon,
                 mesh_size=size_element_mesh
                 )
 
@@ -217,7 +223,7 @@ class ControllerMenuMesh(QObject):
             mesh_quadrilaterals =[] 
 
             for quadrilaterals in quadrilaterals:
-                mesh_quadrilaterals.append([int(quadrilaterals[0])-1,int(quadrilaterals[1])-1,int(quadrilaterals[3])-1,int(quadrilaterals[2])-1])
+                mesh_quadrilaterals.append([int(quadrilaterals[0]),int(quadrilaterals[1]),int(quadrilaterals[2]),int(quadrilaterals[3])])
 
 
             id = self.model_current_project.createMeshQuadrilateral(name=name_mesh ,
@@ -318,6 +324,7 @@ class ControllerMenuMesh(QObject):
 	###############################################################################
     
     def is_closed_polygon(self, lines:list):
+        "devuelve poligono cerrado anti horario"
 
         polygon = []
         current_line = lines.pop(0)
@@ -368,6 +375,8 @@ class ControllerMenuMesh(QObject):
         else:
             return False
         
+
+
     def line_Intersection(self, polygon):
         len_lines = len(polygon)
         linesF = []
@@ -393,16 +402,91 @@ class ControllerMenuMesh(QObject):
 
 
 
+    def generate_mesh_quadrilateral(self, polygon, mesh_size):
+
+     
+       
+        line_A = polygon[0]
+        line_B = polygon[1]
+        line_AA = polygon[2]
+        line_BB = polygon[3]
+
+        # puntos lineas A
+        pA1 = line_A[0]
+        pA2 = line_A[1]
+        dist_A = math.sqrt((pA2[0] - pA1[0])**2 + (pA2[1] - pA1[1])**2)
+
+        pAA1 = line_AA[0]
+        pAA2 = line_AA[1]
+        dist_AA = math.sqrt((pAA2[0] - pAA1[0])**2 + (pAA2[1] - pAA1[1])**2)
+
+        if dist_A >= dist_AA:
+            dist_A_max = dist_A
+        else:
+            dist_A_max = dist_AA
+        parts_A = int(dist_A_max/mesh_size)
+
+
+        # puntos lineas B
+        pB1 = line_B[0]
+        pB2 = line_B[1]
+        dist_B = math.sqrt((pB2[0] - pB1[0])**2 + (pB2[1] - pB1[1])**2)
+
+        pBB1 = line_BB[0]
+        pBB2 = line_BB[1]
+        dist_BB = math.sqrt((pBB2[0] - pBB1[0])**2 + (pBB2[1] - pBB1[1])**2)
+
+        if dist_B >= dist_BB:
+            dist_B_max = dist_B
+        else:
+            dist_B_max = dist_BB
+        parts_B = int(dist_B_max/mesh_size)
+
+     
+
+        result_A = self.divide_line(line_A, parts_A)
+        result_B = self.divide_line(line_B, parts_B)
+        result_AA = self.divide_line(line_AA, parts_A)
+        result_BB = self.divide_line(line_BB, parts_B)
+
+        result_AA.reverse()
+        result_BB.reverse()
 
 
 
-    def generate_mesh_quadrilateral(self, lines, mesh_size):
+        # genera la lista de puntos 
+        points = []
+        for i in range(0, len(result_B)):            
+            result_A_i = self.divide_line([result_BB[i],result_B[i]], parts_A)
+
+            for point in result_A_i:
+                points.append(point)
+
+
+        quadrilaterals = []
+        na = parts_A
+        nb = parts_B
+        for b in range(0, nb): #3
+            sum_row = (na +1 ) * b
+            for a in range(0, na): #1      
+                vertex_1 = (a)          + sum_row
+                vertex_2 = (a + 1)      + sum_row
+                vertex_3 = (a + 1)      + sum_row   + (na+1)
+                vertex_4 = (a)          + sum_row   + (na+1)
+
+                quadrilaterals.append([vertex_1,vertex_2,vertex_3,vertex_4])
+        n_element = len(quadrilaterals)
+        return points, quadrilaterals, n_element
+
+
+    def AAgenerate_mesh_quadrilateral(self, lines, mesh_size):
 
 
         polygon = self.is_closed_polygon(lines)
-        line_A = polygon[0]
+
+        line_A = polygon[1]
         #line_B = polygon[1]
-        line_AA = polygon[2]
+        line_AA = polygon[3]
         #line_D = polygon[3]
 
         pA1 = line_A[0]

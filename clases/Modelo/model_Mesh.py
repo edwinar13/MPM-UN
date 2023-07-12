@@ -1,5 +1,5 @@
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
-from clases.items_GraphicsDraw import TextFrameItem, TriangleMeshItem, QuadrilateraLMeshItem, QuadrilateraLMeshBackItem
+from clases.items_GraphicsDraw import TextFrameItem, PointMeshBackItem, TriangleMeshItem, QuadrilateraLMeshItem, QuadrilateraLMeshBackItem
 from clases.Vista.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
 
@@ -68,7 +68,7 @@ class ModelMeshTriangle:
                                      coordinates = coordinates)
             self.group_mesh.addToGroup(item)
         self.scene_draw.addItem(self.group_mesh)
-        self.group_mesh.setZValue(-10)
+        self.group_mesh.setZValue(5)
 
         sum_x = 0
         sum_y = 0
@@ -82,6 +82,7 @@ class ModelMeshTriangle:
         self.scene_draw.addItem(self.text_name)
         self.text_name.setVisible(False)
         self.text_name.setColor("#222333")
+        self.text_name.setZValue(5)
         
 
     ###############################################################################
@@ -154,6 +155,7 @@ class ModelMeshTriangle:
             self.group_mesh.removeFromGroup(item)
             self.scene_draw.removeItem(item)
         self.scene_draw.removeItem(self.group_mesh)
+        self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
 
 class ModelMeshQuadrilateral:
@@ -172,6 +174,7 @@ class ModelMeshQuadrilateral:
 
         #crear item escena
         self.group_mesh  = QGraphicsItemGroup()
+
         for quadrilateral in quadrilaterals:
             coordinates=[
                 [points[quadrilateral[0]][0],points[quadrilateral[0]][1]],
@@ -185,7 +188,7 @@ class ModelMeshQuadrilateral:
                                      coordinates = coordinates)
             self.group_mesh.addToGroup(item)
         self.scene_draw.addItem(self.group_mesh)
-        self.group_mesh.setZValue(-10)
+        self.group_mesh.setZValue(5)
 
         sum_x = 0
         sum_y = 0
@@ -199,7 +202,7 @@ class ModelMeshQuadrilateral:
         self.scene_draw.addItem(self.text_name)
         self.text_name.setVisible(False)
         self.text_name.setColor("#222333")
-        self.text_name.setZValue(100)
+        self.text_name.setZValue(5)
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -271,7 +274,9 @@ class ModelMeshQuadrilateral:
             self.group_mesh.removeFromGroup(item)
             self.scene_draw.removeItem(item)
         self.scene_draw.removeItem(self.group_mesh)
+        self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
+
 
 class ModelMeshBack:
 
@@ -290,19 +295,36 @@ class ModelMeshBack:
 
         #crear item escena
         self.group_mesh  = QGraphicsItemGroup()
+
         for quadrilateral in quadrilaterals:
+
+
             coordinates=[
                 [points[quadrilateral[0]][0],points[quadrilateral[0]][1]],
                 [points[quadrilateral[1]][0],points[quadrilateral[1]][1]],
                 [points[quadrilateral[2]][0],points[quadrilateral[2]][1]],
                 [points[quadrilateral[3]][0],points[quadrilateral[3]][1]]
                 ]
+            
+            p1 = PointMeshBackItem(quadrilateral[0], points[quadrilateral[0]][0], points[quadrilateral[0]][1])
+            p2 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[1]][0], points[quadrilateral[1]][1])
+            p3 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[2]][0], points[quadrilateral[2]][1])
+            p4 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[3]][0], points[quadrilateral[3]][1])
+            self.group_mesh.addToGroup(p1)
+            self.group_mesh.addToGroup(p2)
+            self.group_mesh.addToGroup(p3)
+            self.group_mesh.addToGroup(p4)
+            
             item = QuadrilateraLMeshBackItem(
                                         color=color,
-                                        coordinates = coordinates)
+                                        coordinates = coordinates,
+                                        p1=p1,
+                                        p2=p2,
+                                        p3=p3,
+                                        p4=p4)
             self.group_mesh.addToGroup(item)
         self.scene_draw.addItem(self.group_mesh)
-        self.group_mesh.setZValue(-100)
+        self.group_mesh.setZValue(4)
         self.showHideMesh(False)
 
     ###############################################################################
@@ -387,9 +409,25 @@ class ModelMeshBack:
                 [points[quadrilateral[2]][0],points[quadrilateral[2]][1]],
                 [points[quadrilateral[3]][0],points[quadrilateral[3]][1]]
                 ]
+
+            p1 = PointMeshBackItem(quadrilateral[0], points[quadrilateral[0]][0], points[quadrilateral[0]][1])
+            p2 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[1]][0], points[quadrilateral[1]][1])
+            p3 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[2]][0], points[quadrilateral[2]][1])
+            p4 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[3]][0], points[quadrilateral[3]][1])
+            self.group_mesh.addToGroup(p1)
+            self.group_mesh.addToGroup(p2)
+            self.group_mesh.addToGroup(p3)
+            self.group_mesh.addToGroup(p4)
+            
             item = QuadrilateraLMeshBackItem(
                                         color=color,
-                                        coordinates = coordinates)
+                                        coordinates = coordinates,
+                                        p1=p1,
+                                        p2=p2,
+                                        p3=p3,
+                                        p4=p4)
+
+
             self.group_mesh.addToGroup(item)
 
         self.scene_draw.update()

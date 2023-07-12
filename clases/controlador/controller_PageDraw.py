@@ -12,6 +12,7 @@ from clases.Controlador.controller_graphicsDraw import ControllerGraphicsDraw
 from clases.Controlador.controller_MenuData import ControllerMenuData
 from clases.Controlador.controller_MenuMesh import ControllerMenuMesh
 from clases.Controlador.controller_MenuPointMaterial import ControllerMenuPointMaterial
+from clases.Controlador.controller_MenuProperties import ControllerMenuProperties
 from clases.Controlador.controller_MenuBoundary import ControllerMenuBoundary
 import math
 
@@ -42,11 +43,13 @@ class ControllerPageDraw(QObject):
         self.controller_menu_data = ControllerMenuData()
         self.controller_menu_mesh = ControllerMenuMesh()
         self.controller_menu_pointMaterial = ControllerMenuPointMaterial()
+        self.controller_menu_properties = ControllerMenuProperties()
         self.controller_menu_boundary = ControllerMenuBoundary()
 
         self.view_page_draw.setMenuWidget("data", self.controller_menu_data.getView())
         self.view_page_draw.setMenuWidget("mesh", self.controller_menu_mesh.getView())
         self.view_page_draw.setMenuWidget("pointMaterial", self.controller_menu_pointMaterial.getView())
+        self.view_page_draw.setMenuWidget("properties", self.controller_menu_properties.getView())
         self.view_page_draw.setMenuWidget("boundary", self.controller_menu_boundary.getView())
 
         self.controller_main.view_main_window.signal_action_menu_viewDraw.connect(self.actionMenuSup)
@@ -576,6 +579,8 @@ class ControllerPageDraw(QObject):
         self.controller_menu_data.setCurrentProject(model_current_project)
         self.controller_menu_mesh.setCurrentProject(model_current_project)
         self.controller_menu_pointMaterial.setCurrentProject(model_current_project)
+        self.controller_menu_properties.setCurrentProject(model_current_project)
+        self.controller_menu_boundary.setCurrentProject(model_current_project)
 
         self.current_project.signal_msn_label_view.connect(self.msnLabelAndView)
         self.view_page_draw.setUndoStack(self.current_project.getUndoStack())
@@ -583,9 +588,51 @@ class ControllerPageDraw(QObject):
     
     @Slot(str)
     def selectMenu(self, menu):
+        self.view_page_draw.showHideDrawMenu(menu)   
 
-        self.view_page_draw.showHideDrawMenu(menu)
-       
+
+        if menu == "data":
+            pass
+            
+        elif menu == "mesh":
+            pass
+
+        elif menu == "pointMaterial":
+            pass
+
+        elif menu == "boundary":
+            self.controller_menu_data.showHideItems(False)
+            self.controller_menu_mesh.showHideMeshs(False)
+            self.controller_menu_mesh.showMeshBack(True)
+            self.controller_menu_pointMaterial.showHidePointsMaterials(True)
+            
+
+        '''
+        if menu == "data":
+            self.controller_menu_data.showHideItems(True)
+            self.controller_menu_mesh.showHideMeshs(False)
+            self.controller_menu_pointMaterial.showHidePointsMaterials(False)
+            
+        elif menu == "mesh":
+            self.controller_menu_data.showHideItems(True)
+            self.controller_menu_mesh.showHideMeshs(True)
+            self.controller_menu_pointMaterial.showHidePointsMaterials(False)
+
+
+        elif menu == "pointMaterial":
+            self.controller_menu_data.showHideItems(False)
+            self.controller_menu_mesh.showHideMeshs(True)
+            self.controller_menu_pointMaterial.showHidePointsMaterials(True)
+
+
+        elif menu == "boundary":
+            self.controller_menu_data.showHideItems(False)
+            self.controller_menu_mesh.showHideMeshs(False)
+            self.controller_menu_mesh.showMeshBack(True)
+            self.controller_menu_pointMaterial.showHidePointsMaterials(True)
+            
+
+        '''
 
     @Slot(list)
     def actionMenuSup(self,data):       

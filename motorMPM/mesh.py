@@ -47,10 +47,27 @@ def create_uniform(dimx, dimy, ele_size):
         dimy = ancho en y
         ele_size = Tamano de los elementos"""   
     #======= Instrucciones para el calculo de tabla de coordenadas ========
+
+    coord = None
+    inci = None
+    nelex = None
+    error = False
+
     nelex = int(round(dimx / ele_size)) ; neley = int(round(dimy / ele_size))
+
+    if abs(dimx/ele_size - round(dimx/ele_size)) > 1e-11:
+        print("El numero de elementos no se ajusta en la direccion x")
+        error= True
+        return coord ,inci ,nelex, error
+    if abs(dimy/ele_size - round(dimy/ele_size)) > 1e-11:
+        print("El numero de elementos no se ajusta en la direccion y")
+        error= True
+        return coord ,inci ,nelex, error
+
     assert (abs(dimx/ele_size - round(dimx/ele_size)) < 1e-11), "El numero de elementos no se ajusta en la direccion x"
     assert (abs(dimy/ele_size - round(dimy/ele_size))< 1e-11), "El numero de elementos no se ajusta en la direccion y"
     nnodesx = nelex + 1 ; nnodesy = neley + 1
+    print("         ",nnodesx)
     xx, yy = np.meshgrid(np.linspace(0, dimx, nnodesx), np.linspace(0, dimy, nnodesy))
     coord = np.empty((nnodesx * nnodesy, 2))
     coord[:, 0] = xx.reshape(1, nnodesx * nnodesy)
@@ -76,7 +93,7 @@ def create_uniform(dimx, dimy, ele_size):
         nelex: devuelve No de elemtos en x
 
     '''
-    return coord, inci, nelex
+    return coord, inci, nelex, error
 
 
 def create_uniform_quadrilateral(dimx, dimy, ele_size):

@@ -25,6 +25,7 @@ class ModelMaterialPoint:
                                      coor=point)
             self.group_material_point.addToGroup(item)
         self.scene_draw.addItem(self.group_material_point)
+        self.group_material_point.setZValue(10)
 
         sum_x = 0
         sum_y = 0
@@ -38,6 +39,7 @@ class ModelMaterialPoint:
         self.scene_draw.addItem(self.text_name)
         self.text_name.setVisible(False)
         self.text_name.setColor("#222333")
+        self.text_name.setZValue(10)
         
               
     ###############################################################################
@@ -106,6 +108,7 @@ class ModelMaterialPoint:
             self.group_material_point.removeFromGroup(item)
             self.scene_draw.removeItem(item)
         self.scene_draw.removeItem(self.group_material_point)
+        self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
 
                 

@@ -693,7 +693,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         self.addItem(self.rect_select_temp)
         self.rect_select_temp.setVisible(False)
 
-        self.text_temp = QGraphicsTextItem("quesote")
+        self.text_temp = QGraphicsTextItem("Mesh")
         #self.text_temp = QGraphicsSimpleTextItem("quesote")
         #self.text_temp.setPlainText("edwin")
         self.text_temp.setPos(QPointF(0,0))
@@ -726,7 +726,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
 	############################################################################### 
 
     def mousePressEvent(self, event: QGraphicsSceneMouseEvent) -> None: 
-        self.text_temp.setVisible(True)
+        self.text_temp.setVisible(False)
 
         if event.button() == Qt.LeftButton and not self.isPan:        
 
@@ -869,7 +869,8 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
     
     def mouseMoveEvent(self, event: QGraphicsSceneMouseEvent) -> None:
 
-        self.point_vertex = event.scenePos()        
+        self.point_vertex = event.scenePos()    
+        #print(type(self.text_temp))    
         self.text_temp.setPos(self.point_vertex)
         # MODO OSNAP 
         if self.mode_osnap:        

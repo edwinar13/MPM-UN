@@ -116,21 +116,29 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         if menu == "data":
             self.drawMenuData = view_menu
             self.horizontalLayout_draw.addWidget(self.drawMenuData)
+            self.drawMenuData.setVisible(False)
 
         elif menu == "mesh":
             self.drawMenuMesh = view_menu
             self.horizontalLayout_draw.addWidget(self.drawMenuMesh)
+            self.drawMenuMesh.setVisible(False)
 
         elif menu == "pointMaterial":
             self.drawMenuPointMaterial = view_menu
             self.horizontalLayout_draw.addWidget(self.drawMenuPointMaterial)
+            self.drawMenuPointMaterial.setVisible(False)
+            
+        elif menu == "properties":
+            self.drawMenuProperties = view_menu
+            self.horizontalLayout_draw.addWidget(self.drawMenuProperties)            
+            self.drawMenuProperties.setVisible(False)
             
         elif menu == "boundary":
             self.drawMenuBoundary = view_menu
             self.horizontalLayout_draw.addWidget(self.drawMenuBoundary)
+            self.drawMenuBoundary.setVisible(False)
             
-
-        return
+        
     
     def setViewGraphicsWidget(self, view_graphics): 
         self.splitter_view.addWidget(view_graphics)
@@ -238,6 +246,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuData.setVisible(False)
         self.drawMenuMesh.setVisible(False)
         self.drawMenuPointMaterial.setVisible(False)
+        self.drawMenuProperties.setVisible(False)
         self.drawMenuBoundary.setVisible(False)
 
         if name_menu_view == "data":
@@ -249,9 +258,13 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         elif name_menu_view == "pointMaterial":
             self.drawMenuPointMaterial.setVisible(True)
 
+        elif name_menu_view == "properties":
+            self.drawMenuProperties.setVisible(True)
+    
         elif name_menu_view == "boundary":
             self.drawMenuBoundary.setVisible(True)
-    
+
+
 
     ###############################################################################
     # ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::

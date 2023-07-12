@@ -120,22 +120,39 @@ class ControllerMainWindow():
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button) 
             self.controller_page_draw.selectMenu("pointMaterial")
             self.setting = True
+            
+        elif nameButton==self.view_main_window.ui.toolButton_drawProperties.objectName() :
+            self.previous_selected_button = 5
+            self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button) 
+            self.controller_page_draw.selectMenu("properties")
+            self.setting = True
+
 
         elif nameButton==self.view_main_window.ui.toolButton_drawBoundary.objectName() :
-            self.previous_selected_button = 5
+            self.previous_selected_button = 6
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button) 
             self.controller_page_draw.selectMenu("boundary")
             self.setting = True
+
+
+        elif nameButton==self.view_main_window.ui.toolButton_drawExecute.objectName() :
+            self.previous_selected_button = 7
+            self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
+            self.setting = True
+
+
             
         elif nameButton==self.view_main_window.ui.toolButton_viewResult.objectName():
-            self.previous_selected_button = 6
+            self.previous_selected_button = 8
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
             self.setting = True
         
+
+
         elif nameButton==self.view_main_window.ui.toolButton_setting.objectName():
             
             if self.setting == True :
-                self.view_main_window.viewToolButtonMenuLat(7)
+                self.view_main_window.viewToolButtonMenuLat(9)
                 self.setting = False
             elif self.setting == False:            
                 self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
@@ -189,6 +206,8 @@ class ControllerMainWindow():
         self.controller_page_draw.controller_menu_data.configDrawMenuData()
         self.controller_page_draw.controller_menu_mesh.configDrawMenuMesh()
         self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
+        self.controller_page_draw.controller_menu_properties.configDrawMenuProperties()
+        #self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
         
        
         self.view_main_window.activateMenuLat()

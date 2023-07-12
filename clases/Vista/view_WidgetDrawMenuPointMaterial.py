@@ -25,6 +25,9 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
         self.__color_material_point = None
 
+        self.list_view_card = []
+
+
         # Configura la UI
         self.__configUi()
         self.__initEventUi()
@@ -244,9 +247,18 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
     
+    def removeCardMaterialPoint(self ):
+        view_card=None
+        if len(self.list_view_card) != 0:
+            for view_card in self.list_view_card: 
+                self.verticalLayout_containerCardMaterialPoint.removeWidget(view_card)
+                view_card.deleteLater()
+            self.list_view_card=[]
+
     def addCardMaterialPoint(self, card_material_point):                  
 
         self.verticalLayout_containerCardMaterialPoint.addWidget(card_material_point)
+        self.list_view_card.append(card_material_point)
         last_index = self.verticalLayout_containerCardMaterialPoint.count() - 1
         self.verticalLayout_containerCardMaterialPoint.insertWidget(last_index, self.frame_empty)
     
