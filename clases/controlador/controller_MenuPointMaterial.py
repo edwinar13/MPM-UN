@@ -48,7 +48,9 @@ class ControllerMenuPointMaterial():
         return self.view_menu_pointMaterial
 
     def createPointsMaterialsCard(self, model_point_material):
-        controller_card_material_point = ControllerCardMaterialPoint( model_point_material=model_point_material)
+        controller_card_material_point = ControllerCardMaterialPoint( model_project_current=self.model_current_project,
+                                                model_point_material=model_point_material
+                                                )
         self.view_menu_pointMaterial.addCardMaterialPoint(controller_card_material_point.view_card_material_point)
         controller_card_material_point.signal_delete_material_point.connect(self.deleteMaterialPoint)
         self.list_controller_card.append(controller_card_material_point)
@@ -83,9 +85,10 @@ class ControllerMenuPointMaterial():
 
         point_material_name = self.view_menu_pointMaterial.getName()
         point_material_color = self.view_menu_pointMaterial.getColor()
-        point_material_no_points = self.view_menu_pointMaterial.getNoPoints()
         point_material_id_base_mesh, point_material_base_mesh, point_material_base_mesh_type = self.view_menu_pointMaterial.getBaseMesh()
-        print(point_material_base_mesh)
+        point_material_id_property, point_material_name_property = self.view_menu_pointMaterial.getProperty()
+        point_material_no_points = self.view_menu_pointMaterial.getNoPoints()
+        
         if point_material_name == "":
             self.view_menu_pointMaterial.msnAlertName(True, "Revisa el nombre de los puntos materiales")
             return     
@@ -108,6 +111,15 @@ class ControllerMenuPointMaterial():
         else:
             self.view_menu_pointMaterial.msnAlertBaseMesh(False)
         
+
+
+        if point_material_name_property == "":
+            self.view_menu_pointMaterial.msnAlertBaseMesh(True, "Selecciona un material")
+            
+            return     
+        else:
+            self.view_menu_pointMaterial.msnAlertBaseMesh(False)
+        
     
         
         if point_material_no_points == "":
@@ -120,6 +132,8 @@ class ControllerMenuPointMaterial():
 
 
         if point_material_base_mesh_type == "QUADRILATERAL":
+
+            id_property = self.model_current_project.getModelsProperties()[point_material_id_property].getId()
             base_mesh =self.model_current_project.getModelsMeshsQuadrilaterals()[point_material_id_base_mesh]
         
             coordenates_quadrilaterals= base_mesh.getPoints()
@@ -164,17 +178,11 @@ class ControllerMenuPointMaterial():
                     center_point_4 = (center_x, center_y)
                     point_material_points.append(center_point_4)  
         
-            id = self.model_current_project.createMaterialPoint(name=point_material_name ,
-                                                        color=point_material_color,
-                                                        points=point_material_points)
-            model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
-            self.createPointsMaterialsCard(model_point_material)
 
-            self.view_menu_pointMaterial.endPointMaterial()
 
         elif point_material_base_mesh_type == "TRIANGULAR":
             
-
+            
             base_mesh =self.model_current_project.getModelsMeshsTriangular()[point_material_id_base_mesh]
         
             coordenates_triangles= base_mesh.getPoints()
@@ -224,14 +232,19 @@ class ControllerMenuPointMaterial():
                     center_point_3 = (center_x, center_y)
                     point_material_points.append(center_point_3)  
                 '''
-        
-            id = self.model_current_project.createMaterialPoint(name=point_material_name ,
-                                                        color=point_material_color,
-                                                        points=point_material_points)
-            model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
-            self.createPointsMaterialsCard(model_point_material)
 
-            self.view_menu_pointMaterial.endPointMaterial()
+
+
+        
+        id = self.model_current_project.createMaterialPoint(name=point_material_name ,
+                                                    color=point_material_color,
+                                                    points=point_material_points,
+                                                    id_property = id_property
+                                                    )
+        model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
+        self.createPointsMaterialsCard(model_point_material)
+
+        self.view_menu_pointMaterial.endPointMaterial()
 
     # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
 
@@ -258,9 +271,21 @@ class ControllerMenuPointMaterial():
             color = meshs[id_mesh].getColor()
             type_mesh = meshs[id_mesh].getType()
             mesh_data.append([id_mesh, name, color, type_mesh])
-
-
         self.view_menu_pointMaterial.setListBaseMesh(mesh_data=mesh_data)
+
+
+
+    def setListPropertiesViews(self):  
+        properties_data = []   
+        property = self.model_current_project.getModelsProperties()
+        for id_property in property:
+            name = property[id_property].getName()
+            properties_data.append([id_property, name])
+        self.view_menu_pointMaterial.setListProperties(properties_data=properties_data)
+
+        for controller_card in self.list_controller_card:
+            controller_card.setListPropertiesViews(properties_data=properties_data)
+
     
     def setBaseMeshView(self, index=0):        
         self.view_menu_pointMaterial.setBaseMesh(index=index)

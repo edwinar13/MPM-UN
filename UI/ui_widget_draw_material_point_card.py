@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_material_point_cardIBvbUm.ui'
+## Form generated from reading UI file 'widget_draw_material_point_cardCIEfQX.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -15,15 +15,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QLineEdit, QSizePolicy, QSpacerItem, QToolButton,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QLineEdit, QSizePolicy, QSpacerItem,
+    QToolButton, QVBoxLayout, QWidget)
 
 class Ui_FormDrawMaterialPointCard(object):
     def setupUi(self, FormDrawMaterialPointCard):
         if not FormDrawMaterialPointCard.objectName():
             FormDrawMaterialPointCard.setObjectName(u"FormDrawMaterialPointCard")
-        FormDrawMaterialPointCard.resize(481, 46)
+        FormDrawMaterialPointCard.resize(481, 89)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -100,11 +100,82 @@ class Ui_FormDrawMaterialPointCard(object):
 "\n"
 "}\n"
 "\n"
+"\n"
+"\n"
+"QFrame#frame_edit{\n"
+"background: #333333;\n"
+"border: 1px solid #222222;\n"
+"border-radius: 15px\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"QLabel[QLabelStyle=\"1\"] {\n"
+"font: 700 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QLabel[QLabelStyle=\"2\"] {\n"
+"font: 500 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"}\n"
+"\n"
+"QLabel[QLabelStyle=\"3\"] {\n"
+"font: 300 9pt \"Ubuntu\";\n"
+"color: #DDDDDD;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QComboBox[QComboBoxStyle=\"1\"] {\n"
+"    border: none;\n"
+"    background-color: #444444;\n"
+"	color: #DDDDDD;\n"
+"    border-radius: 2px;\n"
+"    padding: 5px;\n"
+"	font:  9pt \"Ubuntu\";\n"
+"    selection-background-color: #808080;\n"
+"}\n"
+"QComboBox[QComboBoxStyle=\"1\"] QAbstractItemView {\n"
+"    border: none;\n"
+"    background-color: #404040;\n"
+"    color: white;\n"
+"    selection-background-co"
+                        "lor: #808080;\n"
+"    font: 700 9pt \"Ubuntu\";\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"QComboBox[QComboBoxStyle=\"2\"] {\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"	color: #DDDDDD;\n"
+"    border-radius: 2px;\n"
+"    padding: 5px;\n"
+"	font:  9pt \"Ubuntu\";\n"
+"    selection-background-color: #808080;\n"
+"}\n"
+"\n"
+"QComboBox[QComboBoxStyle=\"2\"]::down-arrow {\n"
+"    /* Para ocultar la flecha de selecci\u00f3n */\n"
+"    width: 0;\n"
+"    height: 0;\n"
+"    padding: 0;\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"\n"
 "")
-        self.horizontalLayout_2 = QHBoxLayout(FormDrawMaterialPointCard)
-        self.horizontalLayout_2.setSpacing(0)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 8, 5)
+        self.verticalLayout = QVBoxLayout(FormDrawMaterialPointCard)
+        self.verticalLayout.setSpacing(3)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 8, 5)
         self.frame_card = QFrame(FormDrawMaterialPointCard)
         self.frame_card.setObjectName(u"frame_card")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
@@ -260,7 +331,33 @@ class Ui_FormDrawMaterialPointCard(object):
         self.horizontalLayout.addWidget(self.toolButton_closeMaterialPoint)
 
 
-        self.horizontalLayout_2.addWidget(self.frame_card)
+        self.verticalLayout.addWidget(self.frame_card)
+
+        self.frame_edit = QFrame(FormDrawMaterialPointCard)
+        self.frame_edit.setObjectName(u"frame_edit")
+        self.frame_edit.setFrameShape(QFrame.StyledPanel)
+        self.frame_edit.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame_edit)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(5, 5, 20, 5)
+        self.label_textPointMaterialProperty = QLabel(self.frame_edit)
+        self.label_textPointMaterialProperty.setObjectName(u"label_textPointMaterialProperty")
+        self.label_textPointMaterialProperty.setMinimumSize(QSize(80, 0))
+        self.label_textPointMaterialProperty.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.label_textPointMaterialProperty.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_2.addWidget(self.label_textPointMaterialProperty)
+
+        self.comboBox_PointMaterialProperty = QComboBox(self.frame_edit)
+        self.comboBox_PointMaterialProperty.setObjectName(u"comboBox_PointMaterialProperty")
+        self.comboBox_PointMaterialProperty.setMinimumSize(QSize(0, 25))
+        self.comboBox_PointMaterialProperty.setFocusPolicy(Qt.WheelFocus)
+        self.comboBox_PointMaterialProperty.setProperty("QComboBoxStyle", 1)
+
+        self.horizontalLayout_2.addWidget(self.comboBox_PointMaterialProperty)
+
+
+        self.verticalLayout.addWidget(self.frame_edit)
 
 
         self.retranslateUi(FormDrawMaterialPointCard)
@@ -279,5 +376,6 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_editMaterialPoint.setText("")
         self.toolButton_showHideMaterialPoint.setText("")
         self.toolButton_closeMaterialPoint.setText("")
+        self.label_textPointMaterialProperty.setText(QCoreApplication.translate("FormDrawMaterialPointCard", u"Material:", None))
     # retranslateUi
 

@@ -4,9 +4,16 @@ from clases.Vista.view_WidgetDrawMenuProperties import ViewWidgetDrawMenuPropert
 from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 from clases.Controlador.controller_CardProperty import ControllerCardProperty
 
-class ControllerMenuProperties():
+class ControllerMenuProperties(QObject):
+
+    signal_delete_property= Signal() 
+    signal_edit_property= Signal() 
+    signal_new_property = Signal()
+
+
 
     def __init__(self) -> None:
+        super().__init__()
 
         
         self.view_menu_properties = ViewWidgetDrawMenuProperties()
@@ -43,12 +50,17 @@ class ControllerMenuProperties():
     
 
     def createPropertyCard(self, model_property):
-        controller_card_property = ControllerCardProperty( model_property = model_property)
+        controller_card_property = ControllerCardProperty( 
+                                            model_property = model_property,
+                                            model_current_project=self.model_current_project
+                                            )
         self.view_menu_properties.addCardProperty(controller_card_property.view_card_property)
         controller_card_property.signal_delete_property.connect(self.deleteProperty)
-        #controller_card_property.signal_edit_property.connect(self.editProperty)
+        controller_card_property.signal_edit_property.connect(self.editProperty)
+        controller_card_property.signal_msn.connect(self.msnAlertDefault)
 
         self.list_controller_card.append(controller_card_property)
+        self.signal_new_property.emit()
 
 
 
@@ -68,9 +80,7 @@ class ControllerMenuProperties():
         cohesion =self.view_menu_properties.getPropertiesC()
         friction_angle =self.view_menu_properties.getPropertiesPhi()
         angle_dilatancy =self.view_menu_properties.getPropertiesPsi()
-
-
-    
+ 
          
         if property_name == "":
             self.view_menu_properties.msnAlertName(True, "Revisa el nombre  de la propiedad")
@@ -94,8 +104,17 @@ class ControllerMenuProperties():
     # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
 
     @Slot(list)
-    def deleteProperty(self, id):       
+    def deleteProperty(self, id): 
         self.model_current_project.deleteProperty(id)
+        self.signal_delete_property.emit()
+        
+    @Slot()
+    def editProperty(self):      
+        self.signal_edit_property.emit()
+    
+    @Slot(str)
+    def msnAlertDefault(self, msn):      
+        self.view_menu_properties.msnAlertDefault(msn)
 
         
 

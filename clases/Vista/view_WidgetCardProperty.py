@@ -74,7 +74,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.toolButton_PropertyOk.clicked.connect(self.__clickedToolButtonPropertyOk)
         self.toolButton_PropertyExit.clicked.connect(self.__clickedToolButtonPropertyExit)
         self.toolButton_PropertyEdit.clicked.connect(self.__clickedToolButtonPropertyEdit)
-        self.toolButton_PropertyClose.clicked.connect(self.__clickedToolButtonPropertyClose)
+        self.toolButton_PropertyClose.clicked.connect(self.__clickedToolButtonPropertyDelete)
     
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -149,7 +149,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.signal_update_property.emit()
 
 
-    def __clickedToolButtonPropertyClose(self):       
+    def __clickedToolButtonPropertyDelete(self):       
         dialoMsg = class_ui_dialog_msg.DialogMsg(self, 3, 
                                 "¿Quieres eliminar la propiedad {} ?".format(self.getName()), 
                                 "")
@@ -174,6 +174,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
             
         self.signal_delete_property.emit()
 
+    def deleteCardView(self):
         # Elimina la tarjeta
         self.deleteLater()
 

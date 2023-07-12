@@ -1274,7 +1274,7 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                     </item>
                    </layout>
                   </item>
-                  <item row="4" column="0">
+                  <item row="5" column="0">
                    <widget class="QLabel" name="label_textPointMaterialNPoints">
                     <property name="minimumSize">
                      <size>
@@ -1290,7 +1290,7 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+                  <item row="5" column="1">
                    <widget class="QFrame" name="frame">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1349,6 +1349,38 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_textPointMaterialProperty">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Material:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QComboBox" name="comboBox_PointMaterialProperty">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::WheelFocus</enum>
+                    </property>
+                    <property name="QComboBoxStyle" stdset="0">
+                     <number>1</number>
                     </property>
                    </widget>
                   </item>

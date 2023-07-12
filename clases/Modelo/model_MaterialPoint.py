@@ -1,4 +1,5 @@
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
+from clases.Modelo.model_Property import ModelProperty
 from clases.items_GraphicsDraw import TextFrameItem, PointMaterialItem
 from clases.Vista.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
@@ -6,7 +7,7 @@ from PySide6.QtWidgets import QGraphicsItemGroup
 class ModelMaterialPoint:
 
     def __init__(self, scene_draw:QGraphicsScene, model_project_current_repository:ModelProjectCurrentRepository,
-                  id, name, color, points) -> None:
+                  id, name, color, points, property:ModelProperty) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
@@ -15,6 +16,9 @@ class ModelMaterialPoint:
         self.__name = name
         self.__color = color
         self.__points = points 
+        self.__property =property
+
+
 
         #crear item escena
         self.group_material_point  = QGraphicsItemGroup()
@@ -58,9 +62,12 @@ class ModelMaterialPoint:
     def getPoints(self):
         return self.__points   
 
+    def getProperty(self):
+        return self.__property
+
     def getData(self):
-        """return: id, name, color, points]"""
-        return[self.__id,self.__name, self.__color, self.__points]
+        """return: id, name, color, points, property]"""
+        return[self.__id,self.__name, self.__color, self.__points, self.__property]
 
 
     ###############################################################################
@@ -79,7 +86,7 @@ class ModelMaterialPoint:
                 item.setRadius(value)
         self.scene_draw.update()
     
-    def updateMaterialPoint(self,id_MP, name= None, color= None, points= None ):
+    def updateMaterialPoint(self,id_MP, name= None, color= None, points= None, property = None):
 
         if name != None:
             self.__name = name
@@ -89,12 +96,14 @@ class ModelMaterialPoint:
             self.setColorItem(self.__color)
         if points != None:
             self.__points = points
-
+        if property != None:
+            self.__property = property
         self.model_project_current_repository.updateMaterialPointDB(
             id_MP=id_MP,
             name=name,
             color=color,
-            points=points
+            points=points,
+            id_property=property.getId()
         )
 
     def setColorItem(self, color):

@@ -1,7 +1,8 @@
-""" Este módulo contiene la clase Ui_FormDrawMeshCard, para incluirla en frame draw-menu-materialPoint
-Es el widget card de cada materialPoint."""
-from PySide6.QtCore import ( QSize, Signal)
-from PySide6.QtGui import (QColor,QIcon)
+
+from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
+from PySide6.QtGui import (QIcon, QFont, QPixmap, QColor, QPainter, QPen)
+
+
 from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog)
 
 from ui.ui_widget_draw_material_point_card import Ui_FormDrawMaterialPointCard
@@ -66,6 +67,9 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.toolButton_colorMaterialPoint.setVisible(False)
         self.toolButton_okMaterialPoint.setVisible(False)
         self.toolButton_exitMaterialPoint.setVisible(False)
+
+        self.comboBox_PointMaterialProperty.setEnabled(False)
+        self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 2)
      
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -94,6 +98,8 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.__card_color_material_point=self.card_color_material_point_prev
         self.card_color_material_point_prev = None
         self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_material_point))
+        self.comboBox_PointMaterialProperty.setEnabled(False)
+        self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 2)
  
     def __clickedToolButtonEditMaterialPoint(self):
         self.lineEdit_nameMaterialPoint.setVisible(True)
@@ -110,6 +116,9 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.lineEdit_nameMaterialPoint.setText(self.label_cardNameMaterialPoint.text())
         self.lineEdit_nameMaterialPoint.setFocus()
         self.card_color_material_point_prev = self.__card_color_material_point
+        self.comboBox_PointMaterialProperty.setEnabled(True)
+        self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 1)
+
 
     def __clickedToolButtonColorMaterialPoint(self):
         color = QColorDialog.getColor(initial=QColor(200,200,200))
@@ -133,6 +142,9 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.lineEdit_nameMaterialPoint.setText("")
         self.label_cardNameMaterialPoint.setText(self.__card_name_material_point)
 
+        self.comboBox_PointMaterialProperty.setEnabled(False)
+        self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 2)
+        
         self.card_color_material_point_prev = None
         self.signal_update_material_point.emit()
         
@@ -187,21 +199,43 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 
     def getColor(self):
         return self.__card_color_material_point
+    
+
+    def getProperty(self):
+        """return [id_selected, name]"""
+        name = self.comboBox_PointMaterialProperty.currentText()
+        index = self.comboBox_PointMaterialProperty.currentIndex()
+        if self.comboBox_PointMaterialProperty.count() == 0:
+            return ["",""]
+        id_selected = self.comboBox_PointMaterialProperty.itemData(index, Qt.UserRole)["id_property"]
+        return [id_selected, name]
+    
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
-    def showData(self, name, color):        
-        self.label_cardNameMaterialPoint.setText(u"{}".format(name))
+    def showData(self, name, color, name_property ):        
+        self.label_cardNameMaterialPoint.setText(u"{}".format(name ))
         self.__card_color_material_point = color
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
 
 
+    def setListProperties(self, properties_data, selected_property):              
+        self.comboBox_PointMaterialProperty.clear()
+        for item_index in range(len(properties_data)):
+            id_property =properties_data[item_index][0]
+            name_property =properties_data[item_index][1]                    
+            self.comboBox_PointMaterialProperty.addItem(name_property)      
+            self.comboBox_PointMaterialProperty.setItemData(self.comboBox_PointMaterialProperty.count() - 1, {"id_property": id_property}, Qt.UserRole)
+        self.comboBox_PointMaterialProperty.setCurrentText(selected_property)
 
 
-
-
+    def setPropertyStyle(self, widget, name_property, property: int):
+        widget.setProperty(name_property, property)
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
+        widget.update()
 
 
 

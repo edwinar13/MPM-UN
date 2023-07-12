@@ -2,6 +2,7 @@
 from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
 from PySide6.QtGui import (QIcon, QFont, QPixmap, QColor, QPainter, QPen)
 from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
+
 from ui.ui_widget_draw_menu_pointMaterial import Ui_FormDrawMenuPointMaterial
 from clases import class_general
 
@@ -192,11 +193,23 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         """return [id_selected, name,mesh_type]"""
         name = self.comboBox_PointMaterialBaseMesh.currentText()
         index = self.comboBox_PointMaterialBaseMesh.currentIndex()
+        if self.comboBox_PointMaterialBaseMesh.count() == 0:
+            return ["","",""]
         id_selected = self.comboBox_PointMaterialBaseMesh.itemData(index, Qt.UserRole)["mesh_id"]
         mesh_type = self.comboBox_PointMaterialBaseMesh.itemData(index, Qt.UserRole)["mesh_type"]
 
         return [id_selected, name,mesh_type]
     
+    def getProperty(self):
+        """return [id_selected, name]"""
+        name = self.comboBox_PointMaterialProperty.currentText()
+        index = self.comboBox_PointMaterialProperty.currentIndex()
+        if self.comboBox_PointMaterialProperty.count() == 0:
+            return ["",""]
+        id_selected = self.comboBox_PointMaterialProperty.itemData(index, Qt.UserRole)["id_property"]
+        return [id_selected, name]
+    
+
     def getNoPoints(self):
         return self.comboBox_PointMaterialNPoints.currentText()
 
@@ -231,6 +244,19 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             self.comboBox_PointMaterialBaseMesh.setItemData(index, {"mesh_id": mesh_id, "data1": data1}, Qt.UserRole + 1)
             self.comboBox_PointMaterialBaseMesh.setItemData(index, {"mesh_id": mesh_id, "data2": data2}, Qt.UserRole + 2)
             '''
+
+    def setListProperties(self, properties_data):              
+        self.comboBox_PointMaterialProperty.clear()
+        for item_index in range(len(properties_data)):
+            id_property =properties_data[item_index][0]
+            name_property =properties_data[item_index][1]        
+            
+            self.comboBox_PointMaterialProperty.addItem(name_property)      
+            self.comboBox_PointMaterialProperty.setItemData(self.comboBox_PointMaterialProperty.count() - 1, {"id_property": id_property}, Qt.UserRole)
+
+
+
+
 
     def setBaseMesh(self, index):     
         self.comboBox_PointMaterialBaseMesh.setCurrentIndex(index)

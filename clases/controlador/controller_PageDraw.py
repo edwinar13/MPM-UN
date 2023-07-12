@@ -60,9 +60,18 @@ class ControllerPageDraw(QObject):
         self.view_page_draw.signal_deselect_draw_geometry.connect(self.deselectDrawGeometry)
   
 
-        self.controller_menu_mesh.signal_new_mesh.connect(self.addMesh)
-        self.controller_menu_mesh.signal_edit_mesh.connect(self.editMesh)
+        self.controller_menu_mesh.signal_new_mesh.connect(self.setListBaseMeshView)
+        self.controller_menu_mesh.signal_edit_mesh.connect(self.setListBaseMeshView)
+        self.controller_menu_mesh.signal_delete_mesh.connect(self.setListBaseMeshView)
+
         self.controller_menu_mesh.signal_end_draw_geometry.connect(self.endDrawGeometry)
+
+        self.controller_menu_properties.signal_new_property.connect(self.setListPropertiesViews)
+        self.controller_menu_properties.signal_edit_property.connect(self.setListPropertiesViews)
+        self.controller_menu_properties.signal_delete_property.connect(self.setListPropertiesViews)
+
+
+
 
         
         self.controller_graphics_draw.signal_msn_console.connect(self.msnConsoleView)
@@ -76,13 +85,16 @@ class ControllerPageDraw(QObject):
         self.controller_graphics_draw.modeButtonStatusBar(ToolButton_mode)
 
 
-    @Slot()
-    def addMesh(self):
-        self.controller_menu_pointMaterial.setListBaseMeshView()
+
     
     @Slot()
-    def editMesh(self):
+    def setListBaseMeshView(self):     
         self.controller_menu_pointMaterial.setListBaseMeshView()
+    
+   
+    @Slot()
+    def setListPropertiesViews(self):
+        self.controller_menu_pointMaterial.setListPropertiesViews()
     
 
 

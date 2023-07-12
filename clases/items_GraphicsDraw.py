@@ -755,8 +755,7 @@ class PointMaterialItem(QGraphicsItem):
         
     
     def setRadius(self, percentage_radius):
-        print(percentage_radius)
-        #1-100-199
+   
         self.radius = self.RADIUS*(percentage_radius/100)
         self.update()
 

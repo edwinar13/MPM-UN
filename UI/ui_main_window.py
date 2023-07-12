@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowSZYOhB.ui'
+## Form generated from reading UI file 'main_windowbXUBzB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -639,6 +639,40 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.frame_drawMeshInf)
 
+        self.frame_drawPropertiesInf = QFrame(self.frame_menuLeft)
+        self.frame_drawPropertiesInf.setObjectName(u"frame_drawPropertiesInf")
+        self.frame_drawPropertiesInf.setFrameShape(QFrame.StyledPanel)
+        self.frame_drawPropertiesInf.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_6 = QHBoxLayout(self.frame_drawPropertiesInf)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.toolButton_drawProperties = QToolButton(self.frame_drawPropertiesInf)
+        self.toolButton_drawProperties.setObjectName(u"toolButton_drawProperties")
+        self.toolButton_drawProperties.setEnabled(False)
+        sizePolicy1.setHeightForWidth(self.toolButton_drawProperties.sizePolicy().hasHeightForWidth())
+        self.toolButton_drawProperties.setSizePolicy(sizePolicy1)
+        icon11 = QIcon()
+        icon11.addFile(u"recursos/iconos/iconos_menu_lateral/file.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_drawProperties.setIcon(icon11)
+        self.toolButton_drawProperties.setIconSize(QSize(30, 30))
+        self.toolButton_drawProperties.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.horizontalLayout_6.addWidget(self.toolButton_drawProperties)
+
+        self.frame_drawProperties = QFrame(self.frame_drawPropertiesInf)
+        self.frame_drawProperties.setObjectName(u"frame_drawProperties")
+        self.frame_drawProperties.setMinimumSize(QSize(5, 0))
+        self.frame_drawProperties.setMaximumSize(QSize(5, 16777215))
+        self.frame_drawProperties.setStyleSheet(u"")
+        self.frame_drawProperties.setFrameShape(QFrame.StyledPanel)
+        self.frame_drawProperties.setFrameShadow(QFrame.Raised)
+
+        self.horizontalLayout_6.addWidget(self.frame_drawProperties)
+
+
+        self.verticalLayout_2.addWidget(self.frame_drawPropertiesInf)
+
         self.frame_drawPointInf = QFrame(self.frame_menuLeft)
         self.frame_drawPointInf.setObjectName(u"frame_drawPointInf")
         self.frame_drawPointInf.setFrameShape(QFrame.StyledPanel)
@@ -652,9 +686,9 @@ class Ui_MainWindow(object):
         self.toolButton_drawPoint.setEnabled(False)
         sizePolicy1.setHeightForWidth(self.toolButton_drawPoint.sizePolicy().hasHeightForWidth())
         self.toolButton_drawPoint.setSizePolicy(sizePolicy1)
-        icon11 = QIcon()
-        icon11.addFile(u"recursos/iconos/iconos_menu_lateral/particle.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_drawPoint.setIcon(icon11)
+        icon12 = QIcon()
+        icon12.addFile(u"recursos/iconos/iconos_menu_lateral/particle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_drawPoint.setIcon(icon12)
         self.toolButton_drawPoint.setIconSize(QSize(30, 30))
         self.toolButton_drawPoint.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -673,40 +707,6 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout_2.addWidget(self.frame_drawPointInf)
-
-        self.frame_drawPropertiesInf = QFrame(self.frame_menuLeft)
-        self.frame_drawPropertiesInf.setObjectName(u"frame_drawPropertiesInf")
-        self.frame_drawPropertiesInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawPropertiesInf.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_6 = QHBoxLayout(self.frame_drawPropertiesInf)
-        self.horizontalLayout_6.setSpacing(0)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.toolButton_drawProperties = QToolButton(self.frame_drawPropertiesInf)
-        self.toolButton_drawProperties.setObjectName(u"toolButton_drawProperties")
-        self.toolButton_drawProperties.setEnabled(False)
-        sizePolicy1.setHeightForWidth(self.toolButton_drawProperties.sizePolicy().hasHeightForWidth())
-        self.toolButton_drawProperties.setSizePolicy(sizePolicy1)
-        icon12 = QIcon()
-        icon12.addFile(u"recursos/iconos/iconos_menu_lateral/file.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_drawProperties.setIcon(icon12)
-        self.toolButton_drawProperties.setIconSize(QSize(30, 30))
-        self.toolButton_drawProperties.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.horizontalLayout_6.addWidget(self.toolButton_drawProperties)
-
-        self.frame_drawProperties = QFrame(self.frame_drawPropertiesInf)
-        self.frame_drawProperties.setObjectName(u"frame_drawProperties")
-        self.frame_drawProperties.setMinimumSize(QSize(5, 0))
-        self.frame_drawProperties.setMaximumSize(QSize(5, 16777215))
-        self.frame_drawProperties.setStyleSheet(u"")
-        self.frame_drawProperties.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawProperties.setFrameShadow(QFrame.Raised)
-
-        self.horizontalLayout_6.addWidget(self.frame_drawProperties)
-
-
-        self.verticalLayout_2.addWidget(self.frame_drawPropertiesInf)
 
         self.frame_drawBoundaryInf = QFrame(self.frame_menuLeft)
         self.frame_drawBoundaryInf.setObjectName(u"frame_drawBoundaryInf")
@@ -1016,8 +1016,8 @@ class Ui_MainWindow(object):
         self.toolButton_home.setText(QCoreApplication.translate("MainWindow", u"Inicio", None))
         self.toolButton_drawData.setText(QCoreApplication.translate("MainWindow", u"Datos", None))
         self.toolButton_drawMesh.setText(QCoreApplication.translate("MainWindow", u"Mallado", None))
-        self.toolButton_drawPoint.setText(QCoreApplication.translate("MainWindow", u"Particulas", None))
         self.toolButton_drawProperties.setText(QCoreApplication.translate("MainWindow", u"Propiedades", None))
+        self.toolButton_drawPoint.setText(QCoreApplication.translate("MainWindow", u"Particulas", None))
         self.toolButton_drawBoundary.setText(QCoreApplication.translate("MainWindow", u"Contorno", None))
         self.toolButton_drawExecute.setText(QCoreApplication.translate("MainWindow", u"Ejecutar", None))
         self.toolButton_viewResult.setText(QCoreApplication.translate("MainWindow", u"Resultados", None))

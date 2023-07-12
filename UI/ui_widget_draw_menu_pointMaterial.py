@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_pointMateriallnqMzh.ui'
+## Form generated from reading UI file 'widget_draw_menu_pointMaterialSxatmS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -829,7 +829,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.label_textPointMaterialNPoints.setMinimumSize(QSize(110, 0))
         self.label_textPointMaterialNPoints.setProperty("QLabelStyle", 3)
 
-        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_textPointMaterialNPoints)
+        self.formLayout_3.setWidget(5, QFormLayout.LabelRole, self.label_textPointMaterialNPoints)
 
         self.frame = QFrame(self.frame_3)
         self.frame.setObjectName(u"frame")
@@ -849,7 +849,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.horizontalLayout_10.addWidget(self.comboBox_PointMaterialNPoints)
 
 
-        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.frame)
+        self.formLayout_3.setWidget(5, QFormLayout.FieldRole, self.frame)
 
         self.label_textPointMaterialBaseMesh = QLabel(self.frame_3)
         self.label_textPointMaterialBaseMesh.setObjectName(u"label_textPointMaterialBaseMesh")
@@ -857,6 +857,21 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.label_textPointMaterialBaseMesh.setProperty("QLabelStyle", 3)
 
         self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_textPointMaterialBaseMesh)
+
+        self.label_textPointMaterialProperty = QLabel(self.frame_3)
+        self.label_textPointMaterialProperty.setObjectName(u"label_textPointMaterialProperty")
+        self.label_textPointMaterialProperty.setMinimumSize(QSize(110, 0))
+        self.label_textPointMaterialProperty.setProperty("QLabelStyle", 3)
+
+        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_textPointMaterialProperty)
+
+        self.comboBox_PointMaterialProperty = QComboBox(self.frame_3)
+        self.comboBox_PointMaterialProperty.setObjectName(u"comboBox_PointMaterialProperty")
+        self.comboBox_PointMaterialProperty.setMinimumSize(QSize(0, 25))
+        self.comboBox_PointMaterialProperty.setFocusPolicy(Qt.WheelFocus)
+        self.comboBox_PointMaterialProperty.setProperty("QComboBoxStyle", 1)
+
+        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.comboBox_PointMaterialProperty)
 
 
         self.verticalLayout_6.addWidget(self.frame_3)
@@ -1054,6 +1069,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_PointMaterialColor.setText("")
         self.label_textPointMaterialNPoints.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Puntos x elemento:", None))
         self.label_textPointMaterialBaseMesh.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Malla Base:", None))
+        self.label_textPointMaterialProperty.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Material:", None))
         self.toolButton_PointMaterialCancel.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Cancelar", None))
         self.toolButton_PointMaterial.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Crear Puntos", None))
         self.label_cardPointMaterialSubTitle2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Lista de puntos", None))

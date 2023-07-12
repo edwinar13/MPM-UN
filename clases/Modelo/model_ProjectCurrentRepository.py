@@ -438,13 +438,14 @@ class ModelProjectCurrentRepository():
             return False    
 
 	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
-    def createMaterialPointDB(self, id_MP, name, color, points):    
+    def createMaterialPointDB(self, id_MP, name, color, points,id_property):    
         
         #try:                 
         self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP] = {
             "NAME": name,
             "COLOR": color,
-            "POINTS": points
+            "POINTS": points,
+            "IDPROPIEDAD": id_property
         }
         
         return True
@@ -463,7 +464,8 @@ class ModelProjectCurrentRepository():
         """ 
         return self.__unguarded_copy_db_project['PUNTOSMATERIAL']
     
-    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None):
+    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None, id_property=None):
+
         try: 
             if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
                 if name != None:                      
@@ -471,13 +473,15 @@ class ModelProjectCurrentRepository():
                 if color != None:   
                     self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["COLOR"]=color
                 if points != None:   
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["COLOR"]=points
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"]=points
+                if id_property != None:   
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["IDPROPIEDAD"]=id_property
+
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-    
     def deleteMaterialPointDB(self, id_MP):
 
         try:            

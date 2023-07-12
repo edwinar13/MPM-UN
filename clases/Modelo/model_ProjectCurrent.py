@@ -67,8 +67,8 @@ class ModelProjectCurrent(QObject):
         self.__initData()
         self.__initItem()
         self.__initMesh()
-        self.__initMaterialPoint()
         self.__initProperties()
+        self.__initMaterialPoint()
         self.__scene.drawElementTemp()
         self.__scene.update()
         
@@ -191,11 +191,13 @@ class ModelProjectCurrent(QObject):
             name = materials_points[id_material_point]["NAME"]
             color = materials_points[id_material_point]["COLOR"]
             points = materials_points[id_material_point]["POINTS"]
+            id_property = materials_points[id_material_point]["IDPROPIEDAD"]
             self.addMaterialPointToCurrentProject(
                 id=id_material_point,
                 name=name,
                 color=color,
-                points=points)
+                points=points,
+                id_property=id_property)
             
     def __initProperties(self):
         properties = self.model_project_current_repository.readPropertiesDB()
@@ -506,27 +508,36 @@ class ModelProjectCurrent(QObject):
         
     # ::::::::::::::::::::           PUNTOS MATERIALES         ::::::::::::::::::::
 
-    def createMaterialPoint(self, name, color, points):
+    def createMaterialPoint(self, name, color, points, id_property):
+
+        
         id = str(uuid.uuid4())
         self.model_project_current_repository.createMaterialPointDB(
             id_MP = id,
             name = name, 
             color = color, 
-            points = points)
+            points = points,
+            id_property=id_property)
         self.addMaterialPointToCurrentProject(
                 id=id,
                 name=name,
                 color=color,
-                points=points)
+                points=points,
+                id_property=id_property)
         return id
     
-    def addMaterialPointToCurrentProject(self,id, name, color, points):    
+    def addMaterialPointToCurrentProject(self,id, name, color, points, id_property):  
+
+        
+        property = self.properties_models[id_property]
+
         model_material_point = ModelMaterialPoint(scene_draw=self.__scene,
                                                       model_project_current_repository=self.model_project_current_repository,
                                                       id=id,
                                                       name=name,
                                                       color=color,
-                                                      points=points)
+                                                      points=points,
+                                                      property = property)
         self.material_point_models[id]=model_material_point        
 
     def getModelsPointsMaterials(self):

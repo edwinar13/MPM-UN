@@ -2,16 +2,19 @@
 from PySide6.QtCore import (Slot, Signal, QObject)
 from clases.Vista.view_WidgetCardProperty import viewCardDrawProperty
 from clases.Modelo.model_Property import ModelProperty
+from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
  
 class ControllerCardProperty(QObject):
 
-    
+    signal_msn = Signal(str)
     signal_delete_property= Signal(str)
+    signal_edit_property = Signal()
 
-    def __init__(self, model_property:ModelProperty) -> None:
+    def __init__(self, model_property:ModelProperty, model_current_project:ModelProjectCurrent) -> None:
         super().__init__()
 
         self.model_property = model_property
+        self.model_current_project = model_current_project
         self.id, self.name, self.modulus_elasticity, self.poisson_ratio, self.cohesion, self.friction_angle, self.angle_dilatancy= model_property.getData()
         self.__initCard()
         self.__initEvent()
@@ -47,7 +50,18 @@ class ControllerCardProperty(QObject):
         pass
         
     @Slot()
-    def deleteProperty(self):        
+    def deleteProperty(self):    
+        # verificar que no este asignado a una MP
+        models_materials_points = self.model_current_project.getModelsPointsMaterials()
+        for id_model_material_point in models_materials_points:
+            model_material_point = models_materials_points[id_model_material_point]
+            name_MP =model_material_point.getName()
+            name_property_to_MP= model_material_point.getProperty().getName()
+            print(self.name , name_property_to_MP)
+            if self.name == name_property_to_MP:
+                self.signal_msn.emit("Material este asignado a un MP [{}]".format(name_MP))
+                return 
+        self.view_card_property.deleteCardView()
         self.signal_delete_property.emit(self.id)
         del self
         
@@ -69,6 +83,7 @@ class ControllerCardProperty(QObject):
             friction_angle=self.friction_angle,
             angle_dilatancy=self.angle_dilatancy
             )
+        self.signal_edit_property.emit()
 
 
 

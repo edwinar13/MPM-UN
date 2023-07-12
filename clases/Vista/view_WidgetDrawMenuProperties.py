@@ -202,3 +202,8 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
 
 
 
+    def msnAlertDefault(self, msn=""):
+        self.label_msn.setStyleSheet("color:  #F94646")  
+        self.label_msn.setText(msn)          
+        QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+

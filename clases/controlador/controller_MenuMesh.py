@@ -10,6 +10,7 @@ class ControllerMenuMesh(QObject):
 
     signal_new_mesh= Signal() 
     signal_edit_mesh= Signal() 
+    signal_delete_mesh= Signal() 
     signal_end_draw_geometry = Signal()
     
     def __init__(self) -> None:
@@ -99,10 +100,6 @@ class ControllerMenuMesh(QObject):
             controller.showHideLabel(show_label)
         
         
-    @Slot()
-    def editMesh(self):
-        self.signal_edit_mesh.emit()
-	
 
     @Slot(bool)
     def showMeshBack(self, value):
@@ -296,7 +293,12 @@ class ControllerMenuMesh(QObject):
         elif type_mesh == "QUADRILATERAL":
             self.model_current_project.deleteMeshQuadrilaterals(id)
         
+        self.signal_delete_mesh.emit()
         
+    @Slot()
+    def editMesh(self):
+        self.signal_edit_mesh.emit()
+	
 
 
 
