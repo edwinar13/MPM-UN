@@ -38,6 +38,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
 
     signal_end_draw_geometry = Signal()
     signal_end_draw_mesh = Signal()
+    signal_end_draw_boundary = Signal()
     
     signal_deselect_draw_geometry = Signal(bool)
     
@@ -137,6 +138,11 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.drawMenuBoundary = view_menu
             self.horizontalLayout_draw.addWidget(self.drawMenuBoundary)
             self.drawMenuBoundary.setVisible(False)
+            
+        elif menu == "execute":
+            self.drawMenuExecute = view_menu
+            self.horizontalLayout_draw.addWidget(self.drawMenuExecute)
+            self.drawMenuExecute.setVisible(False)
             
         
     
@@ -248,6 +254,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.drawMenuPointMaterial.setVisible(False)
         self.drawMenuProperties.setVisible(False)
         self.drawMenuBoundary.setVisible(False)
+        self.drawMenuExecute.setVisible(False)
 
         if name_menu_view == "data":
             self.drawMenuData.setVisible(True)
@@ -263,6 +270,9 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     
         elif name_menu_view == "boundary":
             self.drawMenuBoundary.setVisible(True)
+
+        elif name_menu_view == "execute":
+            self.drawMenuExecute.setVisible(True)
 
 
 
@@ -432,9 +442,10 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             #self.__returnPressedLineEditConsole()
 
         elif key == Qt.Key_Enter or key == 16777216:
-            # ESC
+            print("ESC -> ok")
             self.signal_end_draw_geometry.emit()
             self.signal_end_draw_mesh.emit()
+            self.signal_end_draw_boundary.emit()
             return  
         elif key == Qt.Key_Shift or key == 16777216:
             self.signal_deselect_draw_geometry.emit(True)

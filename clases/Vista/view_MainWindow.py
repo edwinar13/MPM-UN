@@ -82,8 +82,7 @@ class ViewMainWindow(QMainWindow):
         self.ui.action_importar.setShortcut('Ctrl+i')
         self.ui.action_importar.setStatusTip('Importar')
         self.ui.action_exportar.setShortcut('Ctrl+e')
-        self.ui.action_exportar.setStatusTip('Exportar')
-        
+        self.ui.action_exportar.setStatusTip('Exportar')        
         self.ui.action_deshacer.setShortcut('Ctrl+z')
         self.ui.action_rehacer.setShortcut('Ctrl+y')        
 

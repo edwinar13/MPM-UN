@@ -573,6 +573,32 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
 	font:  9pt &quot;Ubuntu&quot;;
     selection-background-color: #808080;
 }
+
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator {
+    background-color: transparent;
+    border: 1px solid #808080;
+	border-radius: 3px;
+}
+
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
+    background-color: #F94646;
+    border: none;
+	 border-radius: 3px;
+}
+
+
+/* 
+gris oscuro #222222 #333333 #444444
+gris claro #999999 #DDDDDD
+verde claro #C8CC8E
+vinotinto #742427
+*/
+/*Colores secundarios */
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -855,7 +881,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_boundarySubTitle0">
+             <widget class="QFrame" name="frame_boundarySubTitle1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -879,7 +905,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardBoundarySubTitle0">
+                <widget class="QLabel" name="label_cardBoundarySubTitle1">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -895,7 +921,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle0">
+                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle1">
                  <property name="text">
                   <string/>
                  </property>
@@ -915,7 +941,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_boundary2_2">
+             <widget class="QFrame" name="frame_boundary1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1044,9 +1070,12 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QCheckBox" name="checkBox">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTXleft">
                        <property name="text">
                         <string>Tx</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
@@ -1054,7 +1083,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_2">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTYleft">
                        <property name="text">
                         <string>Ty</string>
                        </property>
@@ -1113,9 +1142,12 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_3">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTXRight">
                        <property name="text">
                         <string>Tx</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
@@ -1123,7 +1155,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_4">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTYRight">
                        <property name="text">
                         <string>Ty</string>
                        </property>
@@ -1166,9 +1198,12 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_5">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTXBottom">
                        <property name="text">
                         <string>Tx</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
@@ -1176,9 +1211,12 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_6">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTYBottom">
                        <property name="text">
                         <string>Ty</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
@@ -1219,9 +1257,12 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_7">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTXTop">
                        <property name="text">
                         <string>Tx</string>
+                       </property>
+                       <property name="checked">
+                        <bool>false</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
@@ -1229,7 +1270,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_8">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTYTop">
                        <property name="text">
                         <string>Ty</string>
                        </property>
@@ -1263,29 +1304,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton_boundaryCancel_2">
-                   <property name="minimumSize">
-                    <size>
-                     <width>80</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Cancelar</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>3</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_boundaryMeshing_2">
+                  <widget class="QToolButton" name="toolButton_boundaryCreate_1">
                    <property name="minimumSize">
                     <size>
                      <width>150</width>
@@ -1325,7 +1344,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_boundarySubTitle1">
+             <widget class="QFrame" name="frame_boundarySubTitle2">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -1349,7 +1368,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardBoundarySubTitle1">
+                <widget class="QLabel" name="label_cardBoundarySubTitle2">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1365,7 +1384,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle1">
+                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle2">
                  <property name="text">
                   <string/>
                  </property>
@@ -1588,7 +1607,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_9">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTX">
                        <property name="text">
                         <string>Tx</string>
                        </property>
@@ -1598,7 +1617,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QCheckBox" name="checkBox_10">
+                      <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTY">
                        <property name="text">
                         <string>Ty</string>
                        </property>
@@ -1629,7 +1648,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton_boundaryCancel">
+                  <widget class="QToolButton" name="toolButton_boundaryCancel_2">
                    <property name="minimumSize">
                     <size>
                      <width>80</width>
@@ -1651,7 +1670,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton_boundaryMeshing">
+                  <widget class="QToolButton" name="toolButton_boundaryCreate_2">
                    <property name="minimumSize">
                     <size>
                      <width>150</width>
@@ -1691,7 +1710,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_boundarySubTitle2">
+             <widget class="QFrame" name="frame_boundarySubTitle3">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -1715,7 +1734,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardBoundarySubTitle2">
+                <widget class="QLabel" name="label_cardBoundarySubTitle3">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1765,7 +1784,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle2">
+                <widget class="QToolButton" name="toolButton_cardBoundarySubTitle3">
                  <property name="text">
                   <string/>
                  </property>

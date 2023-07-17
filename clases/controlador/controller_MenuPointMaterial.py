@@ -43,7 +43,7 @@ class ControllerMenuPointMaterial():
         for id_point_material in models_points_materials:
             self.createPointsMaterialsCard(models_points_materials[id_point_material])        
         self.setListBaseMeshView()
-        
+
     def getView(self):
         return self.view_menu_pointMaterial
 
@@ -64,6 +64,8 @@ class ControllerMenuPointMaterial():
     def showHidePointsMaterials(self, show_points_materials):
         for controller in self.list_controller_card:
             controller.showHideMaterialPoint(show_points_materials)
+
+
 
     @Slot(bool)
     def showHideLabel(self, show_label):
@@ -131,9 +133,10 @@ class ControllerMenuPointMaterial():
 
 
 
+        id_property = self.model_current_project.getModelsProperties()[point_material_id_property].getId()
+        
         if point_material_base_mesh_type == "QUADRILATERAL":
 
-            id_property = self.model_current_project.getModelsProperties()[point_material_id_property].getId()
             base_mesh =self.model_current_project.getModelsMeshsQuadrilaterals()[point_material_id_base_mesh]
         
             coordenates_quadrilaterals= base_mesh.getPoints()
@@ -243,6 +246,7 @@ class ControllerMenuPointMaterial():
                                                     )
         model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
         self.createPointsMaterialsCard(model_point_material)
+        self.setListPropertiesViews()
 
         self.view_menu_pointMaterial.endPointMaterial()
 
@@ -251,6 +255,9 @@ class ControllerMenuPointMaterial():
     @Slot(str)
     def deleteMaterialPoint(self, id):
         self.model_current_project.deleteMaterialPoint(id)
+        for  controlled_card in self.list_controller_card:
+            if controlled_card.id == id:
+                self.list_controller_card.remove(controlled_card)
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -282,7 +289,6 @@ class ControllerMenuPointMaterial():
             name = property[id_property].getName()
             properties_data.append([id_property, name])
         self.view_menu_pointMaterial.setListProperties(properties_data=properties_data)
-
         for controller_card in self.list_controller_card:
             controller_card.setListPropertiesViews(properties_data=properties_data)
 

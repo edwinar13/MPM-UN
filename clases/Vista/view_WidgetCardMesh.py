@@ -108,7 +108,7 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.card_color_mesh_prev = self.__card_color_mesh
 
     def __clickedToolButtonColorMesh(self):
-        color = QColorDialog.getColor(initial=QColor(200,200,200))
+        color = QColorDialog.getColor(initial=QColor(self.__card_color_mesh))
         if color.isValid():
             self.__card_color_mesh=color.name()
             self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_mesh))
@@ -136,14 +136,10 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         """ Muestra u oculta la malla """
 
         if self.__card_show_hide_mesh:            
-            self.__card_show_hide_mesh = False
-            self.toolButton_showHideMesh.setIcon(self.icon_hide)
+            self.signal_hide_show_mesh.emit(False)
             
-        else :            
-            self.__card_show_hide_mesh = True
-            self.toolButton_showHideMesh.setIcon(self.icon_show)    
-      
-        self.signal_hide_show_mesh.emit(self.__card_show_hide_mesh)
+        else :                  
+            self.signal_hide_show_mesh.emit(True)
         
     def __clickedToolButtonCloseMesh(self):
         
@@ -195,4 +191,12 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
 
 
+
+    def ShowHideMesh(self, value):
+        """ Muestra u oculta la malla """
+        self.__card_show_hide_mesh = value
+        if self.__card_show_hide_mesh:            
+            self.toolButton_showHideMesh.setIcon(self.icon_show)   
+        else :            
+            self.toolButton_showHideMesh.setIcon(self.icon_hide)            
 

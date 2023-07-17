@@ -67,7 +67,6 @@ def create_uniform(dimx, dimy, ele_size):
     assert (abs(dimx/ele_size - round(dimx/ele_size)) < 1e-11), "El numero de elementos no se ajusta en la direccion x"
     assert (abs(dimy/ele_size - round(dimy/ele_size))< 1e-11), "El numero de elementos no se ajusta en la direccion y"
     nnodesx = nelex + 1 ; nnodesy = neley + 1
-    print("         ",nnodesx)
     xx, yy = np.meshgrid(np.linspace(0, dimx, nnodesx), np.linspace(0, dimy, nnodesy))
     coord = np.empty((nnodesx * nnodesy, 2))
     coord[:, 0] = xx.reshape(1, nnodesx * nnodesy)

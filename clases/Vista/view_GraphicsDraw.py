@@ -120,8 +120,17 @@ class ViewGraphicsViewDraw (QGraphicsView):
             self.color_crosshair_draw="#000000"
             self.color_crosshair="#888888"
             self.color_pick_box ="#888888"
-
+            
         elif index == 1:
+            color_background = "#333333"    
+            self.color_grid="#3f3f3f"
+            self.color_axis_x="#742427"
+            self.color_axis_y="#6A6C48"
+            self.color_crosshair_draw="#FFFFFF"
+            self.color_crosshair="#AAAAAA"
+            self.color_pick_box ="#AAAAAA"
+
+        elif index == None:
             color_background = "#888888"
             self.color_grid="#777777"
             self.color_axis_x="#742427"
@@ -129,15 +138,6 @@ class ViewGraphicsViewDraw (QGraphicsView):
             self.color_crosshair_draw="#000000"
             self.color_crosshair="#555555"
             self.color_pick_box ="#555555"
-            
-        elif index == 2:
-            color_background = "#333333"    
-            self.color_grid="#313A39"
-            self.color_axis_x="#742427"
-            self.color_axis_y="#6A6C48"
-            self.color_crosshair_draw="#FFFFFF"
-            self.color_crosshair="#AAAAAA"
-            self.color_pick_box ="#AAAAAA"
 
         self.setStyleSheet("background-color: {} ;border: 2px solid #444444;".format(color_background))
         self.pen_grid_x.setColor(QColor(self.color_grid))
@@ -570,6 +570,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
     signal_point_rule = Signal(dict)
 
     signal_mesh_select = Signal(dict)
+    signal_point_back_select = Signal(dict)
     signal_mesh_size = Signal(dict)
           
 
@@ -606,6 +607,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
 
   
 
+        self.isPointBackSelect = False   
         self.isMeshSelect = False   
         self.isMeshCua = False   
         self.isMeshSize = False   
@@ -628,7 +630,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         #self.isSelect = False 
 
         self.isPan = False
-
+        self.theme = 0
         self.drawElementTemp()
 
     def setAdmin(self,admin):
@@ -709,6 +711,10 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
             index(int): index del estilo
 
         """  
+        self.theme =index
+
+    def getTheme(self ):  
+        return self.theme
 
     def setUndoStackToAdmin(self, undo_stack ):
         self.admin.setUndoStack(undo_stack)
@@ -746,7 +752,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                         })
                 self.point_vertex_ant=self.point_vertex
 
-            elif self.isDrawSelect or self.isMeshSelect: 
+            elif self.isDrawSelect or self.isMeshSelect or self.isPointBackSelect: 
                 self.p1_select = event.scenePos()
                 self.rect_select_temp.setRect(QRectF(self.p1_select,self.p1_select))
                 self.rect_select_temp.setVisible(True)
@@ -905,7 +911,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
             self.point_vertex = point_b
         
         #::::::::::::  mover, copiar, rotar, borrar  ::::::::::::::::
-        if self.isDrawSelect or self.isMeshSelect:
+        if self.isDrawSelect or self.isMeshSelect or self.isPointBackSelect:
             
             #self.drawGeneral(self.point_vertex,self.point_vertex_ant)
             if self.p1_select != None:
@@ -952,6 +958,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         if event.button() == Qt.LeftButton and not self.isPan:               
             #::::::::::::  mover  ::::::::::::::::
             if  self.isDrawSelect and self.isDrawMove and self.p1_select != None:
+                print(1)
                 self.signal_point_move.emit(
                     {"step":2,
                     "data":
@@ -962,6 +969,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         
             #::::::::::::  copiar ::::::::::::::::
             elif  self.isDrawSelect and self.isDrawCopy and self.p1_select != None:
+                print(2)
                 self.signal_point_copy.emit(
                     {"step":2,
                     "data":
@@ -973,6 +981,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
 
             #::::::::::::  rotar ::::::::::::::::
             elif  self.isDrawSelect and self.isDrawRotate and self.p1_select != None:
+                print(3)
                 self.signal_point_rotate.emit(
                     {"step":2,
                     "data":
@@ -983,6 +992,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                 
             #::::::::::::  borrar ::::::::::::::::
             elif  self.isDrawSelect and self.isDrawErase and self.p1_select != None:
+                print(4)
                 self.signal_point_erase.emit(
                     {"step":2,
                     "data":
@@ -993,7 +1003,19 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                 
             #::::::::::::  malla ::::::::::::::::
             elif  self.isMeshSelect and self.isMeshCua and self.p1_select != None:                    
+                print(self.isMeshSelect , self.isMeshCua )
                 self.signal_mesh_select.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+                
+            #::::::::::::  malla back point ::::::::::::::::
+            elif  self.isPointBackSelect and self.p1_select != None:    
+                print("#####")                
+                self.signal_point_back_select.emit(
                     {"step":2,
                     "data":
                         [[self.p1_select.x(),self.p1_select.y()],
@@ -1057,6 +1079,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         self.isDrawMove = False
         self.isDrawRule = False
 
+        self.isPointBackSelect = False
         self.isMeshSelect = False
         self.isMeshCua = False
         self.isMeshSize = False

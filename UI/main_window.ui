@@ -795,7 +795,7 @@ QCheckBox::indicator {
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Propiedades</string>
+                <string>Materiales</string>
                </property>
                <property name="icon">
                 <iconset>

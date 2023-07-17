@@ -14,6 +14,7 @@ from clases.Controlador.controller_MenuMesh import ControllerMenuMesh
 from clases.Controlador.controller_MenuPointMaterial import ControllerMenuPointMaterial
 from clases.Controlador.controller_MenuProperties import ControllerMenuProperties
 from clases.Controlador.controller_MenuBoundary import ControllerMenuBoundary
+from clases.Controlador.controller_MenuExecute import ControllerMenuExecute
 import math
 
 
@@ -45,18 +46,21 @@ class ControllerPageDraw(QObject):
         self.controller_menu_pointMaterial = ControllerMenuPointMaterial()
         self.controller_menu_properties = ControllerMenuProperties()
         self.controller_menu_boundary = ControllerMenuBoundary()
+        self.controller_menu_execute = ControllerMenuExecute()
 
         self.view_page_draw.setMenuWidget("data", self.controller_menu_data.getView())
         self.view_page_draw.setMenuWidget("mesh", self.controller_menu_mesh.getView())
         self.view_page_draw.setMenuWidget("pointMaterial", self.controller_menu_pointMaterial.getView())
         self.view_page_draw.setMenuWidget("properties", self.controller_menu_properties.getView())
         self.view_page_draw.setMenuWidget("boundary", self.controller_menu_boundary.getView())
+        self.view_page_draw.setMenuWidget("execute", self.controller_menu_execute.getView())
 
         self.controller_main.view_main_window.signal_action_menu_viewDraw.connect(self.actionMenuSup)
         
         self.view_page_draw.signal_zoom_draw.connect(self.zoomDraw)
         self.view_page_draw.signal_end_draw_geometry.connect(self.endDrawGeometry)
         self.view_page_draw.signal_end_draw_mesh.connect(self.endDrawMesh)
+        self.view_page_draw.signal_end_draw_boundary.connect(self.endDrawBoundary)
         self.view_page_draw.signal_deselect_draw_geometry.connect(self.deselectDrawGeometry)
   
 
@@ -530,6 +534,11 @@ class ControllerPageDraw(QObject):
         self.controller_menu_mesh.endDrawMesh()
 
 
+    @Slot()
+    def endDrawBoundary(self):
+        self.controller_menu_boundary.endDrawBoudary()
+
+
 
 
 
@@ -569,6 +578,11 @@ class ControllerPageDraw(QObject):
     
     def settingDraw(self,setting_update):
         self.controller_graphics_draw.settingDraw(setting_update)
+        if setting_update[ "setting"] == "style_view_scene" and self.current_project != None:
+            style=setting_update["setting_data"][2]
+            self.current_project.changeTheme(index_style=style)
+
+
     
     def viewsTwo(self):
         self.view_page_draw.viewsTwo()
@@ -593,6 +607,7 @@ class ControllerPageDraw(QObject):
         self.controller_menu_pointMaterial.setCurrentProject(model_current_project)
         self.controller_menu_properties.setCurrentProject(model_current_project)
         self.controller_menu_boundary.setCurrentProject(model_current_project)
+        self.controller_menu_execute.setCurrentProject(model_current_project)
 
         self.current_project.signal_msn_label_view.connect(self.msnLabelAndView)
         self.view_page_draw.setUndoStack(self.current_project.getUndoStack())
@@ -600,51 +615,7 @@ class ControllerPageDraw(QObject):
     
     @Slot(str)
     def selectMenu(self, menu):
-        self.view_page_draw.showHideDrawMenu(menu)   
-
-
-        if menu == "data":
-            pass
-            
-        elif menu == "mesh":
-            pass
-
-        elif menu == "pointMaterial":
-            pass
-
-        elif menu == "boundary":
-            self.controller_menu_data.showHideItems(False)
-            self.controller_menu_mesh.showHideMeshs(False)
-            self.controller_menu_mesh.showMeshBack(True)
-            self.controller_menu_pointMaterial.showHidePointsMaterials(True)
-            
-
-        '''
-        if menu == "data":
-            self.controller_menu_data.showHideItems(True)
-            self.controller_menu_mesh.showHideMeshs(False)
-            self.controller_menu_pointMaterial.showHidePointsMaterials(False)
-            
-        elif menu == "mesh":
-            self.controller_menu_data.showHideItems(True)
-            self.controller_menu_mesh.showHideMeshs(True)
-            self.controller_menu_pointMaterial.showHidePointsMaterials(False)
-
-
-        elif menu == "pointMaterial":
-            self.controller_menu_data.showHideItems(False)
-            self.controller_menu_mesh.showHideMeshs(True)
-            self.controller_menu_pointMaterial.showHidePointsMaterials(True)
-
-
-        elif menu == "boundary":
-            self.controller_menu_data.showHideItems(False)
-            self.controller_menu_mesh.showHideMeshs(False)
-            self.controller_menu_mesh.showMeshBack(True)
-            self.controller_menu_pointMaterial.showHidePointsMaterials(True)
-            
-
-        '''
+        self.view_page_draw.showHideDrawMenu(menu)  
 
     @Slot(list)
     def actionMenuSup(self,data):       

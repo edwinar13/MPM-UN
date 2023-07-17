@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_material_point_cardCIEfQX.ui'
+## Form generated from reading UI file 'widget_draw_material_point_cardhURFAi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -105,7 +105,7 @@ class Ui_FormDrawMaterialPointCard(object):
 "QFrame#frame_edit{\n"
 "background: #333333;\n"
 "border: 1px solid #222222;\n"
-"border-radius: 15px\n"
+"border-radius: 5px\n"
 "}\n"
 "\n"
 "\n"

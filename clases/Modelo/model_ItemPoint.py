@@ -27,10 +27,12 @@ class ModelItemPoint:
         
         text_name = TextItem(self.__name, 0, 0)        
         self.scene_draw.addItem(text_name)
+        text_name.setZValue(100)
         
 
         self.point_item = PointItem(id, name,x,y, text_name)  
         self.scene_draw.addItem(self.point_item)
+        self.point_item.setZValue(5)
 
   
 

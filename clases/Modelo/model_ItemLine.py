@@ -20,9 +20,10 @@ class ModelItemLine:
 
         text_name = TextItem(self.__name, 0,0)
         self.scene_draw.addItem(text_name)
+        text_name.setZValue(100)
 
         self.line_item = LineItem(id, name,start_point.getPointItem(),end_point.getPointItem() , text_name) 
-        
+        self.line_item.setZValue(5)
         self.scene_draw.addItem(self.line_item)
 
 

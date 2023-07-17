@@ -14,6 +14,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     signal_change_size_point = Signal()  
 
     def __init__(self):
+        
         super(ViewWidgetDrawMenuPointMaterial, self).__init__()
         self.setupUi(self)
 
@@ -219,7 +220,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
 
 
-    def setListBaseMesh(self, mesh_data):              
+    def setListBaseMesh(self, mesh_data):             
         self.comboBox_PointMaterialBaseMesh.clear()
         for item_index in range(len(mesh_data)):
             mesh_id =mesh_data[item_index][0]
@@ -239,11 +240,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             painter.end()
             self.comboBox_PointMaterialBaseMesh.setItemIcon(item_index, QIcon(pixmap))    
             self.comboBox_PointMaterialBaseMesh.setItemData(self.comboBox_PointMaterialBaseMesh.count() - 1, {"mesh_id": mesh_id, "mesh_type": mesh_type}, Qt.UserRole)
-            '''
-            index = self.comboBox_PointMaterialBaseMesh.count() - 1
-            self.comboBox_PointMaterialBaseMesh.setItemData(index, {"mesh_id": mesh_id, "data1": data1}, Qt.UserRole + 1)
-            self.comboBox_PointMaterialBaseMesh.setItemData(index, {"mesh_id": mesh_id, "data2": data2}, Qt.UserRole + 2)
-            '''
+
 
     def setListProperties(self, properties_data):              
         self.comboBox_PointMaterialProperty.clear()

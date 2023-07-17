@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_propertiesxQOaEK.ui'
+## Form generated from reading UI file 'widget_draw_menu_propertiesxkyiYA.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -1014,8 +1014,8 @@ class Ui_FormDrawMenuProperties(object):
     def retranslateUi(self, FormDrawMenuProperties):
         FormDrawMenuProperties.setWindowTitle(QCoreApplication.translate("FormDrawMenuProperties", u"Form", None))
         self.toolButton_hideShow.setText("")
-        self.label_cardPropertiesTitle.setText(QCoreApplication.translate("FormDrawMenuProperties", u"PROPIEDADES", None))
-        self.label_cardPropertiesSubTitle1.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear propiedad", None))
+        self.label_cardPropertiesTitle.setText(QCoreApplication.translate("FormDrawMenuProperties", u"MATERIALES", None))
+        self.label_cardPropertiesSubTitle1.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear material", None))
         self.toolButton_cardPropertiesSubTitle1.setText("")
         self.label_textProperties1.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Nombre:", None))
         self.lineEdit_textPropertiesName.setText("")
@@ -1045,8 +1045,8 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesPhi.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" \u00b0", None))
         self.doubleSpinBoxl_textPropertiesC.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" KPa", None))
         self.toolButton_PropertiesCancel.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Cancelar", None))
-        self.toolButton_PropertiesCreateProperty.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear propiedad", None))
-        self.label_cardPropertiesSubTitle2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Lista de propiedades", None))
+        self.toolButton_PropertiesCreateProperty.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear material", None))
+        self.label_cardPropertiesSubTitle2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Lista de materiales", None))
         self.toolButton_cardPropertiesSubTitle2.setText("")
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Empty", None))
     # retranslateUi

@@ -1147,6 +1147,45 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   </spacer>
                  </item>
                  <item>
+                  <widget class="QToolButton" name="toolButton_cardMeshDrawUpdate">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>../recursos/iconos/iconos_menu_draw_mesh/update.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/update.svg</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="arrowType">
+                    <enum>Qt::NoArrow</enum>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_5">
+                   <property name="minimumSize">
+                    <size>
+                     <width>10</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QToolButton" name="toolButton_meshShow">
                    <property name="minimumSize">
                     <size>

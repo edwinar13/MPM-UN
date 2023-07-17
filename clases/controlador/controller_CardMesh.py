@@ -42,6 +42,10 @@ class ControllerCardMesh(QObject):
     @Slot(bool)
     def showHideMesh(self, value):
         self.model_mesh.showHideMesh(value)
+        self.view_card_mesh.ShowHideMesh(value)
+
+
+        
 
     @Slot(bool)
     def showHideLabel(self, value):

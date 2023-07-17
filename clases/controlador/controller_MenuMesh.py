@@ -5,7 +5,7 @@ from clases.Controlador.controller_CardMesh import ControllerCardMesh
 from motorMPM.mesh import create_uniform
 import pygmsh
 import math
-
+import time
 class ControllerMenuMesh(QObject):
 
     signal_new_mesh= Signal() 
@@ -89,7 +89,7 @@ class ControllerMenuMesh(QObject):
         
     @Slot(bool)
     def showHideMeshs(self, show_meshs):
-        #self.state_prev_show_mesh =
+
         for controller in self.list_controller_card:
             controller.showHideMesh(show_meshs)
         
@@ -105,16 +105,91 @@ class ControllerMenuMesh(QObject):
     def showMeshBack(self, value):
         self.model_mesh_back.showHideMesh(value)
 
+    @Slot(bool)
+    def showMeshBackPoint(self, value):
+        self.model_mesh_back.showMeshBackPoint(value)
+
     @Slot()
     def updateMeshBack(self):
-
+        
         size_dx= self.view_menu_mesh.getMeshDx()
         size_dy= self.view_menu_mesh.getMeshDy()
         size_element= self.view_menu_mesh.getMeshBackSize()
         color= self.view_menu_mesh.getColor()
 
+        resul_x = abs(size_dx/size_element - round(size_dx/size_element)) 
+        resul_y = abs(size_dy/size_element - round(size_dy/size_element)) 
+        
+        if resul_x > 1e-11:
+            msn = "No elementos no se ajusta en X"
+            self.view_menu_mesh.msnAlert(True, msn)
+            return 
+        if resul_y > 1e-11:
+            msn = "No elementos no se ajusta en Y"
+            self.view_menu_mesh.msnAlert(True, msn)
+            return 
+        
+        
+        
+
+
+        '''
+            def create_uniform(dimx, dimy, ele_size):
+        """ Funcion que crea una malla regular uniforme de ancho dimx por dimy
+            Elementos cuadrilaterals bilineales
+            dimx = ancho en x 
+            dimy = ancho en y
+            ele_size = Tamano de los elementos"""   
+        #======= Instrucciones para el calculo de tabla de coordenadas ========
+
+        coord = None
+        inci = None
+        nelex = None
+        error = False
+
+        nelex = int(round(dimx / ele_size)) ; neley = int(round(dimy / ele_size))
+
+        if abs(dimx/ele_size - round(dimx/ele_size)) > 1e-11:
+            print("El numero de elementos no se ajusta en la direccion x")
+            error= True
+            return coord ,inci ,nelex, error
+        if abs(dimy/ele_size - round(dimy/ele_size)) > 1e-11:
+            print("El numero de elementos no se ajusta en la direccion y")
+            error= True
+            return coord ,inci ,nelex, error
+
+        assert (abs(dimx/ele_size - round(dimx/ele_size)) < 1e-11), "El numero de elementos no se ajusta en la direccion x"
+        assert (abs(dimy/ele_size - round(dimy/ele_size))< 1e-11), "El numero de elementos no se ajusta en la direccion y"
+            
+        '''
+
 
         mesh_cuad_coord, mesh_cuad_inci, mesh_cuad_nelex, error = create_uniform(size_dx,size_dy,size_element)
+
+
+        
+
+        nnodesx = int(mesh_cuad_nelex + 1)
+        nnodesy = int(len(mesh_cuad_coord) / nnodesx)
+        count=0
+        points_boundary_top = []
+        points_boundary_bottom = []        
+        points_boundary_left = []
+        points_boundary_right = []
+        for y in range(nnodesy):
+            for x in range(nnodesx):
+                coor_boundary = mesh_cuad_coord[count].tolist()
+                if y==0:
+                    points_boundary_bottom.append(coor_boundary)
+                if y==nnodesy-1:
+                    points_boundary_top.append(coor_boundary)
+                if x==0:
+                    points_boundary_left.append(coor_boundary)
+                if x==nnodesx-1:
+                    points_boundary_right.append(coor_boundary)
+
+                count +=1
+
         if error:            
             return
 
@@ -126,12 +201,20 @@ class ControllerMenuMesh(QObject):
         for triangle in mesh_cuad_inci:
             quadrilaterals.append([int(triangle[0])-1,int(triangle[1])-1,int(triangle[2])-1,int(triangle[3])-1])
         
+        
+
         self.model_mesh_back.updateMesh(size_dx=size_dx,
                                         size_dy=size_dy,
                                         size_element=size_element,
                                         color=color,
                                         points=points,
-                                        quadrilaterals=quadrilaterals)
+                                        quadrilaterals=quadrilaterals,
+                                        points_boundary_top = points_boundary_top,
+                                        points_boundary_bottom = points_boundary_bottom,
+                                        points_boundary_left = points_boundary_left,
+                                        points_boundary_right = points_boundary_right)
+        
+    
 
      
     
@@ -378,7 +461,6 @@ class ControllerMenuMesh(QObject):
             return False
         
 
-
     def line_Intersection(self, polygon):
         len_lines = len(polygon)
         linesF = []
@@ -401,7 +483,6 @@ class ControllerMenuMesh(QObject):
             new_list_line.append(line_ref)
             if len(linesF)==0:
                 return False
-
 
 
     def generate_mesh_quadrilateral(self, polygon, mesh_size):
@@ -478,65 +559,6 @@ class ControllerMenuMesh(QObject):
 
                 quadrilaterals.append([vertex_1,vertex_2,vertex_3,vertex_4])
         n_element = len(quadrilaterals)
-        return points, quadrilaterals, n_element
-
-
-    def AAgenerate_mesh_quadrilateral(self, lines, mesh_size):
-
-
-        polygon = self.is_closed_polygon(lines)
-
-        line_A = polygon[1]
-        #line_B = polygon[1]
-        line_AA = polygon[3]
-        #line_D = polygon[3]
-
-        pA1 = line_A[0]
-        pA2 = line_A[1]
-        dist_A = math.sqrt((pA2[0] - pA1[0])**2 + (pA2[1] - pA1[1])**2)
-
-        pAA1 = line_AA[0]
-        pAA2 = line_AA[1]
-        dist_AA = math.sqrt((pAA2[0] - pAA1[0])**2 + (pAA2[1] - pAA1[1])**2)
-
-        if dist_A >= dist_AA:
-            dist_max = dist_A
-        else:
-            dist_max = dist_AA
-
-
-        parts = int(dist_max/mesh_size)
-
-        result_A = self.divide_line(line_A, parts)
-        #result_B = self.divide_line(line_B, parts)
-        result_AA = self.divide_line(line_AA, parts)
-        #result_D = self.divide_line(line_D, parts)
-
-        result_AA.reverse()
-        #result_D.reverse()
-
-        points = []
-        for i in range(0, len(result_A)):
-            result_B_i = self.divide_line([result_A[i],result_AA[i]], parts)
-            for point in result_B_i:
-                points.append(point)
-
-        quadrilaterals = []
-        nx = ny = parts
-        n_nodos = parts + 1 
-        for j in range(0, nx):
-            for k in range(1, ny+1):
-
-                vertex_1 = (k) + (j * n_nodos)
-                vertex_2 = (k + 1) + (j * n_nodos)
-                vertex_3 = (k) + ((j + 1) * n_nodos)
-                vertex_4 = (k + 1) + ((j + 1) * n_nodos)
-
-
-                quadrilaterals.append([vertex_1,vertex_2,vertex_3,vertex_4])
-
-        n_element = len(quadrilaterals)
-        
         return points, quadrilaterals, n_element
 
     def divide_line(self, line, parts):

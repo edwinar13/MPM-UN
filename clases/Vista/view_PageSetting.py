@@ -215,10 +215,10 @@ class ViewPageSetting(QFrame, ui_frame_setting.Ui_FormSetting):
 
         self.updateSetting(updateAll=True)
     
-    def changeTheme(self):
+    def changeTheme(self):        
 
         index_theme = self.comboBox_3.currentIndex()
-        if index_theme ==2:
+        if index_theme ==1:
             self.comboBox_3.setCurrentIndex(0)
         else:
             self.comboBox_3.setCurrentIndex(index_theme+1)

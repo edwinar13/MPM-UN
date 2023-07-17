@@ -121,7 +121,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 
 
     def __clickedToolButtonColorMaterialPoint(self):
-        color = QColorDialog.getColor(initial=QColor(200,200,200))
+        color = QColorDialog.getColor(initial=QColor(self.__card_color_material_point))
         if color.isValid():
             self.__card_color_material_point=color.name()
             self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_material_point))
@@ -152,14 +152,12 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         """ Muestra u oculta la malla """
 
         if self.__card_show_hide_material_point:            
-            self.__card_show_hide_material_point = False
-            self.toolButton_showHideMaterialPoint.setIcon(self.icon_hide)
+            self.signal_hide_show_material_point.emit(False)
             
         else :            
-            self.__card_show_hide_material_point = True
-            self.toolButton_showHideMaterialPoint.setIcon(self.icon_show)    
+            self.signal_hide_show_material_point.emit(True)
+
       
-        self.signal_hide_show_material_point.emit(self.__card_show_hide_material_point)
          
     def __clickedToolButtonCloseMaterialPoint(self):       
         dialoMsg = class_ui_dialog_msg.DialogMsg(self, 3, 
@@ -221,7 +219,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
 
 
-    def setListProperties(self, properties_data, selected_property):              
+    def setListProperties(self, properties_data, selected_property): 
         self.comboBox_PointMaterialProperty.clear()
         for item_index in range(len(properties_data)):
             id_property =properties_data[item_index][0]
@@ -240,6 +238,13 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 
 
 
+    def ShowHideMaterialPoint(self, value):
+
+        self.__card_show_hide_material_point = value
+        if self.__card_show_hide_material_point:          
+            self.toolButton_showHideMaterialPoint.setIcon(self.icon_show)  
+        else :            
+            self.toolButton_showHideMaterialPoint.setIcon(self.icon_hide)
 
 
 

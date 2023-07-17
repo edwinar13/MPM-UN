@@ -117,11 +117,9 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
 
         # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
-        self.doubleSpinBoxl_textMeshDx.valueChanged.connect(self.__valueChangedDoubleSpinBoxMeshDx)
-        self.doubleSpinBoxl_textMeshDy.valueChanged.connect(self.__valueChangedDoubleSpinBoxMeshDy)
-        self.doubleSpinBoxl_textMeshSize_2.valueChanged.connect(self.__valueChangedDoubleSpinBoxMeshSize)
         self.toolButton_meshShow.clicked.connect(self.__clickedToolButton_meshShow)
-        self.toolButton_meshHide.clicked.connect(self.__clickedToolButton_meshHide)        
+        self.toolButton_meshHide.clicked.connect(self.__clickedToolButton_meshHide)       
+        self.toolButton_cardMeshDrawUpdate.clicked.connect(self.__clickedToolButton_meshUpdate) 
         self.lineEdit_textMeshName.editingFinished.connect(self.__editingFinishedLineEditMeshName)
         self.toolButton_cardMeshDrawSize.clicked.connect(self.__clickedToolButtonSizeMesh)  
         self.toolButton_cardMeshDrawSelected.clicked.connect(self.__clickedToolButtonSelectLine)  
@@ -209,27 +207,20 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
 
   
-    def __valueChangedDoubleSpinBoxMeshDx(self):
-        if self.user_interaction:
-            self.signal_mesh_back_changed.emit()
-
-    def __valueChangedDoubleSpinBoxMeshDy(self):
+    def __clickedToolButton_meshUpdate(self):
         if self.user_interaction:
             self.signal_mesh_back_changed.emit()
         
-    def __valueChangedDoubleSpinBoxMeshSize(self):
-        if self.user_interaction:
-            self.signal_mesh_back_changed.emit()
-        
-    def __clickedToolButton_meshShow(self):
-        self.setPropertyStyle(self.toolButton_meshShow, 6)
-        self.setPropertyStyle(self.toolButton_meshHide, 7)
-        self.signal_mesh_back_show.emit(True)
 
     def __clickedToolButton_meshHide(self):
+        self.setPropertyStyle(self.toolButton_meshShow, 6)
+        self.setPropertyStyle(self.toolButton_meshHide, 7)
+        self.signal_mesh_back_show.emit(False)
+
+    def __clickedToolButton_meshShow(self):
         self.setPropertyStyle(self.toolButton_meshShow, 5)
         self.setPropertyStyle(self.toolButton_meshHide, 8)
-        self.signal_mesh_back_show.emit(False)
+        self.signal_mesh_back_show.emit(True)
      
     def __editingFinishedLineEditMeshName(self):
         self.lineEdit_textMeshName.setStyleSheet("border-color: #444444")
@@ -237,7 +228,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.label_msn.setStyleSheet("color: #333333") 
           
     def __clickedToolButtonColorPicker(self):
-        self.setPropertyStyle(self.toolButton_cardMeshDrawColor, 4)       
+        self.setPropertyStyle(self.toolButton_cardMeshDrawColor, 4)             
         color = QColorDialog.getColor(initial=QColor(200,200,200))
         if color.isValid():
             self.__color_mesh=color.name()
@@ -399,6 +390,11 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         else:
             self.lineEdit_textMeshSelected.setFocus()
             self.lineEdit_textMeshSelected.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+
+    def msnAlert(self, error, msn=""):
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))

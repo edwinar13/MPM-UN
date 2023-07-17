@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>437</width>
-    <height>339</height>
+    <height>314</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -50,7 +50,7 @@ bold: font: 700 9pt &quot;Ubuntu&quot;;
 QFrame#frame_properties1{
 background: #333333;
 border: 1px solid #222222;
-border-radius: 15px
+border-radius: 5px
 }
 
 

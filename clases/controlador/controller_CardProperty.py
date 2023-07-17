@@ -56,8 +56,7 @@ class ControllerCardProperty(QObject):
         for id_model_material_point in models_materials_points:
             model_material_point = models_materials_points[id_model_material_point]
             name_MP =model_material_point.getName()
-            name_property_to_MP= model_material_point.getProperty().getName()
-            print(self.name , name_property_to_MP)
+            name_property_to_MP= model_material_point.getProperty().getName()            
             if self.name == name_property_to_MP:
                 self.signal_msn.emit("Material este asignado a un MP [{}]".format(name_MP))
                 return 

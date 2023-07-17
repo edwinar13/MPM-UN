@@ -46,7 +46,7 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
          #self.toolButton_updateData.setVisible(False)
         
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
-        self.label_lat = class_general.QLabelVertical('PROPIEDADES')
+        self.label_lat = class_general.QLabelVertical('MATERIALES')
         self.label_lat.setFont(QFont('Ubuntu', 9))
         self.label_lat.setStyleSheet("QLabel { background-color : transparent; color : #DDDDDD; font: 700 9pt Ubuntu;}"); 
         self.verticalLayout_2.addWidget(self.label_lat)

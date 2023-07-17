@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowbXUBzB.ui'
+## Form generated from reading UI file 'main_windowuPaYWD.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -1016,7 +1016,7 @@ class Ui_MainWindow(object):
         self.toolButton_home.setText(QCoreApplication.translate("MainWindow", u"Inicio", None))
         self.toolButton_drawData.setText(QCoreApplication.translate("MainWindow", u"Datos", None))
         self.toolButton_drawMesh.setText(QCoreApplication.translate("MainWindow", u"Mallado", None))
-        self.toolButton_drawProperties.setText(QCoreApplication.translate("MainWindow", u"Propiedades", None))
+        self.toolButton_drawProperties.setText(QCoreApplication.translate("MainWindow", u"Materiales", None))
         self.toolButton_drawPoint.setText(QCoreApplication.translate("MainWindow", u"Particulas", None))
         self.toolButton_drawBoundary.setText(QCoreApplication.translate("MainWindow", u"Contorno", None))
         self.toolButton_drawExecute.setText(QCoreApplication.translate("MainWindow", u"Ejecutar", None))

@@ -276,8 +276,13 @@ class ModelProjectCurrentRepository():
             (dict): Diccionario con la malla de fondo del proyecto.
         """   
         return self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']
-    
-    def updateMeshBackDB(self, size_dx=None, size_dy=None, size_element=None,color=None,points=None,quadrilaterals=None):
+
+   
+
+    def updateMeshBackDB(self, size_dx=None, size_dy=None, size_element=None,color=None,points=None,quadrilaterals=None,
+            points_boundary_top = None,points_boundary_bottom = None,points_boundary_left = None,points_boundary_right = None):
+
+
 
         try:                  
             
@@ -293,6 +298,14 @@ class ModelProjectCurrentRepository():
                 self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTS"]=points
             if quadrilaterals != None:   
                 self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["QUADRILATERALS"]=quadrilaterals
+            if points_boundary_top != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYTOP"]=points_boundary_top
+            if points_boundary_bottom != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYBOTTOM"]=points_boundary_bottom
+            if points_boundary_left != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYLEFT"]=points_boundary_left
+            if points_boundary_right != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYRIGHT"]=points_boundary_right
 
 
             return True
@@ -437,62 +450,6 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
 
-	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
-    def createMaterialPointDB(self, id_MP, name, color, points,id_property):    
-        
-        #try:                 
-        self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP] = {
-            "NAME": name,
-            "COLOR": color,
-            "POINTS": points,
-            "IDPROPIEDAD": id_property
-        }
-        
-        return True
-        '''
-        except BaseException as err:
-            print("[Doc: {}] Error al agregar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
-            print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
-        '''
-    
-    def readMaterialPointDB(self):
-        """
-        Lee los puntos materiales almacenados en la base de datos del proyecto actual.
-        Returns:
-            (dict): Diccionario con los puntos materiales del proyecto.
-        """ 
-        return self.__unguarded_copy_db_project['PUNTOSMATERIAL']
-    
-    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None, id_property=None):
-
-        try: 
-            if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
-                if name != None:                      
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["NAME"]=name
-                if color != None:   
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["COLOR"]=color
-                if points != None:   
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"]=points
-                if id_property != None:   
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["IDPROPIEDAD"]=id_property
-
-            return True
-        except BaseException as err:
-            print("[Doc: {}] Error al actualizar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
-            print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
-    def deleteMaterialPointDB(self, id_MP):
-
-        try:            
-            if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']:
-                del self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]             
-            return True
-        except BaseException as err:
-            print("[Doc: {}] Error al eliminar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
-            print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
-        
 	# ::::::::::::::::::::       MÉTODOS DB PROPIEDADES     ::::::::::::::::::::   
     def createPropertiesDB(self, id_properties, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, angle_dilatancy):    
         
@@ -562,7 +519,120 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
         
-  
+	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
+    def createMaterialPointDB(self, id_MP, name, color, points,id_property):    
+        
+        #try:                 
+        self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP] = {
+            "NAME": name,
+            "COLOR": color,
+            "POINTS": points,
+            "IDPROPIEDAD": id_property
+        }
+        
+        return True
+        '''
+        except BaseException as err:
+            print("[Doc: {}] Error al agregar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        '''
+    
+    def readMaterialPointDB(self):
+        """
+        Lee los puntos materiales almacenados en la base de datos del proyecto actual.
+        Returns:
+            (dict): Diccionario con los puntos materiales del proyecto.
+        """ 
+        return self.__unguarded_copy_db_project['PUNTOSMATERIAL']
+    
+    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None, id_property=None):
+
+        try: 
+            if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
+                if name != None:                      
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["NAME"]=name
+                if color != None:   
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["COLOR"]=color
+                if points != None:   
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"]=points
+                if id_property != None:   
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["IDPROPIEDAD"]=id_property
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def deleteMaterialPointDB(self, id_MP):
+
+        try:            
+            if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']:
+                del self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]             
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        
+	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
+    def createBoundaryDB(self, id_boundary, name, points,restrictionX, restrictionY):    
+        
+        try:                 
+            self.__unguarded_copy_db_project['CONTORNOS'][id_boundary] = {
+                "NAME": name,
+                "POINTS": points,
+                "Tx": restrictionX,
+                "Ty": restrictionY
+            }
+            
+            return True
+        
+        except BaseException as err:
+            print("[Doc: {}] Error al agregar registro en <CONTORNOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        
+    
+    def readBoundaryDB(self):
+        """
+        Lee los puntos materiales almacenados en la base de datos del proyecto actual.
+        Returns:
+            (dict): Diccionario con los puntos materiales del proyecto.
+        """ 
+        return self.__unguarded_copy_db_project['CONTORNOS']
+    
+    def updateBoundaryDB(self,id_boundary, name=None, points=None, restrictionX=None, restrictionY=None):
+
+        try: 
+            if id_boundary in self.__unguarded_copy_db_project['CONTORNOS']: 
+                if name != None:                      
+                    self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["NAME"]=name
+                if points != None:   
+                    self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["POINTS"]=points
+                if restrictionX != None:   
+                    self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["Tx"]=restrictionX
+                if restrictionY != None:   
+                    self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["Ty"]=restrictionY
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <PUNTCONTORNOSOSMATERIAL> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def deleteBoundaryDB(self, id_boundary):
+
+        try:            
+            if id_boundary in self.__unguarded_copy_db_project['CONTORNOS']:
+                del self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]             
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <CONTORNOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################

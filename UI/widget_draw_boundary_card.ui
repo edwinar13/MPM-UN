@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDrawMaterialPointCard</class>
- <widget class="QWidget" name="FormDrawMaterialPointCard">
+ <class>FormDrawBoundaryCard</class>
+ <widget class="QWidget" name="FormDrawBoundaryCard">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
-    <height>81</height>
+    <width>517</width>
+    <height>41</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -47,22 +47,26 @@ bold: font: 700 9pt &quot;Ubuntu&quot;;
 /****************************************************************************************************************************************************/
 
 
-QLabel#label_cardNameMaterialPoint{
-font: 500 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
+QLabel#label_cardNameBoundary{
 margin-left: 10px;
 }
+
+
 
 QFrame#frame_card{
 background: #222222;
 border-radius:4px
 }
-QFrame#frame_color{
-background: #D0D555;
-border-top-right-radius:3px;
-border-bottom-right-radius: 3px
+
+QFrame[QFrameStyle_=&quot;1&quot;]{
+background: transparent;
 }
 
+QFrame[QFrameStyle_=&quot;2&quot;]{
+background: transparent;
+border-radius:5px;
+border: 1px solid #F94646;
+}
 
 QToolButton[style_material_point_card_button=&quot;1&quot;]{
 background-color: transparent;
@@ -80,7 +84,7 @@ border-left: 2px solid #222222;
 }  
 
 
-QLineEdit#lineEdit_nameMaterialPoint{
+QLineEdit#lineEdit_nameBoundary{
 font: 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #444444;
@@ -172,7 +176,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
     <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>8</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
     <number>5</number>
@@ -208,7 +212,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        <number>5</number>
       </property>
       <property name="leftMargin">
-       <number>0</number>
+       <number>5</number>
       </property>
       <property name="topMargin">
        <number>3</number>
@@ -220,17 +224,17 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        <number>3</number>
       </property>
       <item>
-       <widget class="QFrame" name="frame_color">
+       <widget class="QFrame" name="frame_Tx">
         <property name="minimumSize">
          <size>
-          <width>10</width>
-          <height>30</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>10</width>
-          <height>30</height>
+          <height>20</height>
          </size>
         </property>
         <property name="frameShape">
@@ -239,61 +243,131 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
+        <property name="QFrameStyle_" stdset="0">
+         <number>2</number>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_BoundaryTx">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>160</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Tx</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="QLabelStyle" stdset="0">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_colorMaterialPoint">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
-        </property>
-        <property name="iconSize">
+       <widget class="QFrame" name="frame_Ty">
+        <property name="minimumSize">
          <size>
           <width>20</width>
           <height>20</height>
          </size>
         </property>
-        <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
-        </property>
-        <property name="style_material_point_card_button" stdset="0">
-         <string>1</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_cardNameMaterialPoint">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>0</height>
-         </size>
-        </property>
         <property name="maximumSize">
          <size>
-          <width>160</width>
-          <height>16777215</height>
+          <width>20</width>
+          <height>20</height>
          </size>
         </property>
-        <property name="text">
-         <string>Material. Point 1</string>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
+        <property name="QFrameStyle_" stdset="0">
+         <number>2</number>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_BoundaryTy">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>160</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Ty</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="QLabelStyle" stdset="0">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_nameMaterialPoint">
+       <widget class="QLabel" name="label_cardNameBoundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -308,7 +382,38 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
         </property>
         <property name="maximumSize">
          <size>
-          <width>160</width>
+          <width>130</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Material. Point 1</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="QLabelStyle" stdset="0">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_nameBoundary">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>130</width>
           <height>16777215</height>
          </size>
         </property>
@@ -331,7 +436,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_okMaterialPoint">
+       <widget class="QToolButton" name="toolButton_okBoundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>0</horstretch>
@@ -381,7 +486,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_exitMaterialPoint">
+       <widget class="QToolButton" name="toolButton_exitBoundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>0</horstretch>
@@ -431,7 +536,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_editMaterialPoint">
+       <widget class="QToolButton" name="toolButton_editBoundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>0</horstretch>
@@ -481,7 +586,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_showHideMaterialPoint">
+       <widget class="QToolButton" name="toolButton_showHideBoundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>25</horstretch>
@@ -531,7 +636,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_closeMaterialPoint">
+       <widget class="QToolButton" name="toolButton_closeBoundary">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>0</horstretch>
@@ -576,65 +681,6 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <enum>Qt::ToolButtonIconOnly</enum>
         </property>
         <property name="style_material_point_card_button" stdset="0">
-         <number>1</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="frame_edit">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>20</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label_textPointMaterialProperty">
-        <property name="minimumSize">
-         <size>
-          <width>80</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Material:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="QLabelStyle" stdset="0">
-         <number>3</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBox_PointMaterialProperty">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::WheelFocus</enum>
-        </property>
-        <property name="QComboBoxStyle" stdset="0">
          <number>1</number>
         </property>
        </widget>

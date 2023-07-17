@@ -35,9 +35,11 @@ class ControllerCardMaterialPoint(QObject):
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
 	###############################################################################
-    @Slot(bool)
+
+    
     def showHideMaterialPoint(self, value):
         self.model_point_material.showHideMaterialPoint(value)  
+        self.view_card_material_point.ShowHideMaterialPoint(value)
 
     @Slot(bool)
     def showHideLabel(self, value):

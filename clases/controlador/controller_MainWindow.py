@@ -138,6 +138,8 @@ class ControllerMainWindow():
         elif nameButton==self.view_main_window.ui.toolButton_drawExecute.objectName() :
             self.previous_selected_button = 7
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
+            self.controller_page_draw.selectMenu("execute")
+            self.controller_page_draw.controller_menu_execute.configDrawMenuExecute()
             self.setting = True
 
 
@@ -207,7 +209,8 @@ class ControllerMainWindow():
         self.controller_page_draw.controller_menu_mesh.configDrawMenuMesh()
         self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
         self.controller_page_draw.controller_menu_properties.configDrawMenuProperties()
-        #self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
+        self.controller_page_draw.controller_menu_boundary.configDrawMenuBoundary()
+        self.controller_page_draw.controller_menu_execute.configDrawMenuExecute()
         
        
         self.view_main_window.activateMenuLat()

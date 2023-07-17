@@ -362,7 +362,11 @@ class ModelProjects:
                     "SIZEELEMENT": 1,
                     "COLOR": "#555696",
                     "POINTS":[[0,0,],[1,0],[1,1],[0,1]],
-                    "QUADRILATERALS": [[0,1,2,3]]
+                    "QUADRILATERALS": [[0,1,2,3]],
+                    "POINTSBOUNDARYTOP":[[1,0],[1,1]],
+                    "POINTSBOUNDARYBOTTOM":[[0,0],[0,1]],
+                    "POINTSBOUNDARYLEFT":[[0,0],[0,1]],
+                    "POINTSBOUNDARYRIGHT":[[1,1],[0,1]]
                     },
                 "TRIANGULARES": {},
                 "CUADRILATEROS": {}

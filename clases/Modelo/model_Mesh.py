@@ -3,42 +3,7 @@ from clases.items_GraphicsDraw import TextFrameItem, PointMeshBackItem, Triangle
 from clases.Vista.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
 
-
-'''
-class ModelMesh:
-
-    def __init__(self, name, color, points, triangles) -> None:
-
-
-        self.__name = name
-        self.__color = color
-        self.__points = points
-        self.__triangles = triangles    
-
-   
-
-    ###############################################################################
-	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
-	###############################################################################
-    
-
-    def getName(self):
-        return self.__name
-    
-    def getColor(self):
-        return self.__color
-
-    def getPoints(self):
-        return self.__points
-
-    def getTriangles(self):
-        return self.__triangles
-    
-    def getData(self):
-        """return: id, name, color, points, triangles]"""
-        return[self.__name, self.__color, self.__points, self.__triangles]
-
-'''
+import time
 
 class ModelMeshTriangle:
 
@@ -188,7 +153,7 @@ class ModelMeshQuadrilateral:
                                      coordinates = coordinates)
             self.group_mesh.addToGroup(item)
         self.scene_draw.addItem(self.group_mesh)
-        self.group_mesh.setZValue(5)
+        self.group_mesh.setZValue(10)
 
         sum_x = 0
         sum_y = 0
@@ -202,7 +167,7 @@ class ModelMeshQuadrilateral:
         self.scene_draw.addItem(self.text_name)
         self.text_name.setVisible(False)
         self.text_name.setColor("#222333")
-        self.text_name.setZValue(5)
+        self.text_name.setZValue(100)
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -277,11 +242,11 @@ class ModelMeshQuadrilateral:
         self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
 
-
 class ModelMeshBack:
 
     def __init__(self, scene_draw:QGraphicsScene,model_project_current_repository:ModelProjectCurrentRepository,
-                size_dx, size_dy, size_element, color, points, quadrilaterals) -> None:
+                size_dx, size_dy, size_element, color_style, points, quadrilaterals,
+                points_boundary_top, points_boundary_bottom, points_boundary_left, points_boundary_right) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
@@ -289,12 +254,20 @@ class ModelMeshBack:
         self.__size_dx = size_dx
         self.__size_dy = size_dy
         self.__size_element = size_element
-        self.__color = color
+        self.__color_style = color_style
         self.__points = points
         self.__quadrilaterals = quadrilaterals    
 
+
+
+        self.points_boundary_top = points_boundary_top
+        self.points_boundary_bottom = points_boundary_bottom
+        self.points_boundary_left = points_boundary_left
+        self.points_boundary_right = points_boundary_right
+
         #crear item escena
         self.group_mesh  = QGraphicsItemGroup()
+        self.group_mesh_point  = QGraphicsItemGroup()
 
         for quadrilateral in quadrilaterals:
 
@@ -310,22 +283,25 @@ class ModelMeshBack:
             p2 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[1]][0], points[quadrilateral[1]][1])
             p3 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[2]][0], points[quadrilateral[2]][1])
             p4 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[3]][0], points[quadrilateral[3]][1])
-            self.group_mesh.addToGroup(p1)
-            self.group_mesh.addToGroup(p2)
-            self.group_mesh.addToGroup(p3)
-            self.group_mesh.addToGroup(p4)
+
+            self.group_mesh_point.addToGroup(p1)
+            self.group_mesh_point.addToGroup(p2)
+            self.group_mesh_point.addToGroup(p3)
+            self.group_mesh_point.addToGroup(p4)
             
             item = QuadrilateraLMeshBackItem(
-                                        color=color,
+                                        color_style=color_style,
                                         coordinates = coordinates,
                                         p1=p1,
                                         p2=p2,
                                         p3=p3,
                                         p4=p4)
             self.group_mesh.addToGroup(item)
+        self.group_mesh.addToGroup(self.group_mesh_point)
         self.scene_draw.addItem(self.group_mesh)
-        self.group_mesh.setZValue(4)
-        self.showHideMesh(False)
+        self.group_mesh_point.setVisible(False)
+        self.group_mesh.setZValue(0)
+    
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -343,8 +319,8 @@ class ModelMeshBack:
     def getSizeElement(self):
         return self.__size_element
     
-    def getColor(self):
-        return self.__color
+    def getColorStyle(self):
+        return self.__color_style
 
     def getPoints(self):
         return self.__points
@@ -352,9 +328,18 @@ class ModelMeshBack:
     def getQuadrilaterals(self):
         return self.__quadrilaterals
     
+    def getBoundary(self):
+        points_boundary_top = self.points_boundary_top
+        points_boundary_bottom = self.points_boundary_bottom 
+        points_boundary_left = self.points_boundary_left
+        points_boundary_right = self.points_boundary_right
+        
+        return [points_boundary_top,points_boundary_bottom ,points_boundary_left ,points_boundary_right]
+        
+    
     def getData(self):
-        """return: size_dx, size_dy, size_element, color, points, quadrilaterals]"""
-        return[self.__size_dx, self.__size_dy, self.__size_element, self.__color, self.__points, self.__quadrilaterals]
+        """return: size_dx, size_dy, size_element, color, points, points_boudaries]"""
+        return[self.__size_dx, self.__size_dy, self.__size_element, self.__color_style, self.__points, self.getBoundary()]
        
     ###############################################################################
     # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
@@ -362,23 +347,38 @@ class ModelMeshBack:
     
     def showHideMesh(self, value):
         self.group_mesh.setVisible(value)
-    
-    def updateMesh(self,size_dx=None, size_dy= None, size_element=None, color= None, points= None, quadrilaterals = None):
 
+    def showMeshBackPoint(self, value):
+        self.group_mesh_point.setVisible(value)
+    
+    def updateMesh(self,size_dx=None, size_dy= None, size_element=None, color= None, points= None, quadrilaterals = None, 
+                   points_boundary_top= None, points_boundary_bottom= None, points_boundary_left= None, points_boundary_right= None
+                   ):
+        
         if size_dx != None:
             self.__size_dx = size_dx
         if size_dy != None:
             self.__size_dy = size_dy
         if size_element != None:
             self.__size_element = size_element
-        if color != None:
-            self.__color = color
-            self.setColorItem(self.__color)
+
         if points != None:
             self.__points = points
         if quadrilaterals != None:
             self.__quadrilaterals = quadrilaterals
+            self.__points = points
 
+        if points_boundary_top != None:
+            self.points_boundary_top = points_boundary_top
+        if points_boundary_bottom != None:
+            self.points_boundary_bottom = points_boundary_bottom
+        if points_boundary_left != None:
+            self.points_boundary_left = points_boundary_left
+        if points_boundary_right != None:
+            self.points_boundary_right = points_boundary_right
+
+
+        
 
         self.model_project_current_repository.updateMeshBackDB(
             size_dx=size_dx,
@@ -386,21 +386,25 @@ class ModelMeshBack:
             size_element = size_element,
             color=color,
             points=points,
-            quadrilaterals=quadrilaterals
+            quadrilaterals=quadrilaterals,
+            points_boundary_top = points_boundary_top,
+            points_boundary_bottom = points_boundary_bottom,
+            points_boundary_left = points_boundary_left,
+            points_boundary_right = points_boundary_right
         )
+        
         self.setPointsQuadrilateralsItem()
-
-
+        
 
     def setPointsQuadrilateralsItem(self):
-        for item in self.group_mesh.childItems():
-            self.group_mesh.removeFromGroup(item)
-            self.scene_draw.removeItem(item)   
 
-        color = self.__color
+        for item in self.group_mesh.childItems():
+            self.scene_draw.removeItem(item)      
+        self.group_mesh.childItems().clear()
+
+        color_style = self.__color_style
         points = self.__points
         quadrilaterals = self.__quadrilaterals
-
 
         for quadrilateral in quadrilaterals:
             coordinates=[
@@ -414,13 +418,14 @@ class ModelMeshBack:
             p2 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[1]][0], points[quadrilateral[1]][1])
             p3 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[2]][0], points[quadrilateral[2]][1])
             p4 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[3]][0], points[quadrilateral[3]][1])
-            self.group_mesh.addToGroup(p1)
-            self.group_mesh.addToGroup(p2)
-            self.group_mesh.addToGroup(p3)
-            self.group_mesh.addToGroup(p4)
+
+            self.group_mesh_point.addToGroup(p1)
+            self.group_mesh_point.addToGroup(p2)
+            self.group_mesh_point.addToGroup(p3)
+            self.group_mesh_point.addToGroup(p4)
             
             item = QuadrilateraLMeshBackItem(
-                                        color=color,
+                                        color_style=color_style,
                                         coordinates = coordinates,
                                         p1=p1,
                                         p2=p2,
@@ -429,15 +434,22 @@ class ModelMeshBack:
 
 
             self.group_mesh.addToGroup(item)
-
+        
+        self.group_mesh.addToGroup(self.group_mesh_point)
+        self.group_mesh_point.setVisible(False)  
+        
         self.scene_draw.update()
-        
-        
+           
+    def changeTheme(self,index_style):
+
+        if index_style == 0:
+            self.setColorItem(color=0)
+        elif index_style == 1:
+            self.setColorItem(color=1)
+
 
     def setColorItem(self, color):
         for item in self.group_mesh.childItems():
             if isinstance(item, QuadrilateraLMeshBackItem):
                 item.setColor(color)
         self.scene_draw.update()
-    
-
