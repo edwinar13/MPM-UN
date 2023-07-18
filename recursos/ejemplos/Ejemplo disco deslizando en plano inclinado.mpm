@@ -1,0 +1,7 @@
+{"INFORMACION": {"NOMBREPROYECTO": "", "LOCALIZACION": "", "AUTOR": "", "DESCRIPCION": ""},
+    "CONFIGURACION": {"GRAVEDAD": "9.8"},
+    "MALLAS": {}, 
+    "PUNTOSMATERIAL": {}, 
+    "MATERIALES": {},
+    "RESULTADOS": {}
+}

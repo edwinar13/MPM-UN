@@ -1,0 +1,32 @@
+$ git log --graph --full-history --all --pretty=format:"%x09%d%x20%s" > "Git Tree.txt"
+
+*    en desarrollo....   v0.6.2 opciones eliminar, mover y copiar
+*    v0.6.1 punto de restauracion, se elimina la version anterior de la escena y vista y se deja la definitiva
+*    v0.6.0 se cambio la logica para dibujo (escena/vista), se agrega punto, linea y rectangulo, ayudas para dibujo como snap, osnap y ortho
+
+* 	 v0.5.6 se agrega en configuración opciones para grilla y snap/grilla, se ajusta la forma de insertar un punto al dibujo
+* 	 V0.5.5 se agrega polilínea y rectángulo para dibujar
+* 	 v0.5.4 se ajusto la figura del origen y la consola para mostrar u ocultar, se tiene la primera base para línea y punto
+* 	 v0.5.3 se ajusto la vista de configuraciones, para el puntero, grilla, estilo de vista, shortcut, se coloco el origen de coordenadas, se ajusto el input de la consola para key ESC y para ingresar comando, se ajusto salir de setting con ESC
+*	 v0.5.2 funcionalidad de grilla, ejes principales, zoom y pan
+* 	 v0.5.1 punto de restauracion, aca funciona muy basico el graphcs view y scene, se va a justar segun ejemplo de pyside6-diagramsscene
+* 	 v0.5.0 incluyo el menú básico de mallado, se le dio funcionalidad a la text view y botón de la consola
+
+* 	 v0.4.1 se ha corregido un error en los mensajes de statusBar, se agrega la funcionalidad de guardar como, que muestre si el proyecto tiene cabios en el titulo del main window, y que pregunte si quiere guardar al cambia de proyecto
+* 	 v0.4.0 se ha documentado todos los archivos e implementado la funcionalidad de guardar y al salir de main window
+
+* 	 v0.3.0 UI data project lista con todas las funcionalidades
+
+* 	 v0.2.3 UI home lista con todas las funcionalidades
+* 	 v0.2.2  UI de Home queda lista y funcional, falta habilitar los archivos de ejemplos
+* 	 v0.2.1 se separa la UI de Home del main window, queda con funcionalidad igual que la v0.2.0
+* 	 v0.2.0 si bien, esta version es la mas estable repecto al manejo de archivos mpm, se ve muy desordenada  las card, al minimizar, por lo cual se implementara nuevo UI inicio
+
+* 	 V0.1.4 card proyectos con funcionalidad, ya se actualizan al elegir alguna y envian señal para abrir doc
+* 	 V0.1.3 se incluye varias formas de comunicacion entre clases, y de varias se obtiene una que funcion con Slot y Signal
+* 	 V0.1.2 se ajusto la logica para proyectos abrir, nuevo, etc
+* 	 V0.1.1 se agrega tarjetas de proyectos
+* 	 v0.2.0 se agrega ventana general (con funcionalidades basicas) y menu superior, y la vista basica de home
+* 	 V0.1.0 se incluye splash screen con toda la funcionalidad
+
+* 	 (origin/main, origin/beta, origin/HEAD, main) Initial commit
