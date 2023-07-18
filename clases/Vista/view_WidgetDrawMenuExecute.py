@@ -1,6 +1,6 @@
 
-from PySide6.QtCore import ( Signal, QSize,QTimer, QStringListModel )
-from PySide6.QtGui import (QIcon, QFont, )
+from PySide6.QtCore import ( Signal, QSize,QTimer, QStringListModel)
+from PySide6.QtGui import (QIcon, QFont, QColor,  QPixmap, QPainter, QPen , QBrush)
 from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy)
 
 from PySide6.QtCore import Signal, QStringListModel, Qt, QMimeData
@@ -16,6 +16,7 @@ from clases import class_general
 class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     
     signal_execute= Signal() 
+    signal_state_view_boundary= Signal(dict) 
     
     def __init__(self):
         super(ViewWidgetDrawMenuExecute, self).__init__()
@@ -155,7 +156,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             event.ignore()        
         else:
             event.accept()
-
+            
     def dragEnterEventBoundaryFrom(self, event):      
         if event.source() == self.listWidget_execute_boundariesFrom or event.source() == self.listWidget_execute_pointMaterialFrom or event.source() == self.listWidget_execute_pointMaterialTo:
             event.ignore()
@@ -172,29 +173,37 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         selected_items = self.listWidget_execute_pointMaterialTo.selectedItems()
         for selected_item in selected_items:
             self.listWidget_execute_pointMaterialTo.takeItem(self.listWidget_execute_pointMaterialTo.row(selected_item))
-        self.listWidget_execute_pointMaterialFrom.sortItems(Qt.AscendingOrder)
-        self.listWidget_execute_pointMaterialTo.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_pointMaterialFrom.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_pointMaterialTo.sortItems(Qt.AscendingOrder)
 
     def changePointMaterialTo(self, item):
         selected_items = self.listWidget_execute_pointMaterialFrom.selectedItems()
         for selected_item in selected_items:
             self.listWidget_execute_pointMaterialFrom.takeItem(self.listWidget_execute_pointMaterialFrom.row(selected_item))
-        self.listWidget_execute_pointMaterialFrom.sortItems(Qt.AscendingOrder)
-        self.listWidget_execute_pointMaterialTo.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_pointMaterialFrom.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_pointMaterialTo.sortItems(Qt.AscendingOrder)
+
+
 
     def changeBoundaryFrom(self, item):
         selected_items = self.listWidget_execute_boundariesTo.selectedItems()
         for selected_item in selected_items:
             self.listWidget_execute_boundariesTo.takeItem(self.listWidget_execute_boundariesTo.row(selected_item))
-        self.listWidget_execute_boundariesFrom.sortItems(Qt.AscendingOrder)
-        self.listWidget_execute_boundariesTo.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_boundariesFrom.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_boundariesTo.sortItems(Qt.AscendingOrder)
+        id_boundary = item.data(Qt.UserRole)  
+        if id_boundary:             
+            self.signal_state_view_boundary.emit({'id_boundary':id_boundary,'state_view':False})
 
     def changeBoundaryTo(self, item):
         selected_items = self.listWidget_execute_boundariesFrom.selectedItems()
         for selected_item in selected_items:
             self.listWidget_execute_boundariesFrom.takeItem(self.listWidget_execute_boundariesFrom.row(selected_item))
-        self.listWidget_execute_boundariesFrom.sortItems(Qt.AscendingOrder)
-        self.listWidget_execute_boundariesTo.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_boundariesFrom.sortItems(Qt.AscendingOrder)
+        #self.listWidget_execute_boundariesTo.sortItems(Qt.AscendingOrder)
+        id_boundary = item.data(Qt.UserRole)  
+        if id_boundary:             
+            self.signal_state_view_boundary.emit({'id_boundary':id_boundary,'state_view':True})
 
     def __clickedToolButtonExecute(self):
         self.signal_execute.emit()
@@ -241,7 +250,22 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         for item_data in material_point:
             item = QListWidgetItem(item_data['name'])
             item.setData(Qt.UserRole, item_data['id'])
+            color_icon = QColor(item_data['color'])
+            pixmap = QPixmap(10, 10)
+            pixmap.fill(Qt.transparent)
+            painter = QPainter(pixmap)
+            painter.setRenderHint(QPainter.Antialiasing)
+            painter.setPen(QPen(Qt.white, 2))
+            painter.setBrush(QBrush(color_icon))
+            painter.drawEllipse(pixmap.rect())
+            painter.end()
+            item.setIcon(QIcon(pixmap))
+
             self.listWidget_execute_pointMaterialFrom.addItem(item)
+
+
+
+
             
     def addItemsListsBoundaries(self, boundaries):
 
@@ -249,6 +273,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             item = QListWidgetItem(item_data['name'])
             item.setData(Qt.UserRole, item_data['id'])
             self.listWidget_execute_boundariesFrom.addItem(item)
+            self.signal_state_view_boundary.emit({'id_boundary':item_data['id'],'state_view':False})
 
 
 

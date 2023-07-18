@@ -238,6 +238,8 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             painter.setBrush(Qt.NoBrush)
             painter.drawRoundedRect(pixmap.rect().adjusted(1, 1, -2, -2), 5, 5)
             painter.end()
+
+            
             self.comboBox_PointMaterialBaseMesh.setItemIcon(item_index, QIcon(pixmap))    
             self.comboBox_PointMaterialBaseMesh.setItemData(self.comboBox_PointMaterialBaseMesh.count() - 1, {"mesh_id": mesh_id, "mesh_type": mesh_type}, Qt.UserRole)
 

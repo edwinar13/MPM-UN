@@ -114,4 +114,9 @@ class ModelBoundary:
         self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
 
-                
+
+    def stateViewBoundary(self, data):   
+        for item in self.group_boundary.childItems():
+            if isinstance(item, PointBoundaryTxItem):
+                item.isSelectedBoundary = data["state_view"]
+        self.scene_draw.update()

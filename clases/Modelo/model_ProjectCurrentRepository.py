@@ -141,20 +141,19 @@ class ModelProjectCurrentRepository():
 	###############################################################################   
     
 	# ::::::::::::::::::::        PUNTOS       ::::::::::::::::::::
-    def createItemPointDrawDB(self, id_point, name, coordinates, lines):
-        #try:           
+    def createItemPointDrawDB(self, id_point, name, coordinates):
+        try:           
             self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point] = {
             "NAME": name,
-            "COORDINATES": coordinates,
-            "LINES": lines
+            "COORDINATES": coordinates
             }  
-            '''
+            
             return True
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
-        '''
+        
         
     def readItemPointDrawDB(self):
         """
@@ -165,7 +164,7 @@ class ModelProjectCurrentRepository():
 
         return self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS']
     
-    def updateItemPointDrawDB(self, id_point, name=None, coordinates=None, lines=None):
+    def updateItemPointDrawDB(self, id_point, name=None, coordinates=None):
         """Actualiza los items de dibujo (puntos) almacenados en la base de datos del proyecto actual.
 
         Args:
@@ -173,7 +172,6 @@ class ModelProjectCurrentRepository():
             id_point (str): id del item/punto. (default= None)
             name (str): nombre del item/punto. (default= None)
             coordinates (list): coordenadas del item/punto. (default= None)
-            lines (list): lista de lineas asociadas al punto. (default= None)
 
         Returns:
             bool: True si la actualización fue exitosa, False en caso contrario.
@@ -185,8 +183,6 @@ class ModelProjectCurrentRepository():
                     self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point]["NAME"]=name
                 if coordinates != None:          
                     self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point]["COORDINATES"]=coordinates
-                if lines != None:          
-                    self.__unguarded_copy_db_project['ITEMSDIBUJO']['PUNTOS'][id_point]["LINES"]=lines
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))

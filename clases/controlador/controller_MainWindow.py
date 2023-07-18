@@ -237,7 +237,7 @@ class ControllerMainWindow():
     def closeApp(self):
         """Evento al cerrar la ventana main window, se valida si hay proyecto actual y hay cambio,
          en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""
-        print(self.model_current_project)
+        
         if self.model_current_project != None:
             checkProjectChanges = self.model_current_project.checkProjectChanges() 
             print("checkProjectChanges: ", checkProjectChanges)

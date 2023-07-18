@@ -632,7 +632,7 @@ class Ui_FormDrawMenuExecute(object):
 "	border: 1px solid #808080;\n"
 "    border-radius: 5px;\n"
 "	padding: 2px 0px;\n"
-"background-color: #928ECC;\n"
+"background-color: #a4bfac;\n"
 "color: #222;\n"
 "    }\n"
 "\n"

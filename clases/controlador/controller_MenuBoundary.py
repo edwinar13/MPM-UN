@@ -77,12 +77,12 @@ class ControllerMenuBoundary(QObject):
     @Slot(bool)
     def showHideLabels(self, show_label):     
         for controller in self.list_controller_card:
-            controller.showHideLabels(show_label)
+            controller.showHideLabel(show_label)
 
     @Slot()
     def signalSelectPointMesh(self):
         self.signalEndDrawGeometry()
-        self.model_current_project.commandMeshSelectLine({"step":1, "data":None}) 
+        #self.model_current_project.commandMeshSelectLine({"step":1, "data":None}) 
         self.model_current_project.commandBoundarySelectPoint({"step":1, "data":None}) 
 
   
@@ -96,8 +96,7 @@ class ControllerMenuBoundary(QObject):
         restriction_automatic_left = restriction_automatic["Left"]
         restriction_automatic_right = restriction_automatic["Right"]       
 
-        points_top, points_bottom ,points_left ,points_right = self.model_current_project.getBoundaryMeshBack()
-
+        points_top, points_bottom ,points_left ,points_right = self.model_current_project.getBoundaryMeshBack()        
         if  restriction_automatic_top[0] or restriction_automatic_top[1]:        
             id_top= self.model_current_project.createBoundary(
                                                         name ="boundary_top",
@@ -147,128 +146,58 @@ class ControllerMenuBoundary(QObject):
 
     @Slot()
     def newBoundaryManual(self):
-        return
 
-        name_mesh =self.view_menu_mesh.getName()
-        color_mesh =self.view_menu_mesh.getColor()
-        selected_objects = self.model_current_project.getSelectedObjects()      
-        size_element_mesh = self.view_menu_mesh.getSize()
-        type_mesh = self.view_menu_mesh.getType()
+
+
+        name_boundary =self.view_menu_boundary.getName()
+        selected_objects = self.model_current_project.getSelectedObjects() 
+        restriction_Tx = self.view_menu_boundary.getTx()
+        restriction_Ty = self.view_menu_boundary.getTy()
+
+
+
          
-        if name_mesh == "":
-            self.view_menu_mesh.msnAlertName(True, "Revisa el nombre  de la malla")
+        if name_boundary == "":
+            self.view_menu_boundary.msnAlertName(True, "Revisa el nombre  de la restricción")
             return     
         else:
-            self.view_menu_mesh.msnAlertName(False)
+            self.view_menu_boundary.msnAlertName(False)
 
-        if color_mesh == None:
-            self.view_menu_mesh.msnAlertColor(True, "Revisa el color de la malla")
-            return               
-        else:
-            self.view_menu_mesh.msnAlertColor(False)
-            
 
-        if len(selected_objects) < 3 :
-            self.view_menu_mesh.msnAlertSelected(True, "Selecciona más de 3 elementos")
+        if len(selected_objects) <= 0 :
+            self.view_menu_boundary.msnAlertSelected(True, "Selecciona más de un elemento")
             return
         else:
-            self.view_menu_mesh.msnAlertSelected(False)
+            self.view_menu_boundary.msnAlertSelected(False)
 
-        # Validación de las líneas seleccionadas
-        lines = []
-        for line in selected_objects:
-            lines.append(
-            ((line.start_point.pos().x(), line.start_point.pos().y()),
-            (line.end_point.pos().x(), line.end_point.pos().y()))
-            )
-
-        polygon = self.is_closed_polygon(lines)
-        if not polygon:
-            self.view_menu_mesh.msnAlertSelected(True, "Selección no es un polígono cerrado")
+        if not restriction_Tx and not restriction_Ty :
+            self.view_menu_boundary.msnAlertRestriction(True, "Selecciona la restricción en X o Y")
             return
         else:
-            self.view_menu_mesh.msnAlertSelected(False)
-
-        isIntercepted = self.line_Intersection(polygon)
-        if isIntercepted:
-            self.view_menu_mesh.msnAlertSelected(True, "Dos líneas se interceptan")
-            return
-        else:
-            self.view_menu_mesh.msnAlertSelected(False)
+            self.view_menu_boundary.msnAlertRestriction(False)
 
 
 
+        points=[]
+        for point in selected_objects:
+            coor = point.getPoint()
+            points.append([point.getPoint().x(),point.getPoint().y()]) 
+
+        id_boundary = self.model_current_project.createBoundary(
+                                                    name =name_boundary,
+                                                    points = points,
+                                                    restrictionX = restriction_Tx,
+                                                    restrictionY = restriction_Ty                                                    
+                                                    )
         
-        if type_mesh == "Cuadrilátera" and not len(selected_objects) == 4 :
-            self.view_menu_mesh.msnAlertSelected(True, "Para Cuadrilátera únicamente 4 líneas ")
-            return
-        else:
-            self.view_menu_mesh.msnAlertSelected(False)
         
 
+        model_boundary = self.model_current_project.getModelsBoundaries()[id_boundary]
+        self.createBoundaryCard(model_boundary)
 
-        if type_mesh == "Cuadrilátera":
- 
-            points, quadrilaterals, n_element = self.generate_mesh_quadrilateral(
-                polygon= polygon,
-                mesh_size=size_element_mesh
-                )
-
-            mesh_points =[]
-            for point in points:
-                mesh_points.append([point[0],point[1]]) 
-  
-            mesh_quadrilaterals =[] 
-
-            for quadrilaterals in quadrilaterals:
-                mesh_quadrilaterals.append([int(quadrilaterals[0]),int(quadrilaterals[1]),int(quadrilaterals[2]),int(quadrilaterals[3])])
-
-
-            id = self.model_current_project.createMeshQuadrilateral(name=name_mesh ,
-                                                        color=color_mesh,
-                                                        points=mesh_points,
-                                                        quadrilaterals = mesh_quadrilaterals)
-            model_mesh = self.model_current_project.getModelsMeshsQuadrilaterals()[id]
-            self.createMeshCard(model_mesh)
-
-            self.view_menu_mesh.endMesh()
-            self.endDrawMesh()
-            
-
-        elif type_mesh == "Triangular":
-             
-            vertices = []
-            for line in polygon:
-                vertices.append(line[0])    
-
-            #METODO PYGMSH
-            with pygmsh.geo.Geometry() as geom:
-                geom.add_polygon(
-                    vertices,
-                    mesh_size=size_element_mesh,
-                )
-                mesh = geom.generate_mesh()
-        
-            _points = mesh.points  
-            points =[]
-            for point in _points:
-                points.append([point[0],point[1]])  
-    
-            _triangles = mesh.cells_dict["triangle"]
-            triangles =[] 
-            for triangle in _triangles:
-                triangles.append([int(triangle[0]),int(triangle[1]),int(triangle[2])])
-                
-               
-            id = self.model_current_project.createMeshTriangular(name=name_mesh ,
-                                                        color=color_mesh,
-                                                        points=points,
-                                                        triangles = triangles)
-            model_mesh = self.model_current_project.getModelsMeshsTriangular()[id]
-            self.createMeshCard(model_mesh)
-
-            self.view_menu_mesh.endMesh()
-            self.endDrawMesh()
+        self.view_menu_boundary.endBoundary2()
+        self.endDrawBoudary()
+      
 
     # ::::::::::::::::::::         MÉTODOS  CURRENT        ::::::::::::::::::::
 	
@@ -299,3 +228,5 @@ class ControllerMenuBoundary(QObject):
 
     def signalEndDrawGeometry(self):
             self.signal_end_draw_geometry.emit()
+
+

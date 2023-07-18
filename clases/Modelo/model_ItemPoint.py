@@ -9,7 +9,7 @@ from clases.Vista.view_GraphicsDraw import QGraphicsScene
 class ModelItemPoint:
 
     def __init__(self, scene_draw:QGraphicsScene,model_project_current_repository:ModelProjectCurrentRepository,
-                 id, name, coordinates, lines:list) -> None:
+                 id, name, coordinates) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
@@ -17,7 +17,7 @@ class ModelItemPoint:
         self.__id = id
         self.__name = name     
         self.__coordinates = coordinates
-        self.__lines = lines   
+        
         
 
  
@@ -55,12 +55,11 @@ class ModelItemPoint:
     def getCoordinates(self):
         return self.__coordinates
 
-    def getLines(self):
-        return self.__lines
+
     
     def getData(self):
-        """return: id, name, type, coordinates, lines]"""
-        return[self.__id, self.__name, self.__coordinates, self.__lines]
+        """return: id, name, type, coordinates]"""
+        return[self.__id, self.__name, self.__coordinates]
        
 
     ###############################################################################
@@ -72,30 +71,19 @@ class ModelItemPoint:
         self.scene_draw.removeItem(self.point_item.text_name)
         self.scene_draw.update()
 
-    def addLineAnchored(self, line):
-        self.__lines.append(line)
-        self.updatePoint(id_point=self.__id,lines=self.__lines)
-        
-    def deleteLineAnchored(self, id_line):
-        self.__lines.remove(id_line)
-        self.updatePoint(id_point=self.__id,lines=self.__lines)
 
-
-
-    def updatePoint(self,  id_point, name = None, coordinates = None, lines = None):
+    def updatePoint(self,  id_point, name = None, coordinates = None):
 
         if name != None:
             self.__name = name
         if coordinates != None:
             self.__coordinates = coordinates
-        if lines != None:
-            self.__lines = lines
+  
 
         self.model_project_current_repository.updateItemPointDrawDB(
             id_point=id_point,
             name=name,
-            coordinates=coordinates,
-            lines=lines
+            coordinates=coordinates
         )      
 
     def showHideItems(self, value):

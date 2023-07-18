@@ -56,6 +56,7 @@ class viewCardDrawBoundary(QFrame, Ui_FormDrawBoundaryCard):
         self.icon_hide = QIcon()
         self.icon_hide.addFile(u"recursos/iconos/iconos_menu_draw_mesh/not_view.svg", QSize(), QIcon.Normal, QIcon.Off)
         
+        
         self.lineEdit_nameBoundary.setVisible(False)
         self.toolButton_okBoundary.setVisible(False)
         self.toolButton_exitBoundary.setVisible(False)

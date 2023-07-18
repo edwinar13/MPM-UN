@@ -535,10 +535,8 @@ class ControllerPageDraw(QObject):
 
 
     @Slot()
-    def endDrawBoundary(self):
+    def endDrawBoundary(self):        
         self.controller_menu_boundary.endDrawBoudary()
-
-
 
 
 

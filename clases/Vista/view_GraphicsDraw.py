@@ -22,7 +22,7 @@ contador = 0
 import datetime
 
 
-from clases.items_GraphicsDraw import LineItem, PointItem, TextItem, RectItem
+from clases.items_GraphicsDraw import LineItem, PointItem, TextItem, RectItem, PointMeshBackItem
 
 
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
@@ -958,7 +958,6 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         if event.button() == Qt.LeftButton and not self.isPan:               
             #::::::::::::  mover  ::::::::::::::::
             if  self.isDrawSelect and self.isDrawMove and self.p1_select != None:
-                print(1)
                 self.signal_point_move.emit(
                     {"step":2,
                     "data":
@@ -969,7 +968,6 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         
             #::::::::::::  copiar ::::::::::::::::
             elif  self.isDrawSelect and self.isDrawCopy and self.p1_select != None:
-                print(2)
                 self.signal_point_copy.emit(
                     {"step":2,
                     "data":
@@ -981,7 +979,6 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
 
             #::::::::::::  rotar ::::::::::::::::
             elif  self.isDrawSelect and self.isDrawRotate and self.p1_select != None:
-                print(3)
                 self.signal_point_rotate.emit(
                     {"step":2,
                     "data":
@@ -992,7 +989,6 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                 
             #::::::::::::  borrar ::::::::::::::::
             elif  self.isDrawSelect and self.isDrawErase and self.p1_select != None:
-                print(4)
                 self.signal_point_erase.emit(
                     {"step":2,
                     "data":
@@ -1002,8 +998,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                     )
                 
             #::::::::::::  malla ::::::::::::::::
-            elif  self.isMeshSelect and self.isMeshCua and self.p1_select != None:                    
-                print(self.isMeshSelect , self.isMeshCua )
+            elif  self.isMeshSelect and self.isMeshCua and self.p1_select != None:    
                 self.signal_mesh_select.emit(
                     {"step":2,
                     "data":
@@ -1014,7 +1009,6 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                 
             #::::::::::::  malla back point ::::::::::::::::
             elif  self.isPointBackSelect and self.p1_select != None:    
-                print("#####")                
                 self.signal_point_back_select.emit(
                     {"step":2,
                     "data":
@@ -1088,18 +1082,21 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         self.point_temp.setVisible(False)
         self.line_temp.setVisible(False)
         self.rectangle_temp.setVisible(False)
-        self.rect_select_temp.setVisible(False)
-
-    
+        self.rect_select_temp.setVisible(False)    
         self.p1_select = None
         self.p2_select = None
-
         for item in self.selected_items:
             item.isSelectedDraw = False
+            if isinstance(item, PointMeshBackItem):
+                item.isSelectedPointBlack = False
 
         for  line in self.selected_items_line:
             line.isSelectedDraw = False
             line.isSelectedMesh = False
+
+            line.isSelectedPointBlack = False
+        
+        
             
         self.selected_items = []
         self.selected_items_line = []

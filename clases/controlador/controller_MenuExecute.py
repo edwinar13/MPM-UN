@@ -21,6 +21,7 @@ class ControllerMenuExecute():
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_execute.signal_execute.connect(self.executeAnalysis)
+        self.view_menu_execute.signal_state_view_boundary.connect(self.stateViewBoundary)
 
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
         self.model_current_project = model_current_project
@@ -33,7 +34,8 @@ class ControllerMenuExecute():
         models_points_materials = self.model_current_project.getModelsPointsMaterials()
         for id_PM in models_points_materials:
             name_PM = models_points_materials[id_PM].getName()
-            points_material.append({'name': name_PM, 'id': id_PM})
+            color_PM = models_points_materials[id_PM].getColor()
+            points_material.append({'name': name_PM, 'id': id_PM, 'color': color_PM})
         self.view_menu_execute.addItemsListsMaterialPoint(points_material)
        
 
@@ -44,6 +46,7 @@ class ControllerMenuExecute():
         for id_boundary in models_boundaries:
             name_boundary = models_boundaries[id_boundary].getName()
             boundaries.append({'name': name_boundary, 'id': id_boundary})
+
         self.view_menu_execute.addItemsListsBoundaries(boundaries)
        
     def getView(self):
@@ -65,6 +68,12 @@ class ControllerMenuExecute():
             self.view_menu_execute.msnAlertDefault("Selecciona los contornos")
             return
         print("ANALISIS")
+
+    @Slot(dict)
+    def stateViewBoundary(self, data):
+        self.model_current_project.stateViewBoundary(data)
+        
+        
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::

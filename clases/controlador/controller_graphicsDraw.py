@@ -270,7 +270,7 @@ class ControllerGraphicsDraw(QObject):
         self.scene_draw.update()            
 
     
-    def endDrawGeometry(self):
+    def endDrawGeometry(self):        
         self.scene_draw.endDrawGeometry()
         self.view_draw_1.endDrawGeometry()
         self.view_draw_2.endDrawGeometry()

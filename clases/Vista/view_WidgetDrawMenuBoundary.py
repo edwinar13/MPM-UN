@@ -87,6 +87,8 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
 
         self.lineEdit_textBoundaryName.editingFinished.connect(self.__editingFinishedLineEditBoundaryName)
         self.toolButton_cardBoundaryDrawSelected.clicked.connect(self.__clickedToolButtonBoundarySelected)
+        self.checkBox_BoundaryRestrictionTX.clicked.connect(self.__clickedToolButtonBoundaryRestrictionTXTY)
+        self.checkBox_BoundaryRestrictionTY.clicked.connect(self.__clickedToolButtonBoundaryRestrictionTXTY)
         self.toolButton_boundaryCancel_2.clicked.connect(self.__clickedToolButtonBoundaryCancel)
         self.toolButton_boundaryCreate_1.clicked.connect(self.__clickedToolButtonBoundaryCreate1)
         self.toolButton_boundaryCreate_2.clicked.connect(self.__clickedToolButtonBoundaryCreate2)
@@ -177,10 +179,22 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
         self.label_msn.setStyleSheet("color: #333333") 
 
     def __clickedToolButtonBoundarySelected(self):
+
         self.signal_select_point_mesh.emit()
         self.lineEdit_textBoundarySelected.setText("{} Elementos".format(0)) 
         self.setPropertyStyle(self.toolButton_cardBoundaryDrawSelected, 4)   
+        self.lineEdit_textBoundarySelected.setStyleSheet("border-color: #444444")
+        self.label_msn.setText("Empty")
+        self.label_msn.setStyleSheet("color: #333333") 
         
+
+    def __clickedToolButtonBoundaryRestrictionTXTY(self):
+        self.checkBox_BoundaryRestrictionTX.setStyleSheet("border-color: #444444") 
+        self.checkBox_BoundaryRestrictionTY.setStyleSheet("border-color: #444444") 
+        self.label_msn.setText("Empty")
+        self.label_msn.setStyleSheet("color: #333333") 
+      
+
     def __clickedToolButtonBoundaryCancel(self):
         self.endBoundary2()
           
@@ -193,7 +207,6 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
 
 
 
-
  ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
 	###############################################################################
@@ -202,10 +215,10 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
         return self.lineEdit_textBoundaryName.text()
     
     def getTx (self):        
-        return self.checkBox_BoundaryRestrictionTX.checkState()
+        return self.checkBox_BoundaryRestrictionTX.isChecked()
     
     def getTy (self):
-        return self.checkBox_BoundaryRestrictionTY.checkState() 
+        return self.checkBox_BoundaryRestrictionTY.isChecked() 
     
     def getTxTyAutomatic (self):
         result ={
@@ -217,8 +230,7 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
         return result
     
         
-    def getShowBoundary(self):
-        return self.__hide_show_mesh
+
 
 
     def setNoSelectPointsMesh(self, no_lines):
@@ -269,3 +281,49 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
         widget.style().unpolish(widget)
         widget.style().polish(widget)
         widget.update()
+
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS  MENSAJES         ::::::::::::::::::::
+	##############################################################################
+
+    def msnAlertName(self, error, msn=""):
+        if not error:
+            self.lineEdit_textBoundaryName.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            
+        else:
+            self.lineEdit_textBoundaryName.setFocus()
+            self.lineEdit_textBoundaryName.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+
+    def msnAlertSelected(self, error, msn=""):
+        if not error:
+            self.lineEdit_textBoundarySelected.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            
+        else:
+            self.lineEdit_textBoundarySelected.setFocus()
+            self.lineEdit_textBoundarySelected.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+
+    def msnAlertRestriction(self, error, msn=""):
+        if not error:
+            self.checkBox_BoundaryRestrictionTX.setStyleSheet("border-color: #444444")
+            self.checkBox_BoundaryRestrictionTY.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            
+        else:
+            self.lineEdit_textBoundarySelected.setFocus()
+            self.checkBox_BoundaryRestrictionTX.setStyleSheet("border: 1px solid #F94646")  
+            self.checkBox_BoundaryRestrictionTY.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))

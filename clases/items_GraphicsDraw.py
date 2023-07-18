@@ -113,6 +113,7 @@ class PointItem(QGraphicsItem):
         isActive (bool): Indica si el punto está activo en el momento.
         
     """
+    
     TYPE = "Point"
     RADIUS = 2.0
     COLOR = Qt.black
@@ -129,10 +130,7 @@ class PointItem(QGraphicsItem):
         self.id = id
         self.name = name
         self.item_type = self.TYPE
-
         self.coor = QPointF(coordinatesX, coordinatesY)
-
-
         self.color = self.COLOR
         self.radius = self.RADIUS
 
@@ -140,95 +138,71 @@ class PointItem(QGraphicsItem):
         self.text_name.setVisible(False)
         self.text_name.setColor("#7E6807")
 
-        self.anchored_lines =[]
-
+     
         self.movePoint(self.coor)
         self.draw_rect_osnap = False
         self.isSelectedDraw = False
         self.showLabel = False
 
-
+        self.pen = QPen(self.color, 0)
+        self.pen_osnap =QPen(QColor("#34c3eb"), 0, Qt.SolidLine)
         self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.DashLine)
         self.pen_selected.setCosmetic(True)
         self.pen_selected.setWidthF(0.5)
 
-    def __str__ (self):
-        return self.name
-        return str(self.getData())
-    
-    def addAnchoredLine(self, line):
-        """
-        Agrega una línea a la lista de líneas ancladas.
-        
-        Args:
-            line (LineItem): Objeto que representa la línea a agregar.
-        """
-        self.anchored_lines.append(line)
-        self.anchored_lines=list(set(self.anchored_lines))
 
-    def removeAnchoredLine(self, line):
-        """
-        Elimina una línea de la lista de líneas ancladas.
-        
-        Args:
-            line (LineItem): Objeto que representa la línea a eliminar.
-        """
-        if line in self.anchored_lines:
-            self.anchored_lines.remove(line)
-
-    def movePoint(self, pos:QPointF):
-        self.coor = pos
-        self.setPos(pos)
-        self.text_name.newPos(self.coor)
     def getId(self):
         return self.id
           
     def getData(self):
-
-        anchored_lines_names = [linea.name for linea in self.anchored_lines]
+        
         data = {
             "id":self.id,
             'name': self.name,
             'type': self.item_type,
-            'coordinates': [self.coor.x(), self.coor.y()],
-            'lines':anchored_lines_names
+            'coordinates': [self.coor.x(), self.coor.y()]
             }
         return data
     
     def getCoordinates(self):
         return self.coor
 
+
+    def movePoint(self, pos:QPointF):
+        self.coor = pos
+        self.setPos(pos)
+        self.text_name.newPos(self.coor)
+
     def boundingRect(self) -> QRectF:
-        radius = self.radius - 1.499
+        radius = self.radius - 1.99
         return QRectF(-radius, -radius,
                              2*radius, 2*radius)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         if self.draw_rect_osnap:
-            painter.setPen(QPen(QColor("#34c3eb"), 0, Qt.SolidLine))
+            painter.setPen(self.pen_osnap)
             painter.drawRect(-5,-5,10,10)
             self.draw_rect_osnap = False            
 
         if self.isSelectedDraw:
             self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
             painter.setPen(self.pen_selected)
-            painter.drawEllipse(-5, -5, 10, 10)
+            painter.drawEllipse(-5,-5,10,10)
 
-        else:
-            painter.setPen(QPen(self.color, 0))
-            painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
+        
+        painter.setPen(self.pen)
+        painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
 
-        if self.name != "pointTemp" and self.showLabel:   
+        if self.name != "pointTemp" and self.showLabel:  
+            '''
             self.text_name.newPos(self.coor)
             list_lines = []
             for line in self.anchored_lines:                
                 list_lines.append(line.name)
-            #self.text_name.text = ":{} - [{}]".format(self.id,)
+            ''' 
             self.text_name.setVisible(True)
         else:
             self.text_name.setVisible(False)
-
-        return
 
 class PointMeshBackItem(QGraphicsItem):
 
@@ -245,6 +219,7 @@ class PointMeshBackItem(QGraphicsItem):
             QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable )
         '''
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+       
 
         self.name = name
         self.coor = QPointF(coordinatesX, coordinatesY)
@@ -258,9 +233,12 @@ class PointMeshBackItem(QGraphicsItem):
         
         self.pen = QPen(self.color, 0)
 
-        self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.DashLine)
+        self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.SolidLine)
         self.pen_selected.setCosmetic(True)
         self.pen_selected.setWidthF(0.5)
+
+
+        self.rect_view =QRectF(-self.size/2, -self.size/2, self.size, self.size)
 
     def __str__ (self):
         return "nodo: {}".format(self.name)
@@ -268,29 +246,37 @@ class PointMeshBackItem(QGraphicsItem):
 
     def getPoint(self):
         return self.coor
+    
+    def getNode(self):
+        return int(self.name)
 
 
 
     def boundingRect(self) -> QRectF:
-        size = self.size/2
+        size = 0.01
         return QRectF(-size, -size,
                              2*size, 2*size)
+    
+
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         if self.isSelectedPointBlack:
             self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
             painter.setPen(self.pen_selected)
-            painter.drawRect(-5, -5, 10, 10)
+            painter.drawRect(-3, -3, 6, 6)
+            painter.setBrush(QBrush(QColor(Qt.red)))
+
+            painter.drawRect(self.boundingRect())
 
         else:
             painter.setPen(self.pen)
-            painter.drawRect(self.boundingRect())
+            painter.drawRect(self.rect_view)
         return
 
 class PointBoundaryTxItem(QGraphicsItem):
 
 
-    SIZE = 5
+    SIZE = 6
     COLOR = QColor("#ff0000")
 
 
@@ -320,8 +306,8 @@ class PointBoundaryTxItem(QGraphicsItem):
         
         self.pen = QPen(self.color, 0)
         self.brush = QBrush(QColor(self.color))
-        self.pen_selected = QPen(QColor("#96650f"), 0, Qt.DashLine)
-        self.brush_selected = QBrush(QColor("#96650f"))
+        self.pen_selected = QPen(QColor("#0ccc45"), 0, Qt.DashLine)
+        self.brush_selected = QBrush(QColor("#0ccc45"))
         self.pen_selected.setCosmetic(True)
         self.pen_selected.setWidthF(0.5)
 
@@ -357,7 +343,7 @@ class PointBoundaryTxItem(QGraphicsItem):
                              2*size, 2*size)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        if self.isSelected:
+        if self.isSelected or self.isSelectedBoundary:
             self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
             pen = self.pen_selected
             brush=self.brush_selected

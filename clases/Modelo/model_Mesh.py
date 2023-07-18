@@ -47,7 +47,7 @@ class ModelMeshTriangle:
         self.scene_draw.addItem(self.text_name)
         self.text_name.setVisible(False)
         self.text_name.setColor("#222333")
-        self.text_name.setZValue(5)
+        self.text_name.setZValue(100)
         
 
     ###############################################################################
@@ -265,9 +265,17 @@ class ModelMeshBack:
         self.points_boundary_left = points_boundary_left
         self.points_boundary_right = points_boundary_right
 
-        #crear item escena
+
         self.group_mesh  = QGraphicsItemGroup()
         self.group_mesh_point  = QGraphicsItemGroup()
+        
+        index = 0
+        points_items = []
+        for point in points:
+            points_items.append(PointMeshBackItem(name=str(index),
+                                                  coordinatesX= point[0], 
+                                                  coordinatesY=point[1]))
+            index += 1
 
         for quadrilateral in quadrilaterals:
 
@@ -278,11 +286,11 @@ class ModelMeshBack:
                 [points[quadrilateral[2]][0],points[quadrilateral[2]][1]],
                 [points[quadrilateral[3]][0],points[quadrilateral[3]][1]]
                 ]
-            
-            p1 = PointMeshBackItem(quadrilateral[0], points[quadrilateral[0]][0], points[quadrilateral[0]][1])
-            p2 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[1]][0], points[quadrilateral[1]][1])
-            p3 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[2]][0], points[quadrilateral[2]][1])
-            p4 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[3]][0], points[quadrilateral[3]][1])
+
+            p1 = points_items[quadrilateral[0]]
+            p2 = points_items[quadrilateral[1]]
+            p3 = points_items[quadrilateral[2]]
+            p4 = points_items[quadrilateral[3]]
 
             self.group_mesh_point.addToGroup(p1)
             self.group_mesh_point.addToGroup(p2)
@@ -406,6 +414,12 @@ class ModelMeshBack:
         points = self.__points
         quadrilaterals = self.__quadrilaterals
 
+        index = 0
+        points_items = []
+        for point in points:
+            points_items.append(PointMeshBackItem(index, point[0], point[1]))
+            index =+ 1
+
         for quadrilateral in quadrilaterals:
             coordinates=[
                 [points[quadrilateral[0]][0],points[quadrilateral[0]][1]],
@@ -414,10 +428,10 @@ class ModelMeshBack:
                 [points[quadrilateral[3]][0],points[quadrilateral[3]][1]]
                 ]
 
-            p1 = PointMeshBackItem(quadrilateral[0], points[quadrilateral[0]][0], points[quadrilateral[0]][1])
-            p2 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[1]][0], points[quadrilateral[1]][1])
-            p3 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[2]][0], points[quadrilateral[2]][1])
-            p4 = PointMeshBackItem(quadrilateral[1], points[quadrilateral[3]][0], points[quadrilateral[3]][1])
+            p1 = points_items[quadrilateral[0]]
+            p2 = points_items[quadrilateral[1]]
+            p3 = points_items[quadrilateral[2]]
+            p4 = points_items[quadrilateral[3]]
 
             self.group_mesh_point.addToGroup(p1)
             self.group_mesh_point.addToGroup(p2)
