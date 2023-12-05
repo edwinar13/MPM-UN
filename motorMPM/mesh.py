@@ -444,18 +444,36 @@ def search_MP2(mp_elem, mp_coord, ele_size, nelex):
 # ===== Funcion para buscar los elem donde estan los MP  - Cuadrilateral bilineal ======
 
 def search_MP(mp_elem, mp_coord, ele_size, nelex):
-	""" Funcion para buscar en que elementos estan los MP - CUADRILATERAL BILINEAL
-	 	mp_elm = vector con el elemento correspondiente de cada MP
-	 	mp_coord = matriz de coordenadas de los MP
-	 	ele_size = tamano de los elementos
-	 	nelex = numero de elementos en la direccion x"""
-	x = mp_coord[:, 0]
-	y = mp_coord[:, 1]
-	i = np.floor(x / ele_size)
-	j = np.floor(y / ele_size)
-	mp_elem[:, 0] = nelex*j + i + 1
-	active_elem = np.unique(mp_elem[:, 0]) # tomando la lista de elementos activos
-	return mp_elem, active_elem
+    """ Funcion para buscar en que elementos estan los MP - CUADRILATERAL BILINEAL
+        mp_elm = vector con el elemento correspondiente de cada MP
+        mp_coord = matriz de coordenadas de los MP
+        ele_size = tamano de los elementos
+        nelex = numero de elementos en la direccion x"""
+    x = mp_coord[:, 0]
+    y = mp_coord[:, 1]
+    
+    '''
+    #############################
+    # Ajustar las coordenadas para evitar índices negativos
+    x_adjusted = x - np.min(x)
+    y_adjusted = y - np.min(y)    
+    i = np.floor(x_adjusted / ele_size)
+    j = np.floor(y_adjusted / ele_size)
+    # Restringir los índices para evitar problemas con el tamaño de la malla
+    i = np.clip(i, 0, nelex - 1)
+    j = np.clip(j, 0, nelex - 1)
+    #############################
+    '''
+    
+    
+    i = np.floor(x / ele_size)
+    j = np.floor(y / ele_size)
+    
+    mp_elem[:, 0] = nelex*j + i + 1
+    #print("-----------------")
+    #print(f"x: {x} \n y: {y} \n i: {i} \n j: {j} \n mp_elem: {mp_elem}")
+    active_elem = np.unique(mp_elem[:, 0]) # tomando la lista de elementos activos
+    return mp_elem, active_elem
 
 # =============================================================
 # ==== Funciones para buscar que MP esta en cada elem =========

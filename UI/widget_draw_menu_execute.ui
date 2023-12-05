@@ -901,7 +901,7 @@ naranjas #D34E24 #F28123 #F7F052
             <item>
              <widget class="QLabel" name="label_cardExecuteTitle">
               <property name="text">
-               <string>CONTORNO</string>
+               <string>ANÁLISIS</string>
               </property>
               <property name="QLabelStyle" stdset="0">
                <number>1</number>
@@ -966,7 +966,7 @@ naranjas #D34E24 #F28123 #F7F052
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear restricción de contorno automático</string>
+                  <string>Datos</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>

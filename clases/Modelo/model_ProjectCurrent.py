@@ -9,8 +9,10 @@ from clases.Modelo.model_Mesh import ModelMeshTriangle, ModelMeshQuadrilateral, 
 from clases.Modelo.model_MaterialPoint import ModelMaterialPoint
 from clases.Modelo.model_Property import ModelProperty
 from clases.Modelo.model_Boundary import ModelBoundary
+from clases.Modelo.model_Result import ModelResult
 from clases.Modelo.model_ProjectCurrentRepository import ModelProjectCurrentRepository
 from clases.Vista.view_GraphicsDraw import ViewGraphicsSceneDraw, ViewGraphicsViewDraw
+from clases.Vista.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewResult
 from clases.items_GraphicsDraw import TextItem, PointItem, LineItem, PointMeshBackItem
 from clases.command_GraphicsDraw import AddPointCommand, AddLineCommand, MoveCommand, RotateCommand, RemoveLineCommand,RemovePointCommand, UpdateCommand
 import uuid
@@ -25,8 +27,16 @@ class ModelProjectCurrent(QObject):
     signal_size_mesh= Signal(float) 
     signal_msn_label_view = Signal(list)
 
-    def __init__(self,scene:ViewGraphicsSceneDraw,view_draw_1:ViewGraphicsViewDraw, view_draw_2:ViewGraphicsViewDraw, path_doc) -> None:
+    def __init__(self,
+                 scene_result:ViewGraphicsSceneResult,
+                 view_result:ViewGraphicsViewResult,
+                 scene:ViewGraphicsSceneDraw,
+                 view_draw_1:ViewGraphicsViewDraw, 
+                 view_draw_2:ViewGraphicsViewDraw, path_doc) -> None:
+        
         super().__init__() 
+        self.scene_result = scene_result
+        self.view_result =view_result
         self.__scene = scene
         self.view_draw_1 = view_draw_1
         self.view_draw_2 = view_draw_2
@@ -46,15 +56,15 @@ class ModelProjectCurrent(QObject):
 
 
 
-        self.items_points_models={}
-        self.items_lines_models={}
-        self.items_models={}
-        self.meshs_models={}
-        self.meshs_quadrilaterals_models={}
-        self.material_point_models={}
-        self.boundary_models={}
-        self.mesh_black_model= None
-        self.properties_models={}
+        self.models_items_points={}
+        self.models_items_lines={}
+        self.models_meshs_triangular={}
+        self.models_meshs_quadrilaterals={}
+        self.models_material_point={}
+        self.models_boundary={}
+        self.model_mesh_black= None
+        self.models_properties={}
+        self.model_result = None
 
 
         self.__selected_objects = []
@@ -73,6 +83,7 @@ class ModelProjectCurrent(QObject):
         self.__initProperties()
         self.__initMaterialPoint()
         self.__initBoundary()
+        self.__initResult()
         self.__scene.drawElementTemp()
         self.__scene.update()
         
@@ -127,8 +138,8 @@ class ModelProjectCurrent(QObject):
             id_end_point = items_lines[id_items_line]["ENDPOINT"]
             self.addItemLineToCurrentProject(id=id_items_line,
                                               name=name,
-                                              start_point=self.items_points_models[id_start_point],
-                                              end_point= self.items_points_models[id_end_point])
+                                              start_point=self.models_items_points[id_start_point],
+                                              end_point= self.models_items_points[id_end_point])
 
     def __initMesh(self):
 
@@ -144,10 +155,18 @@ class ModelProjectCurrent(QObject):
 
         points = mesh_back["POINTS"]
         quadrilaterals = mesh_back["QUADRILATERALS"]
+
         points_boundary_top = mesh_back["POINTSBOUNDARYTOP"]
         points_boundary_bottom = mesh_back["POINTSBOUNDARYBOTTOM"]
         points_boundary_left = mesh_back["POINTSBOUNDARYLEFT"]
         points_boundary_right = mesh_back["POINTSBOUNDARYRIGHT"]
+
+        nodes_boundary_top = mesh_back["NODESBOUNDARYTOP"]
+        nodes_boundary_bottom = mesh_back["NODESBOUNDARYBOTTOM"]
+        nodes_boundary_left = mesh_back["NODESBOUNDARYLEFT"]
+        nodes_boundary_right = mesh_back["NODESBOUNDARYRIGHT"]
+
+        
 
         model_mesh_back = ModelMeshBack(scene_draw=self.__scene,
                                                     model_project_current_repository=self.model_project_current_repository,
@@ -160,9 +179,14 @@ class ModelProjectCurrent(QObject):
                                                     points_boundary_top = points_boundary_top,
                                                     points_boundary_bottom = points_boundary_bottom,
                                                     points_boundary_left = points_boundary_left,
-                                                    points_boundary_right = points_boundary_right)
+                                                    points_boundary_right = points_boundary_right,
+
+                                                    nodes_boundary_top = nodes_boundary_top,
+                                                    nodes_boundary_bottom = nodes_boundary_bottom,
+                                                    nodes_boundary_left = nodes_boundary_left,
+                                                    nodes_boundary_right = nodes_boundary_right)
     
-        self.mesh_black_model=model_mesh_back        
+        self.model_mesh_black=model_mesh_back        
 
 
 
@@ -232,16 +256,96 @@ class ModelProjectCurrent(QObject):
         boundaries = self.model_project_current_repository.readBoundaryDB()
         for id_boundary in boundaries:
             name = boundaries[id_boundary]["NAME"]
+            nodes = boundaries[id_boundary]["NODES"]
             points = boundaries[id_boundary]["POINTS"]
             restrictionX = boundaries[id_boundary]["Tx"]
             restrictionY = boundaries[id_boundary]["Ty"]
             self.addBoundaryToCurrentProject(
                 id=id_boundary,
                 name=name,
+                nodes=nodes,
                 points=points,
                 restrictionX=restrictionX,
                 restrictionY=restrictionY)
             
+
+    def __initResult(self):
+
+        analysis_times = self.model_project_current_repository.readResultTimesDB()
+        result_nodes  = self.model_project_current_repository.readResultNodesDB()
+
+
+        self.model_result = ModelResult(
+            scene_result=self.scene_result,
+            view_result=self.view_result,
+            model_project_current_repository=self.model_project_current_repository,
+            model_mesh_back=self.model_mesh_black,
+            analysis_times=analysis_times,
+            result_nodes=result_nodes
+            )
+        
+        
+        return
+        
+        size_dx = mesh_back["SIZEDX"]
+        size_dy = mesh_back["SIZEDY"]
+        size_element = mesh_back["SIZEELEMENT"]
+        
+        color_style = self.__scene.getTheme()
+
+
+        points = mesh_back["POINTS"]
+        quadrilaterals = mesh_back["QUADRILATERALS"]
+        points_boundary_top = mesh_back["POINTSBOUNDARYTOP"]
+        points_boundary_bottom = mesh_back["POINTSBOUNDARYBOTTOM"]
+        points_boundary_left = mesh_back["POINTSBOUNDARYLEFT"]
+        points_boundary_right = mesh_back["POINTSBOUNDARYRIGHT"]
+
+        model_mesh_back = ModelMeshBack(scene_draw=self.__scene,
+                                                    model_project_current_repository=self.model_project_current_repository,
+                                                    size_dx=size_dx,
+                                                    size_dy=size_dy,
+                                                    size_element=size_element,
+                                                    color_style=color_style,
+                                                    points=points,
+                                                    quadrilaterals=quadrilaterals,
+                                                    points_boundary_top = points_boundary_top,
+                                                    points_boundary_bottom = points_boundary_bottom,
+                                                    points_boundary_left = points_boundary_left,
+                                                    points_boundary_right = points_boundary_right)
+    
+        self.model_mesh_black=model_mesh_back        
+
+
+
+
+        meshs = self.model_project_current_repository.readMeshTriangularDB()
+        for id_mesh_triangular in meshs: 
+            name = meshs[id_mesh_triangular]["NAME"]
+            color = meshs[id_mesh_triangular]["COLOR"]
+            points = meshs[id_mesh_triangular]["POINTS"]
+            triangles = meshs[id_mesh_triangular]["TRIANGLES"]
+            self.addMeshTrianglesToCurrentProject(
+                id=id_mesh_triangular,
+                name=name,
+                color=color,
+                points=points,
+                triangles=triangles)           
+        
+        meshs = self.model_project_current_repository.readMeshQuadrilateralDB()
+
+        for id_mesh_quadrilateral in meshs: 
+            name = meshs[id_mesh_quadrilateral]["NAME"]
+            color = meshs[id_mesh_quadrilateral]["COLOR"]
+            points = meshs[id_mesh_quadrilateral]["POINTS"]
+            quadrilaterals = meshs[id_mesh_quadrilateral]["QUADRILATERALS"]
+            self.addMeshQuadrilateralToCurrentProject(
+                id=id_mesh_quadrilateral,
+                name=name,
+                color=color,
+                points=points,
+                quadrilaterals=quadrilaterals) 
+
 
     def createUndoView(self):
 
@@ -334,7 +438,7 @@ class ModelProjectCurrent(QObject):
                                                       coordinates=coordinates
                                                       )
         
-        self.items_points_models[id]=model_point      
+        self.models_items_points[id]=model_point      
 
     def createItemPoint(self, id_point, name, coordinates ):
             
@@ -351,20 +455,20 @@ class ModelProjectCurrent(QObject):
     
     def deleteItemPoint(self, id):
         self.model_project_current_repository.deleteItemPointDrawDB(id)  
-        removed_model_item_point = self.items_points_models.pop(id, None)
+        removed_model_item_point = self.models_items_points.pop(id, None)
         if removed_model_item_point is not None:
             removed_model_item_point.deletePoint()
             del removed_model_item_point
     
     def updateItemPoint(self,  id_point, name = None, coordinates = None):
 
-        model_item_point = self.items_points_models[id_point]
+        model_item_point = self.models_items_points[id_point]
         model_item_point.updatePoint(id_point=id_point,
                                       name = name,
                                         coordinates = coordinates)
 
     def getModelsPoints(self):
-        return self.items_points_models
+        return self.models_items_points
 
     # ::::::::::::::::::::                ITEMS  LINES             ::::::::::::::::::::
 
@@ -377,7 +481,7 @@ class ModelProjectCurrent(QObject):
                                                       start_point=start_point,
                                                       end_point=end_point)
         
-        self.items_lines_models[id]=model_line       
+        self.models_items_lines[id]=model_line       
 
     def createItemLine(self, id_line, name, id_start_point, id_end_point):
 
@@ -389,8 +493,8 @@ class ModelProjectCurrent(QObject):
                 name = name,  
                 id_start_point = id_start_point,
                 id_end_point = id_end_point)
-        model_point_start=self.items_points_models[id_start_point]
-        model_point_end =self.items_points_models[id_end_point]
+        model_point_start=self.models_items_points[id_start_point]
+        model_point_end =self.models_items_points[id_end_point]
         self.addItemLineToCurrentProject(
                 id=id_line,
                 name=name,
@@ -402,7 +506,7 @@ class ModelProjectCurrent(QObject):
     
     def deleteItemLine(self, id):
         self.model_project_current_repository.deleteItemLineDrawDB(id)  
-        removed_model_item_line = self.items_lines_models.pop(id)
+        removed_model_item_line = self.models_items_lines.pop(id)
         removed_model_item_line.deleteLine()
 
         model_start_point = removed_model_item_line.getStartPoint()
@@ -412,28 +516,34 @@ class ModelProjectCurrent(QObject):
 
     def updateItemLine(self,  id_line, name = None, id_start_point = None, id_end_point = None):
 
-        model_item_line = self.items_lines_models[id_line]
+        model_item_line = self.models_items_lines[id_line]
 
         model_start_point = model_item_line.getStartPoint()
         model_end_point = model_item_line.getEndPoint()
 
-        model_point_start=self.items_points_models[id_start_point]
-        model_point_end =self.items_points_models[id_end_point]
+        model_point_start=self.models_items_points[id_start_point]
+        model_point_end =self.models_items_points[id_end_point]
 
         model_item_line.updateLine(id_line=id_line,
                                         start_point = model_point_start, 
                                         end_point = model_point_end)
         
     def getModelsLines(self):
-        return self.items_lines_models
+        return self.models_items_lines
     
     # ::::::::::::::::::::                MALLAS               ::::::::::::::::::::
 
-    def getMeshBack(self):
-        return self.mesh_black_model
+    def getModelMeshBack(self):
+        return self.model_mesh_black
          
-    def getBoundaryMeshBack(self):
-        return self.mesh_black_model.getBoundary()
+    def getBoundaryPointsMeshBack(self):
+        return self.model_mesh_black.getBoundaryPoints()
+    
+    def getBoundaryNodeMeshBack(self):
+        return self.model_mesh_black.getBoundaryNodes()
+
+
+
 
     def createMeshTriangular(self, name, color, points, triangles):
         id = str(uuid.uuid4())
@@ -477,7 +587,7 @@ class ModelProjectCurrent(QObject):
                                                       points=points,
                                                       triangles=triangles)
         
-        self.meshs_models[id]=model_mesh        
+        self.models_meshs_triangular[id]=model_mesh        
 
     def addMeshQuadrilateralToCurrentProject(self,id, name, color, points, quadrilaterals):    
         model_mesh_quadrilaterals = ModelMeshQuadrilateral(scene_draw=self.__scene,
@@ -488,29 +598,29 @@ class ModelProjectCurrent(QObject):
                                                       points=points,
                                                       quadrilaterals=quadrilaterals)
         
-        self.meshs_quadrilaterals_models[id]=model_mesh_quadrilaterals        
+        self.models_meshs_quadrilaterals[id]=model_mesh_quadrilaterals        
 
     def getModelsMeshsTriangular(self):
-        return self.meshs_models
+        return self.models_meshs_triangular
     
     def getModelsMeshsQuadrilaterals(self):
-        return self.meshs_quadrilaterals_models
+        return self.models_meshs_quadrilaterals
     
     def deleteMeshTriangular(self, id):
         self.model_project_current_repository.deleteMeshTriangularDB(id)  
-        removed_model_mesh_triangular = self.meshs_models.pop(id)
+        removed_model_mesh_triangular = self.models_meshs_triangular.pop(id)
         removed_model_mesh_triangular.deleteMesh()
         del removed_model_mesh_triangular
 
     def deleteMeshQuadrilaterals(self, id):
         self.model_project_current_repository.deleteMeshQuadrilateralDB(id)  
-        removed_model_mesh_quadrilaterals = self.meshs_quadrilaterals_models.pop(id)
+        removed_model_mesh_quadrilaterals = self.models_meshs_quadrilaterals.pop(id)
         removed_model_mesh_quadrilaterals.deleteMesh()
         del removed_model_mesh_quadrilaterals
 
     def removeMesh(self):
-        self.meshs_models.clear()
-        self.meshs_quadrilaterals_models.clear()
+        self.models_meshs_triangular.clear()
+        self.models_meshs_quadrilaterals.clear()
 
     # ::::::::::::::::::::           PUNTOS MATERIALES         ::::::::::::::::::::
 
@@ -535,7 +645,7 @@ class ModelProjectCurrent(QObject):
     def addMaterialPointToCurrentProject(self,id, name, color, points, id_property):  
 
         
-        property = self.properties_models[id_property]
+        property = self.models_properties[id_property]
 
         model_material_point = ModelMaterialPoint(scene_draw=self.__scene,
                                                       model_project_current_repository=self.model_project_current_repository,
@@ -544,19 +654,19 @@ class ModelProjectCurrent(QObject):
                                                       color=color,
                                                       points=points,
                                                       property = property)
-        self.material_point_models[id]=model_material_point        
+        self.models_material_point[id]=model_material_point        
    
     def getModelsPointsMaterials(self):
-        return self.material_point_models
+        return self.models_material_point
     
     def deleteMaterialPoint(self, id):
         self.model_project_current_repository.deleteMaterialPointDB(id)        
-        removed_model_material_point = self.material_point_models.pop(id)
+        removed_model_material_point = self.models_material_point.pop(id)
         removed_model_material_point.deleteMaterialPoint()
         del removed_model_material_point
 
     def removeMaterialPoint(self):
-        self.material_point_models.clear()
+        self.models_material_point.clear()
         
     # ::::::::::::::::::::           PUNTOS PROPOIEDADES         ::::::::::::::::::::
 
@@ -600,28 +710,28 @@ class ModelProjectCurrent(QObject):
                                         cohesion=cohesion,
                                         friction_angle=friction_angle,
                                         angle_dilatancy=angle_dilatancy)
-        self.properties_models[id]=model_property        
+        self.models_properties[id]=model_property        
 
     def getModelsProperties(self):
-        return self.properties_models
+        return self.models_properties
     
     def deleteProperty(self, id):
         self.model_project_current_repository.deletePropertiesDB(id)        
-        removed_model_property = self.properties_models.pop(id)        
+        removed_model_property = self.models_properties.pop(id)        
         del removed_model_property
 
     def removeProperties(self):
-        self.properties_models.clear()
+        self.models_properties.clear()
                         
     # ::::::::::::::::::::           PUNTOS CONTORNOS         ::::::::::::::::::::
 
-    def createBoundary(self, name, points, restrictionX, restrictionY):
-        
+    def createBoundary(self, name, nodes, points, restrictionX, restrictionY):        
         
         id = str(uuid.uuid4())
         self.model_project_current_repository.createBoundaryDB(
             id_boundary = id,
             name = name, 
+            nodes=nodes,
             points = points,
             restrictionX=restrictionX,
             restrictionY=restrictionY
@@ -629,37 +739,45 @@ class ModelProjectCurrent(QObject):
         self.addBoundaryToCurrentProject(
                 id=id,
                 name=name,
+                nodes=nodes,
                 points=points,
                 restrictionX=restrictionX,
                 restrictionY=restrictionY
                 )
         return id
     
-    def addBoundaryToCurrentProject(self,id, name, points, restrictionX,restrictionY):  
+    def addBoundaryToCurrentProject(self,id, name, nodes, points, restrictionX,restrictionY):  
         
 
         model_boundary = ModelBoundary(scene_draw=self.__scene,
                                                       model_project_current_repository=self.model_project_current_repository,
                                                       id=id,
                                                       name=name,
+                                                      nodes=nodes,
                                                       points=points,
                                                       Tx= restrictionX,
                                                       Ty=restrictionY
                                                       )
-        self.boundary_models[id]=model_boundary       
+        self.models_boundary[id]=model_boundary       
 
     def getModelsBoundaries(self):
-        return self.boundary_models
+        return self.models_boundary
     
     def deleteBoundary(self, id):
         self.model_project_current_repository.deleteBoundaryDB(id)        
-        removed_model_boundary= self.boundary_models.pop(id)
+        removed_model_boundary= self.models_boundary.pop(id)
         removed_model_boundary.deleteBoundary()
         del removed_model_boundary
 
     def removeBoundary(self):
-        self.boundary_models.clear()
+        self.models_boundary.clear()
           
+    # ::::::::::::::::::::           RESULTADOS         ::::::::::::::::::::
+
+    def getModelResult(self):
+        return self.model_result
+    
+
     def getSelectedObjects(self):
         return self.__selected_objects
 
@@ -752,7 +870,7 @@ class ModelProjectCurrent(QObject):
 
             self.view_draw_1.selectElement(True)
             self.view_draw_2.selectElement(True)
-            self.mesh_black_model.showMeshBackPoint(True)
+            self.model_mesh_black.showMeshBackPoint(True)
  
         elif step == 2:  
             
@@ -826,8 +944,8 @@ class ModelProjectCurrent(QObject):
 
             #::::::::::::  punto  ::::::::::::::::
             no_max = 0
-            for id_point_item in self.items_points_models:
-                model_point_item = self.items_points_models[id_point_item]
+            for id_point_item in self.models_items_points:
+                model_point_item = self.models_items_points[id_point_item]
                 name = model_point_item.getName()
                 parts = name.split("POINT#")
                 number = int(parts[1])
@@ -880,16 +998,16 @@ class ModelProjectCurrent(QObject):
                 return
             
             #verifica si hay lineas existentes      
-            model_point_start = self.items_points_models[id_point_start]
-            model_point_end = self.items_points_models[id_point_end]
+            model_point_start = self.models_items_points[id_point_start]
+            model_point_end = self.models_items_points[id_point_end]
 
-            for id_line in self.items_lines_models:
-                model_ref_point_start = self.items_lines_models[id_line].getStartPoint()
-                model_ref_point_end = self.items_lines_models[id_line].getEndPoint()
+            for id_line in self.models_items_lines:
+                model_ref_point_start = self.models_items_lines[id_line].getStartPoint()
+                model_ref_point_end = self.models_items_lines[id_line].getEndPoint()
                 point_ref = [model_ref_point_start, model_ref_point_end]
                 if (model_point_start in point_ref) and (model_point_end in point_ref):
-                    name = self.items_lines_models[id_line].getName()
-                    id = self.items_lines_models[id_line].getId()
+                    name = self.models_items_lines[id_line].getName()
+                    id = self.models_items_lines[id_line].getId()
                     self.signal_msn_label_view.emit(["Warning", "En esta posición ya existe la linea {}".format(name), 1])  
                     return id
 
@@ -897,8 +1015,8 @@ class ModelProjectCurrent(QObject):
 
             #::::::::::::  linea  ::::::::::::::::
             no_max = 0
-            for id_line_item in self.items_lines_models:
-                model_line_item = self.items_lines_models[id_line_item]
+            for id_line_item in self.models_items_lines:
+                model_line_item = self.models_items_lines[id_line_item]
                 name = model_line_item.getName()
                 parts = name.split("LINE#")
                 number = int(parts[1])
@@ -1623,7 +1741,7 @@ class ModelProjectCurrent(QObject):
         for item in self.__selected_objects:
             item.isSelectedPointBlack = False
         self.__selected_objects=[]
-        self.mesh_black_model.showMeshBackPoint(False)
+        self.model_mesh_black.showMeshBackPoint(False)
         self.__scene.update()
 
 
@@ -1659,7 +1777,7 @@ class ModelProjectCurrent(QObject):
 
     def changeTheme(self,index_style):
 
-        self.mesh_black_model.changeTheme(index_style)
+        self.model_mesh_black.changeTheme(index_style)
         return
         self.scene_draw.setStyleScene(index_style_view_scene)
         self.view_draw_1.setStyleView(index_style_view_scene)
@@ -1667,7 +1785,7 @@ class ModelProjectCurrent(QObject):
 
 
     def stateViewBoundary(self, data):  
-        model = self.boundary_models[data["id_boundary"]]
+        model = self.models_boundary[data["id_boundary"]]
         model.stateViewBoundary(data)
 
 
@@ -1738,7 +1856,7 @@ class ModelProjectCurrent(QObject):
                     if intersection_type == QLineF.IntersectionType.BoundedIntersection:# or intersection_type == QLineF.IntersectionType.IntersectsWithLine:
 
                         new_point = self.commandPoint({"step":2, "data": [intersection_point.x(),intersection_point.y()]})
-                        new_point = self.items_points_models[new_point].getPointItem()
+                        new_point = self.models_items_points[new_point].getPointItem()
                         
                         line_A_new =None
                         line_B_new =None
@@ -1753,7 +1871,7 @@ class ModelProjectCurrent(QObject):
                             line_A_new = self.commandLine({"step":3, "data":[
                                         [intersection_point.x(),intersection_point.y()],
                                         [lA_p2f.x(),lA_p2f.y()]]})
-                            line_A_new = self.items_lines_models[line_A_new].getLineItem()
+                            line_A_new = self.models_items_lines[line_A_new].getLineItem()
                             #new_point.addAnchoredLine(line_A)
                             #new_point.addAnchoredLine(line_A_new)
             
@@ -1767,7 +1885,7 @@ class ModelProjectCurrent(QObject):
                             line_B_new = self.commandLine({"step":3, "data":[
                                         [intersection_point.x(),intersection_point.y()],
                                         [lB_p2f.x(),lB_p2f.y()]]})
-                            line_B_new = self.items_lines_models[line_B_new].getLineItem()
+                            line_B_new = self.models_items_lines[line_B_new].getLineItem()
                             #new_point.addAnchoredLine(line_B)
                             #new_point.addAnchoredLine(line_B_new)
                         if line_A_new != None or line_B_new != None:

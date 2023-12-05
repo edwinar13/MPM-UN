@@ -7,13 +7,14 @@ from PySide6.QtWidgets import QGraphicsItemGroup
 class ModelBoundary:
 
     def __init__(self, scene_draw:QGraphicsScene, model_project_current_repository:ModelProjectCurrentRepository,
-                  id, name, points, Tx , Ty) -> None:
+                  id, name, nodes, points, Tx , Ty) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
 
         self.__id = id
         self.__name = name
+        self.__nodes = nodes
         self.__points = points 
         self.__restrictionX = Tx
         self.__restrictionY = Ty
@@ -58,6 +59,9 @@ class ModelBoundary:
     def getName(self):
         return self.__name
 
+    def getNodes(self):
+        return self.__nodes   
+    
     def getPoints(self):
         return self.__points   
     
@@ -68,8 +72,8 @@ class ModelBoundary:
         return self.__restrictionY
 
     def getData(self):
-        """return: id, name,  points, restrictionX, restrictionY]]"""
-        return[self.__id,self.__name, self.__points, self.__restrictionX, self.__restrictionY]
+        """return: id, name, nodes, points, restrictionX, restrictionY]]"""
+        return[self.__id,self.__name, self.__nodes, self.__points, self.__restrictionX, self.__restrictionY]
 
 
          
@@ -86,11 +90,13 @@ class ModelBoundary:
         self.text_name.setVisible(value)   
 
     
-    def updateBoundary(self,id_boundary, name= None, points= None, restrictionX = None, restrictionY = None):
+    def updateBoundary(self,id_boundary, name= None, nodes=None, points= None, restrictionX = None, restrictionY = None):
 
         if name != None:
             self.__name = name
             self.text_name.text= "B:{}".format(self.__name)
+        if nodes != None:
+            self.__nodes = nodes
         if points != None:
             self.__points = points
         if restrictionX != None:
@@ -100,6 +106,7 @@ class ModelBoundary:
         self.model_project_current_repository.updateBoundaryDB(
             id_boundary=id_boundary,
             name=name,
+            nodes=nodes,
             points=points,
             restrictionX=restrictionX,
             restrictionY=restrictionY

@@ -1,6 +1,6 @@
 
 """ Este módulo contiene controlador de la vista pagina home """
-from PySide6.QtCore import ( QFile, Slot, QObject,QPointF)
+from PySide6.QtCore import ( QFile, Slot, QObject,QPointF, Signal)
 
 from clases.general_functions import isNumber
 from clases.Vista.view_PageDraw import  ViewPageDraw
@@ -19,6 +19,8 @@ import math
 
 
 class ControllerPageDraw(QObject):
+
+ 
 
     def __init__(self, controller_main) -> None:    
         super().__init__()
@@ -73,7 +75,7 @@ class ControllerPageDraw(QObject):
         self.controller_menu_properties.signal_new_property.connect(self.setListPropertiesViews)
         self.controller_menu_properties.signal_edit_property.connect(self.setListPropertiesViews)
         self.controller_menu_properties.signal_delete_property.connect(self.setListPropertiesViews)
-
+        
 
 
 
@@ -97,9 +99,11 @@ class ControllerPageDraw(QObject):
     
    
     @Slot()
-    def setListPropertiesViews(self):
+    def setListPropertiesViews(self):        
         self.controller_menu_pointMaterial.setListPropertiesViews()
     
+
+   
 
 
     @Slot(list)

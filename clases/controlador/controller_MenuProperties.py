@@ -73,13 +73,13 @@ class ControllerMenuProperties(QObject):
 
     @Slot()
     def newProperty(self):
-
         property_name =self.view_menu_properties.getName()
         modulus_elasticity=self.view_menu_properties.getPropertiesE()
         poisson_ratio =self.view_menu_properties.getPropertiesV()
         cohesion =self.view_menu_properties.getPropertiesC()
         friction_angle =self.view_menu_properties.getPropertiesPhi()
         angle_dilatancy =self.view_menu_properties.getPropertiesPsi()
+
  
          
         if property_name == "":

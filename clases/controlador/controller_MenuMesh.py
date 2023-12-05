@@ -20,7 +20,6 @@ class ControllerMenuMesh(QObject):
         self.model_current_project = None
         self.model_mesh_back = None
         self.list_controller_card=[]
-
         self.__config()
         self.__initEvent()
 
@@ -47,7 +46,7 @@ class ControllerMenuMesh(QObject):
         self.model_current_project = model_current_project
         self.model_current_project.signal_size_mesh.connect(self.sizeMesh)
         self.model_current_project.signal_select_line_mesh.connect(self.selectLineMesh)
-        self.model_mesh_back = self.model_current_project.getMeshBack()
+        self.model_mesh_back = self.model_current_project.getModelMeshBack()
 
         
     def configDrawMenuMesh(self):
@@ -175,20 +174,30 @@ class ControllerMenuMesh(QObject):
         points_boundary_top = []
         points_boundary_bottom = []        
         points_boundary_left = []
-        points_boundary_right = []
+        points_boundary_right = []        
+        nodes_boundary_top = []
+        nodes_boundary_bottom = []        
+        nodes_boundary_left = []
+        nodes_boundary_right = []
+
         for y in range(nnodesy):
             for x in range(nnodesx):
                 coor_boundary = mesh_cuad_coord[count].tolist()
                 if y==0:
                     points_boundary_bottom.append(coor_boundary)
+                    nodes_boundary_bottom.append(count + 1)
                 if y==nnodesy-1:
                     points_boundary_top.append(coor_boundary)
+                    nodes_boundary_top.append(count + 1)
                 if x==0:
                     points_boundary_left.append(coor_boundary)
+                    nodes_boundary_left.append(count + 1)
                 if x==nnodesx-1:
                     points_boundary_right.append(coor_boundary)
+                    nodes_boundary_right.append(count + 1)
 
                 count +=1
+                
 
         if error:            
             return
@@ -199,7 +208,7 @@ class ControllerMenuMesh(QObject):
 
         quadrilaterals =[] 
         for triangle in mesh_cuad_inci:
-            quadrilaterals.append([int(triangle[0])-1,int(triangle[1])-1,int(triangle[2])-1,int(triangle[3])-1])
+            quadrilaterals.append([int(triangle[0]),int(triangle[1]),int(triangle[2]),int(triangle[3])])
         
         
 
@@ -212,8 +221,15 @@ class ControllerMenuMesh(QObject):
                                         points_boundary_top = points_boundary_top,
                                         points_boundary_bottom = points_boundary_bottom,
                                         points_boundary_left = points_boundary_left,
-                                        points_boundary_right = points_boundary_right)
+                                        points_boundary_right = points_boundary_right,
+                                        nodes_boundary_top = nodes_boundary_top,
+                                        nodes_boundary_bottom = nodes_boundary_bottom,
+                                        nodes_boundary_left = nodes_boundary_left,
+                                        nodes_boundary_right = nodes_boundary_right
+                                        )
         
+        msn = "Malla Actualizada"
+        self.view_menu_mesh.msnAlert(False, msn)
     
 
      

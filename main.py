@@ -1,9 +1,11 @@
+
 import sys
 import json
 from PySide6.QtCore import (QFile)
 from PySide6.QtGui import (QFontDatabase)
 from PySide6.QtWidgets import (QApplication)
 from clases.Vista import view_SplashScreen
+
 
 
 def newFileApp():  
@@ -48,4 +50,7 @@ if __name__ == '__main__':
     window = view_SplashScreen.SplashScreen()
     window.show()
     sys.exit(app.exec())
+
+
+
 

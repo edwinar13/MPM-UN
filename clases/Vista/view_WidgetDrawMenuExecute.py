@@ -282,10 +282,18 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 	##############################################################################
 
 
-    def msnAlertDefault(self, msn=""):
-        self.label_msn.setStyleSheet("color:  #F94646")  
-        self.label_msn.setText(msn)          
-        QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+    def msnAlertDefault(self,error, msn=""):
+        if not error:
+            self.label_msn.setStyleSheet("border-radius: 3px ;padding-top: 4px; padding-bottom: 4px; background: #aaa; color:  #222;")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, self.clearLabel)
 
+        else:
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.clearLabel)
+   
     
-    
+    def clearLabel(self):
+        self.label_msn.setText("")
+        self.label_msn.setStyleSheet("border-radius: 0px ;padding-top: 0px; padding-bottom: 0px; background: transparent; color: #222;")

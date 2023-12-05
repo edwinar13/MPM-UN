@@ -16,6 +16,8 @@ from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
 
+
+
 import math
 import uuid
 contador = 0 
@@ -195,7 +197,7 @@ class ViewGraphicsViewDraw (QGraphicsView):
         elif event.button() == Qt.MiddleButton:
 
             self.scene().isPan = True
-            self.setDragMode(self.ScrollHandDrag)
+            self.setDragMode(QGraphicsView.ScrollHandDrag)
             self.viewport().setCursor(Qt.ClosedHandCursor)
             self.original_event = event
             handmade_event = QMouseEvent(
@@ -251,7 +253,7 @@ class ViewGraphicsViewDraw (QGraphicsView):
             
 
         if event.button() == Qt.MiddleButton:
-            self.setDragMode(self.NoDrag)
+            self.setDragMode(QGraphicsView.NoDrag)
             self.viewport().setCursor(Qt.BlankCursor)
 
   
@@ -530,7 +532,7 @@ class ViewGraphicsViewDraw (QGraphicsView):
             self.isModeCrosshairPickbox = False 
         else:
             
-            self.setDragMode(self.NoDrag)
+            self.setDragMode(QGraphicsView.NoDrag)
             self.isZoomWindow = False  
             self.viewport().setCursor(Qt.BlankCursor)
             self.isModeCrosshairPickbox = True

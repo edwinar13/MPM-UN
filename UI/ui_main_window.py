@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowuPaYWD.ui'
+## Form generated from reading UI file 'main_windowTQUGLT.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -16,10 +16,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QSpacerItem, QStackedWidget, QStatusBar, QToolButton,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QMainWindow,
+    QMenu, QMenuBar, QSizePolicy, QSpacerItem,
+    QStackedWidget, QStatusBar, QToolButton, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -884,15 +884,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.verticalLayout_emptyDraw)
 
         self.stackedWidget_container.addWidget(self.page_draw)
-        self.page_view = QWidget()
-        self.page_view.setObjectName(u"page_view")
-        self.label_2 = QLabel(self.page_view)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(340, 290, 144, 90))
-        font3 = QFont()
-        font3.setPointSize(50)
-        self.label_2.setFont(font3)
-        self.stackedWidget_container.addWidget(self.page_view)
+        self.page_result = QWidget()
+        self.page_result.setObjectName(u"page_result")
+        self.horizontalLayout_2 = QHBoxLayout(self.page_result)
+        self.horizontalLayout_2.setSpacing(0)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_emptyResult = QVBoxLayout()
+        self.verticalLayout_emptyResult.setObjectName(u"verticalLayout_emptyResult")
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_emptyResult)
+
+        self.stackedWidget_container.addWidget(self.page_result)
         self.page_config = QWidget()
         self.page_config.setObjectName(u"page_config")
         self.verticalLayout = QVBoxLayout(self.page_config)
@@ -921,32 +924,40 @@ class Ui_MainWindow(object):
         self.menu_archivo = QMenu(self.menubar)
         self.menu_archivo.setObjectName(u"menu_archivo")
         self.menu_archivo.setGeometry(QRect(2269, 217, 186, 293))
-        font4 = QFont()
-        font4.setFamilies([u"Ubuntu"])
-        font4.setPointSize(10)
-        font4.setBold(False)
-        font4.setItalic(False)
-        self.menu_archivo.setFont(font4)
+        font3 = QFont()
+        font3.setFamilies([u"Ubuntu"])
+        font3.setPointSize(10)
+        font3.setBold(False)
+        font3.setItalic(False)
+        self.menu_archivo.setFont(font3)
         self.menu_archivo.setMouseTracking(True)
         self.menu_recientes = QMenu(self.menu_archivo)
         self.menu_recientes.setObjectName(u"menu_recientes")
-        self.menu_recientes.setFont(font4)
+        self.menu_recientes.setFont(font3)
         icon17 = QIcon()
         icon17.addFile(u"recursos/iconos/iconos_menu_superior/recent.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.menu_recientes.setIcon(icon17)
         self.menu_editar = QMenu(self.menubar)
         self.menu_editar.setObjectName(u"menu_editar")
-        self.menu_editar.setFont(font4)
+        self.menu_editar.setFont(font3)
         self.menu_vista = QMenu(self.menubar)
         self.menu_vista.setObjectName(u"menu_vista")
-        self.menu_vista.setFont(font4)
+        self.menu_vista.setFont(font3)
         self.menu_ayuda = QMenu(self.menubar)
         self.menu_ayuda.setObjectName(u"menu_ayuda")
-        self.menu_ayuda.setFont(font4)
+        self.menu_ayuda.setFont(font3)
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        QWidget.setTabOrder(self.toolButton_home, self.toolButton_drawData)
+        QWidget.setTabOrder(self.toolButton_drawData, self.toolButton_drawMesh)
+        QWidget.setTabOrder(self.toolButton_drawMesh, self.toolButton_drawProperties)
+        QWidget.setTabOrder(self.toolButton_drawProperties, self.toolButton_drawPoint)
+        QWidget.setTabOrder(self.toolButton_drawPoint, self.toolButton_drawBoundary)
+        QWidget.setTabOrder(self.toolButton_drawBoundary, self.toolButton_drawExecute)
+        QWidget.setTabOrder(self.toolButton_drawExecute, self.toolButton_viewResult)
+        QWidget.setTabOrder(self.toolButton_viewResult, self.toolButton_setting)
 
         self.menubar.addAction(self.menu_archivo.menuAction())
         self.menubar.addAction(self.menu_editar.menuAction())
@@ -983,7 +994,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget_container.setCurrentIndex(3)
+        self.stackedWidget_container.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1022,7 +1033,6 @@ class Ui_MainWindow(object):
         self.toolButton_drawExecute.setText(QCoreApplication.translate("MainWindow", u"Ejecutar", None))
         self.toolButton_viewResult.setText(QCoreApplication.translate("MainWindow", u"Resultados", None))
         self.toolButton_setting.setText(QCoreApplication.translate("MainWindow", u"Mallado", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Vista", None))
         self.menu_archivo.setTitle(QCoreApplication.translate("MainWindow", u"Archivo", None))
         self.menu_recientes.setTitle(QCoreApplication.translate("MainWindow", u"Recientes", None))
         self.menu_editar.setTitle(QCoreApplication.translate("MainWindow", u"Editar", None))

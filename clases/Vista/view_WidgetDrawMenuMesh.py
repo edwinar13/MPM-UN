@@ -66,35 +66,27 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.__configUi()
         self.__initEventUi()
 
-
-
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
 	###############################################################################
     def __configUi(self):
         """ Configura la interface de usuario (ui) """ 
-        # Se agrega los dos iconos para maximizar y minimizar
+        
         self.icon_minimize = QIcon()
         self.icon_minimize.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_maximize = QIcon()
         self.icon_maximize.addFile(u"recursos/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
-        
-        # Se agrega los dos iconos para maximizar y minimizar
+                
         self.icon_show_mesh = QIcon()
         self.icon_show_mesh.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_hide_mesh = QIcon()
         self.icon_hide_mesh.addFile(u"recursos/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
-        
-        
-        # Se agrega los dos iconos para maximizar y minimizar
+                
         self.icon_show_label = QIcon()
         self.icon_show_label.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_hide_label = QIcon()
         self.icon_hide_label.addFile(u"recursos/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
         
-
-
-
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('MALLADO')
         self.label_lat.setFont(QFont('Ubuntu', 9))
@@ -395,7 +387,16 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
     def msnAlert(self, error, msn=""):
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText(msn)          
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            if not error:
+                self.label_msn.setStyleSheet("border-radius: 3px ;padding-top: 4px; padding-bottom: 4px;background: #aaa; color:  #222;")  
+                self.label_msn.setText(msn)          
+                QTimer.singleShot(4000, self.clearLabel)
 
+            else:
+                self.label_msn.setStyleSheet("color:  #F94646")  
+                self.label_msn.setText(msn)          
+                QTimer.singleShot(4000, lambda: self.clearLabel)
+
+    def clearLabel(self):
+        self.label_msn.setText("")
+        self.label_msn.setStyleSheet("border-radius: 0px ;padding-top: 0px; padding-bottom: 0px;background: transparent; color: #222;")

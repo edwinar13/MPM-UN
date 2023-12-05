@@ -226,6 +226,9 @@ class ViewMainWindow(QMainWindow):
         elif page == "draw":
             self.ui.verticalLayout_emptyDraw.addWidget(view_page)
 
+        elif page == "result":
+            self.ui.verticalLayout_emptyResult.addWidget(view_page)
+
         elif page == "setting":
             self.ui.verticalLayout_emptySetting.addWidget(view_page)
 
@@ -306,7 +309,7 @@ class ViewMainWindow(QMainWindow):
             [self.ui.frame_drawProperties, self.ui.frame_drawPropertiesInf,self.ui.page_draw],
             [self.ui.frame_drawBoundary, self.ui.frame_drawBoundaryInf,self.ui.page_draw],
             [self.ui.frame_drawExecute, self.ui.frame_drawExecuteInf,self.ui.page_draw],
-            [self.ui.frame_viewResult, self.ui.frame_viewResultInf,self.ui.page_view]
+            [self.ui.frame_viewResult, self.ui.frame_viewResultInf,self.ui.page_result]
             ]
         
         
@@ -338,6 +341,8 @@ class ViewMainWindow(QMainWindow):
         self.ui.toolButton_drawProperties.setEnabled(True)
         self.ui.toolButton_drawBoundary.setEnabled(True) 
         self.ui.toolButton_drawExecute.setEnabled(True)
+
+    def activateMenuLatResult(self):
         self.ui.toolButton_viewResult.setEnabled(True)
 
 

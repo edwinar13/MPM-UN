@@ -153,8 +153,7 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al agregar registro en <ITEMSDIBUJO> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
-        
-        
+                
     def readItemPointDrawDB(self):
         """
         Lee los items de dibujo (puntos) almacenados en la base de datos del proyecto actual.
@@ -272,13 +271,10 @@ class ModelProjectCurrentRepository():
             (dict): Diccionario con la malla de fondo del proyecto.
         """   
         return self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']
-
-   
-
+  
     def updateMeshBackDB(self, size_dx=None, size_dy=None, size_element=None,color=None,points=None,quadrilaterals=None,
-            points_boundary_top = None,points_boundary_bottom = None,points_boundary_left = None,points_boundary_right = None):
-
-
+            points_boundary_top = None,points_boundary_bottom = None,points_boundary_left = None,points_boundary_right = None,
+            nodes_boundary_top = None,nodes_boundary_bottom = None,nodes_boundary_left = None,nodes_boundary_right = None):
 
         try:                  
             
@@ -302,6 +298,18 @@ class ModelProjectCurrentRepository():
                 self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYLEFT"]=points_boundary_left
             if points_boundary_right != None:   
                 self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYRIGHT"]=points_boundary_right
+            if nodes_boundary_top != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYTOP"]=nodes_boundary_top
+            if nodes_boundary_bottom != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYBOTTOM"]=nodes_boundary_bottom
+            if nodes_boundary_left != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYLEFT"]=nodes_boundary_left
+            if nodes_boundary_right != None:   
+                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYRIGHT"]=nodes_boundary_right
+
+
+
+
 
 
             return True
@@ -573,11 +581,12 @@ class ModelProjectCurrentRepository():
             return False    
         
 	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
-    def createBoundaryDB(self, id_boundary, name, points,restrictionX, restrictionY):    
+    def createBoundaryDB(self, id_boundary, name, nodes, points,restrictionX, restrictionY):    
         
         try:                 
             self.__unguarded_copy_db_project['CONTORNOS'][id_boundary] = {
                 "NAME": name,
+                "NODES": nodes,
                 "POINTS": points,
                 "Tx": restrictionX,
                 "Ty": restrictionY
@@ -589,8 +598,7 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al agregar registro en <CONTORNOS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-        
-    
+     
     def readBoundaryDB(self):
         """
         Lee los puntos materiales almacenados en la base de datos del proyecto actual.
@@ -599,12 +607,14 @@ class ModelProjectCurrentRepository():
         """ 
         return self.__unguarded_copy_db_project['CONTORNOS']
     
-    def updateBoundaryDB(self,id_boundary, name=None, points=None, restrictionX=None, restrictionY=None):
+    def updateBoundaryDB(self,id_boundary, name=None, nodes=None, points=None, restrictionX=None, restrictionY=None):
 
         try: 
             if id_boundary in self.__unguarded_copy_db_project['CONTORNOS']: 
                 if name != None:                      
                     self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["NAME"]=name
+                if nodes != None:   
+                    self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["NODES"]=nodes
                 if points != None:   
                     self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["POINTS"]=points
                 if restrictionX != None:   
@@ -629,6 +639,109 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
         
+	# ::::::::::::::::::::       MÉTODOS DB RESULTADOS     ::::::::::::::::::::   
+    def readResultNodesDB(self):
+
+        return self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS']
+        
+    def createResultNodeDB(self, id_result_node, times, corx, cory,
+             sigxx, sigyy, sigxy,
+             epsxx, epsyy, epsxy):    
+        
+        try:                 
+            self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
+                "TIEMPOS": times,
+                "CORX": corx,
+                "CORY": cory,
+                "SIGXX": sigxx,
+                "SIGYY": sigyy,
+                "SIGXY": sigxy,
+                "EPSXX": epsxx,
+                "EPSYY": epsyy,
+                "EPSXY": epsxy
+            }
+            
+            return True
+            
+        except BaseException as err:
+            print("[Doc: {}] Error al agregar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        
+    def updateResultNodeDB(self, id_result_node, times=None, corx=None, cory=None,
+             sigxx=None, sigyy=None, sigxy=None,
+             epsxx=None, epsyy=None, epsxy=None):
+
+        try: 
+            if id_result_node in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
+                if times != None:                      
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["TIEMPOS"]=times
+                if corx != None:                      
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["CORX"]=corx
+                if cory != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["CORY"]=cory
+                if sigxx != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["SIGXX"]=sigxx
+                if sigyy != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["SIGYY"]=sigyy
+                if sigxy != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["SIGXY"]=sigxy
+                if epsxx != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["EPSXX"]=epsxx
+                if epsyy != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["EPSYY"]=epsyy
+                if epsxy != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] [id_result_node]["EPSXY"]=epsxy
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def deleteResultNodeDB(self, id_result_node):
+
+        try:     
+
+            if id_result_node in self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS']:
+                del self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node]             
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+
+    def readResultTimesDB(self):
+        """return  analysis_times"""
+        analysis_times = self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSANALISIS']
+
+        return analysis_times
+
+    def updateResultTimesDB(self, analysis_times=None, ):
+
+        try: 
+            
+            if analysis_times != None:   
+                self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSANALISIS'] = analysis_times
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def deleteAllResultDB(self):
+
+        try:     
+            self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSANALISIS'] = []
+            self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] = {}
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al eliminar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+        
+    
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################

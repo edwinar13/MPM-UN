@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_executeCiHPDq.ui'
+## Form generated from reading UI file 'widget_draw_menu_executeFpMxiL.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -632,7 +632,7 @@ class Ui_FormDrawMenuExecute(object):
 "	border: 1px solid #808080;\n"
 "    border-radius: 5px;\n"
 "	padding: 2px 0px;\n"
-"background-color: #a4bfac;\n"
+"background-color: #928ECC;\n"
 "color: #222;\n"
 "    }\n"
 "\n"
@@ -973,8 +973,8 @@ class Ui_FormDrawMenuExecute(object):
     def retranslateUi(self, FormDrawMenuExecute):
         FormDrawMenuExecute.setWindowTitle(QCoreApplication.translate("FormDrawMenuExecute", u"Form", None))
         self.toolButton_hideShow.setText("")
-        self.label_cardExecuteTitle.setText(QCoreApplication.translate("FormDrawMenuExecute", u"CONTORNO", None))
-        self.label_cardExecuteSubTitle1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Crear restricci\u00f3n de contorno autom\u00e1tico", None))
+        self.label_cardExecuteTitle.setText(QCoreApplication.translate("FormDrawMenuExecute", u"AN\u00c1LISIS", None))
+        self.label_cardExecuteSubTitle1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Datos", None))
         self.toolButton_cardExecuteSubTitle1.setText("")
         self.label_textBoundary1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Puntos materiales", None))
         self.label_textBoundary3.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Contornos:", None))

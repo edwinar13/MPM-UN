@@ -2,7 +2,7 @@
 from __future__ import division, print_function
 import numpy as np
 from numba import njit, jit
-from _func.mesh import elem_i_mp
+from motorMPM.mesh import elem_i_mp
 import math
 
 # ===========================================================================

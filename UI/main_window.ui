@@ -532,6 +532,9 @@ QCheckBox::indicator {
               <number>0</number>
              </property>
              <item>
+              <layout class="QVBoxLayout" name="verticalLayout_emptyResult"/>
+             </item>
+             <item>
               <widget class="QToolButton" name="toolButton_home">
                <property name="enabled">
                 <bool>true</bool>
@@ -1274,7 +1277,7 @@ QCheckBox::indicator {
              <number>0</number>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_home">
              <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1320,25 +1323,24 @@ QCheckBox::indicator {
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_view">
-             <widget class="QLabel" name="label_2">
-              <property name="geometry">
-               <rect>
-                <x>340</x>
-                <y>290</y>
-                <width>144</width>
-                <height>90</height>
-               </rect>
+            <widget class="QWidget" name="page_result">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>0</number>
               </property>
-              <property name="font">
-               <font>
-                <pointsize>50</pointsize>
-               </font>
+              <property name="leftMargin">
+               <number>0</number>
               </property>
-              <property name="text">
-               <string>Vista</string>
+              <property name="topMargin">
+               <number>0</number>
               </property>
-             </widget>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+             </layout>
             </widget>
             <widget class="QWidget" name="page_config">
              <layout class="QVBoxLayout" name="verticalLayout">
@@ -1670,6 +1672,17 @@ QCheckBox::indicator {
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>toolButton_home</tabstop>
+  <tabstop>toolButton_drawData</tabstop>
+  <tabstop>toolButton_drawMesh</tabstop>
+  <tabstop>toolButton_drawProperties</tabstop>
+  <tabstop>toolButton_drawPoint</tabstop>
+  <tabstop>toolButton_drawBoundary</tabstop>
+  <tabstop>toolButton_drawExecute</tabstop>
+  <tabstop>toolButton_viewResult</tabstop>
+  <tabstop>toolButton_setting</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -27,8 +27,6 @@ class ViewPageSetting(QFrame, ui_frame_setting.Ui_FormSetting):
 
         # Configura la UI
         self.configUi()
-
-        # Establece los eventos de la UI
         self.initEventUi()
 
     ###############################################################################

@@ -258,7 +258,7 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         un número, si es verdadero le da formato decimal y
         actualiza gravity en la copia de la bd del proyecto.
         si no es número da mensaje de error""" 
-        gravity = self.lineEdit_textData_DataGravity.text()
+        gravity = float(self.lineEdit_textData_DataGravity.text())
         if general_functions.isNumber(gravity):
             self.lineEdit_textData_DataGravity.setText(str(float(gravity)))            
             self.lineEdit_textData_DataGravity.setStyleSheet("border-color: #444444")

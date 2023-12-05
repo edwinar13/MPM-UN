@@ -96,10 +96,14 @@ class ControllerMenuBoundary(QObject):
         restriction_automatic_left = restriction_automatic["Left"]
         restriction_automatic_right = restriction_automatic["Right"]       
 
-        points_top, points_bottom ,points_left ,points_right = self.model_current_project.getBoundaryMeshBack()        
+        points_top, points_bottom ,points_left ,points_right = self.model_current_project.getBoundaryPointsMeshBack()    
+        nodes_top, nodes_bottom ,nodes_left ,nodes_right = self.model_current_project.getBoundaryNodeMeshBack()   
+        
+
         if  restriction_automatic_top[0] or restriction_automatic_top[1]:        
             id_top= self.model_current_project.createBoundary(
                                                         name ="boundary_top",
+                                                        nodes=nodes_top,
                                                         points = points_top,
                                                         restrictionX = restriction_automatic_top[0],
                                                         restrictionY = restriction_automatic_top[1]                                                    
@@ -111,6 +115,7 @@ class ControllerMenuBoundary(QObject):
         if  restriction_automatic_bottom[0] or restriction_automatic_bottom[1]:
             id_bottom = self.model_current_project.createBoundary(
                                                         name ="boundary_bottom",
+                                                        nodes=nodes_bottom,
                                                         points = points_bottom,
                                                         restrictionX = restriction_automatic_bottom[0],
                                                         restrictionY = restriction_automatic_bottom[1]                                                    
@@ -121,6 +126,7 @@ class ControllerMenuBoundary(QObject):
         if  restriction_automatic_left[0] or restriction_automatic_left[1]:
             id_left = self.model_current_project.createBoundary(
                                                         name ="boundary_left",
+                                                        nodes=nodes_left,
                                                         points = points_left,
                                                         restrictionX = restriction_automatic_left[0],
                                                         restrictionY = restriction_automatic_left[1]                                                    
@@ -131,6 +137,7 @@ class ControllerMenuBoundary(QObject):
         if  restriction_automatic_right[0] or  restriction_automatic_right[1]:
             id_right = self.model_current_project.createBoundary(
                                                         name ="boundary_right",
+                                                        nodes=nodes_right,
                                                         points = points_right,
                                                         restrictionX = restriction_automatic_right[0],
                                                         restrictionY = restriction_automatic_right[1]                                                    
@@ -182,9 +189,10 @@ class ControllerMenuBoundary(QObject):
         for point in selected_objects:
             coor = point.getPoint()
             points.append([point.getPoint().x(),point.getPoint().y()]) 
-
+        nodes = []
         id_boundary = self.model_current_project.createBoundary(
                                                     name =name_boundary,
+                                                    nodes=nodes,
                                                     points = points,
                                                     restrictionX = restriction_Tx,
                                                     restrictionY = restriction_Ty                                                    

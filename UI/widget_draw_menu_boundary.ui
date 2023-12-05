@@ -1087,6 +1087,9 @@ naranjas #D34E24 #F28123 #F7F052
                        <property name="text">
                         <string>Ty</string>
                        </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
                        </property>
@@ -1159,6 +1162,9 @@ naranjas #D34E24 #F28123 #F7F052
                        <property name="text">
                         <string>Ty</string>
                        </property>
+                       <property name="checked">
+                        <bool>true</bool>
+                       </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
                        </property>
@@ -1203,7 +1209,7 @@ naranjas #D34E24 #F28123 #F7F052
                         <string>Tx</string>
                        </property>
                        <property name="checked">
-                        <bool>true</bool>
+                        <bool>false</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>
@@ -1273,6 +1279,9 @@ naranjas #D34E24 #F28123 #F7F052
                       <widget class="QCheckBox" name="checkBox_BoundaryRestrictionTYTop">
                        <property name="text">
                         <string>Ty</string>
+                       </property>
+                       <property name="checked">
+                        <bool>true</bool>
                        </property>
                        <property name="QCheckBoxStyle" stdset="0">
                         <number>1</number>

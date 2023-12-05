@@ -246,7 +246,8 @@ class ModelMeshBack:
 
     def __init__(self, scene_draw:QGraphicsScene,model_project_current_repository:ModelProjectCurrentRepository,
                 size_dx, size_dy, size_element, color_style, points, quadrilaterals,
-                points_boundary_top, points_boundary_bottom, points_boundary_left, points_boundary_right) -> None:
+                points_boundary_top, points_boundary_bottom, points_boundary_left, points_boundary_right,
+                nodes_boundary_top, nodes_boundary_bottom, nodes_boundary_left, nodes_boundary_right) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
@@ -258,13 +259,15 @@ class ModelMeshBack:
         self.__points = points
         self.__quadrilaterals = quadrilaterals    
 
-
-
         self.points_boundary_top = points_boundary_top
         self.points_boundary_bottom = points_boundary_bottom
         self.points_boundary_left = points_boundary_left
         self.points_boundary_right = points_boundary_right
 
+        self.nodes_boundary_top = nodes_boundary_top
+        self.nodes_boundary_bottom = nodes_boundary_bottom
+        self.nodes_boundary_left = nodes_boundary_left
+        self.nodes_boundary_right = nodes_boundary_right         
 
         self.group_mesh  = QGraphicsItemGroup()
         self.group_mesh_point  = QGraphicsItemGroup()
@@ -281,16 +284,16 @@ class ModelMeshBack:
 
 
             coordinates=[
-                [points[quadrilateral[0]][0],points[quadrilateral[0]][1]],
-                [points[quadrilateral[1]][0],points[quadrilateral[1]][1]],
-                [points[quadrilateral[2]][0],points[quadrilateral[2]][1]],
-                [points[quadrilateral[3]][0],points[quadrilateral[3]][1]]
+                [points[quadrilateral[0]-1][0],points[quadrilateral[0]-1][1]],
+                [points[quadrilateral[1]-1][0],points[quadrilateral[1]-1][1]],
+                [points[quadrilateral[2]-1][0],points[quadrilateral[2]-1][1]],
+                [points[quadrilateral[3]-1][0],points[quadrilateral[3]-1][1]]
                 ]
 
-            p1 = points_items[quadrilateral[0]]
-            p2 = points_items[quadrilateral[1]]
-            p3 = points_items[quadrilateral[2]]
-            p4 = points_items[quadrilateral[3]]
+            p1 = points_items[quadrilateral[0]-1]
+            p2 = points_items[quadrilateral[1]-1]
+            p3 = points_items[quadrilateral[2]-1]
+            p4 = points_items[quadrilateral[3]-1]
 
             self.group_mesh_point.addToGroup(p1)
             self.group_mesh_point.addToGroup(p2)
@@ -334,9 +337,10 @@ class ModelMeshBack:
         return self.__points
 
     def getQuadrilaterals(self):
-        return self.__quadrilaterals
-    
-    def getBoundary(self):
+        return self.__quadrilaterals    
+
+
+    def getBoundaryPoints(self):
         points_boundary_top = self.points_boundary_top
         points_boundary_bottom = self.points_boundary_bottom 
         points_boundary_left = self.points_boundary_left
@@ -344,10 +348,22 @@ class ModelMeshBack:
         
         return [points_boundary_top,points_boundary_bottom ,points_boundary_left ,points_boundary_right]
         
+
+    def getBoundaryNodes(self):
+        nodes_boundary_top = self.nodes_boundary_top
+        nodes_boundary_bottom = self.nodes_boundary_bottom 
+        nodes_boundary_left = self.nodes_boundary_left
+        nodes_boundary_right = self.nodes_boundary_right
+        
+        
+
+
+        return [nodes_boundary_top,nodes_boundary_bottom ,nodes_boundary_left ,nodes_boundary_right]
+        
     
     def getData(self):
-        """return: size_dx, size_dy, size_element, color, points, points_boudaries]"""
-        return[self.__size_dx, self.__size_dy, self.__size_element, self.__color_style, self.__points, self.getBoundary()]
+        """return: size_dx, size_dy, size_element, color, points, getBoundaryPoints, getBoundaryNodes]"""
+        return[self.__size_dx, self.__size_dy, self.__size_element, self.__color_style, self.__points, self.getBoundaryPoints(), self.getBoundaryNodes()]
        
     ###############################################################################
     # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
@@ -360,7 +376,8 @@ class ModelMeshBack:
         self.group_mesh_point.setVisible(value)
     
     def updateMesh(self,size_dx=None, size_dy= None, size_element=None, color= None, points= None, quadrilaterals = None, 
-                   points_boundary_top= None, points_boundary_bottom= None, points_boundary_left= None, points_boundary_right= None
+                   points_boundary_top= None, points_boundary_bottom= None, points_boundary_left= None, points_boundary_right= None,
+                   nodes_boundary_top= None, nodes_boundary_bottom= None, nodes_boundary_left= None, nodes_boundary_right= None
                    ):
         
         if size_dx != None:
@@ -385,6 +402,15 @@ class ModelMeshBack:
         if points_boundary_right != None:
             self.points_boundary_right = points_boundary_right
 
+        if nodes_boundary_top != None:
+            self.nodes_boundary_top = nodes_boundary_top
+        if nodes_boundary_bottom != None:
+            self.nodes_boundary_bottom = nodes_boundary_bottom
+        if nodes_boundary_left != None:
+            self.nodes_boundary_left = nodes_boundary_left
+        if nodes_boundary_right != None:
+            self.nodes_boundary_right = nodes_boundary_right
+
 
         
 
@@ -398,7 +424,11 @@ class ModelMeshBack:
             points_boundary_top = points_boundary_top,
             points_boundary_bottom = points_boundary_bottom,
             points_boundary_left = points_boundary_left,
-            points_boundary_right = points_boundary_right
+            points_boundary_right = points_boundary_right,
+            nodes_boundary_top = nodes_boundary_top,
+            nodes_boundary_bottom = nodes_boundary_bottom,
+            nodes_boundary_left = nodes_boundary_left,
+            nodes_boundary_right = nodes_boundary_right
         )
         
         self.setPointsQuadrilateralsItem()
@@ -421,17 +451,18 @@ class ModelMeshBack:
             index =+ 1
 
         for quadrilateral in quadrilaterals:
+
             coordinates=[
-                [points[quadrilateral[0]][0],points[quadrilateral[0]][1]],
-                [points[quadrilateral[1]][0],points[quadrilateral[1]][1]],
-                [points[quadrilateral[2]][0],points[quadrilateral[2]][1]],
-                [points[quadrilateral[3]][0],points[quadrilateral[3]][1]]
+                [points[quadrilateral[0]-1][0],points[quadrilateral[0]-1][1]],
+                [points[quadrilateral[1]-1][0],points[quadrilateral[1]-1][1]],
+                [points[quadrilateral[2]-1][0],points[quadrilateral[2]-1][1]],
+                [points[quadrilateral[3]-1][0],points[quadrilateral[3]-1][1]]
                 ]
 
-            p1 = points_items[quadrilateral[0]]
-            p2 = points_items[quadrilateral[1]]
-            p3 = points_items[quadrilateral[2]]
-            p4 = points_items[quadrilateral[3]]
+            p1 = points_items[quadrilateral[0]-1]
+            p2 = points_items[quadrilateral[1]-1]
+            p3 = points_items[quadrilateral[2]-1]
+            p4 = points_items[quadrilateral[3]-1]
 
             self.group_mesh_point.addToGroup(p1)
             self.group_mesh_point.addToGroup(p2)

@@ -13,7 +13,7 @@ class ControllerCardBoundary(QObject):
         super().__init__()
 
         self.model_boundary = model_boundary
-        self.id, self.name, self.points, self.restrictionX, self.restrictionY = model_boundary.getData()
+        self.id, self.name, self.nodes, self.points, self.restrictionX, self.restrictionY = model_boundary.getData()
 
 
         self.__initCard()

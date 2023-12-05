@@ -9,6 +9,7 @@ from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 
 from clases.Controlador.controller_PageHome import ControllerPageHome
 from clases.Controlador.controller_PageDraw import ControllerPageDraw
+from clases.Controlador.controller_PageResult import ControllerPageResult
 from clases.Controlador.controller_PageSetting import ControllerPageSetting
 from clases.class_ui_dialog_msg import DialogMsg
 
@@ -57,18 +58,23 @@ class ControllerMainWindow():
         # crea el controlador de las page
         self.controller_page_home = ControllerPageHome(self, self.getProjects())
         self.controller_page_draw = ControllerPageDraw(self)
+        self.controller_page_result = ControllerPageResult(self)
         self.controller_page_setting = ControllerPageSetting(self)
 
 
 
         self.controller_page_draw.view_page_draw.signal_hide_show_draw.connect(self.hideShowDraw)
+        self.controller_page_draw.controller_menu_execute.signal_enable_results.connect(self.setEnableResults)
+        
 
         # se agrega las vistas page a la vista main
         self.view_main_window.setPageWidget("home",self.controller_page_home.getView())
         self.view_main_window.setPageWidget("draw",self.controller_page_draw.getView())
+        self.view_main_window.setPageWidget("result",self.controller_page_result.getView())
         self.view_main_window.setPageWidget("setting",self.controller_page_setting.getView())
         
         self.controller_page_draw.controller_graphics_draw.signal_coor_mouse.connect(self._printStatusBarCoor)
+        self.controller_page_result.controller_graphics_result.signal_coor_mouse.connect(self._printStatusBarCoor)
 
 
         #self.controller_page_draw.signal_console_hise_show.connect(self.console_hise_show)
@@ -147,6 +153,7 @@ class ControllerMainWindow():
         elif nameButton==self.view_main_window.ui.toolButton_viewResult.objectName():
             self.previous_selected_button = 8
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
+            self.controller_page_result.configResult()
             self.setting = True
         
 
@@ -201,8 +208,18 @@ class ControllerMainWindow():
 
         scene = self.controller_page_draw.controller_graphics_draw.scene_draw
         view_draw_1 = self.controller_page_draw.controller_graphics_draw.view_draw_1
-        view_draw_2 = self.controller_page_draw.controller_graphics_draw.view_draw_2
-        self.model_current_project = ModelProjectCurrent(scene,view_draw_1, view_draw_2, path_doc=path_project)
+        view_draw_2 = self.controller_page_draw.controller_graphics_draw.view_draw_2 
+        scene_result = self.controller_page_result.controller_graphics_result.scene_result  
+        view_result = self.controller_page_result.controller_graphics_result.view_result
+        self.model_current_project = ModelProjectCurrent(
+                                            scene_result,
+                                            view_result,
+                                            scene,
+                                            view_draw_1, 
+                                            view_draw_2,
+                                            path_doc=path_project)
+
+
         self.controller_page_draw.setCurrentProject(self.model_current_project)
 
         self.controller_page_draw.controller_menu_data.configDrawMenuData()
@@ -212,9 +229,16 @@ class ControllerMainWindow():
         self.controller_page_draw.controller_menu_boundary.configDrawMenuBoundary()
         self.controller_page_draw.controller_menu_execute.configDrawMenuExecute()
         
+        self.controller_page_result.setCurrentProject(self.model_current_project)
+        self.controller_page_result.configResult()
+        
        
         self.view_main_window.activateMenuLat()
         self.selectedMenuSide("toolButton_drawData")
+        nodes_no = len(self.model_current_project.getModelResult().getResultNodes())
+        if nodes_no > 0:
+            self.view_main_window.activateMenuLatResult()
+            
 
 
 
@@ -298,6 +322,10 @@ class ControllerMainWindow():
 
         if action == "ShowHideConsole":
             self.view_main_window.modeConsoleDraw(value)
+
+    @Slot()
+    def setEnableResults(self):
+        self.view_main_window.activateMenuLatResult()
 
 
     @Slot(list)

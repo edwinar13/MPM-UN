@@ -244,7 +244,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             self.comboBox_PointMaterialBaseMesh.setItemData(self.comboBox_PointMaterialBaseMesh.count() - 1, {"mesh_id": mesh_id, "mesh_type": mesh_type}, Qt.UserRole)
 
 
-    def setListProperties(self, properties_data):              
+    def setListProperties(self, properties_data): 
         self.comboBox_PointMaterialProperty.clear()
         for item_index in range(len(properties_data)):
             id_property =properties_data[item_index][0]
@@ -272,6 +272,11 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
     
+    def clearListProperties(self):
+        self.comboBox_PointMaterialProperty.clear()
+        
+
+            
     def removeCardMaterialPoint(self ):
         view_card=None
         if len(self.list_view_card) != 0:

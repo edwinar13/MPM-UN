@@ -37,6 +37,7 @@ class ControllerMenuPointMaterial():
     def configDrawMenuPointMaterial(self):
 
         self.view_menu_pointMaterial.removeCardMaterialPoint()
+        self.view_menu_pointMaterial.clearListProperties()
         self.list_controller_card =[]
         
         models_points_materials = self.model_current_project.getModelsPointsMaterials()
@@ -246,6 +247,7 @@ class ControllerMenuPointMaterial():
                                                     )
         model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
         self.createPointsMaterialsCard(model_point_material)
+        
         self.setListPropertiesViews()
 
         self.view_menu_pointMaterial.endPointMaterial()
@@ -282,7 +284,7 @@ class ControllerMenuPointMaterial():
 
 
 
-    def setListPropertiesViews(self):  
+    def setListPropertiesViews(self): 
         properties_data = []   
         property = self.model_current_project.getModelsProperties()
         for id_property in property:

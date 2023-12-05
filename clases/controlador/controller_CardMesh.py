@@ -45,7 +45,6 @@ class ControllerCardMesh(QObject):
         self.view_card_mesh.ShowHideMesh(value)
 
 
-        
 
     @Slot(bool)
     def showHideLabel(self, value):

@@ -186,19 +186,19 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         return self.label_cardPropertyName.text()
 
     def getModulusElasticity(self):
-        return self.label_textPropertiesE.text()
+        return float(self.label_textPropertiesE.text())
 
     def getPoissonRatio(self):
-        return self.label_textPropertiesV.text()
+        return float(self.label_textPropertiesV.text())
 
     def getCohesion(self):
-        return self.label_textPropertiesE.text()
+        return float(self.label_textPropertiesC.text())
 
     def getFrictionAngle(self):
-        return self.label_textPropertiesPhi.text()
+        return float(self.label_textPropertiesPhi.text())
 
     def getAngleDilatancy(self):
-        return self.label_textPropertiesPsi.text()
+        return float(self.label_textPropertiesPsi.text())
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::

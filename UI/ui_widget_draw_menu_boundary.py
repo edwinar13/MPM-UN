@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_boundarymZlCUe.ui'
+## Form generated from reading UI file 'widget_draw_menu_boundaryHVeVqO.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -819,6 +819,7 @@ class Ui_FormDrawMenuBoundary(object):
 
         self.checkBox_BoundaryRestrictionTYleft = QCheckBox(self.frame_2)
         self.checkBox_BoundaryRestrictionTYleft.setObjectName(u"checkBox_BoundaryRestrictionTYleft")
+        self.checkBox_BoundaryRestrictionTYleft.setChecked(True)
         self.checkBox_BoundaryRestrictionTYleft.setProperty("QCheckBoxStyle", 1)
 
         self.horizontalLayout_17.addWidget(self.checkBox_BoundaryRestrictionTYleft)
@@ -852,6 +853,7 @@ class Ui_FormDrawMenuBoundary(object):
 
         self.checkBox_BoundaryRestrictionTYRight = QCheckBox(self.frame_5)
         self.checkBox_BoundaryRestrictionTYRight.setObjectName(u"checkBox_BoundaryRestrictionTYRight")
+        self.checkBox_BoundaryRestrictionTYRight.setChecked(True)
         self.checkBox_BoundaryRestrictionTYRight.setProperty("QCheckBoxStyle", 1)
 
         self.horizontalLayout_19.addWidget(self.checkBox_BoundaryRestrictionTYRight)
@@ -871,7 +873,7 @@ class Ui_FormDrawMenuBoundary(object):
         self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
         self.checkBox_BoundaryRestrictionTXBottom = QCheckBox(self.frame_6)
         self.checkBox_BoundaryRestrictionTXBottom.setObjectName(u"checkBox_BoundaryRestrictionTXBottom")
-        self.checkBox_BoundaryRestrictionTXBottom.setChecked(True)
+        self.checkBox_BoundaryRestrictionTXBottom.setChecked(False)
         self.checkBox_BoundaryRestrictionTXBottom.setProperty("QCheckBoxStyle", 1)
 
         self.horizontalLayout_20.addWidget(self.checkBox_BoundaryRestrictionTXBottom)
@@ -905,6 +907,7 @@ class Ui_FormDrawMenuBoundary(object):
 
         self.checkBox_BoundaryRestrictionTYTop = QCheckBox(self.frame_7)
         self.checkBox_BoundaryRestrictionTYTop.setObjectName(u"checkBox_BoundaryRestrictionTYTop")
+        self.checkBox_BoundaryRestrictionTYTop.setChecked(True)
         self.checkBox_BoundaryRestrictionTYTop.setProperty("QCheckBoxStyle", 1)
 
         self.horizontalLayout_21.addWidget(self.checkBox_BoundaryRestrictionTYTop)

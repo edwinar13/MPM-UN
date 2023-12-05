@@ -259,14 +259,14 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
 
     def endBoundary1(self):
         self.checkBox_BoundaryRestrictionTXTop.setChecked(False)
-        self.checkBox_BoundaryRestrictionTXBottom.setChecked(True)
+        self.checkBox_BoundaryRestrictionTXBottom.setChecked(False)
         self.checkBox_BoundaryRestrictionTXleft.setChecked(True)
         self.checkBox_BoundaryRestrictionTXRight.setChecked(True)
 
-        self.checkBox_BoundaryRestrictionTYTop.setChecked(False)
+        self.checkBox_BoundaryRestrictionTYTop.setChecked(True)
         self.checkBox_BoundaryRestrictionTYBottom.setChecked(True)
-        self.checkBox_BoundaryRestrictionTYleft.setChecked(False)
-        self.checkBox_BoundaryRestrictionTYRight.setChecked(False)
+        self.checkBox_BoundaryRestrictionTYleft.setChecked(True)
+        self.checkBox_BoundaryRestrictionTYRight.setChecked(True)
         
     def endBoundary2(self):
         self.lineEdit_textBoundaryName.setText("")

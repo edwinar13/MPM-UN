@@ -366,7 +366,11 @@ class ModelProjects:
                     "POINTSBOUNDARYTOP":[[1,0],[1,1]],
                     "POINTSBOUNDARYBOTTOM":[[0,0],[0,1]],
                     "POINTSBOUNDARYLEFT":[[0,0],[0,1]],
-                    "POINTSBOUNDARYRIGHT":[[1,1],[0,1]]
+                    "POINTSBOUNDARYRIGHT":[[1,1],[0,1]],
+                    "NODESBOUNDARYTOP": [],
+                    "NODESBOUNDARYBOTTOM": [],
+                    "NODESBOUNDARYLEFT": [],
+                    "NODESBOUNDARYRIGHT": []
                     },
                 "TRIANGULARES": {},
                 "CUADRILATEROS": {}
@@ -374,7 +378,11 @@ class ModelProjects:
             data['PUNTOSMATERIAL'] = {}
             data['MATERIALES'] = {}
             data['CONTORNOS'] = {}
-            data['RESULTADOS'] = {}
+            data['RESULTADOS'] = {
+                "TIEMPOSANALISIS" :[],
+                "TIEMPOSGRAFICAR" :[],
+                "RESULTADOSNODOS" :{}
+            }
 
             with open(filePath, 'w') as file:
                 file.write(json.dumps(data))
