@@ -644,13 +644,12 @@ class ModelProjectCurrentRepository():
 
         return self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS']
         
-    def createResultNodeDB(self, id_result_node, times, corx, cory,
+    def createResultNodeDB(self, id_result_node, corx, cory,
              sigxx, sigyy, sigxy,
              epsxx, epsyy, epsxy):    
         
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
-                "TIEMPOS": times,
                 "CORX": corx,
                 "CORY": cory,
                 "SIGXX": sigxx,
@@ -667,7 +666,7 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al agregar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-        
+    '''
     def updateResultNodeDB(self, id_result_node, times=None, corx=None, cory=None,
              sigxx=None, sigyy=None, sigxy=None,
              epsxx=None, epsyy=None, epsxy=None):
@@ -710,6 +709,7 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al eliminar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
+    '''
 
     def readResultTimesDB(self):
         """return  analysis_times"""
@@ -730,10 +730,100 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
     
+    
+    def readResultTimesGraphicDB(self):
+        """return  analysis_times"""
+        analysis_times = self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSGRAFICAR']
+
+        return analysis_times
+
+    def updateResultTimeGraphicDB(self, graphic_time=None, ):
+
+        try: 
+            
+            if graphic_time != None:   
+                self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSGRAFICAR'] = graphic_time
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    
+    def readResultMinDB(self):
+        """return  analysis_result_min"""
+        analysis_result_min = self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']
+
+        return analysis_result_min
+
+    def updateResultMinDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None):
+
+        try: 
+            
+            if corx != None:   
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['CORX'] = corx
+            if cory != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['CORY'] = cory
+            if sigxx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['SIGXX'] = sigxx
+            if sigyy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['SIGYY'] = sigyy
+            if sigxy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['SIGXY'] = sigxy
+            if epsxx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSXX'] = epsxx
+            if epsyy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSYY'] = epsyy
+            if epsxy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSXY'] = epsxy
+                
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False    
+    
+    def readResultMaxDB(self):
+        """return  analysis_result_max"""
+        analysis_result_max = self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']
+
+        return analysis_result_max
+    def updateResultMaxDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None):
+            
+            try: 
+                
+                if corx != None:   
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['CORX'] = corx
+                if cory != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['CORY'] = cory
+                if sigxx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['SIGXX'] = sigxx
+                if sigyy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['SIGYY'] = sigyy
+                if sigxy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['SIGXY'] = sigxy
+                if epsxx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSXX'] = epsxx
+                if epsyy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSYY'] = epsyy
+                if epsxy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSXY'] = epsxy
+                    
+                return True
+            except BaseException as err:
+                print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
+                print("[Tipo: {}, Erro: {}]".format(type(err),err))
+                return False
+    
+    
     def deleteAllResultDB(self):
 
         try:     
             self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSANALISIS'] = []
+            self.__unguarded_copy_db_project['RESULTADOS']['TIEMPOSGRAFICAR'] = []
+            self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS'] = {}
+            self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS'] = {}
             self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'] = {}
             return True
         except BaseException as err:

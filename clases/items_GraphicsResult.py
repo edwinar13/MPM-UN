@@ -12,46 +12,106 @@ from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
 
+from clases.general_functions import format_number
+
 import sys
 import weakref
 import math
 
-contador = 0 
 
 
+class TextResultItem(QGraphicsItem):
+
+    TYPE = "Text"
+    COLOR = QColor("#555")
+    FONT_SIZE = 5
+
+    def __init__(self, text:str, coordinatesX, coordinatesY):
+        QGraphicsItem.__init__(self)
+        
+        #self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+
+        self.item_type = self.TYPE
+        self.color = self.COLOR
+        self.text = str(text)
+        self.position = QPointF(coordinatesX,coordinatesY)
+        self.newPos(self.position)
+        self.pen = QPen(self.color)
+        self.font = QFont("Times", self.FONT_SIZE)
+        # centrar texto
+        width = self.boundingRect().width()
+        height = self.boundingRect().height()
+        self.coor = QPointF(-width/2, -height/2)
+        self.coor = QPointF(height/2, -height/2)
+
+
+    def setColor(self, color):
+        self.color = QColor(color)
+        self.pen = QPen(self.color)
+        
+    def setSize(self, size):
+        self.font = QFont("Times", size)
+
+
+    def newPos(self, pos:QPointF|QPoint):       
+        self.position = pos 
+        self.setPos(pos)
+        
+    def setText(self, text):
+        self.text = str(text)
+        self.update()
+
+    def boundingRect(self) -> QRectF:
+        font_metrics = QFontMetrics(self.font)
+        text_rect = font_metrics.boundingRect(self.text)
+        text_rect.setHeight(font_metrics.ascent())
+        return text_rect
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        painter.setPen(self.pen)
+        painter.setFont(self.font)
+        painter.scale(1, -1)
+        painter.drawText(self.coor, self.text)
+        
 
 class ItemResultNode(QGraphicsItem):
     """color_type 1 o 2"""
     COLOR_1A = "#e8ca7b"
     COLOR_1B = "#a8821d"
-    COLOR_1C = "#a8821d"
 
     COLOR_2A = "#a89565"
     COLOR_2B = "#594c2b"
-    COLOR_2C = "#594c2b"
     
     signal_time_steps_changed = Signal(int)
 
-    def __init__(self, radius, color_type, data_result):
+    def __init__(self, radius, color_type_default, graphic_time, data_result, result_min, result_max, text_value:TextResultItem):
         QGraphicsItem.__init__(self)
-        if color_type == 1:
-            self.color_a = self.COLOR_1A
-            self.color_b = self.COLOR_1B
-            self.color_c = self.COLOR_1C
-        else:
-            self.color_a = self.COLOR_2A
-            self.color_b = self.COLOR_2B
-            self.color_c = self.COLOR_2C
-
-
-        self.radius = radius
+        self.text_value = text_value
+        self.text_value.setVisible(False)
+        self.text_value.setColor("#333")
+        self.text_value.setZValue(100)
         
+        self.showLabel = False
 
+        
+        self.color_type_default = color_type_default
+        self.radius = radius   
         self._time_view = 0
-        self.no_data = len(data_result['TIEMPOS'])
-        self.times = data_result['TIEMPOS']
+        self.__hue = 0
+        
+        '''
+        self.max_sigXX = max_min[0]
+        self.min_sigXX = max_min[1]
+        '''
+        
+        self.data_result = data_result
+        
+        self.times = graphic_time
+        self.no_data = len(self.times)
         self.coorX = data_result['CORX']
         self.coorY = data_result['CORY']
+        
+        
         self.sigXX = data_result['SIGXX']
         self.sigYY = data_result['SIGYY']
         self.sigXY = data_result['SIGXY']
@@ -59,11 +119,19 @@ class ItemResultNode(QGraphicsItem):
         self.epsYY = data_result['EPSYY']
         self.epsXY = data_result['EPSXY']
         
-        #maximo
-        self.max_sigXX = max(self.sigXX)
-        self.min_sigXX = min(self.sigXX)
-        self.d_sigXX = self.max_sigXX - self.min_sigXX
+        #maximos
+        self.d_sigXX = max(self.sigXX) - min(self.sigXX)
+        self.d_sigYY = max(self.sigYY) - min(self.sigYY)
+        self.d_sigXY = max(self.sigXY) - min(self.sigXY)
+        self.d_epsXX = max(self.epsXX) - min(self.epsXX)
+        self.d_epsYY = max(self.epsYY) - min(self.epsYY)
+        self.d_epsXY = max(self.epsXY) - min(self.epsXY)
+        
 
+        self.result_min = result_min   
+        self.result_max = result_max
+        self.type_result = 'default'
+        
         
         xo = self.coorX[0]
         yo = self.coorY[0]
@@ -71,108 +139,200 @@ class ItemResultNode(QGraphicsItem):
         self.coor = QPointF(xo, yo)
         self.movePoint(self.coor)
         
-
-
-        gradient = QRadialGradient(self.radius / 4, self.radius / 2,
-                                self.radius, self.radius / 2, self.radius / 2)
-        gradient.setColorAt(0, QColor(self.color_a))
-        gradient.setColorAt(1, QColor(self.color_b))
-
-        # Establecer el gradiente como el fondo de la vista
-        self.brush = QBrush(gradient)
-        self.pen = QPen(QColor(self.color_c), 0, Qt.SolidLine)
-
         # Crear una sombra difusa
         self.shadow_effect = QGraphicsDropShadowEffect()
         self.shadow_effect.setColor(QColor("#555"))
         self.shadow_effect.setBlurRadius(25)
         self.shadow_effect.setOffset(2, 2)
 
+        '''
         # Aplicar la sombra al item
         self.setGraphicsEffect(self.shadow_effect)
+        '''
+
         
         
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.advanceTime)
+        self.gradient = QRadialGradient(self.radius / 4, self.radius / 2,
+                        self.radius, self.radius / 2, self.radius / 2)
+        self.pen = QPen(QColor('#55555500'), 0, Qt.SolidLine)
+        #por defecto
+        self.color_style = "default"
+        self.updateColorPoint()
         
+                
+        
+        
+    def regressTime(self, time_view):
+        self._time_view = time_view
+        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
+        self.updateColorPoint()
+        
+        
+    def stopTime(self):
+
+        self._time_view = 0
+        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
+        self.updateColorPoint()
+
+        
+    def advanceTime(self,time_view):
+        self._time_view = time_view  
+        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
+        
+        self.updateColorPoint()
+        
+        
+    #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    def setColorStyle(self, color_style, hue):
+        self.color_style = color_style
+        self.__hue = hue
+        self.updateColorPoint()
+    
+    def setSizePoints(self, size_points):
+        self.radius = size_points
+    
+    def setSizeTexts(self, size_texts):
+        self.text_value.setSize(size_texts)
+        
+    def setTypeResult(self, type_result):
+        self.type_result = type_result
+        self.updateColorPoint()
+        
+    def setVisibleValue(self, visible):
+        self.showLabel = visible
+        self.update()
+
+        
+              
+        
+        
+        
+    def updateColorPoint(self):        
+           
+        if self.type_result != 'default':
+            type_result = self.type_result.upper()
+            min_value = self.result_min[type_result]     
+            max_value = self.result_max[type_result]
+            value_data = self.data_result[type_result][self._time_view]
+        else:
+            min_value = -1
+            max_value = 1
+            value_data = 0            
+        
+        percent = self.evaluatePercent(value_data, (min_value, max_value))
+                    
+        if self.color_style == "default":
+            if self.color_type_default != 1:
+                color_a = self.COLOR_1A
+                color_b = self.COLOR_1B
+            else:
+                color_a = self.COLOR_2A
+                color_b = self.COLOR_2B          
+                      
+            self.gradient.setColorAt(0, QColor(color_a))
+            self.gradient.setColorAt(1, QColor(color_b))
+            self.brush = QBrush(self.gradient)   
+        else:
+            
+                        
+            if self.color_style == "Rojo-Azul":
+                hue = int(1+((percent/100)*235))
+                saturation = 255
+                value = 255
+            elif self.color_style == "Escala de grises":
+                hue = 0
+                saturation = 0
+                value = int(1+((percent/100)*253))
+            elif self.color_style == "Escala color":
+                hue = self.__hue
+                saturation = int(1+((percent/100)*253))
+                value = 255
+
+            color = QColor.fromHsv(hue, saturation, value)
+            self.brush = QBrush(color)        
+        
+        if self.type_result != 'default':
+            value_text = format_number(value_data)
+        else:
+            x = self.data_result['CORX'][self._time_view]
+            y = self.data_result['CORY'][self._time_view]
+            value_text = f"({round(x,2)}, {round(y,2)})"            
+            
+        
+        self.text_value.setText(str(value_text))
+
+    
+    def evaluatePercent(self, value, range):
+
+        # Obtener los extremos del range
+        min_value, max_value = sorted(range)
+
+        # Calcular el porcentaje
+        if value < min_value:
+            porcentaje = 0.0
+        elif value > max_value:
+            porcentaje = 100.0
+        else:
+            range_total = max_value - min_value
+            porcentaje = ((value - min_value) / range_total) * 100
+
+        return porcentaje
+        
+    
+    
+    
+    def setStyle(self, type, percent=0):
+        if type == 0:
+            if self.color_type_default == 1:
+                color_a = self.COLOR_1A
+                color_b = self.COLOR_1B
+            else:
+                color_a = self.COLOR_2A
+                color_b = self.COLOR_2B
+            
+            gradient = QRadialGradient(self.radius / 4, self.radius / 2,
+                                    self.radius, self.radius / 2, self.radius / 2)
+            self.gradient.setColorAt(0, QColor(color_a))
+            self.gradient.setColorAt(1, QColor(color_b))
+            
+        if type == 1:
+
+            '''                
+            stop:0 rgba(255, 0, 0), 
+            stop:0.25 rgba(255, 255, 0), 
+            stop:0.50 rgba(0, 255, 0), 
+            stop:0.75 rgba(0, 255,255), 
+            stop:1 rgba(0, 0, 255));"
+            '''            
+            gradient = QLinearGradient(0, 0, 0, self.radius)
+            gradient.setColorAt(0, QColor(255, 0, 0, 255))
+            gradient.setColorAt(1, QColor(0, 255,255, 255))
+            
+            
+
+        # Establecer el gradiente como el fondo de la vista
+        self.brush = QBrush(gradient)
+        self.pen = QPen(QColor('#55555500'), 0, Qt.SolidLine)
+    
+    
+    
+    
+    
+    
+    
+    
+
     def getCurrentTime(self):
         return self._time_view
 
-    def advanceTime(self):
-        self._time_view += 10
-        if self._time_view >= self.no_data:
-            self.playPauseTime(False)
-            self._time_view = self.no_data - 1
-        elif self._time_view < 0:
-            self._time_view = 0
-        #
-        # 
-        # 
-        # 
-        # self.signal_time_steps_changed.emit(self._time_view) 
-        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
-    
-        #cambiar color
-        percent = self.sigXX[self._time_view]/self.d_sigXX
-        r =255  
-        '''
-        if round((self.sigXX[self._time_view]/self.max_sigXX)*255,0) >255:
-            g = 255
-        else:
-            g = round((self.sigXX[self._time_view]/self.max_sigXX)*255,0) 
-        '''
-        g = round(1-(percent*255),0) 
-        if g < 0:
-            g = 0
-        elif g > 255:
-            g = 255
-        
-        b =0 
-        #print(f" {g}---->>> color {(1- (self.sigXX[self._time_view]/self.max_sigXX))*255} data {self.sigXX[self._time_view]}")
-        self.color_a = QColor(r,g,b)
-        self.brush = QBrush(QColor(self.color_a))
-    def stopTime(self):
-        self.timer.stop() 
-        self._time_view = 0
-        #
-        # 
-        # 
-        # 
-        # 
-        # 
-        # self.signal_time_steps_changed.emit(self._time_view) 
-        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
-        
-    def playPauseTime(self, scene_is_play, velocity=100):  
-        if not scene_is_play:
-            self.timer.stop()
-        else:      
-            self.timer.start(1000 / velocity) # intervalo en milisegundos
-    
-    
-    def regressTime(self):
-        self._time_view -= 1        
-        if self._time_view >= self.no_data:
-            self._time_view = self.no_data - 1
-        elif self._time_view < 0:
-            self._time_view = 0
-        #
-        # 
-        # 
-        # 
-        # 
-        # 
-        # 
-        # 
-        # self.signal_time_steps_changed.emit(self._time_view) 
-        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
-
-
 
     def movePoint(self, pos:QPointF):
+        '''
         print(f"{self._time_view}")
+        '''
         self.coor = pos
         self.setPos(pos)
+        self.text_value.newPos(self.coor)
 
     def boundingRect(self):
         return QRectF(-self.radius,-self.radius,self.radius*2,self.radius*2)
@@ -184,6 +344,13 @@ class ItemResultNode(QGraphicsItem):
         # Especifica el radio de las esquinas curvas (10 en este ejemplo, pero puedes ajustarlo a tu gusto)
         radius = self.radius
         painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
+        
+
+        if self.showLabel:  
+
+            self.text_value.setVisible(True)
+        else:
+            self.text_value.setVisible(False)
 
 class ItemResultBaseMeshBack(QGraphicsItem):
     COLOR_A = "#bbb"
@@ -219,6 +386,7 @@ class ItemResultBaseMeshBack(QGraphicsItem):
 
         # Aplicar la sombra al item
         self.setGraphicsEffect(self.shadow_effect)
+        self.setZValue(100) 
 
     def boundingRect(self):
         return QRectF(self.x - (self.width ), self.y - (self.height / 10), self.width * 3, self.height / 10)
@@ -230,7 +398,161 @@ class ItemResultBaseMeshBack(QGraphicsItem):
         # Especifica el radio de las esquinas curvas (10 en este ejemplo, pero puedes ajustarlo a tu gusto)
         
         painter.drawRoundedRect(self.boundingRect(), self.corner_radius, self.corner_radius)
+        
+class ItemResultColorBar(QGraphicsItem):
+    
+    RADIUS = 50
+    FONTSIZE = 10
+    
+    def __init__(self,  x , y, height_text=0.1, width = 0.8, height = 1.5):
+        QGraphicsItem.__init__(self)
+        
+        #se puede mover
+        self.setFlag(QGraphicsItem.ItemIsMovable)
+        self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
+        self.setZValue(-1)
 
+        self.x = x
+        self.y = y
+        self.width = width*100
+        self.height = height*100
+        self.corner_radius = self.RADIUS * (width/50)
+        
+        
+              
+        
+        
+        self.rect_color_h= 100        
+        self.rect_color = QRectF(self.x, self.y, self.rect_color_h/6, self.rect_color_h)   
+        self.lines = [
+            QLineF(self.x , self.y + (self.rect_color_h)*1, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*1),
+            QLineF(self.x , self.y + (self.rect_color_h)*0.75, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.75),
+            QLineF(self.x , self.y + (self.rect_color_h)*0.50, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.50),
+            QLineF(self.x , self.y + (self.rect_color_h)*0.25, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.25),
+            QLineF(self.x , self.y + (self.rect_color_h)*0.0, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.0)
+
+        ]     
+        
+        self.setText(1,0)
+
+
+        
+        
+        self.setColorType(1)
+
+        # Establecer el gradiente como el fondo de la vista
+        
+        
+              
+        
+
+        
+        self.pen_bar1 = QPen(QColor("#555"))
+        self.font_bar1 = QFont("Times", self.FONTSIZE-3, 0)
+        
+        self.pen = QPen(QColor("#222"))
+        self.font = QFont("Times", self.FONTSIZE, QFont.Bold)
+        self.text ="sigxx"
+        
+        self.cardColorBar()
+        
+    def setText(self, max, min):
+        self.texts = []
+        for i in range(5):
+            self.texts.append({})
+            self.texts[i]['text'] = str(max - (i*(max-min)/4))
+            self.texts[i]['text'] = format_number(max - (i*(max-min)/4))
+            self.texts[i]['coor'] = QPointF(self.x + (self.rect_color_h/4), self.y-(self.rect_color_h)*(i/4))
+            
+            
+        
+        
+        
+        
+    def setTypeResult(self, type_result, max, min):
+        self.text = str(type_result)      
+        self.setText(max, min)      
+        self.update()
+        
+        
+        
+    def setColorType(self, color_type, color=QColor("#2d2df2")):
+        gradient = QLinearGradient(0,0,0,self.rect_color_h)
+        
+
+        if  color_type == 1:
+            gradient.setColorAt(1, QColor(255, 0, 0, 255))
+            gradient.setColorAt(0.75, QColor(255, 255, 0, 255))
+            gradient.setColorAt(0.5, QColor(0, 255, 0, 255))
+            gradient.setColorAt(0.25, QColor(0, 255,255, 255)  )
+            gradient.setColorAt(0, QColor(0, 0, 255, 255))
+        elif color_type == 2:
+            gradient.setColorAt(1, QColor(0, 0, 0, 255))
+            gradient.setColorAt(0, QColor(255, 255, 255, 255))
+        
+        elif color_type == 3:
+            gradient.setColorAt(1, QColor(255, 255, 255, 255))
+            gradient.setColorAt(0, color)
+
+            
+        self.brush_rect_color = QBrush(gradient)
+        self.pen_rect_color = QPen(QColor("#555"), 0, Qt.SolidLine)
+        
+        #update
+        self.update()
+        
+            
+    def cardColorBar(self):
+        
+        # Establecer el gradiente como el fondo de la vista
+        self.brush_background = QBrush(QColor("#fafafa"))
+        self.pen_background = QPen(QColor("#aaa"), 0, Qt.SolidLine)
+        
+        # Crear una sombra difusa
+        self.shadow_effect = QGraphicsDropShadowEffect()
+        self.shadow_effect.setColor(QColor("#aaa"))
+        self.shadow_effect.setBlurRadius(20)
+        self.shadow_effect.setOffset(3, 3)
+
+        # Aplicar la sombra al item
+        self.setGraphicsEffect(self.shadow_effect)
+        self.setZValue(100) 
+        
+        
+        
+
+    def boundingRect(self):
+        return QRectF(self.x-(self.width/10) , self.y-(self.height/20) , self.width , self.height )
+
+    def paint(self, painter, option, widget):
+        
+        painter.setPen(self.pen_background)
+        painter.setBrush(self.brush_background)
+
+        # Especifica el radio de las esquinas curvas (10 en este ejemplo, pero puedes ajustarlo a tu gusto)
+        
+        painter.drawRoundedRect(self.boundingRect(), 3, 3)
+        painter.drawRect
+        
+        painter.setPen(self.pen_rect_color)
+        painter.setBrush(self.brush_rect_color)
+        painter.drawRect(self.rect_color)
+        
+        
+        for line in self.lines:
+            painter.drawLine(line)
+        
+        painter.scale(1, -1)
+        painter.setPen(self.pen_bar1)
+        painter.setFont(self.font_bar1)
+        
+        for text in self.texts:
+            painter.drawText(text['coor'], text['text'])
+        
+        painter.setPen(self.pen)
+        painter.setFont(self.font)
+        painter.drawText(self.x, self.y-120, self.text)
+              
 class ItemResultAxisMeshBack(QGraphicsItem):
 
     WIDTH = 0.05
@@ -355,6 +677,8 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
         no_lines_x = math.ceil(self.width / dxy)
         no_lines_y = math.ceil(self.height / dxy)
         
+        self.labes_text = []
+        
 
         self.lines = []
         for i in range(no_lines_x):
@@ -372,6 +696,7 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
                                       alignment='BOTTOM')
             text_label.setScale(0.01)
             scene.addItem(text_label)
+            self.labes_text.append(text_label)
 
             # superior
             x1=x + (i*dxy)
@@ -387,6 +712,7 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
                             alignment='TOP')
             text_label.setScale(0.01)
             scene.addItem(text_label)
+            self.labes_text.append(text_label)
 
         for i in range(no_lines_y):
 
@@ -404,6 +730,7 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
                                       alignment='LEFT')            
             text_label.setScale(0.01)
             scene.addItem(text_label)
+            self.labes_text.append(text_label)
             
 
             #derecha
@@ -421,6 +748,7 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
             text_label.setScale(0.01)          
                       
             scene.addItem(text_label)
+            self.labes_text.append(text_label)
 
 
    
@@ -438,6 +766,16 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
         
         painter.setPen(self.pen)            
         painter.drawLines(self.lines)
+    
+    #reimplemetar setVisible
+    def setVisible(self, visible: bool):      
+        for labe_text in self.labes_text:
+            labe_text.setVisible(visible) 
+        QGraphicsItem.setVisible(self, visible)
+        for child in self.childItems():
+            child.setVisible(visible)
+        '''
+        '''
 
 class ItemResultTextLabel(QGraphicsItem):
     """ alignment >> TOP, BOTTOM, LEFT, RIGHT"""
@@ -469,7 +807,8 @@ class ItemResultTextLabel(QGraphicsItem):
         elif alignment=="RIGHT":
             self.coor = QPointF(width,  height/2)
         
-    def newPos(self, pos:QPointF|QPoint):        
+    def newPos(self, pos:QPointF|QPoint):   
+        self.position = pos     
         self.setPos(pos)
 
     def boundingRect(self) -> QRectF:
@@ -484,7 +823,6 @@ class ItemResultTextLabel(QGraphicsItem):
         painter.scale(1, -1)
 
         painter.drawText(self.coor, self.text)
-
 
 class ItemResultTextLabel000(QGraphicsItem):
     """
@@ -553,9 +891,6 @@ class ItemResultTextLabel000(QGraphicsItem):
         painter.rotate(self.angle_degrees)
         painter.drawText(QPointF(0, 0), self.text)
         painter.restore()
-
-
-
 
 class Edge(QGraphicsItem):
 
@@ -657,7 +992,6 @@ class Edge(QGraphicsItem):
         painter.setBrush(Qt.black)
         painter.drawPolygon(QPolygonF([line.p1(), source_arrow_p1, source_arrow_p2]))
         painter.drawPolygon(QPolygonF([line.p2(), dest_arrow_p1, dest_arrow_p2]))
-
 
 class Node(QGraphicsItem):
     item_type = QGraphicsItem.UserType + 1
@@ -775,10 +1109,6 @@ class Node(QGraphicsItem):
         self.update()
         QGraphicsItem.mouseReleaseEvent(self, event)
 
-
-
-
-
 class PointAnimation (QObject):
     def __init__(self, point_item, time_list, x_list, y_list):
         super(PointAnimation, self).__init__()
@@ -796,46 +1126,7 @@ class PointAnimation (QObject):
             self.animation.setKeyValueAt(t/self.time_list[-1], pos)
         self.animation.start()
 
-class TextResultItem(QGraphicsItem):
 
-    TYPE = "Text"
-    COLOR = QColor("#00ff55")
-    HIGT = 10
-    WIDTH = 40
-
-    def __init__(self, text:str, coordinatesX, coordinatesY):
-        QGraphicsItem.__init__(self)
-        
-        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
-
-        self.item_type = self.TYPE
-        self.color = self.COLOR
-        self.higt = self.HIGT
-        self.width = self.WIDTH
-        self.text = str(text)
-        self.position = QPointF(coordinatesX,coordinatesY)
-        self.newPos(self.position)
-        self.pen = QPen(self.color)
-
-
-    def setColor(self, color):
-        self.color = QColor(color)
-        self.pen = QPen(self.color)
-
-
-    def newPos(self, pos:QPointF|QPoint):
-        self.coor = pos
-        self.setPos(pos)
-
-    def boundingRect(self) -> QRectF:
-        h = self.higt
-        w = self.width        
-        return QRectF(-0.1, -h,
-                             w, h+3)
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        painter.setPen(self.pen)
-        painter.drawText(QPointF(0, 0), self.text)
 
 
 class PointResultItem(QGraphicsItem):

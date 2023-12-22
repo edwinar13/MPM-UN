@@ -231,6 +231,8 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             id = item.data(Qt.UserRole)
             items.append({'name': name, 'id': id})
         return items
+    def getTimeAnalysis (self):
+        return self.doubleSpinBoxl_textExecuteTimeAnalysis.value()
     
 
 

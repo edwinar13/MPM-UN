@@ -355,7 +355,6 @@ class ViewMainWindow(QMainWindow):
         
 
         buttonSelected = self.sender()
-        #print(buttonSelected.objectName())
         if buttonSelected != None:
             nameButton = buttonSelected.objectName()
         else:

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDrawMenuMesh</class>
- <widget class="QWidget" name="FormDrawMenuMesh">
+ <class>FormMenuResultAnimation</class>
+ <widget class="QWidget" name="FormMenuResultAnimation">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>769</height>
+    <height>889</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,7 +70,9 @@ padding: 2px 0px;
 
 
 
-QFrame#frame_meshProject{
+
+
+QFrame#frame_ResultAnimationProject{
 background: #333333;
 border-radius: 8px
 }
@@ -94,9 +96,9 @@ background-color: transparent;
 
 
 /*#################################################################*/
-/*####################       FRAME MESH       ###########################*/
+/*####################       FRAME ResultAnimation       ###########################*/
 /*#################################################################*/
-QFrame#frame_mesh{
+QFrame#frame_ResultAnimation{
 background: transparent;
 }
 QFrame#frame_title{
@@ -107,10 +109,10 @@ QLabel#label_cardMeshTitle{
 font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-QFrame#frame_meshSubTitle0,
-QFrame#frame_meshSubTitle1,
-QFrame#frame_meshSubTitle2,
-QFrame#frame_meshSubTitle3{
+QFrame#frame_ResultAnimationSubTitle0,
+QFrame#frame_ResultAnimationSubTitle1,
+QFrame#frame_ResultAnimationSubTitle2,
+QFrame#frame_ResultAnimationSubTitle3{
 background: #222222;
 border-radius:2px;
 }
@@ -133,9 +135,9 @@ border-radius:2px;
 
 
 
-QToolButton#toolButton_cardMeshDraw7,
-QToolButton#toolButton_cardMeshDraw5,
-QToolButton#toolButton_cardMeshDraw6{
+QToolButton#toolButton_cardResultAnimationDraw7,
+QToolButton#toolButton_cardResultAnimationDraw5,
+QToolButton#toolButton_cardResultAnimationDraw6{
 background-color: transparent;
 border: 1px solid #222222;
 border-radius: 3px;
@@ -143,14 +145,14 @@ margin-left: 4px;
 }
 
 
-QToolButton#toolButton_cardMeshDraw7:hover,
-QToolButton#toolButton_cardMeshDraw5:hover, 
-QToolButton#toolButton_cardMeshDraw6:hover{ 
+QToolButton#toolButton_cardResultAnimationDraw7:hover,
+QToolButton#toolButton_cardResultAnimationDraw5:hover, 
+QToolButton#toolButton_cardResultAnimationDraw6:hover{ 
 background-color: #444444;
 }
-QToolButton#toolButton_cardMeshDraw7:pressed,
-QToolButton#toolButton_cardMeshDraw5:pressed,
-QToolButton#toolButton_cardMeshDraw6:pressed{
+QToolButton#toolButton_cardResultAnimationDraw7:pressed,
+QToolButton#toolButton_cardResultAnimationDraw5:pressed,
+QToolButton#toolButton_cardResultAnimationDraw6:pressed{
 border-top: 2px solid #222222;
 border-left: 2px solid #222222;
 }  
@@ -164,7 +166,7 @@ border-left: 2px solid #222222;
 /*###########################################################*/
 
 QScrollArea#scrollArea,
-#verticalLayout_containerCardMesh,
+#verticalLayout_containerCardResultAnimation,
 #scrollAreaWidgetContents{
 background-color: transparent;
 }
@@ -224,6 +226,8 @@ QScrollBar::sub-line:vertical:hover{
 QScrollBar::sub-line:vertical:pressed{
     background-color: #666666;
 }
+
+
 
 /*BOTTON*/
 QScrollBar::add-line:vertical{
@@ -323,7 +327,8 @@ background: none;
 
 
 
-QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;]{
+QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;],
+QSpinBox[QSpinBoxStyle=&quot;1&quot;]{
 font: 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #444444;
@@ -331,6 +336,16 @@ border-radius: 2px ;
 padding-right: 6px;
 padding-left: 6px;
 
+}
+
+
+
+QGroupBox{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+border-radius: 2px ;
+padding-top: 8px;
+border: 1px solid #666666;
 }
 
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
@@ -486,7 +501,7 @@ padding-left: 6px;
 
 
 
-QLineEdit#lineEdit_textMesh3{
+QLineEdit#lineEdit_textResultAnimation3{
 font: 7pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #333333;
@@ -499,8 +514,8 @@ padding-left: 2px;
 
 
 /*
-QLineEdit#lineEdit_textMesh3,
-QLineEdit#lineEdit_textMesh5{
+QLineEdit#lineEdit_textResultAnimation3,
+QLineEdit#lineEdit_textResultAnimation5{
 color: #888888;
 }
 */
@@ -540,6 +555,25 @@ font: 300 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
 
+QLabel[QLabelStyle=&quot;4&quot;] {
+font: 900 25pt &quot;Ubuntu&quot;;
+color: #77ACA2;
+}
+
+
+/*Colores primarios*/
+/* 
+gris oscuro #222222 #333333 #444444
+gris claro #999999 #DDDDDD
+verde claro #C8CC8E
+vinotinto #742427
+*/
+/*Colores secundarios */
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
 
 
 
@@ -562,6 +596,28 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
 }
 
 
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QCheckBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
+    
+    background-color: #444444;
+	color: #DDDDDD;
+    padding: 5px;
+	font:  9pt &quot;Ubuntu&quot;;
+    selection-background-color: #808080;
+}
+
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator {
+    background-color: transparent;
+    border: 1px solid #808080;
+	border-radius: 3px;
+}
+
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
+    background-color: #F94646;
+    border: none;
+	 border-radius: 3px;
+}
+
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -581,7 +637,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
     <number>5</number>
    </property>
    <item>
-    <widget class="QFrame" name="frame_meshProject">
+    <widget class="QFrame" name="frame_ResultAnimationProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -749,7 +805,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_mesh">
+       <widget class="QFrame" name="frame_ResultAnimation">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -809,9 +865,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLabel" name="label_cardMeshTitle">
+             <widget class="QLabel" name="label_cardResultAnimationTitle">
               <property name="text">
-               <string>MALLADO</string>
+               <string>ANIMACIONES</string>
               </property>
               <property name="QLabelStyle" stdset="0">
                <number>1</number>
@@ -844,411 +900,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_meshSubTitle0">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_16">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_cardMeshSubTitle0">
-                 <property name="minimumSize">
-                  <size>
-                   <width>262</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Crear malla de fondo</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>2</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_cardMeshSubTitle0">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_mesh2_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <property name="spacing">
-                <number>8</number>
-               </property>
-               <item>
-                <widget class="QFrame" name="frame_4">
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QFormLayout" name="formLayout_4">
-                  <property name="horizontalSpacing">
-                   <number>0</number>
-                  </property>
-                  <property name="verticalSpacing">
-                   <number>6</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_textMesh1_2">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Ancho (dx):</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMeshDx">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>120</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="suffix">
-                     <string>m</string>
-                    </property>
-                    <property name="decimals">
-                     <number>2</number>
-                    </property>
-                    <property name="minimum">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="singleStep">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>1.000000000000000</double>
-                    </property>
-                    <property name="QDoubleSpinBoxStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_textMesh2_2">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Alto (dy):</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMeshDy">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>120</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="suffix">
-                     <string>m</string>
-                    </property>
-                    <property name="decimals">
-                     <number>2</number>
-                    </property>
-                    <property name="minimum">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="singleStep">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>1.000000000000000</double>
-                    </property>
-                    <property name="QDoubleSpinBoxStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_textMesh2_3">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Tamaño del elemento :</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMeshSize_2">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>120</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="suffix">
-                     <string>m</string>
-                    </property>
-                    <property name="decimals">
-                     <number>2</number>
-                    </property>
-                    <property name="minimum">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="singleStep">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>1.000000000000000</double>
-                    </property>
-                    <property name="QDoubleSpinBoxStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QFrame" name="frame_2">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_17">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                    </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_18">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_cardMeshDrawUpdate">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normaloff>../recursos/iconos/iconos_menu_draw_mesh/update.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/update.svg</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>20</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="arrowType">
-                    <enum>Qt::NoArrow</enum>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>1</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame_5">
-                   <property name="minimumSize">
-                    <size>
-                     <width>10</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_meshShow">
-                   <property name="minimumSize">
-                    <size>
-                     <width>120</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Motrar</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>5</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_meshHide">
-                   <property name="minimumSize">
-                    <size>
-                     <width>120</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Ocultar</string>
-                   </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>8</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_8">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_meshSubTitle1">
+             <widget class="QFrame" name="frame_ResultAnimationSubTitle1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -1272,7 +924,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardMeshSubTitle1">
+                <widget class="QLabel" name="label_cardResultAnimationSubTitle1">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1280,7 +932,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear malla para PM</string>
+                  <string>Datos de visualización</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>
@@ -1288,7 +940,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardMeshSubTitle1">
+                <widget class="QToolButton" name="toolButton_cardResultAnimationSubTitle1">
                  <property name="text">
                   <string/>
                  </property>
@@ -1308,7 +960,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_mesh2">
+             <widget class="QFrame" name="frame_ResultAnimation1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1356,23 +1008,74 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QLabel" name="label_textMesh1">
+                   <widget class="QLabel" name="label_textPointMaterialName">
                     <property name="minimumSize">
                      <size>
-                      <width>110</width>
-                      <height>0</height>
+                      <width>0</width>
+                      <height>30</height>
                      </size>
                     </property>
                     <property name="text">
-                     <string>Nombre:</string>
+                     <string>Tipo de resultado:</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
                     </property>
                    </widget>
                   </item>
+                  <item row="0" column="1">
+                   <widget class="QComboBox" name="comboBox_sceneTypeResult">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::WheelFocus</enum>
+                    </property>
+                    <property name="QComboBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>default</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>sigxx</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>sigyy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>sigxy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>epsxx</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>epsyy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>epsxy</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
                   <item row="1" column="0">
-                   <widget class="QLabel" name="label_textMesh2">
+                   <widget class="QLabel" name="label_textResultAnimation3">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -1380,7 +1083,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </size>
                     </property>
                     <property name="text">
-                     <string>Color:</string>
+                     <string>Velocidad anim.:</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
@@ -1388,12 +1091,470 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_9">
-                    <property name="spacing">
-                     <number>0</number>
+                   <widget class="QSpinBox" name="spinBox_ResultAnimationVelocity">
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>1</number>
+                    </property>
+                    <property name="value">
+                     <number>50</number>
+                    </property>
+                    <property name="displayIntegerBase">
+                     <number>10</number>
+                    </property>
+                    <property name="QSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox">
+                 <property name="title">
+                  <string/>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                     <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_sceneRegress">
+                      <property name="minimumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../recursos/iconos/icono_result/atras.svg</normaloff>../recursos/iconos/icono_result/atras.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>25</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_sceneStop">
+                      <property name="minimumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../recursos/iconos/icono_result/stop.svg</normaloff>../recursos/iconos/icono_result/stop.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>25</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_scenePlay">
+                      <property name="minimumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../recursos/iconos/icono_result/play.svg</normaloff>../recursos/iconos/icono_result/play.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>25</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_sceneAdvance">
+                      <property name="minimumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>...</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../recursos/iconos/icono_result/adelante.svg</normaloff>../recursos/iconos/icono_result/adelante.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>25</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_5">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_11">
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_12">
+                      <item>
+                       <widget class="QLabel" name="label_textResultTime">
+                        <property name="minimumSize">
+                         <size>
+                          <width>60</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>0</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="QLabelStyle" stdset="0">
+                         <number>4</number>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_text_7">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>Tiempo</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="QLabelStyle" stdset="0">
+                         <number>3</number>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_13">
+                      <item>
+                       <widget class="QLabel" name="label_textResultStep">
+                        <property name="minimumSize">
+                         <size>
+                          <width>60</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>0</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="QLabelStyle" stdset="0">
+                         <number>4</number>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_text_8">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>Pasos</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="QLabelStyle" stdset="0">
+                         <number>3</number>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <layout class="QFormLayout" name="formLayout">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_text">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Numero de pasos</string>
+                   </property>
+                   <property name="QLabelStyle" stdset="0">
+                    <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_textResultSteps">
+                   <property name="minimumSize">
+                    <size>
+                     <width>60</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>11532</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="QLabelStyle" stdset="0">
+                    <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_ResultAnimationSubTitle0">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_16">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_cardResultAnimationSubTitle0">
+                 <property name="minimumSize">
+                  <size>
+                   <width>262</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Estilo de visualización</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_cardResultAnimationSubTitle0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_ResultAnimation0">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <property name="spacing">
+                <number>8</number>
+               </property>
+               <item>
+                <widget class="QFrame" name="frame_4">
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QFormLayout" name="formLayout_4">
+                  <property name="horizontalSpacing">
+                   <number>0</number>
+                  </property>
+                  <property name="verticalSpacing">
+                   <number>6</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_textResultAnimation1_2">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Estilos de colores:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="QComboBoxStyle" stdset="0">
+                     <number>1</number>
                     </property>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_textMeshColor">
+                     <property name="text">
+                      <string>default</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Rojo-Azul</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Escala de grises</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Escala color</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_textColor">
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
@@ -1620,7 +1781,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </widget>
                     </item>
                     <item>
-                     <widget class="QToolButton" name="toolButton_cardMeshDrawColor">
+                     <widget class="QToolButton" name="btn_select_color">
                       <property name="text">
                        <string/>
                       </property>
@@ -1644,133 +1805,8 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </item>
                    </layout>
                   </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_textMesh3">
-                    <property name="minimumSize">
-                     <size>
-                      <width>110</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Tamaño de la malla:</string>
-                    </property>
-                    <property name="QLabelStyle" stdset="0">
-                     <number>3</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_textMeshName">
-                    <property name="minimumSize">
-                     <size>
-                      <width>150</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="QLineEditStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QFrame" name="frame">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_10">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textMeshSize">
-                       <property name="enabled">
-                        <bool>true</bool>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>120</width>
-                         <height>25</height>
-                        </size>
-                       </property>
-                       <property name="suffix">
-                        <string>m</string>
-                       </property>
-                       <property name="decimals">
-                        <number>2</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.010000000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.010000000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>1.000000000000000</double>
-                       </property>
-                       <property name="QDoubleSpinBoxStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QToolButton" name="toolButton_cardMeshDrawSize">
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>../recursos/iconos/iconos_menu_draw_mesh/click.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/click.svg</iconset>
-                       </property>
-                       <property name="iconSize">
-                        <size>
-                         <width>20</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                       <property name="arrowType">
-                        <enum>Qt::NoArrow</enum>
-                       </property>
-                       <property name="QToolButtonStyle" stdset="0">
-                        <number>1</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
                   <item row="2" column="0">
-                   <widget class="QLabel" name="label_textMesh4">
+                   <widget class="QLabel" name="label_textResultAnimation1_3">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -1778,7 +1814,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </size>
                     </property>
                     <property name="text">
-                     <string>Seleccionar:</string>
+                     <string>Tamaño puntos:</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
@@ -1786,62 +1822,41 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_11">
-                    <property name="spacing">
-                     <number>0</number>
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textResultAnimationSizePoints">
+                    <property name="enabled">
+                     <bool>true</bool>
                     </property>
-                    <item>
-                     <widget class="QLineEdit" name="lineEdit_textMeshSelected">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>120</width>
-                        <height>25</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="QLineEditStyle" stdset="0">
-                       <number>2</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QToolButton" name="toolButton_cardMeshDrawSelected">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>../recursos/iconos/iconos_menu_draw_mesh/select.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/select.svg</iconset>
-                      </property>
-                      <property name="iconSize">
-                       <size>
-                        <width>20</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="arrowType">
-                       <enum>Qt::NoArrow</enum>
-                      </property>
-                      <property name="QToolButtonStyle" stdset="0">
-                       <number>1</number>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                    <property name="minimumSize">
+                     <size>
+                      <width>120</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="suffix">
+                     <string>m</string>
+                    </property>
+                    <property name="decimals">
+                     <number>3</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>2.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>0.050000000000000</double>
+                    </property>
+                    <property name="QDoubleSpinBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
                   </item>
-                  <item row="4" column="0">
-                   <widget class="QLabel" name="label_textMesh5">
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_textResultAnimation1_4">
                     <property name="minimumSize">
                      <size>
                       <width>110</width>
@@ -1849,22 +1864,37 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </size>
                     </property>
                     <property name="text">
-                     <string>Tipo malla:</string>
+                     <string>Tamaño textos:</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
-                   <widget class="QComboBox" name="comboBox_MeshType">
+                  <item row="3" column="1">
+                   <widget class="QSpinBox" name="spinBox_ResultAnimationSizeText">
                     <property name="minimumSize">
                      <size>
-                      <width>0</width>
+                      <width>120</width>
                       <height>25</height>
                      </size>
                     </property>
-                    <property name="QComboBoxStyle" stdset="0">
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>1</number>
+                    </property>
+                    <property name="value">
+                     <number>5</number>
+                    </property>
+                    <property name="displayIntegerBase">
+                     <number>10</number>
+                    </property>
+                    <property name="QSpinBoxStyle" stdset="0">
                      <number>1</number>
                     </property>
                    </widget>
@@ -1873,76 +1903,71 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
-                  <spacer name="horizontalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="toolButton_meshCancel">
-                   <property name="minimumSize">
-                    <size>
-                     <width>80</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
+                  <widget class="QCheckBox" name="checkBox_ResultAnimationCountour">
                    <property name="text">
-                    <string>Cancelar</string>
+                    <string>Ver Contorno</string>
                    </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>3</number>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="QCheckBoxStyle" stdset="0">
+                    <number>1</number>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="toolButton_meshMeshing">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
+                  <widget class="QCheckBox" name="checkBox_ResultAnimationLabel">
                    <property name="text">
-                    <string>Mallar</string>
+                    <string>Ver Etiquetas</string>
                    </property>
-                   <property name="QToolButtonStyle" stdset="0">
-                    <number>2</number>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                   <property name="QCheckBoxStyle" stdset="0">
+                    <number>1</number>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                  <widget class="QCheckBox" name="checkBox_ResultAnimationGrid">
+                   <property name="text">
+                    <string>Ver Grilla</string>
                    </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
+                   <property name="checked">
+                    <bool>true</bool>
                    </property>
-                  </spacer>
+                   <property name="QCheckBoxStyle" stdset="0">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_ResultAnimationBase">
+                   <property name="text">
+                    <string>Ver Base</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                   <property name="QCheckBoxStyle" stdset="0">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_ResultAnimationValues">
+                   <property name="text">
+                    <string>Ver Valores</string>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                   <property name="QCheckBoxStyle" stdset="0">
+                    <number>1</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -1950,101 +1975,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_meshSubTitle2">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_7">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_cardMeshSubTitle2">
-                 <property name="minimumSize">
-                  <size>
-                   <width>262</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Lista de mallas</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>2</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_showHideLabel">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_showHideMesh">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_cardMeshSubTitle2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_mesh3">
+             <widget class="QFrame" name="frame_ResultAnimation3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -2066,72 +1997,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <item>
-                <widget class="QScrollArea" name="scrollArea">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: transparent;
-border: none;</string>
-                 </property>
-                 <property name="widgetResizable">
-                  <bool>true</bool>
-                 </property>
-                 <widget class="QWidget" name="scrollAreaWidgetContents">
-                  <property name="geometry">
-                   <rect>
-                    <x>0</x>
-                    <y>0</y>
-                    <width>278</width>
-                    <height>130</height>
-                   </rect>
-                  </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_14">
-                   <property name="spacing">
-                    <number>0</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_containerCardMesh">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QFrame" name="frame_empty">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true"/>
-                       </property>
-                       <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
-                       </property>
-                       <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
-                 </widget>
-                </widget>
-               </item>
-              </layout>
+              <layout class="QHBoxLayout" name="horizontalLayout_13"/>
              </widget>
             </item>
             <item>

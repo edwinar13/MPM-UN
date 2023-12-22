@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_resultYqRVtC.ui'
+## Form generated from reading UI file 'frame_resultoWfkcz.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -15,11 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
-    QGridLayout, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QTabWidget, QTableWidget, QTableWidgetItem,
-    QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGridLayout,
+    QHBoxLayout, QHeaderView, QSizePolicy, QTabWidget,
+    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_FormResult(object):
     def setupUi(self, FormResult):
@@ -65,7 +63,7 @@ class Ui_FormResult(object):
 "\n"
 "\n"
 "#FormResult{\n"
-"background: #333333;\n"
+"background: #444444;\n"
 "}\n"
 "\n"
 "/*############################################################"
@@ -779,10 +777,10 @@ class Ui_FormResult(object):
 "naranjas #D34E24 #F28123 #F7F052\n"
 "*/\n"
 "")
-        self.horizontalLayout_5 = QHBoxLayout(FormResult)
-        self.horizontalLayout_5.setSpacing(0)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout = QVBoxLayout(FormResult)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout_result = QHBoxLayout()
+        self.horizontalLayout_result.setObjectName(u"horizontalLayout_result")
         self.tabWidget = QTabWidget(FormResult)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setTabPosition(QTabWidget.North)
@@ -808,93 +806,6 @@ class Ui_FormResult(object):
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.frame_2 = QFrame(self.frame)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setMaximumSize(QSize(16777215, 35))
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_2)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 5, 10, 0)
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer)
-
-        self.label_textPointMaterialName = QLabel(self.frame_2)
-        self.label_textPointMaterialName.setObjectName(u"label_textPointMaterialName")
-        self.label_textPointMaterialName.setMinimumSize(QSize(0, 30))
-        self.label_textPointMaterialName.setProperty("QLabelStyle", 3)
-
-        self.horizontalLayout_2.addWidget(self.label_textPointMaterialName)
-
-        self.comboBox_sceneTypeResult = QComboBox(self.frame_2)
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.setObjectName(u"comboBox_sceneTypeResult")
-        self.comboBox_sceneTypeResult.setMinimumSize(QSize(0, 25))
-        self.comboBox_sceneTypeResult.setFocusPolicy(Qt.WheelFocus)
-        self.comboBox_sceneTypeResult.setProperty("QComboBoxStyle", 1)
-
-        self.horizontalLayout_2.addWidget(self.comboBox_sceneTypeResult)
-
-        self.toolButton_sceneRegress = QToolButton(self.frame_2)
-        self.toolButton_sceneRegress.setObjectName(u"toolButton_sceneRegress")
-        icon = QIcon()
-        icon.addFile(u"recursos/iconos/icono_result/atras.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_sceneRegress.setIcon(icon)
-        self.toolButton_sceneRegress.setProperty("QToolButtonStyle", 1)
-
-        self.horizontalLayout_2.addWidget(self.toolButton_sceneRegress)
-
-        self.toolButton_sceneStop = QToolButton(self.frame_2)
-        self.toolButton_sceneStop.setObjectName(u"toolButton_sceneStop")
-        icon1 = QIcon()
-        icon1.addFile(u"recursos/iconos/icono_result/stop.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_sceneStop.setIcon(icon1)
-        self.toolButton_sceneStop.setProperty("QToolButtonStyle", 1)
-
-        self.horizontalLayout_2.addWidget(self.toolButton_sceneStop)
-
-        self.toolButton_scenePlay = QToolButton(self.frame_2)
-        self.toolButton_scenePlay.setObjectName(u"toolButton_scenePlay")
-        icon2 = QIcon()
-        icon2.addFile(u"recursos/iconos/icono_result/play.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_scenePlay.setIcon(icon2)
-        self.toolButton_scenePlay.setProperty("QToolButtonStyle", 1)
-
-        self.horizontalLayout_2.addWidget(self.toolButton_scenePlay)
-
-        self.toolButton_sceneAdvance = QToolButton(self.frame_2)
-        self.toolButton_sceneAdvance.setObjectName(u"toolButton_sceneAdvance")
-        icon3 = QIcon()
-        icon3.addFile(u"recursos/iconos/icono_result/adelante.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_sceneAdvance.setIcon(icon3)
-        self.toolButton_sceneAdvance.setProperty("QToolButtonStyle", 1)
-
-        self.horizontalLayout_2.addWidget(self.toolButton_sceneAdvance)
-
-        self.label_textPointMaterialName_2 = QLabel(self.frame_2)
-        self.label_textPointMaterialName_2.setObjectName(u"label_textPointMaterialName_2")
-        self.label_textPointMaterialName_2.setMinimumSize(QSize(0, 30))
-        self.label_textPointMaterialName_2.setProperty("QLabelStyle", 3)
-
-        self.horizontalLayout_2.addWidget(self.label_textPointMaterialName_2)
-
-        self.label_textResultTime = QLabel(self.frame_2)
-        self.label_textResultTime.setObjectName(u"label_textResultTime")
-        self.label_textResultTime.setMinimumSize(QSize(60, 30))
-        self.label_textResultTime.setProperty("QLabelStyle", 3)
-
-        self.horizontalLayout_2.addWidget(self.label_textResultTime)
-
-
-        self.verticalLayout_4.addWidget(self.frame_2)
-
         self.frame_pointMaterial = QFrame(self.frame)
         self.frame_pointMaterial.setObjectName(u"frame_pointMaterial")
         self.frame_pointMaterial.setFrameShape(QFrame.StyledPanel)
@@ -917,9 +828,9 @@ class Ui_FormResult(object):
 
         self.gridLayout_2.addWidget(self.frame, 0, 0, 1, 1)
 
-        icon4 = QIcon()
-        icon4.addFile(u"recursos/iconos/icono_result/view_points.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.tabWidget.addTab(self.tab_1, icon4, "")
+        icon = QIcon()
+        icon.addFile(u"recursos/iconos/icono_result/view_points.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.tabWidget.addTab(self.tab_1, icon, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.tab_2.setProperty("QTabBarStyle", 1)
@@ -936,89 +847,6 @@ class Ui_FormResult(object):
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.frame_5 = QFrame(self.frame_4)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setMaximumSize(QSize(16777215, 35))
-        self.frame_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_5)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(10, 5, 0, 0)
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
-
-        self.label_text_char1 = QLabel(self.frame_5)
-        self.label_text_char1.setObjectName(u"label_text_char1")
-        self.label_text_char1.setMinimumSize(QSize(0, 0))
-        self.label_text_char1.setProperty("QLabelStyle", 3)
-
-        self.horizontalLayout_3.addWidget(self.label_text_char1)
-
-        self.comboBox_chartTypeResult = QComboBox(self.frame_5)
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.addItem("")
-        self.comboBox_chartTypeResult.setObjectName(u"comboBox_chartTypeResult")
-        self.comboBox_chartTypeResult.setMinimumSize(QSize(0, 25))
-        self.comboBox_chartTypeResult.setFocusPolicy(Qt.WheelFocus)
-        self.comboBox_chartTypeResult.setProperty("QComboBoxStyle", 1)
-
-        self.horizontalLayout_3.addWidget(self.comboBox_chartTypeResult)
-
-        self.toolButton_chartTypeStyle = QToolButton(self.frame_5)
-        self.toolButton_chartTypeStyle.setObjectName(u"toolButton_chartTypeStyle")
-        self.toolButton_chartTypeStyle.setMinimumSize(QSize(35, 25))
-        icon5 = QIcon()
-        icon5.addFile(u"recursos/iconos/icono_result/graphics.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_chartTypeStyle.setIcon(icon5)
-        self.toolButton_chartTypeStyle.setIconSize(QSize(30, 15))
-        self.toolButton_chartTypeStyle.setProperty("QToolButtonStyle", 0)
-
-        self.horizontalLayout_3.addWidget(self.toolButton_chartTypeStyle)
-
-        self.line = QFrame(self.frame_5)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.VLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.horizontalLayout_3.addWidget(self.line)
-
-        self.label_text_chart2 = QLabel(self.frame_5)
-        self.label_text_chart2.setObjectName(u"label_text_chart2")
-        self.label_text_chart2.setMinimumSize(QSize(85, 0))
-        self.label_text_chart2.setMaximumSize(QSize(85, 16777215))
-        self.label_text_chart2.setProperty("QLabelStyle", 3)
-
-        self.horizontalLayout_3.addWidget(self.label_text_chart2)
-
-        self.lineEdit_chartPointName = QLineEdit(self.frame_5)
-        self.lineEdit_chartPointName.setObjectName(u"lineEdit_chartPointName")
-        self.lineEdit_chartPointName.setMinimumSize(QSize(0, 25))
-        self.lineEdit_chartPointName.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit_chartPointName.setProperty("QLineEditStyle", 1)
-
-        self.horizontalLayout_3.addWidget(self.lineEdit_chartPointName)
-
-        self.toolButton_chartAddPoint = QToolButton(self.frame_5)
-        self.toolButton_chartAddPoint.setObjectName(u"toolButton_chartAddPoint")
-        icon6 = QIcon()
-        icon6.addFile(u"recursos/iconos/icono_result/add.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_chartAddPoint.setIcon(icon6)
-        self.toolButton_chartAddPoint.setIconSize(QSize(20, 20))
-        self.toolButton_chartAddPoint.setArrowType(Qt.NoArrow)
-        self.toolButton_chartAddPoint.setProperty("QToolButtonStyle", 1)
-
-        self.horizontalLayout_3.addWidget(self.toolButton_chartAddPoint)
-
-
-        self.verticalLayout_5.addWidget(self.frame_5)
-
         self.frame_6 = QFrame(self.frame_4)
         self.frame_6.setObjectName(u"frame_6")
         self.frame_6.setFrameShape(QFrame.StyledPanel)
@@ -1032,47 +860,18 @@ class Ui_FormResult(object):
         self.frame_chart.setFrameShape(QFrame.StyledPanel)
         self.frame_chart.setFrameShadow(QFrame.Raised)
         self.frame_chart.setProperty("QFrameStyle", 2)
-        self.horizontalLayout_4 = QHBoxLayout(self.frame_chart)
-        self.horizontalLayout_4.setSpacing(0)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5 = QHBoxLayout(self.frame_chart)
+        self.horizontalLayout_5.setSpacing(0)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_chart = QVBoxLayout()
         self.verticalLayout_chart.setSpacing(0)
         self.verticalLayout_chart.setObjectName(u"verticalLayout_chart")
 
-        self.horizontalLayout_4.addLayout(self.verticalLayout_chart)
+        self.horizontalLayout_5.addLayout(self.verticalLayout_chart)
 
 
         self.horizontalLayout_7.addWidget(self.frame_chart)
-
-        self.scrollArea = QScrollArea(self.frame_6)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setMaximumSize(QSize(80, 16777215))
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 78, 382))
-        self.scrollAreaWidgetContents.setMaximumSize(QSize(16777215, 16777215))
-        self.horizontalLayout_6 = QHBoxLayout(self.scrollAreaWidgetContents)
-        self.horizontalLayout_6.setSpacing(0)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_containerCardPoint = QVBoxLayout()
-        self.verticalLayout_containerCardPoint.setSpacing(2)
-        self.verticalLayout_containerCardPoint.setObjectName(u"verticalLayout_containerCardPoint")
-        self.verticalLayout_containerCardPoint.setContentsMargins(-1, 5, -1, 5)
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_containerCardPoint.addItem(self.verticalSpacer)
-
-
-        self.horizontalLayout_6.addLayout(self.verticalLayout_containerCardPoint)
-
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-
-        self.horizontalLayout_7.addWidget(self.scrollArea)
 
 
         self.verticalLayout_5.addWidget(self.frame_6)
@@ -1080,9 +879,9 @@ class Ui_FormResult(object):
 
         self.gridLayout_3.addWidget(self.frame_4, 0, 0, 1, 1)
 
-        icon7 = QIcon()
-        icon7.addFile(u"recursos/iconos/icono_result/view_graphics.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.tabWidget.addTab(self.tab_2, icon7, "")
+        icon1 = QIcon()
+        icon1.addFile(u"recursos/iconos/icono_result/view_graphics.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.tabWidget.addTab(self.tab_2, icon1, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
         self.tab_3.setProperty("QTabBarStyle", 1)
@@ -1090,31 +889,12 @@ class Ui_FormResult(object):
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setSpacing(8)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(10, 5, 10, 0)
-        self.lineEdit_tableSearchByPointId = QLineEdit(self.tab_3)
-        self.lineEdit_tableSearchByPointId.setObjectName(u"lineEdit_tableSearchByPointId")
-        self.lineEdit_tableSearchByPointId.setMinimumSize(QSize(0, 25))
-        self.lineEdit_tableSearchByPointId.setProperty("QLineEditStyle", 1)
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setSpacing(8)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.horizontalLayout_9.setContentsMargins(10, 5, 10, 0)
 
-        self.horizontalLayout.addWidget(self.lineEdit_tableSearchByPointId)
-
-        self.pushButton_tableSearchAllPoints = QPushButton(self.tab_3)
-        self.pushButton_tableSearchAllPoints.setObjectName(u"pushButton_tableSearchAllPoints")
-        self.pushButton_tableSearchAllPoints.setProperty("QPushButtonStyle", 1)
-
-        self.horizontalLayout.addWidget(self.pushButton_tableSearchAllPoints)
-
-        self.pushButton_tableShowHideColumn = QPushButton(self.tab_3)
-        self.pushButton_tableShowHideColumn.setObjectName(u"pushButton_tableShowHideColumn")
-        self.pushButton_tableShowHideColumn.setProperty("QPushButtonStyle", 3)
-
-        self.horizontalLayout.addWidget(self.pushButton_tableShowHideColumn)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_9)
 
         self.tableWidget_tableResult = QTableWidget(self.tab_3)
         if (self.tableWidget_tableResult.columnCount() < 10):
@@ -1153,11 +933,14 @@ class Ui_FormResult(object):
 
         self.verticalLayout_3.addWidget(self.tableWidget_tableResult)
 
-        icon8 = QIcon()
-        icon8.addFile(u"recursos/iconos/icono_result/view_board.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.tabWidget.addTab(self.tab_3, icon8, "")
+        icon2 = QIcon()
+        icon2.addFile(u"recursos/iconos/icono_result/view_board.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.tabWidget.addTab(self.tab_3, icon2, "")
 
-        self.horizontalLayout_5.addWidget(self.tabWidget)
+        self.horizontalLayout_result.addWidget(self.tabWidget)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_result)
 
 
         self.retranslateUi(FormResult)
@@ -1170,52 +953,8 @@ class Ui_FormResult(object):
 
     def retranslateUi(self, FormResult):
         FormResult.setWindowTitle(QCoreApplication.translate("FormResult", u"Form", None))
-        self.label_textPointMaterialName.setText(QCoreApplication.translate("FormResult", u"Tipo de resultado:", None))
-        self.comboBox_sceneTypeResult.setItemText(0, QCoreApplication.translate("FormResult", u"default", None))
-        self.comboBox_sceneTypeResult.setItemText(1, QCoreApplication.translate("FormResult", u"sigxx", None))
-        self.comboBox_sceneTypeResult.setItemText(2, QCoreApplication.translate("FormResult", u"sigyy", None))
-        self.comboBox_sceneTypeResult.setItemText(3, QCoreApplication.translate("FormResult", u"sigxy", None))
-        self.comboBox_sceneTypeResult.setItemText(4, QCoreApplication.translate("FormResult", u"epsxx", None))
-        self.comboBox_sceneTypeResult.setItemText(5, QCoreApplication.translate("FormResult", u"epsyy", None))
-        self.comboBox_sceneTypeResult.setItemText(6, QCoreApplication.translate("FormResult", u"epsxy", None))
-
-        self.toolButton_sceneRegress.setText(QCoreApplication.translate("FormResult", u"...", None))
-        self.toolButton_sceneStop.setText(QCoreApplication.translate("FormResult", u"...", None))
-        self.toolButton_scenePlay.setText(QCoreApplication.translate("FormResult", u"...", None))
-        self.toolButton_sceneAdvance.setText(QCoreApplication.translate("FormResult", u"...", None))
-        self.label_textPointMaterialName_2.setText(QCoreApplication.translate("FormResult", u"Tiempo:", None))
-        self.label_textResultTime.setText(QCoreApplication.translate("FormResult", u"100.0000", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_1), QCoreApplication.translate("FormResult", u"PUNTOS MATERIALES", None))
-        self.label_text_char1.setText(QCoreApplication.translate("FormResult", u"Graficar:", None))
-        self.comboBox_chartTypeResult.setItemText(0, QCoreApplication.translate("FormResult", u"Coordenada X", None))
-        self.comboBox_chartTypeResult.setItemText(1, QCoreApplication.translate("FormResult", u"Coordenada Y", None))
-        self.comboBox_chartTypeResult.setItemText(2, QCoreApplication.translate("FormResult", u"sigxx", None))
-        self.comboBox_chartTypeResult.setItemText(3, QCoreApplication.translate("FormResult", u"sigyy", None))
-        self.comboBox_chartTypeResult.setItemText(4, QCoreApplication.translate("FormResult", u"sigxy", None))
-        self.comboBox_chartTypeResult.setItemText(5, QCoreApplication.translate("FormResult", u"epsxx", None))
-        self.comboBox_chartTypeResult.setItemText(6, QCoreApplication.translate("FormResult", u"epsyy", None))
-        self.comboBox_chartTypeResult.setItemText(7, QCoreApplication.translate("FormResult", u"epsxy", None))
-
-        self.toolButton_chartTypeStyle.setText("")
-        self.label_text_chart2.setText(QCoreApplication.translate("FormResult", u"Punto material:", None))
-#if QT_CONFIG(tooltip)
-        self.lineEdit_chartPointName.setToolTip(QCoreApplication.translate("FormResult", u"<html><head/><body><p><span style=\" font-size:10pt; font-style:italic;\">Puede buscar por id como 1 o 2 o 3 etc. O por conjuntos separados por coma, por ejemplo 1,2,3\u2026</span></p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
-        self.lineEdit_chartPointName.setText("")
-        self.lineEdit_chartPointName.setPlaceholderText(QCoreApplication.translate("FormResult", u"id puntos", None))
-        self.toolButton_chartAddPoint.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("FormResult", u"GRAFICAS ", None))
-#if QT_CONFIG(tooltip)
-        self.lineEdit_tableSearchByPointId.setToolTip(QCoreApplication.translate("FormResult", u"<html><head/><body><p><span style=\" font-size:10pt; font-style:italic;\">Puede buscar por id como 1 o 2 o 3 etc. O por conjuntos separados por coma, por ejemplo 1,2,3\u2026</span></p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
-        self.lineEdit_tableSearchByPointId.setInputMask("")
-        self.lineEdit_tableSearchByPointId.setText("")
-        self.lineEdit_tableSearchByPointId.setPlaceholderText(QCoreApplication.translate("FormResult", u"id puntos", None))
-        self.pushButton_tableSearchAllPoints.setText(QCoreApplication.translate("FormResult", u"Todos", None))
-#if QT_CONFIG(whatsthis)
-        self.pushButton_tableShowHideColumn.setWhatsThis("")
-#endif // QT_CONFIG(whatsthis)
-        self.pushButton_tableShowHideColumn.setText(QCoreApplication.translate("FormResult", u"Mostrar/ocultar columnas", None))
         ___qtablewidgetitem = self.tableWidget_tableResult.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("FormResult", u"ID Nodo", None));
         ___qtablewidgetitem1 = self.tableWidget_tableResult.horizontalHeaderItem(1)

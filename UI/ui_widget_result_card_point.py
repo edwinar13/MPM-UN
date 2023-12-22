@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_card_pointpaXPsd.ui'
+## Form generated from reading UI file 'widget_result_card_pointuwgSKQ.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,13 +16,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QSizePolicy, QToolButton, QVBoxLayout, QWidget)
+    QSizePolicy, QSpacerItem, QToolButton, QWidget)
 
 class Ui_FormResultCardPoint(object):
     def setupUi(self, FormResultCardPoint):
         if not FormResultCardPoint.objectName():
             FormResultCardPoint.setObjectName(u"FormResultCardPoint")
-        FormResultCardPoint.resize(100, 38)
+        FormResultCardPoint.resize(321, 45)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -108,12 +108,12 @@ class Ui_FormResultCardPoint(object):
         self.frame_card.setFrameShape(QFrame.StyledPanel)
         self.frame_card.setFrameShadow(QFrame.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_card)
-        self.horizontalLayout.setSpacing(3)
+        self.horizontalLayout.setSpacing(10)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 2, 0)
         self.frame_color = QFrame(self.frame_card)
         self.frame_color.setObjectName(u"frame_color")
-        self.frame_color.setMinimumSize(QSize(10, 30))
+        self.frame_color.setMinimumSize(QSize(20, 30))
         self.frame_color.setMaximumSize(QSize(10, 30))
         self.frame_color.setFrameShape(QFrame.StyledPanel)
         self.frame_color.setFrameShadow(QFrame.Raised)
@@ -134,9 +134,10 @@ class Ui_FormResultCardPoint(object):
 
         self.horizontalLayout.addWidget(self.label_cardNamePoint)
 
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setSpacing(2)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
         self.toolButton_showHidePoint = QToolButton(self.frame_card)
         self.toolButton_showHidePoint.setObjectName(u"toolButton_showHidePoint")
         sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
@@ -144,8 +145,8 @@ class Ui_FormResultCardPoint(object):
         sizePolicy3.setVerticalStretch(25)
         sizePolicy3.setHeightForWidth(self.toolButton_showHidePoint.sizePolicy().hasHeightForWidth())
         self.toolButton_showHidePoint.setSizePolicy(sizePolicy3)
-        self.toolButton_showHidePoint.setMinimumSize(QSize(15, 15))
-        self.toolButton_showHidePoint.setMaximumSize(QSize(15, 15))
+        self.toolButton_showHidePoint.setMinimumSize(QSize(25, 25))
+        self.toolButton_showHidePoint.setMaximumSize(QSize(25, 25))
         font = QFont()
         font.setFamilies([u"Ubuntu"])
         font.setPointSize(7)
@@ -158,7 +159,7 @@ class Ui_FormResultCardPoint(object):
         self.toolButton_showHidePoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_showHidePoint.setProperty("style_mesh_card_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_showHidePoint)
+        self.horizontalLayout.addWidget(self.toolButton_showHidePoint)
 
         self.toolButton_closePoint = QToolButton(self.frame_card)
         self.toolButton_closePoint.setObjectName(u"toolButton_closePoint")
@@ -167,8 +168,8 @@ class Ui_FormResultCardPoint(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.toolButton_closePoint.sizePolicy().hasHeightForWidth())
         self.toolButton_closePoint.setSizePolicy(sizePolicy4)
-        self.toolButton_closePoint.setMinimumSize(QSize(15, 15))
-        self.toolButton_closePoint.setMaximumSize(QSize(15, 15))
+        self.toolButton_closePoint.setMinimumSize(QSize(25, 25))
+        self.toolButton_closePoint.setMaximumSize(QSize(25, 25))
         self.toolButton_closePoint.setFont(font)
         self.toolButton_closePoint.setStyleSheet(u"")
         icon1 = QIcon()
@@ -178,10 +179,7 @@ class Ui_FormResultCardPoint(object):
         self.toolButton_closePoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_closePoint.setProperty("style_mesh_card_button", 1)
 
-        self.verticalLayout.addWidget(self.toolButton_closePoint)
-
-
-        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.horizontalLayout.addWidget(self.toolButton_closePoint)
 
 
         self.horizontalLayout_2.addWidget(self.frame_card)

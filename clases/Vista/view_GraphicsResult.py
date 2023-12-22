@@ -11,9 +11,12 @@ class:
 #from ctypes import pointer
 #from ast import Return, type_ignore
 #from re import X
+from typing import Union
 import weakref
 from PySide6.QtCore import*
+import PySide6.QtCore
 from PySide6.QtGui import*
+import PySide6.QtGui
 from PySide6.QtWidgets import*
 
 from clases.items_GraphicsResult import Node, Edge
@@ -36,8 +39,13 @@ class ViewGraphicsSceneResult(QGraphicsScene):
     def __init__(self):
         super().__init__()  
         #self.setSceneRect(QRectF(-20, -20, 40, 40))
-
-        
+    
+    #rectangulo en el rect de la scena
+    def drawBackground(self, painter: QPainter, rect: QRectF|QRect) -> None:
+        painter.setPen(QPen(Qt.black, 1))
+        painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
+        painter.drawRect(rect)
+        return super(ViewGraphicsSceneResult, self).drawBackground(painter, rect)
 
 
 
@@ -57,11 +65,14 @@ class ViewGraphicsViewResult(QGraphicsView):
 
         self.adjust_view_on_resize = False 
         self.adjust_view_on_show = 3 
+        
+        self.isModeColorBar = True
+        self.gradient = QLinearGradient()
 
         self.scale(1, -1)
         self.setStyleView()
 
-    def setStyleView(self, index=1):       
+    def setStyleView(self, index=0):       
         """ Establece el estilo de la vista.
         
         args:
@@ -73,7 +84,7 @@ class ViewGraphicsViewResult(QGraphicsView):
             # Crear un gradiente lineal vertical
             gradient = QLinearGradient(0, 0, 0, self.viewport().height())
             gradient.setColorAt(0, QColor("#ffffff"))
-            gradient.setColorAt(1, QColor("#ffffff"))
+            gradient.setColorAt(1, QColor("#fafafa"))
         
         elif index == 1:
             gradient = QRadialGradient(self.viewport().width() / 4, self.viewport().height() / 2,
@@ -173,7 +184,6 @@ class ViewGraphicsViewResult(QGraphicsView):
 
         super(ViewGraphicsViewResult, self).mousePressEvent(event)
 
-
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
         """Evento al mover el ratón, se emite una señal con
         las coordenadas de ratón  para ser mostradas en statusBar
@@ -186,14 +196,15 @@ class ViewGraphicsViewResult(QGraphicsView):
         self.scene().update()
         super(ViewGraphicsViewResult, self).mouseMoveEvent(event)
 
-
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:      
         if event.button() == Qt.MiddleButton:
             self.setDragMode(QGraphicsView.NoDrag)
             #self.viewport().setCursor(Qt.BlankCursor)
+        
   
 
         super(ViewGraphicsViewResult, self).mouseReleaseEvent(event)
+
 
 
 class GraphWidget(QGraphicsView):

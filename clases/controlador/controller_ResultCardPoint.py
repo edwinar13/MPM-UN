@@ -44,23 +44,24 @@ class ControllerResultCardPoint(QObject):
         self.signal_hide_show_point.emit({'id':self.id, 'show':value})
         self.view_card_point.ShowHidePoint(value)
     
+    @Slot(bool)
+    def showHideAllPoint(self, value):
+        self.view_card_point.ShowHidePoint(value)
+    
 
     @Slot()
     def deletePoint(self):
         self.signal_delete_point.emit(self.id)
+        del self
+        
+    def deleteAllSeries(self):        
+        self.view_card_point.deleteLater()
         del self
 
 
     @Slot()
     def updateColorPoint(self):        
         self.color = self.view_card_point.getColor()
-        '''
-        self.model_mesh.updateMesh(
-            id_mesh = self.id,
-            name=self.name,
-            color=self.color
-            )
-        '''
 
         self.signal_update_color_point.emit({'id':self.id, 'color':self.color})
 

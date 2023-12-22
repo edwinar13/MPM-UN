@@ -272,7 +272,10 @@ class ModelProjectCurrent(QObject):
     def __initResult(self):
 
         analysis_times = self.model_project_current_repository.readResultTimesDB()
+        graphic_time = self.model_project_current_repository.readResultTimesGraphicDB()
         result_nodes  = self.model_project_current_repository.readResultNodesDB()
+        result_min = self.model_project_current_repository.readResultMinDB()
+        result_max = self.model_project_current_repository.readResultMaxDB()
 
 
         self.model_result = ModelResult(
@@ -281,6 +284,9 @@ class ModelProjectCurrent(QObject):
             model_project_current_repository=self.model_project_current_repository,
             model_mesh_back=self.model_mesh_black,
             analysis_times=analysis_times,
+            graphic_time=graphic_time,
+            result_min=result_min,
+            result_max=result_max,
             result_nodes=result_nodes
             )
         

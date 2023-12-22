@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_executeFpMxiL.ui'
+## Form generated from reading UI file 'widget_draw_menu_executeoBCnpL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QListWidget, QListWidgetItem, QSizePolicy, QSpacerItem,
-    QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFrame, QHBoxLayout,
+    QLabel, QListWidget, QListWidgetItem, QSizePolicy,
+    QSpacerItem, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_FormDrawMenuExecute(object):
     def setupUi(self, FormDrawMenuExecute):
@@ -912,6 +912,31 @@ class Ui_FormDrawMenuExecute(object):
 
         self.verticalLayout_5.addWidget(self.frame_Execute1)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.label_textResultAnimation3_2 = QLabel(self.frame_info)
+        self.label_textResultAnimation3_2.setObjectName(u"label_textResultAnimation3_2")
+        self.label_textResultAnimation3_2.setMinimumSize(QSize(110, 0))
+        self.label_textResultAnimation3_2.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_4.addWidget(self.label_textResultAnimation3_2)
+
+        self.doubleSpinBoxl_textExecuteTimeAnalysis = QDoubleSpinBox(self.frame_info)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setObjectName(u"doubleSpinBoxl_textExecuteTimeAnalysis")
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setEnabled(True)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setDecimals(1)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMinimum(0.100000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMaximum(100.000000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setSingleStep(0.010000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setValue(1.000000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.doubleSpinBoxl_textExecuteTimeAnalysis)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_4)
+
         self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_5.addItem(self.verticalSpacer_2)
@@ -978,6 +1003,8 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_cardExecuteSubTitle1.setText("")
         self.label_textBoundary1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Puntos materiales", None))
         self.label_textBoundary3.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Contornos:", None))
+        self.label_textResultAnimation3_2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Tiempo de an\u00e1lisis:", None))
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setSuffix("")
         self.toolButton_Execute.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Ejecutar An\u00e1lisis", None))
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Empty", None))
     # retranslateUi

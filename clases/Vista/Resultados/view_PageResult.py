@@ -1,38 +1,17 @@
 
-from PySide6.QtCore import (Signal,QRectF,Qt,QPointF, QLineF,QSize,QEvent,Slot,QMimeData)
-from PySide6.QtWidgets import (QApplication, QVBoxLayout,QGraphicsRectItem, QGraphicsLineItem, QFrame, QGraphicsScene,QGraphicsView,QGraphicsItem,
-                            QGraphicsPolygonItem,QMenu,QTableWidgetItem,QHeaderView, QSplitter,QDockWidget, QGraphicsItemGroup, QFileDialog)
-from PySide6.QtGui import (QColor, QPen,QBrush,QClipboard,QActionGroup,
-                            QPainter,QPixmap,QPolygonF,
-                            QPainterPath,QFont,
-                            QKeyEvent,QShortcut, QKeySequence,
-                            QFocusEvent,QIcon,QUndoStack,QAction,QUndoCommand,QTransform)
+from PySide6.QtCore import (Qt,QMimeData)
+from PySide6.QtWidgets import (QApplication, QFrame, QMenu,QTableWidgetItem,QHeaderView)
+from PySide6.QtGui import (QActionGroup,QAction)
 from ui.ui_frame_result import Ui_FormResult
-from clases.Vista.view_GraphicsDraw import PointItem,LineItem,TextItem
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 class ViewPageResult(QFrame, Ui_FormResult):
-    """Esta clase crea el QFrame draw para agregarlo a main window. """ 
-
-    signal_scene_type_result = Signal()
-    signal_scene_regress = Signal()
-    signal_scene_stop = Signal()    
-    signal_scene_play = Signal()    
-    signal_scene_advance = Signal()
-
-    signal_chart_add_card = Signal()
-    signal_chart_type_result = Signal()
-    signal_chart_type_style = Signal()
-
-    signal_table_search_point = Signal()
-    signal_table_all_point = Signal()
  
     def __init__(self, parent = None, ):
         super(ViewPageResult, self).__init__(parent)
         self.setupUi(self)
 
-        self.list_view_card =[]
         self.list_graphics=[]
 
         # Configura la UI
@@ -45,108 +24,68 @@ class ViewPageResult(QFrame, Ui_FormResult):
     def __configUi(self):
         """ Configura la interface de usuario (ui) """
 
-        # ::::::::::   AJUSTA LA ESCENA  ::::::::::::
-        self.icon_play = QIcon()
-        self.icon_play.addFile(u"recursos/iconos/icono_result/play.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.icon_pause = QIcon()
-        self.icon_pause.addFile(u"recursos/iconos/icono_result/pause.svg", QSize(), QIcon.Normal, QIcon.Off)
-        
         # ::::::::::   AJUSTA LA GRÁFICA  ::::::::::::
         self.fig, self.ax = plt.subplots()
         self.ax.grid(True)        
         self.canvas = FigureCanvas(self.fig)
         self.verticalLayout_chart.addWidget(self.canvas)
-        self.setTitleChart("Coordenada X")
+        self.title ="Coordenada X"
+        self.islabel = False
+        self.setTitleChart(self.title)
         self.setLabelXChart("Tiempo (??)")
         self.setLabelYChart("Desplazamiento (??)")
-
-        # ::::::::::   AJUSTA LA TABLA DE RESUMEN  ::::::::::::
-        result_column_names = ('ID Nodo', 'dt', 'cor x', 'cor y',
-                                        'sigxx', 'sigyy', 'sigxy',
-                                        'epsxx', 'epsyy', 'epsxy', 'Todos')
-        self.menu_tableHideShowColumn = QMenu(self)
-        for index, column in enumerate(result_column_names, start=0):
-            action = QAction(column, self.menu_tableHideShowColumn)
-            if index != 10:
-                action.setCheckable(True)
-                action.setChecked(True)
+ 
+        #:::::::::::::::::::   EVENTO HOVER   ::::::::::::::::::::::::::::::::::::
+        def hover(event):
+            # Si el ratón está dentro de los ejes
+            if event.inaxes == self.ax and self.islabel:
+                # Se obtiene la posición del ratón en coordenadas de datos
+                x, y = event.xdata, event.ydata
+                # Se actualiza la posición del texto
+                self.ax.format_coord = lambda x, y: f'{self.title} → x={x:.2f}, y={y:.2f}'
+                # Se actualiza el texto
+                self.ax.set_title(self.ax.format_coord(x, y))
+                # Se actualiza la gráfica
+                self.canvas.draw()
             else:
-                self.menu_tableHideShowColumn.addSeparator()
-            action.setData(index)
-            self.menu_tableHideShowColumn.addAction(action)
-        self.pushButton_tableShowHideColumn.setMenu(self.menu_tableHideShowColumn)
+                self.setTitleChart(self.title)                            
+        # Se conecta el evento de movimiento del ratón con la función hover
+        self.fig.canvas.mpl_connect('motion_notify_event', hover)
+        
+        # ::::::::::   AJUSTA LA TABLA DE RESUMEN  ::::::::::::      
         self.tableWidget_tableResult.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableWidget_tableResult.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.tableWidget_tableResult.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) 
         self.copy_information = QApplication.clipboard()
+        self.tabWidget.setCurrentIndex(0)
+        
 
     def __initEventUi(self):
-        """ Asigna las ranuras (Slot) a las señales (Signal). """   
-        # ::::::::::::::::::::      EVENTOS PAGE SCENE     ::::::::::::::::::::
-        self.comboBox_sceneTypeResult.currentIndexChanged.connect(self.__currentIndexChangedComboBoxSceneTypeResult)
-        self.toolButton_sceneRegress.clicked.connect(self.__clickedToolButtonSceneRegress)
-        self.toolButton_scenePlay.clicked.connect(self.__clickedToolButtonScenePlay)
-        self.toolButton_sceneStop.clicked.connect(self.__clickedToolButtonSceneStop)
-        self.toolButton_sceneAdvance.clicked.connect(self.__clickedToolButtonSceneAdvance)
-        
-        # ::::::::::::::::::::      EVENTOS PAGE CHART     ::::::::::::::::::::
-        self.comboBox_chartTypeResult.currentIndexChanged.connect(self.__currentIndexChangedComboBoxChartTypeResult)
-        self.toolButton_chartTypeStyle.clicked.connect(self.__clickedToolButtonChangeChartTypeStyle)
-        self.toolButton_chartAddPoint.clicked.connect(self.__clickedToolButtonChartAddPoint)
+        """ Asigna las ranuras (Slot) a las señales (Signal). """           
 
-        # ::::::::::::::::::::      EVENTOS PAGE TABLE     ::::::::::::::::::::
-        self.lineEdit_tableSearchByPointId.textEdited.connect(self.__textEditedLineEditTableSearchByPointId)
-        self.menu_tableHideShowColumn.triggered.connect(self.__triggeredMenuTableHideShowColumn)
+        # ::::::::::::::::::::      EVENTOS PAGE TABLE     ::::::::::::::::::::   
+        self.tabWidget.currentChanged.connect(self.__currentChangedTabWidget)
         self.tableWidget_tableResult.customContextMenuRequested.connect(self.__customContextMenuRequestedTableWidgetTableResult)
-        self.pushButton_tableSearchAllPoints.clicked.connect(self.__clickedToolButtonTableSearchAllPoints)
         
+                  
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
 
-    # ::::::::::::::::::::      EVENTOS PAGE SCENE     ::::::::::::::::::::
-    def __currentIndexChangedComboBoxSceneTypeResult(self):
-        self.signal_scene_type_result.emit()
-
-    def __clickedToolButtonSceneRegress(self):
-        self.signal_scene_regress.emit()
+    # ::::::::::::::::::::      EVENTOS PAGE RESULT     ::::::::::::::::::::
+    def __currentChangedTabWidget(self, index):
         
-    def __clickedToolButtonSceneStop(self):
-        self.signal_scene_stop.emit()
-
-    def __clickedToolButtonScenePlay(self):
-        self.signal_scene_play.emit()
-
-    def __clickedToolButtonSceneAdvance(self):
-        self.signal_scene_advance.emit()
-
-    # ::::::::::::::::::::      EVENTOS PAGE CHART     ::::::::::::::::::::
-    def __currentIndexChangedComboBoxChartTypeResult(self):
-        self.signal_chart_type_result.emit()
-
-    def __clickedToolButtonChangeChartTypeStyle(self):
-        self.signal_chart_type_style.emit()
-
-    def __clickedToolButtonChartAddPoint(self):
-        self.signal_chart_add_card.emit()
-
+        self.drawMenuAnimation.setVisible(False)
+        self.drawMenuGraph.setVisible(False)
+        self.drawMenuTable.setVisible(False)
+        if index == 0:
+            self.drawMenuAnimation.setVisible(True)
+        elif index == 1:
+            self.drawMenuGraph.setVisible(True)
+        elif index == 2:
+            self.drawMenuTable.setVisible(True)
+            
     # ::::::::::::::::::::      EVENTOS PAGE TABLE     ::::::::::::::::::::
-    def __textEditedLineEditTableSearchByPointId(self):
-        self.signal_table_search_point.emit()
-
-    def __triggeredMenuTableHideShowColumn(self, action):
-        column_select = action.data()
-        if column_select == 10: #mostrar todos 
-            for column in range(0,10):
-                self.tableWidget_tableResult.setColumnHidden(column, False)
-            for action in self.menu_tableHideShowColumn.actions():
-                action.setChecked(True)
-        else:
-            if action.isChecked():
-                self.tableWidget_tableResult.setColumnHidden(column_select, False)
-            else:
-                self.tableWidget_tableResult.setColumnHidden(column_select, True)
-
     def __customContextMenuRequestedTableWidgetTableResult(self, position):
         indices = self.tableWidget_tableResult.selectedIndexes()
         if indices:
@@ -165,52 +104,45 @@ class ViewPageResult(QFrame, Ui_FormResult):
             itemsGrupo.triggered.connect(self.copyTableWidgetItem)            
             menu.exec(self.tableWidget_tableResult.viewport().mapToGlobal(position))
 
-    def __clickedToolButtonTableSearchAllPoints(self):
-        self.signal_table_all_point.emit()
+ 
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
 	###############################################################################
 
-    # ::::::::::::::::::::      GET/SET PAGE SCENE     ::::::::::::::::::::
-    def getTypeResultScene(self):
-        return self.comboBox_sceneTypeResult.currentText()
     
     def setViewGraphicsWidget(self, view_graphics):         
         self.verticalLayout_pointMaterial.addWidget(view_graphics)        
-    
-    # ::::::::::::::::::::      GET/SET PAGE CHART     ::::::::::::::::::::
-    def getIdPointGraphics(self):
-        return self.lineEdit_chartPointName.text()
-    
-    def getTypeResult(self):
-        return self.comboBox_chartTypeResult.currentText()
-    
-    # ::::::::::::::::::::      GET/SET  PAGE TABLE     ::::::::::::::::::::
-    def getIdPointSearch(self):
-        return self.lineEdit_tableSearchByPointId.text()
-
-
-
-
-    ###############################################################################
-	# ::::::::::::::::::::       MÉTODOS  GENERALES SCENE      ::::::::::::::::::::
-	###############################################################################
-
-    def stopAnimation(self):
-        self.toolButton_scenePlay.setIcon(self.icon_play)
+                  
+    def setMenuWidget(self, menu, view_menu):
         
-    def playPauseAnimation(self, play):
-        if play:            
-            self.toolButton_scenePlay.setIcon(self.icon_pause)            
-        else :            
-            self.toolButton_scenePlay.setIcon(self.icon_play)   
+        if menu == "animation":
+            self.drawMenuAnimation = view_menu
+            self.horizontalLayout_result.addWidget(self.drawMenuAnimation)
+            self.drawMenuAnimation.setVisible(True)
 
+        elif menu == "graph":
+            self.drawMenuGraph = view_menu
+            self.horizontalLayout_result.addWidget(self.drawMenuGraph)
+            self.drawMenuGraph.setVisible(False)
+
+        elif menu == "summary_table":
+            self.drawMenuTable = view_menu
+            self.horizontalLayout_result.addWidget(self.drawMenuTable)
+            self.drawMenuTable.setVisible(False)
+            
     ###############################################################################
 	# ::::::::::::::::::::       MÉTODOS  GENERALES CHART      ::::::::::::::::::::
 	###############################################################################
 
-    def setTitleChart(self, title:str):        
+    def setHideShowLabel(self, hide_show):
+        self.islabel = hide_show
+        if not hide_show:            
+            self.setTitleChart(self.title)
+            self.canvas.draw()
+
+    def setTitleChart(self, title:str): 
+        self.title = title       
         self.ax.set_title(title.upper(),fontweight ="bold")
 
     def setLabelXChart(self, label_x:str):
@@ -220,12 +152,13 @@ class ViewPageResult(QFrame, Ui_FormResult):
         self.ax.set_ylabel(label_y)
 
     def setYAxisLimitsChart(self, ymin, ymax):
+        
         self.ax.set_ylim(ymin, ymax)
         self.canvas.draw()
     
     def setDatePointChart(self,x, y, label_name:str):
         line, = self.ax.plot(x,y,label=label_name)   
-        self.ax.legend()
+        self.ax.legend(ncol=4)
         color = line.get_color()    
         self.list_graphics.append(line)
         return color
@@ -234,15 +167,23 @@ class ViewPageResult(QFrame, Ui_FormResult):
         for line in self.list_graphics:
             if id_point == line.get_label():
                 line.set_color(color) 
-        self.ax.legend()
+        self.ax.legend(ncol=4)
         self.canvas.draw()
 
     def showPointChart(self, id_point, is_visible):
         for line in self.list_graphics:
             if id_point == line.get_label():                
                 line.set_visible(is_visible)
-        self.ax.legend()
+        self.ax.legend(ncol=4)
         self.canvas.draw()
+        
+    def showAllPointChart(self, show_series):
+        for line in self.list_graphics:               
+            line.set_visible(show_series)
+        self.ax.legend(ncol=4)
+        self.canvas.draw()
+        
+    
 
     def deletePointChart(self, id_point):
         for line in self.list_graphics:
@@ -250,9 +191,16 @@ class ViewPageResult(QFrame, Ui_FormResult):
                 self.list_graphics.remove(line)
                 line.remove()
         if len(self.list_graphics)>0:
-            self.ax.legend()
+            self.ax.legend(ncol=4)
         else:
             self.ax.legend([])
+        self.canvas.draw()
+        
+    def deleteAllPointChart(self):
+        for line in self.list_graphics:               
+            line.remove()
+        self.list_graphics.clear()
+        self.ax.legend([])
         self.canvas.draw()
 
     def changeTypeResultChart(self, id_point, y_new):
@@ -278,7 +226,7 @@ class ViewPageResult(QFrame, Ui_FormResult):
                 line.set_markevery(True) 
 
         if len(self.list_graphics)>0:
-            self.ax.legend()
+            self.ax.legend(ncol=4)
         else:
             self.ax.legend([])
         self.canvas.draw()
@@ -287,18 +235,19 @@ class ViewPageResult(QFrame, Ui_FormResult):
 	# ::::::::::::::::::::       MÉTODOS  GENERALES TABLE      ::::::::::::::::::::
 	###############################################################################
 
+
     def clearViewTableResult(self):      
         self.tableWidget_tableResult.clearContents()
         self.tableWidget_tableResult.setRowCount(0)
 
-    def updateViewTableResult(self, data): 
-        return     
+    def updateViewTableResult(self, data, data_time=None): 
+        
+        row = 0        
         self.tableWidget_tableResult.clearContents()
         self.tableWidget_tableResult.setRowCount(0)
-                  
-        row = 0
+                              
         for data_node in data:
-            dt = data[data_node]['TIEMPOS']
+            dt = data_time
             corx = data[data_node]['CORX']
             cory = data[data_node]['CORY']    
 
@@ -354,10 +303,7 @@ class ViewPageResult(QFrame, Ui_FormResult):
                 self.tableWidget_tableResult.setItem(row, 9, epsxy_i)
 
                 row += 1
-    
-    def clearLineEdit(self):
-        self.lineEdit_tableSearchByPointId.setText('')
-
+                
     def copyTableWidgetItem(self, action):
         rows_selected = self.tableWidget_tableResult.selectedIndexes()
 
@@ -392,15 +338,15 @@ class ViewPageResult(QFrame, Ui_FormResult):
 
         mime_data.setText(selected_data)
         clipboard.setMimeData(mime_data)
-
-    def addCardPoint(self, card_point):
+       
+    def hideShowColumnTable(self, dict_data):
+        column_select = dict_data['column']
+        cheked = dict_data['checked']
         
-        self.verticalLayout_containerCardPoint.insertWidget(0,card_point)
-        self.list_view_card.append(card_point)
-        return
-        last_index = self.verticalLayout_containerCardPoint.count() - 1
-        self.verticalLayout_containerCardPoint.insertWidget(last_index, self.frame_empt)
-        last_index = self.verticalLayout_containerCardPoint.count() - 1
-        self.verticalLayout_containerCardPoint.insertWidget(last_index, self.verticalSpacer)
-
-
+        if column_select == 10: #mostrar todos 
+            for column in range(0,10):
+                self.tableWidget_tableResult.setColumnHidden(column, False)
+        else:            
+            self.tableWidget_tableResult.setColumnHidden(column_select, not cheked)
+        
+        

@@ -9,7 +9,7 @@ from clases.Modelo.model_ProjectCurrent import ModelProjectCurrent
 
 from clases.Controlador.controller_PageHome import ControllerPageHome
 from clases.Controlador.controller_PageDraw import ControllerPageDraw
-from clases.Controlador.controller_PageResult import ControllerPageResult
+from clases.Controlador.Resultados.controller_PageResult import ControllerPageResult
 from clases.Controlador.controller_PageSetting import ControllerPageSetting
 from clases.class_ui_dialog_msg import DialogMsg
 

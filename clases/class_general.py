@@ -9,6 +9,7 @@ from PySide6.QtCore import (QEvent, QSize,QObject)
 from PySide6.QtGui import (QPainter,QFontMetrics,Qt)
 from PySide6.QtWidgets import ( QLabel)
 
+
 class QLabelVertical(QLabel):
     """Crear un QLabel en formato vertical.
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDrawMenuExecute</class>
- <widget class="QWidget" name="FormDrawMenuExecute">
+ <class>FormMenuResultGraph</class>
+ <widget class="QWidget" name="FormMenuResultGraph">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>809</height>
+    <height>673</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,7 +70,9 @@ padding: 2px 0px;
 
 
 
-QFrame#frame_ExecuteProject{
+
+
+QFrame#frame_ResultAnimationProject{
 background: #333333;
 border-radius: 8px
 }
@@ -94,21 +96,23 @@ background-color: transparent;
 
 
 /*#################################################################*/
-/*####################       FRAME boundary       ###########################*/
+/*####################       FRAME ResultAnimation       ###########################*/
 /*#################################################################*/
-QFrame#frame_Execute{
+QFrame#frame_ResultAnimation{
 background: transparent;
 }
 QFrame#frame_title{
 background: #222222;
 border-top-right-radius: 8px;
 }
-QLabel#label_cardBoundaryTitle{
+QLabel#label_cardMeshTitle{
 font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-QFrame#frame_ExecuteSubTitle1,
-QFrame#frame_ExecuteSubTitle2{
+QFrame#frame_ResultAnimationSubTitle0,
+QFrame#frame_ResultAnimationSubTitle1,
+QFrame#frame_ResultAnimationSubTitle2,
+QFrame#frame_ResultAnimationSubTitle3{
 background: #222222;
 border-radius:2px;
 }
@@ -131,9 +135,9 @@ border-radius:2px;
 
 
 
-QToolButton#toolButton_cardBoundaryDraw7,
-QToolButton#toolButton_cardBoundaryDraw5,
-QToolButton#toolButton_cardBoundaryDraw6{
+QToolButton#toolButton_cardResultAnimationDraw7,
+QToolButton#toolButton_cardResultAnimationDraw5,
+QToolButton#toolButton_cardResultAnimationDraw6{
 background-color: transparent;
 border: 1px solid #222222;
 border-radius: 3px;
@@ -141,14 +145,14 @@ margin-left: 4px;
 }
 
 
-QToolButton#toolButton_cardBoundaryDraw7:hover,
-QToolButton#toolButton_cardBoundaryDraw5:hover, 
-QToolButton#toolButton_cardBoundaryDraw6:hover{ 
+QToolButton#toolButton_cardResultAnimationDraw7:hover,
+QToolButton#toolButton_cardResultAnimationDraw5:hover, 
+QToolButton#toolButton_cardResultAnimationDraw6:hover{ 
 background-color: #444444;
 }
-QToolButton#toolButton_cardBoundaryDraw7:pressed,
-QToolButton#toolButton_cardBoundaryDraw5:pressed,
-QToolButton#toolButton_cardBoundaryDraw6:pressed{
+QToolButton#toolButton_cardResultAnimationDraw7:pressed,
+QToolButton#toolButton_cardResultAnimationDraw5:pressed,
+QToolButton#toolButton_cardResultAnimationDraw6:pressed{
 border-top: 2px solid #222222;
 border-left: 2px solid #222222;
 }  
@@ -162,7 +166,7 @@ border-left: 2px solid #222222;
 /*###########################################################*/
 
 QScrollArea#scrollArea,
-#verticalLayout_containerCardBoundary,
+#verticalLayout_containerCardResultAnimation,
 #scrollAreaWidgetContents{
 background-color: transparent;
 }
@@ -222,6 +226,8 @@ QScrollBar::sub-line:vertical:hover{
 QScrollBar::sub-line:vertical:pressed{
     background-color: #666666;
 }
+
+
 
 /*BOTTON*/
 QScrollBar::add-line:vertical{
@@ -321,7 +327,8 @@ background: none;
 
 
 
-QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;]{
+QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;],
+QSpinBox[QSpinBoxStyle=&quot;1&quot;]{
 font: 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #444444;
@@ -331,7 +338,36 @@ padding-left: 6px;
 
 }
 
+
+
+QGroupBox{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+border-radius: 2px ;
+padding-top: 8px;
+border: 1px solid #666666;
+}
+
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+QToolButton[QToolButtonStyle=&quot;0&quot;]{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 1px;
+}
+
+QToolButton[QToolButtonStyle=&quot;0&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;0&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
 
 
 QToolButton[QToolButtonStyle=&quot;1&quot;]{
@@ -454,24 +490,7 @@ QToolButton[QToolButtonStyle=&quot;8&quot;] {
 }
 
 
-/*******************************************/
-QToolButton[QToolButtonStyle=&quot;9&quot;]{
-font: 500 14pt &quot;Ubuntu&quot;;
-color: #222222;
-background-color: #34eb98;
-border: none;
-padding: 6px 6px;
-border-radius: 8px ;
-}
-QToolButton[QToolButtonStyle=&quot;9&quot;]:hover{
-background-color: #15ab67;
-}
 
-/* 
-Azules #36C9C6 #00BDB9 #77ACA2
-rojos #910D3F #C70039 #F94646
-naranjas #D34E24 #F28123 #F7F052
-*/
 
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
 
@@ -501,7 +520,7 @@ padding-left: 6px;
 
 
 
-QLineEdit#lineEdit_textBoundary3{
+QLineEdit#lineEdit_textResultAnimation3{
 font: 7pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 background-color: #333333;
@@ -514,8 +533,8 @@ padding-left: 2px;
 
 
 /*
-QLineEdit#lineEdit_textMesh3,
-QLineEdit#lineEdit_textMesh5{
+QLineEdit#lineEdit_textResultAnimation3,
+QLineEdit#lineEdit_textResultAnimation5{
 color: #888888;
 }
 */
@@ -555,6 +574,29 @@ font: 300 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
 
+QLabel[QLabelStyle=&quot;4&quot;] {
+font: 900 25pt &quot;Ubuntu&quot;;
+color: #77ACA2;
+}
+QLabel[QLabelStyle=&quot;5&quot;] {
+font: 300 8pt &quot;Ubuntu&quot;;
+color: #aaa;
+}
+
+
+/*Colores primarios*/
+/* 
+gris oscuro #222222 #333333 #444444
+gris claro #999999 #DDDDDD
+verde claro #C8CC8E
+vinotinto #742427
+*/
+/*Colores secundarios */
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
 
 
 
@@ -575,8 +617,6 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
     selection-background-color: #808080;
     font: 700 9pt &quot;Ubuntu&quot;;
 }
-
-
 
 
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QCheckBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
@@ -601,63 +641,9 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
 	 border-radius: 3px;
 }
 
-
-
-/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QListView            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
-
-QListWidget[QListWidgetStyle=&quot;1&quot;] {
-	color: #DDDDDD;
-    background-color: #333;
-	font:  9pt &quot;Ubuntu&quot;;
- 	border: 1px solid #444;
-	border-radius: 5px;
-	
-    }
-
-QListWidget[QListWidgetStyle=&quot;1&quot;]::item {
-	border: 1px solid #808080;
-    border-radius: 5px;
-	padding: 2px 0px;
-background-color: #928ECC;
-color: #222;
-    }
-
-QListWidget[QListWidgetStyle=&quot;1&quot;]::item:selected {
-        color: #444444;
-        background-color: #DDDDDD;
-    }
-
-
-QListWidget[QListWidgetItemStyle=&quot;2&quot;]::item {
-	border: 1px solid #808080;
-    border-radius: 5px;
-	padding: 2px 0px;
-	background-color: #C8CC8E;
-	color: #222;
-    }
-
-
-
-
-
-/* 
-gris oscuro #222222 #333333 #444444
-gris claro #999999 #DDDDDD
-verde claro #C8CC8E
-vinotinto #742427
-*/
-/*Colores secundarios */
-/* 
-Azules #36C9C6 #00BDB9 #77ACA2
-rojos #910D3F #C70039 #F94646
-naranjas #D34E24 #F28123 #F7F052
-*/
 </string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_6">
-   <property name="spacing">
-    <number>0</number>
-   </property>
+  <layout class="QFormLayout" name="formLayout">
    <property name="leftMargin">
     <number>5</number>
    </property>
@@ -670,8 +656,8 @@ naranjas #D34E24 #F28123 #F7F052
    <property name="bottomMargin">
     <number>5</number>
    </property>
-   <item>
-    <widget class="QFrame" name="frame_ExecuteProject">
+   <item row="0" column="0">
+    <widget class="QFrame" name="frame_ResultAnimationProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -839,7 +825,7 @@ naranjas #D34E24 #F28123 #F7F052
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_Execute">
+       <widget class="QFrame" name="frame_ResultAnimation">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -899,9 +885,9 @@ naranjas #D34E24 #F28123 #F7F052
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLabel" name="label_cardExecuteTitle">
+             <widget class="QLabel" name="label_cardResultAnimationTitle">
               <property name="text">
-               <string>ANÁLISIS</string>
+               <string>GRÁFICAS</string>
               </property>
               <property name="QLabelStyle" stdset="0">
                <number>1</number>
@@ -934,7 +920,340 @@ naranjas #D34E24 #F28123 #F7F052
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_ExecuteSubTitle1">
+             <widget class="QFrame" name="frame_ResultAnimationSubTitle1">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_cardResultAnimationSubTitle1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>262</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Datos de visualización</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_cardResultAnimationSubTitle1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../recursos/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_ResultAnimation1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QFrame" name="frame_3">
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QFormLayout" name="formLayout_2">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_text_char1">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Graficar:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QComboBox" name="comboBox_chartTypeResult">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::WheelFocus</enum>
+                    </property>
+                    <property name="QComboBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Coordenada X</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Coordenada Y</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>sigxx</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>sigyy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>sigxy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>epsxx</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>epsyy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>epsxy</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_text_chart2">
+                    <property name="minimumSize">
+                     <size>
+                      <width>85</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>85</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Punto material:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QLineEdit" name="lineEdit_chartPointName">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>200</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="toolTip">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;Puede buscar por id como 1 o 2 o 3 etc. O por conjuntos separados por coma, por ejemplo 1,2,3…&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="placeholderText">
+                       <string>id puntos</string>
+                      </property>
+                      <property name="QLineEditStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_chartAddPoint">
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../recursos/iconos/icono_result/add.svg</normaloff>../recursos/iconos/icono_result/add.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="arrowType">
+                       <enum>Qt::NoArrow</enum>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_text_chart2_3">
+                    <property name="minimumSize">
+                     <size>
+                      <width>85</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>85</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Tipo de gráfica</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QToolButton" name="toolButton_chartTypeStyle">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>35</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <normaloff>../recursos/iconos/icono_result/graphics.svg</normaloff>../recursos/iconos/icono_result/graphics.svg</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>30</width>
+                      <height>15</height>
+                     </size>
+                    </property>
+                    <property name="QToolButtonStyle" stdset="0">
+                     <number>0</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_text_chart2_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>NOTA: los puntos materiales se pueden seleccionar, por id como 1 o 2 o 3 etc. Por conjuntos de ids separados por coma, por ejemplo 1,2,3… o por rangos de ids separados por dos puntos ejemplo 5:10</string>
+                 </property>
+                 <property name="textFormat">
+                  <enum>Qt::PlainText</enum>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_ResultAnimationSubTitle0">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -958,23 +1277,74 @@ naranjas #D34E24 #F28123 #F7F052
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardExecuteSubTitle1">
+                <widget class="QLabel" name="label_textResultAnimation1_2">
                  <property name="minimumSize">
                   <size>
-                   <width>262</width>
+                   <width>110</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>Datos</string>
+                  <string>Estilos de colores:</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
-                  <number>2</number>
+                  <number>3</number>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardExecuteSubTitle1">
+                <widget class="QToolButton" name="toolButton_deleteSeries">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/delete.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/delete.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_showHideLabel">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_showHideSeries">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../recursos/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_cardResultAnimationSubTitle0">
                  <property name="text">
                   <string/>
                  </property>
@@ -994,7 +1364,19 @@ naranjas #D34E24 #F28123 #F7F052
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_Execute1">
+             <widget class="QFrame" name="frame_ResultAnimation3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -1004,257 +1386,73 @@ naranjas #D34E24 #F28123 #F7F052
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
                <item>
-                <widget class="QLabel" name="label_textBoundary1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>110</width>
-                   <height>0</height>
-                  </size>
+                <widget class="QScrollArea" name="scrollArea">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: transparent;
+border: none;</string>
                  </property>
-                 <property name="text">
-                  <string>Puntos materiales</string>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
                  </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>3</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_8">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_22">
-                  <property name="spacing">
-                   <number>5</number>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>278</width>
+                    <height>130</height>
+                   </rect>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QListWidget" name="listWidget_execute_pointMaterialFrom">
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
-                    <property name="QListWidgetStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QListWidget" name="listWidget_execute_pointMaterialTo">
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
-                    <property name="QListWidgetStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                    <property name="QListWidgetItemStyle" stdset="0">
-                     <number>2</number>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                 <zorder>listWidget_execute_pointMaterialTo</zorder>
-                 <zorder>listWidget_execute_pointMaterialFrom</zorder>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_textBoundary3">
-                 <property name="minimumSize">
-                  <size>
-                   <width>110</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Contornos:</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>3</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_9">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_23">
-                  <property name="spacing">
-                   <number>5</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QListWidget" name="listWidget_execute_boundariesFrom">
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
-                    <property name="QListWidgetStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QListWidget" name="listWidget_execute_boundariesTo">
-                    <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarAlwaysOff</enum>
-                    </property>
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
-                    <property name="QListWidgetStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                    <property name="QListWidgetItemStyle" stdset="0">
-                     <number>2</number>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_containerCardPoint">
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QFrame" name="frame_empty">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true"/>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Raised</enum>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
                 </widget>
                </item>
               </layout>
              </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <item>
-               <widget class="QLabel" name="label_textResultAnimation3_2">
-                <property name="minimumSize">
-                 <size>
-                  <width>110</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Tiempo de análisis:</string>
-                </property>
-                <property name="QLabelStyle" stdset="0">
-                 <number>3</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBoxl_textExecuteTimeAnalysis">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>120</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="suffix">
-                 <string/>
-                </property>
-                <property name="decimals">
-                 <number>1</number>
-                </property>
-                <property name="minimum">
-                 <double>0.100000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>100.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.010000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.000000000000000</double>
-                </property>
-                <property name="QDoubleSpinBoxStyle" stdset="0">
-                 <number>1</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </item>
             <item>
              <spacer name="verticalSpacer_2">
@@ -1271,57 +1469,6 @@ naranjas #D34E24 #F28123 #F7F052
                </size>
               </property>
              </spacer>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QToolButton" name="toolButton_Execute">
-                <property name="minimumSize">
-                 <size>
-                  <width>180</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Ejecutar Análisis</string>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>../recursos/iconos/iconos_analisis/excute.svg</normaloff>../recursos/iconos/iconos_analisis/excute.svg</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="popupMode">
-                 <enum>QToolButton::InstantPopup</enum>
-                </property>
-                <property name="toolButtonStyle">
-                 <enum>Qt::ToolButtonTextBesideIcon</enum>
-                </property>
-                <property name="autoRaise">
-                 <bool>false</bool>
-                </property>
-                <property name="arrowType">
-                 <enum>Qt::RightArrow</enum>
-                </property>
-                <property name="QToolButtonStyle" stdset="0">
-                 <number>9</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">

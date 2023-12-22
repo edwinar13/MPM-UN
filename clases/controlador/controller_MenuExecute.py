@@ -105,6 +105,7 @@ class ControllerMenuExecute(QObject):
         
         list_point_material = self.view_menu_execute.getListExecutePointMaterial()
         list_boundaries = self.view_menu_execute.getListExecuteBoundaries()
+        time_analysis = self.view_menu_execute.getTimeAnalysis()
         if not list_point_material:
             loading_popup.close()
             self.view_menu_execute.msnAlertDefault(True,"Selecciona los puntos materiales")
@@ -114,7 +115,7 @@ class ControllerMenuExecute(QObject):
             self.view_menu_execute.msnAlertDefault(True,"Selecciona los contornos")
             return
         
-        state_ok = self.analysisViga(list_boundaries, list_point_material)
+        state_ok = self.analysisViga(list_boundaries, list_point_material, time_analysis)
         if state_ok:
             loading_popup.close()
             self.view_menu_execute.msnAlertDefault(False,"Análisis ejecutado")
@@ -150,7 +151,7 @@ class ControllerMenuExecute(QObject):
         return result
 
 
-    def analysisViga(self,list_boundaries, list_point_material):
+    def analysisViga(self,list_boundaries, list_point_material, time_analysis):
         t0 = tm.time()	
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
         #::::::::::::::::::::: malla fondo ::::::::::::::::::::::::
@@ -301,7 +302,7 @@ class ControllerMenuExecute(QObject):
         Vp = (ele_size**2) / nmpe*np.ones(nmp)      # [1. 1. 1.]
         Vp0 = (ele_size**2) / nmpe*np.ones(nmp)     # [1. 1. 1.]
         #↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REVISAR
-        rhop = 2.0 * np.ones(nmp)                   # [2. 2. 2.] 
+        rhop = 3.0 * np.ones(nmp)                   # [2. 2. 2.] 
         Mp = np.multiply(rhop, Vp)                  # [2. 2. 2.]
         '''
         print("nmp",nmp)
@@ -419,7 +420,7 @@ class ControllerMenuExecute(QObject):
         # Lista de tiempos para graficar segun timepo maximo y dtimegraphic     :: tiempographic
         #        :: 
 
-        time_ini = 50
+        time_ini = time_analysis
 
         dtime = deltatime(Prop[:,0], Prop[:,1], rhop, ele_size, 0.5)
         time = math.ceil(time_ini / dtime) * dtime
@@ -436,6 +437,8 @@ class ControllerMenuExecute(QObject):
             dtimegraphic = dtime 
     
         tiempographic = np.arange(0, time, dtimegraphic)
+        
+        
         '''
         print("time_ini",time_ini)
         print("dtime",dtime)
@@ -491,16 +494,27 @@ class ControllerMenuExecute(QObject):
 
         for t in range(len(tiempo)):
             #print(t)
+            '''
             if t >= 22256:
                 #exit for
                 break
+            '''
             mp_elem, active_elem = search_MP(mp_elem, xp, ele_size, nelex)
             '''
             print("Tamaño de inci:", inci.shape)
             print("Índice a acceder:", active_elem)
             print("--------------------------")
             '''
-            active_nodes = np.unique(inci[active_elem-1, :])
+            try:
+                active_nodes = np.unique(inci[active_elem-1, :])
+            except:
+                print("Error en el tiempo: ", t)
+                print("Tamaño de inci:", inci.shape)
+                print("Índice a acceder:", active_elem)
+                print("--------------------------")
+                tiempo = tiempo[:t]
+                break
+            
 
             grid = inci, cor, active_elem, active_nodes, mp_elem
             particle = xp, vp, Vp, Mp, sig, bp, tp
@@ -508,7 +522,7 @@ class ControllerMenuExecute(QObject):
             nforce = niforce + neforce
 
             #↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REVISAR
-            dampfac = 0.00
+            dampfac = 0.0
             ndamping = dampfac * (np.multiply(np.absolute(nforce),np.sign(nmomentum)))
             nforce = nforce + ndamping
             nmomentum += nforce*dtime
@@ -543,14 +557,38 @@ class ControllerMenuExecute(QObject):
         print("tiempo", tf- t0)
 
 
-
+        self.model_result.clearResult()
+        
         self.model_result.updateResultTimes(
             analysis_times=tiempo.tolist()
         )
+        self.model_result.updateResultTimeGraphic(
+            graphic_time=tiempographic.tolist()
+        )
+        self.model_result.updateResultMin(
+            corx=corX.min(),
+            cory=corY.min(),
+            sigxx=sigxx.min(),
+            sigyy=sigyy.min(),
+            sigxy=sigxy.min(),
+            epsxx=epsxx.min(),
+            epsyy=epsyy.min(),
+            epsxy=epsxy.min()
+        )
+        self.model_result.updateResultMax(
+            corx=corX.max(),
+            cory=corY.max(),
+            sigxx=sigxx.max(),
+            sigyy=sigyy.max(),
+            sigxy=sigxy.max(),
+            epsxx=epsxx.max(),
+            epsyy=epsyy.max(),
+            epsxy=epsxy.max()
+        )
+        
         for node in range(len(corX)):
             self.model_result.addResultNode(
                 id_result_node=node+1, 
-                times=tiempographic.tolist(),
                 corx=corX.tolist()[node],
                 cory=corY.tolist()[node],
                 sigxx=sigxx.tolist()[node],
@@ -563,6 +601,7 @@ class ControllerMenuExecute(QObject):
         
         self.model_result.updateResult()
         self.signal_enable_results.emit()
+        #falta eliminar datos de resultdos anteriores
         #graphic_button(corX, corY, sigxx, 4*Vp0[0],tiempographic, dx_size, dy_size)
 
         return True
