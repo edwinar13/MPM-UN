@@ -32,7 +32,7 @@ class ViewPageResult(QFrame, Ui_FormResult):
         self.title ="Coordenada X"
         self.islabel = False
         self.setTitleChart(self.title)
-        self.setLabelXChart("Tiempo (??)")
+        self.setLabelXChart("Tiempo")
         self.setLabelYChart("Desplazamiento (??)")
  
         #:::::::::::::::::::   EVENTO HOVER   ::::::::::::::::::::::::::::::::::::
@@ -151,10 +151,16 @@ class ViewPageResult(QFrame, Ui_FormResult):
     def setLabelYChart(self, label_y:str):
         self.ax.set_ylabel(label_y)
 
+
     def setYAxisLimitsChart(self, ymin, ymax):
-        
         self.ax.set_ylim(ymin, ymax)
         self.canvas.draw()
+    
+    def setXAxisLimitsChart(self, xmin, xmax):
+        self.ax.set_xlim(xmin, xmax)
+        self.canvas.draw()
+  
+
     
     def setDatePointChart(self,x, y, label_name:str):
         line, = self.ax.plot(x,y,label=label_name)   

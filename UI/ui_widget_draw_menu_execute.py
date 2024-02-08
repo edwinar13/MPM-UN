@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_executeoBCnpL.ui'
+## Form generated from reading UI file 'widget_draw_menu_executeBVBrAt.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -15,15 +15,17 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFrame, QHBoxLayout,
-    QLabel, QListWidget, QListWidgetItem, QSizePolicy,
-    QSpacerItem, QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QComboBox, QDoubleSpinBox,
+    QFormLayout, QFrame, QGridLayout, QGroupBox,
+    QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
+    QSizePolicy, QSpacerItem, QSpinBox, QToolButton,
+    QVBoxLayout, QWidget)
 
 class Ui_FormDrawMenuExecute(object):
     def setupUi(self, FormDrawMenuExecute):
         if not FormDrawMenuExecute.objectName():
             FormDrawMenuExecute.setObjectName(u"FormDrawMenuExecute")
-        FormDrawMenuExecute.resize(350, 809)
+        FormDrawMenuExecute.resize(350, 829)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -327,7 +329,8 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "\n"
 "QDoubleSpinBox[QDoubleSpinBoxStyle=\"1\"]"
-                        "{\n"
+                        ",\n"
+"QSpinBox[QSpinBoxStyle=\"1\"]{\n"
 "font: 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "background-color: #444444;\n"
@@ -337,7 +340,32 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "}\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"\n"
+"QDoubleSpinBox[QDoubleSpinBoxStyle=\"1\"]:enabled,\n"
+"QSpinBox[QSpinBoxStyle=\"1\"]:enabled {\n"
+"    font: 9pt \"Ubuntu\";\n"
+"    color: #DDDDDD;\n"
+"    background-color: #444444;\n"
+"    border-radius: 2px;\n"
+"    padding-right: 6px;\n"
+"    padding-left: 6px;\n"
+"}\n"
+"\n"
+"QDoubleSpinBox[QDoubleSpinBoxStyle=\"1\"]:disabled,\n"
+"QSpinBox[QSpinBoxStyle=\"1\"]:disabled {\n"
+"    font: 9pt \"Ubuntu\";\n"
+"    color: #888888;  /* Cambia el color cuando est\u00e1 deshabilitado */\n"
+"    background-color: #555555;  /* Cambia el fondo cuando est\u00e1 deshabilitado */\n"
+"    border-radius: 2px;\n"
+"    padding-right: 6px;\n"
+"    padding-left: 6px;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToo"
+                        "lButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "\n"
 "QToolButton[QToolButtonStyle=\"1\"]{\n"
@@ -365,8 +393,7 @@ class Ui_FormDrawMenuExecute(object):
 "margin-left: 4px;\n"
 "}\n"
 "\n"
-""
-                        "QToolButton[QToolButtonStyle=\"4\"]:hover{ \n"
+"QToolButton[QToolButtonStyle=\"4\"]:hover{ \n"
 "background-color: #444444;\n"
 "}\n"
 "\n"
@@ -379,7 +406,8 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "\n"
 "/*******************************************/\n"
-"QToolButton[QToolButtonStyle=\"2\"]{\n"
+"QToolBu"
+                        "tton[QToolButtonStyle=\"2\"]{\n"
 "font: 500 10pt \"Ubuntu\";\n"
 "color: #222222;\n"
 "background-color: #77ACA2;\n"
@@ -411,8 +439,7 @@ class Ui_FormDrawMenuExecute(object):
 "/* \n"
 "Azules #36C9C6 #00BDB9 #77ACA2\n"
 "rojos #910D3F #C70039 #F94646\n"
-"naranjas #D34E24 #F28123 "
-                        "#F7F052\n"
+"naranjas #D34E24 #F28123 #F7F052\n"
 "*/\n"
 "/*******************************************/\n"
 "QToolButton[QToolButtonStyle=\"5\"],\n"
@@ -420,7 +447,8 @@ class Ui_FormDrawMenuExecute(object):
 "QToolButton[QToolButtonStyle=\"7\"],\n"
 "QToolButton[QToolButtonStyle=\"8\"] {\n"
 "    font: 500 10pt \"Ubuntu\";    \n"
-"    padding: 4px 20px;\n"
+"    padding: 4px 20px;"
+                        "\n"
 "	border: 2px solid #C8CC8E;\n"
 "    \n"
 "}\n"
@@ -447,8 +475,7 @@ class Ui_FormDrawMenuExecute(object):
 "    background-color: transparent;\n"
 "	border-top-left-radius: 0px;\n"
 "	border-top-right-radius: 10px;\n"
-"	bor"
-                        "der-bottom-right-radius: 10px;\n"
+"	border-bottom-right-radius: 10px;\n"
 "	border-bottom-left-radius: 0px;\n"
 "	color: #DDDDDD;\n"
 "}\n"
@@ -458,7 +485,8 @@ class Ui_FormDrawMenuExecute(object):
 "	border-top-left-radius: 0px;\n"
 "	border-top-right-radius: 10px;\n"
 "	border-bottom-right-radius: 10px;\n"
-"	border-bottom-left-radius: 0px;\n"
+"	bord"
+                        "er-bottom-left-radius: 0px;\n"
 "	color: #222222;\n"
 "}\n"
 "\n"
@@ -482,8 +510,7 @@ class Ui_FormDrawMenuExecute(object):
 "naranjas #D34E24 #F28123 #F7F052\n"
 "*/\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "\n"
 "\n"
@@ -496,7 +523,8 @@ class Ui_FormDrawMenuExecute(object):
 "padding-right: 6px;\n"
 "padding-left: 6px;\n"
 "\n"
-"}\n"
+""
+                        "}\n"
 "\n"
 "QLineEdit[QLineEditStyle=\"2\"]{\n"
 "font: 9pt \"Ubuntu\";\n"
@@ -531,15 +559,15 @@ class Ui_FormDrawMenuExecute(object):
 "*/\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QFr"
-                        "ame          \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QFrame          \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QFrame[QFrameSubTitleStyle=\"1\"] {\n"
 "background: #222222;\n"
 "border-radius:2px;\n"
 "}\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QToolButton[QToolButtonSubTitleStyle=\"1\"] {\n"
 "background-color: transparent;\n"
@@ -553,8 +581,7 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "QLabel[QLabelStyle=\"1\"] {\n"
 "font: 700 9pt \"Ubuntu\";\n"
-"colo"
-                        "r: #DDDDDD;\n"
+"color: #DDDDDD;\n"
 "}\n"
 "\n"
 "QLabel[QLabelStyle=\"2\"] {\n"
@@ -570,7 +597,8 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QComboBox[QComboBoxStyle=\"1\"] {\n"
 "    border: none;\n"
 "    background-color: #444444;\n"
@@ -591,10 +619,10 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QCheckBox[QCheckBoxStyle=\"1\"] {\n"
-"    \n"
+""
+                        "    \n"
 "    background-color: #444444;\n"
 "	color: #DDDDDD;\n"
 "    padding: 5px;\n"
@@ -616,8 +644,7 @@ class Ui_FormDrawMenuExecute(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QListView            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QListView            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QListWidget[QListWidgetStyle=\"1\"] {\n"
 "	color: #DDDDDD;\n"
@@ -628,7 +655,8 @@ class Ui_FormDrawMenuExecute(object):
 "	\n"
 "    }\n"
 "\n"
-"QListWidget[QListWidgetStyle=\"1\"]::item {\n"
+"QListWidget[QListWidgetStyle=\"1\"]::item {"
+                        "\n"
 "	border: 1px solid #808080;\n"
 "    border-radius: 5px;\n"
 "	padding: 2px 0px;\n"
@@ -663,8 +691,7 @@ class Ui_FormDrawMenuExecute(object):
 "/*Colores secundarios */\n"
 "/* \n"
 "Azules #36C9C6 #00BDB9 #77ACA2\n"
-"rojos #910"
-                        "D3F #C70039 #F94646\n"
+"rojos #910D3F #C70039 #F94646\n"
 "naranjas #D34E24 #F28123 #F7F052\n"
 "*/\n"
 "")
@@ -785,6 +812,205 @@ class Ui_FormDrawMenuExecute(object):
         self.frame_info.setFrameShadow(QFrame.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_info)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.frame_ExecuteSubTitle2 = QFrame(self.frame_info)
+        self.frame_ExecuteSubTitle2.setObjectName(u"frame_ExecuteSubTitle2")
+        self.frame_ExecuteSubTitle2.setFrameShape(QFrame.StyledPanel)
+        self.frame_ExecuteSubTitle2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_17 = QHBoxLayout(self.frame_ExecuteSubTitle2)
+        self.horizontalLayout_17.setSpacing(0)
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.horizontalLayout_17.setContentsMargins(10, 0, 0, 0)
+        self.label_cardExecuteSubTitle2 = QLabel(self.frame_ExecuteSubTitle2)
+        self.label_cardExecuteSubTitle2.setObjectName(u"label_cardExecuteSubTitle2")
+        self.label_cardExecuteSubTitle2.setMinimumSize(QSize(262, 0))
+        self.label_cardExecuteSubTitle2.setProperty("QLabelStyle", 2)
+
+        self.horizontalLayout_17.addWidget(self.label_cardExecuteSubTitle2)
+
+        self.toolButton_cardExecuteSubTitle2 = QToolButton(self.frame_ExecuteSubTitle2)
+        self.toolButton_cardExecuteSubTitle2.setObjectName(u"toolButton_cardExecuteSubTitle2")
+        icon1 = QIcon()
+        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_cardExecuteSubTitle2.setIcon(icon1)
+        self.toolButton_cardExecuteSubTitle2.setArrowType(Qt.NoArrow)
+        self.toolButton_cardExecuteSubTitle2.setProperty("QToolButtonSubTitleStyle", 1)
+
+        self.horizontalLayout_17.addWidget(self.toolButton_cardExecuteSubTitle2)
+
+
+        self.verticalLayout_5.addWidget(self.frame_ExecuteSubTitle2)
+
+        self.frame_Execute2 = QFrame(self.frame_info)
+        self.frame_Execute2.setObjectName(u"frame_Execute2")
+        self.frame_Execute2.setFrameShape(QFrame.StyledPanel)
+        self.frame_Execute2.setFrameShadow(QFrame.Raised)
+        self.formLayout = QFormLayout(self.frame_Execute2)
+        self.formLayout.setObjectName(u"formLayout")
+        self.formLayout.setHorizontalSpacing(9)
+        self.formLayout.setVerticalSpacing(9)
+        self.label_textExecuteProperty = QLabel(self.frame_Execute2)
+        self.label_textExecuteProperty.setObjectName(u"label_textExecuteProperty")
+        self.label_textExecuteProperty.setMinimumSize(QSize(110, 0))
+        self.label_textExecuteProperty.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_textExecuteProperty)
+
+        self.comboBox_ExecuteProperty = QComboBox(self.frame_Execute2)
+        self.comboBox_ExecuteProperty.setObjectName(u"comboBox_ExecuteProperty")
+        self.comboBox_ExecuteProperty.setMinimumSize(QSize(0, 25))
+        self.comboBox_ExecuteProperty.setFocusPolicy(Qt.WheelFocus)
+        self.comboBox_ExecuteProperty.setProperty("QComboBoxStyle", 1)
+
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.comboBox_ExecuteProperty)
+
+        self.label_texExcute_5 = QLabel(self.frame_Execute2)
+        self.label_texExcute_5.setObjectName(u"label_texExcute_5")
+        self.label_texExcute_5.setMinimumSize(QSize(110, 0))
+        self.label_texExcute_5.setWordWrap(True)
+        self.label_texExcute_5.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_texExcute_5)
+
+        self.doubleSpinBoxl_textExecuteNumberCourant = QDoubleSpinBox(self.frame_Execute2)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setObjectName(u"doubleSpinBoxl_textExecuteNumberCourant")
+        self.doubleSpinBoxl_textExecuteNumberCourant.setEnabled(True)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textExecuteNumberCourant.setDecimals(2)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setMinimum(0.100000000000000)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setMaximum(1.000000000000000)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setValue(0.500000000000000)
+        self.doubleSpinBoxl_textExecuteNumberCourant.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.doubleSpinBoxl_textExecuteNumberCourant)
+
+        self.label_texExcute_8 = QLabel(self.frame_Execute2)
+        self.label_texExcute_8.setObjectName(u"label_texExcute_8")
+        self.label_texExcute_8.setMinimumSize(QSize(110, 0))
+        self.label_texExcute_8.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label_texExcute_8)
+
+        self.doubleSpinBoxl_textExecuteTimeAnalysis = QDoubleSpinBox(self.frame_Execute2)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setObjectName(u"doubleSpinBoxl_textExecuteTimeAnalysis")
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setEnabled(True)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setDecimals(2)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMinimum(0.100000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMaximum(100.000000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setSingleStep(0.010000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setStepType(QAbstractSpinBox.DefaultStepType)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setValue(2.000000000000000)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.doubleSpinBoxl_textExecuteTimeAnalysis)
+
+        self.label_texExcute_10 = QLabel(self.frame_Execute2)
+        self.label_texExcute_10.setObjectName(u"label_texExcute_10")
+        self.label_texExcute_10.setMinimumSize(QSize(110, 0))
+        self.label_texExcute_10.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_texExcute_10)
+
+        self.doubleSpinBoxl_textExecuteFps = QSpinBox(self.frame_Execute2)
+        self.doubleSpinBoxl_textExecuteFps.setObjectName(u"doubleSpinBoxl_textExecuteFps")
+        self.doubleSpinBoxl_textExecuteFps.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textExecuteFps.setMinimum(10)
+        self.doubleSpinBoxl_textExecuteFps.setMaximum(300)
+        self.doubleSpinBoxl_textExecuteFps.setSingleStep(10)
+        self.doubleSpinBoxl_textExecuteFps.setValue(30)
+        self.doubleSpinBoxl_textExecuteFps.setDisplayIntegerBase(10)
+        self.doubleSpinBoxl_textExecuteFps.setProperty("QSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textExecuteFps)
+
+        self.groupBox = QGroupBox(self.frame_Execute2)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setStyleSheet(u"color: rgb(198, 198, 198);")
+        self.verticalLayout_7 = QVBoxLayout(self.groupBox)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.frame = QFrame(self.groupBox)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.gridLayout = QGridLayout(self.frame)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.label_texExcuteStepAnalysis = QLabel(self.frame)
+        self.label_texExcuteStepAnalysis.setObjectName(u"label_texExcuteStepAnalysis")
+        self.label_texExcuteStepAnalysis.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_texExcuteStepAnalysis, 0, 2, 1, 1)
+
+        self.label_texExcuteDtAnalysis = QLabel(self.frame)
+        self.label_texExcuteDtAnalysis.setObjectName(u"label_texExcuteDtAnalysis")
+        self.label_texExcuteDtAnalysis.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_texExcuteDtAnalysis, 0, 1, 1, 1)
+
+        self.label_texExcute_6 = QLabel(self.frame)
+        self.label_texExcute_6.setObjectName(u"label_texExcute_6")
+        self.label_texExcute_6.setMinimumSize(QSize(0, 0))
+        self.label_texExcute_6.setWordWrap(True)
+        self.label_texExcute_6.setProperty("QLabelStyle", 3)
+
+        self.gridLayout.addWidget(self.label_texExcute_6, 0, 0, 1, 1)
+
+        self.label_texExcute_7 = QLabel(self.frame)
+        self.label_texExcute_7.setObjectName(u"label_texExcute_7")
+        self.label_texExcute_7.setMinimumSize(QSize(0, 0))
+        self.label_texExcute_7.setWordWrap(True)
+        self.label_texExcute_7.setProperty("QLabelStyle", 3)
+
+        self.gridLayout.addWidget(self.label_texExcute_7, 1, 0, 1, 1)
+
+        self.label_texExcuteDtGraphic = QLabel(self.frame)
+        self.label_texExcuteDtGraphic.setObjectName(u"label_texExcuteDtGraphic")
+        self.label_texExcuteDtGraphic.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_texExcuteDtGraphic, 1, 1, 1, 1)
+
+        self.label_texExcuteStepGraphic = QLabel(self.frame)
+        self.label_texExcuteStepGraphic.setObjectName(u"label_texExcuteStepGraphic")
+        self.label_texExcuteStepGraphic.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_texExcuteStepGraphic, 1, 2, 1, 1)
+
+
+        self.verticalLayout_7.addWidget(self.frame)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.label_texExcute_9 = QLabel(self.groupBox)
+        self.label_texExcute_9.setObjectName(u"label_texExcute_9")
+        self.label_texExcute_9.setMinimumSize(QSize(110, 0))
+        self.label_texExcute_9.setScaledContents(False)
+        self.label_texExcute_9.setWordWrap(True)
+        self.label_texExcute_9.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_3.addWidget(self.label_texExcute_9)
+
+        self.label_texExcuteVelocityCp = QLabel(self.groupBox)
+        self.label_texExcuteVelocityCp.setObjectName(u"label_texExcuteVelocityCp")
+        self.label_texExcuteVelocityCp.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_3.addWidget(self.label_texExcuteVelocityCp)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_3)
+
+
+        self.formLayout.setWidget(5, QFormLayout.SpanningRole, self.groupBox)
+
+        self.toolButton_calculateTimes = QToolButton(self.frame_Execute2)
+        self.toolButton_calculateTimes.setObjectName(u"toolButton_calculateTimes")
+        self.toolButton_calculateTimes.setEnabled(True)
+        self.toolButton_calculateTimes.setProperty("QToolButtonStyle", 2)
+
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.toolButton_calculateTimes)
+
+
+        self.verticalLayout_5.addWidget(self.frame_Execute2)
+
         self.frame_ExecuteSubTitle1 = QFrame(self.frame_info)
         self.frame_ExecuteSubTitle1.setObjectName(u"frame_ExecuteSubTitle1")
         self.frame_ExecuteSubTitle1.setFrameShape(QFrame.StyledPanel)
@@ -802,8 +1028,6 @@ class Ui_FormDrawMenuExecute(object):
 
         self.toolButton_cardExecuteSubTitle1 = QToolButton(self.frame_ExecuteSubTitle1)
         self.toolButton_cardExecuteSubTitle1.setObjectName(u"toolButton_cardExecuteSubTitle1")
-        icon1 = QIcon()
-        icon1.addFile(u"recursos/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_cardExecuteSubTitle1.setIcon(icon1)
         self.toolButton_cardExecuteSubTitle1.setArrowType(Qt.NoArrow)
         self.toolButton_cardExecuteSubTitle1.setProperty("QToolButtonSubTitleStyle", 1)
@@ -912,30 +1136,10 @@ class Ui_FormDrawMenuExecute(object):
 
         self.verticalLayout_5.addWidget(self.frame_Execute1)
 
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.label_textResultAnimation3_2 = QLabel(self.frame_info)
-        self.label_textResultAnimation3_2.setObjectName(u"label_textResultAnimation3_2")
-        self.label_textResultAnimation3_2.setMinimumSize(QSize(110, 0))
-        self.label_textResultAnimation3_2.setProperty("QLabelStyle", 3)
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
 
-        self.horizontalLayout_4.addWidget(self.label_textResultAnimation3_2)
-
-        self.doubleSpinBoxl_textExecuteTimeAnalysis = QDoubleSpinBox(self.frame_info)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setObjectName(u"doubleSpinBoxl_textExecuteTimeAnalysis")
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setEnabled(True)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setDecimals(1)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMinimum(0.100000000000000)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setMaximum(100.000000000000000)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setSingleStep(0.010000000000000)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setValue(1.000000000000000)
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setProperty("QDoubleSpinBoxStyle", 1)
-
-        self.horizontalLayout_4.addWidget(self.doubleSpinBoxl_textExecuteTimeAnalysis)
-
-
-        self.verticalLayout_5.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_5.addLayout(self.verticalLayout_6)
 
         self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -999,12 +1203,28 @@ class Ui_FormDrawMenuExecute(object):
         FormDrawMenuExecute.setWindowTitle(QCoreApplication.translate("FormDrawMenuExecute", u"Form", None))
         self.toolButton_hideShow.setText("")
         self.label_cardExecuteTitle.setText(QCoreApplication.translate("FormDrawMenuExecute", u"AN\u00c1LISIS", None))
+        self.label_cardExecuteSubTitle2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Tiempo cr\u00edtico", None))
+        self.toolButton_cardExecuteSubTitle2.setText("")
+        self.label_textExecuteProperty.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Material:", None))
+        self.label_texExcute_5.setText(QCoreApplication.translate("FormDrawMenuExecute", u"N\u00famero de Courant (C):", None))
+        self.doubleSpinBoxl_textExecuteNumberCourant.setSuffix("")
+        self.label_texExcute_8.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Tiempo de an\u00e1lisis :", None))
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setSuffix("")
+        self.label_texExcute_10.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Fps:", None))
+        self.groupBox.setTitle(QCoreApplication.translate("FormDrawMenuExecute", u"Resultados", None))
+        self.label_texExcuteStepAnalysis.setText(QCoreApplication.translate("FormDrawMenuExecute", u"0pasos", None))
+        self.label_texExcuteDtAnalysis.setText(QCoreApplication.translate("FormDrawMenuExecute", u"0s", None))
+        self.label_texExcute_6.setText(QCoreApplication.translate("FormDrawMenuExecute", u"<html><head/><body><p><span style=\" font-size:11pt;\">\u25b2t</span><span style=\" font-size:11pt; vertical-align:sub;\">(An\u00e1lisis):</span></p></body></html>", None))
+        self.label_texExcute_7.setText(QCoreApplication.translate("FormDrawMenuExecute", u"<html><head/><body><p><span style=\" font-size:11pt;\">\u25b2t</span><span style=\" font-size:11pt; vertical-align:sub;\">(Graficar)</span><span style=\" font-size:11pt;\">:</span></p></body></html>", None))
+        self.label_texExcuteDtGraphic.setText(QCoreApplication.translate("FormDrawMenuExecute", u"0s", None))
+        self.label_texExcuteStepGraphic.setText(QCoreApplication.translate("FormDrawMenuExecute", u"0Pasos", None))
+        self.label_texExcute_9.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Velocidad m\u00e1xima del sonido en el material (Cp):", None))
+        self.label_texExcuteVelocityCp.setText(QCoreApplication.translate("FormDrawMenuExecute", u"0", None))
+        self.toolButton_calculateTimes.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Calcular tiempos", None))
         self.label_cardExecuteSubTitle1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Datos", None))
         self.toolButton_cardExecuteSubTitle1.setText("")
         self.label_textBoundary1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Puntos materiales", None))
         self.label_textBoundary3.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Contornos:", None))
-        self.label_textResultAnimation3_2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Tiempo de an\u00e1lisis:", None))
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setSuffix("")
         self.toolButton_Execute.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Ejecutar An\u00e1lisis", None))
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Empty", None))
     # retranslateUi

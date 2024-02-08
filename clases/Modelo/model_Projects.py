@@ -378,9 +378,30 @@ class ModelProjects:
             data['PUNTOSMATERIAL'] = {}
             data['MATERIALES'] = {}
             data['CONTORNOS'] = {}
+            
             data['RESULTADOS'] = {
                 "TIEMPOSANALISIS" :[],
                 "TIEMPOSGRAFICAR" :[],
+                "MINIMOSRESULTADOS": {
+                    "CORX": 0.0,
+                    "CORY": 0.0,
+                    "SIGXX": 0.0,
+                    "SIGYY": 0.0,
+                    "SIGXY": 0.0,
+                    "EPSXX": 0.0,
+                    "EPSYY": 0.0,
+                    "EPSXY": 0.0
+                },
+                "MAXIMOSRESULTADOS": {
+                    "CORX": 0.0,
+                    "CORY": 0.0,
+                    "SIGXX": 0.0,
+                    "SIGYY": 0.0,
+                    "SIGXY": 0.0,
+                    "EPSXX": 0.0,
+                    "EPSYY": 0.0,
+                    "EPSXY": 0.0
+                },
                 "RESULTADOSNODOS" :{}
             }
 

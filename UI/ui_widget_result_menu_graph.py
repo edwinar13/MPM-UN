@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_graphPSqFXU.ui'
+## Form generated from reading UI file 'widget_result_menu_graphYhEDCx.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -16,15 +16,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
-    QHBoxLayout, QLabel, QLineEdit, QScrollArea,
-    QSizePolicy, QSpacerItem, QToolButton, QVBoxLayout,
-    QWidget)
+    QHBoxLayout, QLabel, QLineEdit, QRadioButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QToolButton,
+    QVBoxLayout, QWidget)
 
 class Ui_FormMenuResultGraph(object):
     def setupUi(self, FormMenuResultGraph):
         if not FormMenuResultGraph.objectName():
             FormMenuResultGraph.setObjectName(u"FormMenuResultGraph")
-        FormMenuResultGraph.resize(350, 673)
+        FormMenuResultGraph.resize(350, 766)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -416,17 +416,35 @@ class Ui_FormMenuResultGraph(object):
                         "\n"
 "\n"
 "\n"
-"/*******************************************/\n"
-"QToolButton[QToolButtonStyle=\"2\"]{\n"
-"font: 500 10pt \"Ubuntu\";\n"
-"color: #222222;\n"
-"background-color: #77ACA2;\n"
-"border: none;\n"
-"padding: 6px 25px;\n"
-"border-radius: 8px ;\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton - Habilitado           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QToolButton[QToolButtonStyle=\"2\"] {\n"
+"    font: 500 10pt \"Ubuntu\";\n"
+"    color: #222222;\n"
+"    background-color: #77ACA2;\n"
+"    border: none;\n"
+"    padding: 6px 25px;\n"
+"    border-radius: 8px;\n"
 "}\n"
-"QToolButton[QToolButtonStyle=\"2\"]:hover{\n"
-"background-color: #36C9C6;\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"2\"]:hover {\n"
+"    background-color: #36C9C6;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"2\"]:enabled {\n"
+"    /* Estilos adicionales cuando el QToolButton est\u00e1 habilitado */\n"
+"    background-color: #77ACA2;\n"
+"}\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton - Deshabilitado           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QToolButton[QToolButtonStyle=\"2\"]:disabled {\n"
+"    color: #888888;\n"
+"    background-color: #444444;\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"2\"]:disabled:hover {\n"
+"    background-color: #444444;\n"
 "}\n"
 "\n"
 "\n"
@@ -455,9 +473,9 @@ class Ui_FormMenuResultGraph(object):
 "QToolButton[QToolButtonStyle=\"5\"],\n"
 "QToolButton[QToolButtonStyle=\"6\"],\n"
 "QToolButton[QToolButtonStyle=\"7\"],\n"
-"QToolButton[QToolButtonStyle=\""
-                        "8\"] {\n"
-"    font: 500 10pt \"Ubuntu\";    \n"
+"QToolButton[QToolButtonStyle=\"8\"] {\n"
+"    fon"
+                        "t: 500 10pt \"Ubuntu\";    \n"
 "    padding: 4px 20px;\n"
 "	border: 2px solid #C8CC8E;\n"
 "    \n"
@@ -493,8 +511,8 @@ class Ui_FormMenuResultGraph(object):
 "QToolButton[QToolButtonStyle=\"8\"] {\n"
 "    background-color: #C8CC8E;\n"
 "	border-top-left-radius: 0px;\n"
-"	border-"
-                        "top-right-radius: 10px;\n"
+"	border-top-right-radius: "
+                        "10px;\n"
 "	border-bottom-right-radius: 10px;\n"
 "	border-bottom-left-radius: 0px;\n"
 "	color: #222222;\n"
@@ -507,26 +525,51 @@ class Ui_FormMenuResultGraph(object):
 "\n"
 "\n"
 "\n"
-"\n"
-"QLineEdit[QLineEditStyle=\"1\"]{\n"
-"font: 9pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"background-color: #444444;\n"
-"border-radius: 2px ;\n"
-"padding-right: 6px;\n"
-"padding-left: 6px;\n"
-"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit - Habilitado           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QLineEdit[QLineEditStyle=\"1\"] {\n"
+"    font: 9pt \"Ubuntu\";\n"
+"    color: #DDDDDD;\n"
+"    background-color: #444444;\n"
+"    border-radius: 2px;\n"
+"    padding-right: 6px;\n"
+"    padding-left: 6px;\n"
 "}\n"
 "\n"
-"QLineEdit[QLineEditStyle=\"2\"]{\n"
-"font: 9pt \"Ubuntu\";\n"
-"color: #DDDDDD;\n"
-"background-color: #333333;\n"
-"border: 1px solid #444444;\n"
-"border-radius: 2px ;\n"
-"padding-right: 6px;\n"
-"padding-left: 6px;\n"
+"QLineEdit[QLineEditStyle=\"1\"]:enabled {\n"
+"    /* Estilos adicionale"
+                        "s cuando el QLineEdit est\u00e1 habilitado */\n"
+"    background-color: #444444;\n"
+"    border: 1px solid #555555;\n"
+"}\n"
 "\n"
+"QLineEdit[QLineEditStyle=\"2\"] {\n"
+"    font: 9pt \"Ubuntu\";\n"
+"    color: #DDDDDD;\n"
+"    background-color: #333333;\n"
+"    border: 1px solid #444444;\n"
+"    border-radius: 2px;\n"
+"    padding-right: 6px;\n"
+"    padding-left: 6px;\n"
+"}\n"
+"\n"
+"QLineEdit[QLineEditStyle=\"2\"]:enabled {\n"
+"    /* Estilos adicionales cuando el QLineEdit est\u00e1 habilitado */\n"
+"    background-color: #333333;\n"
+"    border: 1px solid #444444;\n"
+"}\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit - Deshabilitado           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QLineEdit[QLineEditStyle=\"1\"]:disabled {\n"
+"    color: #888888;\n"
+"    background-color: #333333;\n"
+"    border: 1px solid #44444"
+                        "4;\n"
+"}\n"
+"\n"
+"QLineEdit[QLineEditStyle=\"2\"]:disabled {\n"
+"    color: #888888;\n"
+"    background-color: #222222;\n"
+"    border: 1px solid #333333;\n"
 "}\n"
 "\n"
 "\n"
@@ -535,8 +578,7 @@ class Ui_FormMenuResultGraph(object):
 "font: 7pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "background-color: #333333;\n"
-"b"
-                        "order: 1px solid #444444;\n"
+"border: 1px solid #444444;\n"
 "border-radius: 2px ;\n"
 "padding-right: 2px;\n"
 "padding-left: 2px;\n"
@@ -559,12 +601,12 @@ class Ui_FormMenuResultGraph(object):
 "border-radius:2px;\n"
 "}\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QToolButton[QToolButtonSubTitleStyle=\"1\"] {\n"
 "background-color: transparent;\n"
-""
-                        "}\n"
+"}\n"
 "\n"
 "\n"
 "\n"
@@ -592,7 +634,8 @@ class Ui_FormMenuResultGraph(object):
 "color: #77ACA2;\n"
 "}\n"
 "QLabel[QLabelStyle=\"5\"] {\n"
-"font: 300 8pt \"Ubuntu\";\n"
+"fo"
+                        "nt: 300 8pt \"Ubuntu\";\n"
 "color: #aaa;\n"
 "}\n"
 "\n"
@@ -607,8 +650,7 @@ class Ui_FormMenuResultGraph(object):
 "/*Colores secundarios */\n"
 "/* \n"
 "Azules #36C9C6 #00BDB9 #77ACA2\n"
-"rojos #910D3F"
-                        " #C70039 #F94646\n"
+"rojos #910D3F #C70039 #F94646\n"
 "naranjas #D34E24 #F28123 #F7F052\n"
 "*/\n"
 "\n"
@@ -627,14 +669,14 @@ class Ui_FormMenuResultGraph(object):
 "QComboBox[QComboBoxStyle=\"1\"] QAbstractItemView {\n"
 "    border: none;\n"
 "    background-color: #404040;\n"
-"    color: white;\n"
+""
+                        "    color: white;\n"
 "    selection-background-color: #808080;\n"
 "    font: 700 9pt \"Ubuntu\";\n"
 "}\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QCheckBox[QCheckBoxStyle=\"1\"] {\n"
 "    \n"
 "    background-color: #444444;\n"
@@ -656,6 +698,27 @@ class Ui_FormMenuResultGraph(object):
 "	 border-radius: 3px;\n"
 "}\n"
 "\n"
+"\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8           QRadioButton            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QRadioButton[QRadioButtonStyle=\"1\"] {    \n"
+"    color: #DDDDDD;\n"
+"    padding: 5px;\n"
+"    font: 9pt \"Ubuntu\";\n"
+"    selection-background-color: #808080;\n"
+"}\n"
+"\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]::indicator {\n"
+"    background-color: transparent;\n"
+"    border: 1px solid #808080;\n"
+"    border-radius: 50%; /* Se utiliza 50% para hacer el c\u00edrculo */\n"
+"}\n"
+"\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]::indicator:checked {\n"
+"    background-color: #F94646;\n"
+"    border: none;\n"
+"}\n"
 "")
         self.formLayout = QFormLayout(FormMenuResultGraph)
         self.formLayout.setObjectName(u"formLayout")
@@ -911,6 +974,143 @@ class Ui_FormMenuResultGraph(object):
 
         self.verticalLayout_6.addWidget(self.label_text_chart2_2)
 
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(-1, 15, -1, 10)
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setContentsMargins(10, 10, 10, 10)
+        self.radioButton_manual = QRadioButton(self.frame_ResultAnimation1)
+        self.radioButton_manual.setObjectName(u"radioButton_manual")
+        self.radioButton_manual.setProperty("QRadioButtonStyle", 1)
+
+        self.horizontalLayout_7.addWidget(self.radioButton_manual)
+
+        self.radioButton_automatic = QRadioButton(self.frame_ResultAnimation1)
+        self.radioButton_automatic.setObjectName(u"radioButton_automatic")
+        self.radioButton_automatic.setChecked(True)
+        self.radioButton_automatic.setProperty("QRadioButtonStyle", 1)
+
+        self.horizontalLayout_7.addWidget(self.radioButton_automatic)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_7)
+
+        self.label_text_chart5_7 = QLabel(self.frame_ResultAnimation1)
+        self.label_text_chart5_7.setObjectName(u"label_text_chart5_7")
+        self.label_text_chart5_7.setMinimumSize(QSize(110, 0))
+        self.label_text_chart5_7.setProperty("QLabelStyle", 3)
+
+        self.verticalLayout_7.addWidget(self.label_text_chart5_7)
+
+        self.formLayout_6 = QFormLayout()
+        self.formLayout_6.setObjectName(u"formLayout_6")
+        self.formLayout_6.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
+        self.formLayout_6.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        self.formLayout_6.setHorizontalSpacing(10)
+        self.formLayout_6.setVerticalSpacing(10)
+        self.formLayout_6.setContentsMargins(10, 10, 10, 10)
+        self.label_text_chart5_11 = QLabel(self.frame_ResultAnimation1)
+        self.label_text_chart5_11.setObjectName(u"label_text_chart5_11")
+        self.label_text_chart5_11.setMinimumSize(QSize(110, 0))
+        self.label_text_chart5_11.setProperty("QLabelStyle", 3)
+
+        self.formLayout_6.setWidget(0, QFormLayout.LabelRole, self.label_text_chart5_11)
+
+        self.label_text_chart5_12 = QLabel(self.frame_ResultAnimation1)
+        self.label_text_chart5_12.setObjectName(u"label_text_chart5_12")
+        self.label_text_chart5_12.setMinimumSize(QSize(110, 0))
+        self.label_text_chart5_12.setProperty("QLabelStyle", 3)
+
+        self.formLayout_6.setWidget(1, QFormLayout.LabelRole, self.label_text_chart5_12)
+
+        self.lineEdit_Xmin = QLineEdit(self.frame_ResultAnimation1)
+        self.lineEdit_Xmin.setObjectName(u"lineEdit_Xmin")
+        self.lineEdit_Xmin.setEnabled(False)
+        self.lineEdit_Xmin.setMinimumSize(QSize(0, 25))
+        self.lineEdit_Xmin.setMaximumSize(QSize(120, 16777215))
+        self.lineEdit_Xmin.setProperty("QLineEditStyle", 1)
+
+        self.formLayout_6.setWidget(0, QFormLayout.FieldRole, self.lineEdit_Xmin)
+
+        self.lineEdit_Xmax = QLineEdit(self.frame_ResultAnimation1)
+        self.lineEdit_Xmax.setObjectName(u"lineEdit_Xmax")
+        self.lineEdit_Xmax.setEnabled(False)
+        self.lineEdit_Xmax.setMinimumSize(QSize(0, 25))
+        self.lineEdit_Xmax.setMaximumSize(QSize(120, 16777215))
+        self.lineEdit_Xmax.setProperty("QLineEditStyle", 1)
+
+        self.formLayout_6.setWidget(1, QFormLayout.FieldRole, self.lineEdit_Xmax)
+
+
+        self.verticalLayout_7.addLayout(self.formLayout_6)
+
+        self.label_text_chart5_10 = QLabel(self.frame_ResultAnimation1)
+        self.label_text_chart5_10.setObjectName(u"label_text_chart5_10")
+        self.label_text_chart5_10.setMinimumSize(QSize(110, 0))
+        self.label_text_chart5_10.setProperty("QLabelStyle", 3)
+
+        self.verticalLayout_7.addWidget(self.label_text_chart5_10)
+
+        self.formLayout_7 = QFormLayout()
+        self.formLayout_7.setObjectName(u"formLayout_7")
+        self.formLayout_7.setHorizontalSpacing(10)
+        self.formLayout_7.setVerticalSpacing(10)
+        self.formLayout_7.setContentsMargins(10, 10, 10, 10)
+        self.lineEdit_Ymax = QLineEdit(self.frame_ResultAnimation1)
+        self.lineEdit_Ymax.setObjectName(u"lineEdit_Ymax")
+        self.lineEdit_Ymax.setEnabled(False)
+        self.lineEdit_Ymax.setMinimumSize(QSize(0, 25))
+        self.lineEdit_Ymax.setMaximumSize(QSize(120, 16777215))
+        self.lineEdit_Ymax.setProperty("QLineEditStyle", 1)
+
+        self.formLayout_7.setWidget(1, QFormLayout.FieldRole, self.lineEdit_Ymax)
+
+        self.lineEdit_Ymin = QLineEdit(self.frame_ResultAnimation1)
+        self.lineEdit_Ymin.setObjectName(u"lineEdit_Ymin")
+        self.lineEdit_Ymin.setEnabled(False)
+        self.lineEdit_Ymin.setMinimumSize(QSize(0, 25))
+        self.lineEdit_Ymin.setMaximumSize(QSize(120, 16777215))
+        self.lineEdit_Ymin.setProperty("QLineEditStyle", 1)
+
+        self.formLayout_7.setWidget(0, QFormLayout.FieldRole, self.lineEdit_Ymin)
+
+        self.label_text_chart5_14 = QLabel(self.frame_ResultAnimation1)
+        self.label_text_chart5_14.setObjectName(u"label_text_chart5_14")
+        self.label_text_chart5_14.setMinimumSize(QSize(110, 0))
+        self.label_text_chart5_14.setProperty("QLabelStyle", 3)
+
+        self.formLayout_7.setWidget(1, QFormLayout.LabelRole, self.label_text_chart5_14)
+
+        self.label_text_chart5_13 = QLabel(self.frame_ResultAnimation1)
+        self.label_text_chart5_13.setObjectName(u"label_text_chart5_13")
+        self.label_text_chart5_13.setMinimumSize(QSize(110, 0))
+        self.label_text_chart5_13.setProperty("QLabelStyle", 3)
+
+        self.formLayout_7.setWidget(0, QFormLayout.LabelRole, self.label_text_chart5_13)
+
+
+        self.verticalLayout_7.addLayout(self.formLayout_7)
+
+
+        self.verticalLayout_6.addLayout(self.verticalLayout_7)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_3)
+
+        self.toolButton_updateLimit = QToolButton(self.frame_ResultAnimation1)
+        self.toolButton_updateLimit.setObjectName(u"toolButton_updateLimit")
+        self.toolButton_updateLimit.setEnabled(True)
+        self.toolButton_updateLimit.setProperty("QToolButtonStyle", 2)
+
+        self.horizontalLayout_6.addWidget(self.toolButton_updateLimit)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_6)
+
 
         self.verticalLayout_5.addWidget(self.frame_ResultAnimation1)
 
@@ -1080,6 +1280,15 @@ class Ui_FormMenuResultGraph(object):
         self.label_text_chart2_3.setText(QCoreApplication.translate("FormMenuResultGraph", u"Tipo de gr\u00e1fica", None))
         self.toolButton_chartTypeStyle.setText("")
         self.label_text_chart2_2.setText(QCoreApplication.translate("FormMenuResultGraph", u"NOTA: los puntos materiales se pueden seleccionar, por id como 1 o 2 o 3 etc. Por conjuntos de ids separados por coma, por ejemplo 1,2,3\u2026 o por rangos de ids separados por dos puntos ejemplo 5:10", None))
+        self.radioButton_manual.setText(QCoreApplication.translate("FormMenuResultGraph", u"Manual", None))
+        self.radioButton_automatic.setText(QCoreApplication.translate("FormMenuResultGraph", u"Autom\u00e1tico", None))
+        self.label_text_chart5_7.setText(QCoreApplication.translate("FormMenuResultGraph", u"<html><head/><body><p>L\u00edmites eje x</p></body></html>", None))
+        self.label_text_chart5_11.setText(QCoreApplication.translate("FormMenuResultGraph", u"<html><head/><body><p>M\u00ednimo:</p></body></html>", None))
+        self.label_text_chart5_12.setText(QCoreApplication.translate("FormMenuResultGraph", u"<html><head/><body><p>M\u00e1ximo:</p></body></html>", None))
+        self.label_text_chart5_10.setText(QCoreApplication.translate("FormMenuResultGraph", u"<html><head/><body><p>L\u00edmites eje y</p></body></html>", None))
+        self.label_text_chart5_14.setText(QCoreApplication.translate("FormMenuResultGraph", u"<html><head/><body><p>M\u00e1ximo:</p></body></html>", None))
+        self.label_text_chart5_13.setText(QCoreApplication.translate("FormMenuResultGraph", u"<html><head/><body><p>M\u00ednimo:</p></body></html>", None))
+        self.toolButton_updateLimit.setText(QCoreApplication.translate("FormMenuResultGraph", u"Actualizar l\u00edmites", None))
         self.label_textResultAnimation1_2.setText(QCoreApplication.translate("FormMenuResultGraph", u"Estilos de colores:", None))
         self.toolButton_deleteSeries.setText("")
         self.toolButton_showHideLabel.setText("")

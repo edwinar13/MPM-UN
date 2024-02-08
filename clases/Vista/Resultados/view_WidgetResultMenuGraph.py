@@ -6,7 +6,7 @@ from PySide6.QtGui import (QIcon, QFont)
 from PySide6.QtWidgets import (QFrame, QSpacerItem, QSizePolicy)
 from ui.ui_widget_result_menu_graph import Ui_FormMenuResultGraph
 from clases import class_general
-
+from clases import general_functions
 
 class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
 
@@ -16,6 +16,12 @@ class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
     signal_show_hide_series = Signal(bool)
     signal_show_hide_label = Signal(bool)
     signal_delete_series = Signal()
+    
+
+    signal_max_min = Signal(list)
+    signal_update_limit = Signal()
+    
+
     
     def __init__(self):
 
@@ -80,6 +86,14 @@ class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
         self.toolButton_showHideSeries.clicked.connect(self.__clickedToolButtonShowHideSeries)
         self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
         self.toolButton_deleteSeries.clicked.connect(self.__clickedToolButtonDeleteSeries)
+        
+        self.radioButton_automatic.toggled.connect(self.__toggledRadioButtonModeLimits)
+        self.radioButton_manual.toggled.connect(self.__toggledRadioButtonModeLimits)
+        self.lineEdit_Xmin.editingFinished.connect(self.__editingFinishedLineEditMaxMin)
+        self.lineEdit_Xmax.editingFinished.connect(self.__editingFinishedLineEditMaxMin)
+        self.lineEdit_Ymin.editingFinished.connect(self.__editingFinishedLineEditMaxMin)
+        self.lineEdit_Ymax.editingFinished.connect(self.__editingFinishedLineEditMaxMin)
+        self.toolButton_updateLimit.clicked.connect(self.__clickedToolButtonUpdateLimit)
         
         # ::::::::::::::::::::      EVENTOS RESULT MENU GRAPH    ::::::::::::::::::::
         self.comboBox_chartTypeResult.currentIndexChanged.connect(self.__currentIndexChangedComboBoxChartTypeResult)
@@ -150,6 +164,74 @@ class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
             
     def __clickedToolButtonDeleteSeries(self):
         self.signal_delete_series.emit()
+    
+    
+    
+    
+    def __toggledRadioButtonModeLimits(self):
+        is_cheked_aut = self.radioButton_automatic.isChecked()
+        is_cheked_manu = self.radioButton_manual.isChecked()
+        if is_cheked_aut:
+            self.toolButton_updateLimit.setEnabled(True)
+            self.lineEdit_Xmin.setEnabled(False)
+            self.lineEdit_Xmax.setEnabled(False)
+            self.lineEdit_Ymin.setEnabled(False)
+            self.lineEdit_Ymax.setEnabled(False)
+        elif is_cheked_manu:
+            self.toolButton_updateLimit.setEnabled(False)            
+            self.lineEdit_Xmin.setEnabled(True)
+            self.lineEdit_Xmax.setEnabled(True)
+            self.lineEdit_Ymin.setEnabled(True)
+            self.lineEdit_Ymax.setEnabled(True)
+            
+            
+            
+        
+        
+    def __editingFinishedLineEditMaxMin(self):        
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza el valor       
+        si no es número retorno""" 
+
+        input_lines = [
+            self.lineEdit_Xmin,
+            self.lineEdit_Xmax,
+            self.lineEdit_Ymin,
+            self.lineEdit_Ymax]
+        limits =[]
+        for input_line in input_lines:            
+            data = input_line.text()            
+            if general_functions.isNumber(data):
+                limits.append(float(data))
+                input_line.setText(str(float(data)))            
+                input_line.setStyleSheet("border-color: #444444")   
+                    
+            else:            
+                input_line.setFocus()
+                input_line.setStyleSheet("border: 1px solid #F94646")  
+                return
+                
+        #verificar que los minimos sean menores a los maximos 
+        if limits[0] >= limits[1]:
+            input_lines[0].setStyleSheet("border: 1px solid #F94646")  
+            input_lines[1].setStyleSheet("border: 1px solid #F94646")  
+            return
+        
+        if limits[2] >= limits[3]:
+            input_lines[2].setStyleSheet("border: 1px solid #F94646")  
+            input_lines[3].setStyleSheet("border: 1px solid #F94646")  
+            return
+            
+                        
+        self.signal_max_min.emit(limits)
+        
+    def __clickedToolButtonUpdateLimit(self):
+        self.signal_update_limit.emit()
+        
+    
+
+    
     
     def __currentIndexChangedComboBoxChartTypeResult(self):
         self.signal_chart_type_result.emit()

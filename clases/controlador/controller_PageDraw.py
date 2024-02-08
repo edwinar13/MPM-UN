@@ -99,8 +99,9 @@ class ControllerPageDraw(QObject):
     
    
     @Slot()
-    def setListPropertiesViews(self):        
+    def setListPropertiesViews(self):       
         self.controller_menu_pointMaterial.setListPropertiesViews()
+        self.controller_menu_execute.setListPropertiesViews()
     
 
    

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_propertiesxkyiYA.ui'
+## Form generated from reading UI file 'widget_draw_menu_propertiesmVosMR.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -802,12 +802,37 @@ class Ui_FormDrawMenuProperties(object):
 
         self.formLayout_4.setWidget(3, QFormLayout.LabelRole, self.label_textProperties4)
 
+        self.doubleSpinBoxl_textPropertiesC = QDoubleSpinBox(self.frame_4)
+        self.doubleSpinBoxl_textPropertiesC.setObjectName(u"doubleSpinBoxl_textPropertiesC")
+        self.doubleSpinBoxl_textPropertiesC.setEnabled(True)
+        self.doubleSpinBoxl_textPropertiesC.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textPropertiesC.setDecimals(2)
+        self.doubleSpinBoxl_textPropertiesC.setMinimum(0.010000000000000)
+        self.doubleSpinBoxl_textPropertiesC.setMaximum(10000.000000000000000)
+        self.doubleSpinBoxl_textPropertiesC.setSingleStep(0.010000000000000)
+        self.doubleSpinBoxl_textPropertiesC.setValue(5.000000000000000)
+        self.doubleSpinBoxl_textPropertiesC.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesC)
+
         self.label_textProperties5 = QLabel(self.frame_4)
         self.label_textProperties5.setObjectName(u"label_textProperties5")
         self.label_textProperties5.setMinimumSize(QSize(110, 0))
         self.label_textProperties5.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(5, QFormLayout.LabelRole, self.label_textProperties5)
+        self.formLayout_4.setWidget(4, QFormLayout.LabelRole, self.label_textProperties5)
+
+        self.doubleSpinBoxl_textPropertiesPhi = QDoubleSpinBox(self.frame_4)
+        self.doubleSpinBoxl_textPropertiesPhi.setObjectName(u"doubleSpinBoxl_textPropertiesPhi")
+        self.doubleSpinBoxl_textPropertiesPhi.setEnabled(True)
+        self.doubleSpinBoxl_textPropertiesPhi.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textPropertiesPhi.setDecimals(1)
+        self.doubleSpinBoxl_textPropertiesPhi.setMinimum(0.000000000000000)
+        self.doubleSpinBoxl_textPropertiesPhi.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesPhi.setValue(5.000000000000000)
+        self.doubleSpinBoxl_textPropertiesPhi.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout_4.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPhi)
 
         self.label_textProperties6 = QLabel(self.frame_4)
         self.label_textProperties6.setObjectName(u"label_textProperties6")
@@ -829,30 +854,25 @@ class Ui_FormDrawMenuProperties(object):
 
         self.formLayout_4.setWidget(6, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
 
-        self.doubleSpinBoxl_textPropertiesPhi = QDoubleSpinBox(self.frame_4)
-        self.doubleSpinBoxl_textPropertiesPhi.setObjectName(u"doubleSpinBoxl_textPropertiesPhi")
-        self.doubleSpinBoxl_textPropertiesPhi.setEnabled(True)
-        self.doubleSpinBoxl_textPropertiesPhi.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textPropertiesPhi.setDecimals(1)
-        self.doubleSpinBoxl_textPropertiesPhi.setMinimum(0.000000000000000)
-        self.doubleSpinBoxl_textPropertiesPhi.setSingleStep(0.100000000000000)
-        self.doubleSpinBoxl_textPropertiesPhi.setValue(5.000000000000000)
-        self.doubleSpinBoxl_textPropertiesPhi.setProperty("QDoubleSpinBoxStyle", 1)
+        self.label_textProperties4_2 = QLabel(self.frame_4)
+        self.label_textProperties4_2.setObjectName(u"label_textProperties4_2")
+        self.label_textProperties4_2.setMinimumSize(QSize(110, 0))
+        self.label_textProperties4_2.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPhi)
+        self.formLayout_4.setWidget(5, QFormLayout.LabelRole, self.label_textProperties4_2)
 
-        self.doubleSpinBoxl_textPropertiesC = QDoubleSpinBox(self.frame_4)
-        self.doubleSpinBoxl_textPropertiesC.setObjectName(u"doubleSpinBoxl_textPropertiesC")
-        self.doubleSpinBoxl_textPropertiesC.setEnabled(True)
-        self.doubleSpinBoxl_textPropertiesC.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textPropertiesC.setDecimals(2)
-        self.doubleSpinBoxl_textPropertiesC.setMinimum(0.010000000000000)
-        self.doubleSpinBoxl_textPropertiesC.setMaximum(10000.000000000000000)
-        self.doubleSpinBoxl_textPropertiesC.setSingleStep(0.010000000000000)
-        self.doubleSpinBoxl_textPropertiesC.setValue(5.000000000000000)
-        self.doubleSpinBoxl_textPropertiesC.setProperty("QDoubleSpinBoxStyle", 1)
+        self.doubleSpinBoxl_textPropertiesP = QDoubleSpinBox(self.frame_4)
+        self.doubleSpinBoxl_textPropertiesP.setObjectName(u"doubleSpinBoxl_textPropertiesP")
+        self.doubleSpinBoxl_textPropertiesP.setEnabled(True)
+        self.doubleSpinBoxl_textPropertiesP.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textPropertiesP.setDecimals(1)
+        self.doubleSpinBoxl_textPropertiesP.setMinimum(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setMaximum(10.000000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setValue(1.000000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesC)
+        self.formLayout_4.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesP)
 
 
         self.verticalLayout_7.addWidget(self.frame_4)
@@ -1033,17 +1053,22 @@ class Ui_FormDrawMenuProperties(object):
         self.label_textProperties4.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties4.setText(QCoreApplication.translate("FormDrawMenuProperties", u"C' (KPa):", None))
+        self.doubleSpinBoxl_textPropertiesC.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" KPa", None))
 #if QT_CONFIG(tooltip)
         self.label_textProperties5.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"\u00c1ngulo  de fricci\u00f3n ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties5.setText(QCoreApplication.translate("FormDrawMenuProperties", u"\u03d5 (\u00b0):", None))
+        self.doubleSpinBoxl_textPropertiesPhi.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" \u00b0", None))
 #if QT_CONFIG(tooltip)
         self.label_textProperties6.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"\u00c1ngulo  de dilatancia ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties6.setText(QCoreApplication.translate("FormDrawMenuProperties", u"\u03c8 (\u00b0):", None))
         self.doubleSpinBoxl_textPropertiesPsi.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" \u00b0", None))
-        self.doubleSpinBoxl_textPropertiesPhi.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" \u00b0", None))
-        self.doubleSpinBoxl_textPropertiesC.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" KPa", None))
+#if QT_CONFIG(tooltip)
+        self.label_textProperties4_2.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textProperties4_2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"\u03c1 (Mg/m3):", None))
+        self.doubleSpinBoxl_textPropertiesP.setSuffix(QCoreApplication.translate("FormDrawMenuProperties", u" Mg/m3", None))
         self.toolButton_PropertiesCancel.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Cancelar", None))
         self.toolButton_PropertiesCreateProperty.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear material", None))
         self.label_cardPropertiesSubTitle2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Lista de materiales", None))

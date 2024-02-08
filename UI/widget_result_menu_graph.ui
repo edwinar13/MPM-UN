@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>673</height>
+    <height>766</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -407,17 +407,34 @@ border-left: 2px solid #222222;
 
 
 
-/*******************************************/
-QToolButton[QToolButtonStyle=&quot;2&quot;]{
-font: 500 10pt &quot;Ubuntu&quot;;
-color: #222222;
-background-color: #77ACA2;
-border: none;
-padding: 6px 25px;
-border-radius: 8px ;
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton - Habilitado           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QToolButton[QToolButtonStyle=&quot;2&quot;] {
+    font: 500 10pt &quot;Ubuntu&quot;;
+    color: #222222;
+    background-color: #77ACA2;
+    border: none;
+    padding: 6px 25px;
+    border-radius: 8px;
 }
-QToolButton[QToolButtonStyle=&quot;2&quot;]:hover{
-background-color: #36C9C6;
+
+QToolButton[QToolButtonStyle=&quot;2&quot;]:hover {
+    background-color: #36C9C6;
+}
+
+QToolButton[QToolButtonStyle=&quot;2&quot;]:enabled {
+    /* Estilos adicionales cuando el QToolButton está habilitado */
+    background-color: #77ACA2;
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton - Deshabilitado           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QToolButton[QToolButtonStyle=&quot;2&quot;]:disabled {
+    color: #888888;
+    background-color: #444444;
+    border: none;
+}
+
+QToolButton[QToolButtonStyle=&quot;2&quot;]:disabled:hover {
+    background-color: #444444;
 }
 
 
@@ -496,26 +513,49 @@ QToolButton[QToolButtonStyle=&quot;8&quot;] {
 
 
 
-
-QLineEdit[QLineEditStyle=&quot;1&quot;]{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
-
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit - Habilitado           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QLineEdit[QLineEditStyle=&quot;1&quot;] {
+    font: 9pt &quot;Ubuntu&quot;;
+    color: #DDDDDD;
+    background-color: #444444;
+    border-radius: 2px;
+    padding-right: 6px;
+    padding-left: 6px;
 }
 
-QLineEdit[QLineEditStyle=&quot;2&quot;]{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
+QLineEdit[QLineEditStyle=&quot;1&quot;]:enabled {
+    /* Estilos adicionales cuando el QLineEdit está habilitado */
+    background-color: #444444;
+    border: 1px solid #555555;
+}
 
+QLineEdit[QLineEditStyle=&quot;2&quot;] {
+    font: 9pt &quot;Ubuntu&quot;;
+    color: #DDDDDD;
+    background-color: #333333;
+    border: 1px solid #444444;
+    border-radius: 2px;
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
+QLineEdit[QLineEditStyle=&quot;2&quot;]:enabled {
+    /* Estilos adicionales cuando el QLineEdit está habilitado */
+    background-color: #333333;
+    border: 1px solid #444444;
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit - Deshabilitado           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QLineEdit[QLineEditStyle=&quot;1&quot;]:disabled {
+    color: #888888;
+    background-color: #333333;
+    border: 1px solid #444444;
+}
+
+QLineEdit[QLineEditStyle=&quot;2&quot;]:disabled {
+    color: #888888;
+    background-color: #222222;
+    border: 1px solid #333333;
 }
 
 
@@ -641,6 +681,26 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
 	 border-radius: 3px;
 }
 
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QRadioButton            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QRadioButton[QRadioButtonStyle=&quot;1&quot;] {    
+    color: #DDDDDD;
+    padding: 5px;
+    font: 9pt &quot;Ubuntu&quot;;
+    selection-background-color: #808080;
+}
+
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator {
+    background-color: transparent;
+    border: 1px solid #808080;
+    border-radius: 50%; /* Se utiliza 50% para hacer el círculo */
+}
+
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
+    background-color: #F94646;
+    border: none;
+}
 </string>
   </property>
   <layout class="QFormLayout" name="formLayout">
@@ -1248,6 +1308,319 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                   <number>5</number>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <property name="topMargin">
+                  <number>15</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                   <property name="leftMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>10</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="radioButton_manual">
+                     <property name="text">
+                      <string>Manual</string>
+                     </property>
+                     <property name="QRadioButtonStyle" stdset="0">
+                      <number>1</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="radioButton_automatic">
+                     <property name="text">
+                      <string>Automático</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                     <property name="QRadioButtonStyle" stdset="0">
+                      <number>1</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_text_chart5_7">
+                   <property name="minimumSize">
+                    <size>
+                     <width>110</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Límites eje x&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="QLabelStyle" stdset="0">
+                    <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_6">
+                   <property name="fieldGrowthPolicy">
+                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                   </property>
+                   <property name="rowWrapPolicy">
+                    <enum>QFormLayout::WrapLongRows</enum>
+                   </property>
+                   <property name="horizontalSpacing">
+                    <number>10</number>
+                   </property>
+                   <property name="verticalSpacing">
+                    <number>10</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>10</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_text_chart5_11">
+                     <property name="minimumSize">
+                      <size>
+                       <width>110</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="QLabelStyle" stdset="0">
+                      <number>3</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_text_chart5_12">
+                     <property name="minimumSize">
+                      <size>
+                       <width>110</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Máximo:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="QLabelStyle" stdset="0">
+                      <number>3</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="lineEdit_Xmin">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="QLineEditStyle" stdset="0">
+                      <number>1</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="lineEdit_Xmax">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="QLineEditStyle" stdset="0">
+                      <number>1</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_text_chart5_10">
+                   <property name="minimumSize">
+                    <size>
+                     <width>110</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Límites eje y&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="QLabelStyle" stdset="0">
+                    <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_7">
+                   <property name="horizontalSpacing">
+                    <number>10</number>
+                   </property>
+                   <property name="verticalSpacing">
+                    <number>10</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>10</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>10</number>
+                   </property>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="lineEdit_Ymax">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="QLineEditStyle" stdset="0">
+                      <number>1</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="lineEdit_Ymin">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="QLineEditStyle" stdset="0">
+                      <number>1</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_text_chart5_14">
+                     <property name="minimumSize">
+                      <size>
+                       <width>110</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Máximo:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="QLabelStyle" stdset="0">
+                      <number>3</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_text_chart5_13">
+                     <property name="minimumSize">
+                      <size>
+                       <width>110</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mínimo:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="QLabelStyle" stdset="0">
+                      <number>3</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <item>
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="toolButton_updateLimit">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="text">
+                    <string>Actualizar límites</string>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>2</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>

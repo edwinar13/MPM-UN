@@ -15,7 +15,7 @@ class ControllerCardProperty(QObject):
 
         self.model_property = model_property
         self.model_current_project = model_current_project
-        self.id, self.name, self.modulus_elasticity, self.poisson_ratio, self.cohesion, self.friction_angle, self.angle_dilatancy= model_property.getData()
+        self.id, self.name, self.modulus_elasticity, self.poisson_ratio, self.cohesion, self.friction_angle, self.density, self.angle_dilatancy= model_property.getData()
         self.__initCard()
         self.__initEvent()
 
@@ -29,6 +29,7 @@ class ControllerCardProperty(QObject):
                                         poisson_ratio=self.poisson_ratio,
                                         cohesion=self.cohesion,
                                         friction_angle=self.friction_angle,
+                                        density=self.density,
                                         angle_dilatancy=self.angle_dilatancy)
 
     def __initEvent(self):
@@ -71,6 +72,7 @@ class ControllerCardProperty(QObject):
         self.poisson_ratio= self.view_card_property.getPoissonRatio()
         self.cohesion= self.view_card_property.getCohesion()
         self.friction_angle= self.view_card_property.getFrictionAngle()
+        self.density= self.view_card_property.getDensity()
         self.angle_dilatancy= self.view_card_property.getAngleDilatancy()
 
         self.model_property.updateProperty(
@@ -80,6 +82,7 @@ class ControllerCardProperty(QObject):
             poisson_ratio=self.poisson_ratio,
             cohesion=self.cohesion,
             friction_angle=self.friction_angle,
+            density=self.density,
             angle_dilatancy=self.angle_dilatancy
             )
         self.signal_edit_property.emit()

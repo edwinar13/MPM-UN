@@ -501,9 +501,7 @@ class ControllerMenuMesh(QObject):
                 return False
 
 
-    def generate_mesh_quadrilateral(self, polygon, mesh_size):
-
-     
+    def generate_mesh_quadrilateral(self, polygon, mesh_size):     
        
         line_A = polygon[0]
         line_B = polygon[1]
@@ -576,6 +574,9 @@ class ControllerMenuMesh(QObject):
                 quadrilaterals.append([vertex_1,vertex_2,vertex_3,vertex_4])
         n_element = len(quadrilaterals)
         return points, quadrilaterals, n_element
+    
+    
+    
 
     def divide_line(self, line, parts):
         x1, y1 = line[0]

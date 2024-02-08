@@ -92,8 +92,7 @@ class ControllerMainWindow():
         """ """
         self.controller_page_draw.redo()
         
-       
-        
+              
 
 
 
@@ -145,7 +144,8 @@ class ControllerMainWindow():
             self.previous_selected_button = 7
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
             self.controller_page_draw.selectMenu("execute")
-            self.controller_page_draw.controller_menu_execute.configDrawMenuExecute()
+            #self.controller_page_draw.controller_menu_execute.configDrawMenuExecute()
+            self.controller_page_draw.controller_menu_execute.activateMenu()
             self.setting = True
 
 
@@ -184,7 +184,7 @@ class ControllerMainWindow():
     def openProject(self, path_project):
 
 
-        #verifica si hay un proyecto actual y si es el mimo que se abre
+        #verifica si hay un proyecto actual y si es el mismo que se abre
         if self.model_current_project:
             if self.model_current_project.getPathDoc() == path_project:
                 self.view_main_window.viewToolButtonMenuLat(2)  
@@ -203,7 +203,6 @@ class ControllerMainWindow():
         self.view_main_window.updateTitleWindow(current_project_.getName())
         self.view_main_window.updateProjectsRecentMenuSup(self.getProjectPaths())
         self.controller_page_home.updateProjectsCartView(self.getProjects())
-
 
 
         scene = self.controller_page_draw.controller_graphics_draw.scene_draw

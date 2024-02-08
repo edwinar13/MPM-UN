@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_property_cardZHyEYY.ui'
+## Form generated from reading UI file 'widget_draw_property_cardSbVBYL.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,7 +24,7 @@ class Ui_FormDrawPropertyCard(object):
     def setupUi(self, FormDrawPropertyCard):
         if not FormDrawPropertyCard.objectName():
             FormDrawPropertyCard.setObjectName(u"FormDrawPropertyCard")
-        FormDrawPropertyCard.resize(437, 339)
+        FormDrawPropertyCard.resize(437, 314)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -60,7 +60,7 @@ class Ui_FormDrawPropertyCard(object):
 "QFrame#frame_properties1{\n"
 "background: #333333;\n"
 "border: 1px solid #222222;\n"
-"border-radius: 15px\n"
+"border-radius: 5px\n"
 "}\n"
 "\n"
 "\n"
@@ -74,8 +74,8 @@ class Ui_FormDrawPropertyCard(object):
 "QFrame#frame_card{\n"
 "background: #222222;\n"
 "border-radius:4px\n"
-""
-                        "}\n"
+"}"
+                        "\n"
 "QFrame#frame_color{\n"
 "background: #D0D555;\n"
 "border-top-right-radius:3px;\n"
@@ -361,14 +361,28 @@ class Ui_FormDrawPropertyCard(object):
         self.label_textProperties6_2.setMinimumSize(QSize(80, 0))
         self.label_textProperties6_2.setProperty("QLabelStyle", 3)
 
-        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.label_textProperties6_2)
+        self.formLayout_2.setWidget(5, QFormLayout.LabelRole, self.label_textProperties6_2)
 
         self.label_textPropertiesPsi = QLabel(self.frame_view)
         self.label_textPropertiesPsi.setObjectName(u"label_textPropertiesPsi")
         self.label_textPropertiesPsi.setMinimumSize(QSize(80, 0))
         self.label_textPropertiesPsi.setProperty("QLabelStyle", 3)
 
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.label_textPropertiesPsi)
+        self.formLayout_2.setWidget(5, QFormLayout.FieldRole, self.label_textPropertiesPsi)
+
+        self.label_textProperties4_4 = QLabel(self.frame_view)
+        self.label_textProperties4_4.setObjectName(u"label_textProperties4_4")
+        self.label_textProperties4_4.setMinimumSize(QSize(110, 0))
+        self.label_textProperties4_4.setProperty("QLabelStyle", 3)
+
+        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.label_textProperties4_4)
+
+        self.label_textPropertiesP = QLabel(self.frame_view)
+        self.label_textPropertiesP.setObjectName(u"label_textPropertiesP")
+        self.label_textPropertiesP.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesP.setProperty("QLabelStyle", 3)
+
+        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.label_textPropertiesP)
 
 
         self.verticalLayout_7.addWidget(self.frame_view)
@@ -467,7 +481,7 @@ class Ui_FormDrawPropertyCard(object):
         self.label_textProperties6_3.setMinimumSize(QSize(80, 0))
         self.label_textProperties6_3.setProperty("QLabelStyle", 3)
 
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_textProperties6_3)
+        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.label_textProperties6_3)
 
         self.doubleSpinBoxl_textPropertiesPsi = QDoubleSpinBox(self.frame_edit)
         self.doubleSpinBoxl_textPropertiesPsi.setObjectName(u"doubleSpinBoxl_textPropertiesPsi")
@@ -480,7 +494,27 @@ class Ui_FormDrawPropertyCard(object):
         self.doubleSpinBoxl_textPropertiesPsi.setValue(5.000000000000000)
         self.doubleSpinBoxl_textPropertiesPsi.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
+        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
+
+        self.label_textProperties4_5 = QLabel(self.frame_edit)
+        self.label_textProperties4_5.setObjectName(u"label_textProperties4_5")
+        self.label_textProperties4_5.setMinimumSize(QSize(110, 0))
+        self.label_textProperties4_5.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_textProperties4_5)
+
+        self.doubleSpinBoxl_textPropertiesP = QDoubleSpinBox(self.frame_edit)
+        self.doubleSpinBoxl_textPropertiesP.setObjectName(u"doubleSpinBoxl_textPropertiesP")
+        self.doubleSpinBoxl_textPropertiesP.setEnabled(True)
+        self.doubleSpinBoxl_textPropertiesP.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textPropertiesP.setDecimals(1)
+        self.doubleSpinBoxl_textPropertiesP.setMinimum(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setMaximum(10.000000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setValue(1.000000000000000)
+        self.doubleSpinBoxl_textPropertiesP.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesP)
 
 
         self.verticalLayout_7.addWidget(self.frame_edit)
@@ -544,6 +578,14 @@ class Ui_FormDrawPropertyCard(object):
 #endif // QT_CONFIG(tooltip)
         self.label_textPropertiesPsi.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c8 (\u00b0):", None))
 #if QT_CONFIG(tooltip)
+        self.label_textProperties4_4.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textProperties4_4.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c1 (Mg/m3):", None))
+#if QT_CONFIG(tooltip)
+        self.label_textPropertiesP.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textPropertiesP.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c1 (Mg/m3):", None))
+#if QT_CONFIG(tooltip)
         self.label_textProperties2_4.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"M\u00f3dulo de espasticidad", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties2_4.setText(QCoreApplication.translate("FormDrawPropertyCard", u"E (KPa):", None))
@@ -568,5 +610,10 @@ class Ui_FormDrawPropertyCard(object):
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties6_3.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c8 (\u00b0):", None))
         self.doubleSpinBoxl_textPropertiesPsi.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" \u00b0", None))
+#if QT_CONFIG(tooltip)
+        self.label_textProperties4_5.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textProperties4_5.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c1 (Mg/m3):", None))
+        self.doubleSpinBoxl_textPropertiesP.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" Mg/m3", None))
     # retranslateUi
 

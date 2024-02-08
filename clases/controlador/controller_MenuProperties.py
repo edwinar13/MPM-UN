@@ -78,6 +78,7 @@ class ControllerMenuProperties(QObject):
         poisson_ratio =self.view_menu_properties.getPropertiesV()
         cohesion =self.view_menu_properties.getPropertiesC()
         friction_angle =self.view_menu_properties.getPropertiesPhi()
+        density =self.view_menu_properties.getPropertiesRho()
         angle_dilatancy =self.view_menu_properties.getPropertiesPsi()
 
  
@@ -95,6 +96,7 @@ class ControllerMenuProperties(QObject):
                                                     poisson_ratio=poisson_ratio,
                                                     cohesion=cohesion,
                                                     friction_angle=friction_angle,
+                                                    density= density,
                                                     angle_dilatancy = angle_dilatancy)
         model_property = self.model_current_project.getModelsProperties()[id]
         self.createPropertyCard(model_property)

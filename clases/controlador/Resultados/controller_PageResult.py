@@ -54,12 +54,18 @@ class ControllerPageResult(QObject):
         """ Asigna las ranuras (Slot) a las señales (Signal). """
         # ::::::::::::::::::::      EVENTOS PAGE SCENE     ::::::::::::::::::::
         
+        
         self.controller_menu_result_graph.signal_change_graphics_type.connect(self.changedGraphicsType)
         self.controller_menu_result_graph.signal_chart_add_card.connect(self.signalChartAddCard)
         self.controller_menu_result_graph.signal_change_graphics_type_style.connect(self.signalChartTypeStyle)
         self.controller_menu_result_graph.signal_show_hide_series.connect(self.signalCardShowHideSeries)
         self.controller_menu_result_graph.signal_show_hide_label.connect(self.signalShowHideLabel)  
         self.controller_menu_result_graph.signal_delete_series.connect(self.signalDeleteSeries)
+        
+        self.controller_menu_result_graph.signal_set_max_min.connect(self.signalSetMaxMin)
+        self.controller_menu_result_graph.signal_update_limit.connect(self.signalUpdateLimit)
+        
+
         
         self.controller_menu_result_summary_table.signal_table_search_point.connect(self.signalTableSearchPoint)
         self.controller_menu_result_summary_table.signal_table_clear.connect(self.signalTableClear)
@@ -93,8 +99,31 @@ class ControllerPageResult(QObject):
         self.view_page_result.deleteAllPointChart()
         self.list_controller_card = []   
         self.graphics_list_point = []         
+            
+    @Slot(list) 
+    def signalSetMaxMin(self, limits):
         
-       
+        self.view_page_result.setXAxisLimitsChart(
+            xmin=limits[0],
+            xmax=limits[1]
+        )
+        self.view_page_result.setYAxisLimitsChart(
+            ymin=limits[2],
+            ymax=limits[3]           
+        )
+        
+
+
+    @Slot(str) 
+    def signalUpdateLimit(self, type_data):
+        self.changedGraphicsType(type_data)
+
+    
+    @Slot() 
+    def resetResult(self):
+        self.signalDeleteSeries()
+        self.controller_menu_result_animation.signalSceneStop()
+        self.controller_menu_result_summary_table.signalTableClear()
        
     @Slot(str)
     def signalCardDeletePoint(self,data):  
@@ -106,6 +135,8 @@ class ControllerPageResult(QObject):
             if controller_card_point.id == id_point:
                 self.list_controller_card.remove(controller_card_point)
                 break
+        
+    
         
         
     @Slot(dict)
@@ -258,6 +289,7 @@ class ControllerPageResult(QObject):
 
                     self.createCardPoint(point_search, color)
                     self.graphics_list_point.append(point_search)
+        
 
     @Slot(str)
     def changedGraphicsType(self, type_result):
@@ -265,8 +297,8 @@ class ControllerPageResult(QObject):
         self.view_page_result.setTitleChart(type_result)
         self.view_page_result.setLabelYChart(type_result)
         self.view_page_result.canvas.draw()
-
-        data = self.model_result.getResultNodes()    
+        data = self.model_result.getResultNodes()  
+        graphics_times = self.model_result.getGrapihcsTimes()
         ymax = -1000*100
         ymin = 1000*100
         self.graphics_type_result  = type_result
@@ -292,6 +324,7 @@ class ControllerPageResult(QObject):
 
             self.view_page_result.changeTypeResultChart(id_point=point_graphics,
                                                      y_new=data_axis_y)
+                
             ymin_ref = min(data_axis_y)            
             if ymin_ref < ymin:
                 ymin = ymin_ref
@@ -299,7 +332,12 @@ class ControllerPageResult(QObject):
             ymax_ref = max(data_axis_y)         
             if ymax_ref > ymax:
                 ymax = ymax_ref
+                
         self.view_page_result.setYAxisLimitsChart(ymax=ymax,ymin=ymin)
+        self.view_page_result.setXAxisLimitsChart(
+            xmin=min(graphics_times),
+            xmax=max(graphics_times)
+        )
                
     ###############################################################################
 	# ::::::::::::::::::::          OTROS  MÉTODOS             ::::::::::::::::::::
@@ -311,6 +349,8 @@ class ControllerPageResult(QObject):
         self.controller_menu_result_animation.setCurrentProject(self.current_project)
         self.controller_menu_result_graph.setCurrentProject(self.current_project)
         self.controller_menu_result_summary_table.setCurrentProject(self.current_project)
+        
+        self.model_result.signal_reset_result.connect(self.resetResult)
         
     def configResult(self):        
         if self.model_result != None:         
@@ -331,6 +371,8 @@ class ControllerPageResult(QObject):
         controller_card_point.signal_update_color_point.connect(self.signalCardUpdateColorPoint)
 
         self.list_controller_card.append(controller_card_point)
+        
+  
 
 
 

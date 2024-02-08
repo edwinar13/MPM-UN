@@ -12,6 +12,7 @@ class ModelResult(QObject):
     
     signal_time_steps_changed = Signal(int)
     signal_time_steps_end = Signal()
+    signal_reset_result = Signal()
 
     def __init__(self,scene_result:ViewGraphicsSceneResult, 
                 view_result:ViewGraphicsViewResult,
@@ -198,10 +199,12 @@ class ModelResult(QObject):
             
             
         elif self.time_view < 0:
-            self.time_view = 0            
+            self.time_view = 0          
+              
         for node in self.__item_result_nodes:
             node.advanceTime(self.time_view)
         self.signal_time_steps_changed.emit(self.time_view)
+        
     
        
     
@@ -288,11 +291,13 @@ class ModelResult(QObject):
         self.clearSceneResult()
         self.drawItemBasicScene()
         self.drawItemPointsScene()
+        self.signal_reset_result.emit()
         #self.view_result.resetView()
         
     def clearResult(self):
         self.model_project_current_repository.deleteAllResultDB()
         
+
     def updateResultTimes(self,analysis_times=None ):
 
         if analysis_times != None:
@@ -304,10 +309,27 @@ class ModelResult(QObject):
             )
         
     def updateResultTimeGraphic(self, graphic_time):
+        if graphic_time != None:
+            self.__graphic_time = graphic_time
+            self.no_data = len(graphic_time)
+        
         self.model_project_current_repository.updateResultTimeGraphicDB(
             graphic_time=graphic_time,
             )
+        
+        
     def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy):
+        self.__result_min ={
+            'CORX': corx,
+            'CORY': cory,
+            'SIGXX': sigxx,
+            'SIGYY': sigyy,
+            'SIGXY': sigxy,
+            'EPSXX': epsxx,
+            'EPSYY': epsyy,
+            'EPSXY': epsxy
+        }
+        
         self.model_project_current_repository.updateResultMinDB(
             corx=corx,
             cory=cory,
@@ -318,7 +340,20 @@ class ModelResult(QObject):
             epsyy=epsyy,
             epsxy=epsxy
             )
-    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy):
+        
+        
+    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy):  
+        self.__result_max ={
+            'CORX': corx,
+            'CORY': cory,
+            'SIGXX': sigxx,
+            'SIGYY': sigyy,
+            'SIGXY': sigxy,
+            'EPSXX': epsxx,
+            'EPSYY': epsyy,
+            'EPSXY': epsxy
+        }     
+        
         self.model_project_current_repository.updateResultMaxDB(
             corx=corx,
             cory=cory,
@@ -328,10 +363,7 @@ class ModelResult(QObject):
             epsxx=epsxx,
             epsyy=epsyy,
             epsxy=epsxy
-            )
-    
-
-        
+            )  
 
                 
     def addResultNode(self, id_result_node, corx=None, cory=None,

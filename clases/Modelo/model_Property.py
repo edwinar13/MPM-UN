@@ -13,6 +13,7 @@ class ModelProperty:
                         poisson_ratio,
                         cohesion,
                         friction_angle,
+                        density,
                         angle_dilatancy) -> None:
 
         self.scene_draw = scene_draw
@@ -24,6 +25,7 @@ class ModelProperty:
         self.__poisson_ratio=poisson_ratio
         self.__cohesion=cohesion
         self.__friction_angle=friction_angle
+        self.__density=density
         self.__angle_dilatancy=angle_dilatancy
 
 
@@ -51,6 +53,9 @@ class ModelProperty:
     def getFrictionAngle(self):
         return self.__friction_angle
     
+    def getDensity(self):
+        return self.__density
+    
     def getAngleDilatancy(self):
         return self.__angle_dilatancy 
 
@@ -64,6 +69,7 @@ class ModelProperty:
                 self.__poisson_ratio,
                 self.__cohesion,
                 self.__friction_angle,
+                self.__density,
                 self.__angle_dilatancy
                 ]
 
@@ -79,6 +85,7 @@ class ModelProperty:
                         poisson_ratio= None,
                         cohesion= None,
                         friction_angle= None,
+                        density= None,
                         angle_dilatancy= None ):
 
         if name != None:
@@ -91,6 +98,8 @@ class ModelProperty:
             self.__cohesion = cohesion
         if friction_angle != None:
             self.__friction_angle = friction_angle
+        if density != None:
+            self.__density = density
         if angle_dilatancy != None:
             self.__angle_dilatancy = angle_dilatancy
         
@@ -101,6 +110,7 @@ class ModelProperty:
             poisson_ratio=poisson_ratio,
             cohesion=cohesion,
             friction_angle=friction_angle,
+            density=density,
             angle_dilatancy=angle_dilatancy
             )
 

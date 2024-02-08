@@ -226,6 +226,7 @@ class ModelProjectCurrent(QObject):
             poisson_ratio = properties[id_property]["RELACIONPOISSON"]
             cohesion = properties[id_property]["COHESION"]
             friction_angle = properties[id_property]["ANGULOFRICCION"]
+            density = properties[id_property]["DENSIDAD"]
             angle_dilatancy = properties[id_property]["ANGULODILATANCIA"]
 
 
@@ -236,6 +237,7 @@ class ModelProjectCurrent(QObject):
                 poisson_ratio=poisson_ratio,
                 cohesion=cohesion,
                 friction_angle=friction_angle,
+                density=density,
                 angle_dilatancy=angle_dilatancy)
             
     def __initMaterialPoint(self):
@@ -277,7 +279,6 @@ class ModelProjectCurrent(QObject):
         result_min = self.model_project_current_repository.readResultMinDB()
         result_max = self.model_project_current_repository.readResultMaxDB()
 
-
         self.model_result = ModelResult(
             scene_result=self.scene_result,
             view_result=self.view_result,
@@ -289,8 +290,7 @@ class ModelProjectCurrent(QObject):
             result_max=result_max,
             result_nodes=result_nodes
             )
-        
-        
+                
         return
         
         size_dx = mesh_back["SIZEDX"]
@@ -321,9 +321,6 @@ class ModelProjectCurrent(QObject):
                                                     points_boundary_right = points_boundary_right)
     
         self.model_mesh_black=model_mesh_back        
-
-
-
 
         meshs = self.model_project_current_repository.readMeshTriangularDB()
         for id_mesh_triangular in meshs: 
@@ -681,6 +678,7 @@ class ModelProjectCurrent(QObject):
                             poisson_ratio,
                             cohesion,
                             friction_angle,
+                            density,
                             angle_dilatancy):
         id = str(uuid.uuid4())
         self.model_project_current_repository.createPropertiesDB(
@@ -690,6 +688,7 @@ class ModelProjectCurrent(QObject):
             poisson_ratio=poisson_ratio,
             cohesion=cohesion,
             friction_angle=friction_angle,
+            density= density,
             angle_dilatancy=angle_dilatancy)
         self.addPropertyToCurrentProject(
                 id=id,
@@ -698,6 +697,7 @@ class ModelProjectCurrent(QObject):
                 poisson_ratio=poisson_ratio,
                 cohesion=cohesion,
                 friction_angle=friction_angle,
+                density= density,
                 angle_dilatancy=angle_dilatancy)
         return id
     
@@ -706,6 +706,7 @@ class ModelProjectCurrent(QObject):
                                     poisson_ratio,
                                     cohesion,
                                     friction_angle,
+                                    density,
                                     angle_dilatancy):    
         model_property = ModelProperty(scene_draw=self.__scene,
                                         model_project_current_repository=self.model_project_current_repository,
@@ -715,6 +716,7 @@ class ModelProjectCurrent(QObject):
                                         poisson_ratio=poisson_ratio,
                                         cohesion=cohesion,
                                         friction_angle=friction_angle,
+                                        density= density,
                                         angle_dilatancy=angle_dilatancy)
         self.models_properties[id]=model_property        
 

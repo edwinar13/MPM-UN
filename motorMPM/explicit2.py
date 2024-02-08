@@ -18,7 +18,39 @@ def deltatime(Ep, nu, rhop, ele_size, factor):
                     ele_size = tamano de la malla de los elementos
                     factor = porcentaje en tanto por 1 del minimo delta de tiempo - recomendado 0.1
         
-        Return: dt = delta de tiempo redondeado con un solo decimal diferente de cero"""
+        Return: dt = delta de tiempo redondeado con un solo decimal diferente de cero
+                c = maxima velocidad del sonido en el material
+    """
+
+    Eedo = (1 - nu) / (1 + nu) / (1 - 2*nu) * Ep
+    #c = math.sqrt(np.max(np.divide(Eedo, rhop.astype(float)))) # maxima velocidad del sonido en el material
+    c = math.sqrt(np.max(np.divide(Eedo, rhop))) # maxima velocidad del sonido en el material
+
+    dt = ele_size / c * factor # minimo delta de tiempo
+    
+    # redondeo del dt a un solo decimal distinto de cero
+    sgn = -1 if dt < 0 else 1
+    scale = int(-math.floor(math.log10(abs(dt))))
+    if scale <= 0:
+        scale = 1
+    factor = 10**scale
+    dt = sgn*math.floor(abs(dt)*factor)/factor
+    
+    return dt, c
+
+def deltatime2(Ep, nu, rhop, ele_size, factor):
+    """Funcion que calcula el delta de tiempo necesario para convergencia 
+       Courant-Friedrichs-Lewy - Velocidad del sonido en el material
+        Argumentos: 
+                    Ep = Array con el modulo de Young de las particulas
+                    nu = Array con el coeficiente de poisson de las particulas
+                    rhop = Array con la densidad de las particulas
+                    ele_size = tamano de la malla de los elementos
+                    factor = porcentaje en tanto por 1 del minimo delta de tiempo - recomendado 0.1
+        
+        Return: dt = delta de tiempo redondeado con un solo decimal diferente de cero
+                c = maxima velocidad del sonido en el material
+    """
 
     Eedo = (1 - nu) / (1 + nu) / (1 - 2*nu) * Ep
     c = math.sqrt(np.max(np.divide(Eedo, rhop.astype(float)))) # maxima velocidad del sonido en el material
@@ -170,7 +202,7 @@ def shapfunc_gauss1(xn):
         Ng[0, 1] = -1 / (4*a*b) * (x - x1) * (y - y3)
         Ng[0, 2] = 1 / (4*a*b) * (x - x4) * (y - y2)
         Ng[0, 3] = -1 / (4*a*b) * (x - x3) * (y - y1)
-        # -- Dervidas en x de las funcioens de forma
+        # -- Dervidas en x de las funciones de forma
         Ng[1, 0] = 1 / (4*a*b) * (y - y4)
         Ng[1, 1] = -1 / (4*a*b) * (y - y3)
         Ng[1, 2] = 1 / (4*a*b) * (y - y2)

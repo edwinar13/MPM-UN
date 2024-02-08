@@ -149,6 +149,9 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
 
     def getPropertiesPhi(self):
         return self.doubleSpinBoxl_textPropertiesPhi.value()
+    
+    def getPropertiesRho(self):
+        return self.doubleSpinBoxl_textPropertiesP.value()
         
     def getPropertiesPsi(self):
         return self.doubleSpinBoxl_textPropertiesPsi.value()

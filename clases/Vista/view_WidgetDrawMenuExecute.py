@@ -17,6 +17,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     
     signal_execute= Signal() 
     signal_state_view_boundary= Signal(dict) 
+    signal_update_time = Signal()
     
     def __init__(self):
         super(ViewWidgetDrawMenuExecute, self).__init__()
@@ -24,6 +25,10 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 
         self.__hide_show_frame_execute=True
         self.__hide_show_frame_execute_1=True
+        self.__hide_show_frame_execute_2=True
+        
+        self.menu_active = False
+        self.i = 0
         '''
         self.__hide_show_frame_properties_2=True
 
@@ -104,14 +109,30 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardExecuteSubTitle1.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle1)
+        self.toolButton_cardExecuteSubTitle2.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle2)
         #self.toolButton_cardPropertiesSubTitle2.clicked.connect(self.__clickedToolButtonCardPropertiesSubTitle2)
 
+
         # ::::::::::::::::::::      EVENTOS DRAW MENU EXECUTE     ::::::::::::::::::::
+      
+        
+        self.toolButton_calculateTimes.clicked.connect(self.updateTime)
+        '''
+        self.comboBox_ExecuteProperty.currentIndexChanged.connect(self.updateTime)
+        self.doubleSpinBoxl_textExecuteNumberCourant.valueChanged.connect(self.updateTime)
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.valueChanged.connect(self.updateTime)
+        self.doubleSpinBoxl_textExecuteFps.valueChanged.connect(self.updateTime)
+        '''
+        
+        
         self.listWidget_execute_pointMaterialFrom.itemChanged.connect(self.changePointMaterialFrom)
+        self.listWidget_execute_pointMaterialTo.itemChanged.connect(self.changePointMaterialTo)
         self.listWidget_execute_pointMaterialTo.itemChanged.connect(self.changePointMaterialTo)
         self.listWidget_execute_boundariesFrom.itemChanged.connect(self.changeBoundaryFrom)
         self.listWidget_execute_boundariesTo.itemChanged.connect(self.changeBoundaryTo)
         self.toolButton_Execute.clicked.connect(self.__clickedToolButtonExecute)
+        
+        
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -143,6 +164,20 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.__hide_show_frame_execute_1 = True
             self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_minimize)
             self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+            
+    def __clickedToolButtonCardxecuteSubTitle2(self):
+        if self.__hide_show_frame_execute_2 == True:
+            self.frame_Execute2.setVisible(False)
+            self.__hide_show_frame_execute_2 = False
+            self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_maximize)
+            self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        elif self.__hide_show_frame_execute_2 == False:
+            self.frame_Execute2.setVisible(True)
+            self.__hide_show_frame_execute_2 = True
+            self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_minimize)
+            self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+            
+
 
     # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
     def dragEnterEventPointMaterialFrom(self, event):      
@@ -168,8 +203,12 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             event.ignore()
         else:
             event.accept()
+            
+    
 
     def changePointMaterialFrom(self, item):
+        
+       
         selected_items = self.listWidget_execute_pointMaterialTo.selectedItems()
         for selected_item in selected_items:
             self.listWidget_execute_pointMaterialTo.takeItem(self.listWidget_execute_pointMaterialTo.row(selected_item))
@@ -177,6 +216,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         #self.listWidget_execute_pointMaterialTo.sortItems(Qt.AscendingOrder)
 
     def changePointMaterialTo(self, item):
+      
         selected_items = self.listWidget_execute_pointMaterialFrom.selectedItems()
         for selected_item in selected_items:
             self.listWidget_execute_pointMaterialFrom.takeItem(self.listWidget_execute_pointMaterialFrom.row(selected_item))
@@ -208,6 +248,13 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     def __clickedToolButtonExecute(self):
         self.signal_execute.emit()
 
+    def activateMenu(self):
+        self.menu_active = True
+        
+    def updateTime(self):
+        if self.menu_active:
+            self.i += 1
+            self.signal_update_time.emit()
 
 
     ###############################################################################
@@ -231,11 +278,28 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             id = item.data(Qt.UserRole)
             items.append({'name': name, 'id': id})
         return items
+    
     def getTimeAnalysis (self):
         return self.doubleSpinBoxl_textExecuteTimeAnalysis.value()
     
+    def getFps (self):
+        return self.doubleSpinBoxl_textExecuteFps.value()
+    
 
+    
+    def setResultRTimes(self, velocity_cp, dtime, step_time, dtimegraphic, step_timegraphic):
+        
+        dtime_str = str(dtime).split(".")
+        dtime_decimals = len(dtime_str[1])
 
+        self.label_texExcuteVelocityCp.setText(f"{velocity_cp:.2f}m/s")
+        self.label_texExcuteDtAnalysis.setText(f"{dtime}s")
+        self.label_texExcuteDtGraphic.setText(f"{dtimegraphic:.{dtime_decimals}f}s")        
+        self.label_texExcuteStepAnalysis.setText(f"{step_time}pasos")
+        self.label_texExcuteStepGraphic.setText(f"{step_timegraphic}pasos")
+        
+        
+        
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -264,10 +328,6 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             item.setIcon(QIcon(pixmap))
 
             self.listWidget_execute_pointMaterialFrom.addItem(item)
-
-
-
-
             
     def addItemsListsBoundaries(self, boundaries):
 
@@ -277,7 +337,37 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.listWidget_execute_boundariesFrom.addItem(item)
             self.signal_state_view_boundary.emit({'id_boundary':item_data['id'],'state_view':False})
 
+    def getNumberCourant(self):
+        return self.doubleSpinBoxl_textExecuteNumberCourant.value()
+    
+    
+    def getProperty(self):
+        """return [id_selected, name]"""
+        name = self.comboBox_ExecuteProperty.currentText()
+        index = self.comboBox_ExecuteProperty.currentIndex()
+        if self.comboBox_ExecuteProperty.count() == 0:
+            return ["",""]
+        id_selected = self.comboBox_ExecuteProperty.itemData(index, Qt.UserRole)["id_property"]
+        return [id_selected, name]
+        #intentar cambiar el modulo del material actual y falla
+    
 
+    def setListProperties(self, properties_data): 
+        self.comboBox_ExecuteProperty.clear()        
+        for item_index in range(len(properties_data)):
+            id_property =properties_data[item_index][0]
+            name_property =properties_data[item_index][1]       
+            
+            self.comboBox_ExecuteProperty.addItem(name_property)      
+            self.comboBox_ExecuteProperty.setItemData(self.comboBox_ExecuteProperty.count() - 1, {"id_property": id_property}, Qt.UserRole)
+
+   
+    
+    def clearListProperties(self):
+        self.comboBox_ExecuteProperty.clear()
+        
+
+        
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  MENSAJES         ::::::::::::::::::::
@@ -299,3 +389,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     def clearLabel(self):
         self.label_msn.setText("")
         self.label_msn.setStyleSheet("border-radius: 0px ;padding-top: 0px; padding-bottom: 0px; background: transparent; color: #222;")
+        
+        
+        
+        

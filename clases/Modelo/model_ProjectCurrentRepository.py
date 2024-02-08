@@ -455,7 +455,7 @@ class ModelProjectCurrentRepository():
             return False    
 
 	# ::::::::::::::::::::       MÉTODOS DB PROPIEDADES     ::::::::::::::::::::   
-    def createPropertiesDB(self, id_properties, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, angle_dilatancy):    
+    def createPropertiesDB(self, id_properties, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):    
         
         try:                 
             self.__unguarded_copy_db_project['MATERIALES'][id_properties] = {
@@ -464,6 +464,7 @@ class ModelProjectCurrentRepository():
                 "RELACIONPOISSON": poisson_ratio,
                 "COHESION": cohesion,
                 "ANGULOFRICCION": friction_angle,
+                "DENSIDAD": density,
                 "ANGULODILATANCIA": angle_dilatancy
             }
             
@@ -488,6 +489,7 @@ class ModelProjectCurrentRepository():
                            poisson_ratio=None,
                            cohesion=None,
                            friction_angle=None,
+                           density=None,
                            angle_dilatancy=None):
 
         try: 
@@ -503,6 +505,8 @@ class ModelProjectCurrentRepository():
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["COHESION"]=cohesion
                 if friction_angle != None:   
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULOFRICCION"]=friction_angle
+                if density != None:
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["DENSIDAD"]=density                    
                 if angle_dilatancy != None:   
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULODILATANCIA"]=angle_dilatancy
 

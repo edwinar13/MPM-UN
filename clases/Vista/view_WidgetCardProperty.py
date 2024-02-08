@@ -110,6 +110,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.doubleSpinBoxl_textPropertiesV.setValue(float(self.label_textPropertiesV.text()))
         self.doubleSpinBoxl_textPropertiesC.setValue(float(self.label_textPropertiesC.text()))
         self.doubleSpinBoxl_textPropertiesPhi.setValue(float(self.label_textPropertiesPhi.text()))
+        self.doubleSpinBoxl_textPropertiesP.setValue(float(self.label_textPropertiesP.text()))
         self.doubleSpinBoxl_textPropertiesPsi.setValue(float(self.label_textPropertiesPsi.text()))
             
     def __clickedToolButtonPropertiesShow(self):
@@ -144,6 +145,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.label_textPropertiesV.setText(str(self.doubleSpinBoxl_textPropertiesV.value()))
         self.label_textPropertiesC.setText(str(self.doubleSpinBoxl_textPropertiesC.value()))
         self.label_textPropertiesPhi.setText(str(self.doubleSpinBoxl_textPropertiesPhi.value()))
+        self.label_textPropertiesP.setText(str(self.doubleSpinBoxl_textPropertiesP.value()))
         self.label_textPropertiesPsi.setText( str(self.doubleSpinBoxl_textPropertiesPsi.value()))
 
         self.signal_update_property.emit()
@@ -196,6 +198,9 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
 
     def getFrictionAngle(self):
         return float(self.label_textPropertiesPhi.text())
+    
+    def getDensity(self):
+        return float(self.label_textPropertiesP.text())
 
     def getAngleDilatancy(self):
         return float(self.label_textPropertiesPsi.text())
@@ -205,12 +210,13 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
 	###############################################################################
 
 
-    def showData(self, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, angle_dilatancy):        
+    def showData(self, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density, angle_dilatancy):        
         self.label_cardPropertyName.setText(u"{}".format(name))
         self.label_textPropertiesE.setText(u"{}".format(modulus_elasticity))
         self.label_textPropertiesV.setText(u"{}".format(poisson_ratio))
         self.label_textPropertiesC.setText(u"{}".format(cohesion))
         self.label_textPropertiesPhi.setText(u"{}".format(friction_angle))
+        self.label_textPropertiesP.setText(u"{}".format(density))   
         self.label_textPropertiesPsi.setText(u"{}".format(angle_dilatancy))
 
 

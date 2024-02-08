@@ -17,7 +17,7 @@ import json
 
 from motorMPM.mesh import create_uniform, contour_fixe, setup_MP,search_MP
 from motorMPM.mesh import traction_forces,boundary_particles
-from motorMPM.explicit2 import deltatime, particles_to_nodes, BC_Dirichlet_momentum
+from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress
 from motorMPM.graphics import graphic_button,graphic_button2,graphic_button3,graphic_button4, graphic_video2,graphic_gif
 
@@ -31,6 +31,10 @@ class ControllerMenuExecute(QObject):
         self.model_current_project = None
         self.model_result = None
         self.list_controller_card=[]
+        self.dtime = None
+        self.tiempo = None
+        self.tiempographic = None
+
 
         self.__initEvent()
 
@@ -42,14 +46,19 @@ class ControllerMenuExecute(QObject):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_execute.signal_execute.connect(self.executeAnalysis)
         self.view_menu_execute.signal_state_view_boundary.connect(self.stateViewBoundary)
-
+        self.view_menu_execute.signal_update_time.connect(self.updateTime)
+        
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
         self.model_current_project = model_current_project
         self.model_result = model_current_project.getModelResult()
+        
+    def activateMenu(self):
+        self.view_menu_execute.activateMenu()
 
     def configDrawMenuExecute(self):
 
         self.view_menu_execute.removeItemsLists()
+        self.view_menu_execute.clearListProperties()
 
         points_material = []
         models_points_materials = self.model_current_project.getModelsPointsMaterials()
@@ -59,9 +68,6 @@ class ControllerMenuExecute(QObject):
             points_material.append({'name': name_PM, 'id': id_PM, 'color': color_PM})
         self.view_menu_execute.addItemsListsMaterialPoint(points_material)
        
-
-
-
         boundaries = []
         models_boundaries = self.model_current_project.getModelsBoundaries()
         for id_boundary in models_boundaries:
@@ -69,6 +75,8 @@ class ControllerMenuExecute(QObject):
             boundaries.append({'name': name_boundary, 'id': id_boundary})
 
         self.view_menu_execute.addItemsListsBoundaries(boundaries)
+        self.setListPropertiesViews()
+        
        
     def getView(self):
         return self.view_menu_execute
@@ -105,17 +113,33 @@ class ControllerMenuExecute(QObject):
         
         list_point_material = self.view_menu_execute.getListExecutePointMaterial()
         list_boundaries = self.view_menu_execute.getListExecuteBoundaries()
-        time_analysis = self.view_menu_execute.getTimeAnalysis()
-        if not list_point_material:
+        
+        
+        dtime = self.dtime
+        tiempo = self.tiempo
+        tiempographic = self.tiempographic
+        
+        if dtime is None or tiempo is None or tiempographic is None:
+            self.view_menu_execute.msnAlertDefault(True,"Evalué los parámetros de tiempo")
+            return
+        
+        elif not list_point_material:
             loading_popup.close()
             self.view_menu_execute.msnAlertDefault(True,"Selecciona los puntos materiales")
             return
+        
         elif not list_boundaries:
             loading_popup.close()
             self.view_menu_execute.msnAlertDefault(True,"Selecciona los contornos")
             return
         
-        state_ok = self.analysisViga(list_boundaries, list_point_material, time_analysis)
+        
+        
+        state_ok = self.analysisViga(list_boundaries=list_boundaries,
+                                     list_point_material=list_point_material, 
+                                     dtime=dtime,
+                                     tiempo=tiempo,
+                                     tiempographic=tiempographic)
         if state_ok:
             loading_popup.close()
             self.view_menu_execute.msnAlertDefault(False,"Análisis ejecutado")
@@ -124,6 +148,68 @@ class ControllerMenuExecute(QObject):
     @Slot(dict)
     def stateViewBoundary(self, data):
         self.model_current_project.stateViewBoundary(data)
+
+
+    def setListPropertiesViews(self): 
+        properties_data = []   
+        property = self.model_current_project.getModelsProperties()
+        for id_property in property:
+            name = property[id_property].getName()
+            properties_data.append([id_property, name])
+        self.view_menu_execute.setListProperties(properties_data=properties_data)
+
+
+    @Slot()
+    def updateTime(self):       
+        models_properties = self.model_current_project.models_properties
+        property = self.view_menu_execute.getProperty()  
+        id_property = property[0]    
+        model_propertie = models_properties[id_property]
+
+        id,name,modulus_elasticity,poisson_ratio,cohesion,friction_angle, density, angle_dilatancy = model_propertie.getData()
+        
+        number_courant = self.view_menu_execute.getNumberCourant()
+        model_mesh_black = self.model_current_project.model_mesh_black
+        points = model_mesh_black.getPoints()
+        cor = np.asarray(points)
+        ele_size = cor[1][0] - cor[0][0]
+        dtime, velocity_cp = deltatime(Ep = modulus_elasticity,
+                          nu = poisson_ratio, 
+                          rhop = density,
+                          ele_size = ele_size,
+                          factor = number_courant)
+        
+        time_ini = self.view_menu_execute.getTimeAnalysis()
+        time = math.ceil(time_ini / dtime) * dtime
+        tiempo = np.arange(0, time, dtime)
+
+        fps = self.view_menu_execute.getFps()        
+        
+        if dtime < 1/fps:
+            ndt = math.floor(1/fps/dtime)
+            dtimegraphic = ndt*dtime
+        else:
+            dtimegraphic = dtime     
+        tiempographic = np.arange(0, time, dtimegraphic)
+                
+        self.view_menu_execute.setResultRTimes(velocity_cp,
+                                               dtime,
+                                               len(tiempo),
+                                               dtimegraphic,
+                                               len(tiempographic))
+        
+        self.dtime = dtime
+        self.tiempo = tiempo
+        self.tiempographic = tiempographic
+
+        
+
+        
+        
+        
+        
+    
+
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -151,8 +237,10 @@ class ControllerMenuExecute(QObject):
         return result
 
 
-    def analysisViga(self,list_boundaries, list_point_material, time_analysis):
+    def analysisViga(self,list_boundaries, list_point_material, dtime, tiempo , tiempographic):
         t0 = tm.time()	
+        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
+        print(f'tiempo inicial: {t0}')
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
         #::::::::::::::::::::: malla fondo ::::::::::::::::::::::::
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
@@ -259,6 +347,7 @@ class ControllerMenuExecute(QObject):
                     
                 for cell in cells_by_point:
                     mp_elem.append(cell)
+                    
         list_mp_elem=[]
         for i in list(mp_elem):
             list_mp_elem.append([i])
@@ -298,19 +387,7 @@ class ControllerMenuExecute(QObject):
 
  
     
-        #vp = area_cuadrado /  numero de particulas por celda
-        Vp = (ele_size**2) / nmpe*np.ones(nmp)      # [1. 1. 1.]
-        Vp0 = (ele_size**2) / nmpe*np.ones(nmp)     # [1. 1. 1.]
-        #↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REVISAR
-        rhop = 3.0 * np.ones(nmp)                   # [2. 2. 2.] 
-        Mp = np.multiply(rhop, Vp)                  # [2. 2. 2.]
-        '''
-        print("nmp",nmp)
-        print("Vp",Vp)
-        print("Vp0",Vp0)
-        print("rhop",rhop)
-        print("Mp",Mp)
-        '''
+ 
 
 
 
@@ -325,8 +402,7 @@ class ControllerMenuExecute(QObject):
         #    NOTA property: revisar por que se esta asignado property,
         #             pero si son varios materiales no agrega todos
         #             sino el ultimo property
-
-        id,name,modulus_elasticity,poisson_ratio,cohesion,friction_angle,angle_dilatancy = property.getData()
+        id,name,modulus_elasticity,poisson_ratio,cohesion,friction_angle, density, angle_dilatancy = property.getData()
 
         Prop=np.zeros((nmp, 6))
         Prop[:,0] = modulus_elasticity               
@@ -338,6 +414,21 @@ class ControllerMenuExecute(QObject):
         '''
         print("Prop",Prop)
         '''
+
+       #vp = area_cuadrado /  numero de particulas por celda
+        Vp = (ele_size**2) / nmpe*np.ones(nmp)      # [1. 1. 1.]
+        Vp0 = (ele_size**2) / nmpe*np.ones(nmp)     # [1. 1. 1.]
+        #↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REVISAR
+        rhop = density * np.ones(nmp)                   # [2. 2. 2.] 
+        Mp = np.multiply(rhop, Vp)                  # [2. 2. 2.]
+        '''
+        print("nmp",nmp)
+        print("Vp",Vp)
+        print("Vp0",Vp0)
+        print("rhop",rhop)
+        print("Mp",Mp)
+        '''
+
 
 
 
@@ -419,16 +510,25 @@ class ControllerMenuExecute(QObject):
         # delta de tiempo para graficar                                         :: dtimegraphic
         # Lista de tiempos para graficar segun timepo maximo y dtimegraphic     :: tiempographic
         #        :: 
-
+        
+        
+        '''
+        
         time_ini = time_analysis
 
-        dtime = deltatime(Prop[:,0], Prop[:,1], rhop, ele_size, 0.5)
+        dtime = deltatime2(Ep = Prop[:,0],
+                          nu = Prop[:,1], 
+                          rhop = rhop,
+                          ele_size = ele_size,
+                          factor = 0.5)
+        
         time = math.ceil(time_ini / dtime) * dtime
+        print("-*-*-", time)
         tiempo = np.arange(0, time, dtime)
 
 
 
-        fps = 80
+        fps = 120
 
         if dtime < 1/fps:
             ndt = math.floor(1/fps/dtime)
@@ -437,6 +537,15 @@ class ControllerMenuExecute(QObject):
             dtimegraphic = dtime 
     
         tiempographic = np.arange(0, time, dtimegraphic)
+        
+        print(len(tiempo),tiempo)
+        print(len(tiempographic), tiempographic)
+        
+        '''
+        
+        
+        
+        
         
         
         '''
@@ -448,6 +557,9 @@ class ControllerMenuExecute(QObject):
         print("dtimegraphic",dtimegraphic)
         print("tiempographic",tiempographic)
         '''
+
+
+
 
 
 
@@ -493,18 +605,8 @@ class ControllerMenuExecute(QObject):
 
 
         for t in range(len(tiempo)):
-            #print(t)
-            '''
-            if t >= 22256:
-                #exit for
-                break
-            '''
+
             mp_elem, active_elem = search_MP(mp_elem, xp, ele_size, nelex)
-            '''
-            print("Tamaño de inci:", inci.shape)
-            print("Índice a acceder:", active_elem)
-            print("--------------------------")
-            '''
             try:
                 active_nodes = np.unique(inci[active_elem-1, :])
             except:
@@ -522,7 +624,7 @@ class ControllerMenuExecute(QObject):
             nforce = niforce + neforce
 
             #↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ REVISAR
-            dampfac = 0.0
+            dampfac = 0.00
             ndamping = dampfac * (np.multiply(np.absolute(nforce),np.sign(nmomentum)))
             nforce = nforce + ndamping
             nmomentum += nforce*dtime

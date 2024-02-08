@@ -246,8 +246,7 @@ class ControllerMenuPointMaterial():
                                                     id_property = id_property
                                                     )
         model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
-        self.createPointsMaterialsCard(model_point_material)
-        
+        self.createPointsMaterialsCard(model_point_material)        
         self.setListPropertiesViews()
 
         self.view_menu_pointMaterial.endPointMaterial()
