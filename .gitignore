@@ -131,6 +131,6 @@ dmypy.json
 
 .vscode/
 
-.test/
+test/
 
 
