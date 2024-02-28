@@ -1,0 +1,1688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>620</width>
+    <height>639</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MPM-UN</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../resources/iconos/iconos_logo/Logo_WindowIcon.svg</normaloff>../resources/iconos/iconos_logo/Logo_WindowIcon.svg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/*Colores primarios*/
+/* 
+gris oscuro #222222 #333333 #444444
+gris claro #999999 #DDDDDD
+verde claro #C8CC8E
+vinotinto #742427
+*/
+/*Colores secundarios */
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
+
+/* Funetes/*
+
+/*
+italic: font: italic 9pt &quot;Ubuntu&quot;;
+regular: font: 9pt &quot;Ubuntu&quot;;
+light: font: 300 9pt &quot;Ubuntu&quot;;
+medium: font: 500 9pt &quot;Ubuntu&quot;;
+bold: font: 700 9pt &quot;Ubuntu&quot;;
+*/
+
+/****************************************************************************************************************************************************/
+
+
+QMainWindow#MainWindow{
+background: #333333;
+}
+
+#page_config{
+background: #222222;
+}
+
+/*####################       MENU BAR SUP      ###########################*/
+QMenuBar#menubar {
+background-color: #333333;
+spacing: 5px; 
+color: #DDDDDD;
+font: 500 10pt &quot;Ubuntu&quot;;
+}
+QMenuBar#menubar::item {
+padding: 5px 5px;
+background-color: transparent;
+border-radius: 2px;
+}
+QMenuBar#menubar::item:selected { 
+background-color: #222222;
+}
+QMenuBar#menubar::item:pressed {
+background-color: #222222;
+}
+QMenu {
+background-color: #333333;
+border-radius: 4px; 
+border: 1px solid #222222;
+color: #DDDDDD;
+font: 500 10pt &quot;Ubuntu&quot;;
+}
+QMenu::item {
+background-color: transparent; 
+padding: 5px 20px;
+margin: 2px 10px; 
+}
+QMenu::item:selected { 
+background-color: #444444;
+color: #C8CC8E;
+font: 500 10pt &quot;Ubuntu&quot;;
+}
+QMenu::item:checked {
+color: #DDDDDD;
+}
+QMenu::item:unchecked { 
+color: #999999;
+}
+
+
+/*####################         STATUS BAR          ##########################*/
+QStatusbar#statusbar{
+background-color: #333333;
+}
+
+
+/*####################     FRAME MENU IZQ      ##########################*/
+QToolButton#toolButton_home,
+QToolButton#toolButton_drawPoint,
+QToolButton#toolButton_drawBoundary,
+QToolButton#toolButton_drawData,
+QToolButton#toolButton_drawMesh,
+QToolButton#toolButton_drawProperties,
+QToolButton#toolButton_drawExecute,
+QToolButton#toolButton_viewResult,
+QToolButton#toolButton_setting{
+background-color: transparent;
+color: #DDDDDD;
+font: 500 7pt &quot;Ubuntu&quot;;
+border: none;
+padding: 8px 0px;
+}
+
+QFrame#frame_home{
+background: #222222;
+border-radius: 2px ;
+border-radius: 2px;
+}
+
+
+
+QFrame#frame_viewResult,
+QFrame#frame_drawPoint,
+QFrame#frame_drawBoundary,
+QFrame#frame_drawData,
+QFrame#frame_drawProperties,
+QFrame#frame_drawExecute,
+QFrame#frame_drawMesh{
+background: #333333;
+border-radius: 2px ;
+border-radius: 2px;
+}
+
+
+/*######################      CONTAINER PAGE       ############################*/
+QFrame#frame_empty{
+background-color: #444444;
+}
+
+
+
+/*######################      SETTING       ############################*/
+
+
+#scrollAreaWidgetContents,
+#scrollArea{
+background-color: transparent;
+border: none;
+}
+#lineEdit_settingSearch{
+font:  10pt &quot;Ubuntu&quot;;
+background: #555555;
+border: none;
+border-radius: 4px ;
+padding-left: 20px;
+color: #DDDDDD;
+}
+
+#lineEdit_settingSearch:hover {
+	 border-width: 1px; 
+	border-style: solid; 
+	border-color: #0D99FF; 
+
+}
+
+#frame_3{
+
+ border-width: 1px; 
+border-style: solid; 
+border-color: transparent #888888 transparent transparent; 
+}
+
+
+/*####################     general setting     ##########################*/
+/*crear un propiedad personalizada  a un widget y asignarle un estilo*/
+/*https://stackoverflow.com/questions/46070524/qt-set-style-sheet-for-multiple-labels*/
+/*https://stackoverflow.com/questions/29736228/is-it-possible-to-set-add-custom-properties-to-qt-widgets-in-qtcreator*/
+
+/*etiquetas lateral izq*/ 
+QLabel[type_label=&quot;1&quot;]{
+color: #DDDDDD;
+font: 300 8pt &quot;Ubuntu&quot;;
+}
+/*titulos*/
+ QLabel[type_label=&quot;2&quot;]{
+color: #DDDDDD;
+font: 800 18pt &quot;Ubuntu&quot;;
+margin-bottom: 10px;
+margin-top: 20px;
+}
+/*sub titulos*/
+ QLabel[type_label=&quot;3&quot;]{
+color: #DDDDDD;
+font: 500 12pt &quot;Ubuntu&quot;;
+}
+
+/*descripciones*/
+ QLabel[type_label=&quot;4&quot;]{
+color: #DDDDDD;
+font: 300 10pt &quot;Ubuntu&quot;;
+}
+
+
+/*####################     tabla setting     ##########################*/
+
+/* titulos de la tabla*/
+ QLabel[type_label_table=&quot;1&quot;]{
+color: #DDDDDD;
+font: 500 10pt &quot;Ubuntu&quot;;
+background: #222222;
+min-height:40px;
+text-align: center;
+}
+
+ QLabel[type_label_title_table=&quot;1&quot;]{
+border-top-left-radius: 10px;
+}
+ QLabel[type_label_title_table=&quot;2&quot;]{
+border-top-right-radius: 10px;
+}
+
+
+
+/*descripciones tipo 1 de la tabla*/
+ QLabel[type_label_table=&quot;2&quot;]{
+color: #DDDDDD;
+font: 10pt &quot;Ubuntu&quot;;
+background: #3d3d3d;
+padding-left:10px;
+min-height:30px;
+max-height:30px;
+}
+/*frame tipo 1 de la tabla*/
+ QFrame[type_frame_table=&quot;2&quot;]{
+background: #3d3d3d;
+padding-left:10px;
+min-height:30px;
+}
+
+/*descripciones tipo 2 de la tabla*/
+ QLabel[type_label_table=&quot;3&quot;]{
+color: #DDDDDD;
+font: 10pt &quot;Ubuntu&quot;;
+background: #393939;
+padding-left:10px;
+min-height:30px;
+}
+
+/*frame tipo 1 de la tabla*/
+ QFrame[type_frame_table=&quot;3&quot;]{
+background: #393939;
+padding-left:10px;
+min-height:30px;
+}
+
+
+
+
+/*atajos de teclado*/
+ QLabel[type_label_table=&quot;4&quot;]{
+	color: #DDDDDD;
+	font: 10pt &quot;Ubuntu&quot;;
+	background: #373737;
+  	border-width: 1; 
+	border-style: solid; 
+	border-color: #555555; 
+	margin: 3px 0px 3px 0px;
+}
+
+/*atajos de teclado aux*/
+ QLabel[type_label_table=&quot;5&quot;]{
+	color: #DDDDDD;
+	font: 900 12pt &quot;Ubuntu&quot;;
+}
+
+
+
+
+
+
+
+
+
+
+
+QFrame[type_frame=&quot;1&quot;]{
+background: #333333;
+border-radius: 5px ;
+}
+QFrame[type_frame=&quot;1&quot;]:hover{
+background: #373737;
+border: 1px solid #888888;
+}
+
+QComboBox{
+background: transparent;
+border: 1px solid #555555;
+border-radius: 3px ;
+color: #DDDDDD;
+font:  10pt &quot;Ubuntu&quot;;
+}
+QComboBox:hover{
+border-color: #0D99FF; 
+}
+QComboBox:disabled {
+	border-color: #444444; 
+	color: #444444;
+}
+
+
+
+QDoubleSpinBox[type_spinBox=&quot;1&quot;],
+QSpinBox[type_spinBox=&quot;1&quot;] {
+    padding-right: 15px; 
+    border-width: 1; 
+	border-style: solid; 
+	border-color: #555555; 
+	border-radius: 3px ;
+	background: transparent;
+	color: #DDDDDD;
+	font:  10pt &quot;Ubuntu&quot;;
+}
+
+QDoubleSpinBox[type_spinBox=&quot;1&quot;]:hover,
+QSpinBox[type_spinBox=&quot;1&quot;]:hover {
+	border-color: #0D99FF; 
+}
+QDoubleSpinBox[type_spinBox=&quot;1&quot;]:disabled,
+QSpinBox[type_spinBox=&quot;1&quot;]:disabled {
+	border-color: #444444; 
+	color: #444444;
+}
+
+
+
+
+QComboBox QAbstractItemView {
+    border: 1px solid darkgray;
+    background: #333333;
+	border-radius: 2px ;
+	padding: 2px;
+	selection-background-color: red;
+	color: #dddddd;
+	font:  10pt &quot;Ubuntu&quot;;
+}
+
+
+
+
+/*QSlider#horizontalSlider_1::handle:horizontal {*/
+
+/*
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 1px; 
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #b4b4b4, stop:1 #8f8f8f);
+    border: 1px solid #5c5c5c;
+    width: 12px;
+    margin: -10px 0;
+    border-radius: 3px;
+}
+QSlider::handle:horizontal:hover {
+    border: 1px solid #0D99FF;
+
+}
+
+
+QSlider::add-page:horizontal {
+    background: white;
+}
+
+QSlider::sub-page:horizontal {
+    background: #C8CC8E;
+}
+
+
+*/
+
+QCheckBox{
+	color: #DDDDDD;
+	font:  10pt &quot;Ubuntu&quot;;
+}
+
+QCheckBox::indicator {
+    width: 15px;
+    height: 15px;
+}
+
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_menuLeft">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_homeInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_22">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_home">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Inicio</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/home.svg</normaloff>../resources/iconos/iconos_menu_lateral/home.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_home">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawDataInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawData">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Datos</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/control.svg</normaloff>../resources/iconos/iconos_menu_lateral/control.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawData">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawMeshInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_20">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawMesh">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Mallado</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/mesh.svg</normaloff>../resources/iconos/iconos_menu_lateral/mesh.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawMesh">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawPropertiesInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawProperties">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Materiales</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/file.svg</normaloff>../resources/iconos/iconos_menu_lateral/file.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawProperties">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawPointInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawPoint">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Particulas</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/particle.svg</normaloff>../resources/iconos/iconos_menu_lateral/particle.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawPoint">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawBoundaryInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawBoundary">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Contorno</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/boundary.svg</normaloff>../resources/iconos/iconos_menu_lateral/boundary.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawBoundary">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_drawExecuteInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_drawExecute">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Ejecutar</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/execute.svg</normaloff>../resources/iconos/iconos_menu_lateral/execute.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_drawExecute">
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_viewResultInf">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_viewResult">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Resultados</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../resources/iconos/iconos_menu_lateral/view.svg</normaloff>../resources/iconos/iconos_menu_lateral/view.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextUnderIcon</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_viewResult">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>5</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>5</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButton_setting">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>7</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Mallado</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../resources/iconos/iconos_menu_lateral/config.svg</normaloff>../resources/iconos/iconos_menu_lateral/config.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_empty">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Ubuntu</family>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="lineWidth">
+          <number>0</number>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_19">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QStackedWidget" name="stackedWidget_container">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="currentIndex">
+             <number>2</number>
+            </property>
+            <widget class="QWidget" name="page_home">
+             <layout class="QHBoxLayout" name="horizontalLayout_17">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_emptyHome"/>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="page_draw">
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_emptyDraw"/>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="page_result">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_emptyResult"/>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="page_config">
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <property name="spacing">
+               <number>5</number>
+              </property>
+              <property name="leftMargin">
+               <number>20</number>
+              </property>
+              <property name="topMargin">
+               <number>20</number>
+              </property>
+              <property name="rightMargin">
+               <number>20</number>
+              </property>
+              <property name="bottomMargin">
+               <number>20</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_emptySetting"/>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>620</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_archivo">
+    <property name="geometry">
+     <rect>
+      <x>2269</x>
+      <y>217</y>
+      <width>181</width>
+      <height>299</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Ubuntu</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <widget class="QMenu" name="menu_recientes">
+     <property name="font">
+      <font>
+       <family>Ubuntu</family>
+       <pointsize>10</pointsize>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="title">
+      <string>Recientes</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../resources/iconos/iconos_menu_superior/recent.svg</normaloff>../resources/iconos/iconos_menu_superior/recent.svg</iconset>
+     </property>
+     <addaction name="action_listadoRecinetes"/>
+    </widget>
+    <addaction name="action_nuevo"/>
+    <addaction name="action_abrir"/>
+    <addaction name="menu_recientes"/>
+    <addaction name="action_guardar"/>
+    <addaction name="action_guardarComo"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="action_importar"/>
+    <addaction name="action_exportar"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_editar">
+    <property name="font">
+     <font>
+      <family>Ubuntu</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Editar</string>
+    </property>
+    <addaction name="action_deshacer"/>
+    <addaction name="action_rehacer"/>
+    <addaction name="separator"/>
+    <addaction name="action_copiar"/>
+    <addaction name="action_pegar"/>
+    <addaction name="action_cortar"/>
+   </widget>
+   <widget class="QMenu" name="menu_vista">
+    <property name="font">
+     <font>
+      <family>Ubuntu</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Vista</string>
+    </property>
+    <addaction name="action_origin"/>
+    <addaction name="action_axis"/>
+    <addaction name="action_grid"/>
+    <addaction name="action_console"/>
+    <addaction name="action_label"/>
+    <addaction name="action_rule"/>
+    <addaction name="action_dibujo"/>
+    <addaction name="separator"/>
+    <addaction name="action_opcionVisualizacion"/>
+   </widget>
+   <widget class="QMenu" name="menu_ayuda">
+    <property name="font">
+     <font>
+      <family>Ubuntu</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Ayuda</string>
+    </property>
+    <addaction name="action_ayuda"/>
+    <addaction name="action_acerdaDe"/>
+   </widget>
+   <addaction name="menu_archivo"/>
+   <addaction name="menu_editar"/>
+   <addaction name="menu_vista"/>
+   <addaction name="menu_ayuda"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="statusTip">
+    <string/>
+   </property>
+   <property name="accessibleDescription">
+    <string/>
+   </property>
+  </widget>
+  <action name="action_nuevo">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/new.svg</normaloff>../resources/iconos/iconos_menu_superior/new.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Nuevo</string>
+   </property>
+  </action>
+  <action name="action_abrir">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/open.svg</normaloff>../resources/iconos/iconos_menu_superior/open.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+  </action>
+  <action name="action_guardar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/save.svg</normaloff>../resources/iconos/iconos_menu_superior/save.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Guardar</string>
+   </property>
+  </action>
+  <action name="action_guardarComo">
+   <property name="text">
+    <string>Guardar como</string>
+   </property>
+  </action>
+  <action name="action_importar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/import.svg</normaloff>../resources/iconos/iconos_menu_superior/import.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Importar</string>
+   </property>
+  </action>
+  <action name="action_exportar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/export.svg</normaloff>../resources/iconos/iconos_menu_superior/export.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Exportar</string>
+   </property>
+  </action>
+  <action name="action_ayuda">
+   <property name="text">
+    <string>Ayuda</string>
+   </property>
+  </action>
+  <action name="action_acerdaDe">
+   <property name="text">
+    <string>Acerda de</string>
+   </property>
+  </action>
+  <action name="action_grid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Grilla</string>
+   </property>
+  </action>
+  <action name="action_rule">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Regla</string>
+   </property>
+  </action>
+  <action name="action_dibujo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dibujo</string>
+   </property>
+  </action>
+  <action name="action_console">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Consola</string>
+   </property>
+  </action>
+  <action name="action_origin">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Origen</string>
+   </property>
+  </action>
+  <action name="action_opcionVisualizacion">
+   <property name="text">
+    <string>Opción de visualización</string>
+   </property>
+  </action>
+  <action name="action_deshacer">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/undo.svg</normaloff>../resources/iconos/iconos_menu_superior/undo.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Deshacer</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Ubuntu</family>
+    </font>
+   </property>
+  </action>
+  <action name="action_rehacer">
+   <property name="icon">
+    <iconset>
+     <normaloff>../resources/iconos/iconos_menu_superior/redo.svg</normaloff>../resources/iconos/iconos_menu_superior/redo.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Rehacer</string>
+   </property>
+  </action>
+  <action name="action_copiar">
+   <property name="text">
+    <string>Copiar</string>
+   </property>
+  </action>
+  <action name="action_pegar">
+   <property name="text">
+    <string>Pegar</string>
+   </property>
+  </action>
+  <action name="action_cortar">
+   <property name="text">
+    <string>Cortar</string>
+   </property>
+  </action>
+  <action name="action_listadoRecinetes">
+   <property name="text">
+    <string>listado_recientes</string>
+   </property>
+  </action>
+  <action name="action_axis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ejes</string>
+   </property>
+  </action>
+  <action name="action_label">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Etiquetas</string>
+   </property>
+  </action>
+ </widget>
+ <tabstops>
+  <tabstop>toolButton_home</tabstop>
+  <tabstop>toolButton_drawData</tabstop>
+  <tabstop>toolButton_drawMesh</tabstop>
+  <tabstop>toolButton_drawProperties</tabstop>
+  <tabstop>toolButton_drawPoint</tabstop>
+  <tabstop>toolButton_drawBoundary</tabstop>
+  <tabstop>toolButton_drawExecute</tabstop>
+  <tabstop>toolButton_viewResult</tabstop>
+  <tabstop>toolButton_setting</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

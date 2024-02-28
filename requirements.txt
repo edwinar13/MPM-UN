@@ -1,3 +1,5 @@
+annotated-types==0.6.0
+chardet==5.2.0
 contourpy==1.2.0
 cycler==0.12.1
 ezdxf==1.1.4
@@ -13,6 +15,8 @@ numba==0.58.1
 numpy==1.26.2
 packaging==23.2
 Pillow==10.1.0
+pydantic==2.6.3
+pydantic_core==2.16.3
 Pygments==2.17.2
 pygmsh==7.1.17
 pyparsing==3.1.1
@@ -20,6 +24,7 @@ PySide6==6.6.1
 PySide6-Addons==6.6.1
 PySide6-Essentials==6.6.1
 python-dateutil==2.8.2
+reportlab==4.1.0
 rich==13.7.0
 shiboken6==6.6.1
 six==1.16.0

@@ -129,5 +129,8 @@ dmypy.json
 .pyre/
 
 
-# Otros
-.archivos_mpm_dwg
+.vscode/
+
+.test/
+
+

@@ -1,0 +1,1156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FormResult</class>
+ <widget class="QWidget" name="FormResult">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>751</width>
+    <height>458</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/*Colores primarios*/
+/* 
+gris oscuro #222222 #333333 #444444
+gris claro #999999 #DDDDDD
+verde claro #C8CC8E
+vinotinto #742427
+*/
+/*Colores secundarios */
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
+
+/* Funetes/*
+
+/*
+italic: font: italic 9pt &quot;Ubuntu&quot;;
+regular: font: 9pt &quot;Ubuntu&quot;;
+light: font: 300 9pt &quot;Ubuntu&quot;;
+medium: font: 500 9pt &quot;Ubuntu&quot;;
+bold: font: 700 9pt &quot;Ubuntu&quot;;
+*/
+
+/*
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border-top-left-radius: 5px;
+border-bottom-left-radius: 5px
+border: none;
+padding: 2px 0px;
+*/
+
+
+/****************************************************************************************************************************************************/
+
+
+
+#FormResult{
+background: #444444;
+}
+
+/*#################################################################*/
+/*####################       FRAME HIDE       ###########################*/
+/*#################################################################*/
+
+QFrame#frame_hide{
+background: transparent;
+border-top-left-radius: 8px;
+}
+QFrame#frame_hide2{
+background: #222222;
+border-top-left-radius: 8px;
+}
+QToolButton#toolButton_hideShow{
+background-color: transparent;
+}
+
+
+
+/*#################################################################*/
+/*####################       FRAME boundary       ###########################*/
+/*#################################################################*/
+QFrame#frame_boundary{
+background: transparent;
+}
+QFrame#frame_title{
+background: #222222;
+border-top-right-radius: 8px;
+}
+QLabel#label_cardBoundaryTitle{
+font: 700 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+QFrame#frame_boundarySubTitle0,
+QFrame#frame_boundarySubTitle1,
+QFrame#frame_boundarySubTitle2,
+QFrame#frame_boundarySubTitle3{
+background: #222222;
+border-radius:2px;
+}
+
+
+
+/*###########################################################################*/
+/*################      FRAME MALLA REGULAR CUADRILÁTERO       ######################*/
+/*###########################################################################*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+QToolButton#toolButton_cardBoundaryDraw7,
+QToolButton#toolButton_cardBoundaryDraw5,
+QToolButton#toolButton_cardBoundaryDraw6{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+}
+
+
+QToolButton#toolButton_cardBoundaryDraw7:hover,
+QToolButton#toolButton_cardBoundaryDraw5:hover, 
+QToolButton#toolButton_cardBoundaryDraw6:hover{ 
+background-color: #444444;
+}
+QToolButton#toolButton_cardBoundaryDraw7:pressed,
+QToolButton#toolButton_cardBoundaryDraw5:pressed,
+QToolButton#toolButton_cardBoundaryDraw6:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+
+
+
+/*###########################################################*/
+/*###############          FRAME LISTA MALLAS         ##################*/
+/*###########################################################*/
+
+QScrollArea#scrollArea,
+#verticalLayout_containerCardBoundary,
+#scrollAreaWidgetContents{
+background-color: transparent;
+}
+
+
+/*###########################################################*/
+/*################                 FRAME MSN          #####################*/
+/*###########################################################*/
+
+
+QLabel#label_msn{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #333333;
+}
+
+
+
+
+/*######################      SCROLL BAR    VERTICAL  ############################*/
+
+QScrollBar:vertical {    
+	border: none;
+    width: 14px;
+	border-radius: 0px;
+	margin: 15px 0px 15px 0px;
+}
+
+
+
+QScrollBar::handle:vertical {
+    background-color: #888888;
+    min-height: 14px;
+	border-radius: 7px;
+}
+QScrollBar::handle:vertical:hover {
+    background-color: #777777;
+}
+QScrollBar::handle:vertical:pressed {
+    background-color: #666666;
+}
+
+/*TOP*/
+QScrollBar::sub-line:vertical{
+    background-color: #666666;
+	border: none;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	height: 15px;
+	subcontrol-position: top;
+	subcontrol-origin: margin;
+}
+
+
+QScrollBar::sub-line:vertical:hover{
+    background-color: #777777;
+}
+QScrollBar::sub-line:vertical:pressed{
+    background-color: #666666;
+}
+
+/*BOTTON*/
+QScrollBar::add-line:vertical{
+    background-color: #444444;
+	border: none;	
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+	height: 15px;
+	subcontrol-position: bottom;
+	subcontrol-origin: margin;
+}
+
+
+QScrollBar::add-line:vertical:hover{
+    background-color: #777777;
+}
+QScrollBar::add-line:vertical:pressed{
+   background-color: #666666;
+}
+
+
+QScrollBar::up-arrow:vertical,QScrollBar::down-arrow:vertical{
+background: none;
+}
+QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical{
+background: none;
+}
+
+
+/*######################      SCROLL BAR    HORIZONTAL  ############################*/
+
+QScrollBar:horizontal{
+height: 14px;
+border: none;
+border-radius: 0px;
+margin: 0px 15px 0px 15px;
+}
+
+
+/*Deslizador*/
+QScrollBar::handle:horizontal {
+    background-color: #888888;
+	border-radius: 7px;
+	min-width: 14px;
+}
+QScrollBar::handle:horizontal:hover {
+    background-color: #777777;
+}
+QScrollBar::handle:horizontal:pressed {
+    background-color: #666666;
+}
+  
+QScrollBar::sub-line:horizontal{
+background-color: #666666;
+border: none;
+border-top-left-radius: 7px;
+border-bottom-left-radius: 7px;
+width: 15px;
+subcontrol-position: left;
+subcontrol-origin: margin;
+}
+
+
+QScrollBar::sub-line:horizontal:hover{
+    background-color: #777777;
+}
+QScrollBar::sub-line:horizontal:pressed{
+    background-color: #666666;
+}
+
+QScrollBar::add-line:horizontal{
+    background-color: #666666;
+	border: none;	
+	border-top-right-radius: 7px;
+	border-bottom-right-radius: 7px;
+	width: 15px;
+	subcontrol-position: right;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:horizontal:hover{
+    background-color: #777777;
+}QScrollBar::add-line:vertical:pressed{
+    background-color: #666666;
+}
+
+
+QScrollBar::up-arrow:horizontal,QScrollBar::down-arrow:horizontal{
+background: none;
+}
+QScrollBar::add-page:horizontal,QScrollBar::sub-page:horizontal{
+background: none;
+}
+
+
+
+
+
+
+QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QPushButtonStyle           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+
+
+
+/*******************************************/
+QPushButton[QPushButtonStyle=&quot;1&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #222222;
+background-color: #77ACA2;
+border: none;
+padding: 6px 25px;
+border-radius: 6px ;
+}
+QPushButton[QPushButtonStyle=&quot;1&quot;]:hover{
+background-color: #36C9C6;
+}
+
+
+/*****************************************/
+QPushButton[QPushButtonStyle=&quot;2&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #910D3F;
+border: none;
+padding: 6px 5px;
+border-radius: 6px ;
+}
+QPushButton[QPushButtonStyle=&quot;2&quot;]:hover{
+background-color: #C70039;
+}
+
+/*****************************************/
+QPushButton[QPushButtonStyle=&quot;3&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #333;
+background-color: #aaa;
+border: none;
+padding: 6px 5px;
+border-radius: 6px ;
+}
+QPushButton[QPushButtonStyle=&quot;3&quot;]:hover{
+background-color: #ddd;
+}
+
+
+
+
+
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+
+QToolButton[QToolButtonStyle=&quot;0&quot;]{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 1px;
+}
+
+QToolButton[QToolButtonStyle=&quot;0&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;0&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+QToolButton[QToolButtonStyle=&quot;4&quot;]{
+
+background-color: #77ACA2;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+}
+
+QToolButton[QToolButtonStyle=&quot;4&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;4&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+
+
+
+
+/*******************************************/
+QToolButton[QToolButtonStyle=&quot;2&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #222222;
+background-color: #77ACA2;
+border: none;
+padding: 6px 25px;
+border-radius: 8px ;
+}
+QToolButton[QToolButtonStyle=&quot;2&quot;]:hover{
+background-color: #36C9C6;
+}
+
+
+/*****************************************/
+QToolButton[QToolButtonStyle=&quot;3&quot;]{
+font: 500 10pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #910D3F;
+border: none;
+padding: 6px 5px;
+border-radius: 8px ;
+}
+QToolButton[QToolButtonStyle=&quot;3&quot;]:hover{
+background-color: #C70039;
+}
+
+
+
+
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
+/*******************************************/
+QToolButton[QToolButtonStyle=&quot;5&quot;],
+QToolButton[QToolButtonStyle=&quot;6&quot;],
+QToolButton[QToolButtonStyle=&quot;7&quot;],
+QToolButton[QToolButtonStyle=&quot;8&quot;] {
+    font: 500 10pt &quot;Ubuntu&quot;;    
+    padding: 4px 20px;
+	border: 2px solid #C8CC8E;
+    
+}
+
+QToolButton[QToolButtonStyle=&quot;5&quot;] {
+    background-color: transparent;    
+	border-top-left-radius: 10px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 10px;
+	color: #DDDDDD;
+}
+
+QToolButton[QToolButtonStyle=&quot;6&quot;] {
+    background-color: #C8CC8E;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 10px;
+	color: #222222;
+}
+
+QToolButton[QToolButtonStyle=&quot;7&quot;] {
+    background-color: transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 0px;
+	color: #DDDDDD;
+}
+
+QToolButton[QToolButtonStyle=&quot;8&quot;] {
+    background-color: #C8CC8E;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 0px;
+	color: #222222;
+}
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+
+
+QLineEdit[QLineEditStyle=&quot;1&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+QLineEdit[QLineEditStyle='1']::placeholder { color: #FF0000; }
+QLineEdit[QLineEditStyle=&quot;1&quot;]::placeholder{
+color: #777777;
+
+}
+
+QLineEdit[QLineEditStyle=&quot;2&quot;]{
+font: 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #333333;
+border: 1px solid #444444;
+border-radius: 2px ;
+padding-right: 6px;
+padding-left: 6px;
+
+}
+
+
+
+QLineEdit#lineEdit_textBoundary3{
+font: 7pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background-color: #333333;
+border: 1px solid #444444;
+border-radius: 2px ;
+padding-right: 2px;
+padding-left: 2px;
+
+}
+
+
+/*
+QLineEdit#lineEdit_textMesh3,
+QLineEdit#lineEdit_textMesh5{
+color: #888888;
+}
+*/
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QFrame          ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QFrame[QFrameSubTitleStyle=&quot;1&quot;] {
+background: #222222;
+border-radius:2px;
+}
+
+QFrame[QFrameStyle=&quot;1&quot;] {
+background: #333333;
+border-radius:2px;
+}
+
+
+QFrame[QFrameStyle=&quot;2&quot;] {
+background: #eee;
+border-radius:10px;
+border: 1px solid #808080;
+padding: 5px;
+margin: 5px;
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QTableWidget          ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+
+QTableWidget[QTableWidgetStyle=&quot;1&quot;] {
+background: #eee;
+border-radius:10px;
+border: 1px solid #808080;
+padding: 5px;
+margin: 5px;
+color: #333;
+font:  9pt &quot;Ubuntu&quot;;
+}
+
+
+
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QToolButton[QToolButtonSubTitleStyle=&quot;1&quot;] {
+background-color: transparent;
+}
+
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLabel           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QLabel[QLabelStyle=&quot;1&quot;] {
+font: 700 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+QLabel[QLabelStyle=&quot;2&quot;] {
+font: 500 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+QLabel[QLabelStyle=&quot;3&quot;] {
+font: 300 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+}
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QComboBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QComboBox[QComboBoxStyle=&quot;1&quot;] {
+    border: none;
+    background-color: #444444;
+	color: #DDDDDD;
+    border-radius: 2px;
+    padding: 5px;
+	font:  9pt &quot;Ubuntu&quot;;
+    selection-background-color: #808080;
+}
+QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
+    border: none;
+    background-color: #404040;
+    color: white;
+    selection-background-color: #808080;
+    font: 700 9pt &quot;Ubuntu&quot;;
+}
+
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QCheckBox            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
+    
+    background-color: #444444;
+	color: #DDDDDD;
+    padding: 5px;
+	font:  9pt &quot;Ubuntu&quot;;
+    selection-background-color: #808080;
+}
+
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator {
+    background-color: transparent;
+    border: 1px solid #808080;
+	border-radius: 3px;
+}
+
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
+    background-color: #F94646;
+    border: none;
+	 border-radius: 3px;
+}
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QTabWidget            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+
+QTabWidget[QTabWidgetStyle=&quot;1&quot;] {
+background: #333;
+border-radius:10px;
+border: 1px solid #808080;
+padding: 5px;
+margin: 5px;
+color: #DDDDDD;
+font:  300 9pt &quot;Ubuntu&quot;;
+}
+
+
+QTabWidget[QTabWidgetStyle=&quot;1&quot;]::pane {
+background: #333;
+border: 1px solid #808080;
+color: #DDDDDD;
+}
+
+QTabBar {
+background: #333;
+border: none;
+}
+
+QTabBar::tab {
+background: #333;
+border: 1px solid #555;
+color: #DDDDDD;
+padding: 5px;
+}
+
+QTabBar::tab:selected {
+background: #C8CC8E;
+border: 1px solid #C8CC8E;
+padding: 5px;
+color: #333;
+font: 500 9pt &quot;Ubuntu&quot;;
+}
+
+QTabBar::tab:hover {
+background: #77ACA2;
+color: #333;
+}
+
+
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QScrollArea            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+
+QScrollArea{
+border-radius:10px;
+border: 1px solid #666;
+}
+
+/* 
+gris oscuro #222222 #333333 #444444
+gris claro #999999 #DDDDDD
+verde claro #C8CC8E
+vinotinto #742427
+*/
+/*Colores secundarios */
+/* 
+Azules #36C9C6 #00BDB9 #77ACA2
+rojos #910D3F #C70039 #F94646
+naranjas #D34E24 #F28123 #F7F052
+*/
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_result">
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="tabPosition">
+        <enum>QTabWidget::North</enum>
+       </property>
+       <property name="tabShape">
+        <enum>QTabWidget::Rounded</enum>
+       </property>
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
+       <property name="usesScrollButtons">
+        <bool>false</bool>
+       </property>
+       <property name="documentMode">
+        <bool>false</bool>
+       </property>
+       <property name="tabsClosable">
+        <bool>false</bool>
+       </property>
+       <property name="movable">
+        <bool>false</bool>
+       </property>
+       <property name="QTabWidgetStyle" stdset="0">
+        <number>1</number>
+       </property>
+       <widget class="QWidget" name="tab_1">
+        <property name="QTabBarStyle" stdset="0">
+         <number>1</number>
+        </property>
+        <attribute name="icon">
+         <iconset>
+          <normaloff>../resources/iconos/icono_result/view_points.svg</normaloff>../resources/iconos/icono_result/view_points.svg</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>PUNTOS MATERIALES</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QFrame" name="frame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="QFrameStyle" stdset="0">
+            <number>1</number>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="frame_pointMaterial">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <property name="QFrameStyle" stdset="0">
+               <number>0</number>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_pointMaterial">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <property name="QTabBarStyle" stdset="0">
+         <number>1</number>
+        </property>
+        <attribute name="icon">
+         <iconset>
+          <normaloff>../resources/iconos/icono_result/view_graphics.svg</normaloff>../resources/iconos/icono_result/view_graphics.svg</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>GRAFICAS </string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QFrame" name="frame_4">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="QFrameStyle" stdset="0">
+            <number>1</number>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="frame_6">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <property name="spacing">
+                <number>5</number>
+               </property>
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <item>
+                <widget class="QFrame" name="frame_chart">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <property name="QFrameStyle" stdset="0">
+                  <number>2</number>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_chart">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <property name="QTabBarStyle" stdset="0">
+         <number>1</number>
+        </property>
+        <attribute name="icon">
+         <iconset>
+          <normaloff>../resources/iconos/icono_result/view_board.svg</normaloff>../resources/iconos/icono_result/view_board.svg</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>TABLA RESUMEN</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="tableWidget_tableResult">
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ContiguousSelection</enum>
+           </property>
+           <property name="rowCount">
+            <number>0</number>
+           </property>
+           <property name="columnCount">
+            <number>10</number>
+           </property>
+           <property name="QTableWidgetStyle" stdset="0">
+            <number>1</number>
+           </property>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>ID Nodo</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>dt</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>cor x</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>cor y</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>sigxx</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>sigyy</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>sigxy</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>epsxx</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>epsyy</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>epsxy</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

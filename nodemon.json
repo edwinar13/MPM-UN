@@ -1,0 +1,6 @@
+{
+    "watch": ["app"],
+    "ext": "py",
+    "exec": "python app/main.py"
+  }
+  
