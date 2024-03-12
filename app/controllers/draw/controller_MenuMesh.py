@@ -76,10 +76,13 @@ class ControllerMenuMesh(QObject):
         return self.view_menu_mesh
 
     def createMeshCard(self, model_mesh):
-        controller_card_mesh = ControllerCardMesh( model_mesh = model_mesh)
+        controller_card_mesh = ControllerCardMesh( model_mesh = model_mesh,
+                                                  model_current_project=self.model_current_project
+                                                  )
         self.view_menu_mesh.addCardMesh(controller_card_mesh.view_card_mesh)
         controller_card_mesh.signal_delete_mesh.connect(self.deleteMesh)
         controller_card_mesh.signal_edit_mesh.connect(self.editMesh)
+        controller_card_mesh.signal_msn.connect(self.msnAlertDefault)
 
         self.list_controller_card.append(controller_card_mesh)
         self.signal_new_mesh.emit()
@@ -412,6 +415,10 @@ class ControllerMenuMesh(QObject):
     @Slot()
     def editMesh(self):
         self.signal_edit_mesh.emit()
+        
+    @Slot(str)
+    def msnAlertDefault(self, msn):
+        self.view_menu_mesh.msnAlertDefault( msn=msn)
 	
 
 

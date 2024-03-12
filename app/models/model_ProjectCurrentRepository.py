@@ -456,8 +456,12 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-
+    
+    
+    ################################################################################
 	# ::::::::::::::::::::       MÉTODOS DB PROPIEDADES     ::::::::::::::::::::   
+    ###############################################################################
+    
     def createPropertiesDB(self, id_properties, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):    
         
         try:                 
@@ -528,17 +532,28 @@ class ModelProjectCurrentRepository():
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <MATERIALES> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
+            return False   
         
-	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
-    def createMaterialPointDB(self, id_MP, name, color, points,id_property):    
+        
+        
+        
+    ###############################################################################
+	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::
+    ###############################################################################
+    
+       
+    def createMaterialPointDB(self, id_MP, name, color, points, volumes,
+                              id_property, id_mesh_base):    
         
         #try:                 
         self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP] = {
             "NAME": name,
             "COLOR": color,
             "POINTS": points,
-            "IDPROPIEDAD": id_property
+            "VOLUMENES": volumes,
+            "IDPROPIEDAD": id_property,
+            "IDMALLABASE": id_mesh_base
+            
         }
         
         return True
@@ -557,7 +572,8 @@ class ModelProjectCurrentRepository():
         """ 
         return self.__unguarded_copy_db_project['PUNTOSMATERIAL']
     
-    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None, id_property=None):
+    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None, volumes=None,
+                              id_property=None, id_mesh_base=None):
 
         try: 
             if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
@@ -567,9 +583,13 @@ class ModelProjectCurrentRepository():
                     self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["COLOR"]=color
                 if points != None:   
                     self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"]=points
+                if volumes != None:
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["VOLUMENES"]=volumes
                 if id_property != None:   
                     self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["IDPROPIEDAD"]=id_property
-
+                if id_mesh_base != None:
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["IDMALLABASE"]=id_mesh_base
+                    
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
@@ -586,8 +606,13 @@ class ModelProjectCurrentRepository():
             print("[Doc: {}] Error al eliminar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-        
-	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::   
+    
+    
+    
+    ###############################################################################
+	# ::::::::::::::::::::       MÉTODOS DB BOUDARY     ::::::::::::::::::::
+    ###############################################################################
+       
     def createBoundaryDB(self, id_boundary, name, nodes, points,restrictionX, restrictionY):    
         
         try:                 
@@ -690,6 +715,7 @@ class ModelProjectCurrentRepository():
     def readResultMaxDB(self):
         """return  analysis_result_max"""
         analysis_result_max = self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']
+        return analysis_result_max
         
     def readResultNodesDB(self):
         """ return  analysis_result_nodes"""

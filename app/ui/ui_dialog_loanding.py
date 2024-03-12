@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog_loandingXxcAwZ.ui'
+## Form generated from reading UI file 'dialog_loandingjjWalI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -17,15 +17,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QLabel, QLayout, QProgressBar, QPushButton,
-    QSizePolicy, QSpacerItem, QTextBrowser, QVBoxLayout,
-    QWidget)
+    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 class Ui_DialogLoanding(object):
     def setupUi(self, DialogLoanding):
         if not DialogLoanding.objectName():
             DialogLoanding.setObjectName(u"DialogLoanding")
         DialogLoanding.setEnabled(True)
-        DialogLoanding.resize(621, 387)
+        DialogLoanding.resize(390, 341)
         sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -69,13 +68,18 @@ class Ui_DialogLoanding(object):
 "	border-radius:5px;\n"
 "}\n"
 "\n"
-"\n"
-"QLabel#label_text{\n"
+"QLabel[QLabelStyle=\"1\"]{\n"
 "	font: 300 10pt \"Ubuntu\";\n"
 "	color: #DDDDDD;\n"
-"mar"
-                        "gin-left: 10px;\n"
+""
+                        "margin-left: 10px\n"
 "}\n"
+"QLabel#status_label{\n"
+"	font: 300 10pt \"Ubuntu\";\n"
+"	color: #DDDDDD;\n"
+"margin-left: 10px;\n"
+"}\n"
+"\n"
 "QTextBrowser#textBrowser_description{\n"
 "	background-color: transparent;\n"
 "	font: 300 10pt \"Ubuntu\";\n"
@@ -110,14 +114,14 @@ class Ui_DialogLoanding(object):
 "padding: 6px 25px;\n"
 "border-radius: 8px ;\n"
 "}\n"
-"QPushButton[QPushButtonStyle=\"1\"]:hover{\n"
+"QPushButton"
+                        "[QPushButtonStyle=\"1\"]:hover{\n"
 "background-color: #36C9C6;\n"
 "}\n"
 "\n"
 "\n"
 "\n"
-"/*************************"
-                        "****************/\n"
+"/*****************************************/\n"
 "QPushButton[QPushButtonStyle=\"2\"]{\n"
 "font: 500 10pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
@@ -146,8 +150,8 @@ class Ui_DialogLoanding(object):
 "}\n"
 "\n"
 "\n"
-"\n"
-"QProgressBar#progressBar_loanding{\n"
+"/*\n"
+"QProgressBar#progress_bar{\n"
 "border: none;\n"
 "border-radius: 8px ;\n"
 "    border: 2px solid grey;\n"
@@ -158,9 +162,24 @@ class Ui_DialogLoanding(object):
 "\n"
 "QProgressBar#progressBar_loanding::chunk {\n"
 "\n"
-"    width: 10px; /* Tama\u00f1o del chunk (barra de progreso) */\n"
+"    width: 10px;  Tama\u00f1o del chunk"
+                        " (barra de progreso) \n"
+"}\n"
+"#36C9C6		#00BDB9	#77ACA2\n"
+"*/\n"
+"\n"
+"QProgressBar#progress_bar {\n"
+"    border: 2px solid grey; /* Grosor y color del borde */\n"
+"    border-radius: 8px; /* Bordes redondeados */\n"
+"    background-color: transparent; /* Color de fondo */\n"
+"font: 800 13pt \"Ubuntu\";\n"
+"color: #fff;\n"
 "}\n"
 "\n"
+"QProgressBar#progress_bar::chunk {\n"
+"    background-color: #f4d04b; /* Color del chunk (la parte que muestra el progreso) */\n"
+"    width: 10px; /* Ancho del chunk */\n"
+"}\n"
 "")
         self.horizontalLayout = QHBoxLayout(DialogLoanding)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -195,7 +214,7 @@ class Ui_DialogLoanding(object):
         self.label_icon.setSizePolicy(sizePolicy1)
         self.label_icon.setMinimumSize(QSize(0, 100))
         self.label_icon.setMaximumSize(QSize(100, 100))
-        self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_msg/question.svg"))
+        self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_dialogo_ejecutar/Ejecutando_analisis.svg"))
         self.label_icon.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.label_icon)
@@ -218,19 +237,23 @@ class Ui_DialogLoanding(object):
         self.verticalLayout = QVBoxLayout(self.frame_content)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(-1, 20, -1, -1)
-        self.progressBar_loanding = QProgressBar(self.frame_content)
-        self.progressBar_loanding.setObjectName(u"progressBar_loanding")
-        self.progressBar_loanding.setValue(24)
+        self.progress_bar = QProgressBar(self.frame_content)
+        self.progress_bar.setObjectName(u"progress_bar")
+        self.progress_bar.setValue(24)
+        self.progress_bar.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout.addWidget(self.progressBar_loanding)
+        self.verticalLayout.addWidget(self.progress_bar)
 
-        self.textBrowser_description = QTextBrowser(self.frame_content)
-        self.textBrowser_description.setObjectName(u"textBrowser_description")
-        sizePolicy.setHeightForWidth(self.textBrowser_description.sizePolicy().hasHeightForWidth())
-        self.textBrowser_description.setSizePolicy(sizePolicy)
-        self.textBrowser_description.setMaximumSize(QSize(16777215, 100))
+        self.status_label = QLabel(self.frame_content)
+        self.status_label.setObjectName(u"status_label")
 
-        self.verticalLayout.addWidget(self.textBrowser_description)
+        self.verticalLayout.addWidget(self.status_label)
+
+        self.question_label = QLabel(self.frame_content)
+        self.question_label.setObjectName(u"question_label")
+        self.question_label.setProperty("QLabelStyle", 1)
+
+        self.verticalLayout.addWidget(self.question_label)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -239,19 +262,41 @@ class Ui_DialogLoanding(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.pushButton_accept = QPushButton(self.frame_content)
-        self.pushButton_accept.setObjectName(u"pushButton_accept")
+        self.acept_button = QPushButton(self.frame_content)
+        self.acept_button.setObjectName(u"acept_button")
         sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.pushButton_accept.sizePolicy().hasHeightForWidth())
-        self.pushButton_accept.setSizePolicy(sizePolicy2)
-        self.pushButton_accept.setMinimumSize(QSize(0, 30))
-        self.pushButton_accept.setMaximumSize(QSize(120, 30))
-        self.pushButton_accept.setProperty("style_msn_button", 1)
-        self.pushButton_accept.setProperty("QPushButtonStyle", 1)
+        sizePolicy2.setHeightForWidth(self.acept_button.sizePolicy().hasHeightForWidth())
+        self.acept_button.setSizePolicy(sizePolicy2)
+        self.acept_button.setMinimumSize(QSize(80, 30))
+        self.acept_button.setMaximumSize(QSize(120, 30))
+        self.acept_button.setProperty("style_msn_button", 1)
+        self.acept_button.setProperty("QPushButtonStyle", 1)
 
-        self.horizontalLayout_2.addWidget(self.pushButton_accept)
+        self.horizontalLayout_2.addWidget(self.acept_button)
+
+        self.pause_button = QPushButton(self.frame_content)
+        self.pause_button.setObjectName(u"pause_button")
+        sizePolicy2.setHeightForWidth(self.pause_button.sizePolicy().hasHeightForWidth())
+        self.pause_button.setSizePolicy(sizePolicy2)
+        self.pause_button.setMinimumSize(QSize(80, 30))
+        self.pause_button.setMaximumSize(QSize(120, 30))
+        self.pause_button.setProperty("style_msn_button", 1)
+        self.pause_button.setProperty("QPushButtonStyle", 3)
+
+        self.horizontalLayout_2.addWidget(self.pause_button)
+
+        self.cancel_button = QPushButton(self.frame_content)
+        self.cancel_button.setObjectName(u"cancel_button")
+        sizePolicy2.setHeightForWidth(self.cancel_button.sizePolicy().hasHeightForWidth())
+        self.cancel_button.setSizePolicy(sizePolicy2)
+        self.cancel_button.setMinimumSize(QSize(80, 30))
+        self.cancel_button.setMaximumSize(QSize(120, 30))
+        self.cancel_button.setProperty("style_msn_button", 1)
+        self.cancel_button.setProperty("QPushButtonStyle", 2)
+
+        self.horizontalLayout_2.addWidget(self.cancel_button)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -271,14 +316,10 @@ class Ui_DialogLoanding(object):
     def retranslateUi(self, DialogLoanding):
         DialogLoanding.setWindowTitle(QCoreApplication.translate("DialogLoanding", u"Dialog", None))
         self.label_icon.setText("")
-        self.textBrowser_description.setHtml(QCoreApplication.translate("DialogLoanding", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:10pt; font-weight:300; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Cargando</p></body></html>", None))
-        self.pushButton_accept.setText(QCoreApplication.translate("DialogLoanding", u"Aceptar", None))
+        self.status_label.setText("")
+        self.question_label.setText("")
+        self.acept_button.setText(QCoreApplication.translate("DialogLoanding", u"Aceptar", None))
+        self.pause_button.setText(QCoreApplication.translate("DialogLoanding", u"Pausar", None))
+        self.cancel_button.setText(QCoreApplication.translate("DialogLoanding", u"Cancelar", None))
     # retranslateUi
 

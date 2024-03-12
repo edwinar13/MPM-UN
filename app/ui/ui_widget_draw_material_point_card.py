@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_material_point_cardnEqchv.ui'
+## Form generated from reading UI file 'widget_draw_material_point_cardGyajkI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -15,15 +15,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
-    QLabel, QLineEdit, QSizePolicy, QSpacerItem,
-    QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
+    QHBoxLayout, QLabel, QLineEdit, QSizePolicy,
+    QSpacerItem, QToolButton, QVBoxLayout, QWidget)
 
 class Ui_FormDrawMaterialPointCard(object):
     def setupUi(self, FormDrawMaterialPointCard):
         if not FormDrawMaterialPointCard.objectName():
             FormDrawMaterialPointCard.setObjectName(u"FormDrawMaterialPointCard")
-        FormDrawMaterialPointCard.resize(481, 81)
+        FormDrawMaterialPointCard.resize(481, 101)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -337,16 +337,16 @@ class Ui_FormDrawMaterialPointCard(object):
         self.frame_edit.setObjectName(u"frame_edit")
         self.frame_edit.setFrameShape(QFrame.StyledPanel)
         self.frame_edit.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_edit)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(5, 5, 20, 5)
+        self.formLayout = QFormLayout(self.frame_edit)
+        self.formLayout.setObjectName(u"formLayout")
+        self.formLayout.setContentsMargins(5, 5, 20, 5)
         self.label_textPointMaterialProperty = QLabel(self.frame_edit)
         self.label_textPointMaterialProperty.setObjectName(u"label_textPointMaterialProperty")
         self.label_textPointMaterialProperty.setMinimumSize(QSize(80, 0))
         self.label_textPointMaterialProperty.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.label_textPointMaterialProperty.setProperty("QLabelStyle", 3)
 
-        self.horizontalLayout_2.addWidget(self.label_textPointMaterialProperty)
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_textPointMaterialProperty)
 
         self.comboBox_PointMaterialProperty = QComboBox(self.frame_edit)
         self.comboBox_PointMaterialProperty.setObjectName(u"comboBox_PointMaterialProperty")
@@ -354,7 +354,23 @@ class Ui_FormDrawMaterialPointCard(object):
         self.comboBox_PointMaterialProperty.setFocusPolicy(Qt.WheelFocus)
         self.comboBox_PointMaterialProperty.setProperty("QComboBoxStyle", 1)
 
-        self.horizontalLayout_2.addWidget(self.comboBox_PointMaterialProperty)
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.comboBox_PointMaterialProperty)
+
+        self.label_textPointMateriallabel = QLabel(self.frame_edit)
+        self.label_textPointMateriallabel.setObjectName(u"label_textPointMateriallabel")
+        self.label_textPointMateriallabel.setMinimumSize(QSize(80, 0))
+        self.label_textPointMateriallabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.label_textPointMateriallabel.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_textPointMateriallabel)
+
+        self.label_textPointMaterialMesh = QLabel(self.frame_edit)
+        self.label_textPointMaterialMesh.setObjectName(u"label_textPointMaterialMesh")
+        self.label_textPointMaterialMesh.setMinimumSize(QSize(80, 0))
+        self.label_textPointMaterialMesh.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.label_textPointMaterialMesh.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.label_textPointMaterialMesh)
 
 
         self.verticalLayout.addWidget(self.frame_edit)
@@ -377,5 +393,7 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_showHideMaterialPoint.setText("")
         self.toolButton_closeMaterialPoint.setText("")
         self.label_textPointMaterialProperty.setText(QCoreApplication.translate("FormDrawMaterialPointCard", u"Material:", None))
+        self.label_textPointMateriallabel.setText(QCoreApplication.translate("FormDrawMaterialPointCard", u"Malla:", None))
+        self.label_textPointMaterialMesh.setText("")
     # retranslateUi
 

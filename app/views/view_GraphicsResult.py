@@ -42,14 +42,39 @@ class ViewGraphicsSceneResult(QGraphicsScene):
     
     #rectangulo en el rect de la scena
     def drawBackground(self, painter: QPainter, rect: QRectF|QRect) -> None:
-        painter.setPen(QPen(Qt.black, 1))
+        painter.setPen(QPen(Qt.blue, 1))
         painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         painter.drawRect(rect)
         return super(ViewGraphicsSceneResult, self).drawBackground(painter, rect)
+    
+    '''
+    NOTA:
+        esto es para verificar los rectangulos de los items
+        si bien tengo un problema con el rectangulo del item bar_color
+        se debaja asi ya que no alteral el funcionamiento de la aplicacion
+    
+    
+    def drawBoundingRects(self):
+        print("*"*50)
+        items = self.items()
+        for item in items:
+            bounding_rect = item.boundingRect()
+            print(f"colordendas {bounding_rect} >>>  item {item}")
 
+            
+    def drawForeground(self, painter: PySide6.QtGui.QPainter, rect: QRectF | QRect) -> None:
+        items = self.items()
+        for item in items:
+            
+            bounding_rect = item.boundingRect()
+            painter.setPen(QPen(Qt.red, 0))
+            #painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
+            painter.drawRect(bounding_rect)
+            
+        
+        return super().drawForeground(painter, rect)
 
-
-
+    '''
 
 
 class ViewGraphicsViewResult(QGraphicsView):

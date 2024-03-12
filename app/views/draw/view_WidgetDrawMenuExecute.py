@@ -341,6 +341,14 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.listWidget_execute_pointMaterialTo.clear()
         self.listWidget_execute_boundariesFrom.clear()
         self.listWidget_execute_boundariesTo.clear()
+    
+    def removeItemsListsMaterialPoint(self):
+        self.listWidget_execute_pointMaterialFrom.clear()
+        self.listWidget_execute_pointMaterialTo.clear()
+        
+    def removeItemsListsBoundaries(self):
+        self.listWidget_execute_boundariesFrom.clear()
+        self.listWidget_execute_boundariesTo.clear()
             
     def addItemsListsMaterialPointFrom(self, material_point):
         """ este metodo agrega los items a la lista de puntos materiales a ejecutar
@@ -444,7 +452,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         else:
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText(msn)          
-            QTimer.singleShot(4000, lambda: self.clearLabel)
+            QTimer.singleShot(4000, self.clearLabel)
    
     
     def clearLabel(self):

@@ -51,15 +51,27 @@ class ControllerMenuResultAnimation(QObject):
                 
 
     def setCurrentProject(self,model_current_project:ModelProjectCurrent):
+        
         self.model_current_project = model_current_project
-        self.model_result = self.model_current_project.getModelResult()        
+        self.model_result = self.model_current_project.getModelResult()  
+              
         self.view_menu_result_animation.setSteps(len(self.model_result.getGrapihcsTimes())-1)
+        self.updateMenuResults()
+        
+        
         self.model_result.signal_time_steps_changed.connect(self.signalModelResultTimeStepsChanged)
         self.model_result.signal_time_steps_end.connect(self.signalModelResultTimeStepsEnd)
         
+        #self.signalSceneStop()
 
     def getView(self):
         return self.view_menu_result_animation
+    
+    def updateMenuResults(self):
+        size = self.model_result.model_mesh_back.getSizeDx()/60
+        self.view_menu_result_animation.setSizePoint(size=size)
+        self.view_menu_result_animation.resetTypeResult()
+        
 
 
     ###############################################################################

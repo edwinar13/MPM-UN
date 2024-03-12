@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_executeiXPlRN.ui'
+## Form generated from reading UI file 'widget_draw_menu_executeabEQCU.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -900,9 +900,9 @@ class Ui_FormDrawMenuExecute(object):
         self.doubleSpinBoxl_textExecuteFps = QSpinBox(self.frame_Execute2)
         self.doubleSpinBoxl_textExecuteFps.setObjectName(u"doubleSpinBoxl_textExecuteFps")
         self.doubleSpinBoxl_textExecuteFps.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textExecuteFps.setMinimum(10)
+        self.doubleSpinBoxl_textExecuteFps.setMinimum(1)
         self.doubleSpinBoxl_textExecuteFps.setMaximum(300)
-        self.doubleSpinBoxl_textExecuteFps.setSingleStep(10)
+        self.doubleSpinBoxl_textExecuteFps.setSingleStep(1)
         self.doubleSpinBoxl_textExecuteFps.setValue(30)
         self.doubleSpinBoxl_textExecuteFps.setDisplayIntegerBase(10)
         self.doubleSpinBoxl_textExecuteFps.setProperty("QSpinBoxStyle", 1)

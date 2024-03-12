@@ -343,6 +343,10 @@ class ControllerPageResult(QObject):
 	# ::::::::::::::::::::          OTROS  MÉTODOS             ::::::::::::::::::::
 	###############################################################################
 
+    def stopAnimation(self):
+        self.controller_menu_result_animation.signalSceneStop()
+        
+        
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):
         self.current_project = model_current_project
         self.model_result = self.current_project.getModelResult()
@@ -372,7 +376,15 @@ class ControllerPageResult(QObject):
 
         self.list_controller_card.append(controller_card_point)
         
-  
+    
+    def updateMenuResults(self):
+        print("updateMenuResults")
+        self.controller_menu_result_animation.updateMenuResults()
+        self.controller_menu_result_graph.updateMenuResults()
+        self.view_page_result.updateMenuResults()
+        return
+        self.controller_menu_result_summary_table.updateMenuResults()
+
 
 
 

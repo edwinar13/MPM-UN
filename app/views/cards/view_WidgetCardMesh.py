@@ -5,7 +5,31 @@ from PySide6.QtGui import (QColor,QIcon)
 from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog)
 
 from ui.ui_widget_draw_mesh_card import Ui_FormDrawMeshCard
+
 from utils import class_ui_dialog_msg
+
+'''
+
+        # Hacer tu análisis aquí
+        for i in range(101):  # Simulación de progreso del análisis
+            if analysis_dialog.cancelled:
+                analysis_dialog.close()
+                return
+            if analysis_dialog.paused:
+                analysis_dialog.setStatus("Análisis pausado")
+                while analysis_dialog.paused:
+                    time.sleep(0.1)
+                    QApplication.processEvents()  # Mantener la ventana actualizada
+                analysis_dialog.setStatus("Reanudando análisis...")
+                
+                
+            analysis_dialog.setProgress(i)
+            analysis_dialog.setStatus(f"Ejecutando análisis: {i}%")
+            QApplication.processEvents()  # Mantener la ventana actualizada
+            time.sleep(0.1)  # Simulación de trabajo
+        
+
+'''
 
 
 class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
@@ -168,6 +192,7 @@ class viewCardDrawMesh(QFrame, Ui_FormDrawMeshCard):
             
         self.signal_delete_mesh.emit()
 
+    def deleteCardView(self):
         # Elimina la tarjeta
         self.deleteLater()
 

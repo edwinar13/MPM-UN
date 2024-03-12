@@ -208,18 +208,21 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         id_selected = self.comboBox_PointMaterialProperty.itemData(index, Qt.UserRole)["id_property"]
         return [id_selected, name]
     
+    def getMeshBase(self):
+        return self.label_textPointMaterialMesh.text()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
-    def showData(self, name, color, name_property ):        
+    def showData(self, name, color, name_property, name_mesh):        
         self.label_cardNameMaterialPoint.setText(u"{}".format(name ))
         self.__card_color_material_point = color
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
+        self.label_textPointMaterialMesh.setText(name_mesh)
 
 
-    def setListProperties(self, properties_data, selected_property): 
+    def setListProperties(self, properties_data, selected_property):         
         self.comboBox_PointMaterialProperty.clear()
         for item_index in range(len(properties_data)):
             id_property =properties_data[item_index][0]
@@ -228,6 +231,8 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
             self.comboBox_PointMaterialProperty.setItemData(self.comboBox_PointMaterialProperty.count() - 1, {"id_property": id_property}, Qt.UserRole)
         self.comboBox_PointMaterialProperty.setCurrentText(selected_property)
 
+    def setBaseMesh(self, name_mesh):        
+        self.label_textPointMaterialMesh.setText(name_mesh)
 
     def setPropertyStyle(self, widget, name_property, property: int):
         widget.setProperty(name_property, property)

@@ -7,6 +7,7 @@ class ControllerCardBoundary(QObject):
 
   
     signal_delete_boundary = Signal(str)
+    signal_edit_boundary= Signal()
 
 
     def __init__(self, model_boundary:ModelBoundary) -> None:
@@ -46,7 +47,9 @@ class ControllerCardBoundary(QObject):
         self.model_boundary.showHideLabel(value)
 
     @Slot()
-    def deleteBoundary(self):        
+    def deleteBoundary(self):       
+        #verificar que no este selecionado para ejecutar un analisis
+        
         self.signal_delete_boundary.emit(self.id)
         del self
 
@@ -59,6 +62,7 @@ class ControllerCardBoundary(QObject):
             id_boundary = self.id,
             name=self.name,
             )
+        self.signal_edit_boundary.emit()
 
 
 

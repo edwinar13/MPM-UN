@@ -1,5 +1,6 @@
 from models.model_ProjectCurrentRepository import ModelProjectCurrentRepository
 from models.model_Property import ModelProperty
+from models.model_Mesh import ModelMeshTriangle, ModelMeshQuadrilateral
 from utils.items_GraphicsDraw import TextFrameItem, PointMaterialItem
 from views.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
@@ -7,7 +8,8 @@ from PySide6.QtWidgets import QGraphicsItemGroup
 class ModelMaterialPoint:
 
     def __init__(self, scene_draw:QGraphicsScene, model_project_current_repository:ModelProjectCurrentRepository,
-                  id, name, color, points, property:ModelProperty) -> None:
+                  id, name, color, points,volumes, property:ModelProperty, mesh_base:ModelMeshTriangle|ModelMeshQuadrilateral
+                  ) -> None:
 
         self.scene_draw = scene_draw
         self.model_project_current_repository = model_project_current_repository
@@ -16,7 +18,9 @@ class ModelMaterialPoint:
         self.__name = name
         self.__color = color
         self.__points = points 
+        self.__volumes = volumes
         self.__property =property
+        self.__mesh_base = mesh_base
 
 
 
@@ -61,13 +65,19 @@ class ModelMaterialPoint:
 
     def getPoints(self):
         return self.__points   
+    
+    def getVolumes(self):
+        return self.__volumes
 
     def getProperty(self):
         return self.__property
+    
+    def getMeshBase(self):
+        return self.__mesh_base
 
     def getData(self):
-        """return: id, name, color, points, property]"""
-        return[self.__id,self.__name, self.__color, self.__points, self.__property]
+        """return: id, name, color, points, volumes, property, mesh_base"""
+        return[self.__id,self.__name, self.__color, self.__points, self.__volumes, self.__property, self.__mesh_base]
 
 
     ###############################################################################
@@ -86,7 +96,8 @@ class ModelMaterialPoint:
                 item.setRadius(value)
         self.scene_draw.update()
     
-    def updateMaterialPoint(self,id_MP, name= None, color= None, points= None, property = None):
+    def updateMaterialPoint(self,id_MP, name= None, color= None, points= None, volumes= None,
+                            property = None, mesh_base = None):
 
         if name != None:
             self.__name = name
@@ -96,14 +107,23 @@ class ModelMaterialPoint:
             self.setColorItem(self.__color)
         if points != None:
             self.__points = points
+            
+        if volumes != None:
+            self.__volumes = volumes
+            
         if property != None:
             self.__property = property
+        if mesh_base != None:
+            self.__mesh_base = mesh_base
+            
         self.model_project_current_repository.updateMaterialPointDB(
             id_MP=id_MP,
             name=name,
             color=color,
             points=points,
-            id_property=property.getId()
+            volumes= volumes,
+            id_property=property.getId(),
+            id_mesh_base= mesh_base.getId()
         )
 
     def setColorItem(self, color):

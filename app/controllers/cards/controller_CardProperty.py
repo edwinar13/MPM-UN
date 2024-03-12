@@ -56,10 +56,12 @@ class ControllerCardProperty(QObject):
         models_materials_points = self.model_current_project.getModelsPointsMaterials()
         for id_model_material_point in models_materials_points:
             model_material_point = models_materials_points[id_model_material_point]
+            
             name_MP =model_material_point.getName()
-            name_property_to_MP= model_material_point.getProperty().getName()            
-            if self.name == name_property_to_MP:
-                self.signal_msn.emit("Material este asignado a un MP [{}]".format(name_MP))
+            id_property_to_MP= model_material_point.getProperty().getId()
+                     
+            if id_property_to_MP == self.id:
+                self.signal_msn.emit("Material esta asignado a un MP [{}]".format(name_MP))
                 return 
         self.view_card_property.deleteCardView()
         self.signal_delete_property.emit(self.id)

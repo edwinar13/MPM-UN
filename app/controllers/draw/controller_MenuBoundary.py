@@ -7,6 +7,8 @@ class ControllerMenuBoundary(QObject):
 
     signal_end_draw_geometry = Signal()
     signal_new_boundary = Signal(str)
+    signal_delete_boundary= Signal() 
+    signal_edit_boundary= Signal() 
 
     def __init__(self) -> None:
         super().__init__()
@@ -56,6 +58,7 @@ class ControllerMenuBoundary(QObject):
         controller_card_boundary = ControllerCardBoundary( model_boundary = model_boundary)
         self.view_menu_boundary.addCardBoundary(controller_card_boundary.view_card_boundary)
         controller_card_boundary.signal_delete_boundary.connect(self.deleteBoundary)
+        controller_card_boundary.signal_edit_boundary.connect(self.editBoundary)
         self.list_controller_card.append(controller_card_boundary)
 
 
@@ -228,6 +231,11 @@ class ControllerMenuBoundary(QObject):
     @Slot(str)
     def deleteBoundary(self, id):
         self.model_current_project.deleteBoundary(id)
+        self.signal_delete_boundary.emit()
+        
+    @Slot()
+    def editBoundary(self):      
+        self.signal_edit_boundary.emit()
         
 
 

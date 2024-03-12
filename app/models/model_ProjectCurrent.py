@@ -253,16 +253,23 @@ class ModelProjectCurrent(QObject):
     def __initMaterialPoint(self):
         materials_points = self.model_project_current_repository.readMaterialPointDB()
         for id_material_point in materials_points:
+            
             name = materials_points[id_material_point]["NAME"]
             color = materials_points[id_material_point]["COLOR"]
             points = materials_points[id_material_point]["POINTS"]
+            volumes = materials_points[id_material_point]["VOLUMENES"]
             id_property = materials_points[id_material_point]["IDPROPIEDAD"]
+            id_mesh_base = materials_points[id_material_point]["IDMALLABASE"]
+
+            
             self.addMaterialPointToCurrentProject(
                 id=id_material_point,
                 name=name,
                 color=color,
                 points=points,
-                id_property=id_property)
+                volumes= volumes,
+                id_property=id_property,
+                id_mesh_base=id_mesh_base)
             
     def __initBoundary(self):
         boundaries = self.model_project_current_repository.readBoundaryDB()
@@ -656,7 +663,8 @@ class ModelProjectCurrent(QObject):
 
     # ::::::::::::::::::::           PUNTOS MATERIALES         ::::::::::::::::::::
 
-    def createMaterialPoint(self, name, color, points, id_property):
+    def createMaterialPoint(self, name, color, points, volumes,
+                            id_property, id_mesh_base):
 
         
         id = str(uuid.uuid4())
@@ -665,19 +673,36 @@ class ModelProjectCurrent(QObject):
             name = name, 
             color = color, 
             points = points,
-            id_property=id_property)
+            volumes= volumes,
+            id_property=id_property, 
+            id_mesh_base=id_mesh_base)
+            
+        
         self.addMaterialPointToCurrentProject(
                 id=id,
                 name=name,
                 color=color,
                 points=points,
-                id_property=id_property)
+                volumes= volumes,
+                id_property=id_property,
+                id_mesh_base=id_mesh_base)
         return id
     
-    def addMaterialPointToCurrentProject(self,id, name, color, points, id_property):  
+    def addMaterialPointToCurrentProject(self,id, name, color, points, volumes,
+                                         id_property, id_mesh_base):  
 
-        
         property = self.models_properties[id_property]
+
+        ids_meshs_triangular = list(self.models_meshs_triangular.keys())
+        ids_meshs_quadrilaterals = list(self.models_meshs_quadrilaterals.keys())
+
+        if id_mesh_base in ids_meshs_triangular:
+            mesh_base = self.models_meshs_triangular[id_mesh_base]
+            tipe_mesh_base = "TRIANGULAR"
+        elif id_mesh_base in ids_meshs_quadrilaterals:
+            mesh_base = self.models_meshs_quadrilaterals[id_mesh_base]
+            tipe_mesh_base = "QUADRILATERAL"
+
 
         model_material_point = ModelMaterialPoint(scene_draw=self.__scene,
                                                       model_project_current_repository=self.model_project_current_repository,
@@ -685,7 +710,10 @@ class ModelProjectCurrent(QObject):
                                                       name=name,
                                                       color=color,
                                                       points=points,
-                                                      property = property)
+                                                      volumes= volumes,
+                                                      property = property,
+                                                      mesh_base=mesh_base)
+                                                      
         self.models_material_point[id]=model_material_point        
    
     def getModelsPointsMaterials(self):

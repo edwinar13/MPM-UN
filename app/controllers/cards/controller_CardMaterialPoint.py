@@ -8,13 +8,15 @@ class ControllerCardMaterialPoint(QObject):
 
     
     signal_delete_material_point= Signal(str)
+    signal_edit_material_point= Signal()
 
     def __init__(self,model_project_current:ModelProjectCurrent, model_point_material:ModelMaterialPoint) -> None:
         super().__init__()
         self.model_project_current = model_project_current
-        self.model_point_material = model_point_material      
-        self.id, self.name, self.color, self.points, self.name_property = model_point_material.getData()
-
+        self.model_point_material = model_point_material    
+        #return[self.__id,self.__name, self.__color, self.__points, self.__volumes, self.__property, self.__mesh_base]  
+        self.id, self.name, self.color, self.points,self.__volumes , self.name_property, self.mesh_base = model_point_material.getData()
+       
 
         self.__initCard()
         self.__initEvent()
@@ -24,7 +26,7 @@ class ControllerCardMaterialPoint(QObject):
 	###############################################################################
     def __initCard(self):
         self.view_card_material_point = viewCardDrawMaterialPoint(self)
-        self.view_card_material_point.showData(name = self.name, color = self.color, name_property=self.name_property )
+        self.view_card_material_point.showData(name = self.name, color = self.color, name_property=self.name_property, name_mesh=self.mesh_base.getName())
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -52,7 +54,10 @@ class ControllerCardMaterialPoint(QObject):
           
 
     @Slot()
-    def deleteMaterialPoint(self):        
+    def deleteMaterialPoint(self):
+        #verficar que no este seleccionado para ejecutar un analisis
+        
+                
         self.signal_delete_material_point.emit(self.id)
         del self
         
@@ -68,14 +73,18 @@ class ControllerCardMaterialPoint(QObject):
             id_MP= self.id,
             name=self.name,
             color=self.color,
-            property=property_
+            property=property_,
+            mesh_base=self.mesh_base
             )
+        self.signal_edit_material_point.emit()
 
 
     def setListPropertiesViews(self, properties_data):   
         self.name_property = self.model_point_material.getProperty().getName()
         self.view_card_material_point.setListProperties(properties_data=properties_data, selected_property=self.name_property)     
 
-
+    def setListBaseMeshViews(self):  
+        name_mesh = self.mesh_base.getName()        
+        self.view_card_material_point.setBaseMesh(name_mesh=name_mesh)
 
 

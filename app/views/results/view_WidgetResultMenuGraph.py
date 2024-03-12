@@ -258,3 +258,6 @@ class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
     def addCardPoint(self, card_point):        
         self.verticalLayout_containerCardPoint.insertWidget(0,card_point)
         self.list_view_card.append(card_point)
+
+    def resetTypeResult(self):
+        self.comboBox_chartTypeResult.setCurrentIndex(0)

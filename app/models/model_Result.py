@@ -29,6 +29,8 @@ class ModelResult(QObject):
                 result_max,
                 result_nodes) -> None:
         super().__init__() 
+        
+
         self.scene_result = scene_result
         self.view_result = view_result
         self.model_project_current_repository = model_project_current_repository
@@ -130,20 +132,34 @@ class ModelResult(QObject):
     
     def getData(self) -> list:
         """return: 
-        [self.__data_base, 
-        self.__properties, 
-        self.__point_materials, 
-        self.model_mesh_back.getData(), 
-        self.__boundarys, 
-        self.__data_times, 
-        self.__analysis_times, 
-        self.__graphic_time, 
-        self.__result_min, 
-        self.__result_max, 
-        self.__result_nodes]
+        {    
+            "DATA_BASE": self.__data_base,
+            "PROPERTIES": self.__properties,
+            "POINT_MATERIALS": self.__point_materials,
+            "MESH_BACK": self.model_mesh_back.getData(),
+            "BOUNDARYS": self.__boundarys,
+            "DATA_TIMES": self.__data_times,
+            "ANALYSIS_TIMES": self.__analysis_times,
+            "GRAPHIC_TIME": self.__graphic_time,
+            "RESULT_MIN": self.__result_min,
+            "RESULT_MAX": self.__result_max,
+            "RESULT_NODES": self.__result_nodes     
+        }
         """
-        return[self.__data_base, self.__properties, self.__point_materials, self.model_mesh_back.getData(), self.__boundarys, self.__data_times, self.__analysis_times, self.__graphic_time, self.__result_min, self.__result_max, self.__result_nodes]
-               
+        #return[self.__data_base, self.__properties, self.__point_materials, self.model_mesh_back.getData(), self.__boundarys, self.__data_times, self.__analysis_times, self.__graphic_time, self.__result_min, self.__result_max, self.__result_nodes]
+        return {
+            "DATA_BASE": self.__data_base,
+            "PROPERTIES": self.__properties,
+            "POINT_MATERIALS": self.__point_materials,
+            "MESH_BACK": self.model_mesh_back.getData(),
+            "BOUNDARYS": self.__boundarys,
+            "DATA_TIMES": self.__data_times,
+            "ANALYSIS_TIMES": self.__analysis_times,
+            "GRAPHIC_TIME": self.__graphic_time,
+            "RESULT_MIN": self.__result_min,
+            "RESULT_MAX": self.__result_max,
+            "RESULT_NODES": self.__result_nodes            
+        }      
 
 
 
@@ -217,6 +233,7 @@ class ModelResult(QObject):
         
     def setVelocity(self, velocity):
         self.timer.setInterval(1000 / velocity) # intervalo en milisegundos
+        
 
                
     def regressTime(self):        
@@ -238,7 +255,8 @@ class ModelResult(QObject):
             node.stopTime()        
         self.signal_time_steps_changed.emit(self.time_view)
         
-    def playPauseTime(self, scene_is_play):        
+    def playPauseTime(self, scene_is_play):   
+        
         if not scene_is_play:
             self.timer.stop()
         else:      
@@ -260,17 +278,22 @@ class ModelResult(QObject):
             node.advanceTime(self.time_view)
         self.signal_time_steps_changed.emit(self.time_view)
         
+        #self.scene_result.drawBoundingRects()
+        
     
        
     
-    def  drawItemPointsScene(self):       
+    def  drawItemPointsScene(self):     
+        
+        size_mesh_back = self.model_mesh_back.getSizeDx()  
         
         for node in self.__result_nodes:
             color_type = random.choices([1,2], weights=[70, 30], k=1)[0]
-            radius = 0.05
+            radius = size_mesh_back/60
             text = TextResultItem("temp", 0,0)
             self.scene_result.addItem(text)   
-            text.setScale(0.01)         
+            text.setScale(0.01)     
+
 
 
             node_result = ItemResultNode(
@@ -293,9 +316,6 @@ class ModelResult(QObject):
         
         
 
-            
-
-        
  
         
 
@@ -304,16 +324,22 @@ class ModelResult(QObject):
         h = self.model_mesh_back.getSizeDy()
         x = 0
         y = 0
-
+        points = self.model_mesh_back.getPoints()
+        cuadrilaterals = self.model_mesh_back.getQuadrilaterals()    
+        points_boundary_top,points_boundary_bottom ,points_boundary_left ,points_boundary_right = self.model_mesh_back.getBoundaryPoints()
+                
         self.axis_mesh_back_result = ItemResultAxisMeshBack(x,y,w, h)
         self.scene_result.addItem(self.axis_mesh_back_result)
         self.axis_mesh_back_result.setZValue(10)
-
-        self.label_mesh_back_result = ItemResultLabelGridMeshBack(self.scene_result,x,y,w, h)
+        self.label_mesh_back_result = ItemResultLabelGridMeshBack(self.scene_result,x,y,w, h,
+                                                                  points_boundary_top,
+                                                                  points_boundary_bottom, 
+                                                                  points_boundary_left, 
+                                                                  points_boundary_right)
         self.scene_result.addItem(self.label_mesh_back_result)
         self.label_mesh_back_result.setZValue(9)
-
-        self.grid_mesh_back_result = ItemResultGridMeshBack(x,y,w, h)
+        
+        self.grid_mesh_back_result = ItemResultGridMeshBack(x,y,w, h, points, cuadrilaterals )
         self.scene_result.addItem(self.grid_mesh_back_result)
         self.grid_mesh_back_result.setZValue(8)
         
@@ -322,19 +348,15 @@ class ModelResult(QObject):
         self.base_mesh_back_result.setZValue(100)
         self.base_mesh_back_result.setVisible(False)
         
+
         self.color_bar_result = ItemResultColorBar(x,y)
         self.scene_result.addItem(self.color_bar_result)
         self.color_bar_result.setZValue(100)
-        self.color_bar_result.setScale(0.01)
+        
+        scale_bar = h/250 
+        self.color_bar_result.setScale(scale_bar)
         self.color_bar_result.setPos(x+w+(w/5),y)
         self.color_bar_result.setVisible(False)
-        
-        '''
-        rect = self.scene_result.sceneRect()
-        item = QGraphicsRectItem(rect)
-        item.setPen(QPen(QColor("#aaa"), 0, Qt.DashLine))
-        self.scene_result.addItem(item)
-        '''
 
 
     def clearSceneResult(self):
@@ -347,6 +369,7 @@ class ModelResult(QObject):
         self.drawItemBasicScene()
         self.drawItemPointsScene()
         self.signal_reset_result.emit()
+        
         #self.view_result.resetView()
         
         
@@ -439,7 +462,7 @@ class ModelResult(QObject):
 
 
     def updateResultTimes(self,analysis_times=None ):
-
+ 
         if analysis_times != None:
             self.__analysis_times = analysis_times
 

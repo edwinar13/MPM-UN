@@ -171,3 +171,6 @@ class ControllerMenuResultGraph(QObject):
     
     def addCardPoint(self, card_point): 
         self.view_menu_result_graph.addCardPoint(card_point)       
+
+    def updateMenuResults(self):        
+        self.view_menu_result_graph.resetTypeResult()

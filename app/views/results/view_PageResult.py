@@ -33,7 +33,7 @@ class ViewPageResult(QFrame, Ui_FormResult):
         self.islabel = False
         self.setTitleChart(self.title)
         self.setLabelXChart("Tiempo")
-        self.setLabelYChart("Desplazamiento (??)")
+        self.setLabelYChart("Coordenada x")
  
         #:::::::::::::::::::   EVENTO HOVER   ::::::::::::::::::::::::::::::::::::
         def hover(event):
@@ -218,13 +218,13 @@ class ViewPageResult(QFrame, Ui_FormResult):
         for line in self.list_graphics:    
             if line_type == "points":
                 line.set_linestyle(':')  # Línea sólida
-                line.set_marker(None)  # Elimina el marcador
+                line.set_marker('')  # Elimina el marcador
             if line_type == "line":
                 line.set_linestyle('-')  # Línea sólida
-                line.set_marker(None)  # Elimina el marcador
+                line.set_marker('')  # Elimina el marcador
             elif line_type == "curve":
                 line.set_linestyle('--')  # Línea sólida
-                line.set_marker(None)  # Círculos como puntos
+                line.set_marker('')  # Círculos como puntos
                 line.set_markevery(None)  # Elimina la opción markevery
             elif line_type == "circles":
                 line.set_linestyle('-')  # Elimina la línea
@@ -354,5 +354,10 @@ class ViewPageResult(QFrame, Ui_FormResult):
                 self.tableWidget_tableResult.setColumnHidden(column, False)
         else:            
             self.tableWidget_tableResult.setColumnHidden(column_select, not cheked)
-        
+            
+    def updateMenuResults(self):
+        max = 1
+        min = 0        
+        self.setYAxisLimitsChart(min, max)
+        self.setXAxisLimitsChart(min, max)
         

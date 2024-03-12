@@ -1814,7 +1814,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                      </size>
                     </property>
                     <property name="text">
-                     <string>Tamaño puntos:</string>
+                     <string>Tamaño puntos (r):</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>

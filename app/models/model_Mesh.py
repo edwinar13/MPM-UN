@@ -341,6 +341,8 @@ class ModelMeshBack:
 
 
     def getBoundaryPoints(self):
+        """ return: points_boundary_top, points_boundary_bottom, points_boundary_left, points_boundary_right"""
+        
         points_boundary_top = self.points_boundary_top
         points_boundary_bottom = self.points_boundary_bottom 
         points_boundary_left = self.points_boundary_left

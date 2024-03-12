@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>481</width>
-    <height>81</height>
+    <height>101</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -591,7 +591,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QFormLayout" name="formLayout">
       <property name="leftMargin">
        <number>5</number>
       </property>
@@ -604,7 +604,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
       <property name="bottomMargin">
        <number>5</number>
       </property>
-      <item>
+      <item row="0" column="0">
        <widget class="QLabel" name="label_textPointMaterialProperty">
         <property name="minimumSize">
          <size>
@@ -623,7 +623,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="1">
        <widget class="QComboBox" name="comboBox_PointMaterialProperty">
         <property name="minimumSize">
          <size>
@@ -636,6 +636,44 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
         </property>
         <property name="QComboBoxStyle" stdset="0">
          <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_textPointMateriallabel">
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Malla:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="QLabelStyle" stdset="0">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_textPointMaterialMesh">
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="QLabelStyle" stdset="0">
+         <number>3</number>
         </property>
        </widget>
       </item>

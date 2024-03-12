@@ -73,6 +73,11 @@ class TextResultItem(QGraphicsItem):
         painter.scale(1, -1)
         painter.drawText(self.coor, self.text)
         
+        
+        
+
+        
+        
 
 class ItemResultNode(QGraphicsItem):
     """color_type 1 o 2"""
@@ -86,6 +91,8 @@ class ItemResultNode(QGraphicsItem):
 
     def __init__(self, radius, color_type_default, graphic_time, data_result, result_min, result_max, text_value:TextResultItem):
         QGraphicsItem.__init__(self)
+        
+ 
         self.text_value = text_value
         self.text_value.setVisible(False)
         self.text_value.setColor("#333")
@@ -207,8 +214,8 @@ class ItemResultNode(QGraphicsItem):
         
         
         
-    def updateColorPoint(self):        
-           
+    def updateColorPoint(self):       
+
         if self.type_result != 'default':
             type_result = self.type_result.upper()
             min_value = self.result_min[type_result]     
@@ -327,13 +334,13 @@ class ItemResultNode(QGraphicsItem):
 
 
     def movePoint(self, pos:QPointF):
-        '''
-        print(f"{self._time_view}")
-        '''
-        self.coor = pos
-        self.setPos(pos)
-        self.text_value.newPos(self.coor)
-
+        try:
+            self.coor = pos
+            self.setPos(pos)
+            self.text_value.newPos(self.coor)
+        except Exception as e:
+            print("-->Error movePoint", e)
+        
     def boundingRect(self):
         return QRectF(-self.radius,-self.radius,self.radius*2,self.radius*2)
 
@@ -417,11 +424,7 @@ class ItemResultColorBar(QGraphicsItem):
         self.width = width*100
         self.height = height*100
         self.corner_radius = self.RADIUS * (width/50)
-        
-        
-              
-        
-        
+                
         self.rect_color_h= 100        
         self.rect_color = QRectF(self.x, self.y, self.rect_color_h/6, self.rect_color_h)   
         self.lines = [
@@ -430,23 +433,12 @@ class ItemResultColorBar(QGraphicsItem):
             QLineF(self.x , self.y + (self.rect_color_h)*0.50, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.50),
             QLineF(self.x , self.y + (self.rect_color_h)*0.25, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.25),
             QLineF(self.x , self.y + (self.rect_color_h)*0.0, self.x + (self.rect_color_h/4), self.y+(self.rect_color_h)*0.0)
-
         ]     
         
-        self.setText(1,0)
-
-
-        
-        
+        self.setText(1,0)       
         self.setColorType(1)
-
         # Establecer el gradiente como el fondo de la vista
-        
-        
-              
-        
-
-        
+                
         self.pen_bar1 = QPen(QColor("#555"))
         self.font_bar1 = QFont("Times", self.FONTSIZE-3, 0)
         
@@ -464,18 +456,17 @@ class ItemResultColorBar(QGraphicsItem):
             self.texts[i]['text'] = format_number(max - (i*(max-min)/4))
             self.texts[i]['coor'] = QPointF(self.x + (self.rect_color_h/4), self.y-(self.rect_color_h)*(i/4))
             
-            
-        
-        
-        
         
     def setTypeResult(self, type_result, max, min):
         self.text = str(type_result)      
         self.setText(max, min)      
         self.update()
         
-        
-        
+    def setScaleView(self, scale):
+        self.setScale(scale)
+        self.width = self.width*scale
+        self.height = self.height*scale
+       
     def setColorType(self, color_type, color=QColor("#2d2df2")):
         gradient = QLinearGradient(0,0,0,self.rect_color_h)
         
@@ -500,8 +491,7 @@ class ItemResultColorBar(QGraphicsItem):
         
         #update
         self.update()
-        
-            
+                    
     def cardColorBar(self):
         
         # Establecer el gradiente como el fondo de la vista
@@ -518,10 +508,8 @@ class ItemResultColorBar(QGraphicsItem):
         self.setGraphicsEffect(self.shadow_effect)
         self.setZValue(100) 
         
-        
-        
-
     def boundingRect(self):
+
         return QRectF(self.x-(self.width/10) , self.y-(self.height/20) , self.width , self.height )
 
     def paint(self, painter, option, widget):
@@ -552,6 +540,11 @@ class ItemResultColorBar(QGraphicsItem):
         painter.setPen(self.pen)
         painter.setFont(self.font)
         painter.drawText(self.x, self.y-120, self.text)
+ 
+ 
+ 
+ 
+ 
               
 class ItemResultAxisMeshBack(QGraphicsItem):
 
@@ -604,7 +597,8 @@ class ItemResultGridMeshBack(QGraphicsItem):
     COLOR = "#aaa"
 
 
-    def __init__(self, x, y, width, height ):
+    def __init__(self, x, y, width, height,
+                 points, quadrilaterals):
         QGraphicsItem.__init__(self)
 
         self.color = self.COLOR
@@ -637,6 +631,17 @@ class ItemResultGridMeshBack(QGraphicsItem):
             y2=y + (i*dxy)
             line = QLineF(x1,y1,x2,y2)
             self.lines.append(line)
+        
+        self.quadrilaterals = []
+
+        for quadrilateral in quadrilaterals:
+
+            p1 = QPointF(points[quadrilateral[0]-1][0], points[quadrilateral[0]-1][1])
+            p2 = QPointF(points[quadrilateral[1]-1][0], points[quadrilateral[1]-1][1])
+            p3 = QPointF(points[quadrilateral[2]-1][0], points[quadrilateral[2]-1][1])
+            p4 = QPointF(points[quadrilateral[3]-1][0], points[quadrilateral[3]][1])
+            rectang = QRectF(p1, p3)
+            self.quadrilaterals.append(rectang)
 
 
    
@@ -653,7 +658,8 @@ class ItemResultGridMeshBack(QGraphicsItem):
     def paint(self, painter, option, widget):
         
         painter.setPen(self.pen)            
-        painter.drawLines(self.lines)
+        #painter.drawLines(self.lines)
+        painter.drawRects(self.quadrilaterals)
         
 class ItemResultLabelGridMeshBack(QGraphicsItem):
 
@@ -661,7 +667,11 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
     COLOR = "#888"
 
 
-    def __init__(self, scene, x, y, width, height ):
+    def __init__(self, scene, x, y, width, height, 
+                points_boundary_top,
+                points_boundary_bottom, 
+                points_boundary_left, 
+                points_boundary_right  ):
         QGraphicsItem.__init__(self)
 
         self.color = self.COLOR
@@ -674,85 +684,80 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
         len_min = min(self.width, self.height)
         dxy = len_min/10
         line_label_dxy = dxy/10
-        no_lines_x = math.ceil(self.width / dxy)
-        no_lines_y = math.ceil(self.height / dxy)
+
+
+        text_height = len_min/500
         
         self.labes_text = []
-        
-
         self.lines = []
-        for i in range(no_lines_x):
-            # Inferior
-            x1=x + (i*dxy)
-            x2=x + (i*dxy)
-            y1=y - line_label_dxy
-            y2=y + line_label_dxy
-            line = QLineF(x1,y1,x2,y2)
+        for top in points_boundary_top:
+            xi = top[0]
+            yi = top[1]
+            p1 = QPointF(xi, yi)
+            p2 = QPointF(xi, yi + (line_label_dxy*1.5))
+            line = QLineF(p1, p2)
             self.lines.append(line)
-            text_label = ItemResultTextLabel(text=str(round(x + (i*dxy),1)),
-                                      coordinatesX= x + (i*dxy),
-                                      coordinatesY= y - (0*line_label_dxy),
-                                      angle_degrees=90,
-                                      alignment='BOTTOM')
-            text_label.setScale(0.01)
-            scene.addItem(text_label)
-            self.labes_text.append(text_label)
-
-            # superior
-            x1=x + (i*dxy)
-            x2=x + (i*dxy)
-            y1=y + height - line_label_dxy
-            y2=y + height + line_label_dxy
-            line = QLineF(x1,y1,x2,y2)
-            self.lines.append(line)
-            text_label = ItemResultTextLabel(text=str(round(x + (i*dxy),1)),
-                            coordinatesX= x + (i*dxy),
-                            coordinatesY= y + height + (0*line_label_dxy),
-                            angle_degrees=-90,
-                            alignment='TOP')
-            text_label.setScale(0.01)
-            scene.addItem(text_label)
-            self.labes_text.append(text_label)
-
-        for i in range(no_lines_y):
-
-            # izquierda
-            x1=x - line_label_dxy
-            x2=x + line_label_dxy
-            y1=y + (i*dxy)
-            y2=y + (i*dxy)
-            line = QLineF(x1,y1,x2,y2)
-            self.lines.append(line)
-            text_label = ItemResultTextLabel(text=str(round(y + i*dxy,1)),
-                                      coordinatesX= x - (0*line_label_dxy),
-                                      coordinatesY= y + (i*dxy),
+            text_label = ItemResultTextLabel(text=str(xi),
+                                      coordinatesX= xi,
+                                      coordinatesY= yi,
                                       angle_degrees=0,
-                                      alignment='LEFT')            
-            text_label.setScale(0.01)
+                                      alignment='TOP')
+            text_label.setScale(text_height)
             scene.addItem(text_label)
             self.labes_text.append(text_label)
             
+                       
 
-            #derecha
-            x1=x + width - line_label_dxy
-            x2=x + width + line_label_dxy
-            y1=y + (i*dxy)
-            y2=y + (i*dxy)
-            line = QLineF(x1,y1,x2,y2)
+        for bottom in points_boundary_bottom:
+            xi = bottom[0]
+            yi = bottom[1]
+            p1 = QPointF(xi, yi)
+            p2 = QPointF(xi, yi - (line_label_dxy*1.5))
+            line = QLineF(p1, p2)
             self.lines.append(line)
-            text_label = ItemResultTextLabel(text=str(round(y + i*dxy,1)),
-                                      coordinatesX= x + width + (0*line_label_dxy),
-                                      coordinatesY= y + (i*dxy),
+            text_label = ItemResultTextLabel(text=str(xi),
+                                      coordinatesX= xi,
+                                      coordinatesY= yi,
                                       angle_degrees=0,
-                                      alignment='RIGHT')  
-            text_label.setScale(0.01)          
-                      
+                                      alignment='BOTTOM')
+            text_label.setScale(text_height)
             scene.addItem(text_label)
             self.labes_text.append(text_label)
-
-
-   
+            
+        for left in points_boundary_left:
+            xi = left[0]
+            yi = left[1]
+            p1 = QPointF(xi, yi)
+            p2 = QPointF(xi - (line_label_dxy*1.5), yi)
+            line = QLineF(p1, p2)
+            self.lines.append(line)
+            text_label = ItemResultTextLabel(text=str(yi),
+                                      coordinatesX= xi,
+                                      coordinatesY= yi,
+                                      angle_degrees=0,
+                                      alignment='LEFT')
+            text_label.setScale(text_height)
+            scene.addItem(text_label)
+            self.labes_text.append(text_label)
+            
         
+        for right in points_boundary_right:
+            xi = right[0]
+            yi = right[1]
+            p1 = QPointF(xi, yi)
+            p2 = QPointF(xi + (line_label_dxy*1.5), yi)
+            line = QLineF(p1, p2)
+            self.lines.append(line)
+            text_label = ItemResultTextLabel(text=str(yi),
+                                      coordinatesX= xi,
+                                      coordinatesY= yi,
+                                      angle_degrees=0,
+                                      alignment='RIGHT')
+            text_label.setScale(text_height)
+            scene.addItem(text_label)
+            self.labes_text.append(text_label)
+            
+               
         self.pen = QPen(QColor( self.color), self.width_border, Qt.SolidLine)
         #self.pen.setCosmetic(True)
         #self.pen.setWidthF(1.5)

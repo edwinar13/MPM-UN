@@ -1164,13 +1164,13 @@ naranjas #D34E24 #F28123 #F7F052
                   </size>
                  </property>
                  <property name="minimum">
-                  <number>10</number>
+                  <number>1</number>
                  </property>
                  <property name="maximum">
                   <number>300</number>
                  </property>
                  <property name="singleStep">
-                  <number>10</number>
+                  <number>1</number>
                  </property>
                  <property name="value">
                   <number>30</number>

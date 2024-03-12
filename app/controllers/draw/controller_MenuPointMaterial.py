@@ -7,6 +7,8 @@ from controllers.cards.controller_CardMaterialPoint import ControllerCardMateria
 class ControllerMenuPointMaterial(QObject):
 
     signal_new_points_material = Signal(str)
+    signal_delete_points_material= Signal() 
+    signal_edit_points_material= Signal() 
     
     def __init__(self) -> None:
         super().__init__()
@@ -57,6 +59,7 @@ class ControllerMenuPointMaterial(QObject):
                                                 )
         self.view_menu_pointMaterial.addCardMaterialPoint(controller_card_material_point.view_card_material_point)
         controller_card_material_point.signal_delete_material_point.connect(self.deleteMaterialPoint)
+        controller_card_material_point.signal_edit_material_point.connect(self.editMaterialPoint)   
         self.list_controller_card.append(controller_card_material_point)
 
     ###############################################################################
@@ -148,43 +151,53 @@ class ControllerMenuPointMaterial(QObject):
             quadrilaterals= base_mesh.getQuadrilaterals()
 
             point_material_points =[]
+            point_material_volumes =[]
 
             for quadrilateral in quadrilaterals:
                 point1  = coordenates_quadrilaterals[quadrilateral[0]]
                 point2  = coordenates_quadrilaterals[quadrilateral[1]]
                 point3  = coordenates_quadrilaterals[quadrilateral[2]]
                 point4  = coordenates_quadrilaterals[quadrilateral[3]]
+                # volumen del elemeto quadrilateral 
+                volume_element = abs((point1[0]*(point2[1]-point3[1]) + point2[0]*(point3[1]-point1[1]) + point3[0]*(point1[1]-point2[1]))/2) + abs((point1[0]*(point3[1]-point4[1]) + point3[0]*(point4[1]-point1[1]) + point4[0]*(point1[1]-point3[1]))/2)
 
                 center_x = (point1[0] + point2[0] + point3[0] + point4[0]) / 4
                 center_y = (point1[1] + point2[1] + point3[1] + point4[1]) / 4
                 center_point = (center_x, center_y)
 
-                if point_material_no_points == "1x":
+                if point_material_no_points == "1x": # 1 punto
                     point_material_points.append(center_point)  
+                    point_material_volumes.append(volume_element)
 
-                elif point_material_no_points == "2x":
+                elif point_material_no_points == "2x": # 4 puntos
                     center_x = (point1[0] + center_point[0]) / 2
                     center_y = (point1[1] + center_point[1]) / 2
                     center_point_1 = (center_x, center_y)
                     point_material_points.append(center_point_1)  
+                    point_material_volumes.append(volume_element/4)
 
 
                     center_x = (point2[0] + center_point[0]) / 2
                     center_y = (point2[1] + center_point[1]) / 2
                     center_point_2 = (center_x, center_y)
                     point_material_points.append(center_point_2)  
+                    point_material_volumes.append(volume_element/4)
 
                     
                     center_x = (point3[0] + center_point[0]) / 2
                     center_y = (point3[1] + center_point[1]) / 2
                     center_point_3 = (center_x, center_y)
-                    point_material_points.append(center_point_3)  
+                    point_material_points.append(center_point_3) 
+                    point_material_volumes.append(volume_element/4)
 
                     
                     center_x = (point4[0] + center_point[0]) / 2
                     center_y = (point4[1] + center_point[1]) / 2
                     center_point_4 = (center_x, center_y)
                     point_material_points.append(center_point_4)  
+                    point_material_volumes.append(volume_element/4)
+                    
+                    
         
 
 
@@ -197,11 +210,14 @@ class ControllerMenuPointMaterial(QObject):
             triangles= base_mesh.getTriangles()
 
             point_material_points =[]
+            point_material_volumes =[]
 
             for triangle in triangles:
                 point1  = coordenates_triangles[triangle[0]]
                 point2  = coordenates_triangles[triangle[1]]
-                point3  = coordenates_triangles[triangle[2]]
+                point3  = coordenates_triangles[triangle[2]]                
+                
+                volume_element = abs((point1[0]*(point2[1]-point3[1]) + point2[0]*(point3[1]-point1[1]) + point3[0]*(point1[1]-point2[1]))/2)
 
                 center_x = (point1[0] + point2[0] + point3[0]) / 3
                 center_y = (point1[1] + point2[1] + point3[1]) / 3
@@ -209,23 +225,26 @@ class ControllerMenuPointMaterial(QObject):
 
                 if point_material_no_points == "1x":
                     point_material_points.append(center_point)  
+                    point_material_volumes.append(volume_element)
 
                 elif point_material_no_points == "2x":
                     center_x = (point1[0] + (center_point[0]*2)) / 3
                     center_y = (point1[1] + (center_point[1]*2)) / 3
                     center_point_1 = (center_x, center_y)
                     point_material_points.append(center_point_1)  
+                    point_material_volumes.append(volume_element/3)
+                    
                     center_x = (point2[0] + (center_point[0]*2)) / 3
                     center_y = (point2[1] + (center_point[1]*2)) / 3
                     center_point_2 = (center_x, center_y)
                     point_material_points.append(center_point_2)  
+                    point_material_volumes.append(volume_element/3)
+                    
                     center_x = (point3[0] + (center_point[0]*2)) / 3
                     center_y = (point3[1] + (center_point[1]*2)) / 3
                     center_point_3 = (center_x, center_y)
                     point_material_points.append(center_point_3)  
-
-
-
+                    point_material_volumes.append(volume_element/3)
 
 
 
@@ -233,7 +252,9 @@ class ControllerMenuPointMaterial(QObject):
         id = self.model_current_project.createMaterialPoint(name=point_material_name ,
                                                     color=point_material_color,
                                                     points=point_material_points,
-                                                    id_property = id_property
+                                                    volumes=point_material_volumes,
+                                                    id_property = id_property,
+                                                    id_mesh_base=point_material_id_base_mesh                                                   
                                                     )
         model_point_material = self.model_current_project.getModelsPointsMaterials()[id]
         self.createPointsMaterialsCard(model_point_material)        
@@ -251,6 +272,15 @@ class ControllerMenuPointMaterial(QObject):
         for  controlled_card in self.list_controller_card:
             if controlled_card.id == id:
                 self.list_controller_card.remove(controlled_card)
+        
+        self.signal_delete_points_material.emit()
+        
+    @Slot()
+    def editMaterialPoint(self):
+        self.signal_edit_points_material.emit()
+        
+        
+        
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -272,6 +302,10 @@ class ControllerMenuPointMaterial(QObject):
             type_mesh = meshs[id_mesh].getType()
             mesh_data.append([id_mesh, name, color, type_mesh])
         self.view_menu_pointMaterial.setListBaseMesh(mesh_data=mesh_data)
+        
+        for controller_card in self.list_controller_card:
+            controller_card.setListBaseMeshViews()
+            
 
 
 
@@ -282,6 +316,7 @@ class ControllerMenuPointMaterial(QObject):
             name = property[id_property].getName()
             properties_data.append([id_property, name])
         self.view_menu_pointMaterial.setListProperties(properties_data=properties_data)
+        
         for controller_card in self.list_controller_card:
             controller_card.setListPropertiesViews(properties_data=properties_data)
 

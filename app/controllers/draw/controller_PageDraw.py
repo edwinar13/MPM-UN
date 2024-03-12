@@ -74,16 +74,31 @@ class ControllerPageDraw(QObject):
         self.controller_menu_properties.signal_edit_property.connect(self.setListPropertiesViews)
         self.controller_menu_properties.signal_delete_property.connect(self.setListPropertiesViews)
         
+        '''
         self.controller_menu_pointMaterial.signal_new_points_material.connect(self.newItemPointMaterialView)
+        self.controller_menu_pointMaterial.signal_edit_points_material.connect(self.newItemPointMaterialView)
+        self.controller_menu_pointMaterial.signal_delete_points_material.connect(self.newItemPointMaterialView)        
         
         self.controller_menu_boundary.signal_new_boundary.connect(self.newItemBoundaryView)
+        self.controller_menu_boundary.signal_edit_boundary.connect(self.newItemBoundaryView)
+        self.controller_menu_boundary.signal_delete_boundary.connect(self.newItemBoundaryView)
 
-
+        
+        '''
+        self.controller_menu_pointMaterial.signal_new_points_material.connect(self.setListPointsMaterialView)
+        self.controller_menu_pointMaterial.signal_edit_points_material.connect(self.setListPointsMaterialView)
+        self.controller_menu_pointMaterial.signal_delete_points_material.connect(self.setListPointsMaterialView)
+        
+        self.controller_menu_boundary.signal_new_boundary.connect(self.setListBoundariesView)
+        self.controller_menu_boundary.signal_edit_boundary.connect(self.setListBoundariesView)
+        self.controller_menu_boundary.signal_delete_boundary.connect(self.setListBoundariesView)
+        
 
         
         self.controller_graphics_draw.signal_msn_console.connect(self.msnConsoleView)
         self.controller_graphics_draw.signal_msn_label_console.connect(self.msnLabelConsole)
         self.controller_graphics_draw.signal_end_draw_geometry.connect(self.endDrawGeometry)
+        
 
 
         self.view_page_draw.signal_command_console.connect(self.commandConsole)
@@ -103,6 +118,14 @@ class ControllerPageDraw(QObject):
     def setListPropertiesViews(self):       
         self.controller_menu_pointMaterial.setListPropertiesViews()
         #self.controller_menu_execute.setListPropertiesViews()
+        
+    @Slot()
+    def setListPointsMaterialView(self):       
+        self.controller_menu_execute.setListPointsMaterialView()
+        
+    @Slot()
+    def setListBoundariesView(self):
+        self.controller_menu_execute.setListBoundariesView()
     
 
     @Slot(str)

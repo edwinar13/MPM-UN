@@ -169,7 +169,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.label_msn.setStyleSheet("color: #333333") 
 
     def __clickedToolButtonPointMaterialColorPicker(self):
-        color = QColorDialog.getColor(initial=QColor(200,200,200))
+        color = QColorDialog.getColor(initial=QColor(100 ,100, 100))
         if color.isValid():
             self.__color_material_point=color.name()
             self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : {}'.format(self.__color_material_point))

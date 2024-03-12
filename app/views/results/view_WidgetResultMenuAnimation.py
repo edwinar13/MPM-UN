@@ -239,6 +239,12 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     def getValuesText(self):
         return self.checkBox_ResultAnimationValues.isChecked()
     
+    def resetTypeResult(self):
+        self.comboBox_sceneTypeResult.setCurrentIndex(0)
+        self.comboBox_ResultAnimationColorStyles.setCurrentIndex(0)
+        self.comboBox_ResultAnimationColorStyles.setEnabled(False)
+        
+    
     def setEnableColorStyle(self, enable):
 
         type_result = self.getTypeResult()
@@ -280,6 +286,9 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
 
     def setSteps(self, steps):
         self.label_textResultSteps.setText(str(steps))
+        
+    def setSizePoint(self, size):
+        self.doubleSpinBoxl_textResultAnimationSizePoints.setValue(size)
         
     def setTimeView(self, time):
         self.label_textResultTime.setText(str(time))

@@ -75,11 +75,12 @@ class ControllerMenuResultTable(QObject):
         
     @Slot(str)
     def signalSaveData(self, path_data):
-        graphic_times = self.model_result.getData()[1]
-        result_nodes = self.model_result.getData()[2]
+        graphic_times = self.model_result.getData()["GRAPHIC_TIME"]
+        result_nodes = self.model_result.getData()["RESULT_NODES"]
         with open(path_data, 'w') as file:
             for data_node in result_nodes:
                 dt = graphic_times
+                
                 corx = result_nodes[data_node]['CORX']
                 cory = result_nodes[data_node]['CORY']    
 

@@ -68,6 +68,8 @@ class ControllerMainWindow():
 
         self.controller_page_draw.view_page_draw.signal_hide_show_draw.connect(self.hideShowDraw)
         self.controller_page_draw.controller_menu_execute.signal_enable_results.connect(self.setEnableResults)
+        self.controller_page_draw.controller_menu_execute.signal_update_menu_result.connect(self.updateMenuResults)
+        
         
 
         # se agrega las vistas page a la vista main
@@ -188,7 +190,6 @@ class ControllerMainWindow():
     @Slot(str)
     def openProject(self, path_project):
 
-
         #verifica si hay un proyecto actual y si es el mismo que se abre
         if self.model_current_project:
             if self.model_current_project.getPathDoc() == path_project:
@@ -201,6 +202,8 @@ class ControllerMainWindow():
             return  
         
 
+        if self.model_current_project:
+            self.controller_page_result.stopAnimation()
         
         # Configura proyectos recientes
         current_project_ = self.model_projects.selectProject(path_project)        
@@ -208,7 +211,6 @@ class ControllerMainWindow():
         self.view_main_window.updateTitleWindow(current_project_.getName())
         self.view_main_window.updateProjectsRecentMenuSup(self.getProjectPaths())
         self.controller_page_home.updateProjectsCartView(self.getProjects())
-
 
         scene = self.controller_page_draw.controller_graphics_draw.scene_draw
         view_draw_1 = self.controller_page_draw.controller_graphics_draw.view_draw_1
@@ -224,8 +226,7 @@ class ControllerMainWindow():
                                             path_doc=path_project)
 
 
-        self.controller_page_draw.setCurrentProject(self.model_current_project)
-
+        self.controller_page_draw.setCurrentProject(self.model_current_project)        
         self.controller_page_draw.controller_menu_data.configDrawMenuData()
         self.controller_page_draw.controller_menu_mesh.configDrawMenuMesh()
         self.controller_page_draw.controller_menu_pointMaterial.configDrawMenuPointMaterial()
@@ -330,6 +331,10 @@ class ControllerMainWindow():
     @Slot()
     def setEnableResults(self):
         self.view_main_window.activateMenuLatResult()
+        
+    @Slot()
+    def updateMenuResults(self):
+        self.controller_page_result.updateMenuResults()
 
 
     @Slot(list)

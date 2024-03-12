@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_animationobjAzp.ui'
+## Form generated from reading UI file 'widget_result_menu_animationFnxAEl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -1272,7 +1272,7 @@ class Ui_FormMenuResultAnimation(object):
 
         self.lineEdit_textColor.setText("")
         self.btn_select_color.setText("")
-        self.label_textResultAnimation1_3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tama\u00f1o puntos:", None))
+        self.label_textResultAnimation1_3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tama\u00f1o puntos (r):", None))
         self.doubleSpinBoxl_textResultAnimationSizePoints.setSuffix(QCoreApplication.translate("FormMenuResultAnimation", u"m", None))
         self.label_textResultAnimation1_4.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tama\u00f1o textos:", None))
         self.checkBox_ResultAnimationCountour.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Contorno", None))
