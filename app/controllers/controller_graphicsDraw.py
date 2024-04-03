@@ -29,6 +29,7 @@ from views.draw import view_WidgetDrawMenuMesh
 
 from utils import class_general, class_ui_dialog_msg
 from utils.general_functions import isNumber
+from utils.items_GraphicsDraw import NodeMeshBackItem
 import math
 import ezdxf
 

@@ -1,118 +1,92 @@
-from models.model_ProjectCurrentRepository import ModelProjectCurrentRepository
+from models.model_Repository import ModelRepository
+from models.model_Mesh import ModelMeshBack
 from utils.items_GraphicsDraw import TextFrameItem, PointBoundaryTxItem
 from views.view_GraphicsDraw import QGraphicsScene
 from PySide6.QtWidgets import QGraphicsItemGroup
 
 class ModelBoundary:
 
-    def __init__(self, scene_draw:QGraphicsScene, model_project_current_repository:ModelProjectCurrentRepository,
-                  id, name, nodes, points, Tx , Ty) -> None:
+    def __init__(self, scene_draw:QGraphicsScene, model_repository:ModelRepository, 
+                 model_mesh_back:ModelMeshBack, id) -> None:
 
         self.scene_draw = scene_draw
-        self.model_project_current_repository = model_project_current_repository
+        self.model_repository = model_repository
+        self. model_mesh_back = model_mesh_back
+        self.id = id
 
-        self.__id = id
-        self.__name = name
-        self.__nodes = nodes
-        self.__points = points 
-        self.__restrictionX = Tx
-        self.__restrictionY = Ty
-
-
-        #crear item escena
         self.group_boundary  = QGraphicsItemGroup()
-        for point in points:
-            item = PointBoundaryTxItem(id=id,
-                                      name=name,
-                                     coordinatesX=point[0],
-                                     coordinatesY=point[1],
-                                     Tx=Tx,
-                                     Ty=Ty
-                                     )
-            self.group_boundary.addToGroup(item)
         self.scene_draw.addItem(self.group_boundary)
-        self.group_boundary.setZValue(15)
-
-        sum_x = 0
-        sum_y = 0
-        for point in self.__points:
-            sum_x += point[0]
-            sum_y += point[1]
-        average_x = sum_x / len(points)
-        average_y = sum_y / len(points)
-
-        self.text_name = TextFrameItem("B:{}".format(self.__name), average_x,average_y)
-        self.scene_draw.addItem(self.text_name)
-        self.text_name.setVisible(False)
-        self.text_name.setColor("#222333")
-        self.text_name.setZValue(20)
-        
+        self.createBoundary()
               
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
 	###############################################################################
 
     def getId(self):
-        return self.__id
+        """ funcion para obtener el id del contorno """
+        return self.id
 
     def getName(self):
-        return self.__name
+        """ funcion para obtener el nombre del contorno """
+        name = self.getData()[self.id]["NAME"]
+        return name
 
     def getNodes(self):
-        return self.__nodes   
+        """ return: lista con los nodos del contorno"""            
+        nodes = self.getData()[self.id]["NODES"]
+        return nodes   
     
-    def getPoints(self):
-        return self.__points   
     
     def getRestrictionX(self):
-        return self.__restrictionX
+        """ funcion para obtener la restriccion en X del contorno """
+        restrictionX = self.getData()[self.id]["Tx"]
+        return restrictionX
 
     def getRestrictionY(self):
-        return self.__restrictionY
+        """ funcion para obtener la restriccion en Y del contorno """
+        restrictionY = self.getData()[self.id]["Ty"]
+        return restrictionY
 
     def getData(self):
-        """return: id, name, nodes, points, restrictionX, restrictionY]]"""
-        return[self.__id,self.__name, self.__nodes, self.__points, self.__restrictionX, self.__restrictionY]
-
-
+        """ return: lista con los datos de analisis de los puntos material, por ejemplo
+         {
+                "7d9d6673-d287-4df8-b9ef-f546de9a1f58": {
+                    "NAME": "boundary_top",
+                    "NODES": [
+                        "NODE#43",
+                        ...
+                    ],
+                    "Tx": false,
+                    "Ty": true
+                    }
+            ...
+        }"""
+        boundaries = self.model_repository.readBoundaryDB()
+        boundary = {
+            self.id:  boundaries[self.id]
+        }
+        return boundary
          
-
-
     ###############################################################################
     # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
     ###############################################################################
-    
-    def showHideBoundary(self, value):
-        self.group_boundary.setVisible(value)
-        
-    def showHideLabel(self, value):   
-        self.text_name.setVisible(value)   
-
-    
-    def updateBoundary(self,id_boundary, name= None, nodes=None, points= None, restrictionX = None, restrictionY = None):
-
+    def updateBoundary(self,id_boundary, name= None, nodes=None, 
+                       restrictionX = None, restrictionY = None):
+        """ funcion para actualizar los datos del contorno """
         if name != None:
             self.__name = name
             self.text_name.text= "B:{}".format(self.__name)
-        if nodes != None:
-            self.__nodes = nodes
-        if points != None:
-            self.__points = points
-        if restrictionX != None:
-            self.__restrictionX = restrictionX
-        if restrictionY != None:
-            self.__restrictionY = restrictionY
-        self.model_project_current_repository.updateBoundaryDB(
+
+        self.model_repository.updateBoundaryDB(
             id_boundary=id_boundary,
             name=name,
             nodes=nodes,
-            points=points,
             restrictionX=restrictionX,
             restrictionY=restrictionY
         )
 
-
     def deleteBoundary(self):
+        """ funcion para eliminar el contorno """
         for item in self.group_boundary.childItems():
             self.group_boundary.removeFromGroup(item)
             self.scene_draw.removeItem(item)
@@ -120,9 +94,59 @@ class ModelBoundary:
         self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
 
+    
+    def createBoundary(self):
+        """ funcion para crear el contorno """
+        name = self.getName()
+        Tx = self.getRestrictionX()
+        Ty = self.getRestrictionY()
+        nodes_boundary = self.getNodes()
+        nodes_mesh = self.model_mesh_back.getNodes()
 
+        coor_points = []
+        #crear item escena
+        for node_boundary in nodes_boundary:
+            node_id = node_boundary
+            point = nodes_mesh[node_boundary]["COORDINATES"]
+            item = PointBoundaryTxItem(node_id=node_id,
+                                      name=name,
+                                     coordinatesX=point[0],
+                                     coordinatesY=point[1],
+                                     Tx=Tx,
+                                     Ty=Ty
+                                     )
+            coor_points.append(point)
+            self.group_boundary.addToGroup(item)
+        self.group_boundary.setZValue(15)
+
+        sum_x = 0
+        sum_y = 0
+        for point in coor_points:
+            sum_x += point[0]
+            sum_y += point[1]
+        average_x = sum_x / len(coor_points)
+        average_y = sum_y / len(coor_points)
+
+        self.text_name = TextFrameItem("B:{}".format(name), average_x,average_y)
+        self.scene_draw.addItem(self.text_name)
+        self.text_name.setVisible(False)
+        self.text_name.setColor("#222333")
+        self.text_name.setZValue(20)
+            
+    def showHideBoundary(self, value):
+        """ funcion para mostrar/ocultar el contorno """
+        self.group_boundary.setVisible(value)
+        
+    def showHideLabel(self, value):   
+        """ funcion para mostrar/ocultar el nombre del contorno """
+        self.text_name.setVisible(value)   
+
+    
     def stateViewBoundary(self, data):   
+        """ funcion para mostrar/ocultar el contorno """
         for item in self.group_boundary.childItems():
             if isinstance(item, PointBoundaryTxItem):
                 item.isSelectedBoundary = data["state_view"]
         self.scene_draw.update()
+        
+        

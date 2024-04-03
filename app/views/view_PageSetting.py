@@ -95,6 +95,8 @@ class ViewPageSetting(QFrame, ui_frame_setting.Ui_FormSetting):
             data_dict = {"setting":"style_view_scene",
                          "setting_data":[0,"EstiloVista", index_style_view_scene]}
             self.signal_update_setting.emit(data_dict)
+            
+            
 
         #Grilla
         if nameWidget==self.checkBox_grid_adaptative.objectName() or updateAll:
@@ -221,4 +223,8 @@ class ViewPageSetting(QFrame, ui_frame_setting.Ui_FormSetting):
             self.comboBox_3.setCurrentIndex(0)
         else:
             self.comboBox_3.setCurrentIndex(index_theme+1)
+            
+    def getTheme(self):
+        index_theme = self.comboBox_3.currentIndex()
+        return index_theme
  

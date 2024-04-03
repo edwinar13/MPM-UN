@@ -24,7 +24,7 @@ contador = 0
 import datetime
 
 
-from utils.items_GraphicsDraw import LineItem, PointItem, TextItem, RectItem, PointMeshBackItem
+from utils.items_GraphicsDraw import LineItem, PointItem, TextItem, RectItem, NodeMeshBackItem, PointMaterialItem
 
 
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
@@ -588,6 +588,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
 
     signal_mesh_select = Signal(dict)
     signal_point_back_select = Signal(dict)
+    signal_point_material_select = Signal(dict)
     signal_mesh_size = Signal(dict)
           
 
@@ -625,6 +626,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
   
 
         self.isPointBackSelect = False   
+        self.isPointMaterialSelect = False
         self.isMeshSelect = False   
         self.isMeshCua = False   
         self.isMeshSize = False   
@@ -770,7 +772,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                         })
                 self.point_vertex_ant=self.point_vertex
 
-            elif self.isDrawSelect or self.isMeshSelect or self.isPointBackSelect: 
+            elif self.isDrawSelect or self.isMeshSelect or self.isPointBackSelect or  self.isPointMaterialSelect: 
                 self.p1_select = event.scenePos()
                 self.rect_select_temp.setRect(QRectF(self.p1_select,self.p1_select))
                 self.rect_select_temp.setVisible(True)
@@ -929,7 +931,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
             self.point_vertex = point_b
         
         #::::::::::::  mover, copiar, rotar, borrar  ::::::::::::::::
-        if self.isDrawSelect or self.isMeshSelect or self.isPointBackSelect:
+        if self.isDrawSelect or self.isMeshSelect or self.isPointBackSelect or  self.isPointMaterialSelect:
             
             #self.drawGeneral(self.point_vertex,self.point_vertex_ant)
             if self.p1_select != None:
@@ -1035,6 +1037,15 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                     }
                     )
                 
+            elif self.isPointMaterialSelect and self.p1_select != None:
+                self.signal_point_material_select.emit(
+                    {"step":2,
+                    "data":
+                        [[self.p1_select.x(),self.p1_select.y()],
+                        [self.p2_select.x(),self.p2_select.y()]]
+                    }
+                    )
+                
 
 
             #::::::::::::  interseccion ::::::::::::::::
@@ -1095,6 +1106,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         self.isDrawRule = False
 
         self.isPointBackSelect = False
+        self.isPointMaterialSelect = False
         self.isMeshSelect = False
         self.isMeshCua = False
         self.isMeshSize = False
@@ -1108,13 +1120,16 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         self.p2_select = None
         for item in self.selected_items:
             item.isSelectedDraw = False
-            if isinstance(item, PointMeshBackItem):
+            
+            if isinstance(item, NodeMeshBackItem):
                 item.isSelectedPointBlack = False
+                
+            if isinstance(item, PointMaterialItem):
+                item.isSelectedPointMaterial = False
 
         for  line in self.selected_items_line:
             line.isSelectedDraw = False
             line.isSelectedMesh = False
-
             line.isSelectedPointBlack = False
         
         

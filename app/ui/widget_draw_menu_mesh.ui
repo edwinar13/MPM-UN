@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>769</height>
+    <height>730</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1189,7 +1189,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   <widget class="QToolButton" name="toolButton_meshShow">
                    <property name="minimumSize">
                     <size>
-                     <width>120</width>
+                     <width>100</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -1211,7 +1211,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   <widget class="QToolButton" name="toolButton_meshHide">
                    <property name="minimumSize">
                     <size>
-                     <width>120</width>
+                     <width>100</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -1226,6 +1226,51 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    </property>
                    <property name="QToolButtonStyle" stdset="0">
                     <number>8</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_6">
+                   <property name="minimumSize">
+                    <size>
+                     <width>10</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="toolButton_meshShowHideLabelPoint">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_point_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_point_not.svg</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>20</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="arrowType">
+                    <enum>Qt::NoArrow</enum>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>1</number>
                    </property>
                   </widget>
                  </item>

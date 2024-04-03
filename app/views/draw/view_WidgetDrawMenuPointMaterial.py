@@ -5,6 +5,7 @@ from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
 
 from ui.ui_widget_draw_menu_pointMaterial import Ui_FormDrawMenuPointMaterial
 from utils import class_general
+from utils import general_functions
 
 class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
@@ -12,6 +13,11 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     signal_show_hide_points_materials = Signal(bool)  
     signal_show_hide_label = Signal(bool)  
     signal_change_size_point = Signal()  
+    
+    signal_select_points_material = Signal()
+    signal_cancel_select = Signal()
+    signal_assing_points_material = Signal()
+    
 
     def __init__(self):
         
@@ -21,11 +27,11 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.__hide_show_frame_material_point = True
         self.__hide_show_frame_material_point_1=True
         self.__hide_show_frame_material_point_2=True
+        self.__hide_show_frame_material_point_3=True
 
         self.__hide_show_poin_material=True
         self.__hide_show_label=True
 
-        self.__color_material_point = None
 
         self.list_view_card = []
 
@@ -75,6 +81,8 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardPointMaterialSubTitle1.clicked.connect(self.__clickedToolButtonCardMeshSubTitle1)
         self.toolButton_cardPointMaterialSubTitle2.clicked.connect(self.__clickedToolButtonCardMeshSubTitle2)
+        self.toolButton_cardPointMaterialSubTitle3.clicked.connect(self.__clickedToolButtonCardMeshSubTitle3)
+        
         self.toolButton_showHidePointMaterial.clicked.connect(self.__clickedToolButtonShowHideMesh)
         self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
         self.horizontalSlider_PointMaterialSize.valueChanged.connect(self.__valueChangedHorizontalSliderPointMaterialSize)
@@ -82,9 +90,19 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         
         # ::::::::::::::::::::      EVENTOS DRAW MENU POINT MATERIAL     ::::::::::::::::::::
         self.lineEdit_textPointMaterialName.editingFinished.connect(self.__editingFinishedLineEditPointMaterialName)
-        self.toolButton_PointMaterialColor.clicked.connect(self.__clickedToolButtonPointMaterialColorPicker)        
         self.toolButton_PointMaterialCancel.clicked.connect(self.__clickedToolButtonPointMaterialCancel)
         self.toolButton_PointMaterial.clicked.connect(self.__clickedToolButtonPointMaterial)
+        
+        
+        # ::::::::::::::::::::      EVENTOS DRAW MENU ASIGNAR FUERZAS Y VEL     ::::::::::::::::::::
+        self.toolButton_btnMPDrawSelected.clicked.connect(self.__clickedToolButtonMPSelected)
+        self.lineEdit_textPM_Velx.editingFinished.connect(self.__editingFinishedLineEditVelx)
+        self.lineEdit_textPM_Vely.editingFinished.connect(self.__editingFinishedLineEditVely)
+        self.lineEdit_textPM_Felx.editingFinished.connect(self.__editingFinishedLineEditFelx)
+        self.lineEdit_textPM_Fely.editingFinished.connect(self.__editingFinishedLineEditFely)
+        self.toolButton_PointMaterialCancel_2.clicked.connect(self.__clickedToolButtonPointMaterialCancelAssing)
+        self.toolButton_PointMaterialAssing.clicked.connect(self.__clickedToolButtonPointMaterialAssing)
+
         
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -129,6 +147,17 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             self.__hide_show_frame_material_point_2 = True
             self.toolButton_cardPointMaterialSubTitle2.setIcon(self.icon_minimize)
             self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+    
+    def __clickedToolButtonCardMeshSubTitle3(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_frame_material_point_3 == True:
+            self.frame_materialPoint4.setVisible(False)
+            self.__hide_show_frame_material_point_3 = False
+            self.toolButton_cardPointMaterialSubTitle3.setIcon(self.icon_maximize)
+        elif self.__hide_show_frame_material_point_3 == False:
+            self.frame_materialPoint4.setVisible(True)
+            self.__hide_show_frame_material_point_3 = True
+            self.toolButton_cardPointMaterialSubTitle3.setIcon(self.icon_minimize)
 
     def __clickedToolButtonShowHideMesh(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
@@ -168,18 +197,128 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.label_msn.setText("Empty")
         self.label_msn.setStyleSheet("color: #333333") 
 
-    def __clickedToolButtonPointMaterialColorPicker(self):
-        color = QColorDialog.getColor(initial=QColor(100 ,100, 100))
-        if color.isValid():
-            self.__color_material_point=color.name()
-            self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : {}'.format(self.__color_material_point))
 
     def __clickedToolButtonPointMaterialCancel(self):
         self.endPointMaterial()
 
     def __clickedToolButtonPointMaterial(self):
         self.signal_new_points_material.emit()
+        
+    def __clickedToolButtonMPSelected(self):
+        self.signal_select_points_material.emit()
+        self.lineEdit_textMPSelected.setText("{} Puntos".format(0)) 
+        self.setPropertyStyle(self.toolButton_btnMPDrawSelected, 4)   
+        self.lineEdit_textMPSelected.setStyleSheet("border-color: #444444")
+        self.label_msn.setText("Empty")
+        self.label_msn.setStyleSheet("color: #333333") 
+        
+        
+    def __editingFinishedLineEditVelx(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza factor damping en la copia de la bd del proyecto.
+        si no es número da mensaje de error"""
+        velx = self.lineEdit_textPM_Velx.text()
+        if general_functions.isNumber(velx):
+            self.lineEdit_textPM_Velx.setText(str(float(velx)))            
+            self.lineEdit_textPM_Velx.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
 
+        else:            
+            self.lineEdit_textPM_Velx.setFocus()
+            self.lineEdit_textPM_Velx.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa la velocidad en x")          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            
+    def __editingFinishedLineEditVely(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza factor damping en la copia de la bd del proyecto.
+        si no es número da mensaje de error"""
+        vely = self.lineEdit_textPM_Vely.text()
+        if general_functions.isNumber(vely):
+            self.lineEdit_textPM_Vely.setText(str(float(vely)))            
+            self.lineEdit_textPM_Vely.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+
+        else:            
+            self.lineEdit_textPM_Vely.setFocus()
+            self.lineEdit_textPM_Vely.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa la velocidad en y")          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+        
+    def __editingFinishedLineEditFelx(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza factor damping en la copia de la bd del proyecto.
+        si no es número da mensaje de error"""
+        felx = self.lineEdit_textPM_Felx.text()
+        if general_functions.isNumber(felx):
+            self.lineEdit_textPM_Felx.setText(str(float(felx)))            
+            self.lineEdit_textPM_Felx.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+
+        else:            
+            self.lineEdit_textPM_Felx.setFocus()
+            self.lineEdit_textPM_Felx.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa la fuerza en x")          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            
+    def __editingFinishedLineEditFely(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza factor damping en la copia de la bd del proyecto.
+        si no es número da mensaje de error"""
+        fely = self.lineEdit_textPM_Fely.text()
+        if general_functions.isNumber(fely):
+            self.lineEdit_textPM_Fely.setText(str(float(fely)))            
+            self.lineEdit_textPM_Fely.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+
+        else:            
+            self.lineEdit_textPM_Fely.setFocus()
+            self.lineEdit_textPM_Fely.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa la fuerza en y")          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            
+    def __clickedToolButtonPointMaterialAssing(self):
+        self.signal_assing_points_material.emit()
+    
+    def __clickedToolButtonPointMaterialCancelAssing(self):
+        self.endPointMaterialAssing()
+        self.signal_cancel_select.emit()
+        
+       
+
+    
+    def endPointMaterialAssing(self):        
+        self.lineEdit_textMPSelected.setText("")
+        self.lineEdit_textPM_Velx.setText('0.0')
+        self.lineEdit_textPM_Vely.setText('0.0')
+        self.lineEdit_textPM_Felx.setText('0.0')
+        self.lineEdit_textPM_Fely.setText('0.0')
+        self.lineEdit_textPM_Velx.setStyleSheet("border-color: #444444")
+        self.lineEdit_textPM_Vely.setStyleSheet("border-color: #444444")
+        self.lineEdit_textPM_Felx.setStyleSheet("border-color: #444444")
+        self.lineEdit_textPM_Fely.setStyleSheet("border-color: #444444")
+        self.setPropertyStyle(self.toolButton_btnMPDrawSelected, 1)
+
+
+    def setPropertyStyle(self, widget, property: int):
+        widget.setProperty("QToolButtonStyle", property)
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
+        widget.update()
+    
+    
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
 	###############################################################################
@@ -187,9 +326,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     def getName(self):
         return self.lineEdit_textPointMaterialName.text()
     
-    def getColor(self):     
-        return self.__color_material_point
-    
+
     def getBaseMesh(self):
         """return [id_selected, name,mesh_type]"""
         name = self.comboBox_PointMaterialBaseMesh.currentText()
@@ -217,10 +354,20 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     def getSizePoint(self):
         return self.horizontalSlider_PointMaterialSize.value()
 
+    def getVoxVoy(self):
+        """return [vox, voy] float float"""
+        vox = self.lineEdit_textPM_Velx.text()
+        voy = self.lineEdit_textPM_Vely.text()
+        return [float(vox), float(voy)]
+    
+    def getFxFy(self):
+        """return [fx, fy]"""
+        fx = self.lineEdit_textPM_Felx.text()
+        fy = self.lineEdit_textPM_Fely.text()
+        return [float(fx), float(fy)]
 
 
-
-    def setListBaseMesh(self, mesh_data):             
+    def setListBaseMesh(self, mesh_data):      
         self.comboBox_PointMaterialBaseMesh.clear()
         for item_index in range(len(mesh_data)):
             mesh_id =mesh_data[item_index][0]
@@ -235,22 +382,38 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             pixmap.fill(Qt.transparent)
             painter = QPainter(pixmap)
             painter.setPen(QPen(color_icon, 3))
-            painter.setBrush(Qt.NoBrush)
-            painter.drawRoundedRect(pixmap.rect().adjusted(1, 1, -2, -2), 5, 5)
+            #painter.setBrush(Qt.NoBrush)
+            painter.setBrush(QColor(color_icon.red(), color_icon.green(), color_icon.blue(), 50))
+            #painter.drawRoundedRect(pixmap.rect().adjusted(1, 1, -2, -2), 5, 5)
+            painter.drawRect(1, 1, 18, 18)
             painter.end()
 
             
             self.comboBox_PointMaterialBaseMesh.setItemIcon(item_index, QIcon(pixmap))    
             self.comboBox_PointMaterialBaseMesh.setItemData(self.comboBox_PointMaterialBaseMesh.count() - 1, {"mesh_id": mesh_id, "mesh_type": mesh_type}, Qt.UserRole)
 
-
     def setListProperties(self, properties_data): 
+        
         self.comboBox_PointMaterialProperty.clear()
         for item_index in range(len(properties_data)):
             id_property =properties_data[item_index][0]
-            name_property =properties_data[item_index][1]        
+            name_property =properties_data[item_index][1]   
+            color_property =properties_data[item_index][2]  
             
-            self.comboBox_PointMaterialProperty.addItem(name_property)      
+            self.comboBox_PointMaterialProperty.addItem(name_property) 
+
+            # icono circulo con el color de la propiedad
+            pixmap = QPixmap(20, 20)
+            pixmap.fill(Qt.transparent)
+            painter = QPainter(pixmap)
+            painter.setPen(QPen(QColor(color_property), 3))
+            painter.setBrush(QColor(color_property))
+            painter.drawEllipse(1, 1, 18, 18)
+            painter.end()
+            
+            
+            self.comboBox_PointMaterialProperty.setItemIcon(item_index, QIcon(pixmap))            
+                 
             self.comboBox_PointMaterialProperty.setItemData(self.comboBox_PointMaterialProperty.count() - 1, {"id_property": id_property}, Qt.UserRole)
 
 
@@ -267,6 +430,11 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
     def setNoPoints(self, index):     
         self.comboBox_PointMaterialNPoints.setCurrentIndex(index)
+        
+        
+    def setNoSelectPointsMaterial(self, no_points):
+        self.lineEdit_textMPSelected.setText("{} Puntos".format(no_points))
+        self.setPropertyStyle(self.toolButton_btnMPDrawSelected, 1)
     
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
@@ -294,10 +462,16 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     
     def endPointMaterial(self):
         self.lineEdit_textPointMaterialName.setText("")
-        self.__color_material_point=None
-        self.lineEdit_textPointMaterialColor.setStyleSheet('background-color : #333333')
+        
         self.setBaseMesh(0)
         self.setNoPoints(0)
+        
+    def endVectorQuantity(self):
+        self.lineEdit_textPM_Velx.setText('0.0')
+        self.lineEdit_textPM_Vely.setText('0.0')
+        self.lineEdit_textPM_Felx.setText('0.0')
+        self.lineEdit_textPM_Fely.setText('0.0')
+        self.lineEdit_textMPSelected.setText("")
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  MENSAJES         ::::::::::::::::::::
@@ -316,18 +490,6 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
-    def msnAlertColor(self, error, msn=""):
-        if not error:
-            self.lineEdit_textPointMaterialColor.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_material_point))
-            self.label_msn.setText("Empty")
-            self.label_msn.setStyleSheet("color: #333333") 
-            
-        else:
-            self.lineEdit_textPointMaterialColor.setFocus()
-            self.lineEdit_textPointMaterialColor.setStyleSheet("border: 1px solid #F94646")  
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText(msn)          
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
     def msnAlertBaseMesh(self, error, msn=""):
         if not error:
@@ -351,6 +513,19 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         else:
             self.comboBox_PointMaterialNPoints.setFocus()
             self.comboBox_PointMaterialNPoints.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            
+    def msnAlertSelect(self, error, msn=""):
+        if not error:
+            self.lineEdit_textMPSelected.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            
+        else:
+            self.lineEdit_textMPSelected.setFocus()
+            self.lineEdit_textMPSelected.setStyleSheet("border: 1px solid #F94646")  
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))

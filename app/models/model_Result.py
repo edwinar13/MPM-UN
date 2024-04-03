@@ -1,12 +1,14 @@
-from models.model_ProjectCurrentRepository import ModelProjectCurrentRepository
+from models.model_Repository import ModelRepository
 from models.model_Mesh import ModelMeshBack
 from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewResult
 from utils.items_GraphicsResult import (ItemResultAxisMeshBack, ItemResultGridMeshBack, ItemResultLabelGridMeshBack,
-                                    ItemResultBaseMeshBack, ItemResultNode, ItemResultColorBar, TextResultItem, ItemResultTextLabel)
+                                    ItemResultBaseMeshBack, ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem, ItemResultTextLabel)
 import random
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+
+
 
 class ModelResult(QObject):
     
@@ -16,7 +18,7 @@ class ModelResult(QObject):
 
     def __init__(self,scene_result:ViewGraphicsSceneResult, 
                 view_result:ViewGraphicsViewResult,
-                model_project_current_repository:ModelProjectCurrentRepository,                
+                model_repository:ModelRepository,                
                 data_base,
                 properties,
                 point_materials,
@@ -33,30 +35,57 @@ class ModelResult(QObject):
 
         self.scene_result = scene_result
         self.view_result = view_result
-        self.model_project_current_repository = model_project_current_repository
+        self.model_repository = model_repository
+
+
+
+        '''
+        size_dx = mesh_back["SIZEDX"]
+        size_dy = mesh_back["SIZEDY"]
+        size_element = mesh_back["SIZEELEMENT"]        
+        color_style = self.__scene.getTheme()
+        nodes = mesh_back["NODES"]
+        elements = mesh_back["ELEMENTS"]
+        nodes_boundary_top = mesh_back["NODESBOUNDARYTOP"]
+        nodes_boundary_bottom = mesh_back["NODESBOUNDARYBOTTOM"]
+        nodes_boundary_left = mesh_back["NODESBOUNDARYLEFT"]
+        nodes_boundary_right = mesh_back["NODESBOUNDARYRIGHT"]
+        model_mesh_back = ModelMeshBack(scene_draw=self.__scene,
+                                                    model_repository=self.model_repository,
+                                                    size_dx=size_dx,
+                                                    size_dy=size_dy,
+                                                    size_element=size_element,
+                                                    color_style=color_style,
+                                                    nodes=nodes,
+                                                    elements=elements,
+                                                    nodes_boundary_top = nodes_boundary_top,
+                                                    nodes_boundary_bottom = nodes_boundary_bottom,
+                                                    nodes_boundary_left = nodes_boundary_left,
+                                                    nodes_boundary_right = nodes_boundary_right)
+    
+        '''
+
 
 
         if mesh_back != None:
             self.model_mesh_back = ModelMeshBack(
                 scene_draw=scene_result,
-                model_project_current_repository=model_project_current_repository,
-                size_dx=mesh_back['SIZEDX'],
-                size_dy=mesh_back['SIZEDY'],
-                size_element=mesh_back['SIZEELEMENT'],
-                color_style=mesh_back['COLOR'],
-                points=mesh_back['POINTS'],
-                quadrilaterals=mesh_back['QUADRILATERALS'],
-                points_boundary_top=mesh_back['POINTSBOUNDARYTOP'],
-                points_boundary_bottom=mesh_back['POINTSBOUNDARYBOTTOM'],
-                points_boundary_left=mesh_back['POINTSBOUNDARYLEFT'],
-                points_boundary_right=mesh_back['POINTSBOUNDARYRIGHT'],
-                nodes_boundary_top=mesh_back['NODESBOUNDARYTOP'],
-                nodes_boundary_bottom=mesh_back['NODESBOUNDARYBOTTOM'],
-                nodes_boundary_left=mesh_back['NODESBOUNDARYLEFT'],
-                nodes_boundary_right=mesh_back['NODESBOUNDARYRIGHT']
+                model_repository=model_repository
+                #size_dx=mesh_back['SIZEDX'],
+                #size_dy=mesh_back['SIZEDY'],
+                #size_element=mesh_back['SIZEELEMENT'],
+                #color_style=mesh_back['COLOR'],
+                #nodes=mesh_back['NODES'],
+                #elements=mesh_back['ELEMENTS'],
+                #nodes_boundary_top=mesh_back['NODESBOUNDARYTOP'],
+                #nodes_boundary_bottom=mesh_back['NODESBOUNDARYBOTTOM'],
+                #nodes_boundary_left=mesh_back['NODESBOUNDARYLEFT'],
+                #nodes_boundary_right=mesh_back['NODESBOUNDARYRIGHT']
                 
-            )      
+            )     
+
         
+
 
         self.__data_base = data_base
         self.__properties = properties
@@ -183,6 +212,8 @@ class ModelResult(QObject):
         elif color_style == "Escala color":
             color = QColor.fromHsv(hue, 255, 255)
             self.color_bar_result.setColorType(3, color)
+        elif color_style == "rojo-rojo":
+            self.color_bar_result.setColorType(4)
             
     
     
@@ -290,11 +321,10 @@ class ModelResult(QObject):
         for node in self.__result_nodes:
             color_type = random.choices([1,2], weights=[70, 30], k=1)[0]
             radius = size_mesh_back/60
-            text = TextResultItem("temp", 0,0)
-            self.scene_result.addItem(text)   
-            text.setScale(0.01)     
-
-
+           
+              
+            text_node = TextNoMpItem(node, 0,0)
+            self.scene_result.addItem(text_node)
 
             node_result = ItemResultNode(
                 radius,
@@ -303,7 +333,7 @@ class ModelResult(QObject):
                 self.__result_nodes[node], 
                 self.__result_min,
                 self.__result_max,
-                text)
+                text_node)
             
             self.__item_result_nodes.append(node_result)
             self.scene_result.addItem(node_result)
@@ -324,26 +354,34 @@ class ModelResult(QObject):
         h = self.model_mesh_back.getSizeDy()
         x = 0
         y = 0
-        points = self.model_mesh_back.getPoints()
-        cuadrilaterals = self.model_mesh_back.getQuadrilaterals()    
-        points_boundary_top,points_boundary_bottom ,points_boundary_left ,points_boundary_right = self.model_mesh_back.getBoundaryPoints()
+        
+        nodes = self.model_mesh_back.getNodes()
+        elements = self.model_mesh_back.getElements()   
+        nodes_top,nodes_bottom ,nodes_left ,nodes_right = self.model_mesh_back.getBoundaryNodes()
                 
         self.axis_mesh_back_result = ItemResultAxisMeshBack(x,y,w, h)
         self.scene_result.addItem(self.axis_mesh_back_result)
         self.axis_mesh_back_result.setZValue(10)
-        self.label_mesh_back_result = ItemResultLabelGridMeshBack(self.scene_result,x,y,w, h,
-                                                                  points_boundary_top,
-                                                                  points_boundary_bottom, 
-                                                                  points_boundary_left, 
-                                                                  points_boundary_right)
+        
+        self.label_mesh_back_result = ItemResultLabelGridMeshBack(
+                                            scene = self.scene_result,
+                                            x = x, y = y, width = w, height = h,
+                                            nodes=nodes, 
+                                            nodes_boundary_top = nodes_top,
+                                            nodes_boundary_bottom = nodes_bottom,
+                                            nodes_boundary_left = nodes_left,
+                                            nodes_boundary_right = nodes_right
+                                            )
+
         self.scene_result.addItem(self.label_mesh_back_result)
         self.label_mesh_back_result.setZValue(9)
         
-        self.grid_mesh_back_result = ItemResultGridMeshBack(x,y,w, h, points, cuadrilaterals )
+        self.grid_mesh_back_result = ItemResultGridMeshBack(x = x, y = y, width = w, height = h,
+                                                             nodes=nodes, elements=elements)
         self.scene_result.addItem(self.grid_mesh_back_result)
         self.grid_mesh_back_result.setZValue(8)
         
-        self.base_mesh_back_result = ItemResultBaseMeshBack(x,y,w, h)
+        self.base_mesh_back_result = ItemResultBaseMeshBack(x = x, y = y, width = w, height = h,)
         self.scene_result.addItem(self.base_mesh_back_result)
         self.base_mesh_back_result.setZValue(100)
         self.base_mesh_back_result.setVisible(False)
@@ -379,7 +417,7 @@ class ModelResult(QObject):
     
     
     def clearResult(self):
-        self.model_project_current_repository.deleteAllResultDB()
+        self.model_repository.deleteAllResultDB()
         
     
     def updateResultDataBase(self, gravity, dampfac):
@@ -387,44 +425,28 @@ class ModelResult(QObject):
             'GRAVEDAD': gravity,
             'DAMPFAC': dampfac
         }
-        self.model_project_current_repository.updateResultDataBaseDB(
+        self.model_repository.updateResultDataBaseDB(
              gravity=gravity,
              dampfac=dampfac
             )
 
 
-    def updateResultMeshBack(self, size_dx, size_dy, size_element,color,points,quadrilaterals,points_boundary_top,points_boundary_bottom,points_boundary_left,points_boundary_right,nodes_boundary_top,nodes_boundary_bottom,nodes_boundary_left,nodes_boundary_right):
+    def updateResultMeshBack(self, size_dx, size_dy, size_element,
+                            nodes,elements,
+                            nodes_boundary_top,nodes_boundary_bottom,
+                            nodes_boundary_left,nodes_boundary_right):
 
         self.model_mesh_back = ModelMeshBack(
             scene_draw=self.scene_result,
-            model_project_current_repository=self.model_project_current_repository,
-            size_dx=size_dx,
-            size_dy=size_dy,
-            size_element=size_element,
-            color_style=color,
-            points=points,
-            quadrilaterals=quadrilaterals,
-            points_boundary_top=points_boundary_top,
-            points_boundary_bottom=points_boundary_bottom,
-            points_boundary_left=points_boundary_left,
-            points_boundary_right=points_boundary_right,
-            nodes_boundary_top=nodes_boundary_top,
-            nodes_boundary_bottom=nodes_boundary_bottom,
-            nodes_boundary_left=nodes_boundary_left,
-            nodes_boundary_right=nodes_boundary_right
+            model_repository=self.model_repository,
         )
         
-        self.model_project_current_repository.updateResultMeshBackDB(
+        self.model_repository.updateResultMeshBackDB(
             size_dx=size_dx,
             size_dy=size_dy,
             size_element=size_element,
-            color=color,
-            points=points,
-            quadrilaterals=quadrilaterals,
-            points_boundary_top=points_boundary_top,
-            points_boundary_bottom=points_boundary_bottom,
-            points_boundary_left=points_boundary_left,
-            points_boundary_right=points_boundary_right,
+            nodes=nodes,
+            elements=elements,
             nodes_boundary_top=nodes_boundary_top,
             nodes_boundary_bottom=nodes_boundary_bottom,
             nodes_boundary_left=nodes_boundary_left,
@@ -447,7 +469,7 @@ class ModelResult(QObject):
             'VELOCIDADCP': speed_cp,
             'TIEMPOALCANZADO': time_reached
         }
-        self.model_project_current_repository.updateResultDataTimesDB(
+        self.model_repository.updateResultDataTimesDB(
             id_material=id_material,
             courant_number=courant_number,
             analysis_time=analysis_time,
@@ -466,7 +488,7 @@ class ModelResult(QObject):
         if analysis_times != None:
             self.__analysis_times = analysis_times
 
-        self.model_project_current_repository.updateResultTimesDB(
+        self.model_repository.updateResultTimesDB(
             analysis_times=analysis_times,
             )
         
@@ -475,12 +497,12 @@ class ModelResult(QObject):
             self.__graphic_time = graphic_time
             self.no_data = len(graphic_time)
         
-        self.model_project_current_repository.updateResultTimeGraphicDB(
+        self.model_repository.updateResultTimeGraphicDB(
             graphic_time=graphic_time,
             )
         
         
-    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy):
+    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely):
         self.__result_min ={
             'CORX': corx,
             'CORY': cory,
@@ -489,10 +511,12 @@ class ModelResult(QObject):
             'SIGXY': sigxy,
             'EPSXX': epsxx,
             'EPSYY': epsyy,
-            'EPSXY': epsxy
+            'EPSXY': epsxy,
+            'VELX': velx,
+            'VELY': vely
         }
         
-        self.model_project_current_repository.updateResultMinDB(
+        self.model_repository.updateResultMinDB(
             corx=corx,
             cory=cory,
             sigxx=sigxx,
@@ -500,11 +524,13 @@ class ModelResult(QObject):
             sigxy=sigxy,
             epsxx=epsxx,
             epsyy=epsyy,
-            epsxy=epsxy
+            epsxy=epsxy,
+            velx=velx,
+            vely=vely
             )
         
         
-    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy):  
+    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely):  
         self.__result_max ={
             'CORX': corx,
             'CORY': cory,
@@ -513,10 +539,12 @@ class ModelResult(QObject):
             'SIGXY': sigxy,
             'EPSXX': epsxx,
             'EPSYY': epsyy,
-            'EPSXY': epsxy
+            'EPSXY': epsxy,
+            'VELX': velx,
+            'VELY': vely
         }     
         
-        self.model_project_current_repository.updateResultMaxDB(
+        self.model_repository.updateResultMaxDB(
             corx=corx,
             cory=cory,
             sigxx=sigxx,
@@ -524,16 +552,18 @@ class ModelResult(QObject):
             sigxy=sigxy,
             epsxx=epsxx,
             epsyy=epsyy,
-            epsxy=epsxy
+            epsxy=epsxy,
+            velx=velx,
+            vely=vely
             )  
 
                 
     def addResultNode(self, id_result_node, corx=None, cory=None,
              sigxx=None, sigyy=None, sigxy=None,
-             epsxx=None, epsyy=None, epsxy=None ):        
+             epsxx=None, epsyy=None, epsxy=None,velx = None, vely = None):        
 
 
-        self.model_project_current_repository.addResultNodeDB(
+        self.model_repository.addResultNodeDB(
             id_result_node=str(id_result_node), 
             corx=corx, 
             cory=cory,
@@ -542,16 +572,19 @@ class ModelResult(QObject):
             sigxy=sigxy,
             epsxx=epsxx, 
             epsyy=epsyy,
-            epsxy=epsxy
+            epsxy=epsxy,
+            velx=velx,
+            vely=vely
         )
 
-        self.__result_nodes = self.model_project_current_repository.readResultNodesDB()
+        self.__result_nodes = self.model_repository.readResultNodesDB()
         
 
-    def addResultProperty(self, id_property, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):
+    def addResultProperty(self, id_property, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):
 
         self.__properties[id_property] = {
             "NAME": name,
+            "COLOR": color,
             "MODULOELASTICIDAD": modulus_elasticity,        #E KPa
             "RELACIONPOISSON": poisson_ratio,               #v -/-
             "COHESION": cohesion,                           #C' KPa
@@ -560,9 +593,10 @@ class ModelResult(QObject):
             "ANGULODILATANCIA": angle_dilatancy             #Psi °
         }
 
-        self.model_project_current_repository.addResultPropertyDB(
+        self.model_repository.addResultPropertyDB(
             id_property=id_property,
             name=name,
+            color=color,
             modulus_elasticity=modulus_elasticity,
             poisson_ratio=poisson_ratio,
             cohesion=cohesion,
@@ -572,37 +606,33 @@ class ModelResult(QObject):
             )
         
 
-    def addResultPointMaterial(self, id_MP, name, color, points,id_property):
+    def addResultPointMaterial(self, id_MP, name,  points,id_property):
         self.__point_materials[id_MP] = {
             "NAME": name,
-            "COLOR": color,
             "POINTS": points,
             "IDPROPIEDAD": id_property
         }
 
-        self.model_project_current_repository.addResultPointMaterialDB(
+        self.model_repository.addResultPointMaterialDB(
             id_MP=id_MP,
             name=name,
-            color=color,
             points=points,
             id_property=id_property
             )
 
      
-    def addResultBoundary(self, id_boundary, name, nodes, points,restrictionX, restrictionY):
+    def addResultBoundary(self, id_boundary, name, nodes, restrictionX, restrictionY):
         self.__boundarys[id_boundary] = {
             "NAME": name,
             "NODES": nodes,
-            "POINTS": points,
             "Tx": restrictionX,
             "Ty": restrictionY
         }
 
-        self.model_project_current_repository.addResultBoundaryDB(
+        self.model_repository.addResultBoundaryDB(
             id_boundary=id_boundary,
             name=name,
             nodes=nodes,
-            points=points,
             restrictionX=restrictionX,
             restrictionY=restrictionY
             )

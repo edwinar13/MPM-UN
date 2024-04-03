@@ -38,6 +38,7 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
     signal_end_draw_geometry = Signal()
     signal_end_draw_mesh = Signal()
     signal_end_draw_boundary = Signal()
+    signal_end_draw_point_material = Signal()
     
     signal_deselect_draw_geometry = Signal(bool)
     
@@ -445,6 +446,8 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
             self.signal_end_draw_geometry.emit()
             self.signal_end_draw_mesh.emit()
             self.signal_end_draw_boundary.emit()
+            self.signal_end_draw_point_material.emit()
+            
             return  
         elif key == Qt.Key_Shift or key == 16777216:
             self.signal_deselect_draw_geometry.emit(True)

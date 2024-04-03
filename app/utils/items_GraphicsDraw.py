@@ -10,8 +10,773 @@ class:
 from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
+from config import config_manager
+import math
 
-contador = 0 
+
+
+class TextMeshBackItem(QGraphicsItem):
+
+    def __init__(self, text:str, coordinatesX:float, coordinatesY:float):        
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+                
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+
+        self.text = text
+        self.coordenates = QPointF(coordinatesX,coordinatesY)
+        self.newPos(self.coordenates)
+        
+    def signalThemeChanged(self, theme: str):   
+        if theme == "dark":
+            color = QColor("#fff")
+        else:
+            color = QColor("#000")            
+        self.pen = QPen(color)
+        self.update()
+
+    def newPos(self, pos:QPointF|QPoint):
+        self.coordenates = pos
+        self.setPos(pos)
+    
+    def boundingRect(self) -> QRectF:
+        size = 0.001
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+
+        if self.text != "temp":
+            painter.setPen(self.pen)
+            painter.drawText(QPointF(0, 0), self.text)
+
+class NodeMeshBackItem(QGraphicsItem):
+
+    SIZE = 10
+    
+    #thema 1 > dark
+    COLOR_T1 = QColor("#333")
+    COLORBORDER_T1 = QColor("#817e61")
+    
+    #thema 2 > light    
+    COLOR_T2 = QColor("#555")
+    COLORBORDER_T2 = QColor("#a6ccff")
+
+    def __init__(self, id:str, coordinatesX, coordinatesY ):
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+       
+        self.name = id
+        self.coordenates = QPointF(coordinatesX, coordinatesY)
+        self.newPos(self.coordenates)
+
+        self.isSelectedPointBlack = False
+        
+        self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.SolidLine)
+        self.pen_selected.setCosmetic(True)
+        self.pen_selected.setWidthF(0.5)
+        self.brush_selected = QBrush(QColor(Qt.red))
+
+    def getIdNode(self):
+        return self.name
+    
+    def getCoodenates(self):
+        return self.coordenates
+        
+    def newPos(self, pos:QPointF|QPoint):
+        self.coordenates = pos
+        self.setPos(pos)
+
+    def signalThemeChanged(self, theme:str):
+        if theme == "dark":
+            color = QColor(self.COLOR_T1)
+            color_border = QColor(self.COLORBORDER_T1)
+        else:
+            color = QColor(self.COLOR_T2)
+            color_border = QColor(self.COLORBORDER_T2)            
+        self.pen = QPen(color_border, 0)
+        self.brush = QBrush(QColor(color))
+        self.update()
+
+    def boundingRect(self) -> QRectF:
+        size = 0.01
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        
+        if self.isSelectedPointBlack:
+            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
+            painter.setPen(self.pen_selected)
+            painter.setBrush(self.brush_selected)
+            painter.drawRect(-self.SIZE/2, -self.SIZE/2, self.SIZE, self.SIZE)
+        else:
+            painter.setPen(self.pen)
+            painter.setBrush(self.brush)
+            painter.drawRect(-self.SIZE/2, -self.SIZE/2, self.SIZE, self.SIZE)
+        
+class ElementMeshBackItem(QGraphicsItem):
+
+    WIDTH = 1
+    
+    #thema 1 > dark
+    COLOR_T1 = "#a6ccff"
+    
+    # theme 2 > light
+    COLOR_T2 = "#817e61"
+
+    def __init__(self,
+                 node1:NodeMeshBackItem,node2:NodeMeshBackItem,
+                 node3:NodeMeshBackItem, node4:NodeMeshBackItem ):
+        QGraphicsItem.__init__(self)
+        
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+
+        self.node1 = node1
+        self.node2 = node2
+        self.node3 = node3
+        self.node4 = node4
+                
+        self.nodes_coordenates = [
+            self.node1.getCoodenates(),
+            self.node2.getCoodenates(),
+            self.node3.getCoodenates(),
+            self.node4.getCoodenates(),
+            self.node1.getCoodenates()
+        ]
+
+        self.isSelected = False
+        self.isActive = False
+        
+        self.generatePath()        
+        
+    def signalThemeChanged(self, theme:str):
+        if theme == "dark":
+            color = QColor(self.COLOR_T1)
+        else:
+            color = QColor(self.COLOR_T2)            
+        self.pen = QPen(color, 0)
+        self.pen.setCosmetic(True)
+        self.pen.setWidthF(self.WIDTH)
+        self.update()
+            
+    def generatePath(self):
+        self.path = QPainterPath()
+        self.path.addPolygon(QPolygonF(self.nodes_coordenates))
+
+    def boundingRect(self):
+        points = []
+        for node_coor in self.nodes_coordenates:
+            points.append([node_coor.x(), node_coor.y()])
+            
+        left = min(point[0] for point in points)
+        top = min(point[1] for point in points)
+        right = max(point[0] for point in points)
+        bottom = max(point[1] for point in points)
+        return QRectF(left, top, right - left, bottom - top)
+
+    def paint(self, painter, option, widget):        
+        painter.setPen(self.pen)        
+        painter.drawPath(self.path)   
+
+class TextFrameItem(QGraphicsItem):
+    HIGT = 20
+    def __init__(self, text: str, coordinatesX, coordinatesY):
+        super().__init__()
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        
+        self.frame_pen = QPen(QColor("#333333"))
+        self.frame_radius = 3
+        self.gradient_start_color = QColor("#DDDDDD")
+        self.gradient_end_color = QColor("#FFFFFF")
+        self.gradient_start_color.setAlpha(200)  # Establecer transparencia al 50%
+        self.gradient_end_color.setAlpha(200)  # Establecer transparencia al 50%
+        
+        self.extra_width = 1  # Ancho adicional del marco
+        self.font = QFont("Arial", 12)  # Define la fuente del texto
+        self.higt = self.HIGT
+        
+        self.text = str(text)
+        self.position = QPointF(coordinatesX,coordinatesY)
+        self.newPos(self.position)
+    
+    def rectText(self):
+        h= self.higt + 2
+        font_metrics = QFontMetrics(self.font)
+        text_width = font_metrics.horizontalAdvance(self.text)  # Ancho del texto
+        w = text_width + 3 * self.extra_width  # Ancho ajustado
+        return QRectF(-w/2, -h/2, w, h + 3)
+    
+    def setColor(self, color):
+        self.color = QColor(color)
+        self.pen = QPen(self.color)
+
+    def newPos(self, pos:QPointF|QPoint):
+        self.position = pos
+        self.setPos(pos)
+        
+    def boundingRect(self) -> QRectF:
+        return QRectF(-0.01, -0.01, 0.02, 0.02)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        # Dibujar marco con esquinas curvas
+        frame_rect = self.rectText()
+        
+        # Dibujar fondo degradado
+        gradient = QLinearGradient(frame_rect.topLeft(), frame_rect.bottomLeft())
+        gradient.setColorAt(0, self.gradient_start_color)
+        gradient.setColorAt(1, self.gradient_end_color)
+        painter.setBrush(QBrush(gradient))
+        painter.drawRoundedRect(frame_rect.adjusted(1, 1, -1, -1), self.frame_radius - 1, self.frame_radius - 1)
+
+        # Dibujar texto centrado
+        #text_rect = self.boundingRect().adjusted(self.extra_width, 0, -self.extra_width, 0)
+        text_rect = self.rectText().adjusted(self.extra_width, 0, -self.extra_width, 0)
+        painter.setPen(self.pen)
+        painter.drawText(text_rect, Qt.AlignCenter, self.text)
+        
+class TriangleMeshItem(QGraphicsItem):
+
+    WIDTH = 1.8
+
+    def __init__(self,id, name:str, color:str, coordinates:list):
+        QGraphicsItem.__init__(self)
+        
+        self.id = id
+        self.name = name
+        self.color = color
+        self.coordinates = coordinates
+        
+        self.width =         self.isSelected = False
+        self.isActive = False
+
+        self.pen = QPen()
+        self.pen.setCosmetic(True)
+        self.pen.setWidthF(self.WIDTH)
+        self.brush = QBrush()
+
+        self.generatePath()
+        self.setColor(self.color)
+    
+    def generatePath(self):
+        self.path = QPainterPath()
+        points = []
+        for point in self.coordinates:
+            point = QPointF(point[0], point[1])
+            points.append(point)        
+
+        self.path.addPolygon(QPolygonF(points))
+
+    def setColor(self, color):
+        self.color = color
+        color_q  = QColor(color)
+        color_darker = color_q.darker(150)
+        self.pen.setColor(color_darker)
+
+        color_transparente = color_q
+        color_transparente.setAlpha(150)#(0-255)
+        self.brush = QBrush(color_transparente)
+        self.update()
+
+    def boundingRect(self):
+        rect = self._triangleBoundingRect(self.coordinates)
+        return rect
+
+    def _triangleBoundingRect(self, points):
+        # Calcula el rectángulo que envuelve un triángulo
+        left = min(point[0] for point in points)
+        top = min(point[1] for point in points)
+        right = max(point[0] for point in points)
+        bottom = max(point[1] for point in points)
+        return QRectF(left, top, right - left, bottom - top)
+
+    def paint(self, painter, option, widget):        
+        painter.setPen(self.pen)  
+        painter.setBrush(self.brush) 
+        painter.drawPath(self.path) 
+
+class QuadrilateraLMeshItem(QGraphicsItem):
+
+    WIDTH = 1.8
+
+
+    def __init__(self,id, name:str, color:str, coordinates:list):
+        QGraphicsItem.__init__(self)
+        self.id = id
+        self.name = name
+        self.color = color
+        self.coordinates = coordinates
+
+        self.isSelected = False
+        self.isActive = False   
+        
+        self.pen = QPen()
+        self.pen.setCosmetic(True)
+        self.pen.setWidthF(self.WIDTH)
+        self.brush = QBrush()
+
+        self.generatePath()
+        self.setColor(self.color)
+
+   
+    def generatePath(self):
+        self.path = QPainterPath()
+        points = []
+
+        for point in self.coordinates:
+            point = QPointF(point[0], point[1])
+            points.append(point)
+        points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
+        self.path.addPolygon(QPolygonF(points))
+
+    def setColor(self, color):        
+        self.color = color
+        color_q  = QColor(color)
+        color_darker = color_q.darker(150)
+        self.pen.setColor(color_darker)
+
+        color_transparente = color_q
+        color_transparente.setAlpha(150)#(0-255)
+        self.brush = QBrush(color_transparente)
+        self.update()
+
+    def boundingRect(self):
+        rect = self._triangleBoundingRect(self.coordinates)
+        return rect
+
+    def _triangleBoundingRect(self, points):
+        # Calcula el rectángulo que envuelve un triángulo
+        left = min(point[0] for point in points)
+        top = min(point[1] for point in points)
+        right = max(point[0] for point in points)
+        bottom = max(point[1] for point in points)
+        return QRectF(left, top, right - left, bottom - top)
+
+    def paint(self, painter, option, widget):        
+        painter.setBrush(self.brush)        
+        painter.setPen(self.pen)        
+        painter.drawPath(self.path)   
+
+
+
+class TextMptem(QGraphicsItem):
+
+    def __init__(self, text:str, coordinatesX:float, coordinatesY:float):        
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+                
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+
+        self.text = text
+        self.coordenates = QPointF(coordinatesX,coordinatesY)
+        self.newPos(self.coordenates)
+
+    def signalThemeChanged(self, theme: str):   
+        if theme == "dark":
+            color = QColor("#fff")
+        else:
+            color = QColor("#000")            
+        self.pen = QPen(color)
+        self.update()
+
+    def newPos(self, pos:QPointF|QPoint):
+        self.coordenates = pos
+        self.setPos(pos)
+    
+    def boundingRect(self) -> QRectF:
+        size = 0.001
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        painter.setPen(self.pen)
+        painter.drawText(QPointF(0, 0), self.text)
+
+class PointBoundaryTxItem(QGraphicsItem):
+
+
+    SIZE = 8
+    COLOR = QColor("#e6c210")
+    
+    #theme 1 > dark
+    COLORBORDER_T1 = QColor("#c8e3d0")
+    
+    #theme 2 > light
+    COLORBORDER_T2 = QColor("#706b53")
+
+
+    def __init__(self, node_id:str, name:str, coordinatesX=1, coordinatesY=1, Tx=True, Ty = True ):
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+
+        self.node_id = node_id
+        self.name = name
+        self.coor = QPointF(coordinatesX, coordinatesY)
+            
+        self.Tx=Tx
+        self.Ty=Ty
+
+        self.color = self.COLOR
+        
+        self.size = self.SIZE
+        self.setPos(self.coor)
+        self.isSelected = False
+        self.isSelectedBoundary = False
+        
+        self.pen = QPen(self.color_border, 0)
+        self.brush = QBrush(QColor(self.color))
+        
+        self.pen_selected = QPen(self.color_border, 0)
+        self.brush_selected = QBrush(QColor("#45d670"))
+        
+        self.pen_selected.setCosmetic(True)
+        self.pen_selected.setWidthF(0.5)
+        
+        pointsTx =[
+            QPointF(0-(self.size/2), 0),
+            QPointF(0-(self.size/2)-(self.size), 0-(self.size/2)),
+            QPointF(0-(self.size/2)-(self.size), 0+(self.size/2)),
+            QPointF(0-(self.size/2), 0)
+        ]
+        self.linetx =[
+            QPointF(0-(self.size/2)-(self.size*1.3), 0-(self.size/2)),
+            QPointF(0-(self.size/2)-(self.size*1.3), 0+(self.size/2))
+        ]
+
+        pointsTy =[
+            QPointF(0, 0+(self.size/2)),
+            QPointF(0+(self.size/2), 0+(self.size)+(self.size/2)),
+            QPointF(0-(self.size/2), 0+(self.size)+(self.size/2)),
+            QPointF(0, 0+(self.size/2))
+        ]
+        
+        self.linety=[
+            QPointF(0+(self.size/2), 0+(self.size*1.3)+(self.size/2)),
+            QPointF(0-(self.size/2), 0+(self.size*1.3)+(self.size/2))
+        ]
+
+        self.pathTx = QPainterPath()
+        self.pathTx.addPolygon(QPolygonF(pointsTx))
+        self.pathTy = QPainterPath()
+        self.pathTy.addPolygon(QPolygonF(pointsTy))
+    
+        
+    def signalThemeChanged(self, theme):     
+        if theme == "dark":
+            self.color_border = self.COLORBORDER_T1
+        else:
+            self.color_border = self.COLORBORDER_T2
+        self.pen = QPen(self.color_border, 0)
+        self.pen_selected = QPen(self.color_border, 0)
+   
+    def getNameGroup(self):
+        return self.name
+    
+    def getIdNode(self):
+        return self.node_id
+    
+    def boundingRect(self) -> QRectF:
+        size = 0.2
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        if self.isSelected or self.isSelectedBoundary:
+            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
+            pen = self.pen_selected
+            brush=self.brush_selected
+        else:
+            pen = self.pen
+            brush=self.brush
+        painter.setBrush(brush)
+        painter.setPen(pen)
+
+        if self.Tx:
+            painter.drawPath(self.pathTx)
+            painter.drawPolyline(QPolygonF(self.linetx))
+        if self.Ty:
+            painter.drawPath(self.pathTy)
+            painter.drawPolyline(QPolygonF(self.linety))
+
+class PointForceItem(QGraphicsItem):
+
+    SIZE = 10
+    COLOR = QColor("#FF0000")
+    
+    #theme 1 > dark
+    COLORBORDER_T1 = QColor("#c8e3d0")
+    
+    #theme 2 > light
+    COLORBORDER_T2 = QColor("#706b53")
+
+
+    def __init__(self, id_mp:str, id_group:str, coordinatesX, coordinatesY, Fx:float, Fy:float):
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+
+        self.id_mp = id_mp
+        self.id_group = id_group
+        self.coor = QPointF(coordinatesX, coordinatesY)
+            
+            
+        self.color = self.COLOR  
+              
+        self.size = self.SIZE
+        self.setForce(Fx, Fy)
+        
+        self.setPos(self.coor)
+        self.isSelected = False
+        self.isSelectedBoundary = False
+        
+        self.pen = QPen(self.color_border, 0)
+        self.brush = QBrush(QColor(self.color))
+        
+
+    
+    def setForce(self, Fx, Fy):
+        self.Fox = Fx
+        self.Foy = Fy
+        self.flag_Fo = True
+        if Fx == 0.0 and Fy == 0.0:
+            self.flag_Fo = False
+            return
+        
+        size = self.size
+        pointsFoR =[
+            QPointF(0, 0),
+            QPointF(size, (size/2)),
+            QPointF(size, (size/2)*(1/3)),
+            QPointF((size*2), (size/2)*(1/3)),
+            
+            QPointF((size*2), -(size/2)*(1/3)),
+            QPointF(size, -(size/2)*(1/3)),
+            QPointF(size, -(size/2)),
+            QPointF(0, 0)
+        ]
+        
+        # cambiar direcion del eje y
+        Fy = -Fy
+        
+        # Calcular dirección de la resultante R
+        R_direccion = math.degrees(math.atan2(Fy, Fx))
+        
+        # Rotar el polígono de la resultante R
+        pointsFoR = [QPointF(point.x() * math.cos(math.radians(R_direccion)) - point.y() * math.sin(math.radians(R_direccion)),
+                           point.x() * math.sin(math.radians(R_direccion)) + point.y() * math.cos(math.radians(R_direccion))) for point in pointsFoR]
+        
+        self.pathFoR = QPainterPath()
+        self.pathFoR.addPolygon(QPolygonF(pointsFoR))
+        
+
+        self.update()
+    
+        
+    def signalThemeChanged(self, theme):     
+        if theme == "dark":
+            self.color_border = self.COLORBORDER_T1
+        else:
+            self.color_border = self.COLORBORDER_T2
+        self.pen = QPen(self.color_border, 0)
+   
+    
+    def boundingRect(self) -> QRectF:
+        size = 0.2
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        self.pen.setWidthF(1 / painter.transform().m11()) # m11()
+        painter.setPen(self.pen)
+        painter.setBrush(self.brush)
+
+        if self.flag_Fo:
+            painter.drawPath(self.pathFoR)
+             
+class PointVelocityItem(QGraphicsItem):
+
+    SIZE = 10
+    COLOR = QColor("#0000FF")
+    
+    #theme 1 > dark
+    COLORBORDER_T1 = QColor("#c8e3d0")
+    
+    #theme 2 > light
+    COLORBORDER_T2 = QColor("#706b53")
+
+
+    def __init__(self, id_mp:str, id_group:str, coordinatesX, coordinatesY, Vx:float, Vy:float ):
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        
+        # Configura el color del texto según el tema
+        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+        self.signalThemeChanged(config_manager.getTheme())
+
+        self.id_mp = id_mp
+        self.id_group = id_group
+        self.coor = QPointF(coordinatesX, coordinatesY)
+            
+
+        self.color = self.COLOR        
+        self.size = self.SIZE
+        
+        self.setPos(self.coor)
+        self.isSelected = False
+        self.isSelectedBoundary = False
+        
+        self.setVelocity(Vx, Vy)        
+        self.pen = QPen(self.color_border, 0)
+        self.brush = QBrush(QColor(self.color))
+    
+    def setVelocity(self, Vx, Vy):
+        self.Vox = Vx
+        self.Voy = Vy
+        self.flag_Vo = True
+        if Vx == 0.0 and Vy == 0.0:
+            self.flag_Vo = False            
+            return       
+             
+        size = self.size
+        
+        pointsVoR =[
+            QPointF((size*2), 0),
+            QPointF(size, (size/2)),
+            QPointF(size, (size/2)*(1/3)),
+            QPointF(0, (size/2)*(1/3)),
+            
+            QPointF(0, -(size/2)*(1/3)),
+            QPointF(size, -(size/2)*(1/3)),
+            QPointF(size, -(size/2)),
+            QPointF((size*2), 0)
+        ]
+
+        #cambiar direcion del eje y
+        Vy = -Vy
+        
+        # Calcular dirección de la resultante R
+        R_direccion = math.degrees(math.atan2(Vy, Vx))  # Ángulo en grados
+        
+        # Rotar el polígono de la resultante R
+        pointsVoR = [QPointF(point.x() * math.cos(math.radians(R_direccion)) - point.y() * math.sin(math.radians(R_direccion)),
+                           point.x() * math.sin(math.radians(R_direccion)) + point.y() * math.cos(math.radians(R_direccion))) for point in pointsVoR]
+        
+        self.pathVoR = QPainterPath()
+        self.pathVoR.addPolygon(QPolygonF(pointsVoR))
+        
+        self.update()
+        
+    def signalThemeChanged(self, theme):     
+        if theme == "dark":
+            self.color_border = self.COLORBORDER_T1
+        else:
+            self.color_border = self.COLORBORDER_T2
+        self.pen = QPen(self.color_border, 0)
+   
+    
+    def boundingRect(self) -> QRectF:
+        size = 0.2
+        return QRectF(-size, -size,
+                             2*size, 2*size)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        self.pen.setWidthF(1 / painter.transform().m11()) # m11()
+        painter.setPen(self.pen)
+        painter.setBrush(self.brush)
+        if self.flag_Vo:
+            painter.drawPath(self.pathVoR)
+
+class PointMaterialItem(QGraphicsItem):
+   
+    RADIUS = 0.1
+
+    def __init__(self,pm_id, group_id:str, color:str, coor:list, volume:float,
+                 force:PointForceItem, velocity:PointVelocityItem):
+        QGraphicsItem.__init__(self)      
+
+
+        self.pm_id = pm_id
+        self.group_id = group_id
+        self.color = color
+        self.coor = QPointF(coor[0],coor[1])
+        self.movePoint(self.coor)        
+        self.force = force
+        self.velocity = velocity
+
+        self.radius = self.RADIUS
+        
+        area =volume # es area por unidad de longitud
+        # optener radio del circulo
+        self.radius = (math.sqrt(area/math.pi))/2
+
+   
+        self.pen = QPen(QColor(self.color), 0)
+        self.pen.setCosmetic(True)
+        self.pen.setWidthF(0.5)
+
+        self.brush = QBrush(QColor(self.color))
+        self.brush_selected = QBrush(QColor("#33333300"))
+        
+        self.isSelectedPointMaterial = False
+        
+    def setColor(self, color):
+        self.color = color
+        self.pen.setColor(QColor(self.color))
+        self.brush.setColor(QColor(self.color))
+        self.update()
+        
+    def getIdNode(self):
+        return self.pm_id
+    
+    def getIdGroup(self):
+        return self.group_id
+    
+    def setRadius(self, percentage_radius):   
+        self.radius = self.RADIUS*(percentage_radius/100)
+        self.update()
+
+    def movePoint(self, pos:QPointF):
+        self.coor = pos
+        self.setPos(pos)          
+  
+    def boundingRect(self) -> QRectF:
+        radius = self.radius
+        return QRectF(-radius, -radius,
+                             2*radius, 2*radius)
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
+        if self.isSelectedPointMaterial:
+            painter.setPen(QPen(QColor("#ff0000"), 0, Qt.DashLine))
+            painter.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))
+            painter.drawRect(self.boundingRect())            
+        else:
+            painter.setBrush(self.brush)
+            painter.setPen(self.pen)
+        painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
+
+
+#⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+#⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+#⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+#⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+    
 
 class TextItem(QGraphicsItem):
 
@@ -20,22 +785,44 @@ class TextItem(QGraphicsItem):
     HIGT = 0
     WIDTH = 0
 
-    def __init__(self, text:str, coordinatesX, coordinatesY):
+    def __init__(self, text:str, coordinatesX, coordinatesY, isColorDefaultTheme = False):
         QGraphicsItem.__init__(self)
+        if isColorDefaultTheme:
+            self.isDefaultTextColorTheme = isColorDefaultTheme
+            config_manager.signalThemeChanged.connect(self.signalThemeChanged)
+            self.signalThemeChanged(config_manager.getTheme())
+        else:
+            self.isDefaultTextColorTheme = False
+            self.color = self.COLOR
+            self.pen = QPen(self.color)
         
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
 
         self.item_type = self.TYPE
-        self.color = self.COLOR
         self.higt = self.HIGT
         self.width = self.WIDTH
         self.text = str(text)
         self.position = QPointF(coordinatesX,coordinatesY)
         self.newPos(self.position)
-        self.pen = QPen(self.color)
         
     def __str__ (self):
         return "text: {}".format(self.text)
+    
+
+    def signalThemeChanged(self, theme):        
+        if self.isDefaultTextColorTheme:
+            if theme == "dark":
+                self.color = QColor("#fff")
+            else:
+                self.color = QColor("#000")
+                
+            self.pen = QPen(self.color)
+            self.update()
+    
+    
+        
+            
+
 
     def setColor(self, color):
         self.color = QColor(color)
@@ -57,55 +844,6 @@ class TextItem(QGraphicsItem):
             painter.setPen(self.pen)
             painter.drawText(QPointF(0, 0), self.text)
             
-
-class TextFrameItem(TextItem):
-    HIGT = 20
-    def __init__(self, text: str, coordinatesX, coordinatesY):
-        super().__init__(text, coordinatesX, coordinatesY)
-
-        self.frame_pen = QPen(QColor("#333333"))
-        self.frame_radius = 3
-        self.gradient_start_color = QColor("#DDDDDD")
-        self.gradient_end_color = QColor("#FFFFFF")
-        self.gradient_start_color.setAlpha(200)  # Establecer transparencia al 50%
-        self.gradient_end_color.setAlpha(200)  # Establecer transparencia al 50%
-        
-        self.extra_width = 1  # Ancho adicional del marco
-        self.font = QFont("Arial", 12)  # Define la fuente del texto
-        self.higt = self.HIGT
-    
-    def rectText(self):
-        h= self.higt + 2
-        font_metrics = QFontMetrics(self.font)
-        text_width = font_metrics.horizontalAdvance(self.text)  # Ancho del texto
-        w = text_width + 3 * self.extra_width  # Ancho ajustado
-        return QRectF(-w/2, -h/2, w, h + 3)
-
-    def boundingRect(self) -> QRectF:
-        return QRectF(-1, -1, 2, 2)
-
-
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        # Dibujar marco con esquinas curvas
-        frame_rect = self.rectText()
-        
-        # Dibujar fondo degradado
-        gradient = QLinearGradient(frame_rect.topLeft(), frame_rect.bottomLeft())
-        gradient.setColorAt(0, self.gradient_start_color)
-        gradient.setColorAt(1, self.gradient_end_color)
-        painter.setBrush(QBrush(gradient))
-        painter.drawRoundedRect(frame_rect.adjusted(1, 1, -1, -1), self.frame_radius - 1, self.frame_radius - 1)
-
-        # Dibujar texto centrado
-        #text_rect = self.boundingRect().adjusted(self.extra_width, 0, -self.extra_width, 0)
-        text_rect = self.rectText().adjusted(self.extra_width, 0, -self.extra_width, 0)
-        painter.setPen(self.pen)
-        painter.drawText(text_rect, Qt.AlignCenter, self.text)
-
-
-        
-
 class PointItem(QGraphicsItem):
     """
     PointItem es una clase que hereda de QGraphicsItem y representa un punto en una escena.
@@ -204,179 +942,10 @@ class PointItem(QGraphicsItem):
         painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
 
         if self.name != "pointTemp" and self.showLabel:  
-            '''
-            self.text_name.newPos(self.coor)
-            list_lines = []
-            for line in self.anchored_lines:                
-                list_lines.append(line.name)
-            ''' 
             self.text_name.setVisible(True)
         else:
             self.text_name.setVisible(False)
             
-
-      
-        
-
-class PointMeshBackItem(QGraphicsItem):
-
-
-    SIZE = 3
-    COLOR = QColor("#57cfcf")
-
-
-    def __init__(self, name:str, coordinatesX, coordinatesY ):
-        QGraphicsItem.__init__(self)
-        
-        '''
-        self.setFlags(
-            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable )
-        '''
-        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
-       
-
-        self.name = name
-        self.coor = QPointF(coordinatesX, coordinatesY)
-
-
-        self.color = self.COLOR
-        self.size = self.SIZE
-        self.setPos(self.coor)
-        self.isSelectedPointBlack = False
-
-        
-        self.pen = QPen(self.color, 0)
-
-        self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.SolidLine)
-        self.pen_selected.setCosmetic(True)
-        self.pen_selected.setWidthF(0.5)
-
-
-        self.rect_view =QRectF(-self.size/2, -self.size/2, self.size, self.size)
-
-    def __str__ (self):
-        return "nodo: {}".format(self.name)
-
-
-    def getPoint(self):
-        return self.coor
-    
-    def getNode(self):
-        return int(self.name)
-
-
-
-    def boundingRect(self) -> QRectF:
-        size = 0.01
-        return QRectF(-size, -size,
-                             2*size, 2*size)
-    
-
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        if self.isSelectedPointBlack:
-            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
-            painter.setPen(self.pen_selected)
-            painter.drawRect(-3, -3, 6, 6)
-            painter.setBrush(QBrush(QColor(Qt.red)))
-
-            painter.drawRect(self.boundingRect())
-
-        else:
-            painter.setPen(self.pen)
-            painter.drawRect(self.rect_view)
-        return
-
-class PointBoundaryTxItem(QGraphicsItem):
-
-
-    SIZE = 6
-    COLOR = QColor("#ff0000")
-
-
-    def __init__(self, id:str, name:str, coordinatesX=1, coordinatesY=1, Tx=True, Ty = True ):
-        QGraphicsItem.__init__(self)
-        
-        '''
-        self.setFlags(
-            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable )
-        '''
-        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
-        self.id = id
-        self.name = name
-        self.coor = QPointF(coordinatesX, coordinatesY)
-        
-        self.Tx=Tx
-        self.Ty=Ty
-
-
-
-        self.color = self.COLOR
-        self.size = self.SIZE
-        self.setPos(self.coor)
-        self.isSelected = False
-        self.isSelectedBoundary = False
-
-        
-        self.pen = QPen(self.color, 0)
-        self.brush = QBrush(QColor(self.color))
-        self.pen_selected = QPen(QColor("#0ccc45"), 0, Qt.DashLine)
-        self.brush_selected = QBrush(QColor("#0ccc45"))
-        self.pen_selected.setCosmetic(True)
-        self.pen_selected.setWidthF(0.5)
-
-        pointsTx =[
-            QPointF(0, 0),
-            QPointF(0-(self.size), 0-(self.size/2)),
-            QPointF(0-(self.size), 0+(self.size/2))
-        ]
-
-        pointsTy =[
-            QPointF(0, 0),
-            QPointF(0+(self.size/2), 0+(self.size)),
-            QPointF(0-(self.size/2), 0+(self.size))
-        ]
-
-        self.pathTx = QPainterPath()
-        self.pathTx.addPolygon(QPolygonF(pointsTx))
-        self.pathTy = QPainterPath()
-        self.pathTy.addPolygon(QPolygonF(pointsTy))
- 
-
-    def __str__ (self):
-        return "boundary: {}".format(self.name)
-
-
-    def getPoint(self):
-        return self.coor
-
-
-    def boundingRect(self) -> QRectF:
-        size = 0.2
-        return QRectF(-size, -size,
-                             2*size, 2*size)
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        if self.isSelected or self.isSelectedBoundary:
-            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
-            pen = self.pen_selected
-            brush=self.brush_selected
-        else:
-            pen = self.pen
-            brush=self.brush
-        painter.setBrush(brush)
-        painter.setPen(pen)
-
-        if self.Tx:
-            painter.drawPath(self.pathTx)
-        if self.Ty:
-            painter.drawPath(self.pathTy)
-
-
-    
-    
-
-
 class LineItem(QGraphicsItem):
     """
     LineItem es una clase que hereda de QGraphicsItem y representa una línea en una escena.
@@ -397,6 +966,8 @@ class LineItem(QGraphicsItem):
     """
     TYPE = "Line"
     WIDTH = 5
+    WIDTHDRAW = 3
+    
     COLOR = Qt.black
 
     def __init__(self, id, name: str, start_point: PointItem, end_point: PointItem, text_name:TextItem):
@@ -422,6 +993,14 @@ class LineItem(QGraphicsItem):
         self.isSelectedDraw = False
         self.isSelectedMesh = False
         self.showLabel = False
+        
+        self.pen_select_draw = QPen(QColor("#ff0000"), 0, Qt.SolidLine)
+        self.pen_select_draw.setCosmetic(True)
+        self.pen_select_draw.setWidthF(self.WIDTHDRAW)
+        
+        self.pen_select_mesh = QPen(QColor("#ff0000"), 0, Qt.DotLine)
+        self.pen_select_mesh.setCosmetic(True)
+        self.pen_select_mesh.setWidthF(self.WIDTH)
 
 
     def __str__ (self):
@@ -469,19 +1048,20 @@ class LineItem(QGraphicsItem):
         p2 = QPointF(self.end_point.pos().x(),self.end_point.pos().y())
         return QRectF(p1, p2)
 
-
+  
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
 
         if self.isSelectedDraw:          
-            painter.setPen(QPen(QColor("#960b0f"), 0, Qt.DashLine))
+            painter.setPen(self.pen_select_draw)
+            painter.drawLine(self.start_point.coor, self.end_point.coor)
 
         elif self.isSelectedMesh:          
-            painter.setPen(QPen(QColor("#1482CA"), 0, Qt.DashDotDotLine))
+            painter.setPen(self.pen_select_mesh)
+            painter.drawLine(self.start_point.coor, self.end_point.coor)
 
-        else:            
-            painter.setPen(QPen(self.color, 0))
-       
+
+        painter.setPen(QPen(self.color, 0))       
         painter.drawLine(self.start_point.coor, self.end_point.coor)
         #painter.drawRect(self.boundingRect())
 
@@ -491,380 +1071,6 @@ class LineItem(QGraphicsItem):
             self.text_name.setVisible(True)
         else:
             self.text_name.setVisible(False)
-
-
-class TriangleMeshItem(QGraphicsItem):
-    """
-    TriangleMeshItem es una clase que hereda de QGraphicsItem y representa un triangulo de malla en una escena.
-
-    Atributos:
-        id (int): Número único del elemento
-        name (str): Nombre de la malla.
-        color (Qt): Color con el que se dibujará la malla.        
-        triangles (list): Lista de triángulos que componen la malla.
-        width (float): Ancho con el que se dibujará la malla.
-        isSelected (bool): Indica si la malla está seleccionada en el momento.
-        isActive (bool): Indica si la malla está activa en el momento.
-
-    """
-    WIDTH = 0
-
-
-    def __init__(self,id, name:str, color:str, coordinates:list):
-        QGraphicsItem.__init__(self)
-        self.id = id
-        self.name = name
-        self.color = color
-        self.coordinates = coordinates
-        self.width = self.WIDTH
-        self.isSelected = False
-        self.isActive = False
-                
-
-        self.pen = QPen()
-        self.pen.setCosmetic(True)
-        self.pen.setWidthF(1.5)
-        self.brush = QBrush()
-
-        self.generatePath()
-        self.setColor(self.color)
-    
-    def generatePath(self):
-        self.path = QPainterPath()
-        points = []
-        for point in self.coordinates:
-            point = QPointF(point[0], point[1])
-            points.append(point)        
-
-        self.path.addPolygon(QPolygonF(points))
-
-    def setColor(self, color):
-        self.color = color
-        color_q  = QColor(color)
-        color_darker = color_q.darker(100)
-        self.pen.setColor(color_darker)
-
-        color_transparente = color_q
-        color_transparente.setAlpha(200)#(0-255)
-        self.brush = QBrush(color_transparente)
-        self.update()
-
-
-    def boundingRect(self):
-        rect = self._triangleBoundingRect(self.coordinates)
-        return rect
-
-
-
-    def _triangleBoundingRect(self, points):
-        # Calcula el rectángulo que envuelve un triángulo
-        left = min(point[0] for point in points)
-        top = min(point[1] for point in points)
-        right = max(point[0] for point in points)
-        bottom = max(point[1] for point in points)
-        return QRectF(left, top, right - left, bottom - top)
-
-    def paint(self, painter, option, widget):
-        
-        painter.setPen(self.pen)  
-        painter.setBrush(self.brush) 
-        painter.drawPath(self.path) 
-
-
-
-class QuadrilateraLMeshItem(QGraphicsItem):
-    """
-    TriangleMeshItem es una clase que hereda de QGraphicsItem y representa un triangulo de malla en una escena.
-
-    Atributos:
-        id (int): Número único del elemento
-        name (str): Nombre de la malla.
-        color (Qt): Color con el que se dibujará la malla.        
-        triangles (list): Lista de triángulos que componen la malla.
-        width (float): Ancho con el que se dibujará la malla.
-        isSelected (bool): Indica si la malla está seleccionada en el momento.
-        isActive (bool): Indica si la malla está activa en el momento.
-
-    """
-    WIDTH = 0
-
-
-    def __init__(self,id, name:str, color:str, coordinates:list):
-        QGraphicsItem.__init__(self)
-        self.id = id
-        self.name = name
-        self.color = color
-        self.coordinates = coordinates
-
-        self.width = self.WIDTH
-        self.isSelected = False
-        self.isActive = False
-        
-
-        
-        self.pen = QPen()
-        self.pen.setCosmetic(True)
-        self.pen.setWidthF(1.5)
-        self.brush = QBrush()
-
-        self.generatePath()
-        self.setColor(self.color)
-
-
-        '''
-        self.pen = QPen(QColor(self.color), self.width, Qt.DashLine)
-        self.pen.setCosmetic(True)
-        self.pen.setWidthF(1.5)
-
-        color_transparente = QColor(self.color)
-        color_transparente.setAlpha(100)#(0-255)
-        self.brush = QBrush(color_transparente)
-        '''
-    
-    def generatePath(self):
-        self.path = QPainterPath()
-        points = []
-
-        for point in self.coordinates:
-            point = QPointF(point[0], point[1])
-            points.append(point)
-        points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
-        self.path.addPolygon(QPolygonF(points))
-
-
-    def setColor(self, color):        
-        self.color = color
-        color_q  = QColor(color)
-        color_darker = color_q.darker(100)
-        self.pen.setColor(color_darker)
-
-        color_transparente = color_q
-        color_transparente.setAlpha(200)#(0-255)
-        self.brush = QBrush(color_transparente)
-        self.update()
-
-
-
-    def boundingRect(self):
-        rect = self._triangleBoundingRect(self.coordinates)
-        return rect
-
-
-
-    def _triangleBoundingRect(self, points):
-        # Calcula el rectángulo que envuelve un triángulo
-        left = min(point[0] for point in points)
-        top = min(point[1] for point in points)
-        right = max(point[0] for point in points)
-        bottom = max(point[1] for point in points)
-        return QRectF(left, top, right - left, bottom - top)
-
-    def paint(self, painter, option, widget):
-        
-        painter.setBrush(self.brush)        
-        painter.setPen(self.pen)        
-        painter.drawPath(self.path)   
-
-
-class QuadrilateraLMeshBackItem(QGraphicsItem):
-    """
-    TriangleMeshItem es una clase que hereda de QGraphicsItem y representa un triangulo de malla en una escena.
-
-    Atributos:
-        id (int): Número único del elemento
-        name (str): Nombre de la malla.
-        color (Qt): Color con el que se dibujará la malla.        
-        triangles (list): Lista de triángulos que componen la malla.
-        width (float): Ancho con el que se dibujará la malla.
-        isSelected (bool): Indica si la malla está seleccionada en el momento.
-        isActive (bool): Indica si la malla está activa en el momento.
-
-    """
-    WIDTH = 0
-    #COLOR0 = "#DDDDDD"
-    #COLOR1 = "#555555"
-    COLOR0 = "#a6ccff"
-    COLOR1 = "#817e61"
-
-
-    def __init__(self, color_style:int, coordinates:list, p1:PointMeshBackItem ,
-                 p2:PointMeshBackItem, p3:PointMeshBackItem, p4:PointMeshBackItem ):
-        QGraphicsItem.__init__(self)
-
-        self.color_0 = self.COLOR0
-        self.color_1 = self.COLOR1
-        
-        self.coordinates = coordinates
-        self.p1 = p1
-        self.p2 = p2
-        self.p3 = p3
-        self.p4 = p4
-
-
-        self.width = self.WIDTH
-        self.isSelected = False
-        self.isActive = False
-        
-        self.generatePath()
-        
-
-        ##ACA DEBERIA RECIBIR EL COLOR PERO DEL TEMA
-        if color_style==1: 
-            color_ =self.color_1
-        else:
-            color_ =self.color_0
-
-        self.pen = QPen(QColor( color_), self.width, Qt.SolidLine)
-        self.pen.setCosmetic(True)
-        self.pen.setWidthF(1.5)
-    
-    def generatePath(self):
-        self.path = QPainterPath()
-        points = [] 
-        points.append(self.p1.getPoint())
-        points.append(self.p2.getPoint())
-        points.append(self.p3.getPoint())
-        points.append(self.p4.getPoint())
-        points.append(self.p1.getPoint())
-        self.path.addPolygon(QPolygonF(points))
-
-    def setColor(self, color_style):        
-        if color_style==0:
-            self.pen.setColor(QColor(self.color_0))
-        elif color_style==1:
-            self.pen.setColor(QColor(self.color_1))
-        self.update()
-
-
-
-    def boundingRect(self):
-        rect = self._triangleBoundingRect(self.coordinates)
-        return rect
-
-    def _triangleBoundingRect(self, points):
-        # Calcula el rectángulo que envuelve un triángulo
-        left = min(point[0] for point in points)
-        top = min(point[1] for point in points)
-        right = max(point[0] for point in points)
-        bottom = max(point[1] for point in points)
-        return QRectF(left, top, right - left, bottom - top)
-
-    def paint(self, painter, option, widget):
-        
-        painter.setPen(self.pen)        
-        painter.drawPath(self.path)   
-        
- 
-
-
-
-
-class RectMeshBackItem(QGraphicsRectItem):
- 
-    def __init__(self,  name:str, p1:QPointF, p2:QPointF):
-        super(RectItem, self).__init__()
-        '''
-        self.setFlags(
-            QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable)
-        '''
-        self.name = name
-        self.p1 = p1
-        self.p2 = p2        
-       
-        self.setRect(QRectF(self.p1, self.p2))
-        self.isSelected = False
-
-
-    
-    def __str__ (self):
-        return str(self.getData())
-
-    def getName(self):
-        return self.name
-
-    
-    def newPos(self, dx, dy):
-        self.p1 = QPointF(self.p1.x()+dx, self.p1.y()+dy)
-        self.p2 = QPointF(self.p2.x()+dx, self.p2.y()+dy)
-
-    def getData(self):
-        data = {
-            'name': self.name,
-            'p1': [self.p1.x(), self.p1.y()],
-            'p2': [self.p2.x(), self.p2.y()]
-            }
-        return data
-        
-
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        
-        self.setPen(QPen(QColor("#ebdd21"), 0, Qt.SolidLine))  
-
-        if self.isSelected == True:
-            self.setPen(QPen(QColor("#3AA3AA"), 0, Qt.SolidLine))
-
-
-        return super().paint(painter, option, widget)
-
-
-
-
-class PointMaterialItem(QGraphicsItem):
-   
-    RADIUS = 0.1
-
-    def __init__(self,id, name:str, color:str, coor:list ):
-        QGraphicsItem.__init__(self)        
-
-        #self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
-        self.id = id
-        self.name = name
-        self.color = color
-        self.coor = QPointF(coor[0],coor[1])
-
-        self.radius = self.RADIUS
-   
-
-        self.movePoint(self.coor)
-
-
-        self.pen = QPen(QColor(self.color), 0, Qt.DashLine)
-        self.pen.setCosmetic(True)
-        self.pen.setWidthF(0.5)
-
-        self.brush = QBrush(QColor(self.color))
-
-    
-    def setColor(self, color):
-        self.color = color
-        self.pen.setColor(QColor(self.color))
-        self.brush.setColor(QColor(self.color))
-        self.update()
-        
-    
-    def setRadius(self, percentage_radius):
-   
-        self.radius = self.RADIUS*(percentage_radius/100)
-        self.update()
-
-
-    def movePoint(self, pos:QPointF):
-        self.coor = pos
-        self.setPos(pos)
-          
-  
-    def boundingRect(self) -> QRectF:
-        radius = self.radius - 1.499
-        return QRectF(-radius, -radius,
-                             2*radius, 2*radius)
-
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-         
-        painter.setPen(self.pen)
-        painter.setBrush(self.brush)
-        painter.drawEllipse(QPointF(0, 0), self.radius, self.radius)
-
 
 class RectItem(QGraphicsRectItem):
     TYPE = "Rect"

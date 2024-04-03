@@ -9,6 +9,8 @@ class ControllerMenuBoundary(QObject):
     signal_new_boundary = Signal(str)
     signal_delete_boundary= Signal() 
     signal_edit_boundary= Signal() 
+    
+    signal_cancel_select = Signal()
 
     def __init__(self) -> None:
         super().__init__()
@@ -27,18 +29,19 @@ class ControllerMenuBoundary(QObject):
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
-        self.view_menu_boundary.signal_select_point_mesh.connect(self.signalSelectPointMesh)
         self.view_menu_boundary.signal_new_boundary_automatic.connect(self.newBoundaryAutomatic)
         self.view_menu_boundary.signal_new_boundary_manual.connect(self.newBoundaryManual)
         self.view_menu_boundary.signal_show_hide_boundaries.connect(self.showHideBoundaries)        
         self.view_menu_boundary.signal_show_hide_labels.connect(self.showHideLabels)
+        
+        self.view_menu_boundary.signal_select_point_mesh.connect(self.signalSelectPointMesh)
+        self.view_menu_boundary.signal_cancel_select.connect(self.signalCancelSelect)
         
 
     def setCurrentProject(self,model_current_project:ModelProjectCurrent):
         self.model_current_project = model_current_project        
         self.model_current_project.signal_select_point_back.connect(self.selectPointMesh)
 
-        
 
     def configDrawMenuBoundary(self):
         
@@ -73,7 +76,6 @@ class ControllerMenuBoundary(QObject):
       
     @Slot(bool)
     def showHideBoundaries(self, show_boundaries):
-
         for controller in self.list_controller_card:
             controller.showHideBoundary(show_boundaries)
         
@@ -88,39 +90,42 @@ class ControllerMenuBoundary(QObject):
         self.signalEndDrawGeometry()
         #self.model_current_project.commandMeshSelectLine({"step":1, "data":None}) 
         self.model_current_project.commandBoundarySelectPoint({"step":1, "data":None}) 
-
-  
+    
+    @Slot()
+    def signalCancelSelect(self):
+        self.signal_cancel_select.emit()
+        self.endDrawBoudary()
+    
+    
+    
+    
 
     @Slot()
     def newBoundaryAutomatic(self):
         restriction_automatic = self.view_menu_boundary.getTxTyAutomatic()
-
         restriction_automatic_top = restriction_automatic["Top"]
         restriction_automatic_bottom = restriction_automatic["Bottom"]
         restriction_automatic_left = restriction_automatic["Left"]
         restriction_automatic_right = restriction_automatic["Right"]       
-
-        points_top, points_bottom ,points_left ,points_right = self.model_current_project.getBoundaryPointsMeshBack()    
-        nodes_top, nodes_bottom ,nodes_left ,nodes_right = self.model_current_project.getBoundaryNodeMeshBack()   
+        model_mesh_back = self.model_current_project.getModelMeshBack()
         
-
+        nodes = model_mesh_back.getNodes()
+        nodes_top, nodes_bottom ,nodes_left ,nodes_right = model_mesh_back.getBoundaryNodes() 
+        
         if  restriction_automatic_top[0] or restriction_automatic_top[1]:        
             id_top= self.model_current_project.createBoundary(
                                                         name ="boundary_top",
                                                         nodes=nodes_top,
-                                                        points = points_top,
                                                         restrictionX = restriction_automatic_top[0],
                                                         restrictionY = restriction_automatic_top[1]                                                    
                                                         )
             model_boundary_top = self.model_current_project.getModelsBoundaries()[id_top]
             self.createBoundaryCard(model_boundary_top)
             
-
         if  restriction_automatic_bottom[0] or restriction_automatic_bottom[1]:
             id_bottom = self.model_current_project.createBoundary(
                                                         name ="boundary_bottom",
                                                         nodes=nodes_bottom,
-                                                        points = points_bottom,
                                                         restrictionX = restriction_automatic_bottom[0],
                                                         restrictionY = restriction_automatic_bottom[1]                                                    
                                                         )
@@ -131,7 +136,6 @@ class ControllerMenuBoundary(QObject):
             id_left = self.model_current_project.createBoundary(
                                                         name ="boundary_left",
                                                         nodes=nodes_left,
-                                                        points = points_left,
                                                         restrictionX = restriction_automatic_left[0],
                                                         restrictionY = restriction_automatic_left[1]                                                    
                                                         )
@@ -142,43 +146,33 @@ class ControllerMenuBoundary(QObject):
             id_right = self.model_current_project.createBoundary(
                                                         name ="boundary_right",
                                                         nodes=nodes_right,
-                                                        points = points_right,
                                                         restrictionX = restriction_automatic_right[0],
                                                         restrictionY = restriction_automatic_right[1]                                                    
                                                         )
             
-
             model_boundary_right = self.model_current_project.getModelsBoundaries()[id_right]
             self.createBoundaryCard(model_boundary_right)
-
+            
         self.view_menu_boundary.endBoundary1()
-        self.endDrawBoudary()
-        
+        self.endDrawBoudary()        
         self.signal_new_boundary.emit(id_top)
         self.signal_new_boundary.emit(id_bottom)
         self.signal_new_boundary.emit(id_left)
         self.signal_new_boundary.emit(id_right)
 
-
     @Slot()
     def newBoundaryManual(self):
-
-
 
         name_boundary =self.view_menu_boundary.getName()
         selected_objects = self.model_current_project.getSelectedObjects() 
         restriction_Tx = self.view_menu_boundary.getTx()
         restriction_Ty = self.view_menu_boundary.getTy()
-
-
-
          
         if name_boundary == "":
             self.view_menu_boundary.msnAlertName(True, "Revisa el nombre  de la restricción")
             return     
         else:
             self.view_menu_boundary.msnAlertName(False)
-
 
         if len(selected_objects) <= 0 :
             self.view_menu_boundary.msnAlertSelected(True, "Selecciona más de un elemento")
@@ -192,31 +186,25 @@ class ControllerMenuBoundary(QObject):
         else:
             self.view_menu_boundary.msnAlertRestriction(False)
 
-
-
-        points=[]
-        for point in selected_objects:
-            coor = point.getPoint()
-            points.append([point.getPoint().x(),point.getPoint().y()]) 
         nodes = []
+        for node in selected_objects:
+            node = node.getIdNode()
+            nodes.append(node)           
+
+        
         id_boundary = self.model_current_project.createBoundary(
                                                     name =name_boundary,
                                                     nodes=nodes,
-                                                    points = points,
                                                     restrictionX = restriction_Tx,
                                                     restrictionY = restriction_Ty                                                    
                                                     )
-        
-        
 
         model_boundary = self.model_current_project.getModelsBoundaries()[id_boundary]
         self.createBoundaryCard(model_boundary)
-
         self.view_menu_boundary.endBoundary2()
-        self.endDrawBoudary()
-        
+        self.endDrawBoudary()        
         self.signal_new_boundary.emit(id_boundary)
-      
+        
 
     # ::::::::::::::::::::         MÉTODOS  CURRENT        ::::::::::::::::::::
 	
@@ -224,26 +212,26 @@ class ControllerMenuBoundary(QObject):
     def selectPointMesh(self, no_points):
         self.view_menu_boundary.setNoSelectPointsMesh(no_points)
 
-    
-
     # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
 
     @Slot(str)
     def deleteBoundary(self, id):
         self.model_current_project.deleteBoundary(id)
-        self.signal_delete_boundary.emit()
+        for controller in self.list_controller_card:
+            if controller.model_boundary.getId() == id:
+                self.list_controller_card.remove(controller)
+                self.signal_delete_boundary.emit()
+                break
+    
         
     @Slot()
     def editBoundary(self):      
-        self.signal_edit_boundary.emit()
-        
+        self.signal_edit_boundary.emit()      
 
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
-
-
 
     def endDrawBoudary(self):
         self.model_current_project.endBoundarySelectPoint()
@@ -252,5 +240,12 @@ class ControllerMenuBoundary(QObject):
 
     def signalEndDrawGeometry(self):
             self.signal_end_draw_geometry.emit()
-
+            
+    def deleteAllBoundary(self):
+        for controller_card in  self.list_controller_card:
+            controller_card.deleteBoundary()
+        models_boundaries = self.model_current_project.getModelsBoundaries().copy()
+        for id in models_boundaries:
+            self.deleteBoundary(id)
+        
 

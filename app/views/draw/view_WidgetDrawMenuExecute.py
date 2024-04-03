@@ -8,7 +8,7 @@ from PySide6.QtGui import QIcon, QFont, QDrag
 from PySide6.QtWidgets import QFrame, QSpacerItem, QSizePolicy, QListWidget, QListWidgetItem
 
 
-from ui.ui_widget_draw_menu_properties import Ui_FormDrawMenuProperties
+
 from ui.ui_widget_draw_menu_execute import Ui_FormDrawMenuExecute
 from utils import class_general
 
@@ -280,12 +280,14 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 	###############################################################################
 
     def getListExecutePointMaterial (self):        
-        items = []
+        items = {}
         for index in range(self.listWidget_execute_pointMaterialTo.count()):
             item = self.listWidget_execute_pointMaterialTo.item(index)
             name = item.text()
             id = item.data(Qt.UserRole)
-            items.append({'name': name, 'id': id})
+            items[id] = {
+                'name': name,
+            }
         return items
     
     def getListExecuteBoundaries (self):        

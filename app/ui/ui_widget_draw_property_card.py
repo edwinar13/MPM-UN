@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_property_cardRbDOIt.ui'
+## Form generated from reading UI file 'widget_draw_property_cardWmpyII.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -168,11 +168,30 @@ class Ui_FormDrawPropertyCard(object):
         self.horizontalLayout.setSpacing(5)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 3, 0, 3)
+        self.frame_color = QFrame(self.frame_card)
+        self.frame_color.setObjectName(u"frame_color")
+        self.frame_color.setMinimumSize(QSize(10, 30))
+        self.frame_color.setMaximumSize(QSize(10, 30))
+        self.frame_color.setFrameShape(QFrame.StyledPanel)
+        self.frame_color.setFrameShadow(QFrame.Raised)
+
+        self.horizontalLayout.addWidget(self.frame_color)
+
+        self.toolButton_colorProperty = QToolButton(self.frame_card)
+        self.toolButton_colorProperty.setObjectName(u"toolButton_colorProperty")
+        icon = QIcon()
+        icon.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_colorProperty.setIcon(icon)
+        self.toolButton_colorProperty.setIconSize(QSize(20, 20))
+        self.toolButton_colorProperty.setArrowType(Qt.NoArrow)
+
+        self.horizontalLayout.addWidget(self.toolButton_colorProperty)
+
         self.toolButton_PropertiesShow = QToolButton(self.frame_card)
         self.toolButton_PropertiesShow.setObjectName(u"toolButton_PropertiesShow")
-        icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_PropertiesShow.setIcon(icon)
+        icon1 = QIcon()
+        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_PropertiesShow.setIcon(icon1)
         self.toolButton_PropertiesShow.setArrowType(Qt.NoArrow)
         self.toolButton_PropertiesShow.setProperty("QToolButtonSubTitleStyle", 1)
 
@@ -185,8 +204,8 @@ class Ui_FormDrawPropertyCard(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_cardPropertyName.sizePolicy().hasHeightForWidth())
         self.label_cardPropertyName.setSizePolicy(sizePolicy2)
-        self.label_cardPropertyName.setMinimumSize(QSize(150, 0))
-        self.label_cardPropertyName.setMaximumSize(QSize(160, 16777215))
+        self.label_cardPropertyName.setMinimumSize(QSize(130, 0))
+        self.label_cardPropertyName.setMaximumSize(QSize(140, 16777215))
         self.label_cardPropertyName.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.horizontalLayout.addWidget(self.label_cardPropertyName)
@@ -218,9 +237,9 @@ class Ui_FormDrawPropertyCard(object):
         font.setPointSize(7)
         self.toolButton_PropertyOk.setFont(font)
         self.toolButton_PropertyOk.setStyleSheet(u"")
-        icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_PropertyOk.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u"app/resources/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_PropertyOk.setIcon(icon2)
         self.toolButton_PropertyOk.setIconSize(QSize(15, 15))
         self.toolButton_PropertyOk.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_PropertyOk.setProperty("style_material_point_card_button", 1)
@@ -235,9 +254,9 @@ class Ui_FormDrawPropertyCard(object):
         self.toolButton_PropertyExit.setMaximumSize(QSize(25, 25))
         self.toolButton_PropertyExit.setFont(font)
         self.toolButton_PropertyExit.setStyleSheet(u"")
-        icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_PropertyExit.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"app/resources/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_PropertyExit.setIcon(icon3)
         self.toolButton_PropertyExit.setIconSize(QSize(15, 15))
         self.toolButton_PropertyExit.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_PropertyExit.setProperty("style_material_point_card_button", 1)
@@ -252,9 +271,9 @@ class Ui_FormDrawPropertyCard(object):
         self.toolButton_PropertyEdit.setMaximumSize(QSize(25, 25))
         self.toolButton_PropertyEdit.setFont(font)
         self.toolButton_PropertyEdit.setStyleSheet(u"")
-        icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_PropertyEdit.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"app/resources/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_PropertyEdit.setIcon(icon4)
         self.toolButton_PropertyEdit.setIconSize(QSize(15, 15))
         self.toolButton_PropertyEdit.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_PropertyEdit.setProperty("style_material_point_card_button", 1)
@@ -269,9 +288,9 @@ class Ui_FormDrawPropertyCard(object):
         self.toolButton_PropertyClose.setMaximumSize(QSize(25, 25))
         self.toolButton_PropertyClose.setFont(font)
         self.toolButton_PropertyClose.setStyleSheet(u"")
-        icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_PropertyClose.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_PropertyClose.setIcon(icon5)
         self.toolButton_PropertyClose.setIconSize(QSize(15, 15))
         self.toolButton_PropertyClose.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_PropertyClose.setProperty("style_material_point_card_button", 1)
@@ -530,6 +549,8 @@ class Ui_FormDrawPropertyCard(object):
 
     def retranslateUi(self, FormDrawPropertyCard):
         FormDrawPropertyCard.setWindowTitle(QCoreApplication.translate("FormDrawPropertyCard", u"Form", None))
+        self.toolButton_colorProperty.setText("")
+        self.toolButton_colorProperty.setProperty("style_material_point_card_button", QCoreApplication.translate("FormDrawPropertyCard", u"1", None))
         self.toolButton_PropertiesShow.setText("")
         self.label_cardPropertyName.setText(QCoreApplication.translate("FormDrawPropertyCard", u"Material. Point 1", None))
         self.lineEdit_PropertyName.setText("")

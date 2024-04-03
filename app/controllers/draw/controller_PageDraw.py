@@ -59,9 +59,12 @@ class ControllerPageDraw(QObject):
         self.controller_main.view_main_window.signal_action_menu_viewDraw.connect(self.actionMenuSup)
         
         self.view_page_draw.signal_zoom_draw.connect(self.zoomDraw)
+        
         self.view_page_draw.signal_end_draw_geometry.connect(self.endDrawGeometry)
         self.view_page_draw.signal_end_draw_mesh.connect(self.endDrawMesh)
         self.view_page_draw.signal_end_draw_boundary.connect(self.endDrawBoundary)
+        self.view_page_draw.signal_end_draw_point_material.connect(self.endDrawPointMaterial)
+        
         self.view_page_draw.signal_deselect_draw_geometry.connect(self.deselectDrawGeometry)
   
 
@@ -69,29 +72,24 @@ class ControllerPageDraw(QObject):
         self.controller_menu_mesh.signal_edit_mesh.connect(self.setListBaseMeshView)
         self.controller_menu_mesh.signal_delete_mesh.connect(self.setListBaseMeshView)
         self.controller_menu_mesh.signal_end_draw_geometry.connect(self.endDrawGeometry)
+        self.controller_menu_mesh.signal_delete_all_boundary.connect(self.deleteAllBoundary)
+        self.controller_menu_mesh.signal_cancel_select.connect(self.endDrawGeometry)
 
+        
         self.controller_menu_properties.signal_new_property.connect(self.setListPropertiesViews)
         self.controller_menu_properties.signal_edit_property.connect(self.setListPropertiesViews)
         self.controller_menu_properties.signal_delete_property.connect(self.setListPropertiesViews)
         
-        '''
-        self.controller_menu_pointMaterial.signal_new_points_material.connect(self.newItemPointMaterialView)
-        self.controller_menu_pointMaterial.signal_edit_points_material.connect(self.newItemPointMaterialView)
-        self.controller_menu_pointMaterial.signal_delete_points_material.connect(self.newItemPointMaterialView)        
-        
-        self.controller_menu_boundary.signal_new_boundary.connect(self.newItemBoundaryView)
-        self.controller_menu_boundary.signal_edit_boundary.connect(self.newItemBoundaryView)
-        self.controller_menu_boundary.signal_delete_boundary.connect(self.newItemBoundaryView)
-
-        
-        '''
+  
         self.controller_menu_pointMaterial.signal_new_points_material.connect(self.setListPointsMaterialView)
         self.controller_menu_pointMaterial.signal_edit_points_material.connect(self.setListPointsMaterialView)
         self.controller_menu_pointMaterial.signal_delete_points_material.connect(self.setListPointsMaterialView)
+        self.controller_menu_pointMaterial.signal_cancel_select.connect(self.endDrawGeometry)
         
         self.controller_menu_boundary.signal_new_boundary.connect(self.setListBoundariesView)
         self.controller_menu_boundary.signal_edit_boundary.connect(self.setListBoundariesView)
         self.controller_menu_boundary.signal_delete_boundary.connect(self.setListBoundariesView)
+        self.controller_menu_boundary.signal_cancel_select.connect(self.endDrawGeometry)
         
 
         
@@ -112,6 +110,12 @@ class ControllerPageDraw(QObject):
     @Slot()
     def setListBaseMeshView(self):     
         self.controller_menu_pointMaterial.setListBaseMeshView()
+    
+    
+    @Slot()
+    def deleteAllBoundary(self):     
+        self.controller_menu_boundary.deleteAllBoundary()
+    
     
    
     @Slot()
@@ -574,6 +578,10 @@ class ControllerPageDraw(QObject):
     @Slot()
     def endDrawBoundary(self):        
         self.controller_menu_boundary.endDrawBoudary()
+        
+    @Slot()
+    def endDrawPointMaterial(self):        
+        self.controller_menu_pointMaterial.endDrawPointMaterial()
 
 
 
@@ -613,6 +621,7 @@ class ControllerPageDraw(QObject):
     
     def settingDraw(self,setting_update):
         self.controller_graphics_draw.settingDraw(setting_update)
+        
         if setting_update[ "setting"] == "style_view_scene" and self.current_project != None:
             style=setting_update["setting_data"][2]
             self.current_project.changeTheme(index_style=style)

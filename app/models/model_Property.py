@@ -1,32 +1,17 @@
-from models.model_ProjectCurrentRepository import ModelProjectCurrentRepository
-from utils.items_GraphicsDraw import TextFrameItem, PointMaterialItem
+from models.model_Repository import ModelRepository
 from views.view_GraphicsDraw import QGraphicsScene
-from PySide6.QtWidgets import QGraphicsItemGroup
 
 class ModelProperty:
 
     def __init__(self, scene_draw:QGraphicsScene, 
-                        model_project_current_repository:ModelProjectCurrentRepository,
-                        id, 
-                        name,
-                        modulus_elasticity,
-                        poisson_ratio,
-                        cohesion,
-                        friction_angle,
-                        density,
-                        angle_dilatancy) -> None:
+                        model_repository:ModelRepository,
+                        id) -> None:
 
         self.scene_draw = scene_draw
-        self.model_project_current_repository = model_project_current_repository
+        self.model_repository = model_repository
 
         self.__id = id
-        self.__name = name
-        self.__modulus_elasticity=modulus_elasticity
-        self.__poisson_ratio=poisson_ratio
-        self.__cohesion=cohesion
-        self.__friction_angle=friction_angle
-        self.__density=density
-        self.__angle_dilatancy=angle_dilatancy
+
 
 
         
@@ -37,42 +22,65 @@ class ModelProperty:
 
     def getId(self):
         return self.__id
+    
+    def getColor(self):
+        """ funcion para obtener el color del conjunto de puntos material"""
+        color = self.getData()[self.__id]["COLOR"]
+        return color
 
     def getName(self):
-        return self.__name
+        name = self.getData()[self.__id]["NAME"]
+        return name
     
     def getModulusElasticity(self):
-        return self.__modulus_elasticity
+        modulus_elasticity = self.getData()[self.__id]["MODULOELASTICIDAD"]
+        return modulus_elasticity
 
     def getPoissonRatio(self):
-        return self.__poisson_ratio
+        poisson_ratio = self.getData()[self.__id]["RELACIONPOISSON"]
+        return poisson_ratio
 
     def getCohesion(self):
-        return self.__cohesion  
+        cohesion = self.getData()[self.__id]["COHESION"]
+        return cohesion  
     
     def getFrictionAngle(self):
-        return self.__friction_angle
+        friction_angle = self.getData()[self.__id]["ANGULOFRICCION"]
+        return friction_angle
     
     def getDensity(self):
-        return self.__density
+        density = self.getData()[self.__id]["DENSIDAD"]
+        return density
     
     def getAngleDilatancy(self):
-        return self.__angle_dilatancy 
+        angle_dilatancy = self.getData()[self.__id]["ANGULODILATANCIA"]
+        return angle_dilatancy 
 
     def getData(self):
-        """return: id, name, 
-        modulus_elasticity, poisson_ratio,
-        cohesion,friction_angle,
-        angle_dilatancy]"""
-        return[self.__id,self.__name, 
-                self.__modulus_elasticity,
-                self.__poisson_ratio,
-                self.__cohesion,
-                self.__friction_angle,
-                self.__density,
-                self.__angle_dilatancy
-                ]
-
+        
+        """return: dict con los datos de la propiedad, por ejemplo:
+        
+        {'f00e68c9-e12f-4b63-915c-215abcebad44': 
+            {
+            'COLOR': '#646464',
+            'NAME': 'material beam', 
+            'MODULOELASTICIDAD': 10000.0,
+            'RELACIONPOISSON': 0.2,
+            'COHESION': 5.0,
+            'ANGULOFRICCION': 25.0, 
+            'DENSIDAD': 2000, 
+            'ANGULODILATANCIA': 5.0
+            }
+        }
+        """
+    
+        
+        properties =  self.model_repository.readPropertiesDB()
+        property_data ={
+            self.__id: properties[self.__id]
+        }
+        return property_data
+        
 
     ###############################################################################
     # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
@@ -80,7 +88,7 @@ class ModelProperty:
     
 
     
-    def updateProperty(self,id, name= None, 
+    def updateProperty(self,id, name= None, color= None,
                        modulus_elasticity= None,
                         poisson_ratio= None,
                         cohesion= None,
@@ -88,24 +96,11 @@ class ModelProperty:
                         density= None,
                         angle_dilatancy= None ):
 
-        if name != None:
-            self.__name = name
-        if modulus_elasticity != None:
-            self.__modulus_elasticity = modulus_elasticity
-        if poisson_ratio != None:
-            self.__poisson_ratio = poisson_ratio
-        if cohesion != None:
-            self.__cohesion = cohesion
-        if friction_angle != None:
-            self.__friction_angle = friction_angle
-        if density != None:
-            self.__density = density
-        if angle_dilatancy != None:
-            self.__angle_dilatancy = angle_dilatancy
         
-        self.model_project_current_repository.updatePropertiesDB(
+        self.model_repository.updatePropertiesDB(
             id_properties=id,
             name=name,
+            color=color,
             modulus_elasticity=modulus_elasticity,
             poisson_ratio=poisson_ratio,
             cohesion=cohesion,

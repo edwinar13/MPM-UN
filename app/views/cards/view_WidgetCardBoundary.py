@@ -150,8 +150,12 @@ class viewCardDrawBoundary(QFrame, Ui_FormDrawBoundaryCard):
             return
             
         self.signal_delete_boundary.emit()
-
-        # Elimina la tarjeta
+        return
+        self.deleteBoundary()
+        
+        
+    def deleteBoundary(self):
+        """ Elimina la tarjeta """
         self.deleteLater()
 
     ###############################################################################

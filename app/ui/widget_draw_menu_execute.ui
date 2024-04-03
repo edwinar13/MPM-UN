@@ -1167,7 +1167,7 @@ naranjas #D34E24 #F28123 #F7F052
                   <number>1</number>
                  </property>
                  <property name="maximum">
-                  <number>300</number>
+                  <number>1000</number>
                  </property>
                  <property name="singleStep">
                   <number>1</number>

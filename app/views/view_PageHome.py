@@ -65,7 +65,7 @@ class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
     def __clickedToolButtonNewProject(self):
         """Emite una señal para crear nuevo proyecto""" 
         options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
         if file_path:
             self.signal_new_project.emit(file_path)
     

@@ -36,14 +36,26 @@ def format_number(number):
         (str): Número formateado.      
         
     """
-    # Define a format for common output with three decimals
-    common_format = "{:.3f}"
 
-    # Define a format for output in scientific notation with one decimal
+    integer_format = "{:.0f}"
+    common_format = "{:.1f}"
+    decimal_format = "{:.6f}"
     scientific_format = "{:.2e}"
 
-    # Format the number according to the defined rules
-    if abs(number) < 0.001 or abs(number) > 999:
+    if abs(number) < 0.00001:
         return scientific_format.format(number)
+        
+    elif abs(number) < 1:
+        return decimal_format.format(number)
+    
+    elif abs(number) < 100:
+        return common_format.format(number)
+    
+    elif abs(number) < 99999:
+        return integer_format.format(number)
     else:
         return common_format.format(number)
+    '''
+    if abs(number) < 0.000001 or abs(number) > 999999:
+        return scientific_format.format(number)
+    '''

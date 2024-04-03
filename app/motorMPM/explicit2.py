@@ -337,7 +337,24 @@ def particles_to_nodes(grid, particle):
                         nna = m
                         break
                 # -- fin de ciclo
-                nmass[nna, 0] += Np[0, k]*Mp[mp - 1] # masa nodal
+                #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
+                
+                """ 
+                se ajusta para que la masa nodal no sea cero
+                print("masa nodal: ", Np[0, k]*Mp[mp - 1], 
+                      "funcion forma", Np[0, k],
+                      "Mp: ", Mp[mp - 1])                
+                #nmass no puede ser cero
+                original:                
+                    nmass[nna, 0] += Np[0, k]*Mp[mp - 1] # masa nodal
+                """
+                
+                if Np[0, k] == 0:
+                    nmass[nna, 0] += 1e-10 
+                else:
+                    nmass[nna, 0] += Np[0, k]*Mp[mp - 1] # masa nodal
+                #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
+                    
                 nmomentum[nna, 0] += Np[0, k]*Mp[mp - 1]*vp[mp - 1, 0] # momentum nodal en x
                 nmomentum[nna, 1] += Np[0, k]*Mp[mp - 1]*vp[mp - 1, 1] # momentum nodal en y
                 niforce[nna, 0] -= Vp[mp - 1]*(sig[mp - 1, 0]*Np[1, k] + sig[mp - 1, 2]*Np[2, k]) # fuerza interna en x

@@ -31,6 +31,7 @@ class ControllerMenuProperties(QObject):
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_menu_properties.signal_new_property.connect(self.newProperty)
+        self.view_menu_properties.signal_show_hide_properties.connect(self.showHideProperties)
 
     def setCurrentProject(self,model_current_project:ModelProjectCurrent):
         self.model_current_project = model_current_project
@@ -70,10 +71,15 @@ class ControllerMenuProperties(QObject):
 	###############################################################################
     
     # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
-
+    @Slot(bool)
+    def showHideProperties(self, show_properties):
+        for controller in self.list_controller_card:
+            controller.showHideProperties(show_properties)
+            
     @Slot()
     def newProperty(self):
         property_name =self.view_menu_properties.getName()
+        property_color =self.view_menu_properties.getColor()
         modulus_elasticity=self.view_menu_properties.getPropertiesE()
         poisson_ratio =self.view_menu_properties.getPropertiesV()
         cohesion =self.view_menu_properties.getPropertiesC()
@@ -89,9 +95,14 @@ class ControllerMenuProperties(QObject):
         else:
             self.view_menu_properties.msnAlertName(False)
     
-   
+        if property_color == None:
+            self.view_menu_properties.msnAlertColor(True, "Revisa el color de la propiedad")
+            return     
+        else:
+            self.view_menu_properties.msnAlertColor(False)
             
         id = self.model_current_project.createProperty(name=property_name,
+                                                       color = property_color,
                                                     modulus_elasticity=modulus_elasticity,
                                                     poisson_ratio=poisson_ratio,
                                                     cohesion=cohesion,

@@ -1139,6 +1139,16 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                       <string>epsxy</string>
                      </property>
                     </item>
+                    <item>
+                     <property name="text">
+                      <string>velx</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>vely</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                   <item row="2" column="0">

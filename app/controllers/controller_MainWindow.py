@@ -189,6 +189,11 @@ class ControllerMainWindow():
 
     @Slot(str)
     def openProject(self, path_project):
+        
+        # verifica si hay un proyecto actual y si hay cambios en el proyecto actual
+        response = self.changeProject()        
+        if not response:
+            return
 
         #verifica si hay un proyecto actual y si es el mismo que se abre
         if self.model_current_project:
@@ -201,6 +206,7 @@ class ControllerMainWindow():
             self.__showMessageCritical("No se ha encontrado el documento: {}".format(path_project)) 
             return  
         
+
 
         if self.model_current_project:
             self.controller_page_result.stopAnimation()
@@ -217,6 +223,13 @@ class ControllerMainWindow():
         view_draw_2 = self.controller_page_draw.controller_graphics_draw.view_draw_2 
         scene_result = self.controller_page_result.controller_graphics_result.scene_result  
         view_result = self.controller_page_result.controller_graphics_result.view_result
+        #eliminar modelo de proyecto actual
+        if self.model_current_project:
+            self.model_current_project.desconetSignals()
+            del self.model_current_project
+            self.model_current_project = None
+        
+        #crear nuevo modelo de proyecto
         self.model_current_project = ModelProjectCurrent(
                                             scene_result,
                                             view_result,
@@ -224,7 +237,6 @@ class ControllerMainWindow():
                                             view_draw_1, 
                                             view_draw_2,
                                             path_doc=path_project)
-
 
         self.controller_page_draw.setCurrentProject(self.model_current_project)        
         self.controller_page_draw.controller_menu_data.configDrawMenuData()
@@ -253,9 +265,14 @@ class ControllerMainWindow():
 
     @Slot(str)
     def newProject(self, path_project):
-        if  self.model_projects.createProjectFile(path_project):  
-            if self.model_projects.newProject(path_project):
-                self.openProject(path_project)
+        #verifica si hay un proyecto actual y si hay cambios en el proyecto actual   
+        response = self.changeProject()
+        
+        if response:        
+            if  self.model_projects.createProjectFile(path_project):  
+                if self.model_projects.newProject(path_project):
+                    self.openProject(path_project)
+                    
                 
     def clearRecentProject(self):
         self.view_main_window.updateProjectsRecentMenuSup([])
@@ -263,6 +280,41 @@ class ControllerMainWindow():
         self.model_projects.deleteProjects()             
 
 
+    def changeProject(self,):
+        """Evento al abrir un nuevo proyecto o uno existente, se valida si hay proyecto actual y hay cambio,
+         en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""
+        
+        if self.model_current_project != None:
+            checkProjectChanges = self.model_current_project.checkProjectChanges() 
+            print("checkProjectChanges: ", checkProjectChanges)
+            if checkProjectChanges: 
+                dialoMsg = DialogMsg(self.view_main_window, 1, 
+                                        "¿Quiere guardar los cambios de este proyecto?", 
+                                        "has realizado cambios")
+                dialoMsg.setTypeIcon(0)
+                dialoMsg.setTextDescription("Has realizado cambios en el archivo {}".format(self.model_current_project.getPathDoc()))
+                dialoMsg.setModal(True)
+                dialoMsg.exec()
+                result = dialoMsg.getButtonSelected()
+                #Guardar
+                if result == "save":
+                    print("# Guardar = {}".format(self.model_current_project.saveDataDb()))
+                    self.model_current_project.saveDataDb()
+                    return True
+                    
+                # No Guardar
+                elif result == "not save":
+                    print("# No Guardar")
+                    return False
+
+                elif result == "cancel" or result == "exit":
+                    print("# Cancelar")
+                    return
+            else:
+                return True
+        else:
+            return True
+        
     def closeApp(self):
         """Evento al cerrar la ventana main window, se valida si hay proyecto actual y hay cambio,
          en ese caso se abre cuadro de dialogo para confirmar si guarda o no."""
@@ -344,11 +396,15 @@ class ControllerMainWindow():
         self.view_main_window.projectChanges(name_project, state_project_changes)
      
     @Slot()
-    def saveData(self):        
+    def saveData(self):     
+        checkProjectChanges = self.model_current_project.checkProjectChanges() 
+        print("checkProjectChanges: ", checkProjectChanges)    
         if self.model_current_project:
+            
             print("Save [{}]".format(self.model_current_project.saveDataDb()))
             self.__showMessageCommand("_save")
-
+        print("→→  checkProjectChanges: ", checkProjectChanges)    
+        
     @Slot(str)    
     def saveAsData(self, new_path_file):        
         if self.model_current_project:

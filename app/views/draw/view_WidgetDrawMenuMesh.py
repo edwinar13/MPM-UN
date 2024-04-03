@@ -34,14 +34,16 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             :
 
     """ 
-    signal_select_line_mesh= Signal() 
     signal_size_mesh= Signal() 
     signal_new_mesh= Signal() 
     signal_mesh_back_changed = Signal()
     signal_mesh_back_show= Signal(bool) 
     signal_show_hide_meshs = Signal(bool)
     signal_show_hide_label = Signal(bool)
+    signal_show_hide_label_point = Signal(bool)
     
+    signal_select_line_mesh= Signal() 
+    signal_cancel_select = Signal()
     
     def __init__(self):
 
@@ -55,6 +57,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
 
         self.__hide_show_mesh=True
         self.__hide_show_label=True
+        self.__hide_show_label_point=True
 
         self.list_view_card =[]
         self.user_interaction = False
@@ -87,6 +90,14 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.icon_hide_label = QIcon()
         self.icon_hide_label.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
         
+        self.icon_show_label_point = QIcon()
+        self.icon_show_label_point.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_point.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_label_point = QIcon()
+        self.icon_hide_label_point.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_point_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+        
+        
+        
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('MALLADO')
         self.label_lat.setFont(QFont('Ubuntu', 9))
@@ -107,6 +118,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.toolButton_cardMeshSubTitle2.clicked.connect(self.__clickedToolButtonCardMeshSubTitle2)
         self.toolButton_showHideMesh.clicked.connect(self.__clickedToolButtonShowHideMesh)
         self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
+        self.toolButton_meshShowHideLabelPoint.clicked.connect(self.__clickedToolButtonShowHideLabelPoint)
 
         # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
         self.toolButton_meshShow.clicked.connect(self.__clickedToolButton_meshShow)
@@ -194,6 +206,18 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             self.signal_show_hide_label.emit(self.__hide_show_label)
             self.__hide_show_label = True
             self.toolButton_showHideLabel.setIcon(self.icon_hide_label)
+            
+    def __clickedToolButtonShowHideLabelPoint(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_label_point == True:
+            self.signal_show_hide_label_point.emit(self.__hide_show_label_point)
+            self.__hide_show_label_point = False
+            self.toolButton_meshShowHideLabelPoint.setIcon(self.icon_show_label_point)
+        elif self.__hide_show_label_point == False:
+            self.signal_show_hide_label_point.emit(self.__hide_show_label_point)
+            self.__hide_show_label_point = True
+            self.toolButton_meshShowHideLabelPoint.setIcon(self.icon_hide_label_point)
+            
 
 
     # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
@@ -240,6 +264,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
 
     def __clickedToolButtonMeshCancel(self):
         self.endMesh()
+        self.signal_cancel_select.emit()
 
     def __clickedToolButton_mesh(self):
         self.signal_new_mesh.emit()
@@ -329,10 +354,27 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     
 
     def setTextWidgetMeshBack(self, data):
-        size_dx=data[0]
-        size_dy=data[1]
-        size_element=data[2]
-        color=data[3]
+        
+        '''
+        {
+            'SIZEDX': 2.0,
+            'SIZEDY': 2.0,
+            'SIZEELEMENT': 1.0,
+            'NODES': {
+                    'NODO#1': {'COORDINATES': [0.0, 0.0]}, ...
+                },
+            'ELEMENTS': {
+                    'ELEMENT#1': ['NODO#1', 'NODO#2', 'NODO#5', 'NODO#4'], ...
+                },
+            'NODESBOUNDARYTOP': ['NODO#7', 'NODO#8', 'NODO#9'],
+            'NODESBOUNDARYBOTTOM': ['NODO#1', 'NODO#2', 'NODO#3'],
+            'NODESBOUNDARYLEFT': ['NODO#1', 'NODO#4', 'NODO#7'],
+            'NODESBOUNDARYRIGHT': ['NODO#3', 'NODO#6', 'NODO#9']
+        }
+        '''
+        size_dx=data['SIZEDX']
+        size_dy=data['SIZEDY']
+        size_element=data['SIZEELEMENT']
 
         self.doubleSpinBoxl_textMeshDx.setValue(size_dx)
         self.doubleSpinBoxl_textMeshDy.setValue(size_dy)

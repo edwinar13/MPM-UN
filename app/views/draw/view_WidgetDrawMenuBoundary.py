@@ -8,12 +8,13 @@ from utils import class_general
 
 class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
 
-    signal_select_point_mesh= Signal() 
     signal_new_boundary_automatic= Signal() 
     signal_new_boundary_manual= Signal() 
     signal_show_hide_boundaries = Signal(bool)
     signal_show_hide_labels = Signal(bool)
 
+    signal_select_point_mesh= Signal() 
+    signal_cancel_select = Signal()
 
 
     def __init__(self):
@@ -197,6 +198,10 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
 
     def __clickedToolButtonBoundaryCancel(self):
         self.endBoundary2()
+        self.signal_cancel_select.emit()
+        
+        
+        
           
     def __clickedToolButtonBoundaryCreate1(self):
         self.signal_new_boundary_automatic.emit()

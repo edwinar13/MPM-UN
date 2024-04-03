@@ -447,11 +447,6 @@ border: 1px solid #DDDDDD;</string>
                       <string>Gris</string>
                      </property>
                     </item>
-                    <item>
-                     <property name="text">
-                      <string>Oscuro</string>
-                     </property>
-                    </item>
                    </widget>
                   </item>
                   <item>

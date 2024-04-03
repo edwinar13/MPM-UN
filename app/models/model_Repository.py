@@ -3,7 +3,7 @@ from PySide6.QtCore import (QFile)
 import json
 import os
 
-class ModelProjectCurrentRepository():
+class ModelRepository():
     """
     Clase que representa un repositorio que interactua con la base de datos del proyecto actual.
 
@@ -115,7 +115,7 @@ class ModelProjectCurrentRepository():
         """
         return self.__unguarded_copy_db_project['CONFIGURACION']
     
-    def updateConfigDB(self, gravity = None, dampfac = None):        
+    def updateConfigDB(self, gravity = None, dampfac = None):    
         """Actualiza la configuración básica almacenada en la base de datos del proyecto actual.
 
         Args:
@@ -131,7 +131,8 @@ class ModelProjectCurrentRepository():
                 self.__unguarded_copy_db_project['CONFIGURACION']['GRAVEDAD']=gravity
             
             if dampfac != None:
-                self.__unguarded_copy_db_project['CONFIGURACION']['DAMPFAC']=dampfac
+                self.__unguarded_copy_db_project['CONFIGURACION']['DAMPFAC']=dampfac            
+
             return True
 
         except BaseException as err:
@@ -265,54 +266,39 @@ class ModelProjectCurrentRepository():
     ###############################################################################
 	# ::::::::::::::::::::        MÉTODOS DB MALLA       ::::::::::::::::::::
 	############################################################################### 
-
     # ::::::::::::::::::::        MALLA DE FONDO       ::::::::::::::::::::
+    
     def readMeshBackDB(self):
         """
         Lee la malla de fondo almacenadas en la base de datos del proyecto actual.
         Returns:
             (dict): Diccionario con la malla de fondo del proyecto.
         """   
-        return self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']
+        return self.__unguarded_copy_db_project['MESH']['MESHBACK']
   
-    def updateMeshBackDB(self, size_dx=None, size_dy=None, size_element=None,color=None,points=None,quadrilaterals=None,
-            points_boundary_top = None,points_boundary_bottom = None,points_boundary_left = None,points_boundary_right = None,
+    def updateMeshBackDB(self, size_dx=None, size_dy=None, size_element=None,nodes=None,elements=None,            
             nodes_boundary_top = None,nodes_boundary_bottom = None,nodes_boundary_left = None,nodes_boundary_right = None):
 
         try:                  
             
             if size_dx != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["SIZEDX"]=size_dx
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["SIZEDX"]=size_dx
             if size_dy != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["SIZEDY"]=size_dy
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["SIZEDY"]=size_dy
             if size_element != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["SIZEELEMENT"]=size_element
-            if color != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["COLOR"]=color
-            if points != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTS"]=points
-            if quadrilaterals != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["QUADRILATERALS"]=quadrilaterals
-            if points_boundary_top != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYTOP"]=points_boundary_top
-            if points_boundary_bottom != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYBOTTOM"]=points_boundary_bottom
-            if points_boundary_left != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYLEFT"]=points_boundary_left
-            if points_boundary_right != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["POINTSBOUNDARYRIGHT"]=points_boundary_right
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["SIZEELEMENT"]=size_element
+            if nodes != None:   
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["NODES"]=nodes
+            if elements != None:   
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["ELEMENTS"]=elements
             if nodes_boundary_top != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYTOP"]=nodes_boundary_top
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["NODESBOUNDARYTOP"]=nodes_boundary_top
             if nodes_boundary_bottom != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYBOTTOM"]=nodes_boundary_bottom
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["NODESBOUNDARYBOTTOM"]=nodes_boundary_bottom
             if nodes_boundary_left != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYLEFT"]=nodes_boundary_left
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["NODESBOUNDARYLEFT"]=nodes_boundary_left
             if nodes_boundary_right != None:   
-                self.__unguarded_copy_db_project['MALLAS']['MALLAFONDO']["NODESBOUNDARYRIGHT"]=nodes_boundary_right
-
-
-
-
+                self.__unguarded_copy_db_project['MESH']['MESHBACK']["NODESBOUNDARYRIGHT"]=nodes_boundary_right
 
 
             return True
@@ -322,23 +308,17 @@ class ModelProjectCurrentRepository():
             return False    
     
     # ::::::::::::::::::::        TRIANGULARES       ::::::::::::::::::::
-    def createMeshTriangularDB(self, id_Mesh, name, color, points, triangles):
+    def createMeshTriangularDB(self, id_Mesh, name, color, nodes, elements):
          
-        #try:  
-        self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh] = {
+  
+        self.__unguarded_copy_db_project['MESH']['TRIANGULARES'][id_Mesh] = {
             "NAME": name,
             "COLOR": color,
-            "POINTS": points,
-            "TRIANGLES":triangles
+            "NODES": nodes,
+            "ELEMENTS":elements
         }         
 
         return True
-        '''
-        except BaseException as err:
-            print("[Doc: {}] Error al agregar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
-            print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
-        '''
     
     def readMeshTriangularDB(self):
         """
@@ -346,19 +326,19 @@ class ModelProjectCurrentRepository():
         Returns:
             (dict): Diccionario con las mallas (triangulares) del proyecto.
         """   
-        return self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES']
+        return self.__unguarded_copy_db_project['MESH']['TRIANGULARES']
     
-    def updateMeshTriangularDB(self,id_Mesh, name=None, color=None, points=None, triangles=None):
+    def updateMeshTriangularDB(self,id_Mesh, name=None, color=None, nodes=None, elements=None):
         try:                  
-            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES']:
+            if id_Mesh in self.__unguarded_copy_db_project['MESH']['TRIANGULARES']:
                 if name != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["NAME"]=name
+                    self.__unguarded_copy_db_project['MESH']['TRIANGULARES'][id_Mesh]["NAME"]=name
                 if color != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["COLOR"]=color
-                if points != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["POINTS"]=points
-                if triangles != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]["TRIANGLES"]=triangles
+                    self.__unguarded_copy_db_project['MESH']['TRIANGULARES'][id_Mesh]["COLOR"]=color
+                if nodes != None:   
+                    self.__unguarded_copy_db_project['MESH']['TRIANGULARES'][id_Mesh]["NODES"]=nodes
+                if elements != None:   
+                    self.__unguarded_copy_db_project['MESH']['TRIANGULARES'][id_Mesh]["ELEMENTS"]=elements
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
@@ -380,8 +360,8 @@ class ModelProjectCurrentRepository():
  
         try:  
 
-            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES']:
-                del self.__unguarded_copy_db_project['MALLAS']['TRIANGULARES'][id_Mesh]            
+            if id_Mesh in self.__unguarded_copy_db_project['MESH']['TRIANGULARES']:
+                del self.__unguarded_copy_db_project['MESH']['TRIANGULARES'][id_Mesh]            
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
@@ -389,15 +369,16 @@ class ModelProjectCurrentRepository():
             return False   
    
     # ::::::::::::::::::::        CUADRILATEROS       ::::::::::::::::::::
-    def createMeshQuadrilateralDB(self, id_Mesh,  name, color, points, quadrilaterals):
+    def createMeshQuadrilateralDB(self, id_Mesh,  name, color, nodes, elements):
         try:  
 
-            self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh] = {
+            self.__unguarded_copy_db_project['MESH']['CUADRILATEROS'][id_Mesh] = {
                 "NAME": name,
                 "COLOR": color,
-                "POINTS": points,
-                "QUADRILATERALS":quadrilaterals
-            }   
+                "NODES": nodes,
+                "ELEMENTS":elements
+            }
+            
             return True
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
@@ -410,24 +391,24 @@ class ModelProjectCurrentRepository():
         Returns:
             (dict): Diccionario con las mallas (rectangulares) del proyecto.
         """    
-        return self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS']
+        return self.__unguarded_copy_db_project['MESH']['CUADRILATEROS']
     
-    def updateMeshQuadrilateralDB(self,id_Mesh, name=None, color=None, points=None, quadrilaterals=None):
+    def updateMeshQuadrilateralDB(self,id_Mesh, name=None, color=None, nodes=None, elements=None):
         """
         triangle_type:
             TRIANGULARES
             CUADRILATEROS
         """
         try:  
-            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS']:
+            if id_Mesh in self.__unguarded_copy_db_project['MESH']['CUADRILATEROS']:
                 if name != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["NAME"]=name
+                    self.__unguarded_copy_db_project['MESH']['CUADRILATEROS'][id_Mesh]["NAME"]=name
                 if color != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["COLOR"]=color
-                if points != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["POINTS"]=points
-                if quadrilaterals != None:   
-                    self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]["QUADRILATERALS"]=quadrilaterals
+                    self.__unguarded_copy_db_project['MESH']['CUADRILATEROS'][id_Mesh]["COLOR"]=color
+                if nodes != None:   
+                    self.__unguarded_copy_db_project['MESH']['CUADRILATEROS'][id_Mesh]["NODES"]=nodes
+                if elements != None:   
+                    self.__unguarded_copy_db_project['MESH']['CUADRILATEROS'][id_Mesh]["ELEMENTS"]=elements
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
@@ -449,23 +430,23 @@ class ModelProjectCurrentRepository():
 
         try:  
 
-            if id_Mesh in self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS']:
-                del self.__unguarded_copy_db_project['MALLAS']['CUADRILATEROS'][id_Mesh]
+            if id_Mesh in self.__unguarded_copy_db_project['MESH']['CUADRILATEROS']:
+                del self.__unguarded_copy_db_project['MESH']['CUADRILATEROS'][id_Mesh]
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <MALLAS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
-    
-    
+        
     ################################################################################
 	# ::::::::::::::::::::       MÉTODOS DB PROPIEDADES     ::::::::::::::::::::   
     ###############################################################################
     
-    def createPropertiesDB(self, id_properties, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):    
+    def createPropertiesDB(self, id_properties, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):    
         
         try:                 
             self.__unguarded_copy_db_project['MATERIALES'][id_properties] = {
+                "COLOR": color,
                 "NAME": name,
                 "MODULOELASTICIDAD": modulus_elasticity,        #E KPa
                 "RELACIONPOISSON": poisson_ratio,               #v -/-
@@ -492,6 +473,7 @@ class ModelProjectCurrentRepository():
     
     def updatePropertiesDB(self,id_properties, 
                            name=None, 
+                           color=None, 
                            modulus_elasticity=None,
                            poisson_ratio=None,
                            cohesion=None,
@@ -503,7 +485,8 @@ class ModelProjectCurrentRepository():
             if id_properties in self.__unguarded_copy_db_project['MATERIALES']: 
                 if name != None:                      
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["NAME"]=name
-
+                if color != None:
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["COLOR"]=color
                 if modulus_elasticity != None:   
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["MODULOELASTICIDAD"]=modulus_elasticity
                 if poisson_ratio != None:   
@@ -534,35 +517,21 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False   
         
-        
-        
-        
     ###############################################################################
 	# ::::::::::::::::::::       MÉTODOS DB PUNTO MATERIAL     ::::::::::::::::::::
     ###############################################################################
-    
-       
-    def createMaterialPointDB(self, id_MP, name, color, points, volumes,
+           
+    def createMaterialPointDB(self, id_MP, name,  points,
                               id_property, id_mesh_base):    
         
-        #try:                 
+                
         self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP] = {
             "NAME": name,
-            "COLOR": color,
             "POINTS": points,
-            "VOLUMENES": volumes,
             "IDPROPIEDAD": id_property,
-            "IDMALLABASE": id_mesh_base
-            
-        }
-        
+            "IDMALLABASE": id_mesh_base            
+        }        
         return True
-        '''
-        except BaseException as err:
-            print("[Doc: {}] Error al agregar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
-            print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
-        '''
     
     def readMaterialPointDB(self):
         """
@@ -572,19 +541,15 @@ class ModelProjectCurrentRepository():
         """ 
         return self.__unguarded_copy_db_project['PUNTOSMATERIAL']
     
-    def updateMaterialPointDB(self,id_MP, name=None, color=None, points=None, volumes=None,
+    def updateMaterialPointDB(self,id_MP, name=None, points=None,
                               id_property=None, id_mesh_base=None):
 
         try: 
             if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
                 if name != None:                      
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["NAME"]=name
-                if color != None:   
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["COLOR"]=color
+                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["NAME"]=name               
                 if points != None:   
                     self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"]=points
-                if volumes != None:
-                    self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["VOLUMENES"]=volumes
                 if id_property != None:   
                     self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["IDPROPIEDAD"]=id_property
                 if id_mesh_base != None:
@@ -605,21 +570,36 @@ class ModelProjectCurrentRepository():
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False    
-    
-    
-    
+            return False 
+        
+    def updateVectorQuantityPointsMaterialDB(self, id_MP, id_node, vox=None, voy=None, fx=None, fy=None):
+        try: 
+            if id_MP in self.__unguarded_copy_db_project['PUNTOSMATERIAL']: 
+                if id_node in self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"]:
+                    if vox != None:                      
+                        self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"][id_node]["VELOCITY"]["X"]=vox
+                    if voy != None:                      
+                        self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"][id_node]["VELOCITY"]["Y"]=voy
+                    if fx != None:                      
+                        self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"][id_node]["FORCE"]["X"]=fx
+                    if fy != None:                      
+                        self.__unguarded_copy_db_project['PUNTOSMATERIAL'][id_MP]["POINTS"][id_node]["FORCE"]["Y"]=fy
+                        
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <PUNTOSMATERIAL> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False
     ###############################################################################
 	# ::::::::::::::::::::       MÉTODOS DB BOUDARY     ::::::::::::::::::::
     ###############################################################################
        
-    def createBoundaryDB(self, id_boundary, name, nodes, points,restrictionX, restrictionY):    
+    def createBoundaryDB(self, id_boundary, name, nodes,restrictionX, restrictionY):    
         
         try:                 
             self.__unguarded_copy_db_project['CONTORNOS'][id_boundary] = {
                 "NAME": name,
                 "NODES": nodes,
-                "POINTS": points,
                 "Tx": restrictionX,
                 "Ty": restrictionY
             }
@@ -639,7 +619,7 @@ class ModelProjectCurrentRepository():
         """ 
         return self.__unguarded_copy_db_project['CONTORNOS']
     
-    def updateBoundaryDB(self,id_boundary, name=None, nodes=None, points=None, restrictionX=None, restrictionY=None):
+    def updateBoundaryDB(self,id_boundary, name=None, nodes=None, restrictionX=None, restrictionY=None):
 
         try: 
             if id_boundary in self.__unguarded_copy_db_project['CONTORNOS']: 
@@ -647,8 +627,6 @@ class ModelProjectCurrentRepository():
                     self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["NAME"]=name
                 if nodes != None:   
                     self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["NODES"]=nodes
-                if points != None:   
-                    self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["POINTS"]=points
                 if restrictionX != None:   
                     self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]["Tx"]=restrictionX
                 if restrictionY != None:   
@@ -664,7 +642,8 @@ class ModelProjectCurrentRepository():
 
         try:            
             if id_boundary in self.__unguarded_copy_db_project['CONTORNOS']:
-                del self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]             
+                del self.__unguarded_copy_db_project['CONTORNOS'][id_boundary]    
+                print("ok delete")         
             return True
         except BaseException as err:
             print("[Doc: {}] Error al eliminar registro en <CONTORNOS> de la base de datos".format(self.__name_doc_py))
@@ -723,7 +702,8 @@ class ModelProjectCurrentRepository():
     
     def addResultNodeDB(self, id_result_node, corx, cory,
              sigxx, sigyy, sigxy,
-             epsxx, epsyy, epsxy):            
+             epsxx, epsyy, epsxy,
+             velx,vely):            
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
                 "CORX": corx,
@@ -733,7 +713,9 @@ class ModelProjectCurrentRepository():
                 "SIGXY": sigxy,
                 "EPSXX": epsxx,
                 "EPSYY": epsyy,
-                "EPSXY": epsxy
+                "EPSXY": epsxy,
+                "VELX": velx,
+                "VELY": vely
             }
             
             return True
@@ -743,11 +725,13 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
         
-    def addResultPropertyDB(self, id_property
-                             , name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):
+    def addResultPropertyDB(self, id_property, name, color, modulus_elasticity, 
+                            poisson_ratio, cohesion, friction_angle, 
+                            density,  angle_dilatancy):
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['MATERIALES'][id_property] = {
                 "NAME": name,
+                "COLOR": color,
                 "MODULOELASTICIDAD": modulus_elasticity,        #E KPa
                 "RELACIONPOISSON": poisson_ratio,               #v -/-
                 "COHESION": cohesion,                           #C' KPa
@@ -763,11 +747,10 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
         
-    def addResultPointMaterialDB(self, id_MP, name, color, points,id_property):
+    def addResultPointMaterialDB(self, id_MP, name, points,id_property):
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['PUNTOSMATERIAL'][id_MP] = {
                 "NAME": name,
-                "COLOR": color,
                 "POINTS": points,
                 "IDPROPIEDAD": id_property
             }
@@ -779,12 +762,11 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
         
-    def addResultBoundaryDB(self, id_boundary, name, nodes, points,restrictionX, restrictionY):
+    def addResultBoundaryDB(self, id_boundary, name, nodes, restrictionX, restrictionY):
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['CONTORNOS'][id_boundary] = {
                 "NAME": name,
                 "NODES": nodes,
-                "POINTS": points,
                 "Tx": restrictionX,
                 "Ty": restrictionY
             }
@@ -807,18 +789,15 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
 
-    def updateResultMeshBackDB(self, size_dx, size_dy, size_element,color,points,quadrilaterals,points_boundary_top,points_boundary_bottom,points_boundary_left,points_boundary_right,nodes_boundary_top,nodes_boundary_bottom,nodes_boundary_left,nodes_boundary_right):
+    def updateResultMeshBackDB(self, size_dx, size_dy, size_element,nodes,elements,
+                               nodes_boundary_top,nodes_boundary_bottom,
+                               nodes_boundary_left,nodes_boundary_right):
         try:                
             self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["SIZEDX"]=size_dx
             self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["SIZEDY"]=size_dy
             self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["SIZEELEMENT"]=size_element
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["COLOR"]=color
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["POINTS"]=points
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["QUADRILATERALS"]=quadrilaterals
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["POINTSBOUNDARYTOP"]=points_boundary_top
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["POINTSBOUNDARYBOTTOM"]=points_boundary_bottom
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["POINTSBOUNDARYLEFT"]=points_boundary_left
-            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["POINTSBOUNDARYRIGHT"]=points_boundary_right
+            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["NODES"]=nodes
+            self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["ELEMENTS"]=elements
             self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["NODESBOUNDARYTOP"]=nodes_boundary_top
             self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["NODESBOUNDARYBOTTOM"]=nodes_boundary_bottom
             self.__unguarded_copy_db_project['RESULTADOS']['MALLAFONDO']["NODESBOUNDARYLEFT"]=nodes_boundary_left
@@ -869,7 +848,7 @@ class ModelProjectCurrentRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
 
-    def updateResultMinDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None):
+    def updateResultMinDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None, velx = None, vely = None):
         try:             
             if corx != None:   
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['CORX'] = corx
@@ -886,14 +865,18 @@ class ModelProjectCurrentRepository():
             if epsyy != None:
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSYY'] = epsyy
             if epsxy != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSXY'] = epsxy                
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSXY'] = epsxy  
+            if velx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELX'] = velx
+            if vely != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELY'] = vely              
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False       
 
-    def updateResultMaxDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None):
+    def updateResultMaxDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None, velx=None, vely=None):
             try: 
                 
                 if corx != None:   
@@ -912,6 +895,10 @@ class ModelProjectCurrentRepository():
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSYY'] = epsyy
                 if epsxy != None:
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSXY'] = epsxy
+                if velx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELX'] = velx
+                if vely != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELY'] = vely
                     
                 return True
             except BaseException as err:
@@ -975,6 +962,7 @@ class ModelProjectCurrentRepository():
         if QFile.exists(BD):		  
             #try:
                 # se guarda en el archivo
+                
                 with open(BD, 'w') as a:
                     a.write(json.dumps(self.__unguarded_copy_db_project)) 
                     a.close()
@@ -983,8 +971,7 @@ class ModelProjectCurrentRepository():
                 with open(BD, 'r') as b: 
                     self.__original_copy_db_project = json.load(b)
                     b.close()
-                print("Guardo correctamente en la base de datos")   
-                
+                print("Guardo correctamente en la base de datos")  
                 validacion=True
             
             #except BaseException as err:

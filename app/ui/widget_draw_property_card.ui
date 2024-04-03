@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>365</height>
+    <width>462</width>
+    <height>370</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -196,6 +196,51 @@ padding-left: 6px;
        <number>3</number>
       </property>
       <item>
+       <widget class="QFrame" name="frame_color">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_colorProperty">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+        <property name="style_material_point_card_button" stdset="0">
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="toolButton_PropertiesShow">
         <property name="text">
          <string/>
@@ -222,13 +267,13 @@ padding-left: 6px;
         </property>
         <property name="minimumSize">
          <size>
-          <width>150</width>
+          <width>130</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>160</width>
+          <width>140</width>
           <height>16777215</height>
          </size>
         </property>

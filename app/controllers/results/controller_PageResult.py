@@ -283,6 +283,10 @@ class ControllerPageResult(QObject):
                         data_axis_y = data[point_search]['EPSYY']
                     elif self.graphics_type_result.lower() == 'epsxy':
                         data_axis_y = data[point_search]['EPSXY']
+                    elif self.graphics_type_result.lower() == 'velx':
+                        data_axis_y = data[point_search]['VELX']
+                    elif self.graphics_type_result.lower() == 'vely':
+                        data_axis_y = data[point_search]['VELY']
 
                     color = self.view_page_result.setDatePointChart(times_x, data_axis_y, point_search)
                     self.view_page_result.canvas.draw()
@@ -321,6 +325,10 @@ class ControllerPageResult(QObject):
                 data_axis_y = data[point_graphics]['EPSYY']
             elif self.graphics_type_result.lower() == 'epsxy':
                 data_axis_y = data[point_graphics]['EPSXY']
+            elif self.graphics_type_result.lower() == 'velx':
+                data_axis_y = data[point_graphics]['VELX']
+            elif self.graphics_type_result.lower() == 'vely':
+                data_axis_y = data[point_graphics]['VELY']
 
             self.view_page_result.changeTypeResultChart(id_point=point_graphics,
                                                      y_new=data_axis_y)

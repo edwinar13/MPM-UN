@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_animationFnxAEl.ui'
+## Form generated from reading UI file 'widget_result_menu_animationsDPWjp.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -813,6 +813,8 @@ class Ui_FormMenuResultAnimation(object):
         self.comboBox_sceneTypeResult.addItem("")
         self.comboBox_sceneTypeResult.addItem("")
         self.comboBox_sceneTypeResult.addItem("")
+        self.comboBox_sceneTypeResult.addItem("")
+        self.comboBox_sceneTypeResult.addItem("")
         self.comboBox_sceneTypeResult.setObjectName(u"comboBox_sceneTypeResult")
         self.comboBox_sceneTypeResult.setMinimumSize(QSize(0, 25))
         self.comboBox_sceneTypeResult.setFocusPolicy(Qt.WheelFocus)
@@ -1131,7 +1133,7 @@ class Ui_FormMenuResultAnimation(object):
         self.spinBox_ResultAnimationSizeText.setMinimum(1)
         self.spinBox_ResultAnimationSizeText.setMaximum(100)
         self.spinBox_ResultAnimationSizeText.setSingleStep(1)
-        self.spinBox_ResultAnimationSizeText.setValue(5)
+        self.spinBox_ResultAnimationSizeText.setValue(12)
         self.spinBox_ResultAnimationSizeText.setDisplayIntegerBase(10)
         self.spinBox_ResultAnimationSizeText.setProperty("QSpinBoxStyle", 1)
 
@@ -1249,6 +1251,8 @@ class Ui_FormMenuResultAnimation(object):
         self.comboBox_sceneTypeResult.setItemText(4, QCoreApplication.translate("FormMenuResultAnimation", u"epsxx", None))
         self.comboBox_sceneTypeResult.setItemText(5, QCoreApplication.translate("FormMenuResultAnimation", u"epsyy", None))
         self.comboBox_sceneTypeResult.setItemText(6, QCoreApplication.translate("FormMenuResultAnimation", u"epsxy", None))
+        self.comboBox_sceneTypeResult.setItemText(7, QCoreApplication.translate("FormMenuResultAnimation", u"velx", None))
+        self.comboBox_sceneTypeResult.setItemText(8, QCoreApplication.translate("FormMenuResultAnimation", u"vely", None))
 
         self.label_textResultAnimation3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Velocidad anim.:", None))
         self.groupBox.setTitle("")

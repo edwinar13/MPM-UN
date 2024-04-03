@@ -12,9 +12,13 @@ class ControllerCardBoundary(QObject):
 
     def __init__(self, model_boundary:ModelBoundary) -> None:
         super().__init__()
-
         self.model_boundary = model_boundary
-        self.id, self.name, self.nodes, self.points, self.restrictionX, self.restrictionY = model_boundary.getData()
+        data = model_boundary.getData()
+        self.id = list(data.keys())[0]
+        self.name = data[self.id]["NAME"]
+        self.nodes = data[self.id]["NODES"]
+        self.restrictionX = data[self.id]["Tx"]
+        self.restrictionY =  data[self.id]["Ty"]
 
 
         self.__initCard()
@@ -31,7 +35,7 @@ class ControllerCardBoundary(QObject):
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_card_boundary.signal_hide_show_boundary.connect(self.showHideBoundary)
-        self.view_card_boundary.signal_delete_boundary.connect(self.deleteBoundary)
+        self.view_card_boundary.signal_delete_boundary.connect(self.signalDeleteBoundary)
         self.view_card_boundary.signal_update_boundary.connect(self.updateBoundary)
 
     ###############################################################################
@@ -47,12 +51,10 @@ class ControllerCardBoundary(QObject):
         self.model_boundary.showHideLabel(value)
 
     @Slot()
-    def deleteBoundary(self):       
-        #verificar que no este selecionado para ejecutar un analisis
-        
+    def signalDeleteBoundary(self):       
+        #verificar que no este selecionado para ejecutar un analisis        
         self.signal_delete_boundary.emit(self.id)
-        del self
-
+        self.deleteBoundary()
 
     @Slot()
     def updateBoundary(self):        
@@ -63,6 +65,11 @@ class ControllerCardBoundary(QObject):
             name=self.name,
             )
         self.signal_edit_boundary.emit()
+        
+    def deleteBoundary(self):
+        self.view_card_boundary.deleteBoundary()
+        del self
+    
 
 
 

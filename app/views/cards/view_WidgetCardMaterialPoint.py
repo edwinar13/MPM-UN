@@ -35,9 +35,9 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.controller_CardMesh = controller_CardMesh
 
         self.__card_show_hide_material_point = True
-        self.__card_color_material_point = None
         self.__card_name_material_point = None
-        self.card_color_material_point_prev = None
+        
+        self.current_index_property = None
         
         # Configura la UI
         self.__configUi()
@@ -64,7 +64,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.icon_hide.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/not_view.svg", QSize(), QIcon.Normal, QIcon.Off)
         
         self.lineEdit_nameMaterialPoint.setVisible(False)
-        self.toolButton_colorMaterialPoint.setVisible(False)
+        
         self.toolButton_okMaterialPoint.setVisible(False)
         self.toolButton_exitMaterialPoint.setVisible(False)
 
@@ -74,9 +74,8 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.toolButton_showHideMaterialPoint.clicked.connect(self.__clickedToolButtonShowHideMaterialPoint)
-        self.toolButton_closeMaterialPoint.clicked.connect(self.__clickedToolButtonCloseMaterialPoint)
-        self.toolButton_editMaterialPoint.clicked.connect(self.__clickedToolButtonEditMaterialPoint)
-        self.toolButton_colorMaterialPoint.clicked.connect(self.__clickedToolButtonColorMaterialPoint)
+        self.toolButton_deleteMaterialPoint.clicked.connect(self.__clickedToolButtonDeleteMaterialPoint)
+        self.toolButton_editMaterialPoint.clicked.connect(self.__clickedToolButtonEditMaterialPoint) 
         self.toolButton_okMaterialPoint.clicked.connect(self.__clickedToolButtonOkMaterialPoint)
         self.toolButton_exitMaterialPoint.clicked.connect(self.__clickedToolButtonExitMaterialPoint)
     
@@ -84,30 +83,12 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
 	###############################################################################
 
-    def __clickedToolButtonExitMaterialPoint(self): 
-        self.lineEdit_nameMaterialPoint.setVisible(False)
-        self.toolButton_colorMaterialPoint.setVisible(False)
-        self.toolButton_okMaterialPoint.setVisible(False)
-        self.toolButton_exitMaterialPoint.setVisible(False)
-        self.frame_color.setFixedWidth(10)
-        self.toolButton_closeMaterialPoint.setVisible(True)
-        self.toolButton_editMaterialPoint.setVisible(True)
-        self.toolButton_showHideMaterialPoint.setVisible(True)
-        self.label_cardNameMaterialPoint.setVisible(True)
-
-        self.__card_color_material_point=self.card_color_material_point_prev
-        self.card_color_material_point_prev = None
-        self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_material_point))
-        self.comboBox_PointMaterialProperty.setEnabled(False)
-        self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 2)
- 
     def __clickedToolButtonEditMaterialPoint(self):
         self.lineEdit_nameMaterialPoint.setVisible(True)
-        self.toolButton_colorMaterialPoint.setVisible(True)
         self.toolButton_okMaterialPoint.setVisible(True)
         self.toolButton_exitMaterialPoint.setVisible(True)
 
-        self.toolButton_closeMaterialPoint.setVisible(False)
+        self.toolButton_deleteMaterialPoint.setVisible(False)
         self.toolButton_editMaterialPoint.setVisible(False)
         self.toolButton_showHideMaterialPoint.setVisible(False)
         self.label_cardNameMaterialPoint.setVisible(False)
@@ -115,51 +96,61 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 
         self.lineEdit_nameMaterialPoint.setText(self.label_cardNameMaterialPoint.text())
         self.lineEdit_nameMaterialPoint.setFocus()
-        self.card_color_material_point_prev = self.__card_color_material_point
+ 
         self.comboBox_PointMaterialProperty.setEnabled(True)
+        self.current_index_property = self.comboBox_PointMaterialProperty.currentIndex()
         self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 1)
 
-
-    def __clickedToolButtonColorMaterialPoint(self):
-        color = QColorDialog.getColor(initial=QColor(self.__card_color_material_point))
-        if color.isValid():
-            self.__card_color_material_point=color.name()
-            self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_material_point))
-
-    def __clickedToolButtonOkMaterialPoint(self):
-
-        self.lineEdit_nameMaterialPoint.setVisible(False)
-        self.toolButton_colorMaterialPoint.setVisible(False)
+    def __clickedToolButtonExitMaterialPoint(self): 
+        self.lineEdit_nameMaterialPoint.setVisible(False)        
         self.toolButton_okMaterialPoint.setVisible(False)
         self.toolButton_exitMaterialPoint.setVisible(False)
-        self.frame_color.setFixedWidth(10)
-        self.toolButton_closeMaterialPoint.setVisible(True)
+        
+        self.toolButton_deleteMaterialPoint.setVisible(True)
         self.toolButton_editMaterialPoint.setVisible(True)
         self.toolButton_showHideMaterialPoint.setVisible(True)
         self.label_cardNameMaterialPoint.setVisible(True)
+        self.frame_color.setFixedWidth(10)
+
+        #self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_material_point))
+        self.comboBox_PointMaterialProperty.setEnabled(False)
+        self.comboBox_PointMaterialProperty.setCurrentIndex(self.current_index_property)
+        self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 2)
+ 
+
+    def __clickedToolButtonOkMaterialPoint(self):
+        self.lineEdit_nameMaterialPoint.setVisible(False)
+        self.toolButton_okMaterialPoint.setVisible(False)
+        self.toolButton_exitMaterialPoint.setVisible(False)
+        
+        self.toolButton_deleteMaterialPoint.setVisible(True)
+        self.toolButton_editMaterialPoint.setVisible(True)
+        self.toolButton_showHideMaterialPoint.setVisible(True)
+        self.label_cardNameMaterialPoint.setVisible(True)
+        self.frame_color.setFixedWidth(10)
 
         self.__card_name_material_point = self.lineEdit_nameMaterialPoint.text()
         self.lineEdit_nameMaterialPoint.setText("")
         self.label_cardNameMaterialPoint.setText(self.__card_name_material_point)
 
         self.comboBox_PointMaterialProperty.setEnabled(False)
+        self.current_index_property = None
         self.setPropertyStyle(widget=self.comboBox_PointMaterialProperty, name_property="QComboBoxStyle", property= 2)
         
-        self.card_color_material_point_prev = None
         self.signal_update_material_point.emit()
+        
+        
         
     def __clickedToolButtonShowHideMaterialPoint(self):
         """ Muestra u oculta la malla """
-
         if self.__card_show_hide_material_point:            
-            self.signal_hide_show_material_point.emit(False)
-            
+            self.signal_hide_show_material_point.emit(False)            
         else :            
             self.signal_hide_show_material_point.emit(True)
 
       
          
-    def __clickedToolButtonCloseMaterialPoint(self):       
+    def __clickedToolButtonDeleteMaterialPoint(self):       
         dialoMsg = class_ui_dialog_msg.DialogMsg(self, 3, 
                                 "¿Quieres eliminar los puntos materiales {} ?".format(self.getName()), 
                                 "")
@@ -195,10 +186,6 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.__card_name_material_point = self.label_cardNameMaterialPoint.text()
         return self.__card_name_material_point
 
-    def getColor(self):
-        return self.__card_color_material_point
-    
-
     def getProperty(self):
         """return [id_selected, name]"""
         name = self.comboBox_PointMaterialProperty.currentText()
@@ -216,8 +203,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 	###############################################################################
 
     def showData(self, name, color, name_property, name_mesh):        
-        self.label_cardNameMaterialPoint.setText(u"{}".format(name ))
-        self.__card_color_material_point = color
+        self.label_cardNameMaterialPoint.setText(u"{}".format(name))
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
         self.label_textPointMaterialMesh.setText(name_mesh)
 
@@ -231,6 +217,10 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
             self.comboBox_PointMaterialProperty.setItemData(self.comboBox_PointMaterialProperty.count() - 1, {"id_property": id_property}, Qt.UserRole)
         self.comboBox_PointMaterialProperty.setCurrentText(selected_property)
 
+    def setColor(self, color):
+
+        self.frame_color.setStyleSheet('background-color : {}'.format(color))
+        
     def setBaseMesh(self, name_mesh):        
         self.label_textPointMaterialMesh.setText(name_mesh)
 

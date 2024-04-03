@@ -242,29 +242,6 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_colorMaterialPoint">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
-        </property>
-        <property name="style_material_point_card_button" stdset="0">
-         <string>1</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="label_cardNameMaterialPoint">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -531,7 +508,7 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_closeMaterialPoint">
+       <widget class="QToolButton" name="toolButton_deleteMaterialPoint">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
           <horstretch>0</horstretch>

@@ -15,7 +15,29 @@ class ControllerCardProperty(QObject):
 
         self.model_property = model_property
         self.model_current_project = model_current_project
-        self.id, self.name, self.modulus_elasticity, self.poisson_ratio, self.cohesion, self.friction_angle, self.density, self.angle_dilatancy= model_property.getData()
+        data = model_property.getData()
+        '''
+        {'f00e68c9-e12f-4b63-915c-215abcebad44':
+    {
+    'COLOR': '#646464',
+    'NAME': 'material beam',
+    'MODULOELASTICIDAD': 10000.0,
+    'RELACIONPOISSON': 0.2,
+    'COHESION': 5.0,
+    'ANGULOFRICCION': 25.0,
+    'DENSIDAD': 2000,
+    'ANGULODILATANCIA': 5.0 }
+}
+        '''
+        self.id = list(data.keys())[0]
+        self.name = data[self.id]["NAME"]
+        self.color = data[self.id]["COLOR"]
+        self.modulus_elasticity = data[self.id]["MODULOELASTICIDAD"]
+        self.poisson_ratio = data[self.id]["RELACIONPOISSON"]
+        self.cohesion = data[self.id]["COHESION"]
+        self.friction_angle = data[self.id]["ANGULOFRICCION"]
+        self.density = data[self.id]["DENSIDAD"]
+        self.angle_dilatancy = data[self.id]["ANGULODILATANCIA"]
         self.__initCard()
         self.__initEvent()
 
@@ -25,6 +47,7 @@ class ControllerCardProperty(QObject):
     def __initCard(self):
         self.view_card_property = viewCardDrawProperty(self)
         self.view_card_property.showData(name = self.name,
+                                         color  = self.color,
                                         modulus_elasticity=self.modulus_elasticity,
                                         poisson_ratio=self.poisson_ratio,
                                         cohesion=self.cohesion,
@@ -46,9 +69,10 @@ class ControllerCardProperty(QObject):
 
           
 
-    @Slot()
-    def showHideProperty(self):        
-        pass
+    @Slot(bool)
+    def showHideProperties(self, value):  
+        self.view_card_property.showHideProperties(value)
+        
         
     @Slot()
     def deleteProperty(self):    
@@ -70,6 +94,7 @@ class ControllerCardProperty(QObject):
     @Slot()
     def updateProperty(self):
         self.name = self.view_card_property.getName()
+        self.color = self.view_card_property.getColor()
         self.modulus_elasticity = self.view_card_property.getModulusElasticity()
         self.poisson_ratio= self.view_card_property.getPoissonRatio()
         self.cohesion= self.view_card_property.getCohesion()
@@ -80,6 +105,7 @@ class ControllerCardProperty(QObject):
         self.model_property.updateProperty(
             id=self.id,
             name=self.name,
+            color=self.color,
             modulus_elasticity=self.modulus_elasticity,
             poisson_ratio=self.poisson_ratio,
             cohesion=self.cohesion,

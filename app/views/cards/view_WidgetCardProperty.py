@@ -38,6 +38,8 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.__card_name_material_point = None
         
         '''
+        self.__card_color_property = None
+        self.card_color_property_prev = None
 
         # Configura la UI
         self.__configUi()
@@ -66,11 +68,13 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.lineEdit_PropertyName.setVisible(False)
         self.toolButton_PropertyOk.setVisible(False)
         self.toolButton_PropertyExit.setVisible(False)
+        self.toolButton_colorProperty.setVisible(False)
         self.frame_edit.setVisible(False)
      
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.toolButton_PropertiesShow.clicked.connect(self.__clickedToolButtonPropertiesShow)
+        self.toolButton_colorProperty.clicked.connect(self.__clickedToolButtonColorProperty)
         self.toolButton_PropertyOk.clicked.connect(self.__clickedToolButtonPropertyOk)
         self.toolButton_PropertyExit.clicked.connect(self.__clickedToolButtonPropertyExit)
         self.toolButton_PropertyEdit.clicked.connect(self.__clickedToolButtonPropertyEdit)
@@ -84,34 +88,53 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.lineEdit_PropertyName.setVisible(False)
         self.toolButton_PropertyOk.setVisible(False)
         self.toolButton_PropertyExit.setVisible(False)
+        self.toolButton_colorProperty.setVisible(False)
         self.frame_edit.setVisible(False)
 
         self.label_cardPropertyName.setVisible(True)
         self.toolButton_PropertyClose.setVisible(True)
         self.toolButton_PropertyEdit.setVisible(True)
         self.frame_view.setVisible(True)
+        
+        self.frame_color.setFixedWidth(10)
+        self.__card_color_property=self.card_color_property_prev
+        self.card_color_property_prev = None
+        self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_property))
+        
+        
     
 
     def __clickedToolButtonPropertyEdit(self): 
         self.lineEdit_PropertyName.setVisible(True)
         self.toolButton_PropertyOk.setVisible(True)
         self.toolButton_PropertyExit.setVisible(True)
+        self.toolButton_colorProperty.setVisible(True)
         self.frame_edit.setVisible(True)
 
         self.label_cardPropertyName.setVisible(False)
         self.toolButton_PropertyClose.setVisible(False)
         self.toolButton_PropertyEdit.setVisible(False)
         self.frame_view.setVisible(False)
+        
 
 
         self.lineEdit_PropertyName.setText(self.label_cardPropertyName.text())
         self.lineEdit_PropertyName.setFocus()
+        self.frame_color.setFixedWidth(20)
+        self.card_color_property_prev = self.__card_color_property
         self.doubleSpinBoxl_textPropertiesE.setValue(float(self.label_textPropertiesE.text()))
         self.doubleSpinBoxl_textPropertiesV.setValue(float(self.label_textPropertiesV.text()))
         self.doubleSpinBoxl_textPropertiesC.setValue(float(self.label_textPropertiesC.text()))
         self.doubleSpinBoxl_textPropertiesPhi.setValue(float(self.label_textPropertiesPhi.text()))
         self.doubleSpinBoxl_textPropertiesP.setValue(float(self.label_textPropertiesP.text()))
         self.doubleSpinBoxl_textPropertiesPsi.setValue(float(self.label_textPropertiesPsi.text()))
+          
+    def __clickedToolButtonColorProperty(self):
+        color = QColorDialog.getColor(initial=QColor(self.__card_color_property))
+        if color.isValid():
+            self.__card_color_property=color.name()
+            self.frame_color.setStyleSheet('background-color : {}'.format(self.__card_color_property))
+
             
     def __clickedToolButtonPropertiesShow(self):
         """ Muestra u oculta  """
@@ -131,6 +154,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.lineEdit_PropertyName.setVisible(False)
         self.toolButton_PropertyOk.setVisible(False)
         self.toolButton_PropertyExit.setVisible(False)
+        self.toolButton_colorProperty.setVisible(False)
         self.frame_edit.setVisible(False)
 
         self.label_cardPropertyName.setVisible(True)
@@ -141,6 +165,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
 
 
         self.label_cardPropertyName.setText(self.lineEdit_PropertyName.text())     
+        self.frame_color.setFixedWidth(10)
         self.label_textPropertiesE.setText(str(self.doubleSpinBoxl_textPropertiesE.value()))
         self.label_textPropertiesV.setText(str(self.doubleSpinBoxl_textPropertiesV.value()))
         self.label_textPropertiesC.setText(str(self.doubleSpinBoxl_textPropertiesC.value()))
@@ -148,6 +173,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.label_textPropertiesP.setText(str(self.doubleSpinBoxl_textPropertiesP.value()))
         self.label_textPropertiesPsi.setText( str(self.doubleSpinBoxl_textPropertiesPsi.value()))
 
+        self.card_color_property_prev = None
         self.signal_update_property.emit()
 
 
@@ -186,6 +212,9 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
 
     def getName(self):
         return self.label_cardPropertyName.text()
+    
+    def getColor(self):
+        return self.__card_color_property
 
     def getModulusElasticity(self):
         return float(self.label_textPropertiesE.text())
@@ -210,7 +239,9 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
 	###############################################################################
 
 
-    def showData(self, name, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density, angle_dilatancy):        
+    def showData(self, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density, angle_dilatancy):        
+        self.__card_color_property = color
+        self.frame_color.setStyleSheet('background-color : {}'.format(color))
         self.label_cardPropertyName.setText(u"{}".format(name))
         self.label_textPropertiesE.setText(u"{}".format(modulus_elasticity))
         self.label_textPropertiesV.setText(u"{}".format(poisson_ratio))
@@ -218,7 +249,15 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.label_textPropertiesPhi.setText(u"{}".format(friction_angle))
         self.label_textPropertiesP.setText(u"{}".format(density))   
         self.label_textPropertiesPsi.setText(u"{}".format(angle_dilatancy))
-
+        
+        
+        
+    def showHideProperties(self, value:bool):
+        self.__card_show_data_property = not value       
+        self.__clickedToolButtonPropertiesShow()
+            
+            
+           
 
 
 

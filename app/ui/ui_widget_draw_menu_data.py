@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_dataJjIXTd.ui'
+## Form generated from reading UI file 'widget_draw_menu_datatYmoHs.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##

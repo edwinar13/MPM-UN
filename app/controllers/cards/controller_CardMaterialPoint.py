@@ -14,10 +14,14 @@ class ControllerCardMaterialPoint(QObject):
         super().__init__()
         self.model_project_current = model_project_current
         self.model_point_material = model_point_material    
-        #return[self.__id,self.__name, self.__color, self.__points, self.__volumes, self.__property, self.__mesh_base]  
-        self.id, self.name, self.color, self.points,self.__volumes , self.name_property, self.mesh_base = model_point_material.getData()
-       
 
+        data = self.model_point_material.getData()
+        self.id = list(data.keys())[0]
+        self.name = data[self.id]["NAME"]
+        self.name_property = self.model_point_material.getProperty()
+        self.color = self.name_property.getColor()
+        self.mesh_base = self.model_point_material.getMeshBase()
+        
         self.__initCard()
         self.__initEvent()
 
@@ -64,7 +68,6 @@ class ControllerCardMaterialPoint(QObject):
     @Slot()
     def updateMaterialPoint(self):
         self.name = self.view_card_material_point.getName()
-        self.color = self.view_card_material_point.getColor()
         self.id_property, self.name_property = self.view_card_material_point.getProperty()
 
         property_ = self.model_project_current.getModelsProperties()[self.id_property]
@@ -72,17 +75,23 @@ class ControllerCardMaterialPoint(QObject):
         self.model_point_material.updateMaterialPoint(
             id_MP= self.id,
             name=self.name,
-            color=self.color,
             property=property_,
             mesh_base=self.mesh_base
             )
+        self.setColor()
         self.signal_edit_material_point.emit()
-
+        
 
     def setListPropertiesViews(self, properties_data):   
         self.name_property = self.model_point_material.getProperty().getName()
         self.view_card_material_point.setListProperties(properties_data=properties_data, selected_property=self.name_property)     
-
+    
+    def setColor(self):
+        
+        color = self.model_point_material.getProperty().getColor()
+        self.view_card_material_point.setColor(color)
+        self.model_point_material.setColorItem(color)
+        
     def setListBaseMeshViews(self):  
         name_mesh = self.mesh_base.getName()        
         self.view_card_material_point.setBaseMesh(name_mesh=name_mesh)

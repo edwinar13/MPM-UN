@@ -40,7 +40,8 @@ class ControllerMenuData(QObject):
     
     def configDrawMenuData(self):
         dataInfo = self.model_current_project.getDataInfo()
-        dataConf = self.model_current_project.getDataConfig()
+        dataConf = [self.model_current_project.getGravity(),
+                    self.model_current_project.getDampfac()]
         self.view_menu_data.setTextWidget(dataInfo, dataConf)
 
     def getView(self):
@@ -90,6 +91,8 @@ class ControllerMenuData(QObject):
             
         elif name_attribute == "dampfac":
             self.model_current_project.updateConfig(dampfac=value_input)
+        
+
     
     @Slot(str)
     def paintDrawCommand(self, command:str):           

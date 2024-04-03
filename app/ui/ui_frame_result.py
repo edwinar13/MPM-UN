@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_resultZoKDHC.ui'
+## Form generated from reading UI file 'frame_resultJLOSat.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -897,8 +897,8 @@ class Ui_FormResult(object):
         self.verticalLayout_3.addLayout(self.horizontalLayout_9)
 
         self.tableWidget_tableResult = QTableWidget(self.tab_3)
-        if (self.tableWidget_tableResult.columnCount() < 10):
-            self.tableWidget_tableResult.setColumnCount(10)
+        if (self.tableWidget_tableResult.columnCount() < 12):
+            self.tableWidget_tableResult.setColumnCount(12)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget_tableResult.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -919,12 +919,16 @@ class Ui_FormResult(object):
         self.tableWidget_tableResult.setHorizontalHeaderItem(8, __qtablewidgetitem8)
         __qtablewidgetitem9 = QTableWidgetItem()
         self.tableWidget_tableResult.setHorizontalHeaderItem(9, __qtablewidgetitem9)
+        __qtablewidgetitem10 = QTableWidgetItem()
+        self.tableWidget_tableResult.setHorizontalHeaderItem(10, __qtablewidgetitem10)
+        __qtablewidgetitem11 = QTableWidgetItem()
+        self.tableWidget_tableResult.setHorizontalHeaderItem(11, __qtablewidgetitem11)
         self.tableWidget_tableResult.setObjectName(u"tableWidget_tableResult")
         self.tableWidget_tableResult.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidget_tableResult.setAlternatingRowColors(True)
         self.tableWidget_tableResult.setSelectionMode(QAbstractItemView.ContiguousSelection)
         self.tableWidget_tableResult.setRowCount(0)
-        self.tableWidget_tableResult.setColumnCount(10)
+        self.tableWidget_tableResult.setColumnCount(12)
         self.tableWidget_tableResult.setProperty("QTableWidgetStyle", 1)
         self.tableWidget_tableResult.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget_tableResult.horizontalHeader().setProperty("showSortIndicator", False)
@@ -975,6 +979,10 @@ class Ui_FormResult(object):
         ___qtablewidgetitem8.setText(QCoreApplication.translate("FormResult", u"epsyy", None));
         ___qtablewidgetitem9 = self.tableWidget_tableResult.horizontalHeaderItem(9)
         ___qtablewidgetitem9.setText(QCoreApplication.translate("FormResult", u"epsxy", None));
+        ___qtablewidgetitem10 = self.tableWidget_tableResult.horizontalHeaderItem(10)
+        ___qtablewidgetitem10.setText(QCoreApplication.translate("FormResult", u"velx", None));
+        ___qtablewidgetitem11 = self.tableWidget_tableResult.horizontalHeaderItem(11)
+        ___qtablewidgetitem11.setText(QCoreApplication.translate("FormResult", u"vely", None));
 #if QT_CONFIG(tooltip)
         self.tableWidget_tableResult.setToolTip("")
 #endif // QT_CONFIG(tooltip)

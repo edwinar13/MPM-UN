@@ -1,6 +1,8 @@
 from PySide6.QtCore import ( Slot)
 from views.view_PageSetting import ViewPageSetting
 from models.model_SettingApp import ModelSettingApp
+
+from config import config_manager
 #from clases.Controlador.controller_MainWindow import ControllerMainWindow
 
  
@@ -15,8 +17,10 @@ class ControllerPageSetting():
 
         self.view_page_setting.signal_update_setting.connect(self.updateSetting)  
 
-
-        self.view_page_setting.iniSetting(self.getSetting())
+        setting_app = self.getSetting()
+        self.view_page_setting.iniSetting(setting_app)
+        self.setTheme()
+        
 
 
     def getView(self):
@@ -32,7 +36,11 @@ class ControllerPageSetting():
          
         self.model_setting_app.updateSetting(setting_update)
 
-        if setting_update["setting"] == "style_view_scene" or setting_update["setting"] == "crosshair_size"  or setting_update["setting"] == "pick_box_size"  or setting_update["setting"] == "grid_adaptative" or setting_update["setting"] == "grid_spacing" or setting_update["setting"] == "snap_grid_adaptative" or setting_update["setting"] == "snap_grid_spacing":
+        if setting_update["setting"] == "style_view_scene" :
+            self.controller_main.settingDraw(setting_update)    
+            self.setTheme()
+            
+        if setting_update["setting"] == "crosshair_size"  or setting_update["setting"] == "pick_box_size"  or setting_update["setting"] == "grid_adaptative" or setting_update["setting"] == "grid_spacing" or setting_update["setting"] == "snap_grid_adaptative" or setting_update["setting"] == "snap_grid_spacing":
             self.controller_main.settingDraw(setting_update)    
 
         if setting_update["setting"] == "check_auto_save":
@@ -54,6 +62,17 @@ class ControllerPageSetting():
 
     def changeTheme(self):
         self.view_page_setting.changeTheme()
+        self.setTheme()
+    
+    def setTheme(self):
+        index = self.view_page_setting.getTheme()
+        
+        if index == 0:
+            theme = "light"
+        else:
+            theme = "dark"        
+        config_manager.setTheme( theme=theme)
+        
 
 
 

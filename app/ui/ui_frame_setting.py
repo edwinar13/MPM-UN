@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_settingPjUjeG.ui'
+## Form generated from reading UI file 'frame_settingfkhjsm.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -225,7 +225,6 @@ class Ui_FormSetting(object):
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.comboBox_3 = QComboBox(self.frame_settingCard_3)
-        self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.comboBox_3.setObjectName(u"comboBox_3")
@@ -1010,7 +1009,6 @@ class Ui_FormSetting(object):
         self.label_settingDescription_3.setText(QCoreApplication.translate("FormSetting", u"Estilo de colores para la vista de dibujo", None))
         self.comboBox_3.setItemText(0, QCoreApplication.translate("FormSetting", u"Claro", None))
         self.comboBox_3.setItemText(1, QCoreApplication.translate("FormSetting", u"Gris", None))
-        self.comboBox_3.setItemText(2, QCoreApplication.translate("FormSetting", u"Oscuro", None))
 
         self.comboBox_3.setCurrentText(QCoreApplication.translate("FormSetting", u"Claro", None))
         self.label_settingSubtitle_a_4.setText(QCoreApplication.translate("FormSetting", u"Grilla", None))

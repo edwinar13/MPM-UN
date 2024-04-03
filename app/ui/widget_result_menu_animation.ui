@@ -1072,6 +1072,16 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                       <string>epsxy</string>
                      </property>
                     </item>
+                    <item>
+                     <property name="text">
+                      <string>velx</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>vely</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                   <item row="1" column="0">
@@ -1889,7 +1899,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                      <number>1</number>
                     </property>
                     <property name="value">
-                     <number>5</number>
+                     <number>12</number>
                     </property>
                     <property name="displayIntegerBase">
                      <number>10</number>

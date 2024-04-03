@@ -413,14 +413,15 @@ class ViewMainWindow(QMainWindow):
     def __triggeredActionNuevoProyecto(self):
         """ Abre cuadro de dialogo para nuevo proyecto. """
         options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files mpm (*.mpm)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
         if file_path:
             self.signal_new_project.emit(file_path)
    
     def __triggeredActionAbrirProyecto(self):
         """ Abre cuadro de dialogo para abrir proyecto. """
         options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files mpm (*.mpm)", options=options)
+        # archivos mpm y json
+        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
         if file_path:
             self.signal_open_project.emit(file_path)
 
@@ -433,7 +434,7 @@ class ViewMainWindow(QMainWindow):
         """ Guarda en ruta diferente el proyecto """
 
         options = QFileDialog.Options()
-        new_path_file, _ = QFileDialog.getSaveFileName(self,"Guardar proyecto como","","Data files mpm (*.mpm)", options=options)
+        new_path_file, _ = QFileDialog.getSaveFileName(self,"Guardar proyecto como","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
         if new_path_file:
             self.signal_action_menu_saveAs.emit(new_path_file)
 

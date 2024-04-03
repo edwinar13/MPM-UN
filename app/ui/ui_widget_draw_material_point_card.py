@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_material_point_cardGyajkI.ui'
+## Form generated from reading UI file 'widget_draw_material_point_cardVaXQHj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -200,16 +200,6 @@ class Ui_FormDrawMaterialPointCard(object):
 
         self.horizontalLayout.addWidget(self.frame_color)
 
-        self.toolButton_colorMaterialPoint = QToolButton(self.frame_card)
-        self.toolButton_colorMaterialPoint.setObjectName(u"toolButton_colorMaterialPoint")
-        icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_colorMaterialPoint.setIcon(icon)
-        self.toolButton_colorMaterialPoint.setIconSize(QSize(20, 20))
-        self.toolButton_colorMaterialPoint.setArrowType(Qt.NoArrow)
-
-        self.horizontalLayout.addWidget(self.toolButton_colorMaterialPoint)
-
         self.label_cardNameMaterialPoint = QLabel(self.frame_card)
         self.label_cardNameMaterialPoint.setObjectName(u"label_cardNameMaterialPoint")
         sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
@@ -250,9 +240,9 @@ class Ui_FormDrawMaterialPointCard(object):
         font.setPointSize(7)
         self.toolButton_okMaterialPoint.setFont(font)
         self.toolButton_okMaterialPoint.setStyleSheet(u"")
-        icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_okMaterialPoint.setIcon(icon1)
+        icon = QIcon()
+        icon.addFile(u"app/resources/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_okMaterialPoint.setIcon(icon)
         self.toolButton_okMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_okMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_okMaterialPoint.setProperty("style_material_point_card_button", 1)
@@ -267,9 +257,9 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_exitMaterialPoint.setMaximumSize(QSize(25, 25))
         self.toolButton_exitMaterialPoint.setFont(font)
         self.toolButton_exitMaterialPoint.setStyleSheet(u"")
-        icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_exitMaterialPoint.setIcon(icon2)
+        icon1 = QIcon()
+        icon1.addFile(u"app/resources/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_exitMaterialPoint.setIcon(icon1)
         self.toolButton_exitMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_exitMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_exitMaterialPoint.setProperty("style_material_point_card_button", 1)
@@ -284,9 +274,9 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_editMaterialPoint.setMaximumSize(QSize(25, 25))
         self.toolButton_editMaterialPoint.setFont(font)
         self.toolButton_editMaterialPoint.setStyleSheet(u"")
-        icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_editMaterialPoint.setIcon(icon3)
+        icon2 = QIcon()
+        icon2.addFile(u"app/resources/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_editMaterialPoint.setIcon(icon2)
         self.toolButton_editMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_editMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_editMaterialPoint.setProperty("style_material_point_card_button", 1)
@@ -304,31 +294,31 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_showHideMaterialPoint.setMaximumSize(QSize(25, 25))
         self.toolButton_showHideMaterialPoint.setFont(font)
         self.toolButton_showHideMaterialPoint.setStyleSheet(u"")
-        icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_showHideMaterialPoint.setIcon(icon4)
+        icon3 = QIcon()
+        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideMaterialPoint.setIcon(icon3)
         self.toolButton_showHideMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_showHideMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toolButton_showHideMaterialPoint.setProperty("style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_showHideMaterialPoint)
 
-        self.toolButton_closeMaterialPoint = QToolButton(self.frame_card)
-        self.toolButton_closeMaterialPoint.setObjectName(u"toolButton_closeMaterialPoint")
-        sizePolicy3.setHeightForWidth(self.toolButton_closeMaterialPoint.sizePolicy().hasHeightForWidth())
-        self.toolButton_closeMaterialPoint.setSizePolicy(sizePolicy3)
-        self.toolButton_closeMaterialPoint.setMinimumSize(QSize(25, 25))
-        self.toolButton_closeMaterialPoint.setMaximumSize(QSize(25, 25))
-        self.toolButton_closeMaterialPoint.setFont(font)
-        self.toolButton_closeMaterialPoint.setStyleSheet(u"")
-        icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_closeMaterialPoint.setIcon(icon5)
-        self.toolButton_closeMaterialPoint.setIconSize(QSize(15, 15))
-        self.toolButton_closeMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_closeMaterialPoint.setProperty("style_material_point_card_button", 1)
+        self.toolButton_deleteMaterialPoint = QToolButton(self.frame_card)
+        self.toolButton_deleteMaterialPoint.setObjectName(u"toolButton_deleteMaterialPoint")
+        sizePolicy3.setHeightForWidth(self.toolButton_deleteMaterialPoint.sizePolicy().hasHeightForWidth())
+        self.toolButton_deleteMaterialPoint.setSizePolicy(sizePolicy3)
+        self.toolButton_deleteMaterialPoint.setMinimumSize(QSize(25, 25))
+        self.toolButton_deleteMaterialPoint.setMaximumSize(QSize(25, 25))
+        self.toolButton_deleteMaterialPoint.setFont(font)
+        self.toolButton_deleteMaterialPoint.setStyleSheet(u"")
+        icon4 = QIcon()
+        icon4.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_deleteMaterialPoint.setIcon(icon4)
+        self.toolButton_deleteMaterialPoint.setIconSize(QSize(15, 15))
+        self.toolButton_deleteMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_deleteMaterialPoint.setProperty("style_material_point_card_button", 1)
 
-        self.horizontalLayout.addWidget(self.toolButton_closeMaterialPoint)
+        self.horizontalLayout.addWidget(self.toolButton_deleteMaterialPoint)
 
 
         self.verticalLayout.addWidget(self.frame_card)
@@ -383,15 +373,13 @@ class Ui_FormDrawMaterialPointCard(object):
 
     def retranslateUi(self, FormDrawMaterialPointCard):
         FormDrawMaterialPointCard.setWindowTitle(QCoreApplication.translate("FormDrawMaterialPointCard", u"Form", None))
-        self.toolButton_colorMaterialPoint.setText("")
-        self.toolButton_colorMaterialPoint.setProperty("style_material_point_card_button", QCoreApplication.translate("FormDrawMaterialPointCard", u"1", None))
         self.label_cardNameMaterialPoint.setText(QCoreApplication.translate("FormDrawMaterialPointCard", u"Material. Point 1", None))
         self.lineEdit_nameMaterialPoint.setText("")
         self.toolButton_okMaterialPoint.setText("")
         self.toolButton_exitMaterialPoint.setText("")
         self.toolButton_editMaterialPoint.setText("")
         self.toolButton_showHideMaterialPoint.setText("")
-        self.toolButton_closeMaterialPoint.setText("")
+        self.toolButton_deleteMaterialPoint.setText("")
         self.label_textPointMaterialProperty.setText(QCoreApplication.translate("FormDrawMaterialPointCard", u"Material:", None))
         self.label_textPointMateriallabel.setText(QCoreApplication.translate("FormDrawMaterialPointCard", u"Malla:", None))
         self.label_textPointMaterialMesh.setText("")

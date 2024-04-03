@@ -1074,7 +1074,7 @@ naranjas #D34E24 #F28123 #F7F052
             <number>0</number>
            </property>
            <property name="columnCount">
-            <number>10</number>
+            <number>12</number>
            </property>
            <property name="QTableWidgetStyle" stdset="0">
             <number>1</number>
@@ -1139,6 +1139,16 @@ naranjas #D34E24 #F28123 #F7F052
            <column>
             <property name="text">
              <string>epsxy</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>velx</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>vely</string>
             </property>
            </column>
           </widget>

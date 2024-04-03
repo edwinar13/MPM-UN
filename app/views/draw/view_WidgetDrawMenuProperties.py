@@ -1,13 +1,16 @@
 
 from PySide6.QtCore import ( Signal, QSize,QTimer)
-from PySide6.QtGui import (QIcon, QFont)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy)
+from PySide6.QtGui import (QIcon, QFont, QColor)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
+
 from ui.ui_widget_draw_menu_properties import Ui_FormDrawMenuProperties
 from utils import class_general
 
 
 class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
     signal_new_property= Signal() 
+    signal_show_hide_properties = Signal(bool)
+    
     def __init__(self):
         super(ViewWidgetDrawMenuProperties, self).__init__()
         self.setupUi(self)
@@ -16,6 +19,9 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.__hide_show_frame_properties_1=True
         self.__hide_show_frame_properties_2=True
 
+        self.__hide_show_properties = True        
+        
+        self.__color_property = None
         self.list_view_card =[]
 
         # Configura la UI
@@ -34,6 +40,14 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.icon_maximize = QIcon()
         self.icon_maximize.addFile(u"app/resources/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
         
+                        
+        self.icon_show_properties = QIcon()
+        self.icon_show_properties.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+        self.icon_hide_properties = QIcon()
+        self.icon_hide_properties.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+                
+        '''
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('INFORMACIÓN DEL PROYECTO')
         self.label_lat.setFont(QFont('Ubuntu', 9))
@@ -44,6 +58,7 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.label_lat.setVisible(False)
         
          #self.toolButton_updateData.setVisible(False)
+        '''
         
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('MATERIALES')
@@ -62,9 +77,10 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardPropertiesSubTitle1.clicked.connect(self.__clickedToolButtonCardPropertiesSubTitle1)
         self.toolButton_cardPropertiesSubTitle2.clicked.connect(self.__clickedToolButtonCardPropertiesSubTitle2)
+        self.toolButton_showHideProperties.clicked.connect(self.__clickedToolButtonShowHideProperties)
         # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
         self.lineEdit_textPropertiesName.editingFinished.connect(self.__editingFinishedLineEditPropertiesName)
-
+        self.toolButton_PropertiesColor.clicked.connect(self.__clickedToolButtonPropertiesColorPicker)
         self.toolButton_PropertiesCancel.clicked.connect(self.__clickedToolButtonPropertiesCancel)
         self.toolButton_PropertiesCreateProperty.clicked.connect(self.__clickedToolButtonPropertiesCreateProperty)
 
@@ -108,6 +124,19 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
             self.__hide_show_frame_properties_2 = True
             self.toolButton_cardPropertiesSubTitle2.setIcon(self.icon_minimize)
             self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+            
+            
+    def __clickedToolButtonShowHideProperties(self):
+        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
+        if self.__hide_show_properties == True:
+            self.__hide_show_properties = False
+            self.signal_show_hide_properties.emit(self.__hide_show_properties)
+            self.toolButton_showHideProperties.setIcon(self.icon_hide_properties)
+            
+        elif self.__hide_show_properties == False:  
+            self.__hide_show_properties = True
+            self.signal_show_hide_properties.emit(self.__hide_show_properties)
+            self.toolButton_showHideProperties.setIcon(self.icon_show_properties)
 
 
     # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
@@ -122,6 +151,11 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.label_msn.setText("Empty")
         self.label_msn.setStyleSheet("color: #333333") 
           
+    def __clickedToolButtonPropertiesColorPicker(self):
+        color = QColorDialog.getColor(initial=QColor(100 ,100, 100))
+        if color.isValid():
+            self.__color_property=color.name()
+            self.lineEdit_textPropertiesColor.setStyleSheet('background-color : {}'.format(self.__color_property))
 
     def __clickedToolButtonPropertiesCancel(self):
         self.endProperty()
@@ -136,6 +170,9 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
 
     def getName (self):        
         return self.lineEdit_textPropertiesName.text()
+    
+    def getColor(self):     
+        return self.__color_property
     
     
     def getPropertiesE (self):
@@ -182,6 +219,8 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.doubleSpinBoxl_textPropertiesC.setValue(5)
         self.doubleSpinBoxl_textPropertiesPhi.setValue(1000)
         self.doubleSpinBoxl_textPropertiesPsi.setValue(5)
+        self.__color_property = None
+        self.lineEdit_textPropertiesColor.setStyleSheet('background-color : #333333')
         
 
     ###############################################################################
@@ -203,6 +242,18 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
 
 
 
+    def msnAlertColor(self, error, msn=""):
+        if not error:
+            self.lineEdit_textPropertiesColor.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_property))
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            
+        else:
+            self.lineEdit_textPropertiesColor.setFocus()
+            self.lineEdit_textPropertiesColor.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
 
     def msnAlertDefault(self, msn=""):

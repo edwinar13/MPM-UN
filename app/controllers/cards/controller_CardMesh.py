@@ -15,7 +15,34 @@ class ControllerCardMesh(QObject):
 
         self.model_mesh = model_mesh
         self.model_current_project = model_current_project
-        self.id, self.name, self.color, self.points, self.elements = model_mesh.getData()
+        
+        '''
+        data =
+                {
+            "c88150a3-9171-4560-ab52-fc346c87c02d":        {
+                "NAME": "Malla cuadrilatera",
+                "COLOR": "#414ac8",
+                "NODES": {
+                    "NODE#1": { "COORDINATES": [2.0, 1.0] },
+                    ...
+                },
+                "ELEMENTS": {
+                    "ELEMENT#1": ["NODE#0", "NODE#1", "NODE#4", "NODE#3"],
+                    ...
+                }
+            }
+        }
+        '''
+        data  = model_mesh.getData()       
+        
+        self.id = list(data.keys())[0]
+        self.name = data[self.id]["NAME"]
+        self.color = data[self.id]["COLOR"]
+        self.points = data[self.id]["NODES"]
+        self.elements  = data[self.id]["ELEMENTS"]
+        
+        
+        
         if  isinstance(model_mesh, ModelMeshTriangle):
             self.type = "TRIANGLE"
             

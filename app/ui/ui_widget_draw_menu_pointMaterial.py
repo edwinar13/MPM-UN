@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_pointMaterialpbLbgJ.ui'
+## Form generated from reading UI file 'widget_draw_menu_pointMaterialKsdlYP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -24,7 +24,7 @@ class Ui_FormDrawMenuPointMaterial(object):
     def setupUi(self, FormDrawMenuPointMaterial):
         if not FormDrawMenuPointMaterial.objectName():
             FormDrawMenuPointMaterial.setObjectName(u"FormDrawMenuPointMaterial")
-        FormDrawMenuPointMaterial.resize(350, 644)
+        FormDrawMenuPointMaterial.resize(350, 802)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -371,10 +371,30 @@ class Ui_FormDrawMenuPointMaterial(object):
 "}\n"
 "\n"
 "\n"
+"QToolButton[QToolButtonStyle=\"4\"]{\n"
+"\n"
+"background-color: #77ACA2;\n"
+"border: 1px solid #222222;\n"
+"border-radius: 3px;\n"
+"margin-left: 4px;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"4\"]:hover{ \n"
+"background-color: #444444;\n"
+"}\n"
+"\n"
+"QToolButton[QToolButtonStyle=\"4\"]:pressed{\n"
+"border-top: 2px solid #222222;\n"
+"border-left: 2px solid #222222;\n"
+"}  \n"
+"\n"
+"\n"
+"\n"
 "\n"
 "/* \n"
 "Azules #36C9C6 #00BDB9 #77ACA2\n"
-"rojos #910D3F #C70039 #F94646\n"
+"rojos #910D3F #C70039 #F94"
+                        "646\n"
 "naranjas #D34E24 #F28123 #F7F052\n"
 "*/\n"
 "/*******************************************/\n"
@@ -388,8 +408,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 "    \n"
 "}\n"
 "\n"
-"QToolButton[Q"
-                        "ToolButtonStyle=\"5\"] {\n"
+"QToolButton[QToolButtonStyle=\"5\"] {\n"
 "    background-color: transparent;    \n"
 "	border-top-left-radius: 10px;\n"
 "	border-top-right-radius: 0px;\n"
@@ -410,7 +429,8 @@ class Ui_FormDrawMenuPointMaterial(object):
 "QToolButton[QToolButtonStyle=\"7\"] {\n"
 "    background-color: transparent;\n"
 "	border-top-left-radius: 0px;\n"
-"	border-top-right-radius: 10px;\n"
+"	border"
+                        "-top-right-radius: 10px;\n"
 "	border-bottom-right-radius: 10px;\n"
 "	border-bottom-left-radius: 0px;\n"
 "	color: #DDDDDD;\n"
@@ -426,8 +446,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 "}\n"
 "\n"
 "\n"
-"/"
-                        "*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "\n"
 "\n"
@@ -446,7 +465,8 @@ class Ui_FormDrawMenuPointMaterial(object):
 "font: 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "background-color: #333333;\n"
-"border: 1px solid #444444;\n"
+"border"
+                        ": 1px solid #444444;\n"
 "border-radius: 2px ;\n"
 "padding-right: 6px;\n"
 "padding-left: 6px;\n"
@@ -469,8 +489,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 "\n"
 "/*\n"
 "QLineEdit#lineEdit_textMesh3,\n"
-""
-                        "QLineEdit#lineEdit_textMesh5{\n"
+"QLineEdit#lineEdit_textMesh5{\n"
 "color: #888888;\n"
 "}\n"
 "*/\n"
@@ -483,7 +502,8 @@ class Ui_FormDrawMenuPointMaterial(object):
 "border-radius:2px;\n"
 "}\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QToolButton[QToolButtonSubTitleStyle=\"1\"] {\n"
 "background-color: transparent;\n"
@@ -493,8 +513,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QLabel[QLabelStyle=\"1\"] {\n"
 "font: 700 9pt \"Ubuntu\";\n"
@@ -513,7 +532,8 @@ class Ui_FormDrawMenuPointMaterial(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QComboBox[QComboBoxStyle=\"1\"] {\n"
 "    border: none;\n"
 "    background-color: #444444;\n"
@@ -524,8 +544,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 "    selection-background-color: #808080;\n"
 "}\n"
 "QComboBox[QComboBoxStyle=\"1\"] QAbstractItemView {\n"
-"    border: none"
-                        ";\n"
+"    border: none;\n"
 "    background-color: #404040;\n"
 "    color: white;\n"
 "    selection-background-color: #808080;\n"
@@ -542,7 +561,8 @@ class Ui_FormDrawMenuPointMaterial(object):
 "    }\n"
 "\n"
 "    QSlider[QSliderStyle=\"1\"]::groove:horizontal {\n"
-"        border: none;\n"
+""
+                        "        border: none;\n"
 "        background-color: #444444;\n"
 "        height: 18px;\n"
 "		border-radius: 9px;\n"
@@ -557,8 +577,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 "        border-radius: 9px;\n"
 "    }\n"
 "\n"
-"QSlider[QSliderStyle=\"1\"]:"
-                        ":handle:horizontal:hover {\n"
+"QSlider[QSliderStyle=\"1\"]::handle:horizontal:hover {\n"
 "    background-color: #fecdcd;\n"
 "    /*box-shadow: 0 0 3px rgba(255, 0, 0, 0.5); */\n"
 "}\n"
@@ -743,74 +762,12 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.lineEdit_textPointMaterialName)
 
-        self.label_textPointMaterialColor = QLabel(self.frame_3)
-        self.label_textPointMaterialColor.setObjectName(u"label_textPointMaterialColor")
-        self.label_textPointMaterialColor.setMinimumSize(QSize(110, 0))
-        self.label_textPointMaterialColor.setProperty("QLabelStyle", 3)
+        self.label_textPointMaterialBaseMesh = QLabel(self.frame_3)
+        self.label_textPointMaterialBaseMesh.setObjectName(u"label_textPointMaterialBaseMesh")
+        self.label_textPointMaterialBaseMesh.setMinimumSize(QSize(110, 0))
+        self.label_textPointMaterialBaseMesh.setProperty("QLabelStyle", 3)
 
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_textPointMaterialColor)
-
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setSpacing(0)
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.lineEdit_textPointMaterialColor = QLineEdit(self.frame_3)
-        self.lineEdit_textPointMaterialColor.setObjectName(u"lineEdit_textPointMaterialColor")
-        self.lineEdit_textPointMaterialColor.setEnabled(False)
-        self.lineEdit_textPointMaterialColor.setMinimumSize(QSize(120, 25))
-        self.lineEdit_textPointMaterialColor.setMaximumSize(QSize(16777215, 16777215))
-        palette = QPalette()
-        brush = QBrush(QColor(221, 221, 221, 255))
-        brush.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
-        brush1 = QBrush(QColor(51, 51, 51, 255))
-        brush1.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Active, QPalette.Button, brush1)
-        palette.setBrush(QPalette.Active, QPalette.Text, brush)
-        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush)
-        palette.setBrush(QPalette.Active, QPalette.Base, brush1)
-        palette.setBrush(QPalette.Active, QPalette.Window, brush1)
-        brush2 = QBrush(QColor(221, 221, 221, 128))
-        brush2.setStyle(Qt.SolidPattern)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush2)
-#endif
-        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
-        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
-        palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush2)
-#endif
-        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
-        palette.setBrush(QPalette.Disabled, QPalette.Text, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
-        palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush2)
-#endif
-        self.lineEdit_textPointMaterialColor.setPalette(palette)
-        self.lineEdit_textPointMaterialColor.setStyleSheet(u"")
-        self.lineEdit_textPointMaterialColor.setProperty("QLineEditStyle", 2)
-
-        self.horizontalLayout_9.addWidget(self.lineEdit_textPointMaterialColor)
-
-        self.toolButton_PointMaterialColor = QToolButton(self.frame_3)
-        self.toolButton_PointMaterialColor.setObjectName(u"toolButton_PointMaterialColor")
-        icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_PointMaterialColor.setIcon(icon2)
-        self.toolButton_PointMaterialColor.setIconSize(QSize(20, 20))
-        self.toolButton_PointMaterialColor.setArrowType(Qt.NoArrow)
-        self.toolButton_PointMaterialColor.setProperty("QToolButtonStyle", 1)
-
-        self.horizontalLayout_9.addWidget(self.toolButton_PointMaterialColor)
-
-
-        self.formLayout_3.setLayout(2, QFormLayout.FieldRole, self.horizontalLayout_9)
+        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_textPointMaterialBaseMesh)
 
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setSpacing(0)
@@ -824,14 +781,29 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.horizontalLayout_11.addWidget(self.comboBox_PointMaterialBaseMesh)
 
 
-        self.formLayout_3.setLayout(3, QFormLayout.FieldRole, self.horizontalLayout_11)
+        self.formLayout_3.setLayout(2, QFormLayout.FieldRole, self.horizontalLayout_11)
+
+        self.label_textPointMaterialProperty = QLabel(self.frame_3)
+        self.label_textPointMaterialProperty.setObjectName(u"label_textPointMaterialProperty")
+        self.label_textPointMaterialProperty.setMinimumSize(QSize(110, 0))
+        self.label_textPointMaterialProperty.setProperty("QLabelStyle", 3)
+
+        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_textPointMaterialProperty)
+
+        self.comboBox_PointMaterialProperty = QComboBox(self.frame_3)
+        self.comboBox_PointMaterialProperty.setObjectName(u"comboBox_PointMaterialProperty")
+        self.comboBox_PointMaterialProperty.setMinimumSize(QSize(0, 25))
+        self.comboBox_PointMaterialProperty.setFocusPolicy(Qt.WheelFocus)
+        self.comboBox_PointMaterialProperty.setProperty("QComboBoxStyle", 1)
+
+        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.comboBox_PointMaterialProperty)
 
         self.label_textPointMaterialNPoints = QLabel(self.frame_3)
         self.label_textPointMaterialNPoints.setObjectName(u"label_textPointMaterialNPoints")
         self.label_textPointMaterialNPoints.setMinimumSize(QSize(110, 0))
         self.label_textPointMaterialNPoints.setProperty("QLabelStyle", 3)
 
-        self.formLayout_3.setWidget(5, QFormLayout.LabelRole, self.label_textPointMaterialNPoints)
+        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_textPointMaterialNPoints)
 
         self.frame = QFrame(self.frame_3)
         self.frame.setObjectName(u"frame")
@@ -851,29 +823,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.horizontalLayout_10.addWidget(self.comboBox_PointMaterialNPoints)
 
 
-        self.formLayout_3.setWidget(5, QFormLayout.FieldRole, self.frame)
-
-        self.label_textPointMaterialBaseMesh = QLabel(self.frame_3)
-        self.label_textPointMaterialBaseMesh.setObjectName(u"label_textPointMaterialBaseMesh")
-        self.label_textPointMaterialBaseMesh.setMinimumSize(QSize(110, 0))
-        self.label_textPointMaterialBaseMesh.setProperty("QLabelStyle", 3)
-
-        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_textPointMaterialBaseMesh)
-
-        self.label_textPointMaterialProperty = QLabel(self.frame_3)
-        self.label_textPointMaterialProperty.setObjectName(u"label_textPointMaterialProperty")
-        self.label_textPointMaterialProperty.setMinimumSize(QSize(110, 0))
-        self.label_textPointMaterialProperty.setProperty("QLabelStyle", 3)
-
-        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_textPointMaterialProperty)
-
-        self.comboBox_PointMaterialProperty = QComboBox(self.frame_3)
-        self.comboBox_PointMaterialProperty.setObjectName(u"comboBox_PointMaterialProperty")
-        self.comboBox_PointMaterialProperty.setMinimumSize(QSize(0, 25))
-        self.comboBox_PointMaterialProperty.setFocusPolicy(Qt.WheelFocus)
-        self.comboBox_PointMaterialProperty.setProperty("QComboBoxStyle", 1)
-
-        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.comboBox_PointMaterialProperty)
+        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.frame)
 
 
         self.verticalLayout_6.addWidget(self.frame_3)
@@ -912,6 +862,226 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.verticalLayout_5.addWidget(self.frame_materialPoint2)
 
+        self.frame_PointMaterialSubTitle3 = QFrame(self.frame_info)
+        self.frame_PointMaterialSubTitle3.setObjectName(u"frame_PointMaterialSubTitle3")
+        self.frame_PointMaterialSubTitle3.setFrameShape(QFrame.StyledPanel)
+        self.frame_PointMaterialSubTitle3.setFrameShadow(QFrame.Raised)
+        self.frame_PointMaterialSubTitle3.setProperty("QFrameSubTitleStyle", 1)
+        self.horizontalLayout_4 = QHBoxLayout(self.frame_PointMaterialSubTitle3)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(10, 0, 0, 0)
+        self.label_cardPointMaterialSubTitle3 = QLabel(self.frame_PointMaterialSubTitle3)
+        self.label_cardPointMaterialSubTitle3.setObjectName(u"label_cardPointMaterialSubTitle3")
+        self.label_cardPointMaterialSubTitle3.setMinimumSize(QSize(262, 0))
+        self.label_cardPointMaterialSubTitle3.setProperty("QLabelStyle", 2)
+
+        self.horizontalLayout_4.addWidget(self.label_cardPointMaterialSubTitle3)
+
+        self.toolButton_showHideLabelVector = QToolButton(self.frame_PointMaterialSubTitle3)
+        self.toolButton_showHideLabelVector.setObjectName(u"toolButton_showHideLabelVector")
+        icon2 = QIcon()
+        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideLabelVector.setIcon(icon2)
+        self.toolButton_showHideLabelVector.setArrowType(Qt.NoArrow)
+        self.toolButton_showHideLabelVector.setProperty("QToolButtonSubTitleStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.toolButton_showHideLabelVector)
+
+        self.toolButton_cardPointMaterialSubTitle3 = QToolButton(self.frame_PointMaterialSubTitle3)
+        self.toolButton_cardPointMaterialSubTitle3.setObjectName(u"toolButton_cardPointMaterialSubTitle3")
+        self.toolButton_cardPointMaterialSubTitle3.setIcon(icon1)
+        self.toolButton_cardPointMaterialSubTitle3.setArrowType(Qt.NoArrow)
+        self.toolButton_cardPointMaterialSubTitle3.setProperty("QToolButtonSubTitleStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.toolButton_cardPointMaterialSubTitle3)
+
+
+        self.verticalLayout_5.addWidget(self.frame_PointMaterialSubTitle3)
+
+        self.frame_materialPoint4 = QFrame(self.frame_info)
+        self.frame_materialPoint4.setObjectName(u"frame_materialPoint4")
+        sizePolicy1.setHeightForWidth(self.frame_materialPoint4.sizePolicy().hasHeightForWidth())
+        self.frame_materialPoint4.setSizePolicy(sizePolicy1)
+        self.frame_materialPoint4.setFrameShape(QFrame.StyledPanel)
+        self.frame_materialPoint4.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_7 = QVBoxLayout(self.frame_materialPoint4)
+        self.verticalLayout_7.setSpacing(15)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.frame_4 = QFrame(self.frame_materialPoint4)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setStyleSheet(u"")
+        self.frame_4.setFrameShape(QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QFrame.Raised)
+        self.formLayout_4 = QFormLayout(self.frame_4)
+        self.formLayout_4.setObjectName(u"formLayout_4")
+        self.formLayout_4.setHorizontalSpacing(0)
+        self.formLayout_4.setVerticalSpacing(6)
+        self.formLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.label_textPM4 = QLabel(self.frame_4)
+        self.label_textPM4.setObjectName(u"label_textPM4")
+        self.label_textPM4.setMinimumSize(QSize(110, 0))
+        self.label_textPM4.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_textPM4)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setSpacing(0)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.lineEdit_textMPSelected = QLineEdit(self.frame_4)
+        self.lineEdit_textMPSelected.setObjectName(u"lineEdit_textMPSelected")
+        self.lineEdit_textMPSelected.setEnabled(False)
+        self.lineEdit_textMPSelected.setMinimumSize(QSize(120, 25))
+        self.lineEdit_textMPSelected.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textMPSelected.setProperty("QLineEditStyle", 2)
+
+        self.horizontalLayout_15.addWidget(self.lineEdit_textMPSelected)
+
+        self.toolButton_btnMPDrawSelected = QToolButton(self.frame_4)
+        self.toolButton_btnMPDrawSelected.setObjectName(u"toolButton_btnMPDrawSelected")
+        icon3 = QIcon()
+        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_btnMPDrawSelected.setIcon(icon3)
+        self.toolButton_btnMPDrawSelected.setIconSize(QSize(20, 20))
+        self.toolButton_btnMPDrawSelected.setArrowType(Qt.NoArrow)
+        self.toolButton_btnMPDrawSelected.setProperty("QToolButtonStyle", 1)
+
+        self.horizontalLayout_15.addWidget(self.toolButton_btnMPDrawSelected)
+
+
+        self.formLayout_4.setLayout(0, QFormLayout.FieldRole, self.horizontalLayout_15)
+
+        self.label_textPM3 = QLabel(self.frame_4)
+        self.label_textPM3.setObjectName(u"label_textPM3")
+        self.label_textPM3.setMinimumSize(QSize(90, 0))
+        self.label_textPM3.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_textPM3)
+
+        self.frame_8 = QFrame(self.frame_4)
+        self.frame_8.setObjectName(u"frame_8")
+        sizePolicy1.setHeightForWidth(self.frame_8.sizePolicy().hasHeightForWidth())
+        self.frame_8.setSizePolicy(sizePolicy1)
+        self.frame_8.setFrameShape(QFrame.StyledPanel)
+        self.frame_8.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_22 = QHBoxLayout(self.frame_8)
+        self.horizontalLayout_22.setSpacing(3)
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.label_textPM_Velx = QLabel(self.frame_8)
+        self.label_textPM_Velx.setObjectName(u"label_textPM_Velx")
+        self.label_textPM_Velx.setMinimumSize(QSize(0, 0))
+        self.label_textPM_Velx.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_22.addWidget(self.label_textPM_Velx)
+
+        self.lineEdit_textPM_Velx = QLineEdit(self.frame_8)
+        self.lineEdit_textPM_Velx.setObjectName(u"lineEdit_textPM_Velx")
+        self.lineEdit_textPM_Velx.setMinimumSize(QSize(50, 25))
+        self.lineEdit_textPM_Velx.setProperty("QLineEditStyle", 1)
+
+        self.horizontalLayout_22.addWidget(self.lineEdit_textPM_Velx)
+
+        self.label_textPM_Vely = QLabel(self.frame_8)
+        self.label_textPM_Vely.setObjectName(u"label_textPM_Vely")
+        self.label_textPM_Vely.setMinimumSize(QSize(0, 0))
+        self.label_textPM_Vely.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_22.addWidget(self.label_textPM_Vely)
+
+        self.lineEdit_textPM_Vely = QLineEdit(self.frame_8)
+        self.lineEdit_textPM_Vely.setObjectName(u"lineEdit_textPM_Vely")
+        self.lineEdit_textPM_Vely.setMinimumSize(QSize(50, 25))
+        self.lineEdit_textPM_Vely.setProperty("QLineEditStyle", 1)
+
+        self.horizontalLayout_22.addWidget(self.lineEdit_textPM_Vely)
+
+
+        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.frame_8)
+
+        self.label_textPM2 = QLabel(self.frame_4)
+        self.label_textPM2.setObjectName(u"label_textPM2")
+        self.label_textPM2.setMinimumSize(QSize(65, 0))
+        self.label_textPM2.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(2, QFormLayout.LabelRole, self.label_textPM2)
+
+        self.frame_9 = QFrame(self.frame_4)
+        self.frame_9.setObjectName(u"frame_9")
+        sizePolicy1.setHeightForWidth(self.frame_9.sizePolicy().hasHeightForWidth())
+        self.frame_9.setSizePolicy(sizePolicy1)
+        self.frame_9.setFrameShape(QFrame.StyledPanel)
+        self.frame_9.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_23 = QHBoxLayout(self.frame_9)
+        self.horizontalLayout_23.setSpacing(3)
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.label_textPM_Felx = QLabel(self.frame_9)
+        self.label_textPM_Felx.setObjectName(u"label_textPM_Felx")
+        self.label_textPM_Felx.setMinimumSize(QSize(0, 0))
+        self.label_textPM_Felx.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_23.addWidget(self.label_textPM_Felx)
+
+        self.lineEdit_textPM_Felx = QLineEdit(self.frame_9)
+        self.lineEdit_textPM_Felx.setObjectName(u"lineEdit_textPM_Felx")
+        self.lineEdit_textPM_Felx.setMinimumSize(QSize(50, 25))
+        self.lineEdit_textPM_Felx.setProperty("QLineEditStyle", 1)
+
+        self.horizontalLayout_23.addWidget(self.lineEdit_textPM_Felx)
+
+        self.label_textPM_Pely = QLabel(self.frame_9)
+        self.label_textPM_Pely.setObjectName(u"label_textPM_Pely")
+        self.label_textPM_Pely.setMinimumSize(QSize(0, 0))
+        self.label_textPM_Pely.setProperty("QLabelStyle", 3)
+
+        self.horizontalLayout_23.addWidget(self.label_textPM_Pely)
+
+        self.lineEdit_textPM_Fely = QLineEdit(self.frame_9)
+        self.lineEdit_textPM_Fely.setObjectName(u"lineEdit_textPM_Fely")
+        self.lineEdit_textPM_Fely.setMinimumSize(QSize(50, 25))
+        self.lineEdit_textPM_Fely.setProperty("QLineEditStyle", 1)
+
+        self.horizontalLayout_23.addWidget(self.lineEdit_textPM_Fely)
+
+
+        self.formLayout_4.setWidget(2, QFormLayout.FieldRole, self.frame_9)
+
+
+        self.verticalLayout_7.addWidget(self.frame_4)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_5)
+
+        self.toolButton_PointMaterialCancel_2 = QToolButton(self.frame_materialPoint4)
+        self.toolButton_PointMaterialCancel_2.setObjectName(u"toolButton_PointMaterialCancel_2")
+        self.toolButton_PointMaterialCancel_2.setMinimumSize(QSize(80, 0))
+        self.toolButton_PointMaterialCancel_2.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_PointMaterialCancel_2.setProperty("QToolButtonStyle", 3)
+
+        self.horizontalLayout_16.addWidget(self.toolButton_PointMaterialCancel_2)
+
+        self.toolButton_PointMaterialAssing = QToolButton(self.frame_materialPoint4)
+        self.toolButton_PointMaterialAssing.setObjectName(u"toolButton_PointMaterialAssing")
+        self.toolButton_PointMaterialAssing.setMinimumSize(QSize(150, 0))
+        self.toolButton_PointMaterialAssing.setMaximumSize(QSize(150, 16777215))
+        self.toolButton_PointMaterialAssing.setProperty("QToolButtonStyle", 2)
+
+        self.horizontalLayout_16.addWidget(self.toolButton_PointMaterialAssing)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_6)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_16)
+
+
+        self.verticalLayout_5.addWidget(self.frame_materialPoint4)
+
         self.frame_PointMaterialSubTitle2 = QFrame(self.frame_info)
         self.frame_PointMaterialSubTitle2.setObjectName(u"frame_PointMaterialSubTitle2")
         self.frame_PointMaterialSubTitle2.setFrameShape(QFrame.StyledPanel)
@@ -948,9 +1118,7 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.toolButton_showHideLabel = QToolButton(self.frame_PointMaterialSubTitle2)
         self.toolButton_showHideLabel.setObjectName(u"toolButton_showHideLabel")
-        icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_showHideLabel.setIcon(icon3)
+        self.toolButton_showHideLabel.setIcon(icon2)
         self.toolButton_showHideLabel.setArrowType(Qt.NoArrow)
         self.toolButton_showHideLabel.setProperty("QToolButtonSubTitleStyle", 1)
 
@@ -1069,14 +1237,29 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_cardPointMaterialSubTitle1.setText("")
         self.label_textPointMaterialName.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Nombre:", None))
         self.lineEdit_textPointMaterialName.setText("")
-        self.label_textPointMaterialColor.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Color:", None))
-        self.lineEdit_textPointMaterialColor.setText("")
-        self.toolButton_PointMaterialColor.setText("")
-        self.label_textPointMaterialNPoints.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Puntos x elemento:", None))
         self.label_textPointMaterialBaseMesh.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Malla Base:", None))
         self.label_textPointMaterialProperty.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Material:", None))
+        self.label_textPointMaterialNPoints.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Puntos x elemento:", None))
         self.toolButton_PointMaterialCancel.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Cancelar", None))
         self.toolButton_PointMaterial.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Crear Puntos", None))
+        self.label_cardPointMaterialSubTitle3.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Asignar fuerzas y velocidades", None))
+        self.toolButton_showHideLabelVector.setText("")
+        self.toolButton_cardPointMaterialSubTitle3.setText("")
+        self.label_textPM4.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Seleccionar:", None))
+        self.lineEdit_textMPSelected.setText("")
+        self.toolButton_btnMPDrawSelected.setText("")
+        self.label_textPM3.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Velocidad [m/s]:", None))
+        self.label_textPM_Velx.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"<html><head/><body><p>Vox </p></body></html>", None))
+        self.lineEdit_textPM_Velx.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"0.0", None))
+        self.label_textPM_Vely.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"<html><head/><body><p> Voy </p></body></html>", None))
+        self.lineEdit_textPM_Vely.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"0.0", None))
+        self.label_textPM2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Fuerza [kN]:", None))
+        self.label_textPM_Felx.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"<html><head/><body><p>Fox </p></body></html>", None))
+        self.lineEdit_textPM_Felx.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"0.0", None))
+        self.label_textPM_Pely.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"<html><head/><body><p>Foy </p></body></html>", None))
+        self.lineEdit_textPM_Fely.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"0.0", None))
+        self.toolButton_PointMaterialCancel_2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Cancelar", None))
+        self.toolButton_PointMaterialAssing.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Asignar", None))
         self.label_cardPointMaterialSubTitle2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Lista de puntos", None))
         self.toolButton_showHideLabel.setText("")
         self.toolButton_showHidePointMaterial.setText("")

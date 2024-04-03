@@ -1,15 +1,15 @@
-from models.model_ProjectCurrentRepository import ModelProjectCurrentRepository
+from models.model_Repository import ModelRepository
 from utils.items_GraphicsDraw import TextItem, LineItem
 from views.view_GraphicsDraw import QGraphicsScene
 
 
 class ModelItemLine:
 
-    def __init__(self, scene_draw:QGraphicsScene,model_project_current_repository:ModelProjectCurrentRepository,
+    def __init__(self, scene_draw:QGraphicsScene,model_repository:ModelRepository,
                  id, name,  start_point, end_point) -> None:
 
         self.scene_draw = scene_draw
-        self.model_project_current_repository = model_project_current_repository
+        self.model_repository = model_repository
         
         self.__id = id
         self.__name = name
@@ -70,7 +70,7 @@ class ModelItemLine:
             self.__end_point = end_point
             self.line_item.end_point = end_point.getPointItem()
 
-        self.model_project_current_repository.updateItemLineDrawDB(
+        self.model_repository.updateItemLineDrawDB(
             id_line=id_line,
             name=name,
             id_start_point=start_point.getId(),

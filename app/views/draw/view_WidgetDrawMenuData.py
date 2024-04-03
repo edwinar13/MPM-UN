@@ -293,6 +293,10 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText("Revisa el factor de amortiguamiento")          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            
+  
+            
+
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES        ::::::::::::::::::::
@@ -313,4 +317,5 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.textEdit_textData_DataDescription.setText(self.description)
         self.lineEdit_textData_DataGravity.setText("{}".format(self.gravity))
         self.lineEdit_textData_DataDampfac.setText("{}".format(self.dampfac))
+
 

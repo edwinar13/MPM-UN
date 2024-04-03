@@ -82,6 +82,10 @@ class ControllerMenuResultAnimation(QObject):
 
     @Slot(int)
     def signalModelResultTimeStepsChanged(self,steps):
+
+        times_view = self.model_result.getGrapihcsTimes()
+        if len(times_view) == 0:
+            return
         self.view_menu_result_animation.setStepView(steps)
         time_view = self.model_result.getGrapihcsTimes()[steps]
         time_view = round(time_view, 3)

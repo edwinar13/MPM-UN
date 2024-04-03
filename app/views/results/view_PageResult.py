@@ -163,6 +163,7 @@ class ViewPageResult(QFrame, Ui_FormResult):
 
     
     def setDatePointChart(self,x, y, label_name:str):
+        
         line, = self.ax.plot(x,y,label=label_name)   
         self.ax.legend(ncol=4)
         color = line.get_color()    
@@ -263,7 +264,10 @@ class ViewPageResult(QFrame, Ui_FormResult):
 
             epsxx = data[data_node]['EPSXX']            
             epsyy = data[data_node]['EPSYY']            
-            epsxy = data[data_node]['EPSXY']                   
+            epsxy = data[data_node]['EPSXY']    
+            
+            velx = data[data_node]['VELX']
+            vely = data[data_node]['VELY']               
             
             for i in range(len(corx)):
                 self.tableWidget_tableResult.setRowCount(row + 1)
@@ -307,6 +311,14 @@ class ViewPageResult(QFrame, Ui_FormResult):
                 epsxy_i = QTableWidgetItem("{:.10e}".format(epsxy[i]))
                 epsxy_i.setTextAlignment(Qt.AlignCenter)
                 self.tableWidget_tableResult.setItem(row, 9, epsxy_i)
+                
+                velx_i = QTableWidgetItem("{:.10e}".format(velx[i]))
+                velx_i.setTextAlignment(Qt.AlignCenter)
+                self.tableWidget_tableResult.setItem(row, 10, velx_i)
+                
+                vely_i = QTableWidgetItem("{:.10e}".format(vely[i]))
+                vely_i.setTextAlignment(Qt.AlignCenter)
+                self.tableWidget_tableResult.setItem(row, 11, vely_i)
 
                 row += 1
                 

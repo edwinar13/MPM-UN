@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_propertieslvhbtm.ui'
+## Form generated from reading UI file 'widget_draw_menu_propertiesHtxOJN.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -770,7 +770,7 @@ class Ui_FormDrawMenuProperties(object):
         self.label_textProperties2.setMinimumSize(QSize(110, 0))
         self.label_textProperties2.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_textProperties2)
+        self.formLayout_4.setWidget(2, QFormLayout.LabelRole, self.label_textProperties2)
 
         self.doubleSpinBoxl_textPropertiesE = QDoubleSpinBox(self.frame_4)
         self.doubleSpinBoxl_textPropertiesE.setObjectName(u"doubleSpinBoxl_textPropertiesE")
@@ -783,14 +783,14 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesE.setValue(1000.000000000000000)
         self.doubleSpinBoxl_textPropertiesE.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesE)
+        self.formLayout_4.setWidget(2, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesE)
 
         self.label_textProperties3 = QLabel(self.frame_4)
         self.label_textProperties3.setObjectName(u"label_textProperties3")
         self.label_textProperties3.setMinimumSize(QSize(110, 0))
         self.label_textProperties3.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(2, QFormLayout.LabelRole, self.label_textProperties3)
+        self.formLayout_4.setWidget(3, QFormLayout.LabelRole, self.label_textProperties3)
 
         self.doubleSpinBoxl_textPropertiesV = QDoubleSpinBox(self.frame_4)
         self.doubleSpinBoxl_textPropertiesV.setObjectName(u"doubleSpinBoxl_textPropertiesV")
@@ -803,14 +803,14 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesV.setValue(0.300000000000000)
         self.doubleSpinBoxl_textPropertiesV.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(2, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesV)
+        self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesV)
 
         self.label_textProperties4 = QLabel(self.frame_4)
         self.label_textProperties4.setObjectName(u"label_textProperties4")
         self.label_textProperties4.setMinimumSize(QSize(110, 0))
         self.label_textProperties4.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(3, QFormLayout.LabelRole, self.label_textProperties4)
+        self.formLayout_4.setWidget(4, QFormLayout.LabelRole, self.label_textProperties4)
 
         self.doubleSpinBoxl_textPropertiesC = QDoubleSpinBox(self.frame_4)
         self.doubleSpinBoxl_textPropertiesC.setObjectName(u"doubleSpinBoxl_textPropertiesC")
@@ -823,14 +823,14 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesC.setValue(5.000000000000000)
         self.doubleSpinBoxl_textPropertiesC.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesC)
+        self.formLayout_4.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesC)
 
         self.label_textProperties5 = QLabel(self.frame_4)
         self.label_textProperties5.setObjectName(u"label_textProperties5")
         self.label_textProperties5.setMinimumSize(QSize(110, 0))
         self.label_textProperties5.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(4, QFormLayout.LabelRole, self.label_textProperties5)
+        self.formLayout_4.setWidget(5, QFormLayout.LabelRole, self.label_textProperties5)
 
         self.doubleSpinBoxl_textPropertiesPhi = QDoubleSpinBox(self.frame_4)
         self.doubleSpinBoxl_textPropertiesPhi.setObjectName(u"doubleSpinBoxl_textPropertiesPhi")
@@ -842,14 +842,14 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesPhi.setValue(5.000000000000000)
         self.doubleSpinBoxl_textPropertiesPhi.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPhi)
+        self.formLayout_4.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPhi)
 
         self.label_textProperties4_2 = QLabel(self.frame_4)
         self.label_textProperties4_2.setObjectName(u"label_textProperties4_2")
         self.label_textProperties4_2.setMinimumSize(QSize(110, 0))
         self.label_textProperties4_2.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(5, QFormLayout.LabelRole, self.label_textProperties4_2)
+        self.formLayout_4.setWidget(6, QFormLayout.LabelRole, self.label_textProperties4_2)
 
         self.doubleSpinBoxl_textPropertiesP = QSpinBox(self.frame_4)
         self.doubleSpinBoxl_textPropertiesP.setObjectName(u"doubleSpinBoxl_textPropertiesP")
@@ -858,7 +858,7 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesP.setValue(1000)
         self.doubleSpinBoxl_textPropertiesP.setProperty("QSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesP)
+        self.formLayout_4.setWidget(6, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesP)
 
         self.doubleSpinBoxl_textPropertiesPsi = QDoubleSpinBox(self.frame_4)
         self.doubleSpinBoxl_textPropertiesPsi.setObjectName(u"doubleSpinBoxl_textPropertiesPsi")
@@ -871,14 +871,83 @@ class Ui_FormDrawMenuProperties(object):
         self.doubleSpinBoxl_textPropertiesPsi.setValue(5.000000000000000)
         self.doubleSpinBoxl_textPropertiesPsi.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout_4.setWidget(6, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
+        self.formLayout_4.setWidget(7, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
 
         self.label_textProperties6 = QLabel(self.frame_4)
         self.label_textProperties6.setObjectName(u"label_textProperties6")
         self.label_textProperties6.setMinimumSize(QSize(110, 0))
         self.label_textProperties6.setProperty("QLabelStyle", 3)
 
-        self.formLayout_4.setWidget(6, QFormLayout.LabelRole, self.label_textProperties6)
+        self.formLayout_4.setWidget(7, QFormLayout.LabelRole, self.label_textProperties6)
+
+        self.label_textPropertiesColor = QLabel(self.frame_4)
+        self.label_textPropertiesColor.setObjectName(u"label_textPropertiesColor")
+        self.label_textPropertiesColor.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesColor.setProperty("QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_textPropertiesColor)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setSpacing(0)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.lineEdit_textPropertiesColor = QLineEdit(self.frame_4)
+        self.lineEdit_textPropertiesColor.setObjectName(u"lineEdit_textPropertiesColor")
+        self.lineEdit_textPropertiesColor.setEnabled(False)
+        self.lineEdit_textPropertiesColor.setMinimumSize(QSize(120, 25))
+        self.lineEdit_textPropertiesColor.setMaximumSize(QSize(16777215, 16777215))
+        palette = QPalette()
+        brush = QBrush(QColor(221, 221, 221, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        brush1 = QBrush(QColor(51, 51, 51, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Text, brush)
+        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Active, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Window, brush1)
+        brush2 = QBrush(QColor(221, 221, 221, 128))
+        brush2.setStyle(Qt.SolidPattern)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush2)
+#endif
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush2)
+#endif
+        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Text, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush2)
+#endif
+        self.lineEdit_textPropertiesColor.setPalette(palette)
+        self.lineEdit_textPropertiesColor.setStyleSheet(u"")
+        self.lineEdit_textPropertiesColor.setProperty("QLineEditStyle", 2)
+
+        self.horizontalLayout_9.addWidget(self.lineEdit_textPropertiesColor)
+
+        self.toolButton_PropertiesColor = QToolButton(self.frame_4)
+        self.toolButton_PropertiesColor.setObjectName(u"toolButton_PropertiesColor")
+        icon2 = QIcon()
+        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_PropertiesColor.setIcon(icon2)
+        self.toolButton_PropertiesColor.setIconSize(QSize(20, 20))
+        self.toolButton_PropertiesColor.setArrowType(Qt.NoArrow)
+        self.toolButton_PropertiesColor.setProperty("QToolButtonStyle", 1)
+
+        self.horizontalLayout_9.addWidget(self.toolButton_PropertiesColor)
+
+
+        self.formLayout_4.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_9)
 
 
         self.verticalLayout_7.addWidget(self.frame_4)
@@ -942,6 +1011,26 @@ class Ui_FormDrawMenuProperties(object):
 
         self.horizontalLayout_7.addWidget(self.label_cardPropertiesSubTitle2)
 
+        self.toolButton_showHideProperties = QToolButton(self.frame_propertiesSubTitle2)
+        self.toolButton_showHideProperties.setObjectName(u"toolButton_showHideProperties")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy5.setHorizontalStretch(25)
+        sizePolicy5.setVerticalStretch(25)
+        sizePolicy5.setHeightForWidth(self.toolButton_showHideProperties.sizePolicy().hasHeightForWidth())
+        self.toolButton_showHideProperties.setSizePolicy(sizePolicy5)
+        self.toolButton_showHideProperties.setMinimumSize(QSize(25, 25))
+        self.toolButton_showHideProperties.setMaximumSize(QSize(25, 25))
+        self.toolButton_showHideProperties.setFont(font)
+        self.toolButton_showHideProperties.setStyleSheet(u"")
+        icon3 = QIcon()
+        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_showHideProperties.setIcon(icon3)
+        self.toolButton_showHideProperties.setIconSize(QSize(15, 15))
+        self.toolButton_showHideProperties.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_showHideProperties.setProperty("QToolButtonStyle", 1)
+
+        self.horizontalLayout_7.addWidget(self.toolButton_showHideProperties)
+
         self.toolButton_cardPropertiesSubTitle2 = QToolButton(self.frame_propertiesSubTitle2)
         self.toolButton_cardPropertiesSubTitle2.setObjectName(u"toolButton_cardPropertiesSubTitle2")
         self.toolButton_cardPropertiesSubTitle2.setIcon(icon1)
@@ -955,11 +1044,11 @@ class Ui_FormDrawMenuProperties(object):
 
         self.frame_properties2 = QFrame(self.frame_info)
         self.frame_properties2.setObjectName(u"frame_properties2")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.frame_properties2.sizePolicy().hasHeightForWidth())
-        self.frame_properties2.setSizePolicy(sizePolicy5)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.frame_properties2.sizePolicy().hasHeightForWidth())
+        self.frame_properties2.setSizePolicy(sizePolicy6)
         self.frame_properties2.setMinimumSize(QSize(0, 150))
         self.frame_properties2.setStyleSheet(u"")
         self.frame_properties2.setFrameShape(QFrame.StyledPanel)
@@ -983,8 +1072,8 @@ class Ui_FormDrawMenuProperties(object):
         self.verticalLayout_containerCardProperties.setObjectName(u"verticalLayout_containerCardProperties")
         self.frame_empty = QFrame(self.scrollAreaWidgetContents)
         self.frame_empty.setObjectName(u"frame_empty")
-        sizePolicy5.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
-        self.frame_empty.setSizePolicy(sizePolicy5)
+        sizePolicy6.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
+        self.frame_empty.setSizePolicy(sizePolicy6)
         self.frame_empty.setStyleSheet(u"")
         self.frame_empty.setFrameShape(QFrame.StyledPanel)
         self.frame_empty.setFrameShadow(QFrame.Raised)
@@ -1010,11 +1099,11 @@ class Ui_FormDrawMenuProperties(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_msn = QLabel(self.frame_info)
         self.label_msn.setObjectName(u"label_msn")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.label_msn.sizePolicy().hasHeightForWidth())
-        self.label_msn.setSizePolicy(sizePolicy6)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.label_msn.sizePolicy().hasHeightForWidth())
+        self.label_msn.setSizePolicy(sizePolicy7)
         self.label_msn.setAlignment(Qt.AlignCenter)
 
         self.horizontalLayout_5.addWidget(self.label_msn)
@@ -1075,9 +1164,13 @@ class Ui_FormDrawMenuProperties(object):
         self.label_textProperties6.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"\u00c1ngulo  de dilatancia ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties6.setText(QCoreApplication.translate("FormDrawMenuProperties", u"\u03c8 (\u00b0):", None))
+        self.label_textPropertiesColor.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Color:", None))
+        self.lineEdit_textPropertiesColor.setText("")
+        self.toolButton_PropertiesColor.setText("")
         self.toolButton_PropertiesCancel.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Cancelar", None))
         self.toolButton_PropertiesCreateProperty.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear material", None))
         self.label_cardPropertiesSubTitle2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Lista de materiales", None))
+        self.toolButton_showHideProperties.setText("")
         self.toolButton_cardPropertiesSubTitle2.setText("")
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Empty", None))
     # retranslateUi

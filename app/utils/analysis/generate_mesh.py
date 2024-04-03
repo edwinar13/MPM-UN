@@ -29,12 +29,16 @@ class MeshGenerator ():
         dist_BB = self.calculate_distance(edge_BB)
 
         # Determine number of divisions for each edge
-        if dist_A >= dist_AA:
+        if mesh_size >= dist_A and mesh_size >= dist_AA:
+            div_a = 1        
+        elif dist_A >= dist_AA:
             div_a = round(dist_A / mesh_size)
         else:
             div_a = round(dist_AA / mesh_size)
-            
-        if dist_B >= dist_BB:
+        
+        if mesh_size >= dist_B and mesh_size >= dist_BB:
+            div_b = 1  
+        elif dist_B >= dist_BB:
             div_b = round(dist_B / mesh_size)
         else:
             div_b = round(dist_BB / mesh_size)
