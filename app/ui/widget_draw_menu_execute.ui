@@ -108,7 +108,8 @@ font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
 QFrame#frame_ExecuteSubTitle1,
-QFrame#frame_ExecuteSubTitle2{
+QFrame#frame_ExecuteSubTitle2,
+QFrame#frame_ExecuteSubTitle3{
 background: #222222;
 border-radius:2px;
 }
@@ -346,8 +347,8 @@ QSpinBox[QSpinBoxStyle=&quot;1&quot;]:enabled {
 QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;]:disabled,
 QSpinBox[QSpinBoxStyle=&quot;1&quot;]:disabled {
     font: 9pt &quot;Ubuntu&quot;;
-    color: #888888;  /* Cambia el color cuando está deshabilitado */
-    background-color: #555555;  /* Cambia el fondo cuando está deshabilitado */
+    color: #666666;  
+    background-color: #393939; 
     border-radius: 2px;
     padding-right: 6px;
     padding-left: 6px;
@@ -512,6 +513,17 @@ padding-right: 6px;
 padding-left: 6px;
 
 }
+
+QLineEdit[QLineEditStyle=&quot;1&quot;]:disabled {
+    font: 9pt &quot;Ubuntu&quot;;
+    color: #666666;
+    background-color: #393939;
+    border: 1px solid #333333;
+    border-radius: 2px;
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
 
 QLineEdit[QLineEditStyle=&quot;2&quot;]{
 font: 9pt &quot;Ubuntu&quot;;
@@ -1355,6 +1367,179 @@ naranjas #D34E24 #F28123 #F7F052
                    </layout>
                   </item>
                  </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_ExecuteSubTitle3">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_18">
+               <property name="spacing">
+                <number>5</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QCheckBox" name="checkBox_ExecuteAnalysisCE">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                 <property name="QCheckBoxStyle" stdset="0">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_cardExecuteSubTitle3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>262</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Condición  cuasi-estática </string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_cardExecuteSubTitle3">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_Execute3">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QFormLayout" name="formLayout_2">
+               <property name="horizontalSpacing">
+                <number>9</number>
+               </property>
+               <property name="verticalSpacing">
+                <number>9</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_ExecuteAnalysisCE1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>65</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Delta incremento [kN/m]:</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_ExecuteAnalysisCE_dincre">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>1.0</string>
+                 </property>
+                 <property name="QLineEditStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_ExecuteAnalysisCE2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>65</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>No incrementos:</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="doubleSpinBoxl_ExecuteAnalysisCE_noIncre">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>25</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>1</number>
+                 </property>
+                 <property name="displayIntegerBase">
+                  <number>10</number>
+                 </property>
+                 <property name="QSpinBoxStyle" stdset="0">
+                  <number>1</number>
+                 </property>
                 </widget>
                </item>
               </layout>

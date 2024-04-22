@@ -391,7 +391,15 @@ class ModelProjects:
                 }
             data['PUNTOSMATERIAL'] = {}
             data['MATERIALES'] = {}
-            data['CONTORNOS'] = {}
+            data['CONTORNOS'] = {}            
+
+            data['CONFIGANALISIS'] = {
+                "ANALISISCUASIESTATICO": {
+                    "EVALUARESTACONDICION": False,
+                    "DELTAINCREMENTO": 0.0,
+                    "NUMEROINCREMENTOS": 0
+                }
+            }
             
             data['RESULTADOS'] = {
                 "DATOSBASE": {},

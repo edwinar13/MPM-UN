@@ -1082,6 +1082,16 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                       <string>vely</string>
                      </property>
                     </item>
+                    <item>
+                     <property name="text">
+                      <string>despl</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>eqplas</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                   <item row="1" column="0">

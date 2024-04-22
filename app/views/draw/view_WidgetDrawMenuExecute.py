@@ -7,7 +7,7 @@ from PySide6.QtCore import Signal, QStringListModel, Qt, QMimeData
 from PySide6.QtGui import QIcon, QFont, QDrag
 from PySide6.QtWidgets import QFrame, QSpacerItem, QSizePolicy, QListWidget, QListWidgetItem
 
-
+from utils import general_functions
 
 from ui.ui_widget_draw_menu_execute import Ui_FormDrawMenuExecute
 from utils import class_general
@@ -18,6 +18,9 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     signal_execute= Signal() 
     signal_state_view_boundary= Signal(dict) 
     signal_update_time = Signal()
+    signal_change_state_analysis_ce = Signal(bool)
+    signal_update_no_incre = Signal()
+    Signal_update_dincre = Signal()
     
     def __init__(self):
         super(ViewWidgetDrawMenuExecute, self).__init__()
@@ -26,6 +29,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.__hide_show_frame_execute=True
         self.__hide_show_frame_execute_1=True
         self.__hide_show_frame_execute_2=True
+        self.__hide_show_frame_execute_3=True
         
         self.menu_active = False
         self.count_items_to = 0
@@ -38,8 +42,8 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 
         '''
         # Configura la UI
-        self.__initEventUi()
         self.__configUi()
+        self.__initEventUi()
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS CONFIGURAR UI       ::::::::::::::::::::
@@ -104,6 +108,11 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.listWidget_execute_boundariesTo.setDropIndicatorShown(True)
         self.listWidget_execute_boundariesTo.dragEnterEvent = lambda event: self.dragEnterEventBoundaryTo(event)
         self.listWidget_execute_boundariesTo.show()
+        
+        self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(False)
+        self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(False)
+        self.checkBox_ExecuteAnalysisCE.setChecked(False)
+        #self.frame_Execute3.setVisible(False)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -112,6 +121,8 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardExecuteSubTitle1.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle1)
         self.toolButton_cardExecuteSubTitle2.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle2)
+        self.toolButton_cardExecuteSubTitle3.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle3)
+        self.__clickedToolButtonCardxecuteSubTitle3()
 
         # ::::::::::::::::::::      EVENTOS DRAW MENU EXECUTE     ::::::::::::::::::::
         self.listWidget_execute_pointMaterialFrom.dropEvent = self.onDropEventFrom
@@ -119,10 +130,15 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.listWidget_execute_boundariesFrom.itemChanged.connect(self.changeBoundaryFrom)
         self.listWidget_execute_boundariesTo.itemChanged.connect(self.changeBoundaryTo)
         
+        # timepo de análisis
         self.doubleSpinBoxl_textExecuteNumberCourant.valueChanged.connect(self.emitSignalUpdateTime)
         self.doubleSpinBoxl_textExecuteTimeAnalysis.valueChanged.connect(self.emitSignalUpdateTime)
         self.doubleSpinBoxl_textExecuteFps.valueChanged.connect(self.emitSignalUpdateTime)
-
+        
+        #analisis cuasi-estático
+        self.checkBox_ExecuteAnalysisCE.stateChanged.connect(self.__stateChangedCheckBoxExecuteAnalysisCE)
+        self.lineEdit_ExecuteAnalysisCE_dincre.editingFinished.connect(self.__editingFinishedLineEditExecuteAnalysisCEDincre)
+        self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.valueChanged.connect(self.emitSignalUpdateNoIncre)
         
         self.toolButton_Execute.clicked.connect(self.__clickedToolButtonExecute)
         
@@ -163,13 +179,25 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         if self.__hide_show_frame_execute_2 == True:
             self.frame_Execute2.setVisible(False)
             self.__hide_show_frame_execute_2 = False
-            self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_maximize)
-            self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            self.toolButton_cardExecuteSubTitle2.setIcon(self.icon_maximize)
+            #self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         elif self.__hide_show_frame_execute_2 == False:
             self.frame_Execute2.setVisible(True)
             self.__hide_show_frame_execute_2 = True
-            self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_minimize)
-            self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+            self.toolButton_cardExecuteSubTitle2.setIcon(self.icon_minimize)
+            #self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+            
+    def __clickedToolButtonCardxecuteSubTitle3(self):
+        if self.__hide_show_frame_execute_3 == True:
+            self.frame_Execute3.setVisible(False)
+            self.__hide_show_frame_execute_3 = False
+            self.toolButton_cardExecuteSubTitle3.setIcon(self.icon_maximize)
+            #self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        elif self.__hide_show_frame_execute_3 == False:
+            self.frame_Execute3.setVisible(True)
+            self.__hide_show_frame_execute_3 = True
+            self.toolButton_cardExecuteSubTitle3.setIcon(self.icon_minimize)
+            #self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
             
 
 
@@ -263,7 +291,41 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 
     def __clickedToolButtonExecute(self):
         self.signal_execute.emit()
+        
+    def __stateChangedCheckBoxExecuteAnalysisCE(self):
+        if self.checkBox_ExecuteAnalysisCE.isChecked():
+            self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(True)
+            self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(True)
+        else:
+            self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(False)
+            self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(False)
+            
+        self.signal_change_state_analysis_ce.emit(self.checkBox_ExecuteAnalysisCE.isChecked())
+            
+            
+    def __editingFinishedLineEditExecuteAnalysisCEDincre(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza factor damping en la copia de la bd del proyecto.
+        si no es número da mensaje de error"""
+        velx = self.lineEdit_ExecuteAnalysisCE_dincre.text()
+        if general_functions.isNumber(velx):
+            self.lineEdit_ExecuteAnalysisCE_dincre.setText(str(float(velx)))            
+            self.lineEdit_ExecuteAnalysisCE_dincre.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            self.Signal_update_dincre.emit()
 
+        else:            
+            self.lineEdit_ExecuteAnalysisCE_dincre.setFocus()
+            self.lineEdit_ExecuteAnalysisCE_dincre.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa la velocidad en x")          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+    
+    def emitSignalUpdateNoIncre(self):
+        self.signal_update_no_incre.emit()
+            
     def activateMenu(self):
         self.menu_active = True
     
@@ -309,12 +371,33 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         return self.doubleSpinBoxl_textExecuteTimeAnalysis.value()
     
     def setTimeAnalysis (self, time_analysis):
-        self.doubleSpinBoxl_textExecuteTimeAnalysis.setValue(time_analysis)        
+        self.doubleSpinBoxl_textExecuteTimeAnalysis.setValue(time_analysis)  
+              
     def getFps (self):
         return self.doubleSpinBoxl_textExecuteFps.value()    
     
     def setFps (self, fps):
         self.doubleSpinBoxl_textExecuteFps.setValue(fps)
+        
+        
+    # analisis cuasi-estático
+    def getCheckBoxExecuteAnalysisCE(self):
+        return self.checkBox_ExecuteAnalysisCE.isChecked()
+    
+    def setCheckBoxExecuteAnalysisCE(self, state):
+        self.checkBox_ExecuteAnalysisCE.setChecked(state)
+        
+    def setDincre (self, dincre):
+        self.lineEdit_ExecuteAnalysisCE_dincre.setText(str(dincre))
+        
+    def getDincre (self):
+        return self.lineEdit_ExecuteAnalysisCE_dincre.text()
+    
+    def setNoIncre (self, no_incre):
+        self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setValue(no_incre)
+        
+    def getNoIncre (self):
+        return self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.value()
     
     
 

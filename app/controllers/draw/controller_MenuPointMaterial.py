@@ -83,10 +83,9 @@ class ControllerMenuPointMaterial(QObject):
 
 
     @Slot(bool)
-    def showHideLabel(self, show_label):
-        
+    def showHideLabel(self, show_label):        
         for controller in self.list_controller_card:
-            controller.showHideLabel(show_label)
+            controller.showHideLabelTitle(show_label)
 
     @Slot()
     def ChangeSizePoint(self):

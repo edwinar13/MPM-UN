@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_graphIFgWjR.ui'
+## Form generated from reading UI file 'widget_result_menu_graphmsIlDe.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -898,6 +898,8 @@ class Ui_FormMenuResultGraph(object):
         self.comboBox_chartTypeResult.addItem("")
         self.comboBox_chartTypeResult.addItem("")
         self.comboBox_chartTypeResult.addItem("")
+        self.comboBox_chartTypeResult.addItem("")
+        self.comboBox_chartTypeResult.addItem("")
         self.comboBox_chartTypeResult.setObjectName(u"comboBox_chartTypeResult")
         self.comboBox_chartTypeResult.setMinimumSize(QSize(0, 25))
         self.comboBox_chartTypeResult.setFocusPolicy(Qt.WheelFocus)
@@ -1273,6 +1275,8 @@ class Ui_FormMenuResultGraph(object):
         self.comboBox_chartTypeResult.setItemText(7, QCoreApplication.translate("FormMenuResultGraph", u"epsxy", None))
         self.comboBox_chartTypeResult.setItemText(8, QCoreApplication.translate("FormMenuResultGraph", u"velx", None))
         self.comboBox_chartTypeResult.setItemText(9, QCoreApplication.translate("FormMenuResultGraph", u"vely", None))
+        self.comboBox_chartTypeResult.setItemText(10, QCoreApplication.translate("FormMenuResultGraph", u"despl", None))
+        self.comboBox_chartTypeResult.setItemText(11, QCoreApplication.translate("FormMenuResultGraph", u"eqplas", None))
 
         self.label_text_chart2.setText(QCoreApplication.translate("FormMenuResultGraph", u"Punto material:", None))
 #if QT_CONFIG(tooltip)

@@ -35,6 +35,7 @@ class ControllerCardMaterialPoint(QObject):
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.view_card_material_point.signal_hide_show_material_point.connect(self.showHideMaterialPoint)
+        self.view_card_material_point.signal_hide_show_label.connect(self.showHideLabel)
         self.view_card_material_point.signal_delete_material_point.connect(self.deleteMaterialPoint)
         self.view_card_material_point.signal_update_material_point.connect(self.updateMaterialPoint)
 
@@ -43,13 +44,21 @@ class ControllerCardMaterialPoint(QObject):
 	###############################################################################
 
     
+    @Slot(bool)
     def showHideMaterialPoint(self, value):
         self.model_point_material.showHideMaterialPoint(value)  
         self.view_card_material_point.ShowHideMaterialPoint(value)
-
+        if value == False:
+            self.showHideLabel(value)
+    
     @Slot(bool)
     def showHideLabel(self, value):
         self.model_point_material.showHideLabel(value)     
+        self.view_card_material_point.showHideLabel(value)
+    
+    @Slot(bool)
+    def showHideLabelTitle(self, value):
+        self.model_point_material.showHideLabelTitle(value)    
           
     @Slot(bool)
     def ChangeSizePoint(self, value):

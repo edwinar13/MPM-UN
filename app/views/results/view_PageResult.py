@@ -267,7 +267,9 @@ class ViewPageResult(QFrame, Ui_FormResult):
             epsxy = data[data_node]['EPSXY']    
             
             velx = data[data_node]['VELX']
-            vely = data[data_node]['VELY']               
+            vely = data[data_node]['VELY']    
+            despl = data[data_node]['DESPL']
+            eqplas = data[data_node]['EQPLAS']           
             
             for i in range(len(corx)):
                 self.tableWidget_tableResult.setRowCount(row + 1)
@@ -317,8 +319,17 @@ class ViewPageResult(QFrame, Ui_FormResult):
                 self.tableWidget_tableResult.setItem(row, 10, velx_i)
                 
                 vely_i = QTableWidgetItem("{:.10e}".format(vely[i]))
-                vely_i.setTextAlignment(Qt.AlignCenter)
+                vely_i.setTextAlignment(Qt.AlignCenter)                
                 self.tableWidget_tableResult.setItem(row, 11, vely_i)
+                
+                despl_i = QTableWidgetItem("{:.10e}".format(despl[i]))
+                despl_i.setTextAlignment(Qt.AlignCenter)
+                self.tableWidget_tableResult.setItem(row, 12, despl_i)
+                
+                eqplas_i = QTableWidgetItem("{:.10e}".format(eqplas[i]))
+                eqplas_i.setTextAlignment(Qt.AlignCenter)
+                self.tableWidget_tableResult.setItem(row, 13, eqplas_i)
+                
 
                 row += 1
                 

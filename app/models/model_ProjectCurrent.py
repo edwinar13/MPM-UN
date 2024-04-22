@@ -355,12 +355,41 @@ class ModelProjectCurrent(QObject):
         dampfac = self.getDataConfig()["DAMPFAC"]
         return  dampfac
     
+    
+    def getExecuteAnalysisCE(self):
+        execute_analysis_CE = self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["EVALUARESTACONDICION"]
+        return execute_analysis_CE
+    
+    def getDincre(self)->float:
+        dincre = float(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"])
+        
+        return dincre
+    
+    def getNoIncre(self) -> int:
+        noincre = int(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["NUMEROINCREMENTOS"])
+        return noincre
+    
+    
     def getDataConfig(self):
         '''
         Retorna la configuracion del proyecto
         {'GRAVEDAD': 30.0, 'DAMPFAC': 0.0}
         '''  
         data = self.model_repository.readConfigDB()        
+        return data
+    
+    def getDataConfigAnalysis(self):
+        '''
+        Retorna la configuracion del analisis del proyecto
+          "CONFIGANALISIS":{
+                "ANALISISCUASIESTATICO": {
+                    "EVALUARESTACONDICION": false,
+                    "DELTAINCREMENTO": 0.0,
+                    "NUMEROINCREMENTOS": 0
+                }
+            },
+        '''  
+        data = self.model_repository.readConfigAnalysisDB()        
         return data
        
     ###############################################################################
@@ -383,6 +412,13 @@ class ModelProjectCurrent(QObject):
         self.model_repository.updateConfigDB(
             gravity=gravity,
             dampfac=dampfac)
+        
+    def updateConfigAnalysis(self, execute_analysis_CE=None, dincre=None, noincre=None):
+        """ funcion para actualizar la configuracion del analisis del proyecto """
+        self.model_repository.updateConfigAnalysisDB(
+            evaluate_condition=execute_analysis_CE,
+            delta_increment=dincre,
+            number_increments=noincre)
     
     # ::::::::::::::::::::                ITEMS  POINTS             ::::::::::::::::::::
     def getModelsPoints(self) -> dict[str, ModelItemPoint]:
@@ -897,7 +933,9 @@ class ModelProjectCurrent(QObject):
             self.signal_msn_label_view.emit(["point","Ingrese un punto [Exit]:",None])
        
         elif step == 2:
-            point_vertex = QPointF(coordinate[0],coordinate[1])
+            point_vertex = QPointF(
+                round(coordinate[0],4),
+                round(coordinate[1],4))
             items = self.__scene.items(point_vertex)
             cancel_point = False
 
@@ -1014,7 +1052,6 @@ class ModelProjectCurrent(QObject):
             self.setPointVertexAnt(point_vertex) 
 
             id_new_line = add_line_command.getId()
-            #print("se ha creado la linea", name, "con id:", id)
 
 
 
@@ -1545,6 +1582,7 @@ class ModelProjectCurrent(QObject):
         # 1) Inicio, selección de elementos
         if step == 1:
             options = QFileDialog.Options()
+            
             dxf_file_path, _ = QFileDialog.getOpenFileName(self.view_draw_2,"Importar DXF","","Data files dxf (*.dxf)", options=options)
 
             if dxf_file_path:

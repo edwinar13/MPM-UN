@@ -2324,12 +2324,14 @@ def nodes_to_particle_stress_gauss(grid, particle, bound_val ,nvel, dtime, elapl
                 xp = vector posicion de las particulas
                 vp = vector velocidad de las particulas
                 vn = vector de velocidad nodal"""
-                
+       
     assert (elapla == 1 or elapla == 0), "La variable elapla debe ser 0(cero) o 1(uno)"
     # organizando los argumentos de las listas
     inci, cor, active_elem, active_nodes, mp_elem = grid
     Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop = particle
 
+
+    
     # ==================================================================
     # ciclo en los elementos activos
     for i in range(len(active_elem)):
@@ -2436,7 +2438,8 @@ def nodes_to_particle_stress_gauss(grid, particle, bound_val ,nvel, dtime, elapl
                 Lq[0, 1] += nvel[nna, 0]*Nq[2, k]
                 Lq[1, 0] += nvel[nna, 1]*Nq[1, k]
                 Lq[1, 1] += nvel[nna, 1]*Nq[2, k]
-            
+
+
             # Calculo de grandiente de deformacion
             F = np.dot((np.identity(2) + Lq*dtime), Fq.reshape((2, 2)))
             Fp[mpe - 1, :] = F.reshape((1, 4)) # Es correcto ??
@@ -2445,7 +2448,7 @@ def nodes_to_particle_stress_gauss(grid, particle, bound_val ,nvel, dtime, elapl
             # calculo de incremento de deformacion 
             deps1 = dtime / 2 * (Lq + Lq.T) # Tensor de defomacion
             deps = np.array([deps1[0,0], deps1[1,1], 2*deps1[0,1]]) # Vector de def notacion de Voight
-            
+
             # actualizacion de esfuerzo - depende si eslastico o plastico
             if elapla == 0:
                 # lineal elastico
@@ -2468,8 +2471,7 @@ def nodes_to_particle_stress_gauss(grid, particle, bound_val ,nvel, dtime, elapl
                     epse[mpe - 1,:] += depse
                     epsp[mpe - 1,:] += depsp
                     Prop[mpe - 1,5] = Propq[5] # actualizar variable Yield
-    
-        
+            
     return Fp, Vp, epse, epsp, sig
 
 

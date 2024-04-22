@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_property_cardWmpyII.ui'
+## Form generated from reading UI file 'widget_draw_property_carduodvlu.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -24,7 +24,7 @@ class Ui_FormDrawPropertyCard(object):
     def setupUi(self, FormDrawPropertyCard):
         if not FormDrawPropertyCard.objectName():
             FormDrawPropertyCard.setObjectName(u"FormDrawPropertyCard")
-        FormDrawPropertyCard.resize(437, 365)
+        FormDrawPropertyCard.resize(462, 376)
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -483,44 +483,12 @@ class Ui_FormDrawPropertyCard(object):
 
         self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_textProperties5_3)
 
-        self.doubleSpinBoxl_textPropertiesPhi = QDoubleSpinBox(self.frame_edit)
-        self.doubleSpinBoxl_textPropertiesPhi.setObjectName(u"doubleSpinBoxl_textPropertiesPhi")
-        self.doubleSpinBoxl_textPropertiesPhi.setEnabled(True)
-        self.doubleSpinBoxl_textPropertiesPhi.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textPropertiesPhi.setDecimals(1)
-        self.doubleSpinBoxl_textPropertiesPhi.setMinimum(0.000000000000000)
-        self.doubleSpinBoxl_textPropertiesPhi.setSingleStep(0.100000000000000)
-        self.doubleSpinBoxl_textPropertiesPhi.setValue(5.000000000000000)
-        self.doubleSpinBoxl_textPropertiesPhi.setProperty("QDoubleSpinBoxStyle", 1)
-
-        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPhi)
-
-        self.label_textProperties6_3 = QLabel(self.frame_edit)
-        self.label_textProperties6_3.setObjectName(u"label_textProperties6_3")
-        self.label_textProperties6_3.setMinimumSize(QSize(80, 0))
-        self.label_textProperties6_3.setProperty("QLabelStyle", 3)
-
-        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.label_textProperties6_3)
-
-        self.doubleSpinBoxl_textPropertiesPsi = QDoubleSpinBox(self.frame_edit)
-        self.doubleSpinBoxl_textPropertiesPsi.setObjectName(u"doubleSpinBoxl_textPropertiesPsi")
-        self.doubleSpinBoxl_textPropertiesPsi.setEnabled(True)
-        self.doubleSpinBoxl_textPropertiesPsi.setMinimumSize(QSize(120, 25))
-        self.doubleSpinBoxl_textPropertiesPsi.setDecimals(1)
-        self.doubleSpinBoxl_textPropertiesPsi.setMinimum(1.000000000000000)
-        self.doubleSpinBoxl_textPropertiesPsi.setSingleStep(0.100000000000000)
-        self.doubleSpinBoxl_textPropertiesPsi.setStepType(QAbstractSpinBox.DefaultStepType)
-        self.doubleSpinBoxl_textPropertiesPsi.setValue(5.000000000000000)
-        self.doubleSpinBoxl_textPropertiesPsi.setProperty("QDoubleSpinBoxStyle", 1)
-
-        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
-
         self.label_textProperties4_5 = QLabel(self.frame_edit)
         self.label_textProperties4_5.setObjectName(u"label_textProperties4_5")
         self.label_textProperties4_5.setMinimumSize(QSize(110, 0))
         self.label_textProperties4_5.setProperty("QLabelStyle", 3)
 
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_textProperties4_5)
+        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.label_textProperties4_5)
 
         self.doubleSpinBoxl_textPropertiesP = QDoubleSpinBox(self.frame_edit)
         self.doubleSpinBoxl_textPropertiesP.setObjectName(u"doubleSpinBoxl_textPropertiesP")
@@ -533,7 +501,39 @@ class Ui_FormDrawPropertyCard(object):
         self.doubleSpinBoxl_textPropertiesP.setValue(1000.000000000000000)
         self.doubleSpinBoxl_textPropertiesP.setProperty("QDoubleSpinBoxStyle", 1)
 
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesP)
+        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesP)
+
+        self.doubleSpinBoxl_textPropertiesPhi = QDoubleSpinBox(self.frame_edit)
+        self.doubleSpinBoxl_textPropertiesPhi.setObjectName(u"doubleSpinBoxl_textPropertiesPhi")
+        self.doubleSpinBoxl_textPropertiesPhi.setEnabled(True)
+        self.doubleSpinBoxl_textPropertiesPhi.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textPropertiesPhi.setDecimals(1)
+        self.doubleSpinBoxl_textPropertiesPhi.setMinimum(0.000000000000000)
+        self.doubleSpinBoxl_textPropertiesPhi.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesPhi.setValue(5.000000000000000)
+        self.doubleSpinBoxl_textPropertiesPhi.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPhi)
+
+        self.doubleSpinBoxl_textPropertiesPsi = QDoubleSpinBox(self.frame_edit)
+        self.doubleSpinBoxl_textPropertiesPsi.setObjectName(u"doubleSpinBoxl_textPropertiesPsi")
+        self.doubleSpinBoxl_textPropertiesPsi.setEnabled(True)
+        self.doubleSpinBoxl_textPropertiesPsi.setMinimumSize(QSize(120, 25))
+        self.doubleSpinBoxl_textPropertiesPsi.setDecimals(1)
+        self.doubleSpinBoxl_textPropertiesPsi.setMinimum(0.000000000000000)
+        self.doubleSpinBoxl_textPropertiesPsi.setSingleStep(0.100000000000000)
+        self.doubleSpinBoxl_textPropertiesPsi.setStepType(QAbstractSpinBox.DefaultStepType)
+        self.doubleSpinBoxl_textPropertiesPsi.setValue(5.000000000000000)
+        self.doubleSpinBoxl_textPropertiesPsi.setProperty("QDoubleSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.doubleSpinBoxl_textPropertiesPsi)
+
+        self.label_textProperties6_3 = QLabel(self.frame_edit)
+        self.label_textProperties6_3.setObjectName(u"label_textProperties6_3")
+        self.label_textProperties6_3.setMinimumSize(QSize(80, 0))
+        self.label_textProperties6_3.setProperty("QLabelStyle", 3)
+
+        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_textProperties6_3)
 
 
         self.verticalLayout_7.addWidget(self.frame_edit)
@@ -625,16 +625,16 @@ class Ui_FormDrawPropertyCard(object):
         self.label_textProperties5_3.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"\u00c1ngulo  de fricci\u00f3n ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties5_3.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03d5 (\u00b0):", None))
-        self.doubleSpinBoxl_textPropertiesPhi.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" \u00b0", None))
-#if QT_CONFIG(tooltip)
-        self.label_textProperties6_3.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"\u00c1ngulo  de dilatancia ", None))
-#endif // QT_CONFIG(tooltip)
-        self.label_textProperties6_3.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c8 (\u00b0):", None))
-        self.doubleSpinBoxl_textPropertiesPsi.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" \u00b0", None))
 #if QT_CONFIG(tooltip)
         self.label_textProperties4_5.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"Cohesi\u00f3n ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties4_5.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c1 (kg/m3):", None))
         self.doubleSpinBoxl_textPropertiesP.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" kg/m3", None))
+        self.doubleSpinBoxl_textPropertiesPhi.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" \u00b0", None))
+        self.doubleSpinBoxl_textPropertiesPsi.setSuffix(QCoreApplication.translate("FormDrawPropertyCard", u" \u00b0", None))
+#if QT_CONFIG(tooltip)
+        self.label_textProperties6_3.setToolTip(QCoreApplication.translate("FormDrawPropertyCard", u"\u00c1ngulo  de dilatancia ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textProperties6_3.setText(QCoreApplication.translate("FormDrawPropertyCard", u"\u03c8 (\u00b0):", None))
     # retranslateUi
 

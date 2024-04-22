@@ -650,6 +650,42 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
         
+    '''
+      "CONFIGANALISIS":{
+    "ANALISISCUASIESTATICO": {
+      "EVALUARESTACONDICION": false,
+      "DELTAINCREMENTO": 0.0,
+      "NUMEROINCREMENTOS": 0
+    }
+  },
+    '''
+    # ::::::::::::::::::::        CONFIGURACION ANALISIS       ::::::::::::::::::::
+    def readConfigAnalysisDB(self):
+        """
+        Lee la configuración del análisis almacenadas en la base de datos del proyecto actual.
+        Returns:
+            (dict): Diccionario con la configuración del análisis del proyecto.
+        """ 
+        return self.__unguarded_copy_db_project['CONFIGANALISIS']
+    
+    def updateConfigAnalysisDB(self, evaluate_condition=None, delta_increment=None, number_increments=None):
+
+        try:                  
+            if evaluate_condition != None:   
+                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["EVALUARESTACONDICION"]=evaluate_condition
+            if delta_increment != None:   
+                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"]=delta_increment
+            if number_increments != None:   
+                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["NUMEROINCREMENTOS"]=number_increments
+
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar registro en <CONFIGANALISIS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err),err))
+            return False
+    
+  
+    
 	# ::::::::::::::::::::       MÉTODOS DB RESULTADOS     ::::::::::::::::::::   
 
     def readResultDataBaseDB(self):
@@ -703,7 +739,7 @@ class ModelRepository():
     def addResultNodeDB(self, id_result_node, corx, cory,
              sigxx, sigyy, sigxy,
              epsxx, epsyy, epsxy,
-             velx,vely):            
+             velx,vely, despl, eqplas):  
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
                 "CORX": corx,
@@ -715,7 +751,9 @@ class ModelRepository():
                 "EPSYY": epsyy,
                 "EPSXY": epsxy,
                 "VELX": velx,
-                "VELY": vely
+                "VELY": vely,
+                "DESPL": despl,
+                "EQPLAS": eqplas                
             }
             
             return True
@@ -848,7 +886,8 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
 
-    def updateResultMinDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None, velx = None, vely = None):
+    def updateResultMinDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, 
+                          epsyy=None, epsxy=None, velx = None, vely = None, despl = None, eqplas = None):
         try:             
             if corx != None:   
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['CORX'] = corx
@@ -869,14 +908,20 @@ class ModelRepository():
             if velx != None:
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELX'] = velx
             if vely != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELY'] = vely              
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELY'] = vely  
+            if despl != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['DESPL'] = despl
+            if eqplas != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EQPLAS'] = eqplas                    
             return True
         except BaseException as err:
             print("[Doc: {}] Error al actualizar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False       
 
-    def updateResultMaxDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, epsyy=None, epsxy=None, velx=None, vely=None):
+    def updateResultMaxDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,
+                          epsxx=None, epsyy=None, epsxy=None, velx=None, vely=None, 
+                          despl=None, eqplas=None):
             try: 
                 
                 if corx != None:   
@@ -899,6 +944,10 @@ class ModelRepository():
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELX'] = velx
                 if vely != None:
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELY'] = vely
+                if despl != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['DESPL'] = despl
+                if eqplas != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EQPLAS'] = eqplas
                     
                 return True
             except BaseException as err:
@@ -957,11 +1006,12 @@ class ModelRepository():
 
                 
         """
+
         BD=self.__path_db_project
 
         if QFile.exists(BD):		  
             #try:
-                # se guarda en el archivo
+                # se guarda en el archivo                
                 
                 with open(BD, 'w') as a:
                     a.write(json.dumps(self.__unguarded_copy_db_project)) 

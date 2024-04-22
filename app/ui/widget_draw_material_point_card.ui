@@ -458,6 +458,26 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="toolButton_showHideLabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+        <property name="QToolButtonSubTitleStyle" stdset="0">
+         <number>1</number>
+        </property>
+        <property name="style_material_point_card_button" stdset="0">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="toolButton_showHideMaterialPoint">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">

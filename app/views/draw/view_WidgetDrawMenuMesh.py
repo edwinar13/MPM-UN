@@ -3,7 +3,7 @@ es el widget menú de mallas."""
 
 from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
 from PySide6.QtGui import (QIcon, QFont,QTransform, QPen, QBrush, QPolygonF, QColor, QPalette)
-from PySide6.QtWidgets import ( QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDialog)
+from PySide6.QtWidgets import (QFileDialog, QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDialog)
 from ui.ui_widget_draw_menu_mesh import Ui_FormDrawMenuMesh
 from utils import class_general
 
@@ -64,6 +64,8 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
 
         self.__color_mesh = None
         self.contador=0
+        
+        self.path_file = None
 
         # Configura la UI
         self.__configUi()
@@ -108,6 +110,10 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.label_lat.setVisible(False)
 
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+        
+        self.toolButton_cardMeshUploadFile.setVisible(False)
+        self.label_textMesh_path.setVisible(False)
+        
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -130,6 +136,8 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.toolButton_cardMeshDrawColor.clicked.connect(self.__clickedToolButtonColorPicker)        
         self.toolButton_meshCancel.clicked.connect(self.__clickedToolButtonMeshCancel)
         self.toolButton_meshMeshing.clicked.connect(self.__clickedToolButton_mesh)
+        self.comboBox_MeshType.currentIndexChanged.connect(self.__currentIndexChangedComboBoxMeshType)
+        self.toolButton_cardMeshUploadFile.clicked.connect(self.__clickedToolButtonUploadFile)
         
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -269,6 +277,38 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     def __clickedToolButton_mesh(self):
         self.signal_new_mesh.emit()
 
+
+
+    def __currentIndexChangedComboBoxMeshType (self):
+        selected_index = self.comboBox_MeshType.currentIndex()
+        if selected_index == 2:
+            self.toolButton_cardMeshUploadFile.setVisible(True)
+            self.label_textMesh_path.setVisible(True)
+            
+            self.lineEdit_textMeshSelected.setEnabled(False)
+            self.doubleSpinBoxl_textMeshSize.setEnabled(False)
+            self.toolButton_cardMeshDrawSelected.setEnabled(False)
+            self.toolButton_cardMeshDrawSize.setEnabled(False)
+        else:
+            self.toolButton_cardMeshUploadFile.setVisible(False)
+            self.label_textMesh_path.setVisible(False)
+            
+            self.lineEdit_textMeshSelected.setEnabled(True)
+            self.doubleSpinBoxl_textMeshSize.setEnabled(True)
+            self.toolButton_cardMeshDrawSelected.setEnabled(True)
+            self.toolButton_cardMeshDrawSize.setEnabled(True)
+        
+    def __clickedToolButtonUploadFile(self):
+        # abrir el explorador de archivos
+        
+        options = QFileDialog.Options()
+        txt_file_path, _ = QFileDialog.getOpenFileName(self, "Open File", "","Text Files (*.txt)", options=options)  
+        if txt_file_path:
+            self.label_textMesh_path.setText(txt_file_path)
+            self.path_file = txt_file_path
+                                  
+                                  
+                                  
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
 	###############################################################################
@@ -284,6 +324,9 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     
     def getType (self):
         return self.comboBox_MeshType.currentText()
+    
+    def getPathFile(self):
+        return self.path_file
     
     def getMeshDx(self):
         return self.doubleSpinBoxl_textMeshDx.value()
@@ -332,6 +375,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.__color_mesh=None
         self.lineEdit_textMeshColor.setStyleSheet('background-color : #333333')
         self.lineEdit_textMeshSelected.setText("")
+        self.label_textMesh_path.setText("")
         self.doubleSpinBoxl_textMeshSize.setValue(1)
         self.setPropertyStyle(self.toolButton_cardMeshDrawSelected, 1)
         self.setPropertyStyle(self.toolButton_cardMeshDrawSize, 1)
@@ -345,7 +389,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         widget.update()
 
     def setListTypes(self):
-        list_types = ["Triangular","Cuadrilátera"]
+        list_types = ["Triangular","Cuadrilátera", "Archivo"]
         for item_index in range(len(list_types)):
             self.comboBox_MeshType.addItem(list_types[item_index])  
 
@@ -414,6 +458,24 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
             self.label_msn.setStyleSheet("color:  #F94646")  
             self.label_msn.setText(msn)          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            QTimer.singleShot(4000, lambda: self.lineEdit_textMeshColor.setStyleSheet("border-color: #444444;background-color: {};".format(self.__color_mesh)))
+            
+    def msnAlertFile(self, error, msn=""):
+        if not error:
+            self.label_textMesh_path.setStyleSheet("border-color:  #444444;")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            
+        else:
+            
+            self.label_textMesh_path.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText(msn)          
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+            QTimer.singleShot(4000, lambda: self.label_textMesh_path.setStyleSheet("border-color: #444444;"))
+            
+            
+            
 
     def msnAlertSelected(self, error, msn=""):
         if not error:

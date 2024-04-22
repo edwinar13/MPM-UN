@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>341</height>
+    <height>347</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -314,6 +314,16 @@ QProgressBar#progress_bar::chunk {
           <widget class="QLabel" name="status_label">
            <property name="text">
             <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="timer_label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="QLabelStyle" stdset="0">
+            <number>1</number>
            </property>
           </widget>
          </item>

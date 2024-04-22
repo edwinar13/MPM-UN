@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog_loandingjjWalI.ui'
+## Form generated from reading UI file 'dialog_loandingvJdvKh.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -24,7 +24,7 @@ class Ui_DialogLoanding(object):
         if not DialogLoanding.objectName():
             DialogLoanding.setObjectName(u"DialogLoanding")
         DialogLoanding.setEnabled(True)
-        DialogLoanding.resize(390, 341)
+        DialogLoanding.resize(390, 347)
         sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -249,6 +249,12 @@ class Ui_DialogLoanding(object):
 
         self.verticalLayout.addWidget(self.status_label)
 
+        self.timer_label = QLabel(self.frame_content)
+        self.timer_label.setObjectName(u"timer_label")
+        self.timer_label.setProperty("QLabelStyle", 1)
+
+        self.verticalLayout.addWidget(self.timer_label)
+
         self.question_label = QLabel(self.frame_content)
         self.question_label.setObjectName(u"question_label")
         self.question_label.setProperty("QLabelStyle", 1)
@@ -317,6 +323,7 @@ class Ui_DialogLoanding(object):
         DialogLoanding.setWindowTitle(QCoreApplication.translate("DialogLoanding", u"Dialog", None))
         self.label_icon.setText("")
         self.status_label.setText("")
+        self.timer_label.setText("")
         self.question_label.setText("")
         self.acept_button.setText(QCoreApplication.translate("DialogLoanding", u"Aceptar", None))
         self.pause_button.setText(QCoreApplication.translate("DialogLoanding", u"Pausar", None))

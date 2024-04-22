@@ -210,8 +210,11 @@ class ModelMaterialPoint:
         
     def showHideLabel(self, value):   
         """ funcion para mostrar/ocultar la etiqueta de un conjunto de puntos material"""
-        self.text_name.setVisible(value)   
         self.group_label.setVisible(value)
+        
+    def showHideLabelTitle(self, value):   
+        """ funcion para mostrar/ocultar la etiqueta de un conjunto de puntos material"""
+        self.text_name.setVisible(value)   
 
     def ChangeSizePoint(self, value):   
         """ funcion para cambiar el tamaño de un conjunto de puntos material"""

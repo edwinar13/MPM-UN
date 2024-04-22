@@ -24,6 +24,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 
     """    
     signal_hide_show_material_point = Signal(bool)
+    signal_hide_show_label = Signal(bool)
     signal_delete_material_point = Signal()
     signal_update_material_point = Signal()
     
@@ -35,6 +36,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.controller_CardMesh = controller_CardMesh
 
         self.__card_show_hide_material_point = True
+        self.__card_show_hide_label = False
         self.__card_name_material_point = None
         
         self.current_index_property = None
@@ -63,6 +65,12 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         self.icon_hide = QIcon()
         self.icon_hide.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/not_view.svg", QSize(), QIcon.Normal, QIcon.Off)
         
+        self.icon_show_label = QIcon()
+        self.icon_show_label.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_label = QIcon()
+        self.icon_hide_label.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        
+
         self.lineEdit_nameMaterialPoint.setVisible(False)
         
         self.toolButton_okMaterialPoint.setVisible(False)
@@ -73,11 +81,13 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
      
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
+        self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
         self.toolButton_showHideMaterialPoint.clicked.connect(self.__clickedToolButtonShowHideMaterialPoint)
         self.toolButton_deleteMaterialPoint.clicked.connect(self.__clickedToolButtonDeleteMaterialPoint)
         self.toolButton_editMaterialPoint.clicked.connect(self.__clickedToolButtonEditMaterialPoint) 
         self.toolButton_okMaterialPoint.clicked.connect(self.__clickedToolButtonOkMaterialPoint)
         self.toolButton_exitMaterialPoint.clicked.connect(self.__clickedToolButtonExitMaterialPoint)
+    
     
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -90,6 +100,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
 
         self.toolButton_deleteMaterialPoint.setVisible(False)
         self.toolButton_editMaterialPoint.setVisible(False)
+        self.toolButton_showHideLabel.setVisible(False)
         self.toolButton_showHideMaterialPoint.setVisible(False)
         self.label_cardNameMaterialPoint.setVisible(False)
         self.frame_color.setFixedWidth(20)
@@ -108,6 +119,7 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         
         self.toolButton_deleteMaterialPoint.setVisible(True)
         self.toolButton_editMaterialPoint.setVisible(True)
+        self.toolButton_showHideLabel.setVisible(True)
         self.toolButton_showHideMaterialPoint.setVisible(True)
         self.label_cardNameMaterialPoint.setVisible(True)
         self.frame_color.setFixedWidth(10)
@@ -139,10 +151,15 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
         
         self.signal_update_material_point.emit()
         
-        
+    def __clickedToolButtonShowHideLabel(self):
+        """ Muestra u oculta la etiqueta """
+        if self.__card_show_hide_label:            
+            self.signal_hide_show_label.emit(False)
+        else :
+            self.signal_hide_show_label.emit(True)
         
     def __clickedToolButtonShowHideMaterialPoint(self):
-        """ Muestra u oculta la malla """
+        """ Muestra u oculta los puntos materiales"""
         if self.__card_show_hide_material_point:            
             self.signal_hide_show_material_point.emit(False)            
         else :            
@@ -242,7 +259,12 @@ class viewCardDrawMaterialPoint(QFrame, Ui_FormDrawMaterialPointCard):
             self.toolButton_showHideMaterialPoint.setIcon(self.icon_hide)
 
 
-
+    def showHideLabel(self, value):
+        self.__card_show_hide_label = value
+        if value:
+            self.toolButton_showHideLabel.setIcon(self.icon_show_label)  
+        else :            
+            self.toolButton_showHideLabel.setIcon(self.icon_hide_label)
 
 
 

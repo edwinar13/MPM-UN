@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>730</height>
+    <height>776</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -333,6 +333,15 @@ padding-left: 6px;
 
 }
 
+
+
+QDoubleSpinBox[QDoubleSpinBoxStyle=&quot;1&quot;]:disabled {
+font: 9pt &quot;Ubuntu&quot;;
+color: #888888;
+background-color: #333333;
+
+}
+
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QToolButton           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
 
 
@@ -342,6 +351,14 @@ border: 1px solid #222222;
 border-radius: 3px;
 margin-left: 4px;
 }
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:disabled {
+font: 9pt &quot;Ubuntu&quot;;
+color: #888888;
+background-color: #333333;
+
+}
+
 
 QToolButton[QToolButtonStyle=&quot;1&quot;]:hover{ 
 background-color: #444444;
@@ -457,6 +474,25 @@ QToolButton[QToolButtonStyle=&quot;8&quot;] {
 
 
 
+QToolButton[QToolButtonStyle=&quot;1&quot;]{
+background-color: transparent;
+border: 1px solid #222222;
+border-radius: 3px;
+margin-left: 4px;
+	color: #DDDDDD;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:hover{ 
+background-color: #444444;
+}
+
+QToolButton[QToolButtonStyle=&quot;1&quot;]:pressed{
+border-top: 2px solid #222222;
+border-left: 2px solid #222222;
+}  
+
+
+
 
 /*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QLineEdit           ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
 
@@ -473,6 +509,8 @@ padding-left: 6px;
 
 }
 
+
+
 QLineEdit[QLineEditStyle=&quot;2&quot;]{
 font: 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
@@ -484,6 +522,12 @@ padding-left: 6px;
 
 }
 
+QLineEdit[QLineEditStyle=&quot;2&quot;]:disabled {
+font: 9pt &quot;Ubuntu&quot;;
+color: #888888;
+background-color: #333333;
+
+}
 
 
 QLineEdit#lineEdit_textMesh3{
@@ -517,6 +561,7 @@ border-radius:2px;
 
 QToolButton[QToolButtonSubTitleStyle=&quot;1&quot;] {
 background-color: transparent;
+
 }
 
 
@@ -1368,7 +1413,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <property name="spacing">
-                <number>15</number>
+                <number>5</number>
                </property>
                <item>
                 <widget class="QFrame" name="frame_3">
@@ -1790,6 +1835,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </item>
                      <item>
                       <widget class="QToolButton" name="toolButton_cardMeshDrawSize">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                        <property name="text">
                         <string/>
                        </property>
@@ -1838,7 +1886,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     <item>
                      <widget class="QLineEdit" name="lineEdit_textMeshSelected">
                       <property name="enabled">
-                       <bool>false</bool>
+                       <bool>true</bool>
                       </property>
                       <property name="minimumSize">
                        <size>
@@ -1862,6 +1910,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolButton_cardMeshDrawSelected">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -1903,6 +1954,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   </item>
                   <item row="4" column="1">
                    <widget class="QComboBox" name="comboBox_MeshType">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -1914,7 +1968,58 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </property>
                    </widget>
                   </item>
+                  <item row="6" column="1">
+                   <widget class="QToolButton" name="toolButton_cardMeshUploadFile">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>   Subir Archivo</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <normaloff>../resources/iconos/iconos_menu_draw_mesh/cloud_computing.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/cloud_computing.svg</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="toolButtonStyle">
+                     <enum>Qt::ToolButtonTextBesideIcon</enum>
+                    </property>
+                    <property name="arrowType">
+                     <enum>Qt::NoArrow</enum>
+                    </property>
+                    <property name="QToolButtonStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_textMesh_path">
+                 <property name="minimumSize">
+                  <size>
+                   <width>110</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>3</number>
+                 </property>
                 </widget>
                </item>
                <item>

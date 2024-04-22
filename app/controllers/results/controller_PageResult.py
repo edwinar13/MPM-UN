@@ -329,6 +329,14 @@ class ControllerPageResult(QObject):
                 data_axis_y = data[point_graphics]['VELX']
             elif self.graphics_type_result.lower() == 'vely':
                 data_axis_y = data[point_graphics]['VELY']
+            elif self.graphics_type_result.lower() == 'despl':
+                data_axis_y = data[point_graphics]['DESPL']
+            elif self.graphics_type_result.lower() == 'despl':
+                data_axis_y = data[point_graphics]['DESPL']                
+            elif self.graphics_type_result.lower() == 'eqplas':
+                data_axis_y = data[point_graphics]['EQPLAS']
+                
+            
 
             self.view_page_result.changeTypeResultChart(id_point=point_graphics,
                                                      y_new=data_axis_y)
@@ -386,7 +394,6 @@ class ControllerPageResult(QObject):
         
     
     def updateMenuResults(self):
-        print("updateMenuResults")
         self.controller_menu_result_animation.updateMenuResults()
         self.controller_menu_result_graph.updateMenuResults()
         self.view_page_result.updateMenuResults()

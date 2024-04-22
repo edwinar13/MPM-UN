@@ -89,6 +89,9 @@ class AnalysisProgressDialog(QDialog, Ui_DialogLoanding):
                 }
             '''
             self.status_label.setStyleSheet("color: #DDDDDD")
+    
+    def setTimer(self, time):
+        self.timer_label.setText(time)
 
     def setProgress(self, value):
         self.progress_bar.setValue(value)
@@ -101,12 +104,6 @@ class AnalysisProgressDialog(QDialog, Ui_DialogLoanding):
         self.pause_button.setVisible(False)
         
         
-            
-
-        
-        
-        
-    
 
 
 class ControllerMenuExecute(QObject):
@@ -139,6 +136,10 @@ class ControllerMenuExecute(QObject):
         self.view_menu_execute.signal_state_view_boundary.connect(self.stateViewBoundary)
         self.view_menu_execute.signal_update_time.connect(self.updateTime)
         
+        self.view_menu_execute.signal_change_state_analysis_ce.connect(self.changeStateAnalysisCE)
+        self.view_menu_execute.Signal_update_dincre.connect(self.updateDincre)
+        self.view_menu_execute.signal_update_no_incre.connect(self.updateNoIncre)
+        
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
         self.model_current_project = model_current_project
         self.model_result = model_current_project.getModelResult()
@@ -158,48 +159,19 @@ class ControllerMenuExecute(QObject):
             self.view_menu_execute.setTimeAnalysis(time_analysis)
             self.view_menu_execute.setFps(fps)
                        
+   
+        execute_analysis_CE = self.model_current_project.getExecuteAnalysisCE()
+        dincre = self.model_current_project.getDincre()
+        noincre = self.model_current_project.getNoIncre()
+        
+        self.view_menu_execute.setCheckBoxExecuteAnalysisCE(execute_analysis_CE)
+        self.view_menu_execute.setDincre(dincre)
+        self.view_menu_execute.setNoIncre(noincre)
+        
 
         self.updateTime()
     
-        '''
-        result_point_materia = self.model_result.getPointMaterials()
-        ids_result_point_materia = list(result_point_materia.keys())
         
-        result_boundaries = self.model_result.getBoundarys()
-        ids_result_boundaries = list(result_boundaries.keys())        
-        
-        self.view_menu_execute.removeItemsLists()
-
-        points_material_from = []
-        points_material_to = []
-        models_points_materials = self.model_current_project.getModelsPointsMaterials()
-        
-        for id_PM in models_points_materials:
-            name_PM = models_points_materials[id_PM].getName()
-            color_PM = models_points_materials[id_PM].getColor()
-            if id_PM in ids_result_point_materia:
-                points_material_to.append({'name': name_PM, 'id': id_PM, 'color': color_PM})
-            else:
-                points_material_from.append({'name': name_PM, 'id': id_PM, 'color': color_PM})
-            
-        self.view_menu_execute.addItemsListsMaterialPointFrom(points_material_from)
-        self.view_menu_execute.addItemsListsMaterialPointTo(points_material_to)
-       
-        boundaries_from = []
-        boundaries_to = []
-        models_boundaries = self.model_current_project.getModelsBoundaries()
-        
-        for id_boundary in models_boundaries:
-            name_boundary = models_boundaries[id_boundary].getName()
-            if id_boundary in ids_result_boundaries:
-                boundaries_to.append({'name': name_boundary, 'id': id_boundary})
-            else:
-                boundaries_from.append({'name': name_boundary, 'id': id_boundary})       
-
-        self.view_menu_execute.addItemsListsBoundariesFrom(boundaries_from)
-        self.view_menu_execute.addItemsListsBoundariesTo(boundaries_to)
-        '''
-
     
     def setListPointsMaterialView(self):
         self.view_menu_execute.removeItemsListsMaterialPoint()
@@ -322,17 +294,7 @@ class ControllerMenuExecute(QObject):
         
         
         #ejectuar el análisis
-        '''
-        state_ok = self.analysisViga(analysis_dialog= analysis_dialog,
-                                    list_boundaries=list_boundaries,
-                                     list_point_material=list_point_material, 
-                                     dt_time=dtime,
-                                     list_time=tiempo,
-                                     steps_time=steps_time,
-                                     dt_graphic= dtimegraphic,
-                                     list_time_graphic=tiempographic,
-                                     steps_time_graphic=steps_timegraphic)
-        '''
+
         
         analysis_mpm = ModelExcuteAnalysisMPM(
                                     analysis_dialog= analysis_dialog,
@@ -348,7 +310,15 @@ class ControllerMenuExecute(QObject):
                                     list_time_graphic=tiempographic,
                                     steps_time_graphic=steps_timegraphic)
         
-        state_ok = analysis_mpm.runViga()
+        type_analysis_ce = self.model_current_project.getExecuteAnalysisCE()
+        
+        if True:
+            state_ok = analysis_mpm.runAnalysisDisc()
+            
+        elif type_analysis_ce:
+            state_ok = analysis_mpm.runAnalysisCE()
+        else:        
+            state_ok = analysis_mpm.runViga()
         
         if state_ok:
             self.signal_enable_results.emit()
@@ -372,7 +342,21 @@ class ControllerMenuExecute(QObject):
         self.model_current_project.stateViewBoundary(data)
 
 
-
+    @Slot(bool)
+    def changeStateAnalysisCE(self, state):
+        self.model_current_project.updateConfigAnalysis(execute_analysis_CE=state)
+        self.configDrawMenuExecute()
+        
+    @Slot()
+    def updateDincre(self):
+        dincre = self.view_menu_execute.getDincre()
+        self.model_current_project.updateConfigAnalysis(dincre=dincre)
+        
+    @Slot()
+    def updateNoIncre(self):
+        noincre = self.view_menu_execute.getNoIncre()
+        self.model_current_project.updateConfigAnalysis(noincre=noincre)
+        
     @Slot()
     def updateTime(self):   
  
@@ -404,7 +388,7 @@ class ControllerMenuExecute(QObject):
                             nu = poisson_ratio, 
                             rhop = density,
                             ele_size = ele_size,
-                            factor = number_courant)
+                            factor = number_courant)            
             result_dtime[id_mp] = {'dtime': dtime, 'velocity_cp': velocity_cp, 'id_property': id}
             
             
@@ -449,6 +433,7 @@ class ControllerMenuExecute(QObject):
         self.dtimegraphic = dtimegraphic
         self.tiempographic = tiempographic
         
+        
         self.__dataTime = {'id_property': id_property,
                         'courant_number': number_courant,
                             'analysis_time': time_ini,                            
@@ -487,19 +472,14 @@ class ControllerMenuExecute(QObject):
         print("creo que esto se peude aplicar tambien en la busqueda de los puntos en el analisis, salbo que s eaga con gunciones d eforma o algo asi que sea mas directo")
         result = {}
         for point in material_points:
-            #print("point: ",point)
             ''' result: POINT#1'''
-            #print("punto data: ",material_points[point])
             ''' punto data:  {
                 'COORDINATES': [1.25, 11.25],
                 'VOLUME': 6.250000000000009, 
                 'VELOCITY': {'X': 0.0, 'Y': 0.0},
                 'FORCE': {'X': 0.0, 'Y': 0.0}} '''
             for i, element in enumerate(elements):
-
-                #print("element: ",element)
                 ''' element: ELEMENT#1'''
-                #print("elemento data: ",elements[element])
                 ''' elemento data:  ['NODE#1', 'NODE#2', 'NODE#13', 'NODE#12'] '''
                 
                 '''   esto es de otra version 
@@ -509,7 +489,7 @@ class ControllerMenuExecute(QObject):
                 max_x = max(x_values)
                 min_y = min(y_values)
                 max_y = max(y_values)
-                #print("i: ",i, " element: ", element,"  [{},{},{},{}]".format(min_x,max_x,min_y, max_y))
+               
                 '''
                 min_x = 0
                 min_y = 0

@@ -267,7 +267,6 @@ class ItemResultNode(QGraphicsItem):
     def advanceTime(self,time_view):
         self._time_view = time_view  
         self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
-        
         self.updateColorPoint()
         
         
@@ -301,8 +300,7 @@ class ItemResultNode(QGraphicsItem):
         else:
             min_value = -1
             max_value = 1
-            value_data = 0            
-        
+            value_data = 0          
         percent = self.evaluatePercent(value_data, (min_value, max_value))
                     
         if self.color_style == "default":
@@ -374,7 +372,10 @@ class ItemResultNode(QGraphicsItem):
             porcentaje = 100.0
         else:
             range_total = max_value - min_value
-            porcentaje = ((value - min_value) / range_total) * 100
+            if range_total == 0:
+                porcentaje = 0.0
+            else:
+                porcentaje = ((value - min_value) / range_total) * 100
 
         return porcentaje
         
@@ -540,7 +541,6 @@ class ItemResultColorBar(QGraphicsItem):
         self.cardColorBar()
         
     def setText(self, max, min):
-        print("max, min", max, min)
         self.texts = []
         for i in range(5):
             self.texts.append({})
@@ -576,13 +576,9 @@ class ItemResultColorBar(QGraphicsItem):
             gradient.setColorAt(0, QColor(255, 255, 255, 255))
         
         elif color_type == 3:
-            print("color_type 3")
             gradient.setColorAt(1, QColor(255, 255, 255, 255))
             gradient.setColorAt(0, color)
 
-        if  color_type == 4:
-            print("color_type 4")
-            
         self.brush_rect_color = QBrush(gradient)
         self.pen_rect_color = QPen(QColor("#555"), 0, Qt.SolidLine)
         

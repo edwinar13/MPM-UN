@@ -502,7 +502,7 @@ class ModelResult(QObject):
             )
         
         
-    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely):
+    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely, despl, eqplas):
         self.__result_min ={
             'CORX': corx,
             'CORY': cory,
@@ -513,7 +513,9 @@ class ModelResult(QObject):
             'EPSYY': epsyy,
             'EPSXY': epsxy,
             'VELX': velx,
-            'VELY': vely
+            'VELY': vely,
+            'DESPL': despl,
+            'EQPLAS': eqplas
         }
         
         self.model_repository.updateResultMinDB(
@@ -526,11 +528,13 @@ class ModelResult(QObject):
             epsyy=epsyy,
             epsxy=epsxy,
             velx=velx,
-            vely=vely
+            vely=vely,
+            despl=despl,
+            eqplas=eqplas
             )
         
         
-    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely):  
+    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely, despl, eqplas):  
         self.__result_max ={
             'CORX': corx,
             'CORY': cory,
@@ -541,7 +545,9 @@ class ModelResult(QObject):
             'EPSYY': epsyy,
             'EPSXY': epsxy,
             'VELX': velx,
-            'VELY': vely
+            'VELY': vely,
+            'DESPL': despl,
+            'EQPLAS': eqplas
         }     
         
         self.model_repository.updateResultMaxDB(
@@ -554,13 +560,16 @@ class ModelResult(QObject):
             epsyy=epsyy,
             epsxy=epsxy,
             velx=velx,
-            vely=vely
+            vely=vely,
+            despl=despl,
+            eqplas=eqplas
             )  
 
                 
     def addResultNode(self, id_result_node, corx=None, cory=None,
              sigxx=None, sigyy=None, sigxy=None,
-             epsxx=None, epsyy=None, epsxy=None,velx = None, vely = None):        
+             epsxx=None, epsyy=None, epsxy=None,velx = None, vely = None,
+             despl=None, eqplas = None):
 
 
         self.model_repository.addResultNodeDB(
@@ -574,7 +583,9 @@ class ModelResult(QObject):
             epsyy=epsyy,
             epsxy=epsxy,
             velx=velx,
-            vely=vely
+            vely=vely,
+            despl=despl,
+            eqplas=eqplas
         )
 
         self.__result_nodes = self.model_repository.readResultNodesDB()

@@ -239,6 +239,7 @@ class ControllerMenuMesh(QObject):
         selected_objects = self.model_current_project.getSelectedObjects()      
         size_element_mesh = self.view_menu_mesh.getSize()
         type_mesh = self.view_menu_mesh.getType()
+        path_file = self.view_menu_mesh.getPathFile()
         
         if name_mesh == "":
             self.view_menu_mesh.msnAlertName(True, "Revisa el nombre  de la malla")
@@ -252,19 +253,123 @@ class ControllerMenuMesh(QObject):
         else:
             self.view_menu_mesh.msnAlertColor(False)
         
-        if len(selected_objects) == 0:
-            self.view_menu_mesh.msnAlertSelected(True, "Selecciona elementos para la malla")
-            return
+        
+        if type_mesh == "Archivo":
+            if path_file == "":                
+                self.view_menu_mesh.msnAlertFile(True, "Seleciona un archivo")
+                return
+            else:                
+                self.newMeshFile(name_mesh, color_mesh, path_file)
+            
         else:
-            self.view_menu_mesh.msnAlertSelected(False)
-            
-        if type_mesh == "Triangular":
-            self.newMeshTriangular(name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh)
-            
-        elif type_mesh == "Cuadrilátera":
-            self.newMeshQuadrilateral(name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh)
+            if len(selected_objects) == 0:
+                self.view_menu_mesh.msnAlertSelected(True, "Selecciona elementos para la malla")
+                return
+            else:
+                self.view_menu_mesh.msnAlertSelected(False)
+                
+            if type_mesh == "Triangular":
+                self.newMeshTriangular(name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh)
+                
+            elif type_mesh == "Cuadrilátera":
+                self.newMeshQuadrilateral(name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh)
         
         
+    def newMeshFile(self, name_mesh, color_mesh, path_file):
+        # verificamos que el archivo exista
+        if path_file == None:
+            self.view_menu_mesh.msnAlertFile(True, "Archivo no encontrado")
+            return
+            
+        #verificamos qsi los datos del archivo son correctos
+        with open(path_file, 'r') as file:
+            lines = file.readlines()
+            
+            # Inicializar listas para almacenar los datos
+            coord = []
+            incide = []
+
+            # Iterar sobre las líneas del archivo
+            for line in lines:
+                
+                # Ignorar líneas vacías o comentarios
+                if line.strip() == "" or line.startswith("#"):
+                    continue
+                
+                # Separar los valores en la línea por espacios y convertirlos a números
+                try:
+                    valores = [float(valor) for valor in line.split()]
+                except ValueError:
+                    self.view_menu_mesh.msnAlertFile(True, "Error en la separación o tipo de dato")                    
+                    return
+                                    
+
+                
+                # Verificar a qué conjunto de datos pertenece esta línea                
+                if len(valores) == 2: # coordenadas
+                    coord.append(valores)
+                
+                elif len(valores) == 3 or len(valores) == 4: # índices triangulares o cuadriláteros
+                    #pasar de float a int
+                    valores = [int(valor) for valor in valores]
+                    incide.append(valores)
+                else:
+                    self.view_menu_mesh.msnAlertFile(True, "Error en la cantidad de datos en la línea")
+                    return
+                
+                    
+            # Verificar que haya al menos 3 coordenadas y 3 índices
+            if len(coord) < 3 or len(incide) < 3:
+                self.view_menu_mesh.msnAlertFile(True, "Datos insuficientes en el archivo")
+                return
+            
+            # Verificar que los índices sean válidos
+            for indices in incide:
+                for indice in indices:
+                    if indice < 1 or indice > len(coord):
+                        self.view_menu_mesh.msnAlertFile(True, "Índices incorrectos en el archivo")
+                        return
+            
+            # nodos
+            nodes ={}
+            index = 1
+            for node in coord:
+                nodes[f'NODE#{index}'] = {'COORDINATES':[node[0],node[1]]}             
+                index +=1
+            
+            # elementos
+            elements ={}
+            index = 1
+            for element in incide:
+                elements[f'ELEMENT#{index}'] = [
+                                f'NODE#{element[0]}',
+                                f'NODE#{element[1]}',
+                                f'NODE#{element[2]}'
+                            ]
+                if len(element) == 4:
+                    elements[f'ELEMENT#{index}'].append(f'NODE#{element[3]}')
+                index +=1
+                
+            if len(element) == 3:
+                id = self.model_current_project.createMeshTriangular(name=name_mesh ,
+                                                    color=color_mesh,
+                                                    nodes=nodes,
+                                                    elements= elements)
+                model_mesh = self.model_current_project.getModelsMeshsTriangular()[id]
+            
+            elif len(element) == 4:
+                id = self.model_current_project.createMeshQuadrilateral(name=name_mesh ,
+                                                    color=color_mesh,
+                                                    nodes=nodes,
+                                                    elements= elements)
+                model_mesh = self.model_current_project.getModelsMeshsQuadrilaterals()[id]
+                
+            self.createMeshCard(model_mesh)
+            self.view_menu_mesh.endMesh()
+            self.endDrawMesh()
+            
+            self.view_menu_mesh.msnAlertFile(False, "Archivo cargado correctamente")
+
     
     def newMeshTriangular(self, name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh):         
             
