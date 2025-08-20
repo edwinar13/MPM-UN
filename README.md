@@ -38,6 +38,14 @@ El proyecto sigue una estructura organizada que separa claramente la lógica de 
    git clone https://github.com/tu_usuario/MPM-UN.git
    ```
 
+2. Crea un entorno virtual (opcional pero recomendado):
+
+   ```bash
+   python -m venv env
+   source env/bin/activate  # En Windows usa `env\Scripts\activate`
+   ```
+
+
 2. Navega al directorio del proyecto:
 
    ```bash

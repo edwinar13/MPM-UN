@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>889</height>
+    <height>910</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -606,6 +606,11 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;] {
     selection-background-color: #808080;
 }
 
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]:disabled {    
+    background-color: #333;
+	color: #777;
+}
+
 QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator {
     background-color: transparent;
     border: 1px solid #808080;
@@ -618,6 +623,48 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
 	 border-radius: 3px;
 }
 
+QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked:disabled {
+    background-color: #666;
+
+}
+
+/*◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘           QRadioButton            ◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘◘*/
+QRadioButton[QRadioButtonStyle=&quot;1&quot;] {    
+    background-color: transparent;
+	color: #DDDDDD;
+    padding: 5px;
+	font:  9pt &quot;Ubuntu&quot;;
+    selection-background-color: #808080;
+}
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]:disabled {    
+    background-color: #333;
+	color: #777;
+}
+
+
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator {
+    background-color: #333;
+    border: 1px solid #555;
+	border-radius: 6px;
+}
+
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:disabled {
+    background-color: #444;
+    border: 1px solid #444;
+	border-radius: 6px;
+}
+
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked{
+    background-color: #F94646;
+ /*#00BDB9 #77ACA2*/
+    border: none;
+	 border-radius: 6px;
+}
+
+QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
+    background-color: #666;
+
+}
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1037,64 +1084,9 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                     <property name="QComboBoxStyle" stdset="0">
                      <number>1</number>
                     </property>
-                    <item>
-                     <property name="text">
-                      <string>default</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>sigxx</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>sigyy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>sigxy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>epsxx</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>epsyy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>epsxy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>velx</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>vely</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>despl</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>eqplas</string>
-                     </property>
-                    </item>
                    </widget>
                   </item>
-                  <item row="1" column="0">
+                  <item row="3" column="0">
                    <widget class="QLabel" name="label_textResultAnimation3">
                     <property name="minimumSize">
                      <size>
@@ -1110,7 +1102,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="1">
+                  <item row="3" column="1">
                    <widget class="QSpinBox" name="spinBox_ResultAnimationVelocity">
                     <property name="minimumSize">
                      <size>
@@ -1137,6 +1129,74 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                      <number>1</number>
                     </property>
                    </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QCheckBox" name="checkBox_ResultVector">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Campo de vectores</string>
+                    </property>
+                    <property name="checked">
+                     <bool>false</bool>
+                    </property>
+                    <property name="QCheckBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_ResultXY">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>XY</string>
+                      </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
+                      <property name="QRadioButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_ResultX">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>XX</string>
+                      </property>
+                      <property name="checkable">
+                       <bool>true</bool>
+                      </property>
+                      <property name="checked">
+                       <bool>false</bool>
+                      </property>
+                      <property name="QRadioButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_ResultY">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="text">
+                       <string>YY</string>
+                      </property>
+                      <property name="QRadioButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </widget>
@@ -1538,39 +1598,6 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1">
-                   <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="QComboBoxStyle" stdset="0">
-                     <number>1</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>default</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Rojo-Azul</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Escala de grises</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Escala color</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
                   <item row="1" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
@@ -1649,7 +1676,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                          </colorrole>
                          <colorrole role="PlaceholderText">
                           <brush brushstyle="SolidPattern">
-                           <color alpha="255">
+                           <color alpha="128">
                             <red>221</red>
                             <green>221</green>
                             <blue>221</blue>
@@ -1714,7 +1741,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                          </colorrole>
                          <colorrole role="PlaceholderText">
                           <brush brushstyle="SolidPattern">
-                           <color alpha="255">
+                           <color alpha="128">
                             <red>221</red>
                             <green>221</green>
                             <blue>221</blue>
@@ -1779,7 +1806,7 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                          </colorrole>
                          <colorrole role="PlaceholderText">
                           <brush brushstyle="SolidPattern">
-                           <color alpha="255">
+                           <color alpha="128">
                             <red>221</red>
                             <green>221</green>
                             <blue>221</blue>
@@ -1919,6 +1946,36 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                     </property>
                    </widget>
                   </item>
+                  <item row="0" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                     <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles_Resultados">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QComboBoxStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles_Puntos">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QComboBoxStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
                  </layout>
                 </widget>
                </item>
@@ -1957,19 +2014,6 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                    </property>
                    <property name="checked">
                     <bool>true</bool>
-                   </property>
-                   <property name="QCheckBoxStyle" stdset="0">
-                    <number>1</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="checkBox_ResultAnimationBase">
-                   <property name="text">
-                    <string>Ver Base</string>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
                    </property>
                    <property name="QCheckBoxStyle" stdset="0">
                     <number>1</number>

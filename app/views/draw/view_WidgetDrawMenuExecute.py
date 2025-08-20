@@ -21,6 +21,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     signal_change_state_analysis_ce = Signal(bool)
     signal_update_no_incre = Signal()
     Signal_update_dincre = Signal()
+    Signal_update_dincreGrav = Signal()
     
     def __init__(self):
         super(ViewWidgetDrawMenuExecute, self).__init__()
@@ -110,6 +111,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.listWidget_execute_boundariesTo.show()
         
         self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(False)
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setEnabled(False)
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(False)
         self.checkBox_ExecuteAnalysisCE.setChecked(False)
         #self.frame_Execute3.setVisible(False)
@@ -138,6 +140,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         #analisis cuasi-estático
         self.checkBox_ExecuteAnalysisCE.stateChanged.connect(self.__stateChangedCheckBoxExecuteAnalysisCE)
         self.lineEdit_ExecuteAnalysisCE_dincre.editingFinished.connect(self.__editingFinishedLineEditExecuteAnalysisCEDincre)
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.editingFinished.connect(self.__editingFinishedLineEditExecuteAnalysisCEDincreGrav)
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.valueChanged.connect(self.emitSignalUpdateNoIncre)
         
         self.toolButton_Execute.clicked.connect(self.__clickedToolButtonExecute)
@@ -290,14 +293,17 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.signal_state_view_boundary.emit({'id_boundary':id_boundary,'state_view':True})
 
     def __clickedToolButtonExecute(self):
+        print('Ejecutar análisis')
         self.signal_execute.emit()
         
     def __stateChangedCheckBoxExecuteAnalysisCE(self):
         if self.checkBox_ExecuteAnalysisCE.isChecked():
             self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(True)
+            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setEnabled(True)
             self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(True)
         else:
             self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(False)
+            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setEnabled(False)
             self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(False)
             
         self.signal_change_state_analysis_ce.emit(self.checkBox_ExecuteAnalysisCE.isChecked())
@@ -320,7 +326,27 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.lineEdit_ExecuteAnalysisCE_dincre.setFocus()
             self.lineEdit_ExecuteAnalysisCE_dincre.setStyleSheet("border: 1px solid #F94646")  
             self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa la velocidad en x")          
+            self.label_msn.setText("Revisa el incremento de la carga")      
+            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+
+    def __editingFinishedLineEditExecuteAnalysisCEDincreGrav(self):
+        """Verifica al salir del QLineEdit si el texto es
+        un número, si es verdadero le da formato decimal y
+        actualiza factor damping en la copia de la bd del proyecto.
+        si no es número da mensaje de error"""
+        velx = self.lineEdit_ExecuteAnalysisCE_dincreGrav.text()
+        if general_functions.isNumber(velx):
+            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setText(str(float(velx)))            
+            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setStyleSheet("border-color: #444444")
+            self.label_msn.setText("Empty")
+            self.label_msn.setStyleSheet("color: #333333") 
+            self.Signal_update_dincreGrav.emit()
+
+        else:            
+            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setFocus()
+            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setStyleSheet("border: 1px solid #F94646")  
+            self.label_msn.setStyleSheet("color:  #F94646")  
+            self.label_msn.setText("Revisa el incremento de la gravedad")        
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
     
     def emitSignalUpdateNoIncre(self):
@@ -393,6 +419,12 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     def getDincre (self):
         return self.lineEdit_ExecuteAnalysisCE_dincre.text()
     
+    def setDincreGrav (self, dincre_grav):
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setText(str(dincre_grav))
+
+    def getDincreGrav (self):
+        return self.lineEdit_ExecuteAnalysisCE_dincreGrav.text()
+    
     def setNoIncre (self, no_incre):
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setValue(no_incre)
         
@@ -403,13 +435,19 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 
     
     def setResultRTimes(self,name_property, velocity_cp, dtime, step_time, dtimegraphic, step_timegraphic):
-        
+        '''
+        esto se quita ya que se redondea segun el dtime y si este es muy pequeño como exponencial no se puede separar con .
+        print("1-tiempo", dtime)
         dtime_str = str(dtime).split(".")
+        print("2-tiempo", dtime_str)
         dtime_decimals = len(dtime_str[1])
+        print("3-tiempo", dtime_decimals)
+        '''
 
         self.label_texExcuteVelocityCp.setText(f"{velocity_cp:.2f}m/s")
         self.label_texExcuteDtAnalysis.setText(f"{dtime}s")
-        self.label_texExcuteDtGraphic.setText(f"{dtimegraphic:.{dtime_decimals}f}s")        
+        #self.label_texExcuteDtGraphic.setText(f"{dtimegraphic:.{dtime_decimals}f}s")
+        self.label_texExcuteDtGraphic.setText(f"{dtimegraphic}s")        
         self.label_texExcuteStepAnalysis.setText(f"{step_time}pasos")
         self.label_texExcuteStepGraphic.setText(f"{step_timegraphic}pasos")
         self.label_texExcuteProperty.setText(f'{name_property}')

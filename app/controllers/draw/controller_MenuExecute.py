@@ -138,6 +138,7 @@ class ControllerMenuExecute(QObject):
         
         self.view_menu_execute.signal_change_state_analysis_ce.connect(self.changeStateAnalysisCE)
         self.view_menu_execute.Signal_update_dincre.connect(self.updateDincre)
+        self.view_menu_execute.Signal_update_dincreGrav.connect(self.updateDincreGrav)
         self.view_menu_execute.signal_update_no_incre.connect(self.updateNoIncre)
         
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
@@ -162,10 +163,12 @@ class ControllerMenuExecute(QObject):
    
         execute_analysis_CE = self.model_current_project.getExecuteAnalysisCE()
         dincre = self.model_current_project.getDincre()
+        dincreGrav = self.model_current_project.getDincreGrav()
         noincre = self.model_current_project.getNoIncre()
         
         self.view_menu_execute.setCheckBoxExecuteAnalysisCE(execute_analysis_CE)
         self.view_menu_execute.setDincre(dincre)
+        self.view_menu_execute.setDincreGrav(dincreGrav)
         self.view_menu_execute.setNoIncre(noincre)
         
 
@@ -312,10 +315,11 @@ class ControllerMenuExecute(QObject):
         
         type_analysis_ce = self.model_current_project.getExecuteAnalysisCE()
         
-        if True:
-            state_ok = analysis_mpm.runAnalysisDisc()
+        #if True:
+        #    state_ok = analysis_mpm.runAnalysisDisc()
             
-        elif type_analysis_ce:
+        #elif type_analysis_ce:
+        if type_analysis_ce:
             state_ok = analysis_mpm.runAnalysisCE()
         else:        
             state_ok = analysis_mpm.runViga()
@@ -351,6 +355,11 @@ class ControllerMenuExecute(QObject):
     def updateDincre(self):
         dincre = self.view_menu_execute.getDincre()
         self.model_current_project.updateConfigAnalysis(dincre=dincre)
+
+    @Slot()
+    def updateDincreGrav(self):
+        dincreGrav = self.view_menu_execute.getDincreGrav()
+        self.model_current_project.updateConfigAnalysis(dincreGrav=dincreGrav)
         
     @Slot()
     def updateNoIncre(self):

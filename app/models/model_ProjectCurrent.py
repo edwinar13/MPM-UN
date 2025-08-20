@@ -361,9 +361,12 @@ class ModelProjectCurrent(QObject):
         return execute_analysis_CE
     
     def getDincre(self)->float:
-        dincre = float(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"])
-        
+        dincre = float(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"])        
         return dincre
+    
+    def getDincreGrav(self)->float:
+        dincregrav = float(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["DELTAINCREMENTO_GRAV"])
+        return dincregrav
     
     def getNoIncre(self) -> int:
         noincre = int(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["NUMEROINCREMENTOS"])
@@ -413,11 +416,12 @@ class ModelProjectCurrent(QObject):
             gravity=gravity,
             dampfac=dampfac)
         
-    def updateConfigAnalysis(self, execute_analysis_CE=None, dincre=None, noincre=None):
+    def updateConfigAnalysis(self, execute_analysis_CE=None, dincreGrav=None, dincre=None, noincre=None):
         """ funcion para actualizar la configuracion del analisis del proyecto """
         self.model_repository.updateConfigAnalysisDB(
             evaluate_condition=execute_analysis_CE,
             delta_increment=dincre,
+            delta_increment_grav=dincreGrav,
             number_increments=noincre)
     
     # ::::::::::::::::::::                ITEMS  POINTS             ::::::::::::::::::::

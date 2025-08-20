@@ -329,10 +329,12 @@ class ControllerPageResult(QObject):
                 data_axis_y = data[point_graphics]['VELX']
             elif self.graphics_type_result.lower() == 'vely':
                 data_axis_y = data[point_graphics]['VELY']
-            elif self.graphics_type_result.lower() == 'despl':
-                data_axis_y = data[point_graphics]['DESPL']
-            elif self.graphics_type_result.lower() == 'despl':
-                data_axis_y = data[point_graphics]['DESPL']                
+            elif self.graphics_type_result.lower() == 'desplx':
+                data_axis_y = data[point_graphics]['DESPLX']
+            elif self.graphics_type_result.lower() == 'desply':
+                data_axis_y = data[point_graphics]['DESPLY']                
+            elif self.graphics_type_result.lower() == 'desplxy':
+                data_axis_y = data[point_graphics]['DESPLXY']                
             elif self.graphics_type_result.lower() == 'eqplas':
                 data_axis_y = data[point_graphics]['EQPLAS']
                 

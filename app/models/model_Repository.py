@@ -668,13 +668,18 @@ class ModelRepository():
         """ 
         return self.__unguarded_copy_db_project['CONFIGANALISIS']
     
-    def updateConfigAnalysisDB(self, evaluate_condition=None, delta_increment=None, number_increments=None):
+    def updateConfigAnalysisDB(self, evaluate_condition=None, 
+                               delta_increment=None,
+                               delta_increment_grav = None,
+                                 number_increments=None):
 
         try:                  
             if evaluate_condition != None:   
                 self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["EVALUARESTACONDICION"]=evaluate_condition
             if delta_increment != None:   
                 self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"]=delta_increment
+            if delta_increment_grav != None:
+                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["DELTAINCREMENTO_GRAV"]=delta_increment_grav
             if number_increments != None:   
                 self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["NUMEROINCREMENTOS"]=number_increments
 
@@ -736,23 +741,33 @@ class ModelRepository():
         """ return  analysis_result_nodes"""
         return self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS']
     
-    def addResultNodeDB(self, id_result_node, corx, cory,
+    def addResultNodeDB(self, id_result_node, material_node, corx, cory,
              sigxx, sigyy, sigxy,
-             epsxx, epsyy, epsxy,
-             velx,vely, despl, eqplas):  
+             epsexx, epseyy, epsexy, 
+             epspxx, epspyy, epspxy,
+             velxx, velyy,  velxy,
+             desplxx, desplyy, desplxy,
+             eqplas):  
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
+                "MATERIAL": material_node,
                 "CORX": corx,
                 "CORY": cory,
                 "SIGXX": sigxx,
                 "SIGYY": sigyy,
                 "SIGXY": sigxy,
-                "EPSXX": epsxx,
-                "EPSYY": epsyy,
-                "EPSXY": epsxy,
-                "VELX": velx,
-                "VELY": vely,
-                "DESPL": despl,
+                "EPSEXX": epsexx,
+                "EPSEYY": epseyy,
+                "EPSEXY": epsexy,
+                "EPSPXX": epspxx,
+                "EPSPYY": epspyy,
+                "EPSPXY": epspxy,
+                "VELXX": velxx,
+                "VELYY": velyy,
+                "VELXY": velxy,
+                "DESPLXX": desplxx,
+                "DESPLYY": desplyy,
+                "DESPLXY": desplxy,
                 "EQPLAS": eqplas                
             }
             
@@ -886,8 +901,13 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
 
-    def updateResultMinDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,epsxx=None, 
-                          epsyy=None, epsxy=None, velx = None, vely = None, despl = None, eqplas = None):
+    def updateResultMinDB(self, corx=None, cory=None,
+                          sigxx=None, sigyy=None, sigxy=None,
+                          epsexx=None, epseyy=None, epsexy=None, 
+                          epspxx=None, epspyy=None, epspxy=None,
+                          velxx = None, velyy = None, velxy = None,
+                          desplxx = None, desplyy = None, desplxy = None,
+                          eqplas = None):
         try:             
             if corx != None:   
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['CORX'] = corx
@@ -899,18 +919,30 @@ class ModelRepository():
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['SIGYY'] = sigyy
             if sigxy != None:
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['SIGXY'] = sigxy
-            if epsxx != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSXX'] = epsxx
-            if epsyy != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSYY'] = epsyy
-            if epsxy != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSXY'] = epsxy  
-            if velx != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELX'] = velx
-            if vely != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELY'] = vely  
-            if despl != None:
-                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['DESPL'] = despl
+            if epsexx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSEXX'] = epsexx
+            if epseyy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSEYY'] = epseyy
+            if epsexy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSEXY'] = epsexy
+            if epspxx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSPXX'] = epspxx
+            if epspyy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSPYY'] = epspyy
+            if epspxy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EPSPXY'] = epspxy 
+            if velxy != None: 
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELXY'] = velxy
+            if velxx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELXX'] = velxx               
+            if velyy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['VELYY'] = velyy  
+            if desplxx != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['DESPLXX'] = desplxx
+            if desplyy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['DESPLYY'] = desplyy
+            if desplxy != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['DESPLXY'] = desplxy
             if eqplas != None:
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['EQPLAS'] = eqplas                    
             return True
@@ -919,9 +951,13 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False       
 
-    def updateResultMaxDB(self, corx=None, cory=None,sigxx=None, sigyy=None, sigxy=None,
-                          epsxx=None, epsyy=None, epsxy=None, velx=None, vely=None, 
-                          despl=None, eqplas=None):
+    def updateResultMaxDB(self, corx=None, cory=None,
+                          sigxx=None, sigyy=None, sigxy=None,
+                          epsexx=None, epseyy=None, epsexy=None,
+                          epspxx=None, epspyy=None, epspxy=None,
+                          velxx=None, velyy=None,  velxy=None,
+                          desplxx=None, desplyy=None, desplxy=None,
+                          eqplas=None):
             try: 
                 
                 if corx != None:   
@@ -934,18 +970,30 @@ class ModelRepository():
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['SIGYY'] = sigyy
                 if sigxy != None:
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['SIGXY'] = sigxy
-                if epsxx != None:
-                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSXX'] = epsxx
-                if epsyy != None:
-                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSYY'] = epsyy
-                if epsxy != None:
-                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSXY'] = epsxy
-                if velx != None:
-                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELX'] = velx
-                if vely != None:
-                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELY'] = vely
-                if despl != None:
-                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['DESPL'] = despl
+                if epspxx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSPXX'] = epspxx
+                if epspyy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSPYY'] = epspyy
+                if epspxy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSPXY'] = epspxy
+                if epsexx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSEXX'] = epsexx
+                if epseyy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSEYY'] = epseyy
+                if epsexy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EPSEXY'] = epsexy
+                if velxy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELXY'] = velxy
+                if velxx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELXX'] = velxx
+                if velyy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['VELYY'] = velyy
+                if desplxx != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['DESPLXX'] = desplxx
+                if desplyy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['DESPLYY'] = desplyy
+                if desplxy != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['DESPLXY'] = desplxy
                 if eqplas != None:
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['EQPLAS'] = eqplas
                     

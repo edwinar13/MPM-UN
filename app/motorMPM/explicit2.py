@@ -2482,6 +2482,7 @@ def static_convergence(nmass, niforce, neforce, nvel, dtime, nework0):
     """Funcion para determinacion de equilibrio cuasi-estatico, a partir de la fuerza de desbalance
         y la energia cinetica de las fuerzas externas"""
     
+   
     # criterio de balance de fuerzas
     #ff = abs(np.linalg.norm(neforce) - np.linalg.norm(niforce))/np.linalg.norm(neforce)
     ff = np.linalg.norm(neforce + niforce)/np.linalg.norm(neforce)

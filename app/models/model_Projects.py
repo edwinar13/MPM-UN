@@ -397,6 +397,7 @@ class ModelProjects:
                 "ANALISISCUASIESTATICO": {
                     "EVALUARESTACONDICION": False,
                     "DELTAINCREMENTO": 0.0,
+                    "DELTAINCREMENTO_GRAV": 0.0,
                     "NUMEROINCREMENTOS": 0
                 }
             }

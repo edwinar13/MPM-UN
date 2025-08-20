@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_animationPfoXgK.ui'
+## Form generated from reading UI file 'widget_result_menu_animationMVfwsf.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,14 +17,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
     QFormLayout, QFrame, QGroupBox, QHBoxLayout,
-    QLabel, QLineEdit, QSizePolicy, QSpacerItem,
-    QSpinBox, QToolButton, QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QRadioButton, QSizePolicy,
+    QSpacerItem, QSpinBox, QToolButton, QVBoxLayout,
+    QWidget)
 
 class Ui_FormMenuResultAnimation(object):
     def setupUi(self, FormMenuResultAnimation):
         if not FormMenuResultAnimation.objectName():
             FormMenuResultAnimation.setObjectName(u"FormMenuResultAnimation")
-        FormMenuResultAnimation.resize(350, 889)
+        FormMenuResultAnimation.resize(350, 910)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -620,19 +621,67 @@ class Ui_FormMenuResultAnimation(object):
 "    selection-background-color: #808080;\n"
 "}\n"
 "\n"
+"QCheckBox[QCheckBoxStyle=\"1\"]:disabled {    \n"
+"    background-color: #333;\n"
+"	color: #777;\n"
+"}\n"
+"\n"
 "QCheckBox[QCheckBoxStyle=\"1\"]::indicator {\n"
-"    background-color: transparent;\n"
+"    background-col"
+                        "or: transparent;\n"
 "    border: 1px solid #808080;\n"
 "	border-radius: 3px;\n"
 "}\n"
 "\n"
-"QCheckBox[QCheckBoxS"
-                        "tyle=\"1\"]::indicator:checked {\n"
+"QCheckBox[QCheckBoxStyle=\"1\"]::indicator:checked {\n"
 "    background-color: #F94646;\n"
 "    border: none;\n"
 "	 border-radius: 3px;\n"
 "}\n"
 "\n"
+"QCheckBox[QCheckBoxStyle=\"1\"]::indicator:checked:disabled {\n"
+"    background-color: #666;\n"
+"\n"
+"}\n"
+"\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QRadioButton            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"QRadioButton[QRadioButtonStyle=\"1\"] {    \n"
+"    background-color: transparent;\n"
+"	color: #DDDDDD;\n"
+"    padding: 5px;\n"
+"	font:  9pt \"Ubuntu\";\n"
+"    selection-background-color: #808080;\n"
+"}\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]:disabled {    \n"
+"    background-color: #333;\n"
+"	color: #777;\n"
+"}\n"
+"\n"
+"\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]::indicat"
+                        "or {\n"
+"    background-color: #333;\n"
+"    border: 1px solid #555;\n"
+"	border-radius: 6px;\n"
+"}\n"
+"\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]::indicator:disabled {\n"
+"    background-color: #444;\n"
+"    border: 1px solid #444;\n"
+"	border-radius: 6px;\n"
+"}\n"
+"\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]::indicator:checked{\n"
+"    background-color: #F94646;\n"
+" /*#00BDB9 #77ACA2*/\n"
+"    border: none;\n"
+"	 border-radius: 6px;\n"
+"}\n"
+"\n"
+"QRadioButton[QRadioButtonStyle=\"1\"]::indicator:checked:disabled {\n"
+"    background-color: #666;\n"
+"\n"
+"}\n"
 "")
         self.horizontalLayout_6 = QHBoxLayout(FormMenuResultAnimation)
         self.horizontalLayout_6.setSpacing(0)
@@ -806,17 +855,6 @@ class Ui_FormMenuResultAnimation(object):
         self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_textPointMaterialName)
 
         self.comboBox_sceneTypeResult = QComboBox(self.frame_3)
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
-        self.comboBox_sceneTypeResult.addItem("")
         self.comboBox_sceneTypeResult.setObjectName(u"comboBox_sceneTypeResult")
         self.comboBox_sceneTypeResult.setMinimumSize(QSize(0, 25))
         self.comboBox_sceneTypeResult.setFocusPolicy(Qt.WheelFocus)
@@ -829,7 +867,7 @@ class Ui_FormMenuResultAnimation(object):
         self.label_textResultAnimation3.setMinimumSize(QSize(110, 0))
         self.label_textResultAnimation3.setProperty("QLabelStyle", 3)
 
-        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_textResultAnimation3)
+        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_textResultAnimation3)
 
         self.spinBox_ResultAnimationVelocity = QSpinBox(self.frame_3)
         self.spinBox_ResultAnimationVelocity.setObjectName(u"spinBox_ResultAnimationVelocity")
@@ -841,7 +879,44 @@ class Ui_FormMenuResultAnimation(object):
         self.spinBox_ResultAnimationVelocity.setDisplayIntegerBase(10)
         self.spinBox_ResultAnimationVelocity.setProperty("QSpinBoxStyle", 1)
 
-        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.spinBox_ResultAnimationVelocity)
+        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.spinBox_ResultAnimationVelocity)
+
+        self.checkBox_ResultVector = QCheckBox(self.frame_3)
+        self.checkBox_ResultVector.setObjectName(u"checkBox_ResultVector")
+        self.checkBox_ResultVector.setEnabled(False)
+        self.checkBox_ResultVector.setChecked(False)
+        self.checkBox_ResultVector.setProperty("QCheckBoxStyle", 1)
+
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.checkBox_ResultVector)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.radioButton_ResultXY = QRadioButton(self.frame_3)
+        self.radioButton_ResultXY.setObjectName(u"radioButton_ResultXY")
+        self.radioButton_ResultXY.setEnabled(False)
+        self.radioButton_ResultXY.setChecked(True)
+        self.radioButton_ResultXY.setProperty("QRadioButtonStyle", 1)
+
+        self.horizontalLayout_9.addWidget(self.radioButton_ResultXY)
+
+        self.radioButton_ResultX = QRadioButton(self.frame_3)
+        self.radioButton_ResultX.setObjectName(u"radioButton_ResultX")
+        self.radioButton_ResultX.setEnabled(False)
+        self.radioButton_ResultX.setCheckable(True)
+        self.radioButton_ResultX.setChecked(False)
+        self.radioButton_ResultX.setProperty("QRadioButtonStyle", 1)
+
+        self.horizontalLayout_9.addWidget(self.radioButton_ResultX)
+
+        self.radioButton_ResultY = QRadioButton(self.frame_3)
+        self.radioButton_ResultY.setObjectName(u"radioButton_ResultY")
+        self.radioButton_ResultY.setEnabled(False)
+        self.radioButton_ResultY.setProperty("QRadioButtonStyle", 1)
+
+        self.horizontalLayout_9.addWidget(self.radioButton_ResultY)
+
+
+        self.formLayout_3.setLayout(1, QFormLayout.FieldRole, self.horizontalLayout_9)
 
 
         self.verticalLayout_6.addWidget(self.frame_3)
@@ -1032,17 +1107,6 @@ class Ui_FormMenuResultAnimation(object):
 
         self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_textResultAnimation1_2)
 
-        self.comboBox_ResultAnimationColorStyles = QComboBox(self.frame_4)
-        self.comboBox_ResultAnimationColorStyles.addItem("")
-        self.comboBox_ResultAnimationColorStyles.addItem("")
-        self.comboBox_ResultAnimationColorStyles.addItem("")
-        self.comboBox_ResultAnimationColorStyles.addItem("")
-        self.comboBox_ResultAnimationColorStyles.setObjectName(u"comboBox_ResultAnimationColorStyles")
-        self.comboBox_ResultAnimationColorStyles.setMinimumSize(QSize(0, 25))
-        self.comboBox_ResultAnimationColorStyles.setProperty("QComboBoxStyle", 1)
-
-        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.comboBox_ResultAnimationColorStyles)
-
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.lineEdit_textColor = QLineEdit(self.frame_4)
@@ -1061,8 +1125,10 @@ class Ui_FormMenuResultAnimation(object):
         palette.setBrush(QPalette.Active, QPalette.ButtonText, brush)
         palette.setBrush(QPalette.Active, QPalette.Base, brush1)
         palette.setBrush(QPalette.Active, QPalette.Window, brush1)
+        brush2 = QBrush(QColor(221, 221, 221, 128))
+        brush2.setStyle(Qt.SolidPattern)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush)
+        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush2)
 #endif
         palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
         palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
@@ -1071,7 +1137,7 @@ class Ui_FormMenuResultAnimation(object):
         palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
         palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush2)
 #endif
         palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
         palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
@@ -1080,7 +1146,7 @@ class Ui_FormMenuResultAnimation(object):
         palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
         palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush2)
 #endif
         self.lineEdit_textColor.setPalette(palette)
         self.lineEdit_textColor.setStyleSheet(u"")
@@ -1141,6 +1207,25 @@ class Ui_FormMenuResultAnimation(object):
 
         self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.spinBox_ResultAnimationSizeText)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.comboBox_ResultAnimationColorStyles_Resultados = QComboBox(self.frame_4)
+        self.comboBox_ResultAnimationColorStyles_Resultados.setObjectName(u"comboBox_ResultAnimationColorStyles_Resultados")
+        self.comboBox_ResultAnimationColorStyles_Resultados.setMinimumSize(QSize(0, 25))
+        self.comboBox_ResultAnimationColorStyles_Resultados.setProperty("QComboBoxStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.comboBox_ResultAnimationColorStyles_Resultados)
+
+        self.comboBox_ResultAnimationColorStyles_Puntos = QComboBox(self.frame_4)
+        self.comboBox_ResultAnimationColorStyles_Puntos.setObjectName(u"comboBox_ResultAnimationColorStyles_Puntos")
+        self.comboBox_ResultAnimationColorStyles_Puntos.setMinimumSize(QSize(0, 25))
+        self.comboBox_ResultAnimationColorStyles_Puntos.setProperty("QComboBoxStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.comboBox_ResultAnimationColorStyles_Puntos)
+
+
+        self.formLayout_4.setLayout(0, QFormLayout.FieldRole, self.horizontalLayout_4)
+
 
         self.verticalLayout_7.addWidget(self.frame_4)
 
@@ -1166,13 +1251,6 @@ class Ui_FormMenuResultAnimation(object):
         self.checkBox_ResultAnimationGrid.setProperty("QCheckBoxStyle", 1)
 
         self.verticalLayout_9.addWidget(self.checkBox_ResultAnimationGrid)
-
-        self.checkBox_ResultAnimationBase = QCheckBox(self.frame_ResultAnimation0)
-        self.checkBox_ResultAnimationBase.setObjectName(u"checkBox_ResultAnimationBase")
-        self.checkBox_ResultAnimationBase.setChecked(False)
-        self.checkBox_ResultAnimationBase.setProperty("QCheckBoxStyle", 1)
-
-        self.verticalLayout_9.addWidget(self.checkBox_ResultAnimationBase)
 
         self.checkBox_ResultAnimationValues = QCheckBox(self.frame_ResultAnimation0)
         self.checkBox_ResultAnimationValues.setObjectName(u"checkBox_ResultAnimationValues")
@@ -1246,19 +1324,11 @@ class Ui_FormMenuResultAnimation(object):
         self.label_cardResultAnimationSubTitle1.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Datos de visualizaci\u00f3n", None))
         self.toolButton_cardResultAnimationSubTitle1.setText("")
         self.label_textPointMaterialName.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tipo de resultado:", None))
-        self.comboBox_sceneTypeResult.setItemText(0, QCoreApplication.translate("FormMenuResultAnimation", u"default", None))
-        self.comboBox_sceneTypeResult.setItemText(1, QCoreApplication.translate("FormMenuResultAnimation", u"sigxx", None))
-        self.comboBox_sceneTypeResult.setItemText(2, QCoreApplication.translate("FormMenuResultAnimation", u"sigyy", None))
-        self.comboBox_sceneTypeResult.setItemText(3, QCoreApplication.translate("FormMenuResultAnimation", u"sigxy", None))
-        self.comboBox_sceneTypeResult.setItemText(4, QCoreApplication.translate("FormMenuResultAnimation", u"epsxx", None))
-        self.comboBox_sceneTypeResult.setItemText(5, QCoreApplication.translate("FormMenuResultAnimation", u"epsyy", None))
-        self.comboBox_sceneTypeResult.setItemText(6, QCoreApplication.translate("FormMenuResultAnimation", u"epsxy", None))
-        self.comboBox_sceneTypeResult.setItemText(7, QCoreApplication.translate("FormMenuResultAnimation", u"velx", None))
-        self.comboBox_sceneTypeResult.setItemText(8, QCoreApplication.translate("FormMenuResultAnimation", u"vely", None))
-        self.comboBox_sceneTypeResult.setItemText(9, QCoreApplication.translate("FormMenuResultAnimation", u"despl", None))
-        self.comboBox_sceneTypeResult.setItemText(10, QCoreApplication.translate("FormMenuResultAnimation", u"eqplas", None))
-
         self.label_textResultAnimation3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Velocidad anim.:", None))
+        self.checkBox_ResultVector.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Campo de vectores", None))
+        self.radioButton_ResultXY.setText(QCoreApplication.translate("FormMenuResultAnimation", u"XY", None))
+        self.radioButton_ResultX.setText(QCoreApplication.translate("FormMenuResultAnimation", u"XX", None))
+        self.radioButton_ResultY.setText(QCoreApplication.translate("FormMenuResultAnimation", u"YY", None))
         self.groupBox.setTitle("")
         self.toolButton_sceneRegress.setText(QCoreApplication.translate("FormMenuResultAnimation", u"...", None))
         self.toolButton_sceneStop.setText(QCoreApplication.translate("FormMenuResultAnimation", u"...", None))
@@ -1273,11 +1343,6 @@ class Ui_FormMenuResultAnimation(object):
         self.label_cardResultAnimationSubTitle0.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Estilo de visualizaci\u00f3n", None))
         self.toolButton_cardResultAnimationSubTitle0.setText("")
         self.label_textResultAnimation1_2.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Estilos de colores:", None))
-        self.comboBox_ResultAnimationColorStyles.setItemText(0, QCoreApplication.translate("FormMenuResultAnimation", u"default", None))
-        self.comboBox_ResultAnimationColorStyles.setItemText(1, QCoreApplication.translate("FormMenuResultAnimation", u"Rojo-Azul", None))
-        self.comboBox_ResultAnimationColorStyles.setItemText(2, QCoreApplication.translate("FormMenuResultAnimation", u"Escala de grises", None))
-        self.comboBox_ResultAnimationColorStyles.setItemText(3, QCoreApplication.translate("FormMenuResultAnimation", u"Escala color", None))
-
         self.lineEdit_textColor.setText("")
         self.btn_select_color.setText("")
         self.label_textResultAnimation1_3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tama\u00f1o puntos (r):", None))
@@ -1286,7 +1351,6 @@ class Ui_FormMenuResultAnimation(object):
         self.checkBox_ResultAnimationCountour.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Contorno", None))
         self.checkBox_ResultAnimationLabel.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Etiquetas", None))
         self.checkBox_ResultAnimationGrid.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Grilla", None))
-        self.checkBox_ResultAnimationBase.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Base", None))
         self.checkBox_ResultAnimationValues.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Valores", None))
         self.label_msn.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Empty", None))
     # retranslateUi

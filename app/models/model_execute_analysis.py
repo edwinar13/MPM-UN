@@ -25,62 +25,106 @@ class MeshBack:
                  inci:np.ndarray, 
                  ele_size:float, 
                  nelex:int):
-        self.cor = cor
-        self.inci = inci
-        self.ele_size = ele_size
-        self.nelex = nelex
-        self.nnodesx = int(nelex + 1)
-        self.nnodesy = int(len(cor)/self.nnodesx)
-        self.node_support = node_conectivity(inci, len(cor[:,0]))
+        self.__cor = cor
+        self.__inci = inci
+        self.__ele_size = ele_size
+        self.__nelex = nelex
+
         
-    def getCor(self):
+    def cor(self):
         """Retorna las coordenadas de los nodos
         Description:
             Retorna un array con las coordenadas XY 
             de los nodos de la malla de fondo
         
         """
-        return self.cor
+        return self.__cor
     
-    def getInci(self):
+    def inci(self):
         """Retorna los indices de los nodos de cada elemento
         Description:
             Retorna un array con los indices de los nodos
             de cada elemento de la malla de fondo
         
         """
-        return self.inci
+        return self.__inci
     
-    def getEleSize(self):
+    def ele_size(self):
         """Retorna el tamaño de los elementos
         Description:
             Retorna el tamaño de los elementos de la malla de fondo
             el mismo para todos los elementos
         """
-        return self.ele_size
-    def getNelex(self):
+        return self.__ele_size
+    def nelex(self):
         """Retorna el numero de elementos en x
         Description:
             Retorna el numero de elementos en x de la malla de fondo
         """
-        return self.nelex
+        return self.__nelex
     
-    def getNnodesx(self):
+    def nnodesx(self):
         """Retorna el numero de nodos en x"""
-        return self.nnodesx   
+        nelex = self.nelex()
+        return int(nelex + 1)
      
-    def getNnodesy(self):
+    def nnodesy(self):
         """Retorna el numero de nodos en y"""
-        return self.nnodesy
+        nnodesx = self.nnodesx()
+        return int(len(self.__cor)/nnodesx)
     
-    def getNodeSupport(self):
+    def nodeSupport(self):
         """Retorna la conectividad de los nodos
         Description:
             Retorna un array de los nodos y 
             los elementos a los que pertenecen                   
         """
-        return self.node_support
+        cor = self.cor()
+        inci = self.inci()
+        return node_conectivity(inci, len(cor[:,0]))
     
+    
+'''
+class Body:
+    """Clase que contiene un cuerpo (punto material + inf)
+    nmp: numero de particulas
+    xp: coordenadas de las particulas
+    volumes: volumenes de las particulas
+    velocities: velocidades de las particulas
+    forces: fuerzas de las particulas 
+    
+    active_elem: elementos que tienen particulas
+    mp_elem: elementos donde estan las particulas
+    """
+    def __init__(self, nmp:int, xp:np.ndarray, volumes:np.ndarray,
+                 velocities:np.ndarray, forces:np.ndarray,
+                 active_elem:np.ndarray, mp_elem:np.ndarray):
+        self.__nmp = nmp
+        self.__xp = xp
+        self.__volumes = volumes
+        self.__velocities = velocities
+        self.__forces = forces
+        self.__active_elem = active_elem
+        self.__mp_elem = mp_elem
+    
+    def nmp(self):
+        """Retorna el numero de particulas
+        Description:
+            Retorna el numero de particulas del cuerpo
+        """
+        return self.__nmp
+    
+    def xp(self):
+        """Retorna las coordenadas de las particulas
+        Description:
+            Retorna un array con las coordenadas XY 
+            de las particulas
+        """
+        return self.__xp
+
+'''
+
+
 
         
 
@@ -115,17 +159,12 @@ class ModelExcuteAnalysisMPM:
         self.__dincre = None
         self.__nincre = None
         self.__charge = None
+        self.__chargeGrav = None
         
         # Condiciones iniciales
         self.__ic_dampfac = None
         self.__ic_gravity = None
         
-        # Malla de fondo
-        self.__mb_cor = None
-        self.__mb_inci = None
-        self.__mb_ele_size = None
-        self.__mb_nelex = None
-
         # Restricciones
         self.__bo_fixed_nodesX = None
         self.__bo_fixed_nodesY = None
@@ -141,11 +180,15 @@ class ModelExcuteAnalysisMPM:
         self.__mp_density = None
         
         
+        self.mesh = None
+        self.initMeshBack()
+        
+        
         
     def runViga(self):  
         print("runViga")      
         response = self.initConditions()
-        response = self.initMeshBack()
+        #response = self.initMeshBack()
         response = self.initBoundary()
         response = self.initMaterialPoint()
         response = self.initProperties()
@@ -156,26 +199,26 @@ class ModelExcuteAnalysisMPM:
             response = self.saveResults()        
         return response
 
-
     def runAnalysisCE(self):
         print("runAnalysisCE")
         response = self.initConditionsAnalysisCE()
         response = self.initConditions()
-        response = self.initMeshBack()
+        #response = self.initMeshBack()
         response = self.initBoundary()        
         response = self.initMaterialPoint()
         response = self.initProperties()
         response = self.initVerctorAndMatrix()
         response = self.initBoundaryParticles()        
-        response = self.executeAnalysisCE() 
+        response = self.executeAnalysisCE()         
         if response: 
             response = self.saveResults()        
         return response
 
     def runAnalysisDisc(self):
         print("runAnalysisDisc")
+        return
         response = self.initConditions()
-        response = self.initMeshBack()
+        #response = self.initMeshBack()
         response = self.initBoundary()        
         response = self.initMaterialPoint()
         response = self.initProperties()
@@ -192,18 +235,24 @@ class ModelExcuteAnalysisMPM:
         
         
     def initConditionsAnalysisCE(self):
-        dincre = self.model_current_project.getDincre()
         nincre = self.model_current_project.getNoIncre()
+        dincre = self.model_current_project.getDincre()
+        dincreGrav = self.model_current_project.getDincreGrav()
         charge = -np.linspace(0, dincre*nincre, nincre + 1) # array con los valores de carga de cada incremento
-
+        chargeGrav = -np.linspace(0, dincreGrav*nincre, nincre + 1) # array con los valores de gravedad de cada incremento 
         '''
-        print("self.__dincre", self.__dincre)
-        print("self.__nincre", self.__nincre)
-        print("self.__charge", self.__charge)
         '''
         self.__dincre = dincre
-        self.__nincre = nincre
+        self.__dincreGrav = dincreGrav
         self.__charge = charge
+        self.__chargeGrav = chargeGrav
+        self.__nincre = nincre
+        
+        print("self.__dincre", self.__dincre)
+        print("self.__dincreGrav", self.__dincreGrav)
+        print("self.__charge", self.__charge)
+        print("self.__chargeGrav", self.__chargeGrav)
+        print("self.__nincre", self.__nincre)
         
 
     
@@ -257,38 +306,12 @@ class ModelExcuteAnalysisMPM:
         cor=np.asarray(cor)
         inci=np.asarray(inci)
         
-        '''
-        #variables
-        self.__mb_cor = np.asarray(cor)
-        self.__mb_inci = np.asarray(inci)
-        self.__mb_ele_size = ele_size
-        self.__mb_nelex = np.asarray(int(dx_size/ele_size))
-        print("self.__mb_cor", self.__mb_cor)
-        print("self.__mb_inci", self.__mb_inci)
-        print("self.__mb_ele_size", self.__mb_ele_size)
-        print("self.__mb_nelex", self.__mb_nelex)
-        '''
-        
-        '''
-        cor = self.__mb_cor
-        inci = self.__mb_inci
-        node_support = node_conectivity(inci, len(cor[:,0])) # conectividad de los nodo
-        '''        
-        '''
-        print("init", inci)
-        print("len",len(cor[:,0]))
-        print("node_support", node_support)
-        self.__node_support = node_support
-        '''        
-        
         
         self.mesh = MeshBack(cor=cor,
                              inci= inci,
                              ele_size=ele_size,
                              nelex=int(dx_size/ele_size))
         
-        print("self.mesh", self.mesh)
-
 
         
     def initBoundary(self):
@@ -359,8 +382,11 @@ class ModelExcuteAnalysisMPM:
         model_mesh_back = self.model_current_project.getModelMeshBack()
         nodes = model_mesh_back.getNodes()
         cells = model_mesh_back.getElements()
-        mp_elem=[]
+        #---------
         mp_xp=[]
+        mp_property = []
+        #---------
+        mp_elem=[]
         mp_volumes=[]
         mp_velocities=[]
         mp_forces=[]
@@ -369,7 +395,8 @@ class ModelExcuteAnalysisMPM:
             model_material_point = models_material_point[id_material_point]
             points = model_material_point.getPoints()
             name = model_material_point.getName()
-            print("Name:", name)
+            id_property = model_material_point.getIdProperty()
+            
             cells_by_point = self.findCellForPoints(material_points = points,
                                         elements=cells,
                                         nodes=nodes)           
@@ -389,6 +416,7 @@ class ModelExcuteAnalysisMPM:
                 '''            
                 p = points[point]['COORDINATES']
                 mp_xp.append([p[0], p[1]])
+                mp_property.append(id_property)
                 vol = points[point]['VOLUME']
                 mp_volumes.append(vol)
                 vel = points[point]['VELOCITY']
@@ -398,8 +426,9 @@ class ModelExcuteAnalysisMPM:
                 
                     
         #variables
-        self.__mp_mp_elem = np.asarray(mp_elem)
         self.__mp_xp = np.asarray(mp_xp)
+        self.__mp_property = np.asarray(mp_property)
+        self.__mp_mp_elem = np.asarray(mp_elem)
         self.__mp_active_elem = np.unique(self.__mp_mp_elem[:, 0])
         self.__mp_nmp = len(self.__mp_mp_elem)
         
@@ -432,7 +461,7 @@ class ModelExcuteAnalysisMPM:
         #    NOTA property: revisar por que se esta asignado property,
         #             pero si son varios materiales no agrega todos
         #             sino el ultimo property
-        
+
         list_point_material = self.list_point_material
         models_material_point = self.model_current_project.getModelsPointsMaterials()
         models_property = self.model_current_project.getModelsProperties()
@@ -443,7 +472,7 @@ class ModelExcuteAnalysisMPM:
         mp_density = []
         for id_material_point in list_point_material:
             model_material_point = models_material_point[id_material_point]
-            points = model_material_point.getPoints()
+            points = model_material_point.getPoints()            
             id_material = model_material_point.getIdProperty()
             
             model_property = models_property[id_material]
@@ -663,13 +692,18 @@ class ModelExcuteAnalysisMPM:
         
     def executeAnalysisCE(self):
         
-        # incrementos de carga
-        dincre = self.__dincre
-        nincre = self.__nincre
-        charge = self.__charge
-
         # variables necesarias
         analysis_dialog = self.analysis_dialog
+
+        # incrementos de carga
+        dincre = self.__dincre
+        dincreGrav = self.__dincreGrav
+        charge = self.__charge
+        chargeGrav = self.__chargeGrav
+
+        nincre = self.__nincre
+
+
         
         
 
@@ -681,12 +715,15 @@ class ModelExcuteAnalysisMPM:
     
         
       
-        
+        '''
         # mesh back
         ele_size = self.__mb_ele_size
         nelex = self.__mb_nelex
         inci = self.__mb_inci
         cor = self.__mb_cor
+        '''
+
+
         
         # material point
         nmp =   self.__mp_nmp
@@ -744,20 +781,28 @@ class ModelExcuteAnalysisMPM:
         sigxx = np.empty((nmp, nincre+1))
         sigyy = np.empty((nmp, nincre+1))
         sigxy = np.empty((nmp, nincre+1))
-        epsxx = np.empty((nmp, nincre+1))
-        epsyy = np.empty((nmp, nincre+1))
-        epsxy = np.empty((nmp, nincre+1))
-        velx = np.zeros((nmp, nincre+1))
-        vely = np.zeros((nmp, nincre+1))
-        despl = np.zeros((nmp, nincre+1))
-        eqplas = np.zeros((nmp, nincre+1)) # deformacion plastica equivalente               
+        epspxx = np.empty((nmp, nincre+1))
+        epspyy = np.empty((nmp, nincre+1))
+        epspxy = np.empty((nmp, nincre+1))
+        epsexx = np.empty((nmp, nincre+1))
+        epseyy = np.empty((nmp, nincre+1))
+        epsexy = np.empty((nmp, nincre+1))
+        velxx = np.zeros((nmp, nincre+1))
+        velyy = np.zeros((nmp, nincre+1))
+        velxy = np.zeros((nmp, nincre+1))
+        desplxx = np.zeros((nmp, nincre+1))
+        desplyy = np.zeros((nmp, nincre+1))
+        desplxy = np.zeros((nmp, nincre+1))
+        eqplas = np.zeros((nmp, nincre+1))            
    
 
         corX[:,0], corY[:,0] = xp[:,0], xp[:,1] # coordenadas de las particulas
         sigxx[:,0], sigyy[:,0], sigxy[:,0] = sig[:,0], sig[:,1], sig[:,2] # esfuerzos
-        epsxx[:,0], epsyy[:,0], epsxy[:,0] = epse[:,0], epse[:,1], epse[:,2] # deformaciones
-        velx[:,0], vely[:,0] = vp[:,0], vp[:,1]
-        despl[:,0] = 0 # desplazamiento inicial
+        epsexx[:,0], epseyy[:,0], epsexy[:,0] = epse[:,0], epse[:,1], epse[:,2] # deformaciones elasticas
+        epspxx[:,0], epspyy[:,0], epspxy[:,0] = epsp[:,0], epsp[:,1], epsp[:,2] # deformaciones plasticas
+        velxx[:,0], velyy[:,0] = vp[:,0], vp[:,1]
+        velxy = np.sqrt(velxx[:,0]**2 + velyy[:,0]**2)
+        desplxx[:,0], desplyy[:,0] , desplxy[:,0] = 0, 0, 0 # desplazamiento inicial
         eqplas[:,0] = 0 # def plastica equivalente
     
     
@@ -818,8 +863,12 @@ class ModelExcuteAnalysisMPM:
             QApplication.processEvents()     
             
                 
-            
-            tp = (i+1) * dincre * tp0 # haciendo el incremento de carga            
+            bp[:, 1] = (i+1) * dincreGrav * bp[:, 1] # haciendo el incremento de carga de gravedad
+            tp = (i+1) * dincre * tp0 # haciendo el incremento de carga  
+            print("-"*20)
+            print("tp", tp)
+            print("bp", bp)
+            print("-"*20)
             # inicializando parametros de convergencia
             ff = 1
             ee = 1
@@ -828,7 +877,7 @@ class ModelExcuteAnalysisMPM:
             tcont = 0 # contador de interaciones
             # -- INCIAR CILO EN EL TIEMPO --
             tinicial = time.time() 
-            algo = 0
+            
             while (ff > 0.011) or (ee > 0.01):
                 # imprimir timepo de ejecucion en la iteracion pero borra el tiempo anterior
                 analysis_dialog.setTimer(f"⏳ {time.time() - tinicial:.0f}seg")
@@ -841,12 +890,12 @@ class ModelExcuteAnalysisMPM:
                 #                         se detiene el análisis 
                 ########################################################################
                 # --- buscar elementos y nodos activos ---
-                mp_elem, active_elem = search_MP(mp_elem, xp, ele_size, nelex) # buscar en que elem estan los MPs
-                active_nodes = np.unique(inci[active_elem - 1,:]) # lista de nodos activos
+                mp_elem, active_elem = search_MP(mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex()) # buscar en que elem estan los MPs
+                active_nodes = np.unique(self.mesh.inci()[active_elem - 1,:]) # lista de nodos activos
  
                 ########################################################################                    
                 # --- transferir de las particulas a los nodos ----
-                grid = inci, cor, active_elem, active_nodes, mp_elem # creando lista de valores de la malla
+                grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem # creando lista de valores de la malla
                 particle = xp, vp, Vp, Mp, sig, bp, tp # creando lista de partiulas 
 
 
@@ -897,7 +946,7 @@ class ModelExcuteAnalysisMPM:
                 
                 # Condicion para que salga del ciclo si lleva mucho tiempo en la iteracion
                 tiempoi = time.time() - tinicial
-                if (tiempoi > 10*t0) and (i > 0):
+                if (tiempoi > 100*t0) and (i > 0):
                     # si el tiempo de ejecucion es mayor a 20 veces el max anterior a partir de i=1
                     print("se excedio tiempo maximo de ejecucion!!")
                     finfor = True
@@ -917,10 +966,14 @@ class ModelExcuteAnalysisMPM:
             print()
             # Grabar informacion del tiempo que consigue el equilibrio estatico
             corX[:,i+1], corY[:,i+1] = xp[:,0], xp[:,1] # coordenadas de las particulas
-            sigxx[:,i+1], sigyy[:,i+1], sigxy[:,i+1] = sig[:,0], sig[:,1], sig[:,2] # esfuerzos
-            epsxx[:,i+1], epsyy[:,i+1], epsxy[:,i+1] = epse[:,0], epse[:,1], epse[:,2] # deformaciones
+            sigxx[:,i+1], sigyy[:,i+1], sigxy[:,i+1] = sig[:,0], sig[:,1], sig[:,2] # esfuerzos           
+            epsexx[:,i+1], epseyy[:,i+1], epsexy[:,i+1] = epse[:,0], epse[:,1], epse[:,2] # deformaciones elasticas
+            epspxx[:,i+1], epspyy[:,i+1], epspxy[:,i+1] = epsp[:,0], epsp[:,1], epsp[:,2] # deformaciones plasticas
             # calcular desplazamiento total
-            despl[:,i+1] = np.sqrt((corX[:,0] - corX[:,i+1])**2 + (corY[:,0] - corY[:,i+1])**2)
+
+            desplxx[:,i+1] = corX[:,i+1] -corX[:,0]
+            desplyy[:,i+1] = corY[:,i+1] -corY[:,0]
+            desplxy[:,i+1] = np.sqrt((corX[:,0] - corX[:,i+1])**2 + (corY[:,0] - corY[:,i+1])**2)
             # deformacion plastica equivalente
             eqplas[:,i+1] = np.sqrt(4/9*(epsp[:,0]**2 - epsp[:,0]*epsp[:,1] + epsp[:,1]**2) + 4/3*epsp[:,2]**2)
                 
@@ -933,7 +986,8 @@ class ModelExcuteAnalysisMPM:
         # tomar solo los array que se llenaron - HASTA EL VALOR QUE TENGA i
         corX, corY = corX[:,:i+2], corY[:,:i+2]
         sigxx, sigyy, sigxy = sigxx[:,:i+2], sigyy[:,:i+2], sigxy[:,:i+2]
-        epsxx, epsyy, epsxy = epsxx[:,:i+2], epsyy[:,:i+2], epsxy[:,:i+2]
+        epsexx, epseyy, epsexy = epsexx[:,:i+2], epseyy[:,:i+2], epsexy[:,:i+2]
+        epspxx, epspyy, epspxy = epspxx[:,:i+2], epspyy[:,:i+2], epspxy[:,:i+2]        
         eqplas = eqplas[:,:i+2]
         charge = charge[:i+2]
 
@@ -944,10 +998,10 @@ class ModelExcuteAnalysisMPM:
         tf =tm.time()
         print("tiempo", tf- t0)
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        dimy = 15
-        dimx = 20
+        dimy = 2
+        dimx = 2
         #print(corX, corY, sigyy, Vp0[0]*(12/dimy)**2, charge, dimx, dimy)
-        graphic_button2(corX, corY, despl, Vp0[0]*(12/dimy)**2, charge, dimx, dimy)
+        graphic_button2(corX, corY, desplxy, Vp0[0]*(12/dimy)**2, charge, dimx, dimy)
         #guardar en un archivo excel corX, corY, sigyy
         self.save_results_excel(corX, corY, sigyy)
 
@@ -962,20 +1016,24 @@ class ModelExcuteAnalysisMPM:
         self.__rs_sigxx = sigxx
         self.__rs_sigyy = sigyy
         self.__rs_sigxy = sigxy
-        self.__rs_epsxx = epsxx
-        self.__rs_epsyy = epsyy
-        self.__rs_epsxy = epsxy
-        self.__rs_velx = velx
-        self.__rs_vely = vely
-        self.__rs_despl = despl
+        self.__rs_epsexx = epsexx
+        self.__rs_epseyy = epseyy
+        self.__rs_epsexy = epsexy
+        self.__rs_epspxx = epspxx
+        self.__rs_epspyy = epspyy
+        self.__rs_epspxy = epspxy
+        self.__rs_velxy = velxy
+        self.__rs_velxx = velxx
+        self.__rs_velyy = velyy
+        self.__rs_desplxy = desplxy
+        self.__rs_desplxx = desplxx
+        self.__rs_desplyy = desplyy
         self.__rs_eqplas = eqplas               
         
         
         return True
 
-    def executeAnalysisViga(self):
-        
-        
+    def executeAnalysisViga(self):       
         
         # variables necesarias
         analysis_dialog = self.analysis_dialog
@@ -986,10 +1044,12 @@ class ModelExcuteAnalysisMPM:
         dt_time =           self.__tm_dt_time
         
         # mesh back
+        '''
         ele_size = self.__mb_ele_size
         nelex = self.__mb_nelex
         inci = self.__mb_inci
         cor = self.__mb_cor
+        '''
         
         # material point
         nmp =   self.__mp_nmp
@@ -1044,22 +1104,31 @@ class ModelExcuteAnalysisMPM:
         sigxx = np.zeros((nmp, len(list_time_graphic)))
         sigyy = np.zeros((nmp, len(list_time_graphic)))
         sigxy = np.zeros((nmp, len(list_time_graphic)))
-        epsxx = np.zeros((nmp, len(list_time_graphic)))
-        epsyy = np.zeros((nmp, len(list_time_graphic)))
-        epsxy = np.zeros((nmp, len(list_time_graphic)))
-        velx = np.zeros((nmp, len(list_time_graphic)))
-        vely = np.zeros((nmp, len(list_time_graphic)))
-        despl = np.zeros((nmp, len(list_time_graphic)))
+        epsexx = np.zeros((nmp, len(list_time_graphic)))
+        epseyy = np.zeros((nmp, len(list_time_graphic)))
+        epsexy = np.zeros((nmp, len(list_time_graphic)))
+        epspxx = np.zeros((nmp, len(list_time_graphic)))
+        epspyy = np.zeros((nmp, len(list_time_graphic)))
+        epspxy = np.zeros((nmp, len(list_time_graphic)))
+        velxx = np.zeros((nmp, len(list_time_graphic)))
+        velyy = np.zeros((nmp, len(list_time_graphic)))
+        velxy = np.zeros((nmp, len(list_time_graphic)))
+        desplxx = np.zeros((nmp, len(list_time_graphic)))
+        desplyy = np.zeros((nmp, len(list_time_graphic)))
+        desplxy = np.zeros((nmp, len(list_time_graphic)))
         eqplas = np.zeros((nmp, len(list_time_graphic)))
         
    
  
         corX[:,0], corY[:,0] = xp[:,0], xp[:,1]
         sigxx[:,0], sigyy[:,0], sigxy[:,0] = sig[:,0], sig[:,1], sig[:,2]
-        epsxx[:,0], epsyy[:,0], epsxy[:,0] = epse[:,0], epse[:,1], epse[:,2]
-        velx[:,0], vely[:,0] = vp[:,0], vp[:,1]    
-        despl[:,0] = 0 # desplazamiento inicial
+        epspxx[:,0], epspyy[:,0], epspxy[:,0] = epsp[:,0], epsp[:,1], epsp[:,2]
+        epsexx[:,0], epseyy[:,0], epsexy[:,0] = epse[:,0], epse[:,1], epse[:,2]
+        velxx[:,0], velyy[:,0] = vp[:,0], vp[:,1]   
+        velxy[:, 0] = np.sqrt(velxx[:,0]**2 + velyy[:,0]**2)
+        desplxx[:,0], desplyy[:,0] , desplxy[:,0] = 0, 0, 0
         eqplas[:,0] = 0 # def plastica equivalente
+
         
 
 
@@ -1118,15 +1187,15 @@ class ModelExcuteAnalysisMPM:
             #                         se detiene el análisis 
             ########################################################################
             # 1 => Buscamos en que elementos estan los MP
-            mp_elem, active_elem = search_MP(mp_elem, xp, ele_size, nelex)      
+            mp_elem, active_elem = search_MP(mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex())      
             try:
-                active_nodes = np.unique(inci[active_elem-1, :])
+                active_nodes = np.unique(self.mesh.inci()[active_elem-1, :])
             except Exception as e:
                 
                 print("---------------------//-------------------------")
                 print("Error: ", e)
                 print("Error en el tiempo: ", current_time, " paso: ", index)
-                print("Tamaño de inci:", inci.shape)
+                print("Tamaño de inci:", self.mesh.inci().shape)
                 print("Índice a acceder:", active_elem)
                 print("---------------------//-------------------------")
                 
@@ -1161,12 +1230,18 @@ class ModelExcuteAnalysisMPM:
                         sigxx = sigxx[:, :position_max]
                         sigyy = sigyy[:, :position_max]
                         sigxy = sigxy[:, :position_max]
-                        epsxx = epsxx[:, :position_max]
-                        epsyy = epsyy[:, :position_max]
-                        epsxy = epsxy[:, :position_max]
-                        velx = velx[:, :position_max]
-                        vely = vely[:, :position_max]
-                        despl = despl[:, :position_max]
+                        epspxx = epspxx[:, :position_max]
+                        epspyy = epspyy[:, :position_max]
+                        epspxy = epspxy[:, :position_max]
+                        epsexx = epsexx[:, :position_max]
+                        epseyy = epseyy[:, :position_max]
+                        epsexy = epsexy[:, :position_max]
+                        velxx = velxx[:, :position_max]
+                        velyy = velyy[:, :position_max]
+                        velxy = velxy[:, :position_max]
+                        desplxx = desplxx[:, :position_max]
+                        desplyy = desplyy[:, :position_max]
+                        desplxy = desplxy[:, :position_max]
                         eqplas = eqplas[:, :position_max]
                         break              
                 break
@@ -1185,7 +1260,7 @@ class ModelExcuteAnalysisMPM:
             #new_list_time.append(list_time[index])
             
             # 3 => Transferir la informacion de las particulas a lo nodos de la malla
-            grid = inci, cor, active_elem, active_nodes, mp_elem
+            grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem
             particle = xp, vp, Vp, Mp, sig, bp, tp
             nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
             nforce = niforce + neforce
@@ -1215,11 +1290,18 @@ class ModelExcuteAnalysisMPM:
             if abs(current_time - current_time_graphic) < 1e-13: 
                 corX[:,current_index_graphic + 1],corY[:,current_index_graphic + 1]= xp[:,0],xp[:,1]
                 sigxx[:,current_index_graphic + 1],sigyy[:,current_index_graphic + 1],sigxy[:,current_index_graphic + 1]=sig[:,0],sig[:,1],sig[:,2]
-                epsxx[:,current_index_graphic + 1],epsyy[:,current_index_graphic + 1],epsxy[:,current_index_graphic + 1]=epse[:,0],epse[:,1],epse[:,2]
-                velx[:,current_index_graphic + 1], vely[:,current_index_graphic + 1] = vp[:,0], vp[:,1]
+                epsexx[:,current_index_graphic + 1],epseyy[:,current_index_graphic + 1],epsexy[:,current_index_graphic + 1]=epse[:,0],epse[:,1],epse[:,2]
+                epspxx[:,current_index_graphic + 1],epspyy[:,current_index_graphic + 1],epspxy[:,current_index_graphic + 1]=epsp[:,0],epsp[:,1],epsp[:,2]
+                velxx[:,current_index_graphic + 1], velyy[:,current_index_graphic + 1] = vp[:,0], vp[:,1]
+                velxy[:, current_index_graphic + 1] = np.sqrt(vp[:,0]**2 + vp[:,1]**2)
+                desplxx[:,current_index_graphic + 1] = corX[:,current_index_graphic + 1] - corX[:,0]
+                desplyy[:,current_index_graphic + 1] = corY[:,current_index_graphic + 1] - corY[:,0]
+                desplxy[:,current_index_graphic + 1] = np.sqrt((corX[:,0] - corX[:,current_index_graphic + 1])**2 + (corY[:,0] - corY[:,current_index_graphic + 1])**2)                   
                 current_index_graphic += 1
-            
-
+          
+        print(">>: ", vp[0])
+        print('*/*/*/* velxy ', velxy.shape)
+        print('++/++/++/++ velx ', velxx.shape)
         tf =tm.time()
         print("tiempo", tf- t0)
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
@@ -1231,12 +1313,18 @@ class ModelExcuteAnalysisMPM:
         self.__rs_sigxx = sigxx
         self.__rs_sigyy = sigyy
         self.__rs_sigxy = sigxy
-        self.__rs_epsxx = epsxx
-        self.__rs_epsyy = epsyy
-        self.__rs_epsxy = epsxy
-        self.__rs_velx = velx
-        self.__rs_vely = vely
-        self.__rs_despl = despl
+        self.__rs_epsexx = epsexx
+        self.__rs_epseyy = epseyy
+        self.__rs_epsexy = epsexy
+        self.__rs_epspxx = epspxx
+        self.__rs_epspyy = epspyy
+        self.__rs_epspxy = epspxy
+        self.__rs_velxy = velxy
+        self.__rs_velxx = velxx
+        self.__rs_velyy = velyy
+        self.__rs_desplxx = desplxx
+        self.__rs_desplyy = desplyy
+        self.__rs_desplxy = desplxy
         self.__rs_eqplas = eqplas
         
         
@@ -1260,12 +1348,18 @@ class ModelExcuteAnalysisMPM:
         sigxx = self.__rs_sigxx
         sigyy = self.__rs_sigyy
         sigxy = self.__rs_sigxy
-        epsxx = self.__rs_epsxx
-        epsyy = self.__rs_epsyy
-        epsxy = self.__rs_epsxy        
-        velx = self.__rs_velx
-        vely = self.__rs_vely
-        despl = self.__rs_despl
+        epspxx = self.__rs_epspxx
+        epspyy = self.__rs_epspyy
+        epspxy = self.__rs_epspxy        
+        epsexx = self.__rs_epsexx
+        epseyy = self.__rs_epseyy
+        epsexy = self.__rs_epsexy
+        velxy = self.__rs_velxy
+        velxx = self.__rs_velxx
+        velyy = self.__rs_velyy
+        desplxx = self.__rs_desplxx
+        desplyy = self.__rs_desplyy
+        desplxy = self.__rs_desplxy
         eqplas = self.__rs_eqplas
         
         ########################################################################
@@ -1334,10 +1428,13 @@ class ModelExcuteAnalysisMPM:
         #    time_reached=new_list_time[-1]                
         
 
+
+
+
         self.model_result.updateResultMeshBack(
             size_dx=model_mesh_back.getSizeDx(),
             size_dy=model_mesh_back.getSizeDy(),
-            size_element=self.__mb_ele_size,
+            size_element=self.mesh.ele_size(),
             nodes=model_mesh_back.getNodes(),
             elements=model_mesh_back.getElements(),
             nodes_boundary_top=model_mesh_back.getBoundaryNodes()[0],
@@ -1359,12 +1456,18 @@ class ModelExcuteAnalysisMPM:
             sigxx=sigxx.min(),
             sigyy=sigyy.min(),
             sigxy=sigxy.min(),
-            epsxx=epsxx.min(),
-            epsyy=epsyy.min(),
-            epsxy=epsxy.min(),
-            velx=velx.min(),
-            vely=vely.min(),
-            despl=despl.min(),
+            epspxx=epspxx.min(),
+            epspyy=epspyy.min(),
+            epspxy=epspxy.min(),
+            epsexx=epsexx.min(),
+            epseyy=epseyy.min(),
+            epsexy=epsexy.min(),            
+            velxy=velxy.min(),
+            velxx=velxx.min(),
+            velyy=velyy.min(),
+            desplxx=desplxx.min(),
+            desplyy=desplyy.min(),
+            desplxy=desplxy.min(),
             eqplas=eqplas.min()
         )
         self.model_result.updateResultMax(
@@ -1373,39 +1476,56 @@ class ModelExcuteAnalysisMPM:
             sigxx=sigxx.max(),
             sigyy=sigyy.max(),
             sigxy=sigxy.max(),
-            epsxx=epsxx.max(),
-            epsyy=epsyy.max(),
-            epsxy=epsxy.max(),
-            velx=velx.max(),
-            vely=vely.max(),
-            despl=despl.max(),
+            epspxx=epspxx.max(),
+            epspyy=epspyy.max(),
+            epspxy=epspxy.max(),
+            epsexx=epsexx.max(),
+            epseyy=epseyy.max(),
+            epsexy=epsexy.max(),
+            velxy=velxy.max(),
+            velxx=velxx.max(),
+            velyy=velyy.max(),
+            desplxx=desplxx.max(),
+            desplyy=desplyy.max(),
+            desplxy=desplxy.max(),
             eqplas=eqplas.max()
             
         )
+        
+
                 
         for node in range(len(corX)):
             self.model_result.addResultNode(
                 id_result_node=node+1, 
+                material_node=self.__mp_property[node],
                 corx=corX.tolist()[node],
                 cory=corY.tolist()[node],
                 sigxx=sigxx.tolist()[node],
                 sigyy=sigyy.tolist()[node],
                 sigxy=sigxy.tolist()[node],
-                epsxx=epsxx.tolist()[node],
-                epsyy=epsyy.tolist()[node],
-                epsxy=epsxy.tolist()[node],
-                velx=velx.tolist()[node],
-                vely=vely.tolist()[node],
-                despl=despl.tolist()[node],
+                epsexx=epsexx.tolist()[node],
+                epseyy=epseyy.tolist()[node],
+                epsexy=epsexy.tolist()[node],
+                epspxx=epspxx.tolist()[node],
+                epspyy=epspyy.tolist()[node],
+                epspxy=epspxy.tolist()[node],
+                velxy=velxy.tolist()[node],
+                velxx=velxx.tolist()[node],
+                velyy=velyy.tolist()[node],
+                desplxx=desplxx.tolist()[node],
+                desplyy=desplyy.tolist()[node],
+                desplxy=desplxy.tolist()[node],
                 eqplas=eqplas.tolist()[node]
             )
         
         self.model_result.updateResult()
         return True
     
+
+    
     def save_results_excel(self, corX, corY, sigyy):
         #guardar en un archivo excel corX, corY, sigyy con pandas
-        path = "E:/Programacion/Tesis UNAL Geotecnia/2 Software/MPM-UN/test/3  archivos _mpm 2404\EXCEL/"
+        path = "D:/Programacion/Tesis UNAL Geotecnia/2 Software/MPM-UN/test/3  archivos _mpm 2404\EXCEL/"
         name = "resultados_CE.xlsx"
         with pd.ExcelWriter(path + name) as writer:
             df = pd.DataFrame(corX)

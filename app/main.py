@@ -41,7 +41,10 @@ def initFont():
     QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-MediumItalic.ttf')
     QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-Regular.ttf')
 
-if __name__ == '__main__':    
+
+
+if __name__ == '__main__':   
+
     app = QApplication(sys.argv)
     initFont()
     newFileApp()

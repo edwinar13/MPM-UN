@@ -32,16 +32,16 @@ class ControllerMenuResultAnimation(QObject):
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
-        self.view_menu_result_animation.signal_result_animation_color_styles.connect(self.signalResultAnimationColorStyles)
+        self.view_menu_result_animation.signal_result_animation_color_styles.connect(self.signalSceneTypeResult)
         self.view_menu_result_animation.signal_result_animation_grid.connect(self.signalResultAnimationGrid)   
         self.view_menu_result_animation.signal_result_animation_axis.connect(self.signalResultAnimationAxis)
-        self.view_menu_result_animation.signal_result_animation_base.connect(self.signalResultAnimationBase)
         self.view_menu_result_animation.signal_result_animation_label.connect(self.signalResultAnimationLabel)
         self.view_menu_result_animation.signal_result_animation_values_text.connect(self.signalResultAnimationValuesText)
         
         self.view_menu_result_animation.signal_result_animation_size_points.connect(self.signalResultAnimationSizePoints)
         self.view_menu_result_animation.signal_result_animation_size_texts.connect(self.signalResultAnimationSizeTexts)
         self.view_menu_result_animation.signal_scene_type_result.connect(self.signalSceneTypeResult)
+
         self.view_menu_result_animation.signal_scene_regress.connect(self.signalSceneRegress)
         self.view_menu_result_animation.signal_scene_advance.connect(self.signalSceneAdvance)
         self.view_menu_result_animation.signal_scene_play.connect(self.signalScenePlay)
@@ -68,7 +68,7 @@ class ControllerMenuResultAnimation(QObject):
         return self.view_menu_result_animation
     
     def updateMenuResults(self):
-        size = self.model_result.model_mesh_back.getSizeDx()/60
+        size = self.model_result.model_mesh_back.getSizeDx()/100
         self.view_menu_result_animation.setSizePoint(size=size)
         self.view_menu_result_animation.resetTypeResult()
         
@@ -103,28 +103,15 @@ class ControllerMenuResultAnimation(QObject):
         
         
         
-    @Slot()
-    def signalResultAnimationColorStyles(self):
-        color_style = self.view_menu_result_animation.getColorStyle()
-        hue = self.view_menu_result_animation.getColorCustomHue()
-        if color_style == 'Escala color':
-            self.model_result.changedColorStyle(color_style, hue)
-        else:
-            self.model_result.changedColorStyle(color_style) 
-        self.model_result.scene_result.update()
-    
+
     @Slot()
     def signalResultAnimationGrid(self):
         self.model_result.hideShowItemBasic('grid')
     
     @Slot()
     def signalResultAnimationAxis(self):
-        self.model_result.hideShowItemBasic('axis')
-    
-    @Slot()
-    def signalResultAnimationBase(self):
-        self.model_result.hideShowItemBasic('base')
-        
+        self.model_result.hideShowItemBasic('axis')   
+
             
     @Slot()
     def signalResultAnimationLabel(self):
@@ -152,12 +139,35 @@ class ControllerMenuResultAnimation(QObject):
     @Slot()
     def signalSceneTypeResult(self):
         type_result = self.view_menu_result_animation.getTypeResult()
-        if type_result == 'default':
-            self.view_menu_result_animation.setEnableColorStyle(False)
+        axis = self.view_menu_result_animation.getAxisResult()
+        vector = self.view_menu_result_animation.getVectorResult()
+        
+        print(type_result)
+        if type_result == 'default' or type_result == 'eqplas':
+            self.view_menu_result_animation.setEnabledSeletedAxis(False)
+            self.view_menu_result_animation.setEnabledSeletedVector(False)
+        elif type_result == 'despl' or type_result == 'vel':
+            self.view_menu_result_animation.setEnabledSeletedAxis(True)
+            self.view_menu_result_animation.setEnabledSeletedVector(True)
         else:
-            self.view_menu_result_animation.setEnableColorStyle(True)
-        self.model_result.setTypeResult(type_result)
+            self.view_menu_result_animation.setEnabledSeletedAxis(True)
+            self.view_menu_result_animation.setEnabledSeletedVector(False)
+        
+        if type_result == 'default':
+            self.view_menu_result_animation.showStyleColor(0)
+        else:
+            self.view_menu_result_animation.showStyleColor(1)
+
+        color_style = self.view_menu_result_animation.getColorStyle()
+        hue = self.view_menu_result_animation.getColorCustomHue()
+         
+        if color_style == 'Escala color':
+            self.model_result.setTypeResult(type_result, axis, vector, color_style, hue)
+        else:   
+            self.model_result.setTypeResult(type_result, axis, vector, color_style)
+        self.model_result.scene_result.update()
     
+
     @Slot()
     def signalSceneAnimationVelocity(self):
         velolity = self.view_menu_result_animation.getVelocity()

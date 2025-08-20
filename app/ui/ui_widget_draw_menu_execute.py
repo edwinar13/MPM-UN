@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_executeNPHDJX.ui'
+## Form generated from reading UI file 'widget_draw_menu_executeFWyYRH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -1067,7 +1067,7 @@ class Ui_FormDrawMenuExecute(object):
         self.label_ExecuteAnalysisCE1.setMinimumSize(QSize(65, 0))
         self.label_ExecuteAnalysisCE1.setProperty("QLabelStyle", 3)
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_ExecuteAnalysisCE1)
+        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_ExecuteAnalysisCE1)
 
         self.lineEdit_ExecuteAnalysisCE_dincre = QLineEdit(self.frame_Execute3)
         self.lineEdit_ExecuteAnalysisCE_dincre.setObjectName(u"lineEdit_ExecuteAnalysisCE_dincre")
@@ -1075,14 +1075,14 @@ class Ui_FormDrawMenuExecute(object):
         self.lineEdit_ExecuteAnalysisCE_dincre.setMinimumSize(QSize(50, 25))
         self.lineEdit_ExecuteAnalysisCE_dincre.setProperty("QLineEditStyle", 1)
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.lineEdit_ExecuteAnalysisCE_dincre)
+        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.lineEdit_ExecuteAnalysisCE_dincre)
 
         self.label_ExecuteAnalysisCE2 = QLabel(self.frame_Execute3)
         self.label_ExecuteAnalysisCE2.setObjectName(u"label_ExecuteAnalysisCE2")
         self.label_ExecuteAnalysisCE2.setMinimumSize(QSize(65, 0))
         self.label_ExecuteAnalysisCE2.setProperty("QLabelStyle", 3)
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_ExecuteAnalysisCE2)
+        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.label_ExecuteAnalysisCE2)
 
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre = QSpinBox(self.frame_Execute3)
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setObjectName(u"doubleSpinBoxl_ExecuteAnalysisCE_noIncre")
@@ -1095,7 +1095,22 @@ class Ui_FormDrawMenuExecute(object):
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setDisplayIntegerBase(10)
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setProperty("QSpinBoxStyle", 1)
 
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre)
+        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre)
+
+        self.label_ExecuteAnalysisCE1_2 = QLabel(self.frame_Execute3)
+        self.label_ExecuteAnalysisCE1_2.setObjectName(u"label_ExecuteAnalysisCE1_2")
+        self.label_ExecuteAnalysisCE1_2.setMinimumSize(QSize(65, 0))
+        self.label_ExecuteAnalysisCE1_2.setProperty("QLabelStyle", 3)
+
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_ExecuteAnalysisCE1_2)
+
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav = QLineEdit(self.frame_Execute3)
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setObjectName(u"lineEdit_ExecuteAnalysisCE_dincreGrav")
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setEnabled(False)
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setMinimumSize(QSize(50, 25))
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setProperty("QLineEditStyle", 1)
+
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.lineEdit_ExecuteAnalysisCE_dincreGrav)
 
 
         self.verticalLayout_5.addWidget(self.frame_Execute3)
@@ -1313,9 +1328,11 @@ class Ui_FormDrawMenuExecute(object):
         self.checkBox_ExecuteAnalysisCE.setText("")
         self.label_cardExecuteSubTitle3.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Condici\u00f3n  cuasi-est\u00e1tica ", None))
         self.toolButton_cardExecuteSubTitle3.setText("")
-        self.label_ExecuteAnalysisCE1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Delta incremento [kN/m]:", None))
+        self.label_ExecuteAnalysisCE1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Incremento Carga [kN/m]:", None))
         self.lineEdit_ExecuteAnalysisCE_dincre.setText(QCoreApplication.translate("FormDrawMenuExecute", u"1.0", None))
         self.label_ExecuteAnalysisCE2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"No incrementos:", None))
+        self.label_ExecuteAnalysisCE1_2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Increm. Gravedad [m/s2]:", None))
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setText(QCoreApplication.translate("FormDrawMenuExecute", u"1.0", None))
         self.label_cardExecuteSubTitle1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Datos", None))
         self.toolButton_cardExecuteSubTitle1.setText("")
         self.label_textBoundary1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Puntos materiales", None))

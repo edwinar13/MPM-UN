@@ -2,7 +2,8 @@ from models.model_Repository import ModelRepository
 from models.model_Mesh import ModelMeshBack
 from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewResult
 from utils.items_GraphicsResult import (ItemResultAxisMeshBack, ItemResultGridMeshBack, ItemResultLabelGridMeshBack,
-                                    ItemResultBaseMeshBack, ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem, ItemResultTextLabel)
+                                     ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem,CircleMpItem, ArrowMpItem,
+                                       ItemResultTextLabel)
 import random
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -100,7 +101,7 @@ class ModelResult(QObject):
         self.__result_min = result_min
         self.__result_max = result_max
         
-        self.base_mesh_back_result = None
+
         self.axis_mesh_back_result = None
         self.label_mesh_back_result = None
         self.grid_mesh_back_result = None
@@ -197,35 +198,15 @@ class ModelResult(QObject):
     # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
     ###############################################################################
     
-    def changedColorStyle(self, color_style, hue=0):
-        for node in self.__item_result_nodes:
-            node.setColorStyle(color_style, hue)            
-        
-        self.color_bar_result.setVisible(True)
-        if color_style == "default":
-            self.color_bar_result.setVisible(False)
-        
-        elif color_style == "Rojo-Azul":
-            self.color_bar_result.setColorType(1)
-        elif color_style == "Escala de grises":
-            self.color_bar_result.setColorType(2)
-        elif color_style == "Escala color":
-            color = QColor.fromHsv(hue, 255, 255)
-            self.color_bar_result.setColorType(3, color)
-        elif color_style == "rojo-rojo":
-            self.color_bar_result.setColorType(4)
-            
-    
+     
     
     def hideShowItemBasic(self,item, is_visible=True):
         """ 
         Args:
-            item (_type_): opciones => base, axis, label, grid            
+            item (_type_): opciones => axis, label, grid y values          
         """
         
-        if item == "base":
-            self.base_mesh_back_result.setVisible(not self.base_mesh_back_result.isVisible())
-        elif item == "axis":
+        if item == "axis":
             self.axis_mesh_back_result.setVisible(not self.axis_mesh_back_result.isVisible())
         elif item == "label":
             self.label_mesh_back_result.setVisible(not self.label_mesh_back_result.isVisible())
@@ -240,7 +221,7 @@ class ModelResult(QObject):
     
     def setSizePoints(self, size_points):
         for node in self.__item_result_nodes:
-            node.setSizePoints(size_points)
+            node.setSizePoints(size_points)            
         self.scene_result.update()
     
     def setSizeTexts(self, size_texts):
@@ -248,19 +229,44 @@ class ModelResult(QObject):
             node.setSizeTexts(size_texts)
         self.scene_result.update()
         
-    def setTypeResult(self, type_result):
-        for node in self.__item_result_nodes:   
-            node.setTypeResult(type_result)   
-
+    def setTypeResult(self, type_result, axis, vector, color_style, hue=0):
+        for node in self.__item_result_nodes: 
+            node.setTypeResult(type_result, axis, vector, color_style, hue)
         self.scene_result.update() 
-        if type_result != "default": 
-            min = self.__result_min[type_result.upper()]
-            max = self.__result_max[type_result.upper()]
-        else:
+        
+        # Actualiza el tipo de barra de color
+        if type_result == "default":
             min = 0
             max = 0
-        self.color_bar_result.setTypeResult(type_result, max, min)
+        else:
+            if type_result == "eqplas":
+                min = self.__result_min[f'{type_result}'.upper()]
+                max = self.__result_max[f'{type_result}'.upper()]
+            else:
+                min = self.__result_min[f'{type_result}{axis}'.upper()]
+                max = self.__result_max[f'{type_result}{axis}'.upper()]
+        self.color_bar_result.setTypeResult(type_result, axis, max, min)
         
+               
+        # Activa y desactiva la barra de color
+        self.color_bar_result.setVisible(True)
+        if color_style == "Material":
+            self.color_bar_result.setVisible(False)        
+        elif color_style == "Bicolor":
+            self.color_bar_result.setVisible(False)
+        elif color_style == "Rojo-Azul":
+            self.color_bar_result.setColorType(1)
+        elif color_style == "Escala de grises":
+            self.color_bar_result.setColorType(2)
+        elif color_style == "Escala color":
+            color = QColor.fromHsv(hue, 255, 255)
+            self.color_bar_result.setColorType(3, color)
+        elif color_style == "rojo-rojo":
+            self.color_bar_result.setColorType(4)
+
+
+
+
         
     def setVelocity(self, velocity):
         self.timer.setInterval(1000 / velocity) # intervalo en milisegundos
@@ -319,21 +325,37 @@ class ModelResult(QObject):
         size_mesh_back = self.model_mesh_back.getSizeDx()  
         
         for node in self.__result_nodes:
-            color_type = random.choices([1,2], weights=[70, 30], k=1)[0]
-            radius = size_mesh_back/60
-           
-              
+            
+            # random_color_bicolor =  0 o 1
+            random_color_bicolor = random.choices([1,2], weights=[70, 30], k=1)[0]
+            radius = size_mesh_back/100          
+
+            # texto
             text_node = TextNoMpItem(node, 0,0)
             self.scene_result.addItem(text_node)
 
+            # circulo
+            id_prop = self.__result_nodes[node]["MATERIAL"]            
+            propertie = self.__properties[id_prop]
+            color = propertie["COLOR"]
+            circle_node = CircleMpItem( radius, color, 0,0)
+            self.scene_result.addItem(circle_node)
+
+            # flecha
+            arrow_node = ArrowMpItem(radius,0,0)
+            self.scene_result.addItem(arrow_node)
+            
+
             node_result = ItemResultNode(
                 radius,
-                color_type, 
+                random_color_bicolor,
                 self.__graphic_time,
                 self.__result_nodes[node], 
                 self.__result_min,
                 self.__result_max,
-                text_node)
+                text_node,
+                circle_node,
+                arrow_node)
             
             self.__item_result_nodes.append(node_result)
             self.scene_result.addItem(node_result)
@@ -380,11 +402,8 @@ class ModelResult(QObject):
                                                              nodes=nodes, elements=elements)
         self.scene_result.addItem(self.grid_mesh_back_result)
         self.grid_mesh_back_result.setZValue(8)
-        
-        self.base_mesh_back_result = ItemResultBaseMeshBack(x = x, y = y, width = w, height = h,)
-        self.scene_result.addItem(self.base_mesh_back_result)
-        self.base_mesh_back_result.setZValue(100)
-        self.base_mesh_back_result.setVisible(False)
+
+
         
 
         self.color_bar_result = ItemResultColorBar(x,y)
@@ -502,19 +521,27 @@ class ModelResult(QObject):
             )
         
         
-    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely, despl, eqplas):
+    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, 
+                        epsexx, epseyy, epsexy, epspxx, epspyy, epspxy,
+                        velxy, velxx,velyy, desplxx, desplyy, desplxy, eqplas):
         self.__result_min ={
             'CORX': corx,
             'CORY': cory,
             'SIGXX': sigxx,
             'SIGYY': sigyy,
             'SIGXY': sigxy,
-            'EPSXX': epsxx,
-            'EPSYY': epsyy,
-            'EPSXY': epsxy,
-            'VELX': velx,
-            'VELY': vely,
-            'DESPL': despl,
+            'EPSEXX': epsexx,
+            'EPSEYY': epseyy,
+            'EPSEXY': epsexy,
+            'EPSPXX': epspxx,
+            'EPSPYY': epspyy,
+            'EPSPXY': epspxy,
+            'VELXY': velxy,
+            'VELXX': velxx,
+            'VELYY': velyy,
+            'DESPLXY': desplxy,
+            'DESPLXX': desplxx,
+            'DESPLYY': desplyy,
             'EQPLAS': eqplas
         }
         
@@ -524,29 +551,43 @@ class ModelResult(QObject):
             sigxx=sigxx,
             sigyy=sigyy,
             sigxy=sigxy,
-            epsxx=epsxx,
-            epsyy=epsyy,
-            epsxy=epsxy,
-            velx=velx,
-            vely=vely,
-            despl=despl,
+            epsexx=epsexx,
+            epseyy=epseyy,
+            epsexy=epsexy,
+            epspxx=epspxx,
+            epspyy=epspyy,
+            epspxy=epspxy,
+            velxx=velxx,
+            velyy=velyy,
+            velxy=velxy,
+            desplxx=desplxx,
+            desplyy=desplyy,
+            desplxy=desplxy,
             eqplas=eqplas
             )
         
         
-    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, epsxx, epsyy, epsxy, velx,vely, despl, eqplas):  
+    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, 
+                        epsexx, epseyy, epsexy, epspxx, epspyy, epspxy, 
+                        velxy,velxx,velyy, desplxx, desplyy, desplxy, eqplas):  
         self.__result_max ={
             'CORX': corx,
             'CORY': cory,
             'SIGXX': sigxx,
             'SIGYY': sigyy,
             'SIGXY': sigxy,
-            'EPSXX': epsxx,
-            'EPSYY': epsyy,
-            'EPSXY': epsxy,
-            'VELX': velx,
-            'VELY': vely,
-            'DESPL': despl,
+            'EPSEXX': epsexx,
+            'EPSEYY': epseyy,
+            'EPSEXY': epsexy,
+            'EPSPXX': epspxx,
+            'EPSPYY': epspyy,
+            'EPSPXY': epspxy,
+            'VELXX': velxx,
+            'VELYY': velyy,
+            'VELXY': velxy,
+            'DESPLXX': desplxx,
+            'DESPLYY': desplyy,
+            'DESPLXY': desplxy,
             'EQPLAS': eqplas
         }     
         
@@ -556,37 +597,57 @@ class ModelResult(QObject):
             sigxx=sigxx,
             sigyy=sigyy,
             sigxy=sigxy,
-            epsxx=epsxx,
-            epsyy=epsyy,
-            epsxy=epsxy,
-            velx=velx,
-            vely=vely,
-            despl=despl,
+            epsexx=epsexx,
+            epseyy=epseyy,
+            epsexy=epsexy,
+            epspxx=epspxx,
+            epspyy=epspyy,
+            epspxy=epspxy,
+
+            velxx=velxx,
+            velyy=velyy,
+            velxy=velxy,
+            desplxx=desplxx,
+            desplyy=desplyy,
+            desplxy=desplxy,
             eqplas=eqplas
             )  
 
                 
-    def addResultNode(self, id_result_node, corx=None, cory=None,
+    def addResultNode(self, id_result_node, material_node, corx=None, cory=None,
              sigxx=None, sigyy=None, sigxy=None,
-             epsxx=None, epsyy=None, epsxy=None,velx = None, vely = None,
-             despl=None, eqplas = None):
+             epsexx=None, epseyy=None, epsexy=None,
+             epspxx=None, epspyy=None, epspxy=None,
+             velxx = None, velyy = None, velxy = None,
+             desplxx=None, desplyy=None, desplxy=None,
+               eqplas = None):
+        
 
 
         self.model_repository.addResultNodeDB(
             id_result_node=str(id_result_node), 
+            material_node = material_node,
             corx=corx, 
             cory=cory,
             sigxx=sigxx, 
             sigyy=sigyy, 
             sigxy=sigxy,
-            epsxx=epsxx, 
-            epsyy=epsyy,
-            epsxy=epsxy,
-            velx=velx,
-            vely=vely,
-            despl=despl,
+            epsexx=epsexx,
+            epseyy=epseyy,
+            epsexy=epsexy,
+            epspxx=epspxx,
+            epspyy=epspyy,
+            epspxy=epspxy,
+            velxx=velxx,
+            velyy=velyy,
+            velxy=velxy,
+            desplxx=desplxx,
+            desplyy=desplyy,
+            desplxy=desplxy,
             eqplas=eqplas
         )
+
+       
 
         self.__result_nodes = self.model_repository.readResultNodesDB()
         
