@@ -198,23 +198,6 @@ def contour_fixe(nnodesx, nnodesy, left, right, up, down):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ====================================================
 # =========== Funcion para inicialiar MP =============
 

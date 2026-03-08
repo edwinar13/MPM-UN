@@ -82,8 +82,7 @@ class MeshBack:
         cor = self.cor()
         inci = self.inci()
         return node_conectivity(inci, len(cor[:,0]))
-    
-    
+
 '''
 class Body:
     """Clase que contiene un cuerpo (punto material + inf)

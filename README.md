@@ -1,389 +1,166 @@
-# MPM-UN
+<h1 align="center">
+  <br>
+  <img src="app/resources/iconos/iconos_logo/Logo_V1.svg" alt="MPM-UN" width="200">
+  <br>
+  MPM-UN
+  <br>
+</h1>
 
-MPM-UN es una aplicación de simulación numérica desarrollada para análisis de elementos finitos utilizando el Método de Partículas de Malla (MPM). Esta herramienta está diseñada para facilitar la simulación y visualización de problemas de mecánica de sólidos deformables.
+<h4 align="center">Aplicación de simulación numérica para análisis geotécnicos utilizando el <b>Método del Punto Material (MPM)</b>.</h4>
 
-## Características
+<p align="center">
+  <a href="#características">Características</a> •
+  <a href="#instalación">Instalación</a> •
+  <a href="#uso">Uso</a> •
+  <a href="#estructura-del-proyecto">Estructura</a> •
+  <a href="#contribución">Contribución</a>
+</p>
 
-- **Interfaz Gráfica Intuitiva:** MPM-UN ofrece una interfaz de usuario intuitiva que permite a los usuarios configurar y ejecutar simulaciones de manera sencilla.
-  
-- **Simulación Numérica:** Utiliza el Método de Partículas de Malla (MPM) para resolver problemas de mecánica de sólidos deformables, permitiendo simular una amplia gama de fenómenos físicos.
+---
 
-- **Visualización de Resultados:** La aplicación proporciona herramientas para visualizar de forma interactiva los resultados de las simulaciones, incluyendo gráficos y animaciones.
+**MPM-UN** es una aplicación desarrollada como parte de investigación de posgrado en geotecnia en la Universidad Nacional de Colombia. Proporciona una interfaz gráfica moderna (UI) que envuelve un motor de cálculo explícito en Python basado en el **Material Point Method (MPM)**, facilitando la simulación de problemas de mecánica de sólidos deformables y grandes deformaciones.
 
-- **Personalización y Configuración:** Permite a los usuarios personalizar los parámetros de simulación y configurar diferentes condiciones de contorno y materiales.
+## ✨ Características
 
-## Estructura del Proyecto
+* 🖥️ **Interfaz Gráfica Intuitiva (GUI):** Construida mediante el patrón MVC y PySide6, permite configurar geometrías, mallas y condiciones de frontera sin lidiar con el código matriz.
+* ⚙️ **Potente Motor MPM:** Integración de rutinas de integración de tiempo explícita asistidas por **Numba** (`@njit`) para cálculos de alta eficiencia.
+* 📊 **Análisis Generalizados:** Soporte para análisis cuasi-estáticos y dinámicos para casos como capacidad portante, falla de taludes, etc.
+* 📈 **Visualización Integrada:** Herramientas para visualizar datos iterativos de esfuerzos, deformaciones y desplazamientos directamente, junto con animaciones generadas cuadro por cuadro.
 
-El proyecto sigue una estructura organizada que separa claramente la lógica de la aplicación en diferentes módulos:
+## 🛠 Estructura del Proyecto
 
-- **app:** Contiene el código fuente de la aplicación, incluyendo los módulos para las vistas, modelos y controladores.
-  
-- **tests:** Contiene pruebas unitarias y de integración para garantizar la calidad del código.
+El código está enfocado en la modularidad para separar claramente los cálculos pesados de la manipulación visual:
 
-- **docs:** Documentación del proyecto, incluyendo guías de instalación, uso y referencia técnica.
+```txt
+MPM-UN/
+├── app/
+│   ├── main.py                # Punto de entrada de la GUI
+│   ├── controllers/           # Controladores MVC (lógica de interacción UI)
+│   ├── models/                # Modelos MVC (gestión de estado de proyecto y análisis)
+│   ├── views/                 # Vistas MVC (componentes gráficos PySide6)
+│   ├── ui/                    # Archivos generados de Qt Designer (.ui y .py)
+│   ├── motorMPM/              # 🧠 Motor del Método del Punto Material (Rutinas Críticas)
+│   │   ├── explicit2.py       # Funciones integradoras principales con Numba
+│   │   ├── mesh.py            # Rutinas de generación de malla de fondo y conectividad
+│   │   └── graphics.py        # Salidas gráficas del motor puro
+│   └── resources/             # Íconos, CSS, fuentes y ejemplos pre-construidos (.mpm)
+├── tests/                     # Archivos de prueba y validación (.mpm experimentales)
+├── requirements.txt           # Dependencias principales del software
+└── README.md                  # Este documento
+```
 
-- **requirements.txt:** Archivo que especifica las dependencias del proyecto para facilitar la instalación del entorno de desarrollo.
+## 💻 Instalación
 
-## Requisitos del Sistema
+### Requisitos Previos
+- **Python 3.9+**
+- (Recomendado) Sistema operativo de 64-bits debido al alto requerimiento de memoria en simulaciones extensas con NumPy/Numba.
 
-- Python 3.x
-- Bibliotecas especificadas en `requirements.txt`
-- Sistema operativo compatible (Windows, Linux, macOS)
+### Pasos
 
-## Instalación
-
-1. Clona el repositorio desde GitHub:
-
+1. **Clona el repositorio** en tu entorno local:
    ```bash
    git clone https://github.com/tu_usuario/MPM-UN.git
-   ```
-
-2. Crea un entorno virtual (opcional pero recomendado):
-
-   ```bash
-   python -m venv env
-   source env/bin/activate  # En Windows usa `env\Scripts\activate`
-   ```
-
-
-2. Navega al directorio del proyecto:
-
-   ```bash
    cd MPM-UN
    ```
 
-3. Instala las dependencias del proyecto:
+2. **Crea y activa un entorno virtual** (Buenas prácticas):
+   * En Windows:
+     ```bash
+     python -m venv .venv
+     .venv\Scripts\activate
+     ```
+   * En macOS/Linux:
+     ```bash
+     python3 -m venv .venv
+     source .venv/bin/activate
+     ```
 
+3. **Instala las dependencias** requeridas (PySide6, NumPy, Numba, Matplotlib, Pandar, etc):
    ```bash
    pip install -r requirements.txt
    ```
 
-## Uso
+## 🚀 Uso
 
-1. Ejecuta el archivo `main.py` para iniciar la aplicación:
+Para abrir la interfaz gráfica, simplemente ejecuta:
 
-   ```bash
-   python main.py
-   ```
-
-2. Utiliza la interfaz gráfica para configurar los parámetros de la simulación y ejecutarla.
-
-## Contribución
-
-Si deseas contribuir al desarrollo de MPM-UN, por favor sigue estos pasos:
-
-1. Haz un fork del repositorio.
-2. Crea una rama para tu contribución (`git checkout -b feature/nueva-caracteristica`).
-3. Realiza tus cambios y haz commits (`git commit -am 'Agrega nueva característica'`).
-4. Haz push a la rama (`git push origin feature/nueva-caracteristica`).
-5. Crea un pull request en GitHub.
-
-## Licencia
-
-Este proyecto está bajo la [Licencia MIT](LICENSE).
-
-
-
-
-#!En construcción¡
-
+```bash
+python app/main.py
 ```
-MPM-UN
-├─ LICENSE
-├─ README.md
-├─ requirements.txt
-├─ .gitignore
-├─ .vscode/
-├─ env/ 
-├─ .git/
-├─ app
-│  ├─ ico.ico
-│  ├─ main.py
-│  ├─ controllers
-│  │  ├─ controller_graphicsDraw.py
-│  │  ├─ controller_graphicsResult.py
-│  │  ├─ controller_MainWindow.py
-│  │  ├─ controller_PageHome.py
-│  │  ├─ controller_PageSetting.py
-│  │  ├─ cards
-│  │  │  ├─ controller_CardBoundary.py
-│  │  │  ├─ controller_CardMaterialPoint.py
-│  │  │  ├─ controller_CardMesh.py
-│  │  │  ├─ controller_CardProject.py
-│  │  │  ├─ controller_CardProperty.py
-│  │  │  └─ controller_ResultCardPoint.py
-│  │  ├─ draw
-│  │  │  ├─ controller_MenuBoundary.py
-│  │  │  ├─ controller_MenuData.py
-│  │  │  ├─ controller_MenuExecute.py
-│  │  │  ├─ controller_MenuMesh.py
-│  │  │  ├─ controller_MenuPointMaterial.py
-│  │  │  ├─ controller_MenuProperties.py
-│  │  │  └─ controller_PageDraw.py
-│  │  └─ results
-│  │     ├─ controller_MenuResultAnimation.py
-│  │     ├─ controller_MenuResultGraph.py
-│  │     ├─ controller_MenuResultTable.py
-│  │     └─ controller_PageResult.py
-│  ├─ models
-│  │  ├─ model_Boundary.py
-│  │  ├─ model_ItemLine.py
-│  │  ├─ model_ItemPoint.py
-│  │  ├─ model_MaterialPoint.py
-│  │  ├─ model_Mesh.py
-│  │  ├─ model_ProjectCurrent.py
-│  │  ├─ model_Repository.py
-│  │  ├─ model_Projects.py
-│  │  ├─ model_Property.py
-│  │  ├─ model_Result.py
-│  │  └─ model_SettingApp.py
-│  ├─ motorMPM
-│  │  ├─ ejecutarMPM.py
-│  │  ├─ explicit.py
-│  │  ├─ explicit2.py
-│  │  ├─ explicit3.py
-│  │  ├─ graphics.py
-│  │  └─ mesh.py
-│  ├─ resources
-│  │  ├─ animations
-│  │  │  └─ giphy.gif
-│  │  ├─ css
-│  │  │  └─ styles_oscuro.css
-│  │  ├─ db_mpmun.json
-│  │  ├─ ejemplos
-│  │  │  ├─ Ejemplo capacidad portante.mpm
-│  │  │  ├─ Ejemplo disco deslizando en plano inclinado.mpm
-│  │  │  ├─ Ejemplo falla de talud elastoplastico.mpm
-│  │  │  └─ Ejemplo vibracion barra empotrada.mpm
-│  │  ├─ fuentes
-│  │  │  ├─ Ubuntu-Bold.ttf
-│  │  │  ├─ Ubuntu-BoldItalic.ttf
-│  │  │  ├─ Ubuntu-Italic.ttf
-│  │  │  ├─ Ubuntu-Light.ttf
-│  │  │  ├─ Ubuntu-LightItalic.ttf
-│  │  │  ├─ Ubuntu-Medium.ttf
-│  │  │  ├─ Ubuntu-MediumItalic.ttf
-│  │  │  └─ Ubuntu-Regular.ttf
-│  │  ├─ iconos
-│  │  │  ├─ excel.svg
-│  │  │  ├─ iconos_analisis
-│  │  │  │  └─ excute.svg
-│  │  │  ├─ iconos_consola
-│  │  │  │  ├─ code.svg
-│  │  │  │  ├─ exit.svg
-│  │  │  │  ├─ view_one.svg
-│  │  │  │  ├─ view_two.svg
-│  │  │  │  ├─ zoom_extend - copia.svg
-│  │  │  │  ├─ zoom_extend.svg
-│  │  │  │  └─ zoom_window.svg
-│  │  │  ├─ iconos_frame_inicio
-│  │  │  │  ├─ doc_basic.svg
-│  │  │  │  ├─ doc_mpm.svg
-│  │  │  │  ├─ new_p.svg
-│  │  │  │  └─ open_p.svg
-│  │  │  ├─ iconos_generales
-│  │  │  │  ├─ edit.svg
-│  │  │  │  ├─ exit_2.svg
-│  │  │  │  └─ ok.svg
-│  │  │  ├─ iconos_logo
-│  │  │  │  ├─ Logo_V0.svg
-│  │  │  │  ├─ Logo_V1.svg
-│  │  │  │  └─ Logo_WindowIcon.svg
-│  │  │  ├─ iconos_menu_draw_data
-│  │  │  │  ├─ hide_show.svg
-│  │  │  │  ├─ maximize.svg
-│  │  │  │  └─ minimize.svg
-│  │  │  ├─ iconos_menu_draw_mesh
-│  │  │  │  ├─ click.svg
-│  │  │  │  ├─ color.svg
-│  │  │  │  ├─ colo_picker.svg
-│  │  │  │  ├─ copy.svg
-│  │  │  │  ├─ delete.svg
-│  │  │  │  ├─ erase.svg
-│  │  │  │  ├─ import.svg
-│  │  │  │  ├─ label.svg
-│  │  │  │  ├─ label_not.svg
-│  │  │  │  ├─ line.svg
-│  │  │  │  ├─ move.svg
-│  │  │  │  ├─ not_view.svg
-│  │  │  │  ├─ point.svg
-│  │  │  │  ├─ point_in_lines.svg
-│  │  │  │  ├─ polyline.svg
-│  │  │  │  ├─ rectangle.svg
-│  │  │  │  ├─ rotate.svg
-│  │  │  │  ├─ rule.svg
-│  │  │  │  ├─ select.svg
-│  │  │  │  ├─ update.svg
-│  │  │  │  ├─ view.svg
-│  │  │  │  ├─ view_draw.svg
-│  │  │  │  └─ view_draw_not.svg
-│  │  │  ├─ iconos_menu_lateral
-│  │  │  │  ├─ boundary.svg
-│  │  │  │  ├─ config.svg
-│  │  │  │  ├─ config_select.svg
-│  │  │  │  ├─ control.svg
-│  │  │  │  ├─ execute.svg
-│  │  │  │  ├─ file.svg
-│  │  │  │  ├─ home.svg
-│  │  │  │  ├─ mesh.svg
-│  │  │  │  ├─ particle.svg
-│  │  │  │  └─ view.svg
-│  │  │  ├─ iconos_menu_superior
-│  │  │  │  ├─ export.svg
-│  │  │  │  ├─ import.svg
-│  │  │  │  ├─ new.svg
-│  │  │  │  ├─ open.svg
-│  │  │  │  ├─ recent.svg
-│  │  │  │  ├─ redo.svg
-│  │  │  │  ├─ save.svg
-│  │  │  │  └─ undo.svg
-│  │  │  ├─ iconos_msg
-│  │  │  │  ├─ error.svg
-│  │  │  │  ├─ ok.svg
-│  │  │  │  ├─ question.svg
-│  │  │  │  └─ warning.svg
-│  │  │  ├─ iconos_status_bar
-│  │  │  │  ├─ ortho.svg
-│  │  │  │  ├─ osnap.svg
-│  │  │  │  └─ snap_grid.svg
-│  │  │  ├─ icono_result
-│  │  │  │  ├─ add.svg
-│  │  │  │  ├─ adelante.svg
-│  │  │  │  ├─ atras.svg
-│  │  │  │  ├─ graphics.svg
-│  │  │  │  ├─ pause.svg
-│  │  │  │  ├─ play.svg
-│  │  │  │  ├─ stop.svg
-│  │  │  │  ├─ view_board.svg
-│  │  │  │  ├─ view_graphics.svg
-│  │  │  │  └─ view_points.svg
-│  │  │  └─ select.svg
-│  │  └─ imagenes
-│  │     ├─ ejemplo_capacidad_portante.png
-│  │     ├─ ejemplo_disco.png
-│  │     ├─ ejemplo_talud.png
-│  │     └─ ejemplo_viga.png
-│  ├─ ui
-│  │  ├─ dialog_loanding.ui
-│  │  ├─ dialog_msg.ui
-│  │  ├─ frame_draw.ui
-│  │  ├─ frame_draw_1.ui
-│  │  ├─ frame_home.ui
-│  │  ├─ frame_result.ui
-│  │  ├─ frame_setting.ui
-│  │  ├─ main_window.ui
-│  │  ├─ splash_screen.ui
-│  │  ├─ ui_dialog_loanding.py
-│  │  ├─ ui_dialog_msg.py
-│  │  ├─ ui_frame_draw.py
-│  │  ├─ ui_frame_draw_1.py
-│  │  ├─ ui_frame_home.py
-│  │  ├─ ui_frame_result.py
-│  │  ├─ ui_frame_setting.py
-│  │  ├─ ui_main_window.py
-│  │  ├─ ui_splash_screen.py
-│  │  ├─ ui_widget_draw_boundary_card.py
-│  │  ├─ ui_widget_draw_material_point_card.py
-│  │  ├─ ui_widget_draw_menu_boundary.py
-│  │  ├─ ui_widget_draw_menu_data.py
-│  │  ├─ ui_widget_draw_menu_execute.py
-│  │  ├─ ui_widget_draw_menu_mesh.py
-│  │  ├─ ui_widget_draw_menu_pointMaterial.py
-│  │  ├─ ui_widget_draw_menu_properties.py
-│  │  ├─ ui_widget_draw_mesh_card.py
-│  │  ├─ ui_widget_draw_property_card.py
-│  │  ├─ ui_widget_home_card.py
-│  │  ├─ ui_widget_result_card_point.py
-│  │  ├─ ui_widget_result_menu_animation.py
-│  │  ├─ ui_widget_result_menu_graph.py
-│  │  ├─ ui_widget_result_menu_table.py
-│  │  ├─ widget_draw_boundary_card.ui
-│  │  ├─ widget_draw_material_point_card.ui
-│  │  ├─ widget_draw_menu_boundary.ui
-│  │  ├─ widget_draw_menu_data.ui
-│  │  ├─ widget_draw_menu_execute.ui
-│  │  ├─ widget_draw_menu_mesh.ui
-│  │  ├─ widget_draw_menu_pointMaterial.ui
-│  │  ├─ widget_draw_menu_properties.ui
-│  │  ├─ widget_draw_mesh_card.ui
-│  │  ├─ widget_draw_property_card.ui
-│  │  ├─ widget_home_card.ui
-│  │  ├─ widget_result_card_point.ui
-│  │  ├─ widget_result_menu_animation.ui
-│  │  ├─ widget_result_menu_graph.ui
-│  │  └─ widget_result_menu_table.ui
-│  ├─ utils
-│  │  ├─ class_general.py
-│  │  ├─ class_ui_dialog_loanding.py
-│  │  ├─ class_ui_dialog_msg.py
-│  │  ├─ command_GraphicsDraw.py
-│  │  ├─ general_functions.py
-│  │  ├─ items_GraphicsDraw.py
-│  │  └─ items_GraphicsResult.py
-│  └─ views
-│     ├─ view_GraphicsDraw.py
-│     ├─ view_GraphicsResult.py
-│     ├─ view_MainWindow.py
-│     ├─ view_PageHome.py
-│     ├─ view_PageSetting.py
-│     ├─ view_SplashScreen.py
-│     ├─ cards
-│     │  ├─ view_WidgetCardBoundary.py
-│     │  ├─ view_WidgetCardMaterialPoint.py
-│     │  ├─ view_WidgetCardMesh.py
-│     │  ├─ view_WidgetCardProject.py
-│     │  ├─ view_WidgetCardProperty.py
-│     │  └─ view_WidgetResultCardPoint.py
-│     ├─ draw
-│     │  ├─ view_PageDraw.py
-│     │  ├─ view_WidgetDrawMenuBoundary.py
-│     │  ├─ view_WidgetDrawMenuData.py
-│     │  ├─ view_WidgetDrawMenuExecute.py
-│     │  ├─ view_WidgetDrawMenuMesh.py
-│     │  ├─ view_WidgetDrawMenuPointMaterial.py
-│     │  └─ view_WidgetDrawMenuProperties.py
-│     ├─ results
-│     │  ├─ view_PageResult.py
-│     │  ├─ view_WidgetResultMenuAnimation.py
-│     │  ├─ view_WidgetResultMenuGraph.py
-│        └─ view_WidgetResultMenuTable.py
-└─ tests
-   └─ archivos_mpm
-      ├─ 0_archivos_mpm_dwg
-      │  ├─ 000.mpm
-      │  ├─ 1 - copia.mpm
-      │  ├─ 1.mpm
-      │  ├─ 123.mpm
-      │  ├─ Borar ok.mpm
-      │  ├─ borrar 2.mpm
-      │  ├─ borrar banda.mpm
-      │  ├─ borrar.csv
-      │  ├─ borrar.json
-      │  ├─ borrar.mpm
-      │  ├─ Borrarrarr.mpm
-      │  ├─ EJEMPLO.mpm
-      │  ├─ intersecciones.dwg
-      │  ├─ intersecciones.dxf
-      │  ├─ iones.mpm
-      │  ├─ Modelo-2.dxf
-      │  ├─ Modelo.dwg
-      │  ├─ Modelo.dxf
-      │  ├─ out.txt
-      │  ├─ Prueba.py
-      │  ├─ sample_.mpm
-      │  ├─ sample_basic.mpm
-      │  ├─ sample_x10.mpm
-      │  ├─ viga simple 20231120.mpm
-      │  ├─ viga simple 20231129-c.mpm
-      │  ├─ viga simple 20231129-d.mpm
-      │  ├─ viga simple 20231129-e.mpm
-      │  ├─ viga simple 20231129-f.mpm
-      │  ├─ viga simple 20231129-g.mpm
-      │  ├─ viga simple 20231129.mpm
-      │  └─ viga simple.mpm
-      └─ 1_archivos_mpm_v1
-         ├─ 1_beam.mpm
-         ├─ barra_axial_empotrada.mpm
-         └─ viga_en_voladizo.mpm
 
-```
+Una vez abierta la aplicación, podrás:
+1. Crear un nuevo proyecto o abrir uno de los ejemplos ubicados en `app/resources/ejemplos/`.
+2. Modificar la geometría, asignar propiedades de material y dibujar la zona discretizada por puntos materiales.
+3. Definir la malla de fondo (Background Mesh).
+4. Proceder a la pestaña de ejecución para procesar la simulación a través del orquestador del Motor MPM.
+
+## 🤝 Contribución
+
+¡Las contribuciones son bienvenidas, particularmente en la generalización del motor MPM y mejoras de UI!
+
+1. Haz un *Fork* del repositorio.
+2. Crea tu rama de características (`git checkout -b feature/AmazingFeature`).
+3. Realiza tus commits (`git commit -m 'Add some AmazingFeature'`).
+4. Haz *Push* a tu cuenta (`git push origin feature/AmazingFeature`).
+5. Abre un *Pull Request*.
+
+## 📄 Licencia
+
+Construido para propósitos académicos y de investigación. Revisa el archivo `LICENSE` proporcionado en el directorio para más detalles.
+
+
+
+
+
+
+lan de Implementación: Generalización de Conexión UI-Motor MPM
+El objetivo principal es desacoplar la interfaz gráfica (UI) del motor de cálculo (MPM) para que la ejecución no dependa de casos específicos (
+runViga
+ o 
+runAnalysisCE
+), sino que sea un proceso de simulación general basado en los datos de entrada.
+
+Diagnóstico Actual
+Actualmente, la clase 
+ModelExcuteAnalysisMPM
+ en 
+app/models/model_execute_analysis.py
+ extrae los datos directamente de los modelos de la UI (ModelProjectCurrent) y ejecuta bucles transitorios anudados con la lógica del MPM. Esto crea un fuerte acoplamiento y obliga a programar un método run... para cada tipo de problema.
+
+Cambios Propuestos
+1. Definición de un Formato de Entrada Estándar (Input Config)
+El Motor MPM no debería conocer nada sobre los objetos de la UI (e.g., model_current_project). La UI debe generar un "paquete" de datos estándar (un diccionario de Python o JSON) que el motor pueda leer.
+
+Mesh: Coordenadas nodales, tamaño de elemento, nodos activos.
+Particles (Points): Posiciones, volúmenes, velocidades, id de material.
+Properties: Módulo de elasticidad, Poisson, densidad, cohesión, etc.
+Boundaries: Condiciones de contorno de Dirichlet (velocidad 0) en X e Y.
+Time Settings: dt, pasos, gravedad, amortiguamiento, Courant, etc.
+2. Creación de un Orquestador en motorMPM
+Crear un nuevo archivo, por ejemplo app/motorMPM/runner.py (o solver.py), que albergue una clase o función general MotorMPMRun(config_dict).
+
+Este runner tomará el archivo o diccionario de entrada.
+Inicializará todos los arrays de Numpy (Fp, sig, epse, epsp, vp, bp, etc.) genéricamente iterando sobre la configuración.
+Tendrá un único bucle de tiempo general que llame a las funciones de numba en 
+explicit.py
+/
+explicit2.py
+/
+explicit3.py
+.
+Retornará los resultados empaquetados.
+3. Refactorización de la UI (
+model_execute_analysis.py
+)
+La UI simplemente actuará como un traductor:
+
+Extraerá la información visual.
+Formará el config_dict.
+Llamará a MotorMPMRun(config).
+Tomará los arrays resultantes y los guardará en ModelResult.
+Verification Plan
+Manual Verification
+Abrir la UI de MPM-UN.
+Cargar uno de los ejemplos (por ejemplo, Ejemplo viga o Ejemplo capacidad portante).
+Ejecutar el análisis y verificar que el "Runner" general es el que se ejecuta.
+Validar que la barra de progreso avanza y que los resultados generados (esfuerzos, posiciones) coinciden visualmente con la versión anterior.
