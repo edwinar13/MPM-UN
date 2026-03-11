@@ -8,6 +8,7 @@ from utils.class_ui_dialog_loanding import DialogLoanding
 from utils import class_ui_dialog_msg
 
 from models.model_execute_analysis import ModelExcuteAnalysisMPM
+from models.model_analysis_config import AnalysisConfig
 
 import os
 import numpy as np
@@ -299,6 +300,32 @@ class ControllerMenuExecute(QObject):
         #ejectuar el análisis
 
         
+        # Construir AnalysisConfig según tipo de análisis
+        type_analysis_ce = self.model_current_project.getExecuteAnalysisCE()
+        gravity = self.model_current_project.getGravity()
+        dampfac = self.model_current_project.getDampfac()
+        
+        if type_analysis_ce:
+            nincre = self.model_current_project.getNoIncre()
+            dincre_val = self.model_current_project.getDincre()
+            dincreGrav_val = self.model_current_project.getDincreGrav()
+            analysis_config = AnalysisConfig.from_legacy_ce(
+                dataTime=self.__dataTime,
+                gravity=gravity,
+                dampfac=dampfac,
+                nincre=nincre,
+                dincre=dincre_val,
+                dincreGrav=dincreGrav_val
+            )
+        else:
+            analysis_config = AnalysisConfig.from_legacy_viga(
+                dataTime=self.__dataTime,
+                gravity=gravity,
+                dampfac=dampfac
+            )
+        
+        print(f"[Controller] AnalysisConfig: {analysis_config}")
+        
         analysis_mpm = ModelExcuteAnalysisMPM(
                                     analysis_dialog= analysis_dialog,
                                     model_current_project=self.model_current_project,
@@ -311,18 +338,11 @@ class ControllerMenuExecute(QObject):
                                     steps_time=steps_time,
                                     dt_graphic= dtimegraphic,
                                     list_time_graphic=tiempographic,
-                                    steps_time_graphic=steps_timegraphic)
+                                    steps_time_graphic=steps_timegraphic,
+                                    analysis_config=analysis_config)
         
-        type_analysis_ce = self.model_current_project.getExecuteAnalysisCE()
-        
-        #if True:
-        #    state_ok = analysis_mpm.runAnalysisDisc()
-            
-        #elif type_analysis_ce:
-        if type_analysis_ce:
-            state_ok = analysis_mpm.runAnalysisCE()
-        else:        
-            state_ok = analysis_mpm.runViga()
+        # Ejecutar con el método unificado
+        state_ok = analysis_mpm.run()
         
         if state_ok:
             self.signal_enable_results.emit()

@@ -1,6 +1,7 @@
 
 from motorMPM.mesh import create_uniform, contour_fixe, setup_MP,search_MP
 from motorMPM.mesh import traction_forces,boundary_particles, node_conectivity
+from models.model_analysis_config import AnalysisConfig, AnalysisType, LoadMode, StageType
 from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, static_convergence, nodes_to_particle_stress_gauss
 from motorMPM.graphics import graphic_button,graphic_button2,graphic_button3,graphic_button4, graphic_video2,graphic_gif
@@ -131,7 +132,8 @@ class ModelExcuteAnalysisMPM:
     def __init__(self, analysis_dialog, model_current_project: ModelProjectCurrent, model_result:ModelResult,
                  dataTime, list_boundaries, list_point_material, 
                 dt_time, list_time ,steps_time,
-                dt_graphic, list_time_graphic, steps_time_graphic):
+                dt_graphic, list_time_graphic, steps_time_graphic,
+                analysis_config: AnalysisConfig = None):
         
         # modelos generales y cuadros de dialogo
         self.analysis_dialog = analysis_dialog
@@ -151,11 +153,14 @@ class ModelExcuteAnalysisMPM:
         self.__tm_steps_time = steps_time
         self.__tm_steps_time_graphic = steps_time_graphic
         
+        # Configuración de análisis genérica (FASE 2)
+        self.analysis_config = analysis_config
          
         #===========  variables  ===========
         
         # Condiciones iniciales Cuasi-Estatico
         self.__dincre = None
+        self.__dincreGrav = None
         self.__nincre = None
         self.__charge = None
         self.__chargeGrav = None
@@ -184,8 +189,495 @@ class ModelExcuteAnalysisMPM:
         
         
         
+    # ===================================================================
+    #  MÉTODO UNIFICADO (FASE 2) - Reemplaza runViga y runAnalysisCE
+    # ===================================================================
+    def run(self):
+        """Método unificado de ejecución.
+        
+        Usa self.analysis_config (AnalysisConfig) para determinar
+        el tipo de análisis y ejecutar el bucle correspondiente.
+        Si analysis_config es None, se comporta como runViga (legacy).
+        """
+        config = self.analysis_config
+        if config is None:
+            # Fallback legacy: construir config desde parámetros actuales
+            print("[WARN] run() sin AnalysisConfig, usando legacy")
+            return self.runViga()
+        
+        print(f"[MPM-UN] run() con config: {config.analysis_type.value}")
+        
+        # Pipeline de inicialización (genérico, no cambia)
+        if config.analysis_type == AnalysisType.QUASI_STATIC:
+            self.initConditionsFromConfig(config)
+        self.initConditions()
+        self.initBoundary()
+        self.initMaterialPoint()
+        self.initProperties()
+        self.initVerctorAndMatrix()
+        self.initBoundaryParticles()
+        
+        # Ejecutar según tipo de análisis
+        response = self.execute(config)
+        
+        if response:
+            response = self.saveResults()
+        return response
+    
+    def initConditionsFromConfig(self, config: AnalysisConfig):
+        """Inicializa condiciones específicas del análisis cuasi-estático
+        a partir del AnalysisConfig, sin depender de model_current_project."""
+        stage = config.stages[0]  # Primera etapa
+        nincre = stage.n_increments
+        dincre = stage.load_increment_value
+        dincreGrav = stage.gravity_increment_value
+        charge = -np.linspace(0, dincre * nincre, nincre + 1)
+        chargeGrav = -np.linspace(0, dincreGrav * nincre, nincre + 1)
+        
+        self.__dincre = dincre
+        self.__dincreGrav = dincreGrav
+        self.__charge = charge
+        self.__chargeGrav = chargeGrav
+        self.__nincre = nincre
+        
+        print(f"[Config] nincre={nincre}, dincre={dincre}, dincreGrav={dincreGrav}")
+    
+    def execute(self, config: AnalysisConfig):
+        """Ejecuta el análisis según el tipo configurado.
+        
+        Despacha al bucle dinámico o cuasi-estático según config.
+        """
+        stage = config.stages[0]  # Por ahora, una sola etapa
+        
+        if stage.stage_type == StageType.DYNAMIC:
+            return self._run_dynamic_loop(config, stage)
+        elif stage.stage_type == StageType.LOAD_INCREMENT:
+            return self._run_quasi_static_increment_loop(config, stage)
+        elif stage.stage_type == StageType.GEOSTATIC:
+            return self._run_quasi_static_increment_loop(config, stage)
+        else:
+            print(f"[ERROR] Tipo de etapa no soportado: {stage.stage_type}")
+            return False
+    
+    def _run_one_mpm_step(self, use_gauss, plasticity_flag):
+        """Ejecuta UN paso del MPM: particles→nodes→BC→nodes→particles.
+        
+        Este es el corazón del MPM que no cambia nunca.
+        Retorna las variables actualizadas.
+        
+        Args:
+            use_gauss: Si True, usa particles_to_nodes_gauss2 y nodes_to_particle_stress_gauss.
+            plasticity_flag: Flag de plasticidad (0 o 1).
+        """
+        # Referencias locales
+        xp = self.__mp_xp
+        vp = self.__vm_vp
+        Vp = self.__vm_Vp
+        Vp0 = self.__vm_Vp0
+        Mp = self.__vm_Mp
+        sig = self.__vm_sig
+        bp = self.__vm_bp
+        tp = self.__vm_tp_current  # tp actual (puede cambiar por incremento)
+        Fp = self.__vm_Fp
+        epse = self.__vm_epse
+        epsp = self.__vm_epsp
+        Prop = self.__mp_prop
+        mp_elem = self.__mp_mp_elem
+        fixed_nodesX = self.__bo_fixed_nodesX
+        fixed_nodesY = self.__bo_fixed_nodesY
+        dampfac = self.__step_dampfac
+        dtime = self.__tm_dt_time
+        bound_val = self.__bo_bound_val
+        
+        # 1 → Buscar elementos activos
+        mp_elem, active_elem = search_MP(mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex())
+        active_nodes = np.unique(self.mesh.inci()[active_elem - 1, :])
+        
+        # 2 → Transferir partículas a nodos
+        grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem
+        particle = xp, vp, Vp, Mp, sig, bp, tp
+        
+        if use_gauss:
+            nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes_gauss2(grid, particle, bound_val)
+        else:
+            nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
+        
+        # 3 → Solución sistema de ecuaciones nodales (EXPLÍCITO)
+        nforce = niforce + neforce
+        ndamping = -dampfac * np.multiply(np.absolute(nforce), np.sign(nmomentum))
+        nforce = nforce + ndamping
+        nmomentum += nforce * dtime
+        
+        # 4 → Condiciones de contorno Dirichlet
+        nmomentum, nforce, niforce, neforce = BC_Dirichlet_momentum(
+            active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce, niforce, neforce)
+        
+        # 5 → Transferir nodos a partículas: velocidad y posición
+        nquantities = nmass, nmomentum, nforce
+        particle = xp, vp, Vp, Mp, sig, shfnp
+        xp, vp, nvel = nodes_to_particle_vel(grid, particle, nquantities, dtime)
+        nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel)
+        
+        # 6 → Transferir nodos a partículas: esfuerzo y deformación
+        particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
+        if use_gauss:
+            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(
+                grid, particle, bound_val, nvel, dtime, plasticity_flag)
+        else:
+            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress(
+                grid, particle, nvel, dtime, plasticity_flag)
+        
+        # Actualizar variables de instancia
+        self.__mp_xp = xp
+        self.__vm_vp = vp
+        self.__vm_Vp = Vp
+        self.__vm_Fp = Fp
+        self.__vm_sig = sig
+        self.__vm_epse = epse
+        self.__vm_epsp = epsp
+        self.__mp_mp_elem = mp_elem
+        
+        return nmass, niforce, neforce, nvel
+    
+    def _init_result_arrays(self, n_steps):
+        """Inicializa los arrays de resultados para n_steps pasos gráficos."""
+        nmp = self.__mp_nmp
+        xp = self.__mp_xp
+        sig = self.__vm_sig
+        epse = self.__vm_epse
+        epsp = self.__vm_epsp
+        vp = self.__vm_vp
+        
+        corX = np.zeros((nmp, n_steps))
+        corY = np.zeros((nmp, n_steps))
+        sigxx = np.zeros((nmp, n_steps))
+        sigyy = np.zeros((nmp, n_steps))
+        sigxy = np.zeros((nmp, n_steps))
+        epsexx = np.zeros((nmp, n_steps))
+        epseyy = np.zeros((nmp, n_steps))
+        epsexy = np.zeros((nmp, n_steps))
+        epspxx = np.zeros((nmp, n_steps))
+        epspyy = np.zeros((nmp, n_steps))
+        epspxy = np.zeros((nmp, n_steps))
+        velxx = np.zeros((nmp, n_steps))
+        velyy = np.zeros((nmp, n_steps))
+        velxy = np.zeros((nmp, n_steps))
+        desplxx = np.zeros((nmp, n_steps))
+        desplyy = np.zeros((nmp, n_steps))
+        desplxy = np.zeros((nmp, n_steps))
+        eqplas = np.zeros((nmp, n_steps))
+        
+        # Condiciones iniciales (paso 0)
+        corX[:, 0], corY[:, 0] = xp[:, 0], xp[:, 1]
+        sigxx[:, 0], sigyy[:, 0], sigxy[:, 0] = sig[:, 0], sig[:, 1], sig[:, 2]
+        epsexx[:, 0], epseyy[:, 0], epsexy[:, 0] = epse[:, 0], epse[:, 1], epse[:, 2]
+        epspxx[:, 0], epspyy[:, 0], epspxy[:, 0] = epsp[:, 0], epsp[:, 1], epsp[:, 2]
+        velxx[:, 0], velyy[:, 0] = vp[:, 0], vp[:, 1]
+        velxy[:, 0] = np.sqrt(velxx[:, 0]**2 + velyy[:, 0]**2)
+        
+        return {
+            'corX': corX, 'corY': corY,
+            'sigxx': sigxx, 'sigyy': sigyy, 'sigxy': sigxy,
+            'epsexx': epsexx, 'epseyy': epseyy, 'epsexy': epsexy,
+            'epspxx': epspxx, 'epspyy': epspyy, 'epspxy': epspxy,
+            'velxx': velxx, 'velyy': velyy, 'velxy': velxy,
+            'desplxx': desplxx, 'desplyy': desplyy, 'desplxy': desplxy,
+            'eqplas': eqplas
+        }
+    
+    def _save_step_to_arrays(self, arrays, step_idx):
+        """Guarda el estado actual de las partículas en los arrays de resultados."""
+        xp = self.__mp_xp
+        sig = self.__vm_sig
+        epse = self.__vm_epse
+        epsp = self.__vm_epsp
+        vp = self.__vm_vp
+        
+        arrays['corX'][:, step_idx] = xp[:, 0]
+        arrays['corY'][:, step_idx] = xp[:, 1]
+        arrays['sigxx'][:, step_idx] = sig[:, 0]
+        arrays['sigyy'][:, step_idx] = sig[:, 1]
+        arrays['sigxy'][:, step_idx] = sig[:, 2]
+        arrays['epsexx'][:, step_idx] = epse[:, 0]
+        arrays['epseyy'][:, step_idx] = epse[:, 1]
+        arrays['epsexy'][:, step_idx] = epse[:, 2]
+        arrays['epspxx'][:, step_idx] = epsp[:, 0]
+        arrays['epspyy'][:, step_idx] = epsp[:, 1]
+        arrays['epspxy'][:, step_idx] = epsp[:, 2]
+        arrays['velxx'][:, step_idx] = vp[:, 0]
+        arrays['velyy'][:, step_idx] = vp[:, 1]
+        arrays['velxy'][:, step_idx] = np.sqrt(vp[:, 0]**2 + vp[:, 1]**2)
+        arrays['desplxx'][:, step_idx] = arrays['corX'][:, step_idx] - arrays['corX'][:, 0]
+        arrays['desplyy'][:, step_idx] = arrays['corY'][:, step_idx] - arrays['corY'][:, 0]
+        arrays['desplxy'][:, step_idx] = np.sqrt(
+            (arrays['corX'][:, 0] - arrays['corX'][:, step_idx])**2 +
+            (arrays['corY'][:, 0] - arrays['corY'][:, step_idx])**2
+        )
+        arrays['eqplas'][:, step_idx] = np.sqrt(
+            4/9 * (epsp[:, 0]**2 - epsp[:, 0] * epsp[:, 1] + epsp[:, 1]**2) +
+            4/3 * epsp[:, 2]**2
+        )
+    
+    def _check_dialog_cancel_pause(self, msg):
+        """Verifica si el usuario canceló o pausó el diálogo.
+        Retorna True si se canceló, False si continúa."""
+        analysis_dialog = self.analysis_dialog
+        if analysis_dialog.cancelled:
+            analysis_dialog.close()
+            return True
+        if analysis_dialog.paused:
+            analysis_dialog.setStatus(False, msg + "\n\nAnálisis pausado")
+            while analysis_dialog.paused:
+                time.sleep(0.1)
+                QApplication.processEvents()
+                if analysis_dialog.cancelled:
+                    analysis_dialog.close()
+                    return True
+        return False
+    
+    def _store_results_to_instance(self, arrays, list_time, list_time_graphic):
+        """Copia los arrays de resultados a las variables de instancia __rs_*
+        para que saveResults() los encuentre."""
+        self.__rs_new_list_time = list_time.copy() if hasattr(list_time, 'copy') else list_time[:]
+        self.__rs_new_list_time_graphic = list_time_graphic.copy() if hasattr(list_time_graphic, 'copy') else list_time_graphic[:]
+        self.__rs_corX = arrays['corX']
+        self.__rs_corY = arrays['corY']
+        self.__rs_sigxx = arrays['sigxx']
+        self.__rs_sigyy = arrays['sigyy']
+        self.__rs_sigxy = arrays['sigxy']
+        self.__rs_epsexx = arrays['epsexx']
+        self.__rs_epseyy = arrays['epseyy']
+        self.__rs_epsexy = arrays['epsexy']
+        self.__rs_epspxx = arrays['epspxx']
+        self.__rs_epspyy = arrays['epspyy']
+        self.__rs_epspxy = arrays['epspxy']
+        self.__rs_velxy = arrays['velxy']
+        self.__rs_velxx = arrays['velxx']
+        self.__rs_velyy = arrays['velyy']
+        self.__rs_desplxx = arrays['desplxx']
+        self.__rs_desplyy = arrays['desplyy']
+        self.__rs_desplxy = arrays['desplxy']
+        self.__rs_eqplas = arrays['eqplas']
+    
+    def _run_dynamic_loop(self, config: AnalysisConfig, stage):
+        """Bucle dinámico: for t in range(N).
+        
+        Equivalente al antiguo executeAnalysisViga.
+        """
+        analysis_dialog = self.analysis_dialog
+        list_time_graphic = self.__tm_list_time_graphic
+        list_time = self.__tm_list_time
+        steps_time = self.__tm_steps_time
+        dt_time = self.__tm_dt_time
+        
+        # Configurar damping y tp para este bucle
+        self.__step_dampfac = stage.damping_factor
+        self.__vm_tp_current = self.__vm_tp0.copy()
+        
+        use_gauss = config.use_gauss_integration
+        plasticity_flag = config.plasticity_flag
+        
+        t0 = tm.time()
+        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
+        print(f'[DYNAMIC] Inicio. Steps={steps_time}, dt={dt_time}, damp={stage.damping_factor}')
+        
+        # Inicializar arrays de resultados
+        n_graphic_steps = len(list_time_graphic)
+        arrays = self._init_result_arrays(n_graphic_steps)
+        
+        new_list_time_graphic = list_time_graphic.copy()
+        new_list_time = list_time.copy()
+        current_index_graphic = 0
+        
+        for index in range(list_time.size - 1):
+            current_time = list_time[index]
+            current_time_graphic = list_time_graphic[current_index_graphic]
+            
+            # Verificar cancelación/pausa
+            msg = f"Ejecutando paso del análisis:\n→ {index:.0f} de {steps_time} pasos."
+            if self._check_dialog_cancel_pause(msg):
+                return False
+            
+            # Verificar que las partículas están dentro de la malla
+            try:
+                # Ejecutar un paso MPM
+                analysis_dialog.setProgress(100 * index / steps_time)
+                analysis_dialog.setStatus(False, f"Ejecutando paso del análisis:\n→ {index:.0f} de {steps_time} pasos.")
+                QApplication.processEvents()
+                
+                nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
+                
+            except Exception as e:
+                print(f"---------------------//-------------------------")
+                print(f"Error: {e}")
+                print(f"Error en el tiempo: {current_time}, paso: {index}")
+                print(f"---------------------//-------------------------")
+                
+                text_error = f"Paso:[{index} de {steps_time}]\n"
+                text_error += f"El material se encuentra fuera de la malla\nEl análisis se detendrá en este punto.\n"
+                analysis_dialog.setStatus(True, text_error)
+                text_question = f"¿Quieres finalizar el análisis hasta este punto\n"
+                text_question += f"y guardar los resultados?"
+                analysis_dialog.setQuestion(text_question)
+                analysis_dialog.pauseAnalysis()
+                analysis_dialog.setViewError()
+                while analysis_dialog.paused:
+                    time.sleep(0.1)
+                    QApplication.processEvents()
+                    if analysis_dialog.cancelled:
+                        analysis_dialog.close()
+                        return False
+                    if analysis_dialog.accepted:
+                        analysis_dialog.close()
+                        # Truncar arrays
+                        position_max = current_index_graphic
+                        new_list_time = new_list_time[:index]
+                        new_list_time_graphic = new_list_time_graphic[:position_max]
+                        for key in arrays:
+                            arrays[key] = arrays[key][:, :position_max]
+                        break
+                break
+            
+            # Guardar datos cuando toca el frame gráfico
+            if abs(current_time - current_time_graphic) < 1e-13:
+                self._save_step_to_arrays(arrays, current_index_graphic + 1)
+                current_index_graphic += 1
+        
+        tf = tm.time()
+        print(f"[DYNAMIC] Fin. Tiempo total: {tf - t0:.2f}s")
+        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
+        
+        self._store_results_to_instance(arrays, new_list_time, new_list_time_graphic)
+        return True
+    
+    def _run_quasi_static_increment_loop(self, config: AnalysisConfig, stage):
+        """Bucle cuasi-estático con incrementos de carga:
+        for i in range(nincre): while(ff > tol).
+        
+        Equivalente al antiguo executeAnalysisCE.
+        """
+        analysis_dialog = self.analysis_dialog
+        
+        # Parámetros de incrementos
+        dincre = self.__dincre
+        dincreGrav = self.__dincreGrav
+        charge = self.__charge
+        nincre = self.__nincre
+        dtime = self.__tm_dt_time
+        
+        # Configurar damping
+        self.__step_dampfac = stage.damping_factor
+        
+        use_gauss = config.use_gauss_integration
+        plasticity_flag = config.plasticity_flag
+        
+        # Arrays de tiempo para CE
+        list_time_graphic = np.linspace(0, nincre, nincre + 1)
+        list_time = np.linspace(0, nincre, nincre + 1)
+        
+        t0 = tm.time()
+        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
+        print(f'[QUASI-STATIC] Inicio. Incrementos={nincre}, dincre={dincre}, damp={stage.damping_factor}')
+        
+        # Inicializar arrays de resultados
+        arrays = self._init_result_arrays(nincre + 1)
+        
+        # Tolerancias de convergencia
+        tol_ff = stage.convergence_tol_force
+        tol_ee = stage.convergence_tol_energy
+        
+        tmax = 0
+        finfor = False
+        last_i = 0
+        
+        for i in range(nincre):
+            # Verificar cancelación/pausa
+            msg = f"Ejecutando incremento del análisis:\n→ {i:.0f} de {nincre} pasos."
+            if self._check_dialog_cancel_pause(msg):
+                return False
+            
+            analysis_dialog.setProgress(100 * i / nincre)
+            analysis_dialog.setStatus(False, f"Ejecutando incremento del análisis:\n→ {i:.0f} de {nincre} pasos.")
+            QApplication.processEvents()
+            
+            # Aplicar incremento de carga
+            self.__vm_bp[:, 1] = (i + 1) * dincreGrav * self.__vm_bp[:, 1]
+            self.__vm_tp_current = (i + 1) * dincre * self.__vm_tp0
+            
+            # Inicializar convergencia
+            ff = 1
+            ee = 1
+            nework = 0
+            tcont = 0
+            tinicial = time.time()
+            
+            while (ff > tol_ff) or (ee > tol_ee):
+                analysis_dialog.setTimer(f"⏳ {time.time() - tinicial:.0f}seg")
+                QApplication.processEvents()
+                tcont += 1
+                
+                nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
+                
+                # Evaluar convergencia
+                ff0 = ff
+                ee0 = ee
+                nework0 = nework
+                ff, ee, nework = static_convergence(nmass, niforce, neforce, nvel, dtime, nework0)
+                
+                # Condición de seguridad: tiempo máximo
+                tiempoi = time.time() - tinicial
+                if (tiempoi > 100 * t0) and (i > 0):
+                    print("se excedió tiempo máximo de ejecución!!")
+                    finfor = True
+                    break
+                else:
+                    finfor = False
+            
+            # Guardar resultados del incremento
+            tiempo_incr = time.time() - tinicial
+            if i == 0:
+                t0 = tiempo_incr
+            
+            print(f"incremento {i + 1}, num ciclos {tcont}")
+            print(f"tiempo en este incremento {tiempo_incr:.2f}s")
+            print(f"desbalance fuerzas {ff:.6f}, Energía cinética {ee:.6f}")
+            
+            self._save_step_to_arrays(arrays, i + 1)
+            last_i = i
+            
+            if finfor:
+                break
+        
+        # Truncar arrays al número real de incrementos completados
+        final_idx = last_i + 2
+        for key in arrays:
+            arrays[key] = arrays[key][:, :final_idx]
+        charge = charge[:final_idx]
+        
+        tf = tm.time()
+        print(f"[QUASI-STATIC] Fin. Tiempo total: {tf - t0:.2f}s")
+        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
+        
+        # Gráfico de CE (legacy)
+        try:
+            dimy = 2
+            dimx = 2
+            graphic_button2(arrays['corX'], arrays['corY'], arrays['desplxy'],
+                           self.__vm_Vp0[0] * (12/dimy)**2, charge, dimx, dimy)
+            self.save_results_excel(arrays['corX'], arrays['corY'], arrays['sigyy'])
+        except Exception as e:
+            print(f"[WARN] Error generando gráfico legacy CE: {e}")
+        
+        list_time = list_time[:final_idx]
+        list_time_graphic = list_time_graphic[:final_idx]
+        self._store_results_to_instance(arrays, list_time, list_time_graphic)
+        return True
+    
+    # ===================================================================
+    #  MÉTODOS LEGACY (se mantienen por compatibilidad)
+    # ===================================================================
     def runViga(self):  
-        print("runViga")      
+        print("runViga (LEGACY)")      
         response = self.initConditions()
         #response = self.initMeshBack()
         response = self.initBoundary()
