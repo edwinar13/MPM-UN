@@ -285,14 +285,58 @@ class ControllerMenuPointMaterial(QObject):
 
         points_materials = {}
         index = 1
-        for center_point, volume_element in zip(point_material_points, point_material_volumes):
-            points_materials[f'POINT#{index}'] = {
-                "COORDINATES": center_point,
-                "VOLUME": volume_element,
-                "VELOCITY": {"X": 0.0,"Y": 0.0},
-                "FORCE": {"X": 0.0,"Y": 0.0},
-            }
-            index += 1
+
+        if point_material_base_mesh_type == "Archivo":
+            # Rama de carga por archivo de texto
+            path_file = self.view_menu_pointMaterial.getPathFile()
+            if not path_file:
+                self.view_menu_pointMaterial.msnAlertBaseMesh(True, "Selecciona un archivo .txt con las coordenadas")
+                return
+
+            point_material_points = []
+            point_material_volumes = []
+            try:
+                with open(path_file, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line or line.startswith("#"):
+                            continue
+                        # Reemplazamos ; y , por espacios y luego split() maneja cualquier cantidad de espacios
+                        parts = line.replace(";", " ").replace(",", " ").split()
+                        # garantizar que el archivo tenga al menos 3 columnas
+                        if len(parts) >= 3:
+                            x = float(parts[0].strip())
+                            y = float(parts[1].strip())
+                            vol = float(parts[2].strip())
+                            point_material_points.append([x, y])
+                            point_material_volumes.append(vol)
+            except Exception as e:
+                self.view_menu_pointMaterial.msnAlertBaseMesh(True, f"Error leyendo archivo: {e}")
+                return
+
+            if not point_material_points:
+                self.view_menu_pointMaterial.msnAlertBaseMesh(True, "El archivo no contiene coordenadas válidas")
+                return
+
+            for center_point, volume_element in zip(point_material_points, point_material_volumes):
+                points_materials[f'POINT#{index}'] = {
+                    "COORDINATES": center_point,
+                    "VOLUME": volume_element,
+                    "VELOCITY": {"X": 0.0, "Y": 0.0},
+                    "FORCE": {"X": 0.0, "Y": 0.0},
+                }
+                index += 1
+
+        else:
+            for center_point, volume_element in zip(point_material_points, point_material_volumes):
+                points_materials[f'POINT#{index}'] = {
+                    "COORDINATES": center_point,
+                    "VOLUME": volume_element,
+                    "VELOCITY": {"X": 0.0,"Y": 0.0},
+                    "FORCE": {"X": 0.0,"Y": 0.0},
+                }
+                index += 1
+
         id = self.model_current_project.createMaterialPoint(name=point_material_name ,
                                                     points=points_materials,
                                                     id_property = id_property,

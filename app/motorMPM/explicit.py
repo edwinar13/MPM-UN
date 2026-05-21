@@ -35,7 +35,7 @@ def deltatime(Ep, rhop, ele_size, factor):
 # ====================================================================
 # ====== Funcion para evaluar las funciones de forma del elemento trianglar lineal ====
 
-@njit
+@njit(cache=True)
 def shape_func(x, y, xn):
     """Funcion que calcula las funciones de forma y sus derivadas evaluadas en xp
         x = coordenada x de la particula
@@ -68,7 +68,7 @@ def shape_func(x, y, xn):
 # ====================================================================
 # === Funcion para evaluar las funciones de forma del elemento cuadrilateral bilineal ==
 
-@njit
+@njit(cache=True)
 def shape_func2(x, y, xn):
     """Funcion que calcula las funciones de forma y sus derivadas evaluadas en xp
         x = coordenada x de la particula
@@ -107,7 +107,7 @@ def shape_func2(x, y, xn):
 # =======================================================================
 # ====== Funcion que calcula el area del elemento ======================
 
-@njit
+@njit(cache=True)
 def elem_area(xn):
     """Funcion que calcula el area del elemento
         xn = array con las coordenas de los nodos del elemento donde se encuentra la particula
@@ -121,7 +121,7 @@ def elem_area(xn):
 # ==========================================================================
 # === Funcion que calcula las funciones de forma para un punto de gauss ====
 
-@njit
+@njit(cache=True)
 def shapfunc_gauss1(xn):
     """Funcion que calcula las funciones de forma evaluadas en el punto de gauss (1/3, 1/3, 1/3)
         xn = array con las coordenas de los nodos del elemento donde se encuentra la particula
@@ -151,7 +151,7 @@ def shapfunc_gauss1(xn):
 # ===================================================================
 # ===== Funcion para transferir de las particulas a los nodos =======
 
-@njit('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])))')#, parallel=True)
+@njit('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])))',cache=True)#, parallel=True)
 def particles_to_nodes(grid, particle): 
     """ Funcion que transfiere la informacion de las particulas a lo nodos de la malla
         para un formulacion dinamica con matriz de masa agrupada
@@ -214,7 +214,7 @@ def particles_to_nodes(grid, particle):
 # =============================================================================
 # === Funcion para tranferir de las particulas a los nodos - integra mixta ====
 
-@njit('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])), i8[:])')
+@njit('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])), i8[:])',cache=True)#, parallel=True)
 def particles_to_nodes_gauss(grid, particle, bound_val): 
     """ Funcion que transfiere la informacion de las particulas a lo nodos de la malla
         para un formulacion dinamica con matriz de masa agrupada - Integracion mixta (Gauss y particulas)
@@ -329,7 +329,7 @@ def nodes_to_particle_vel(grid, particle, nquantities, dtime):
     return xp, vp, nvel
 
 
-@njit('Tuple((f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:,:])), f8)')#, parallel=True)
+@njit('Tuple((f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:,:])), f8)',cache=True)#, parallel=True)
 def nodes_to_particle_vel_inte(grid, particle, nquantities, dtime): 
     """ Funcion interna de la funcion nodes_to_particle_vel"""
     
@@ -389,7 +389,7 @@ def nodes_to_particle_vel_inte(grid, particle, nquantities, dtime):
 # ===================================================================
 # === Funcion para aplicar condiciones de contorno - momentum y fuerzas ====
 
-@njit('Tuple((f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:])')#, parallel=True)
+@njit('Tuple((f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:])',cache=True)#, parallel=True)
 def BC_Dirichlet_momentum(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce):
     """Funcion que aplica condiciones de contorno en los nodos de Dirichlet"""
     
@@ -414,7 +414,7 @@ def BC_Dirichlet_momentum(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, n
 # ===================================================================
 # ===== Funcion para aplicar condiciones de contorno - velocidades ====
 
-@njit('f8[:,:](i8[:], i8[:], i8[:], f8[:,:])')#, parallel=True)
+@njit('f8[:,:](i8[:], i8[:], i8[:], f8[:,:])',cache=True)#, parallel=True)
 def BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel):
     """Funcion que aplica las condiciones de contorno en los nodos de Dirichlet - vel = 0"""
 
@@ -436,7 +436,7 @@ def BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel):
 # ====================================================================
 # ===== Funcion que devuelve la matriz constitutiva elastica lineal 2D =====
 
-@njit
+@njit(cache=True)
 def constitutive_matrix_elastic(plane_condition, E, nu):
     '''Funcion para el calculo de la matriz constitutiva elastica lineal para condcion 
         plana de esfuerzo o plana de deformaciones
@@ -464,7 +464,7 @@ def constitutive_matrix_elastic(plane_condition, E, nu):
 # ====================================================================
 # === Funcion para transferir de los nodos a las particulas los esfeurzos ===
 
-@njit('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )')
+@njit('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )',cache=True)#, parallel=True)
 def nodes_to_particle_stress(grid, particle, nvel, dtime): 
     """ Funcion que calcula esfuerzo y deformacion de las particulas, transfiriendo la velocidad nodal de las particulas
         para el calculo del gradiente de velocida Lp - Metodo MUSL, doble transferencia

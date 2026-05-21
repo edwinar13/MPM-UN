@@ -256,6 +256,10 @@ class ModelResult(QObject):
             self.color_bar_result.setVisible(False)
         elif color_style == "Rojo-Azul":
             self.color_bar_result.setColorType(1)
+            self.color_bar_result.setVisible(True)
+        elif color_style == "Azul-Rojo":
+            self.color_bar_result.setColorType(4)
+            self.color_bar_result.setVisible(True)
         elif color_style == "Escala de grises":
             self.color_bar_result.setColorType(2)
         elif color_style == "Escala color":

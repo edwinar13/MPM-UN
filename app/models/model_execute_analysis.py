@@ -1,6 +1,7 @@
 
+from ezdxf.entities import factory
 from motorMPM.mesh import create_uniform, contour_fixe, setup_MP,search_MP
-from motorMPM.mesh import traction_forces,boundary_particles, node_conectivity
+from motorMPM.mesh import traction_forces,boundary_particles,boundary_particles2, boundary_particles3, node_conectivity
 from models.model_analysis_config import AnalysisConfig, AnalysisType, LoadMode, StageType
 from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, static_convergence, nodes_to_particle_stress_gauss
@@ -179,10 +180,15 @@ class ModelExcuteAnalysisMPM:
         self.__mp_active_elem = None
         self.__mp_nmp = None
         
-        # Propiedades
-        self.__mp_prop = None
-        self.__mp_density = None
-        
+        # Vertor and matrix
+        self.__vm_Fp = None
+        self.__vm_sig = None
+        self.__vm_epse = None
+        self.__vm_epsp = None
+        self.__vm_vp = None
+        self.__vm_bp = None
+        self.__vm_bp0 = None
+        self.__vm_tp0 = None
         
         self.mesh = None
         self.initMeshBack()
@@ -288,44 +294,150 @@ class ModelExcuteAnalysisMPM:
         dampfac = self.__step_dampfac
         dtime = self.__tm_dt_time
         bound_val = self.__bo_bound_val
+
+
         
         # 1 → Buscar elementos activos
         mp_elem, active_elem = search_MP(mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex())
         active_nodes = np.unique(self.mesh.inci()[active_elem - 1, :])
         
+
+        
         # 2 → Transferir partículas a nodos
         grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem
         particle = xp, vp, Vp, Mp, sig, bp, tp
-        
+        '''
+        #agregar al final del archivo
+        with open("result_iteracion.txt", "w") as f:
+            f.write(str(use_gauss) + "\n")
+            f.write(str(plasticity_flag) + "\n")
+            f.write(str(dampfac) + "\n")
+            f.write(str(dtime) + "\n")
+            f.write(str(bound_val) + "\n")
+        return True
+        '''
+
         if use_gauss:
+            '''
+            with open("result_iteracion.txt", "w") as f:
+                f.write( "---------------------------------\n")
+                f.write(str(grid)+ "\n")
+                f.write( "---------------------------------\n")
+                f.write(str( particle)+ "\n")
+                f.write( "---------------------------------\n")
+                f.write(str(bound_val)+ "\n")
+            '''
             nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes_gauss2(grid, particle, bound_val)
         else:
             nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
-        
+        '''
+        with open("result_iteracion.txt", "w") as f:
+            f.write( "---------------mal1------------------\n")
+            f.write(str(neforce)+ "\n")
+            f.write( "----------------mal2-----------------\n")
+            f.write(str(niforce)+ "\n")
+            f.write( "-----------------mal3----------------\n")
+            #f.write(str(ndamping)+  "\n")
+            #f.write( "----------------mal4-----------------\n")
+            #f.write(str(nforce)+ "\n")
+            #f.write( "-----------------mal5----------------\n")
+            f.write(str(dtime)+  "\n")
+            f.write( "---------------------------------\n")
+        '''
+
         # 3 → Solución sistema de ecuaciones nodales (EXPLÍCITO)
         nforce = niforce + neforce
         ndamping = -dampfac * np.multiply(np.absolute(nforce), np.sign(nmomentum))
         nforce = nforce + ndamping
         nmomentum += nforce * dtime
-        
+
+        '''
+        with open("result_iteracion.txt", "w") as f:
+            f.write( "---------------mal1------------------\n")
+            f.write(str(nmomentum)+ "\n")
+            f.write( "----------------mal1-----------------\n")
+            f.write(str(nforce)+ "\n")
+            f.write( "-----------------mal1----------------\n")
+            f.write(str(neforce)+  "\n")
+            f.write( "---------------------------------\n")
+        '''
+            
+                    
         # 4 → Condiciones de contorno Dirichlet
         nmomentum, nforce, niforce, neforce = BC_Dirichlet_momentum(
             active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce, niforce, neforce)
-        
+        '''
+        with open("result_iteracion.txt", "w") as f:
+            f.write( "---------------------------------\n")
+            f.write(str(nmass) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(nmomentum) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(nforce) + "\n")
+            f.write( "---------------------------------\n")
+        '''
         # 5 → Transferir nodos a partículas: velocidad y posición
         nquantities = nmass, nmomentum, nforce
         particle = xp, vp, Vp, Mp, sig, shfnp
+
+        with open("result_iteracion.txt", "w") as f:
+            f.write(str(grid) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(particle) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(nquantities) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(dtime) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(active_nodes) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(fixed_nodesX) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(fixed_nodesY) + "\n")
+            f.write( "---------------------------------\n")
+        '''
+            f.write(str(nvel) + "\n")
+            f.write( "---------------------------------\n")
+        '''
+
         xp, vp, nvel = nodes_to_particle_vel(grid, particle, nquantities, dtime)
         nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel)
         
         # 6 → Transferir nodos a partículas: esfuerzo y deformación
+        # Flag de plasticidad: 0 = elastoplástico, 1 = solo elástico
         particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
+        
+        '''        
+        #agregar al final del archivo
+        with open("result_iteracion.txt", "w") as f:
+            f.write(str(use_gauss) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(grid) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(particle) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(bound_val) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(nvel) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(dtime) + "\n")
+            f.write( "---------------------------------\n")
+            f.write(str(plasticity_flag) + "\n")
+            f.write( "---------------------------------\n")
+        '''
+
         if use_gauss:
             Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(
                 grid, particle, bound_val, nvel, dtime, plasticity_flag)
         else:
             Fp, Vp, epse, epsp, sig = nodes_to_particle_stress(
                 grid, particle, nvel, dtime, plasticity_flag)
+        # dtime, plasticity_flag
+        #print("sig max x",np.max(sig[:,0]))
+        
+        #agregar al final del archivo
+        #with open("result_iteracion.txt", "w") as f:
+        #    f.write(f" {sig[0]}\n")
         
         # Actualizar variables de instancia
         self.__mp_xp = xp
@@ -336,6 +448,7 @@ class ModelExcuteAnalysisMPM:
         self.__vm_epse = epse
         self.__vm_epsp = epsp
         self.__mp_mp_elem = mp_elem
+
         
         return nmass, niforce, neforce, nvel
     
@@ -601,7 +714,12 @@ class ModelExcuteAnalysisMPM:
             QApplication.processEvents()
             
             # Aplicar incremento de carga
-            self.__vm_bp[:, 1] = (i + 1) * dincreGrav * self.__vm_bp[:, 1]
+            bp0 = self.__vm_bp0
+            if dincreGrav != 0:
+                self.__vm_bp[:, 1] = (i + 1) * dincreGrav * bp0[:, 1]                
+            else:
+                self.__vm_bp[:, 1] = bp0[:, 1]
+                
             self.__vm_tp_current = (i + 1) * dincre * self.__vm_tp0
             
             # Inicializar convergencia
@@ -609,21 +727,32 @@ class ModelExcuteAnalysisMPM:
             ee = 1
             nework = 0
             tcont = 0
-            tinicial = time.time()
-            
+            tinicial = time.time()       
             while (ff > tol_ff) or (ee > tol_ee):
+         
                 analysis_dialog.setTimer(f"⏳ {time.time() - tinicial:.0f}seg")
                 QApplication.processEvents()
                 tcont += 1
+                if tcont % 100 == 0:
+                    print("----- Iteracion=",tcont,"ff=",ff,"ee=",ee)
+                #print("Iteracion=",tcont,"ff=",ff,"ee=",ee)
                 
                 nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
                 
                 # Evaluar convergencia
-                ff0 = ff
-                ee0 = ee
                 nework0 = nework
+                #print("mass",nmass)
+                #print("niforce",niforce)
+                #print("neforce",neforce)
+                #print("nvel",nvel)
+                #print("dtime",dtime)
+                #print("nework0",nework0)
                 ff, ee, nework = static_convergence(nmass, niforce, neforce, nvel, dtime, nework0)
                 
+                if tcont == 1:
+                    pass
+                    #a= 5/0
+
                 # Condición de seguridad: tiempo máximo
                 tiempoi = time.time() - tinicial
                 if (tiempoi > 100 * t0) and (i > 0):
@@ -632,6 +761,7 @@ class ModelExcuteAnalysisMPM:
                     break
                 else:
                     finfor = False
+
             
             # Guardar resultados del incremento
             tiempo_incr = time.time() - tinicial
@@ -640,7 +770,7 @@ class ModelExcuteAnalysisMPM:
             
             print(f"incremento {i + 1}, num ciclos {tcont}")
             print(f"tiempo en este incremento {tiempo_incr:.2f}s")
-            print(f"desbalance fuerzas {ff:.6f}, Energía cinética {ee:.6f}")
+            print(f"desbalance fuerzas {ff}, Energía cinética {ee}")
             
             self._save_step_to_arrays(arrays, i + 1)
             last_i = i
@@ -657,17 +787,7 @@ class ModelExcuteAnalysisMPM:
         tf = tm.time()
         print(f"[QUASI-STATIC] Fin. Tiempo total: {tf - t0:.2f}s")
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        
-        # Gráfico de CE (legacy)
-        try:
-            dimy = 2
-            dimx = 2
-            graphic_button2(arrays['corX'], arrays['corY'], arrays['desplxy'],
-                           self.__vm_Vp0[0] * (12/dimy)**2, charge, dimx, dimy)
-            self.save_results_excel(arrays['corX'], arrays['corY'], arrays['sigyy'])
-        except Exception as e:
-            print(f"[WARN] Error generando gráfico legacy CE: {e}")
-        
+                
         list_time = list_time[:final_idx]
         list_time_graphic = list_time_graphic[:final_idx]
         self._store_results_to_instance(arrays, list_time, list_time_graphic)
@@ -1074,8 +1194,10 @@ class ModelExcuteAnalysisMPM:
         epsp = np.zeros((nmp, 3))        
         vp = np.asarray(velo_ini)           
         bp=np.zeros((nmp, 2))
+        bp0=np.zeros((nmp, 2))
         if gravity != 0:
             bp[:,1]=-gravity        
+            bp0[:,1]=-gravity        
 
         tp0 = np.zeros((nmp, 2))
         for i in range(nmp):
@@ -1092,6 +1214,7 @@ class ModelExcuteAnalysisMPM:
         self.__vm_epsp = epsp
         self.__vm_vp = vp
         self.__vm_bp = bp
+        self.__vm_bp0 = bp0
         self.__vm_tp0 = tp0
         '''
         print("self.__vm_Fp", self.__vm_Fp)
@@ -1130,11 +1253,13 @@ class ModelExcuteAnalysisMPM:
         estar ordenados pero en la lista de coordenanas de los puntos [xp]
         creo que estan en orden diferente al MPM-UN original, este esta
         ordenado en zigzag dentro del elemento  y de izq a der y de
-        inferior a superior """
+        inferior a superior, en todo caso la de boundary_particles2 es mejor para
+        taludes pero aplica tambien para un cuadrado"""
         
         xp = self.__mp_xp
         # si se va a emplear integracion gaussiana - obtener array con particulas de la frontera
-        bound_ptcl, bound_val = boundary_particles(xp)
+        bound_ptcl, bound_val = boundary_particles3(xp)
+        
         '''
         print("bound_ptcl", bound_ptcl)
         print("bound_val", bound_val)
@@ -1238,6 +1363,7 @@ class ModelExcuteAnalysisMPM:
         Vp0 = self.__vm_Vp0
         Mp = self.__vm_Mp
         bp = self.__vm_bp
+        bp0 = self.__vm_bp0
         tp0 = self.__vm_tp0
         
         
@@ -1354,7 +1480,11 @@ class ModelExcuteAnalysisMPM:
             QApplication.processEvents()     
             
                 
-            bp[:, 1] = (i+1) * dincreGrav * bp[:, 1] # haciendo el incremento de carga de gravedad
+            if dincreGrav != 0:
+                bp[:, 1] = (i+1) * dincreGrav * bp0[:, 1] # haciendo el incremento de carga de gravedad
+            else:
+                bp[:, 1] = bp0[:, 1] # mantener la gravedad constante si no hay incremento
+            
             tp = (i+1) * dincre * tp0 # haciendo el incremento de carga  
             print("-"*20)
             print("tp", tp)
@@ -1985,28 +2115,36 @@ class ModelExcuteAnalysisMPM:
         
 
                 
+        corX_l = corX.tolist(); corY_l = corY.tolist()
+        sigxx_l = sigxx.tolist(); sigyy_l = sigyy.tolist(); sigxy_l = sigxy.tolist()
+        epsexx_l = epsexx.tolist(); epseyy_l = epseyy.tolist(); epsexy_l = epsexy.tolist()
+        epspxx_l = epspxx.tolist(); epspyy_l = epspyy.tolist(); epspxy_l = epspxy.tolist()
+        velxy_l = velxy.tolist(); velxx_l = velxx.tolist(); velyy_l = velyy.tolist()
+        desplxx_l = desplxx.tolist(); desplyy_l = desplyy.tolist(); desplxy_l = desplxy.tolist()
+        eqplas_l = eqplas.tolist()
+
         for node in range(len(corX)):
             self.model_result.addResultNode(
-                id_result_node=node+1, 
+                id_result_node=node+1,
                 material_node=self.__mp_property[node],
-                corx=corX.tolist()[node],
-                cory=corY.tolist()[node],
-                sigxx=sigxx.tolist()[node],
-                sigyy=sigyy.tolist()[node],
-                sigxy=sigxy.tolist()[node],
-                epsexx=epsexx.tolist()[node],
-                epseyy=epseyy.tolist()[node],
-                epsexy=epsexy.tolist()[node],
-                epspxx=epspxx.tolist()[node],
-                epspyy=epspyy.tolist()[node],
-                epspxy=epspxy.tolist()[node],
-                velxy=velxy.tolist()[node],
-                velxx=velxx.tolist()[node],
-                velyy=velyy.tolist()[node],
-                desplxx=desplxx.tolist()[node],
-                desplyy=desplyy.tolist()[node],
-                desplxy=desplxy.tolist()[node],
-                eqplas=eqplas.tolist()[node]
+                corx=corX_l[node],
+                cory=corY_l[node],
+                sigxx=sigxx_l[node],
+                sigyy=sigyy_l[node],
+                sigxy=sigxy_l[node],
+                epsexx=epsexx_l[node],
+                epseyy=epseyy_l[node],
+                epsexy=epsexy_l[node],
+                epspxx=epspxx_l[node],
+                epspyy=epspyy_l[node],
+                epspxy=epspxy_l[node],
+                velxy=velxy_l[node],
+                velxx=velxx_l[node],
+                velyy=velyy_l[node],
+                desplxx=desplxx_l[node],
+                desplyy=desplyy_l[node],
+                desplxy=desplxy_l[node],
+                eqplas=eqplas_l[node]
             )
         
         self.model_result.updateResult()

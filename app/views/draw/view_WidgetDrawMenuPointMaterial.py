@@ -1,7 +1,7 @@
 
 from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
 from PySide6.QtGui import (QIcon, QFont, QPixmap, QColor, QPainter, QPen)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QFileDialog)
 
 from ui.ui_widget_draw_menu_pointMaterial import Ui_FormDrawMenuPointMaterial
 from utils import class_general
@@ -34,6 +34,7 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
 
         self.list_view_card = []
+        self.path_file = None
 
 
         # Configura la UI
@@ -75,6 +76,10 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.label_lat.setVisible(False)
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
+        # Ocultar widgets de carga de archivo al inicio
+        self.toolButton_PointMaterialUploadFile.setVisible(False)
+        self.label_textPointMaterial_path.setVisible(False)
+
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
@@ -102,6 +107,10 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.lineEdit_textPM_Fely.editingFinished.connect(self.__editingFinishedLineEditFely)
         self.toolButton_PointMaterialCancel_2.clicked.connect(self.__clickedToolButtonPointMaterialCancelAssing)
         self.toolButton_PointMaterialAssing.clicked.connect(self.__clickedToolButtonPointMaterialAssing)
+
+        # Eventos carga por archivo
+        self.comboBox_PointMaterialBaseMesh.currentIndexChanged.connect(self.__currentIndexChangedComboBoxBaseMesh)
+        self.toolButton_PointMaterialUploadFile.clicked.connect(self.__clickedToolButtonUploadFile)
 
         
     ###############################################################################
@@ -203,6 +212,30 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
     def __clickedToolButtonPointMaterial(self):
         self.signal_new_points_material.emit()
+
+    def __currentIndexChangedComboBoxBaseMesh(self):
+        """Muestra u oculta los controles de carga por archivo segun la seleccion."""
+        index = self.comboBox_PointMaterialBaseMesh.currentIndex()
+        data = self.comboBox_PointMaterialBaseMesh.itemData(index, Qt.UserRole)
+        is_file = (data is not None and data.get("mesh_type") == "Archivo")
+        self.toolButton_PointMaterialUploadFile.setVisible(is_file)
+        self.label_textPointMaterial_path.setVisible(is_file)
+        # Ocultar seleccion de puntos por elemento cuando es Archivo (no aplica)
+        self.comboBox_PointMaterialNPoints.setEnabled(not is_file)
+        if not is_file:
+            self.path_file = None
+            self.label_textPointMaterial_path.setText("")
+
+    def __clickedToolButtonUploadFile(self):
+        """Abre el explorador de archivos y guarda la ruta del .txt seleccionado."""
+        options = QFileDialog.Options()
+        txt_file_path, _ = QFileDialog.getOpenFileName(
+            self, "Seleccionar archivo de puntos", "", "Text Files (*.txt)", options=options)
+        if txt_file_path:
+            self.path_file = txt_file_path
+            # Mostrar solo el nombre del archivo, no la ruta completa
+            import os
+            self.label_textPointMaterial_path.setText(os.path.basename(txt_file_path))
         
     def __clickedToolButtonMPSelected(self):
         self.signal_select_points_material.emit()
@@ -366,6 +399,16 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         fy = self.lineEdit_textPM_Fely.text()
         return [float(fx), float(fy)]
 
+    def getPathFile(self):
+        """Retorna la ruta del archivo .txt seleccionado, o None si no hay."""
+        return self.path_file
+
+    def isFileMode(self):
+        """True si la malla base seleccionada es de tipo Archivo."""
+        index = self.comboBox_PointMaterialBaseMesh.currentIndex()
+        data = self.comboBox_PointMaterialBaseMesh.itemData(index, Qt.UserRole)
+        return data is not None and data.get("mesh_type") == "Archivo"
+
 
     def setListBaseMesh(self, mesh_data):      
         self.comboBox_PointMaterialBaseMesh.clear()
@@ -382,15 +425,17 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
             pixmap.fill(Qt.transparent)
             painter = QPainter(pixmap)
             painter.setPen(QPen(color_icon, 3))
-            #painter.setBrush(Qt.NoBrush)
             painter.setBrush(QColor(color_icon.red(), color_icon.green(), color_icon.blue(), 50))
-            #painter.drawRoundedRect(pixmap.rect().adjusted(1, 1, -2, -2), 5, 5)
             painter.drawRect(1, 1, 18, 18)
             painter.end()
 
-            
             self.comboBox_PointMaterialBaseMesh.setItemIcon(item_index, QIcon(pixmap))    
             self.comboBox_PointMaterialBaseMesh.setItemData(self.comboBox_PointMaterialBaseMesh.count() - 1, {"mesh_id": mesh_id, "mesh_type": mesh_type}, Qt.UserRole)
+
+        # Agregar opcion "Archivo" al final
+        archivo_index = self.comboBox_PointMaterialBaseMesh.count()
+        self.comboBox_PointMaterialBaseMesh.addItem("📂  Archivo")
+        self.comboBox_PointMaterialBaseMesh.setItemData(archivo_index, {"mesh_id": None, "mesh_type": "Archivo"}, Qt.UserRole)
 
     def setListProperties(self, properties_data): 
         
@@ -462,7 +507,8 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     
     def endPointMaterial(self):
         self.lineEdit_textPointMaterialName.setText("")
-        
+        self.path_file = None
+        self.label_textPointMaterial_path.setText("")
         self.setBaseMesh(0)
         self.setNoPoints(0)
         

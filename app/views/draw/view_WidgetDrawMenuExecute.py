@@ -112,6 +112,8 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         
         self.lineEdit_ExecuteAnalysisCE_dincre.setEnabled(False)
         self.lineEdit_ExecuteAnalysisCE_dincreGrav.setEnabled(False)
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setReadOnly(True)
+        self.lineEdit_ExecuteAnalysisCE_dincreGrav.setStyleSheet("color: #999999; border-color: #333333;")
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.setEnabled(False)
         self.checkBox_ExecuteAnalysisCE.setChecked(False)
         #self.frame_Execute3.setVisible(False)
@@ -140,7 +142,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         #analisis cuasi-estático
         self.checkBox_ExecuteAnalysisCE.stateChanged.connect(self.__stateChangedCheckBoxExecuteAnalysisCE)
         self.lineEdit_ExecuteAnalysisCE_dincre.editingFinished.connect(self.__editingFinishedLineEditExecuteAnalysisCEDincre)
-        self.lineEdit_ExecuteAnalysisCE_dincreGrav.editingFinished.connect(self.__editingFinishedLineEditExecuteAnalysisCEDincreGrav)
+        # dincreGrav ya no es editable, se calcula automaticamente
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.valueChanged.connect(self.emitSignalUpdateNoIncre)
         
         self.toolButton_Execute.clicked.connect(self.__clickedToolButtonExecute)
@@ -329,25 +331,8 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.label_msn.setText("Revisa el incremento de la carga")      
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
-    def __editingFinishedLineEditExecuteAnalysisCEDincreGrav(self):
-        """Verifica al salir del QLineEdit si el texto es
-        un número, si es verdadero le da formato decimal y
-        actualiza factor damping en la copia de la bd del proyecto.
-        si no es número da mensaje de error"""
-        velx = self.lineEdit_ExecuteAnalysisCE_dincreGrav.text()
-        if general_functions.isNumber(velx):
-            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setText(str(float(velx)))            
-            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setStyleSheet("border-color: #444444")
-            self.label_msn.setText("Empty")
-            self.label_msn.setStyleSheet("color: #333333") 
-            self.Signal_update_dincreGrav.emit()
-
-        else:            
-            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setFocus()
-            self.lineEdit_ExecuteAnalysisCE_dincreGrav.setStyleSheet("border: 1px solid #F94646")  
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa el incremento de la gravedad")        
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
+    # __editingFinishedLineEditExecuteAnalysisCEDincreGrav eliminado:
+    # dincreGrav ahora se calcula automaticamente como 1/nincre
     
     def emitSignalUpdateNoIncre(self):
         self.signal_update_no_incre.emit()

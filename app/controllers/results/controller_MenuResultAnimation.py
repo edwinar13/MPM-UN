@@ -142,7 +142,6 @@ class ControllerMenuResultAnimation(QObject):
         axis = self.view_menu_result_animation.getAxisResult()
         vector = self.view_menu_result_animation.getVectorResult()
         
-        print(type_result)
         if type_result == 'default' or type_result == 'eqplas':
             self.view_menu_result_animation.setEnabledSeletedAxis(False)
             self.view_menu_result_animation.setEnabledSeletedVector(False)

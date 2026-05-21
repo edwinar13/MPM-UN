@@ -122,12 +122,6 @@ class ModelMaterialPoint:
     
     def deleteMaterialPoint(self):
         """ funcion para eliminar un conjunto de puntos material"""
-        for item in self.group_material_point.childItems():
-            self.group_material_point.removeFromGroup(item)
-            self.scene_draw.removeItem(item)
-        for item in self.group_label.childItems():
-            self.group_label.removeFromGroup(item)
-            self.scene_draw.removeItem(item)
         self.scene_draw.removeItem(self.group_material_point)
         self.scene_draw.removeItem(self.group_label)
         self.scene_draw.removeItem(self.text_name)

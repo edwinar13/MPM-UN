@@ -71,7 +71,7 @@ def deltatime2(Ep, nu, rhop, ele_size, factor):
 # ====== Funcion para evaluar las funciones de forma del elemento trianglar lineal 
 # ====== y del cuadrilateeral bilineal
 
-@njit
+@njit(cache=True)
 def shape_func(x, y, xn):
     """Funcion que calcula las funciones de forma y sus derivadas evaluadas en xp
         x = coordenada x de la particula
@@ -132,7 +132,7 @@ def shape_func(x, y, xn):
 # =======================================================================
 # ====== Funcion que calcula el area del elemento ======================
 
-@njit
+@njit(cache=True)
 def elem_area(xn):
     """Funcion que calcula el area del elemento
         xn = array con las coordenas de los nodos del elemento donde se encuentra la particula
@@ -157,7 +157,7 @@ def elem_area(xn):
 # ==========================================================================
 # === Funcion que calcula las funciones de forma para un punto de gauss ====
 
-@njit
+@njit(cache=True)
 def shapfunc_gauss1(xn):
     """Funcion que calcula las funciones de forma evaluadas en el punto de gauss (1/3, 1/3, 1/3)
         xn = array con las coordenas de los nodos del elemento donde se encuentra la particula
@@ -286,7 +286,7 @@ def normals(nodos, node_support, active_elem, mp_elem, inci, cor, Mp, xp):
 # ===================================================================
 # ===== Funcion para transferir de las particulas a los nodos =======
 
-@njit#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])))')#, parallel=True)
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])))')#, parallel=True)
 def particles_to_nodes(grid, particle): 
     """ Funcion que transfiere la informacion de las particulas a lo nodos de la malla
         para un formulacion dinamica con matriz de masa agrupada
@@ -367,7 +367,7 @@ def particles_to_nodes(grid, particle):
 # ==============================================================================
 # ==== Funcion para calcular el esfuerzo en los puntos de Gauss ================
     
-@njit
+@njit(cache=True)
 def stress_gausspoint(xp, Vp, sig, mpe, xn):
     """ Funcion que calcula el esfuerzo en el punto de gauss para el elemnto cuadrilateral
         teniendo en cuenta una distribucion de efuerzos lineales dentro del elemento"""
@@ -407,7 +407,7 @@ def stress_gausspoint(xp, Vp, sig, mpe, xn):
 # =============================================================================
 # === Funcion para tranferir de las particulas a los nodos - integra mixta ====
 
-@njit#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])), i8[:])')
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])), i8[:])')
 def particles_to_nodes_gauss(grid, particle, bound_val): 
     """ Funcion que transfiere la informacion de las particulas a lo nodos de la malla
         para un formulacion dinamica con matriz de masa agrupada - Integracion mixta (Gauss y particulas)
@@ -507,7 +507,7 @@ def particles_to_nodes_gauss(grid, particle, bound_val):
 # =============================================================================
 # === Funcion para tranferir de las particulas a los nodos - integra mixta ====
 
-@njit#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])), i8[:])')
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:])), i8[:])')
 def particles_to_nodes_gauss2(grid, particle, bound_val): 
     """ Funcion que transfiere la informacion de las particulas a lo nodos de la malla
         para un formulacion dinamica con matriz de masa agrupada - Integracion mixta (Gauss y particulas)
@@ -622,7 +622,7 @@ def nodes_to_particle_vel(grid, particle, nquantities, dtime):
     return xp, vp, nvel
 
 
-@njit#('Tuple((f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:,:])), f8)')#, parallel=True)
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:])), Tuple((f8[:,:], f8[:,:], f8[:,:])), f8)')#, parallel=True)
 def nodes_to_particle_vel_inte(grid, particle, nquantities, dtime): 
     """ Funcion interna de la funcion nodes_to_particle_vel"""
     
@@ -683,7 +683,7 @@ def nodes_to_particle_vel_inte(grid, particle, nquantities, dtime):
 # ===================================================================
 # === Funcion para aplicar condiciones de contorno - momentum y fuerzas ====
 
-@njit#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:], f8[:,:], f8[:,:])')#, parallel=True)
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:], f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:], f8[:,:], f8[:,:])')#, parallel=True)
 def BC_Dirichlet_momentum(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce,  niforce, neforce):
     """Funcion que aplica condiciones de contorno en los nodos de Dirichlet"""
     
@@ -712,7 +712,7 @@ def BC_Dirichlet_momentum(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, n
 # ===================================================================
 # === Funcion para aplicar condiciones de contorno - momentum y fuerzas ====
 
-@njit#('Tuple((f8[:,:], f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:], f8[:,:])')#, parallel=True)
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:], f8[:,:])')#, parallel=True)
 def BC_Dirichlet_momentum2(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, niforce, neforce):
     """Funcion que aplica condiciones de contorno en los nodos de Dirichlet"""
     
@@ -738,7 +738,7 @@ def BC_Dirichlet_momentum2(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, 
 # ===================================================================
 # === Funcion para aplicar condiciones de contorno - momentum y fuerzas ====
 
-@njit#('Tuple((f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:])')#, parallel=True)
+@njit(cache=True)#('Tuple((f8[:,:], f8[:,:]))(i8[:], i8[:], i8[:], f8[:,:], f8[:,:])')#, parallel=True)
 def BC_Dirichlet_momentum3(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce):
     """Funcion que aplica condiciones de contorno en los nodos de Dirichlet al vector de fuerza nodal total"""
     
@@ -763,7 +763,7 @@ def BC_Dirichlet_momentum3(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, 
 # ===================================================================
 # ===== Funcion para aplicar condiciones de contorno - velocidades ====
 
-@njit#('f8[:,:](i8[:], i8[:], i8[:], f8[:,:])')#, parallel=True)
+@njit(cache=True)#('f8[:,:](i8[:], i8[:], i8[:], f8[:,:])')#, parallel=True)
 def BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel):
     """Funcion que aplica las condiciones de contorno en los nodos de Dirichlet - nvel = 0"""
 
@@ -785,7 +785,7 @@ def BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel):
 # ====================================================================
 # ===== Funcion que devuelve la matriz constitutiva elastica lineal 2D =====
 
-@njit
+@njit(cache=True)
 def constitutive_matrix_elastic(plane_condition, E, nu):
     '''Funcion para el calculo de la matriz constitutiva elastica lineal para condcion 
         plana de esfuerzo o plana de deformaciones
@@ -813,7 +813,7 @@ def constitutive_matrix_elastic(plane_condition, E, nu):
 # =============================================================================
 # ==== Funcion para el calculo de la funcion de fluencia Mohr-Coulomb =========
 
-@njit
+@njit(cache=True)
 def MCyield2(sig, Prop, Tr):
     """ Funcion que calcula la funcion de fluencia para el estado de esfuerzos ingresado de un punto material
         La funcion de fluencia corresponde al criterio de mohr-Coulomb modificado por Abbo-Sloan(1985) para elminar
@@ -881,7 +881,7 @@ def MCyield2(sig, Prop, Tr):
 # =============================================================================
 # === Funcion que calcula el gradiente de la funcion de fluencia y potencial plastico MC ==
 
-@njit
+@njit(cache=True)
 def MCgrad2(sig, Prop, Tr, potential):
     """Funcion que calcula las derivadas de la funcion de fluencia F respecto al estado de esfuerzos
         - Mohr coulomb modificada por abbo sloan(1985) valido para condicion plana de deformaciones
@@ -986,7 +986,7 @@ def MCgrad2(sig, Prop, Tr, potential):
 # =============================================================================
 # ==== Funcion para el calculo de la funcion de fluencia Mohr-Coulomb =========
 
-@njit
+@njit(cache=True)
 def MCyield(sig, Prop, Tr):
     """ Funcion que calcula la funcion de fluencia para el estado de esfuerzos ingresado de un punto material
         La funcion de fluencia corresponde al criterio de mohr-Coulomb modificado por Abbo-Sloan(1985) para elminar
@@ -1056,7 +1056,7 @@ def MCyield(sig, Prop, Tr):
 # =============================================================================
 # === Funcion que calcula el gradiente de la funcion de fluencia y potencial plastico MC ==
 
-@njit
+@njit(cache=True)
 def MCgrad(sig, Prop, Tr, potential):
     """Funcion que calcula las derivadas de la funcion de fluencia F respecto al estado de esfuerzos
         - Mohr coulomb modificada por abbo sloan(1985) valido para condicion plana de deformaciones
@@ -1160,7 +1160,7 @@ def MCgrad(sig, Prop, Tr, potential):
 # ==================================================================================
 # === Funcion para el calculo de esfuerzos y deformaciones ELASTOPLASTICIDAD =======
 
-@njit
+@njit(cache=True)
 def MC_elastoplastic(sigA, deps, Prop, epse, epsp, mp):
     """Funcion que calcula el estado de esfuerzo, el incremento de deformacion elastica y plastica
         de acuerdo con la formulacion de Mohr-Coulomb de Abbo-Sloan elasto plastica perfecta"""
@@ -1305,7 +1305,7 @@ def MC_elastoplastic(sigA, deps, Prop, epse, epsp, mp):
 # ==================================================================================
 # === Funcion para el calculo de esfuerzos y deformaciones ELASTOPLASTICIDAD =======
 
-@njit
+@njit(cache=True)
 def MC_elastoplastic3(sigA, deps, Prop):
     """Funcion que calcula el estado de esfuerzo, el incremento de deformacion elastica y plastica
         de acuerdo con la formulacion de Mohr-Coulomb de Abbo-Sloan elasto plastica perfecta
@@ -1458,7 +1458,7 @@ def MC_elastoplastic3(sigA, deps, Prop):
 # ==================================================================================
 # === Funcion para el calculo de esfuerzos y deformaciones ELASTOPLASTICIDAD =======
 
-@njit
+@njit(cache=True)
 def MC_elastoplastic4(sigA, deps, Prop):
     """Funcion que calcula el estado de esfuerzo, el incremento de deformacion elastica y plastica
         de acuerdo con la formulacion de Mohr-Coulomb de Abbo-Sloan elasto plastica perfecta
@@ -1630,7 +1630,7 @@ def MC_elastoplastic4(sigA, deps, Prop):
 # ==========================================================================
 # ================= Algortimo Pegasus ===============
 
-@njit
+@njit(cache=True)
 def pegasus(dsig, sigA, Prop, Tr, alpha0, alpha1):
     """ Funcion para encontrar ceros de la funcion con el algortmo Regular falsi
         modificado o algortmo Pegasus (Dowell, 1972), funcion usada para encontrar 
@@ -1682,7 +1682,7 @@ def pegasus(dsig, sigA, Prop, Tr, alpha0, alpha1):
 
 # ===========================================================================
 # ============== Funcion descarga elastoplastica ======================
-@njit
+@njit(cache=True)
 def unload_elpl(dsig, sigA, Prop, Tr):
     """Funcion que determina el punto de interseccion para la descarga elastoplastica
         segun el algoritmo presentado por Aboo Sloan 2001"""
@@ -1715,7 +1715,7 @@ def unload_elpl(dsig, sigA, Prop, Tr):
 # ==================================================================================
 # === Funcion para el calculo de esfuerzos y deformaciones ELASTOPLASTICIDAD =======
 
-@njit
+@njit(cache=True)
 def MC_elastoplastic2(sigA, deps, Prop):
     """Funcion que calcula el estado de esfuerzo, el incremento de deformacion elastica y plastica
         de acuerdo con la formulacion de Mohr-Coulomb de Abbo-Sloan elasto plastica perfecta
@@ -1915,7 +1915,7 @@ def MC_elastoplastic2(sigA, deps, Prop):
 # ==================================================================================
 # === Funcion para el calculo de esfuerzos y deformaciones ELASTOPLASTICIDAD =======
 
-@njit
+@njit(cache=True)
 def MC_elastoplastic5(sigA, deps, Prop):
     """Funcion que calcula el estado de esfuerzo, el incremento de deformacion elastica y plastica
         de acuerdo con la formulacion de Mohr-Coulomb de Abbo-Sloan elasto plastica perfecta
@@ -2077,6 +2077,7 @@ def MC_elastoplastic5(sigA, deps, Prop):
 # === Funcion para transferir de los nodos a las particulas los esfeurzos ===
 
 #@njit#('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )')
+@njit(cache=True)
 def nodes_to_particle_stress(grid, particle, nvel, dtime, elapla): 
     """ Funcion que calcula esfuerzo y deformacion de las particulas, transfiriendo la velocidad nodal de las particulas
         para el calculo del gradiente de velocida Lp - Metodo MUSL, doble transferencia
@@ -2212,7 +2213,7 @@ def nodes_to_particle_stress(grid, particle, nvel, dtime, elapla):
 # ====================================================================
 # === Funcion para transferir de los nodos a las particulas los esfeurzos ===
 
-@njit#('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )')
+@njit(cache=True)#('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )')
 def nodes_to_particle_stress2(grid, particle, nvel, dtime, elapla): 
     """ Funcion que calcula esfuerzo y deformacion de las particulas, transfiriendo la velocidad nodal de las particulas
         para el calculo del gradiente de velocida Lp - Metodo MUSL, doble transferencia
@@ -2313,7 +2314,7 @@ def nodes_to_particle_stress2(grid, particle, nvel, dtime, elapla):
 # ====================================================================
 # === Funcion para transferir de los nodos a las particulas los esfeurzos ===
 
-@njit#('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )')
+@njit(cache=True)#('Tuple((f8[:,:], f8[:], f8[:,:], f8[:,:]))(Tuple((i8[:,:], f8[:,:], i8[:], i8[:], i8[:,:])), Tuple((f8[:,:], f8[:], f8[:], f8[:,:], f8[:,:], f8[:,:], f8[:], f8[:])), f8[:,:], f8 )')
 def nodes_to_particle_stress_gauss(grid, particle, bound_val ,nvel, dtime, elapla): 
     """ Funcion que calcula esfuerzo y deformacion de las particulas, transfiriendo la velocidad nodal de las particulas
         para el calculo del gradiente de velocida Lp - Metodo MUSL, doble transferencia

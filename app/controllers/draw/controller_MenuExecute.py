@@ -139,7 +139,7 @@ class ControllerMenuExecute(QObject):
         
         self.view_menu_execute.signal_change_state_analysis_ce.connect(self.changeStateAnalysisCE)
         self.view_menu_execute.Signal_update_dincre.connect(self.updateDincre)
-        self.view_menu_execute.Signal_update_dincreGrav.connect(self.updateDincreGrav)
+        # Signal_update_dincreGrav ya no se conecta: dincreGrav se calcula automaticamente
         self.view_menu_execute.signal_update_no_incre.connect(self.updateNoIncre)
         
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):  
@@ -164,13 +164,16 @@ class ControllerMenuExecute(QObject):
    
         execute_analysis_CE = self.model_current_project.getExecuteAnalysisCE()
         dincre = self.model_current_project.getDincre()
-        dincreGrav = self.model_current_project.getDincreGrav()
         noincre = self.model_current_project.getNoIncre()
+        # Calcular dincreGrav automaticamente
+        dincreGrav = 1.0 / noincre if noincre > 0 else 1.0
         
         self.view_menu_execute.setCheckBoxExecuteAnalysisCE(execute_analysis_CE)
         self.view_menu_execute.setDincre(dincre)
         self.view_menu_execute.setDincreGrav(dincreGrav)
         self.view_menu_execute.setNoIncre(noincre)
+        # Guardar en BD el valor calculado
+        self.model_current_project.updateConfigAnalysis(dincreGrav=dincreGrav)
         
 
         self.updateTime()
@@ -308,7 +311,8 @@ class ControllerMenuExecute(QObject):
         if type_analysis_ce:
             nincre = self.model_current_project.getNoIncre()
             dincre_val = self.model_current_project.getDincre()
-            dincreGrav_val = self.model_current_project.getDincreGrav()
+            # dincreGrav se calcula automaticamente
+            dincreGrav_val = 1.0 / nincre if nincre > 0 else 1.0
             analysis_config = AnalysisConfig.from_legacy_ce(
                 dataTime=self.__dataTime,
                 gravity=gravity,
@@ -377,14 +381,13 @@ class ControllerMenuExecute(QObject):
         self.model_current_project.updateConfigAnalysis(dincre=dincre)
 
     @Slot()
-    def updateDincreGrav(self):
-        dincreGrav = self.view_menu_execute.getDincreGrav()
-        self.model_current_project.updateConfigAnalysis(dincreGrav=dincreGrav)
-        
-    @Slot()
     def updateNoIncre(self):
         noincre = self.view_menu_execute.getNoIncre()
         self.model_current_project.updateConfigAnalysis(noincre=noincre)
+        # Auto-calcular dincreGrav = 1/nincre
+        dincreGrav = 1.0 / noincre if noincre > 0 else 1.0
+        self.view_menu_execute.setDincreGrav(dincreGrav)
+        self.model_current_project.updateConfigAnalysis(dincreGrav=dincreGrav)
         
     @Slot()
     def updateTime(self):   
@@ -1072,28 +1075,33 @@ class ControllerMenuExecute(QObject):
             
         )
                 
+        corX_l = corX.tolist(); corY_l = corY.tolist()
+        sigxx_l = sigxx.tolist(); sigyy_l = sigyy.tolist(); sigxy_l = sigxy.tolist()
+        epsxx_l = epsxx.tolist(); epsyy_l = epsyy.tolist(); epsxy_l = epsxy.tolist()
+        velx_l = velx.tolist(); vely_l = vely.tolist()
+
         for node in range(len(corX)):
             self.model_result.addResultNode(
-                id_result_node=node+1, 
-                corx=corX.tolist()[node],
-                cory=corY.tolist()[node],
-                sigxx=sigxx.tolist()[node],
-                sigyy=sigyy.tolist()[node],
-                sigxy=sigxy.tolist()[node],
-                epsxx=epsxx.tolist()[node],
-                epsyy=epsyy.tolist()[node],
-                epsxy=epsxy.tolist()[node],
-                velx=velx.tolist()[node],
-                vely=vely.tolist()[node]
+                id_result_node=node+1,
+                corx=corX_l[node],
+                cory=corY_l[node],
+                sigxx=sigxx_l[node],
+                sigyy=sigyy_l[node],
+                sigxy=sigxy_l[node],
+                epsxx=epsxx_l[node],
+                epsyy=epsyy_l[node],
+                epsxy=epsxy_l[node],
+                velx=velx_l[node],
+                vely=vely_l[node]
             )
-        
+
         self.model_result.updateResult()
         self.signal_enable_results.emit()
 
         tf =tm.time()
         print("tiempo", tf- t0)
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        
+
         return True
 
     def analysisCapacidadPoratnte(self,analysis_dialog, list_boundaries, list_point_material, 
@@ -1611,26 +1619,31 @@ class ControllerMenuExecute(QObject):
             
         )
                 
+        corX_l = corX.tolist(); corY_l = corY.tolist()
+        sigxx_l = sigxx.tolist(); sigyy_l = sigyy.tolist(); sigxy_l = sigxy.tolist()
+        epsxx_l = epsxx.tolist(); epsyy_l = epsyy.tolist(); epsxy_l = epsxy.tolist()
+        velx_l = velx.tolist(); vely_l = vely.tolist()
+
         for node in range(len(corX)):
             self.model_result.addResultNode(
-                id_result_node=node+1, 
-                corx=corX.tolist()[node],
-                cory=corY.tolist()[node],
-                sigxx=sigxx.tolist()[node],
-                sigyy=sigyy.tolist()[node],
-                sigxy=sigxy.tolist()[node],
-                epsxx=epsxx.tolist()[node],
-                epsyy=epsyy.tolist()[node],
-                epsxy=epsxy.tolist()[node],
-                velx=velx.tolist()[node],
-                vely=vely.tolist()[node]
+                id_result_node=node+1,
+                corx=corX_l[node],
+                cory=corY_l[node],
+                sigxx=sigxx_l[node],
+                sigyy=sigyy_l[node],
+                sigxy=sigxy_l[node],
+                epsxx=epsxx_l[node],
+                epsyy=epsyy_l[node],
+                epsxy=epsxy_l[node],
+                velx=velx_l[node],
+                vely=vely_l[node]
             )
-        
+
         self.model_result.updateResult()
         self.signal_enable_results.emit()
 
         tf =tm.time()
         print("tiempo", tf- t0)
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        
+
         return True

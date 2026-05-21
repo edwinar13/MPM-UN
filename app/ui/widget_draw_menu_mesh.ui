@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>776</height>
+    <height>783</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -74,6 +74,20 @@ QFrame#frame_meshProject{
 background: #333333;
 border-radius: 8px
 }
+
+
+QFrame#frame_info,
+QFrame#frame_mesh2,
+QFrame#frame_mesh2_2,
+QFrame#frame_mesh3,
+QFrame#frame_3,
+QFrame#frame_4,
+QFrame#frame_5,
+QFrame#frame_6{
+background: transparent;
+}
+
+
 
 /*#################################################################*/
 /*####################       FRAME HIDE       ###########################*/
@@ -634,10 +648,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
@@ -670,10 +684,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
          </size>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
@@ -706,10 +720,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
@@ -770,7 +784,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                </size>
               </property>
               <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonIconOnly</enum>
+               <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
               </property>
              </widget>
             </item>
@@ -780,7 +794,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
          <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Orientation::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -802,10 +816,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
          </sizepolicy>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="spacing">
@@ -844,10 +858,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="lineWidth">
             <number>0</number>
@@ -866,7 +880,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
             <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -882,19 +896,19 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
          <item>
           <widget class="QFrame" name="frame_info">
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
              <widget class="QFrame" name="frame_meshSubTitle0">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_16">
                <property name="spacing">
@@ -938,7 +952,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -957,10 +971,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                </sizepolicy>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
                <property name="spacing">
@@ -972,10 +986,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   <string notr="true"/>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::Shape::StyledPanel</enum>
                  </property>
                  <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                  <enum>QFrame::Shadow::Raised</enum>
                  </property>
                  <layout class="QFormLayout" name="formLayout_4">
                   <property name="horizontalSpacing">
@@ -1146,10 +1160,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </sizepolicy>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
+                     <enum>QFrame::Shape::StyledPanel</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
+                     <enum>QFrame::Shadow::Raised</enum>
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_17">
                      <property name="spacing">
@@ -1181,7 +1195,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                  <item>
                   <spacer name="horizontalSpacer_7">
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
@@ -1207,7 +1221,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </size>
                    </property>
                    <property name="arrowType">
-                    <enum>Qt::NoArrow</enum>
+                    <enum>Qt::ArrowType::NoArrow</enum>
                    </property>
                    <property name="QToolButtonStyle" stdset="0">
                     <number>1</number>
@@ -1223,10 +1237,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </size>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                   </widget>
                  </item>
@@ -1283,10 +1297,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </size>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                   </widget>
                  </item>
@@ -1312,7 +1326,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </size>
                    </property>
                    <property name="arrowType">
-                    <enum>Qt::NoArrow</enum>
+                    <enum>Qt::ArrowType::NoArrow</enum>
                    </property>
                    <property name="QToolButtonStyle" stdset="0">
                     <number>1</number>
@@ -1322,7 +1336,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                  <item>
                   <spacer name="horizontalSpacer_8">
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
@@ -1340,10 +1354,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
             <item>
              <widget class="QFrame" name="frame_meshSubTitle1">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
@@ -1387,7 +1401,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -1406,10 +1420,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                </sizepolicy>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <property name="spacing">
@@ -1421,10 +1435,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   <string notr="true"/>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::Shape::StyledPanel</enum>
                  </property>
                  <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                  <enum>QFrame::Shadow::Raised</enum>
                  </property>
                  <layout class="QFormLayout" name="formLayout_3">
                   <property name="horizontalSpacing">
@@ -1558,7 +1572,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                          </colorrole>
                          <colorrole role="PlaceholderText">
                           <brush brushstyle="SolidPattern">
-                           <color alpha="255">
+                           <color alpha="128">
                             <red>221</red>
                             <green>221</green>
                             <blue>221</blue>
@@ -1623,7 +1637,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                          </colorrole>
                          <colorrole role="PlaceholderText">
                           <brush brushstyle="SolidPattern">
-                           <color alpha="255">
+                           <color alpha="128">
                             <red>221</red>
                             <green>221</green>
                             <blue>221</blue>
@@ -1635,9 +1649,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                          <colorrole role="WindowText">
                           <brush brushstyle="SolidPattern">
                            <color alpha="255">
-                            <red>221</red>
-                            <green>221</green>
-                            <blue>221</blue>
+                            <red>136</red>
+                            <green>136</green>
+                            <blue>136</blue>
                            </color>
                           </brush>
                          </colorrole>
@@ -1653,18 +1667,18 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                          <colorrole role="Text">
                           <brush brushstyle="SolidPattern">
                            <color alpha="255">
-                            <red>221</red>
-                            <green>221</green>
-                            <blue>221</blue>
+                            <red>136</red>
+                            <green>136</green>
+                            <blue>136</blue>
                            </color>
                           </brush>
                          </colorrole>
                          <colorrole role="ButtonText">
                           <brush brushstyle="SolidPattern">
                            <color alpha="255">
-                            <red>221</red>
-                            <green>221</green>
-                            <blue>221</blue>
+                            <red>136</red>
+                            <green>136</green>
+                            <blue>136</blue>
                            </color>
                           </brush>
                          </colorrole>
@@ -1688,10 +1702,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                          </colorrole>
                          <colorrole role="PlaceholderText">
                           <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>221</red>
-                            <green>221</green>
-                            <blue>221</blue>
+                           <color alpha="128">
+                            <red>136</red>
+                            <green>136</green>
+                            <blue>136</blue>
                            </color>
                           </brush>
                          </colorrole>
@@ -1725,7 +1739,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                        </size>
                       </property>
                       <property name="arrowType">
-                       <enum>Qt::NoArrow</enum>
+                       <enum>Qt::ArrowType::NoArrow</enum>
                       </property>
                       <property name="QToolButtonStyle" stdset="0">
                        <number>1</number>
@@ -1781,10 +1795,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </sizepolicy>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
+                     <enum>QFrame::Shape::StyledPanel</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
+                     <enum>QFrame::Shadow::Raised</enum>
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_10">
                      <property name="spacing">
@@ -1852,7 +1866,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                         </size>
                        </property>
                        <property name="arrowType">
-                        <enum>Qt::NoArrow</enum>
+                        <enum>Qt::ArrowType::NoArrow</enum>
                        </property>
                        <property name="QToolButtonStyle" stdset="0">
                         <number>1</number>
@@ -1927,7 +1941,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                        </size>
                       </property>
                       <property name="arrowType">
-                       <enum>Qt::NoArrow</enum>
+                       <enum>Qt::ArrowType::NoArrow</enum>
                       </property>
                       <property name="QToolButtonStyle" stdset="0">
                        <number>1</number>
@@ -1990,10 +2004,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </size>
                     </property>
                     <property name="toolButtonStyle">
-                     <enum>Qt::ToolButtonTextBesideIcon</enum>
+                     <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                     </property>
                     <property name="arrowType">
-                     <enum>Qt::NoArrow</enum>
+                     <enum>Qt::ArrowType::NoArrow</enum>
                     </property>
                     <property name="QToolButtonStyle" stdset="0">
                      <number>1</number>
@@ -2015,7 +2029,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   <string/>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>3</number>
@@ -2027,7 +2041,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                  <item>
                   <spacer name="horizontalSpacer_3">
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
@@ -2084,7 +2098,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                  <item>
                   <spacer name="horizontalSpacer_4">
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
@@ -2102,10 +2116,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
             <item>
              <widget class="QFrame" name="frame_meshSubTitle2">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
@@ -2149,7 +2163,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -2166,7 +2180,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    <normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -2183,7 +2197,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                    <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -2211,10 +2225,10 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                <string notr="true"/>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_13">
                <item>
@@ -2231,8 +2245,8 @@ border: none;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>278</width>
-                    <height>130</height>
+                    <width>272</width>
+                    <height>128</height>
                    </rect>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2268,10 +2282,10 @@ border: none;</string>
                         <string notr="true"/>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
+                        <enum>QFrame::Shape::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
+                        <enum>QFrame::Shadow::Raised</enum>
                        </property>
                       </widget>
                      </item>
@@ -2287,10 +2301,10 @@ border: none;</string>
             <item>
              <spacer name="verticalSpacer_2">
               <property name="orientation">
-               <enum>Qt::Vertical</enum>
+               <enum>Qt::Orientation::Vertical</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Expanding</enum>
+               <enum>QSizePolicy::Policy::Expanding</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -2317,7 +2331,7 @@ border: none;</string>
                  <string>Empty</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>

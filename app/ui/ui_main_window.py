@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowsRdVxC.ui'
+## Form generated from reading UI file 'main_windowoHSmlI.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -26,9 +26,9 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(620, 639)
+        MainWindow.resize(620, 659)
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"app/resources/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"\n"
 "/*Colores primarios*/\n"
@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
 "\n"
 "/****************************************************************************************************************************************************/\n"
 "\n"
-"\n"
+"QFrame#frame,\n"
 "QMainWindow#MainWindow{\n"
 "background: #333333;\n"
 "}\n"
@@ -71,8 +71,8 @@ class Ui_MainWindow(object):
 "background-color: #333333;\n"
 "spacing: 5px; \n"
 "color: #DDDDDD;\n"
-"font: 500 10pt \"Ubunt"
-                        "u\";\n"
+"font: 500"
+                        " 10pt \"Ubuntu\";\n"
 "}\n"
 "QMenuBar#menubar::item {\n"
 "padding: 5px 5px;\n"
@@ -117,8 +117,8 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "/*####################     FRAME MENU IZQ      ##########################*/\n"
-"QToolButton#"
-                        "toolButton_home,\n"
+""
+                        "QToolButton#toolButton_home,\n"
 "QToolButton#toolButton_drawPoint,\n"
 "QToolButton#toolButton_drawBoundary,\n"
 "QToolButton#toolButton_drawData,\n"
@@ -132,6 +132,9 @@ class Ui_MainWindow(object):
 "font: 500 7pt \"Ubuntu\";\n"
 "border: none;\n"
 "padding: 8px 0px;\n"
+"}\n"
+"QFrame#frame_menuLeft{\n"
+"background: #333333;\n"
 "}\n"
 "\n"
 "QFrame#frame_home{\n"
@@ -155,12 +158,12 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "\n"
-"/*######################      CONTAINER PAGE       ############################*/\n"
+"/*######################      CONTAINER PAGE       #######################"
+                        "#####*/\n"
 "QFrame#frame_empty{\n"
 "background-color: #444444;\n"
 "}\n"
-""
-                        "\n"
+"\n"
 "\n"
 "\n"
 "/*######################      SETTING       ############################*/\n"
@@ -198,8 +201,8 @@ class Ui_MainWindow(object):
 "/*####################     general setting     ##########################*/\n"
 "/*crear un propiedad personalizada  a un widget y asignarle un estilo*/\n"
 "/*https://stackoverflow.com/questions/46070524/qt-set-style-sheet-for-multiple-labels*/\n"
-"/*https://stackoverflow.com/questions/29736228/is-it-possible-to-set-add-custom-properties-to-qt-widge"
-                        "ts-in-qtcreator*/\n"
+"/*https://stackoverflow.com/q"
+                        "uestions/29736228/is-it-possible-to-set-add-custom-properties-to-qt-widgets-in-qtcreator*/\n"
 "\n"
 "/*etiquetas lateral izq*/ \n"
 "QLabel[type_label=\"1\"]{\n"
@@ -241,13 +244,13 @@ class Ui_MainWindow(object):
 "border-top-left-radius: 10px;\n"
 "}\n"
 " QLabel[type_label_title_table=\"2\"]{\n"
-"border-top-right-radius: 10px;\n"
+"border-top-right-"
+                        "radius: 10px;\n"
 "}\n"
 "\n"
 "\n"
 "\n"
-"/*descripciones tipo 1 de la tabla"
-                        "*/\n"
+"/*descripciones tipo 1 de la tabla*/\n"
 " QLabel[type_label_table=\"2\"]{\n"
 "color: #DDDDDD;\n"
 "font: 10pt \"Ubuntu\";\n"
@@ -291,11 +294,11 @@ class Ui_MainWindow(object):
 "	border-style: solid; \n"
 "	border-color: #555555; \n"
 "	margin: 3px 0px 3px 0px;\n"
-"}\n"
+""
+                        "}\n"
 "\n"
 "/*atajos de teclado aux*/\n"
-" QLabel[type_label_table=\"5"
-                        "\"]{\n"
+" QLabel[type_label_table=\"5\"]{\n"
 "	color: #DDDDDD;\n"
 "	font: 900 12pt \"Ubuntu\";\n"
 "}\n"
@@ -348,10 +351,10 @@ class Ui_MainWindow(object):
 "	font:  10pt \"Ubuntu\";\n"
 "}\n"
 "\n"
-"QDoubleSpinBox[type_spinBox=\"1\"]:hover,\n"
+"QDoubleSpinBox[type_spinBox=\"1\"]:"
+                        "hover,\n"
 "QSpinBox[type_spinBox=\"1\"]:hover {\n"
-"	border-color: #0"
-                        "D99FF; \n"
+"	border-color: #0D99FF; \n"
 "}\n"
 "QDoubleSpinBox[type_spinBox=\"1\"]:disabled,\n"
 "QSpinBox[type_spinBox=\"1\"]:disabled {\n"
@@ -390,11 +393,11 @@ class Ui_MainWindow(object):
 "    border: 1px solid #5c5c5c;\n"
 "    width: 12px;\n"
 "    margin: -10px 0;\n"
-"    border-radius: 3px;\n"
+"    border-radius: "
+                        "3px;\n"
 "}\n"
 "QSlider::handle:horizontal:hover {\n"
-"    border: 1px"
-                        " solid #0D99FF;\n"
+"    border: 1px solid #0D99FF;\n"
 "\n"
 "}\n"
 "\n"
@@ -424,29 +427,29 @@ class Ui_MainWindow(object):
         self.action_nuevo = QAction(MainWindow)
         self.action_nuevo.setObjectName(u"action_nuevo")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_superior/new.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"app/resources/iconos/iconos_menu_superior/new.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_nuevo.setIcon(icon1)
         self.action_abrir = QAction(MainWindow)
         self.action_abrir.setObjectName(u"action_abrir")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_superior/open.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"app/resources/iconos/iconos_menu_superior/open.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_abrir.setIcon(icon2)
         self.action_guardar = QAction(MainWindow)
         self.action_guardar.setObjectName(u"action_guardar")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_superior/save.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"app/resources/iconos/iconos_menu_superior/save.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_guardar.setIcon(icon3)
         self.action_guardarComo = QAction(MainWindow)
         self.action_guardarComo.setObjectName(u"action_guardarComo")
         self.action_importar = QAction(MainWindow)
         self.action_importar.setObjectName(u"action_importar")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_superior/import.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"app/resources/iconos/iconos_menu_superior/import.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_importar.setIcon(icon4)
         self.action_exportar = QAction(MainWindow)
         self.action_exportar.setObjectName(u"action_exportar")
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_menu_superior/export.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"app/resources/iconos/iconos_menu_superior/export.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_exportar.setIcon(icon5)
         self.action_ayuda = QAction(MainWindow)
         self.action_ayuda.setObjectName(u"action_ayuda")
@@ -473,7 +476,7 @@ class Ui_MainWindow(object):
         self.action_deshacer = QAction(MainWindow)
         self.action_deshacer.setObjectName(u"action_deshacer")
         icon6 = QIcon()
-        icon6.addFile(u"app/resources/iconos/iconos_menu_superior/undo.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon6.addFile(u"app/resources/iconos/iconos_menu_superior/undo.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_deshacer.setIcon(icon6)
         font = QFont()
         font.setFamilies([u"Ubuntu"])
@@ -481,7 +484,7 @@ class Ui_MainWindow(object):
         self.action_rehacer = QAction(MainWindow)
         self.action_rehacer.setObjectName(u"action_rehacer")
         icon7 = QIcon()
-        icon7.addFile(u"app/resources/iconos/iconos_menu_superior/redo.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u"app/resources/iconos/iconos_menu_superior/redo.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_rehacer.setIcon(icon7)
         self.action_copiar = QAction(MainWindow)
         self.action_copiar.setObjectName(u"action_copiar")
@@ -505,15 +508,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.frame_menuLeft = QFrame(self.frame)
         self.frame_menuLeft.setObjectName(u"frame_menuLeft")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_menuLeft.sizePolicy().hasHeightForWidth())
@@ -521,20 +524,20 @@ class Ui_MainWindow(object):
         self.frame_menuLeft.setMinimumSize(QSize(0, 0))
         self.frame_menuLeft.setMaximumSize(QSize(16777215, 16777215))
         self.frame_menuLeft.setStyleSheet(u"")
-        self.frame_menuLeft.setFrameShape(QFrame.StyledPanel)
-        self.frame_menuLeft.setFrameShadow(QFrame.Raised)
+        self.frame_menuLeft.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_menuLeft.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.frame_menuLeft)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.verticalSpacer_2 = QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.verticalSpacer_2 = QSpacerItem(20, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
 
         self.verticalLayout_2.addItem(self.verticalSpacer_2)
 
         self.frame_homeInf = QFrame(self.frame_menuLeft)
         self.frame_homeInf.setObjectName(u"frame_homeInf")
-        self.frame_homeInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_homeInf.setFrameShadow(QFrame.Raised)
+        self.frame_homeInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_homeInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_22 = QHBoxLayout(self.frame_homeInf)
         self.horizontalLayout_22.setSpacing(0)
         self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
@@ -542,16 +545,16 @@ class Ui_MainWindow(object):
         self.toolButton_home = QToolButton(self.frame_homeInf)
         self.toolButton_home.setObjectName(u"toolButton_home")
         self.toolButton_home.setEnabled(True)
-        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.toolButton_home.sizePolicy().hasHeightForWidth())
         self.toolButton_home.setSizePolicy(sizePolicy1)
         icon8 = QIcon()
-        icon8.addFile(u"app/resources/iconos/iconos_menu_lateral/home.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon8.addFile(u"app/resources/iconos/iconos_menu_lateral/home.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_home.setIcon(icon8)
         self.toolButton_home.setIconSize(QSize(30, 30))
-        self.toolButton_home.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_home.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_22.addWidget(self.toolButton_home)
 
@@ -560,8 +563,8 @@ class Ui_MainWindow(object):
         self.frame_home.setMinimumSize(QSize(5, 0))
         self.frame_home.setMaximumSize(QSize(5, 16777215))
         self.frame_home.setStyleSheet(u"")
-        self.frame_home.setFrameShape(QFrame.StyledPanel)
-        self.frame_home.setFrameShadow(QFrame.Raised)
+        self.frame_home.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_home.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_22.addWidget(self.frame_home)
 
@@ -570,8 +573,8 @@ class Ui_MainWindow(object):
 
         self.frame_drawDataInf = QFrame(self.frame_menuLeft)
         self.frame_drawDataInf.setObjectName(u"frame_drawDataInf")
-        self.frame_drawDataInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawDataInf.setFrameShadow(QFrame.Raised)
+        self.frame_drawDataInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawDataInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_21 = QHBoxLayout(self.frame_drawDataInf)
         self.horizontalLayout_21.setSpacing(0)
         self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
@@ -583,10 +586,10 @@ class Ui_MainWindow(object):
         self.toolButton_drawData.setSizePolicy(sizePolicy1)
         self.toolButton_drawData.setStyleSheet(u"")
         icon9 = QIcon()
-        icon9.addFile(u"app/resources/iconos/iconos_menu_lateral/control.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon9.addFile(u"app/resources/iconos/iconos_menu_lateral/control.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawData.setIcon(icon9)
         self.toolButton_drawData.setIconSize(QSize(30, 30))
-        self.toolButton_drawData.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_drawData.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_21.addWidget(self.toolButton_drawData)
 
@@ -596,8 +599,8 @@ class Ui_MainWindow(object):
         self.frame_drawData.setMinimumSize(QSize(5, 0))
         self.frame_drawData.setMaximumSize(QSize(5, 16777215))
         self.frame_drawData.setStyleSheet(u"")
-        self.frame_drawData.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawData.setFrameShadow(QFrame.Raised)
+        self.frame_drawData.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawData.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_21.addWidget(self.frame_drawData)
 
@@ -606,8 +609,8 @@ class Ui_MainWindow(object):
 
         self.frame_drawMeshInf = QFrame(self.frame_menuLeft)
         self.frame_drawMeshInf.setObjectName(u"frame_drawMeshInf")
-        self.frame_drawMeshInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawMeshInf.setFrameShadow(QFrame.Raised)
+        self.frame_drawMeshInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawMeshInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_20 = QHBoxLayout(self.frame_drawMeshInf)
         self.horizontalLayout_20.setSpacing(0)
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
@@ -618,10 +621,10 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawMesh.sizePolicy().hasHeightForWidth())
         self.toolButton_drawMesh.setSizePolicy(sizePolicy1)
         icon10 = QIcon()
-        icon10.addFile(u"app/resources/iconos/iconos_menu_lateral/mesh.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon10.addFile(u"app/resources/iconos/iconos_menu_lateral/mesh.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawMesh.setIcon(icon10)
         self.toolButton_drawMesh.setIconSize(QSize(30, 30))
-        self.toolButton_drawMesh.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_drawMesh.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_20.addWidget(self.toolButton_drawMesh)
 
@@ -631,8 +634,8 @@ class Ui_MainWindow(object):
         self.frame_drawMesh.setMinimumSize(QSize(5, 0))
         self.frame_drawMesh.setMaximumSize(QSize(5, 16777215))
         self.frame_drawMesh.setStyleSheet(u"")
-        self.frame_drawMesh.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawMesh.setFrameShadow(QFrame.Raised)
+        self.frame_drawMesh.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawMesh.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_20.addWidget(self.frame_drawMesh)
 
@@ -641,8 +644,8 @@ class Ui_MainWindow(object):
 
         self.frame_drawPropertiesInf = QFrame(self.frame_menuLeft)
         self.frame_drawPropertiesInf.setObjectName(u"frame_drawPropertiesInf")
-        self.frame_drawPropertiesInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawPropertiesInf.setFrameShadow(QFrame.Raised)
+        self.frame_drawPropertiesInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawPropertiesInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_6 = QHBoxLayout(self.frame_drawPropertiesInf)
         self.horizontalLayout_6.setSpacing(0)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
@@ -653,10 +656,10 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawProperties.sizePolicy().hasHeightForWidth())
         self.toolButton_drawProperties.setSizePolicy(sizePolicy1)
         icon11 = QIcon()
-        icon11.addFile(u"app/resources/iconos/iconos_menu_lateral/file.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon11.addFile(u"app/resources/iconos/iconos_menu_lateral/file.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawProperties.setIcon(icon11)
         self.toolButton_drawProperties.setIconSize(QSize(30, 30))
-        self.toolButton_drawProperties.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_drawProperties.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_6.addWidget(self.toolButton_drawProperties)
 
@@ -665,8 +668,8 @@ class Ui_MainWindow(object):
         self.frame_drawProperties.setMinimumSize(QSize(5, 0))
         self.frame_drawProperties.setMaximumSize(QSize(5, 16777215))
         self.frame_drawProperties.setStyleSheet(u"")
-        self.frame_drawProperties.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawProperties.setFrameShadow(QFrame.Raised)
+        self.frame_drawProperties.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawProperties.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_6.addWidget(self.frame_drawProperties)
 
@@ -675,8 +678,8 @@ class Ui_MainWindow(object):
 
         self.frame_drawPointInf = QFrame(self.frame_menuLeft)
         self.frame_drawPointInf.setObjectName(u"frame_drawPointInf")
-        self.frame_drawPointInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawPointInf.setFrameShadow(QFrame.Raised)
+        self.frame_drawPointInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawPointInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_5 = QHBoxLayout(self.frame_drawPointInf)
         self.horizontalLayout_5.setSpacing(0)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -687,10 +690,10 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawPoint.sizePolicy().hasHeightForWidth())
         self.toolButton_drawPoint.setSizePolicy(sizePolicy1)
         icon12 = QIcon()
-        icon12.addFile(u"app/resources/iconos/iconos_menu_lateral/particle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon12.addFile(u"app/resources/iconos/iconos_menu_lateral/particle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawPoint.setIcon(icon12)
         self.toolButton_drawPoint.setIconSize(QSize(30, 30))
-        self.toolButton_drawPoint.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_drawPoint.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_5.addWidget(self.toolButton_drawPoint)
 
@@ -700,8 +703,8 @@ class Ui_MainWindow(object):
         self.frame_drawPoint.setMinimumSize(QSize(5, 0))
         self.frame_drawPoint.setMaximumSize(QSize(5, 16777215))
         self.frame_drawPoint.setStyleSheet(u"")
-        self.frame_drawPoint.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawPoint.setFrameShadow(QFrame.Raised)
+        self.frame_drawPoint.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawPoint.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_5.addWidget(self.frame_drawPoint)
 
@@ -710,8 +713,8 @@ class Ui_MainWindow(object):
 
         self.frame_drawBoundaryInf = QFrame(self.frame_menuLeft)
         self.frame_drawBoundaryInf.setObjectName(u"frame_drawBoundaryInf")
-        self.frame_drawBoundaryInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawBoundaryInf.setFrameShadow(QFrame.Raised)
+        self.frame_drawBoundaryInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawBoundaryInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_4 = QHBoxLayout(self.frame_drawBoundaryInf)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -722,10 +725,10 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawBoundary.sizePolicy().hasHeightForWidth())
         self.toolButton_drawBoundary.setSizePolicy(sizePolicy1)
         icon13 = QIcon()
-        icon13.addFile(u"app/resources/iconos/iconos_menu_lateral/boundary.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon13.addFile(u"app/resources/iconos/iconos_menu_lateral/boundary.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawBoundary.setIcon(icon13)
         self.toolButton_drawBoundary.setIconSize(QSize(30, 30))
-        self.toolButton_drawBoundary.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_drawBoundary.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_4.addWidget(self.toolButton_drawBoundary)
 
@@ -734,8 +737,8 @@ class Ui_MainWindow(object):
         self.frame_drawBoundary.setMinimumSize(QSize(5, 0))
         self.frame_drawBoundary.setMaximumSize(QSize(5, 16777215))
         self.frame_drawBoundary.setStyleSheet(u"")
-        self.frame_drawBoundary.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawBoundary.setFrameShadow(QFrame.Raised)
+        self.frame_drawBoundary.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawBoundary.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_4.addWidget(self.frame_drawBoundary)
 
@@ -744,8 +747,8 @@ class Ui_MainWindow(object):
 
         self.frame_drawExecuteInf = QFrame(self.frame_menuLeft)
         self.frame_drawExecuteInf.setObjectName(u"frame_drawExecuteInf")
-        self.frame_drawExecuteInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawExecuteInf.setFrameShadow(QFrame.Raised)
+        self.frame_drawExecuteInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawExecuteInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_9 = QHBoxLayout(self.frame_drawExecuteInf)
         self.horizontalLayout_9.setSpacing(0)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
@@ -756,10 +759,10 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawExecute.sizePolicy().hasHeightForWidth())
         self.toolButton_drawExecute.setSizePolicy(sizePolicy1)
         icon14 = QIcon()
-        icon14.addFile(u"app/resources/iconos/iconos_menu_lateral/execute.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon14.addFile(u"app/resources/iconos/iconos_menu_lateral/execute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawExecute.setIcon(icon14)
         self.toolButton_drawExecute.setIconSize(QSize(30, 30))
-        self.toolButton_drawExecute.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_drawExecute.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_9.addWidget(self.toolButton_drawExecute)
 
@@ -768,8 +771,8 @@ class Ui_MainWindow(object):
         self.frame_drawExecute.setMinimumSize(QSize(5, 0))
         self.frame_drawExecute.setMaximumSize(QSize(5, 16777215))
         self.frame_drawExecute.setStyleSheet(u"")
-        self.frame_drawExecute.setFrameShape(QFrame.StyledPanel)
-        self.frame_drawExecute.setFrameShadow(QFrame.Raised)
+        self.frame_drawExecute.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_drawExecute.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_9.addWidget(self.frame_drawExecute)
 
@@ -778,8 +781,8 @@ class Ui_MainWindow(object):
 
         self.frame_viewResultInf = QFrame(self.frame_menuLeft)
         self.frame_viewResultInf.setObjectName(u"frame_viewResultInf")
-        self.frame_viewResultInf.setFrameShape(QFrame.StyledPanel)
-        self.frame_viewResultInf.setFrameShadow(QFrame.Raised)
+        self.frame_viewResultInf.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_viewResultInf.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_8 = QHBoxLayout(self.frame_viewResultInf)
         self.horizontalLayout_8.setSpacing(0)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
@@ -790,10 +793,10 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_viewResult.sizePolicy().hasHeightForWidth())
         self.toolButton_viewResult.setSizePolicy(sizePolicy1)
         icon15 = QIcon()
-        icon15.addFile(u"app/resources/iconos/iconos_menu_lateral/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon15.addFile(u"app/resources/iconos/iconos_menu_lateral/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_viewResult.setIcon(icon15)
         self.toolButton_viewResult.setIconSize(QSize(30, 30))
-        self.toolButton_viewResult.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.toolButton_viewResult.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
 
         self.horizontalLayout_8.addWidget(self.toolButton_viewResult)
 
@@ -803,15 +806,15 @@ class Ui_MainWindow(object):
         self.frame_viewResult.setMinimumSize(QSize(5, 0))
         self.frame_viewResult.setMaximumSize(QSize(5, 16777215))
         self.frame_viewResult.setStyleSheet(u"")
-        self.frame_viewResult.setFrameShape(QFrame.StyledPanel)
-        self.frame_viewResult.setFrameShadow(QFrame.Raised)
+        self.frame_viewResult.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_viewResult.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_8.addWidget(self.frame_viewResult)
 
 
         self.verticalLayout_2.addWidget(self.frame_viewResultInf)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
@@ -822,14 +825,14 @@ class Ui_MainWindow(object):
         font1 = QFont()
         font1.setFamilies([u"Ubuntu"])
         font1.setPointSize(7)
-        font1.setBold(False)
+        font1.setWeight(QFont.Medium)
         font1.setItalic(False)
         self.toolButton_setting.setFont(font1)
         icon16 = QIcon()
-        icon16.addFile(u"app/resources/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon16.addFile(u"app/resources/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_setting.setIcon(icon16)
         self.toolButton_setting.setIconSize(QSize(30, 30))
-        self.toolButton_setting.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_setting.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
 
         self.verticalLayout_2.addWidget(self.toolButton_setting)
 
@@ -838,7 +841,7 @@ class Ui_MainWindow(object):
 
         self.frame_empty = QFrame(self.frame)
         self.frame_empty.setObjectName(u"frame_empty")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.frame_empty.sizePolicy().hasHeightForWidth())
@@ -848,8 +851,8 @@ class Ui_MainWindow(object):
         font2.setPointSize(7)
         self.frame_empty.setFont(font2)
         self.frame_empty.setStyleSheet(u"")
-        self.frame_empty.setFrameShape(QFrame.NoFrame)
-        self.frame_empty.setFrameShadow(QFrame.Raised)
+        self.frame_empty.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_empty.setFrameShadow(QFrame.Shadow.Raised)
         self.frame_empty.setLineWidth(0)
         self.horizontalLayout_19 = QHBoxLayout(self.frame_empty)
         self.horizontalLayout_19.setSpacing(0)
@@ -857,8 +860,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_19.setContentsMargins(0, 0, 0, 0)
         self.stackedWidget_container = QStackedWidget(self.frame_empty)
         self.stackedWidget_container.setObjectName(u"stackedWidget_container")
-        self.stackedWidget_container.setFrameShape(QFrame.NoFrame)
-        self.stackedWidget_container.setFrameShadow(QFrame.Raised)
+        self.stackedWidget_container.setFrameShape(QFrame.Shape.NoFrame)
+        self.stackedWidget_container.setFrameShadow(QFrame.Shadow.Raised)
         self.stackedWidget_container.setLineWidth(0)
         self.page_home = QWidget()
         self.page_home.setObjectName(u"page_home")
@@ -923,11 +926,11 @@ class Ui_MainWindow(object):
         self.menubar.setGeometry(QRect(0, 0, 620, 27))
         self.menu_archivo = QMenu(self.menubar)
         self.menu_archivo.setObjectName(u"menu_archivo")
-        self.menu_archivo.setGeometry(QRect(2269, 217, 181, 299))
+        self.menu_archivo.setGeometry(QRect(2269, 217, 180, 281))
         font3 = QFont()
         font3.setFamilies([u"Ubuntu"])
         font3.setPointSize(10)
-        font3.setBold(False)
+        font3.setWeight(QFont.Medium)
         font3.setItalic(False)
         self.menu_archivo.setFont(font3)
         self.menu_archivo.setMouseTracking(True)
@@ -935,7 +938,7 @@ class Ui_MainWindow(object):
         self.menu_recientes.setObjectName(u"menu_recientes")
         self.menu_recientes.setFont(font3)
         icon17 = QIcon()
-        icon17.addFile(u"app/resources/iconos/iconos_menu_superior/recent.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon17.addFile(u"app/resources/iconos/iconos_menu_superior/recent.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.menu_recientes.setIcon(icon17)
         self.menu_editar = QMenu(self.menubar)
         self.menu_editar.setObjectName(u"menu_editar")

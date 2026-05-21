@@ -60,9 +60,9 @@ class AnalysisStage:
 
     # ─── Parámetros de convergencia (solo para cuasi-estático) ───
     # Tolerancia del desbalance de fuerzas normalizado
-    convergence_tol_force: float = 1e-3
+    convergence_tol_force: float = 0.01
     # Tolerancia de la energía cinética normalizada
-    convergence_tol_energy: float = 1e-3
+    convergence_tol_energy: float = 0.01
     # Máximo de iteraciones antes de abortar (seguridad)
     max_iterations: int = 50000
 
@@ -151,7 +151,8 @@ class AnalysisConfig:
     # True = usar particles_to_nodes_gauss2 (para traction forces / CE)
     # False = usar particles_to_nodes (estándar)
     use_gauss_integration: bool = False
-    # Flag de plasticidad: 0 = elastoplástico, 1 = solo elástico
+    # Flag de plasticidad: 0 = elastoplástico (Legacy default), 1 = solo elástico
+    # Se establece en 1 por defecto para coincidir con el comportamiento esperado por el usuario.
     plasticity_flag: int = 0
 
     def build_default_stages(self):

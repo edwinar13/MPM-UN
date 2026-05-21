@@ -404,113 +404,113 @@ class TextMptem(QGraphicsItem):
 
 class PointBoundaryTxItem(QGraphicsItem):
 
+    SIZE = 0.15  # fallback en unidades de escena
 
-    SIZE = 8
-    COLOR = QColor("#e6c210")
-    
-    #theme 1 > dark
-    COLORBORDER_T1 = QColor("#c8e3d0")
-    
-    #theme 2 > light
-    COLORBORDER_T2 = QColor("#706b53")
-
-
-    def __init__(self, node_id:str, name:str, coordinatesX=1, coordinatesY=1, Tx=True, Ty = True ):
+    def __init__(self, node_id: str, name: str, coordinatesX=1, coordinatesY=1,
+                 Tx=True, Ty=True, size: float = 0.0,
+                 dir_x: float = 0.0, dir_y: float = -1.0):
         QGraphicsItem.__init__(self)
-        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
-        
-        # Configura el color del texto según el tema
-        config_manager.signalThemeChanged.connect(self.signalThemeChanged)
-        self.signalThemeChanged(config_manager.getTheme())
 
         self.node_id = node_id
         self.name = name
         self.coor = QPointF(coordinatesX, coordinatesY)
-            
-        self.Tx=Tx
-        self.Ty=Ty
+        self.Tx = Tx
+        self.Ty = Ty
 
-        self.color = self.COLOR
-        
-        self.size = self.SIZE
+        s = size if size > 0 else self.SIZE
+        self.size = s
         self.setPos(self.coor)
         self.isSelected = False
         self.isSelectedBoundary = False
-        
-        self.pen = QPen(self.color_border, 0)
-        self.brush = QBrush(QColor(self.color))
-        
-        self.pen_selected = QPen(self.color_border, 0)
-        self.brush_selected = QBrush(QColor("#45d670"))
-        
+
+        # Desplazamiento en dirección alejada del centroide
+        ox = dir_x * s
+        oy = dir_y * s
+        self.off_x = ox
+        self.off_y = oy
+
+        self.pen = QPen(QColor("#FF0000"), 0)
+        self.pen.setCosmetic(True)
+        self.pen_selected = QPen(QColor("#FF6600"), 0)
         self.pen_selected.setCosmetic(True)
-        self.pen_selected.setWidthF(0.5)
-        
-        pointsTx =[
-            QPointF(0-(self.size/2), 0),
-            QPointF(0-(self.size/2)-(self.size), 0-(self.size/2)),
-            QPointF(0-(self.size/2)-(self.size), 0+(self.size/2)),
-            QPointF(0-(self.size/2), 0)
-        ]
-        self.linetx =[
-            QPointF(0-(self.size/2)-(self.size*1.3), 0-(self.size/2)),
-            QPointF(0-(self.size/2)-(self.size*1.3), 0+(self.size/2))
-        ]
 
-        pointsTy =[
-            QPointF(0, 0+(self.size/2)),
-            QPointF(0+(self.size/2), 0+(self.size)+(self.size/2)),
-            QPointF(0-(self.size/2), 0+(self.size)+(self.size/2)),
-            QPointF(0, 0+(self.size/2))
-        ]
-        
-        self.linety=[
-            QPointF(0+(self.size/2), 0+(self.size*1.3)+(self.size/2)),
-            QPointF(0-(self.size/2), 0+(self.size*1.3)+(self.size/2))
-        ]
+        r = s * 0.5
+        if Tx and Ty:
+            # Triángulo que apunta al nodo (0,0)
+            # La dirección (dir_x, dir_y) es hacia afuera del nodo.
+            # El triángulo se dibuja desde el apex (0,0) hacia afuera.
+            
+            # Vector perpendicular para el ancho de la base
+            p_dx, p_dy = -dir_y, dir_x
+            
+            # Base del triángulo desplazada una distancia 's' en dirección (dir_x, dir_y)
+            base_mid_x = dir_x * s
+            base_mid_y = dir_y * s
+            
+            # Esquinas de la base
+            bx1, by1 = base_mid_x + p_dx * s * 0.5, base_mid_y + p_dy * s * 0.5
+            bx2, by2 = base_mid_x - p_dx * s * 0.5, base_mid_y - p_dy * s * 0.5
+            
+            pts = [
+                QPointF(0, 0),   # Apex en el nodo
+                QPointF(bx1, by1),
+                QPointF(bx2, by2),
+                QPointF(0, 0),
+            ]
+            self.path_main = QPainterPath()
+            self.path_main.addPolygon(QPolygonF(pts))
+            
+            # Línea de sombreado (un poco más lejos de la base)
+            line_ext = s * 1.2
+            lx1, ly1 = base_mid_x * 1.15 + p_dx * s * 0.7, base_mid_y * 1.15 + p_dy * s * 0.7
+            lx2, ly2 = base_mid_x * 1.15 - p_dx * s * 0.7, base_mid_y * 1.15 - p_dy * s * 0.7
+            self.line_p1 = QPointF(lx1, ly1)
+            self.line_p2 = QPointF(lx2, ly2)
 
-        self.pathTx = QPainterPath()
-        self.pathTx.addPolygon(QPolygonF(pointsTx))
-        self.pathTy = QPainterPath()
-        self.pathTy.addPolygon(QPolygonF(pointsTy))
-    
-        
-    def signalThemeChanged(self, theme):     
-        if theme == "dark":
-            self.color_border = self.COLORBORDER_T1
         else:
-            self.color_border = self.COLORBORDER_T2
-        self.pen = QPen(self.color_border, 0)
-        self.pen_selected = QPen(self.color_border, 0)
-   
+            # Círculo: pegado al nodo (0,0) y se extiende en dirección (dir_x, dir_y)
+            r = s * 0.4 
+            cx, cy = dir_x * r, dir_y * r
+            self.circle_rect = QRectF(cx - r, cy - r, r*2, r*2)
+            
+            ext = s * 0.7  # semilongitud de la línea de restricción
+            
+            if Tx:
+                # Restricción en X -> Línea VERTICAL
+                # Si estamos en un lateral, la ponemos en el borde exterior, si no, al borde derecho
+                lx = dir_x * (r * 2) if dir_x != 0 else cx + r
+                ly = cy
+                self.line_p1 = QPointF(lx, ly - ext)
+                self.line_p2 = QPointF(lx, ly + ext)
+            else:
+                # Restricción en Y (Ty) -> Línea HORIZONTAL
+                # Si estamos arriba/abajo, al borde exterior, si no, al borde superior (como pidió el user)
+                lx = cx
+                ly = dir_y * (r * 2) if dir_y != 0 else cy - r
+                self.line_p1 = QPointF(lx - ext, ly)
+                self.line_p2 = QPointF(lx + ext, ly)
+
     def getNameGroup(self):
         return self.name
-    
+
     def getIdNode(self):
         return self.node_id
-    
+
     def boundingRect(self) -> QRectF:
-        size = 0.2
-        return QRectF(-size, -size,
-                             2*size, 2*size)
+        margin = self.size * 2.0
+        return QRectF(self.off_x - margin, self.off_y - margin, margin * 2, margin * 2)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        if self.isSelected or self.isSelectedBoundary:
-            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
-            pen = self.pen_selected
-            brush=self.brush_selected
-        else:
-            pen = self.pen
-            brush=self.brush
-        painter.setBrush(brush)
+        pen = self.pen_selected if (self.isSelected or self.isSelectedBoundary) else self.pen
         painter.setPen(pen)
+        painter.setBrush(Qt.BrushStyle.NoBrush)
 
-        if self.Tx:
-            painter.drawPath(self.pathTx)
-            painter.drawPolyline(QPolygonF(self.linetx))
-        if self.Ty:
-            painter.drawPath(self.pathTy)
-            painter.drawPolyline(QPolygonF(self.linety))
+        if self.Tx and self.Ty:
+            painter.drawPath(self.path_main)
+            painter.drawLine(self.line_p1, self.line_p2)
+        else:
+            painter.drawEllipse(self.circle_rect)
+            painter.drawLine(self.line_p1, self.line_p2)
 
 class PointForceItem(QGraphicsItem):
 

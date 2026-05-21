@@ -23,7 +23,7 @@ def create_uniform2(dimx, dimy, ele_size):
     coord[:, 1] = yy.reshape(1, nnodesx * nnodesy)
     
     # ====== Instruciones para el calculo de tabla de incidencias ========
-    @numba.njit('i8[:,:](i8[:,:], i8, i8, i8)')
+    @numba.njit('i8[:,:](i8[:,:], i8, i8, i8)', cache=True)
     def incidencias(inci, nnodesx, nodesy, nelex): 
         for j in range(nnodesy-1):
             for i in range(1, nnodesx):
@@ -73,7 +73,7 @@ def create_uniform(dimx, dimy, ele_size):
     coord[:, 1] = yy.reshape(1, nnodesx * nnodesy)
     
     # ====== Instruciones para el calculo de tabla de incidencias ========
-    @numba.njit#('i8[:,:](i8[:,:], i8, i8, i8)')
+    @numba.njit(cache=True)#('i8[:,:](i8[:,:], i8, i8, i8)')
     def incidencias(inci, nnodesx, nodesy, nelex): 
         for j in range(nnodesy-1):
             for i in range(1, nnodesx):
@@ -117,7 +117,7 @@ def create_uniform_quadrilateral(dimx, dimy, ele_size):
     coord[:, 1] = yy.reshape(1, nnodesx * nnodesy)
     
     # ====== Instruciones para el calculo de tabla de incidencias ========
-    @numba.njit#('i8[:,:](i8[:,:], i8, i8, i8)')
+    @numba.njit(cache=True)#('i8[:,:](i8[:,:], i8, i8, i8)')
     def incidencias(inci, nnodesx, nodesy, nelex): 
         for j in range(nnodesy-1):
             for i in range(1, nnodesx):
@@ -461,7 +461,7 @@ def search_MP(mp_elem, mp_coord, ele_size, nelex):
 # =============================================================
 # ==== Funciones para buscar que MP esta en cada elem =========
 
-@numba.njit
+@numba.njit(cache=True)
 def elem_i_mp(mp_elem, active_elem):
     """ Funcion que determina que MP estan en el elemento i"""
     indx = [] # creando lista para los MP correspondientes del elemento i
@@ -563,7 +563,104 @@ def boundary_particles2(xp):
     boundary_particles = np.unique(np.concatenate((left, right, up, down), axis=0))
     bound_value = np.zeros(len(xp)).astype(int)
     bound_value[boundary_particles - 1] = 1
+
     
     return boundary_particles, bound_value
 
 # ============================================================================
+
+def boundary_particles3(xp):
+    """
+    Detecta partículas de frontera en distribuciones irregulares mediante Alpha Shape
+    (triangulación de Delaunay filtrada por longitud de arista).
+    
+    MOTIVACIÓN DEL CAMBIO:
+    La función anterior (boundary_particles2) dependía de que las partículas estuvieran alineadas 
+    en columnas perfectas (np.unique(xp[:,0])). En mallas trianguladas (como las generadas 
+    por esta App) o en nubes de puntos importadas, los centroides no se alinean exactamente. 
+    Esto causaba que la búsqueda por 'X única' marcara casi cada punto como un borde nuevo, 
+    generando una detección de frontera 'ruidosa' que desestabilizaba el análisis MPM.
+
+    POR QUÉ NO BASTA DELAUNAY PURO:
+    Delaunay genera la envolvente convexa de TODOS los puntos. Si la nube tiene vacíos
+    (ej: un talud denso a la izquierda y puntos de base dispersos a la derecha), Delaunay
+    crea triángulos enormes que cruzan el vacío. Esos triángulos comparten aristas entre sí,
+    por lo que sus bordes no se detectan como frontera, y los verdaderos bordes del material
+    quedan ocultos.
+
+    SOLUCIÓN — ALPHA SHAPE (Delaunay + filtro de longitud):
+    1. Se realiza la triangulación de Delaunay de todos los puntos materiales (xp).
+    2. Se calcula la longitud de TODAS las aristas de la triangulación.
+    3. Se obtiene la mediana de esas longitudes como referencia del espaciado típico.
+    4. Se DESCARTAN triángulos cuya arista más larga supere un umbral (alpha_factor × mediana).
+       Esto elimina los triángulos gigantes que cruzan vacíos.
+    5. De los triángulos que sobreviven, se cuentan las aristas: las que aparecen en un solo 
+       triángulo son aristas de FRONTERA.
+    6. Las partículas en esas aristas son las partículas de borde.
+    
+    Esta técnica es universal y funciona para geometrías convexas, cóncavas y distribuciones 
+    completamente aleatorias. El factor alpha_factor=2.5 es robusto para distribuciones típicas
+    de MPM (regulares, trianguladas, importadas).
+
+    Desarrollo:
+        Edwin Arevalo
+        2026
+    """
+    from scipy.spatial import Delaunay
+    
+    # 1. Triangulación de Delaunay de la nube de puntos
+    tri = Delaunay(xp)
+    
+    # 2. Calcular longitud de TODAS las aristas para obtener el espaciado típico
+    all_edge_lengths = []
+    for simplex in tri.simplices:
+        for i in range(3):
+            p1, p2 = simplex[i], simplex[(i+1) % 3]
+            length = np.sqrt(np.sum((xp[p1] - xp[p2])**2))
+            all_edge_lengths.append(length)
+    
+    # 3. Umbral alpha: aristas más largas que este valor indican triángulos "artificiales"
+    median_length = np.median(all_edge_lengths)
+    alpha_factor = 2.5  # Factor empírico robusto para distribuciones MPM
+    alpha_threshold = alpha_factor * median_length
+    
+    # 4. Filtrar triángulos y contar aristas solo de los que sobreviven
+    edges = {}
+    for simplex in tri.simplices:
+        # Calcular la arista más larga del triángulo
+        max_edge = 0.0
+        for i in range(3):
+            p1, p2 = simplex[i], simplex[(i+1) % 3]
+            length = np.sqrt(np.sum((xp[p1] - xp[p2])**2))
+            if length > max_edge:
+                max_edge = length
+        
+        # Solo procesar triángulos cuya arista más larga no supere el umbral
+        if max_edge <= alpha_threshold:
+            for i in range(3):
+                edge = tuple(sorted([simplex[i], simplex[(i+1) % 3]]))
+                edges[edge] = edges.get(edge, 0) + 1
+    
+    # 5. Aristas que aparecen en un solo triángulo = FRONTERA
+    boundary_indices = set()
+    for edge, count in edges.items():
+        if count == 1:
+            boundary_indices.update(edge)
+            
+    # 6. Formatear resultados (1-based para compatibilidad con código original)
+    boundary_pts = np.array(sorted(boundary_indices)) + 1
+    bound_value = np.zeros(len(xp)).astype(int)
+    bound_value[list(boundary_indices)] = 1
+
+    # 7. Validación visual (Opcional — comentar en producción)
+    plot_boundary_particles(xp, bound_value)
+    
+    return boundary_pts, bound_value
+
+def plot_boundary_particles(xp, bound_value):
+    """ Función auxiliar para validar visualmente la detección de fronteras """
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+    ax.scatter(xp[:, 0], xp[:, 1], c=bound_value, cmap='viridis')
+    plt.show()
+    

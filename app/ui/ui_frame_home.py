@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_homeqrkvyS.ui'
+## Form generated from reading UI file 'frame_homebtKPbh.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -60,18 +60,27 @@ class Ui_FormHome(object):
 "QFrame#frame_empty_home{\n"
 "background-color: #222222;\n"
 "}\n"
+"QFrame#frame_2,\n"
+"QFrame#frame_3,\n"
+"QFrame#frame_5,\n"
+"QFrame#frame_cardTitle,\n"
+"QFrame#frame{\n"
+"background-color: transparent;\n"
+"}\n"
+"\n"
+"\n"
 "\n"
 "/*######################      PAGE HOME      ############################*/\n"
 "\n"
-"QLabel#label_title_1{\n"
+"QLabel#label_titl"
+                        "e_1{\n"
 "color: #DDDDDD; \n"
 "font: 500 30pt \"Ubuntu\";\n"
 "}\n"
 "QLabel#label_title_2{\n"
 "color: #C8CC8E;\n"
 "font: 700 30pt \"Ubuntu\";\n"
-"font-weight:b"
-                        "old;\n"
+"font-weight:bold;\n"
 "}\n"
 "QFrame#frame_infEjemplos1,\n"
 "QFrame#frame_infEjemplos2,\n"
@@ -105,15 +114,15 @@ class Ui_FormHome(object):
 "}\n"
 "QLabel#label_subTitle1,\n"
 "QLabel#label_subTitle2,\n"
-"QLabel#label_subTitle3,\n"
+"QLabel#lab"
+                        "el_subTitle3,\n"
 "QLabel#label_subTitle4{\n"
 "font: 500 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "}\n"
 "QLabel#label_cardNew1,\n"
 "QLabel#label_cardNew2,\n"
-"Q"
-                        "Label#label_cardNew3,\n"
+"QLabel#label_cardNew3,\n"
 "QLabel#label_cardNew4,\n"
 "QLabel#label_cardNew5{\n"
 "font:  9pt \"Ubuntu\";\n"
@@ -150,13 +159,13 @@ class Ui_FormHome(object):
 "\n"
 "\n"
 "QScrollBar::handle:vertical {\n"
-"    background-color: #333333;\n"
+""
+                        "    background-color: #333333;\n"
 "    min-height: 14px;\n"
 "	border-radius: 7px;\n"
 "}\n"
 "QScrollBar::handle:vertical:hover {\n"
-"    background-color: #"
-                        "910D3F;\n"
+"    background-color: #910D3F;\n"
 "}\n"
 "QScrollBar::handle:vertical:pressed {\n"
 "    background-color: #C70039;\n"
@@ -194,15 +203,15 @@ class Ui_FormHome(object):
 "\n"
 "\n"
 "QScrollBar::add-line:vertical:hover{\n"
-"    background-color: #910D3F;\n"
+"   "
+                        " background-color: #910D3F;\n"
 "}\n"
 "QScrollBar::add-line:vertical:pressed{\n"
 "   background-color: #C70039;\n"
 "}\n"
 "\n"
 "\n"
-"QScrollBar::up-arrow:ver"
-                        "tical,QScrollBar::down-arrow:vertical{\n"
+"QScrollBar::up-arrow:vertical,QScrollBar::down-arrow:vertical{\n"
 "background: none;\n"
 "}\n"
 "QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical{\n"
@@ -237,7 +246,8 @@ class Ui_FormHome(object):
 "background-color: #666666;\n"
 "border: none;\n"
 "border-top-left-radius: 7px;\n"
-"border-bottom-left-radius: 7px;\n"
+"border-bottom-left-radius: 7p"
+                        "x;\n"
 "width: 15px;\n"
 "subcontrol-position: left;\n"
 "subcontrol-origin: margin;\n"
@@ -245,8 +255,7 @@ class Ui_FormHome(object):
 "\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover{\n"
-"    backgr"
-                        "ound-color: #910D3F;\n"
+"    background-color: #910D3F;\n"
 "}\n"
 "QScrollBar::sub-line:horizontal:pressed{\n"
 "    background-color: #C70039;\n"
@@ -281,14 +290,14 @@ class Ui_FormHome(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.frame = QFrame(FormHome)
         self.frame.setObjectName(u"frame")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
         self.frame.setSizePolicy(sizePolicy)
         self.frame.setStyleSheet(u"")
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_2 = QHBoxLayout(self.frame)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_9 = QHBoxLayout()
@@ -297,7 +306,7 @@ class Ui_FormHome(object):
         self.horizontalLayout_9.setContentsMargins(30, -1, -1, -1)
         self.label_logo = QLabel(self.frame)
         self.label_logo.setObjectName(u"label_logo")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.label_logo.sizePolicy().hasHeightForWidth())
@@ -321,7 +330,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_9.addWidget(self.label_title_2)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_9.addItem(self.horizontalSpacer)
 
@@ -334,8 +343,8 @@ class Ui_FormHome(object):
         self.frame_3 = QFrame(FormHome)
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setStyleSheet(u"")
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.frame_3.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_3)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(-1, -1, -1, 0)
@@ -347,7 +356,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_3.addWidget(self.label_subTitle1)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
 
@@ -356,15 +365,15 @@ class Ui_FormHome(object):
 
         self.line_1 = QFrame(self.frame_3)
         self.line_1.setObjectName(u"line_1")
-        self.line_1.setFrameShadow(QFrame.Sunken)
+        self.line_1.setFrameShadow(QFrame.Shadow.Sunken)
         self.line_1.setLineWidth(1)
-        self.line_1.setFrameShape(QFrame.HLine)
+        self.line_1.setFrameShape(QFrame.Shape.HLine)
 
         self.verticalLayout_5.addWidget(self.line_1)
 
         self.scrollArea_1 = QScrollArea(self.frame_3)
         self.scrollArea_1.setObjectName(u"scrollArea_1")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.scrollArea_1.sizePolicy().hasHeightForWidth())
@@ -372,7 +381,7 @@ class Ui_FormHome(object):
         self.scrollArea_1.setStyleSheet(u"background-color: transparent;\n"
 "border: none;\n"
 "")
-        self.scrollArea_1.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scrollArea_1.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scrollArea_1.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
@@ -395,7 +404,7 @@ class Ui_FormHome(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer_5)
 
@@ -404,15 +413,15 @@ class Ui_FormHome(object):
         self.frame_cardNew1.setMinimumSize(QSize(90, 120))
         self.frame_cardNew1.setMaximumSize(QSize(90, 120))
         self.frame_cardNew1.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_cardNew1.setFrameShape(QFrame.StyledPanel)
-        self.frame_cardNew1.setFrameShadow(QFrame.Raised)
+        self.frame_cardNew1.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_cardNew1.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_cardNew1)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.toolButton_cardNew1 = QToolButton(self.frame_cardNew1)
         self.toolButton_cardNew1.setObjectName(u"toolButton_cardNew1")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew1.sizePolicy().hasHeightForWidth())
@@ -423,7 +432,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_8.addWidget(self.frame_cardNew1)
 
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer_6)
 
@@ -434,7 +443,7 @@ class Ui_FormHome(object):
         self.label_cardNew1.setObjectName(u"label_cardNew1")
         self.label_cardNew1.setMinimumSize(QSize(120, 40))
         self.label_cardNew1.setMaximumSize(QSize(16777215, 40))
-        self.label_cardNew1.setAlignment(Qt.AlignCenter)
+        self.label_cardNew1.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label_cardNew1)
 
@@ -445,7 +454,7 @@ class Ui_FormHome(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_11.addItem(self.horizontalSpacer_7)
 
@@ -454,8 +463,8 @@ class Ui_FormHome(object):
         self.frame_cardNew2.setMinimumSize(QSize(90, 120))
         self.frame_cardNew2.setMaximumSize(QSize(90, 120))
         self.frame_cardNew2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_cardNew2.setFrameShape(QFrame.StyledPanel)
-        self.frame_cardNew2.setFrameShadow(QFrame.Raised)
+        self.frame_cardNew2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_cardNew2.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_15 = QHBoxLayout(self.frame_cardNew2)
         self.horizontalLayout_15.setSpacing(0)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
@@ -465,7 +474,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew2.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew2.setSizePolicy(sizePolicy3)
         icon = QIcon()
-        icon.addFile(u"app/resources/imagenes/ejemplo_viga.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"app/resources/imagenes/ejemplo_viga.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew2.setIcon(icon)
         self.toolButton_cardNew2.setIconSize(QSize(100, 100))
 
@@ -474,7 +483,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_11.addWidget(self.frame_cardNew2)
 
-        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_11.addItem(self.horizontalSpacer_8)
 
@@ -485,7 +494,7 @@ class Ui_FormHome(object):
         self.label_cardNew2.setObjectName(u"label_cardNew2")
         self.label_cardNew2.setMinimumSize(QSize(120, 40))
         self.label_cardNew2.setMaximumSize(QSize(16777215, 40))
-        self.label_cardNew2.setAlignment(Qt.AlignCenter)
+        self.label_cardNew2.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_3.addWidget(self.label_cardNew2)
 
@@ -496,8 +505,8 @@ class Ui_FormHome(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_13 = QHBoxLayout()
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.horizontalLayout_13.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_13.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_11)
 
@@ -506,8 +515,8 @@ class Ui_FormHome(object):
         self.frame_cardNew3.setMinimumSize(QSize(90, 120))
         self.frame_cardNew3.setMaximumSize(QSize(90, 120))
         self.frame_cardNew3.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_cardNew3.setFrameShape(QFrame.StyledPanel)
-        self.frame_cardNew3.setFrameShadow(QFrame.Raised)
+        self.frame_cardNew3.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_cardNew3.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_16 = QHBoxLayout(self.frame_cardNew3)
         self.horizontalLayout_16.setSpacing(0)
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
@@ -517,7 +526,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew3.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew3.setSizePolicy(sizePolicy3)
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/imagenes/ejemplo_capacidad_portante.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"app/resources/imagenes/ejemplo_capacidad_portante.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew3.setIcon(icon1)
         self.toolButton_cardNew3.setIconSize(QSize(100, 100))
 
@@ -526,7 +535,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_13.addWidget(self.frame_cardNew3)
 
-        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_12)
 
@@ -537,7 +546,7 @@ class Ui_FormHome(object):
         self.label_cardNew3.setObjectName(u"label_cardNew3")
         self.label_cardNew3.setMinimumSize(QSize(0, 40))
         self.label_cardNew3.setMaximumSize(QSize(16777215, 40))
-        self.label_cardNew3.setAlignment(Qt.AlignCenter)
+        self.label_cardNew3.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_4.addWidget(self.label_cardNew3)
 
@@ -549,7 +558,7 @@ class Ui_FormHome(object):
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_9)
 
@@ -558,8 +567,8 @@ class Ui_FormHome(object):
         self.frame_cardNew4.setMinimumSize(QSize(90, 120))
         self.frame_cardNew4.setMaximumSize(QSize(90, 120))
         self.frame_cardNew4.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_cardNew4.setFrameShape(QFrame.StyledPanel)
-        self.frame_cardNew4.setFrameShadow(QFrame.Raised)
+        self.frame_cardNew4.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_cardNew4.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_17 = QHBoxLayout(self.frame_cardNew4)
         self.horizontalLayout_17.setSpacing(0)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
@@ -569,7 +578,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew4.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew4.setSizePolicy(sizePolicy3)
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/imagenes/ejemplo_disco.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"app/resources/imagenes/ejemplo_disco.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew4.setIcon(icon2)
         self.toolButton_cardNew4.setIconSize(QSize(100, 100))
 
@@ -578,7 +587,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_12.addWidget(self.frame_cardNew4)
 
-        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_10)
 
@@ -589,7 +598,7 @@ class Ui_FormHome(object):
         self.label_cardNew4.setObjectName(u"label_cardNew4")
         self.label_cardNew4.setMinimumSize(QSize(0, 40))
         self.label_cardNew4.setMaximumSize(QSize(16777215, 40))
-        self.label_cardNew4.setAlignment(Qt.AlignCenter)
+        self.label_cardNew4.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_14.addWidget(self.label_cardNew4)
 
@@ -600,13 +609,13 @@ class Ui_FormHome(object):
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
         self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_13)
 
         self.frame_cardNew5 = QFrame(self.frame_4)
         self.frame_cardNew5.setObjectName(u"frame_cardNew5")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy4.setHorizontalStretch(90)
         sizePolicy4.setVerticalStretch(120)
         sizePolicy4.setHeightForWidth(self.frame_cardNew5.sizePolicy().hasHeightForWidth())
@@ -614,8 +623,8 @@ class Ui_FormHome(object):
         self.frame_cardNew5.setMinimumSize(QSize(90, 120))
         self.frame_cardNew5.setMaximumSize(QSize(90, 120))
         self.frame_cardNew5.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.frame_cardNew5.setFrameShape(QFrame.StyledPanel)
-        self.frame_cardNew5.setFrameShadow(QFrame.Raised)
+        self.frame_cardNew5.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_cardNew5.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_18 = QHBoxLayout(self.frame_cardNew5)
         self.horizontalLayout_18.setSpacing(0)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
@@ -625,7 +634,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew5.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew5.setSizePolicy(sizePolicy3)
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/imagenes/ejemplo_talud.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"app/resources/imagenes/ejemplo_talud.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew5.setIcon(icon3)
         self.toolButton_cardNew5.setIconSize(QSize(100, 100))
 
@@ -634,7 +643,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_14.addWidget(self.frame_cardNew5)
 
-        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_14)
 
@@ -645,7 +654,7 @@ class Ui_FormHome(object):
         self.label_cardNew5.setObjectName(u"label_cardNew5")
         self.label_cardNew5.setMinimumSize(QSize(0, 40))
         self.label_cardNew5.setMaximumSize(QSize(16777215, 401))
-        self.label_cardNew5.setAlignment(Qt.AlignCenter)
+        self.label_cardNew5.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_15.addWidget(self.label_cardNew5)
 
@@ -655,7 +664,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_5.addWidget(self.frame_4)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
 
@@ -671,8 +680,8 @@ class Ui_FormHome(object):
         sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
         self.frame_2.setSizePolicy(sizePolicy)
         self.frame_2.setStyleSheet(u"")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_7 = QVBoxLayout(self.frame_2)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(-1, 0, -1, 0)
@@ -684,7 +693,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_6.addWidget(self.label_subTitle2)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_3)
 
@@ -693,8 +702,8 @@ class Ui_FormHome(object):
 
         self.line_2 = QFrame(self.frame_2)
         self.line_2.setObjectName(u"line_2")
-        self.line_2.setFrameShape(QFrame.HLine)
-        self.line_2.setFrameShadow(QFrame.Sunken)
+        self.line_2.setFrameShape(QFrame.Shape.HLine)
+        self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
 
         self.verticalLayout_7.addWidget(self.line_2)
 
@@ -704,15 +713,15 @@ class Ui_FormHome(object):
         self.frame_cardTitle.setSizePolicy(sizePolicy2)
         self.frame_cardTitle.setMinimumSize(QSize(0, 0))
         self.frame_cardTitle.setMaximumSize(QSize(16777215, 16777215))
-        self.frame_cardTitle.setFrameShape(QFrame.StyledPanel)
-        self.frame_cardTitle.setFrameShadow(QFrame.Raised)
+        self.frame_cardTitle.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_cardTitle.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_7 = QHBoxLayout(self.frame_cardTitle)
         self.horizontalLayout_7.setSpacing(5)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(20, 10, 23, 0)
         self.label_icon1 = QLabel(self.frame_cardTitle)
         self.label_icon1.setObjectName(u"label_icon1")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy5.setHorizontalStretch(30)
         sizePolicy5.setVerticalStretch(30)
         sizePolicy5.setHeightForWidth(self.label_icon1.sizePolicy().hasHeightForWidth())
@@ -735,7 +744,7 @@ class Ui_FormHome(object):
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_6)
 
-        self.horizontalSpacer_15 = QSpacerItem(189, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_15 = QSpacerItem(189, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_7.addItem(self.horizontalSpacer_15)
 
@@ -743,7 +752,7 @@ class Ui_FormHome(object):
         self.label_subTitle4.setObjectName(u"label_subTitle4")
         self.label_subTitle4.setMinimumSize(QSize(160, 0))
         self.label_subTitle4.setMaximumSize(QSize(160, 16777215))
-        self.label_subTitle4.setAlignment(Qt.AlignCenter)
+        self.label_subTitle4.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_7.addWidget(self.label_subTitle4)
 
@@ -755,14 +764,14 @@ class Ui_FormHome(object):
 
         self.frame_5 = QFrame(FormHome)
         self.frame_5.setObjectName(u"frame_5")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy6.setHorizontalStretch(0)
         sizePolicy6.setVerticalStretch(0)
         sizePolicy6.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
         self.frame_5.setSizePolicy(sizePolicy6)
         self.frame_5.setStyleSheet(u"")
-        self.frame_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Raised)
+        self.frame_5.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_10 = QHBoxLayout(self.frame_5)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.horizontalLayout_10.setContentsMargins(-1, 0, -1, 0)
@@ -775,7 +784,7 @@ class Ui_FormHome(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 903, 210))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 901, 200))
         self.horizontalLayout_20 = QHBoxLayout(self.scrollAreaWidgetContents_3)
         self.horizontalLayout_20.setSpacing(0)
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
@@ -786,8 +795,8 @@ class Ui_FormHome(object):
         self.frame_6.setSizePolicy(sizePolicy6)
         self.frame_6.setStyleSheet(u"background-color: transparent;\n"
 "")
-        self.frame_6.setFrameShape(QFrame.StyledPanel)
-        self.frame_6.setFrameShadow(QFrame.Raised)
+        self.frame_6.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_8 = QVBoxLayout(self.frame_6)
         self.verticalLayout_8.setSpacing(0)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")

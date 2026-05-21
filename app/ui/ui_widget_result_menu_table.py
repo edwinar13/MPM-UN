@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_tablenkfuRz.ui'
+## Form generated from reading UI file 'widget_result_menu_tableyXVCSu.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,7 +24,7 @@ class Ui_FormMenuResultTable(object):
         if not FormMenuResultTable.objectName():
             FormMenuResultTable.setObjectName(u"FormMenuResultTable")
         FormMenuResultTable.resize(350, 877)
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormMenuResultTable.sizePolicy().hasHeightForWidth())
@@ -76,8 +76,14 @@ class Ui_FormMenuResultTable(object):
 "border-radius: 8px\n"
 "}\n"
 "\n"
-"/*###"
-                        "##############################################################*/\n"
+"QFram"
+                        "e#frame_info,\n"
+"QFrame#frame_ResultAnimation1,\n"
+"QFrame#frame_ResultAnimation3{\n"
+"background: transparent;\n"
+"}\n"
+"\n"
+"/*#################################################################*/\n"
 "/*####################       FRAME HIDE       ###########################*/\n"
 "/*#################################################################*/\n"
 "\n"
@@ -104,14 +110,14 @@ class Ui_FormMenuResultTable(object):
 "QFrame#frame_title{\n"
 "background: #222222;\n"
 "border-top-right-radius: 8px;\n"
-"}\n"
+"}"
+                        "\n"
 "QLabel#label_cardMeshTitle{\n"
 "font: 700 9pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
 "}\n"
 "QFrame#frame_ResultAnimationSubTitle0,\n"
-""
-                        "QFrame#frame_ResultAnimationSubTitle1,\n"
+"QFrame#frame_ResultAnimationSubTitle1,\n"
 "QFrame#frame_ResultAnimationSubTitle2,\n"
 "QFrame#frame_ResultAnimationSubTitle3{\n"
 "background: #222222;\n"
@@ -138,13 +144,13 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "\n"
 "/*******************************************/\n"
-"QPushButton[QPushButtonStyle=\"1\"]{\n"
+"QPushButton[QPushB"
+                        "uttonStyle=\"1\"]{\n"
 "font: 500 10pt \"Ubuntu\";\n"
 "color: #222222;\n"
 "background-color: #77ACA2;\n"
 "border: none;\n"
-"padding: 6px "
-                        "25px;\n"
+"padding: 6px 25px;\n"
 "border-radius: 6px ;\n"
 "}\n"
 "QPushButton[QPushButtonStyle=\"1\"]:hover{\n"
@@ -184,11 +190,11 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "\n"
 "QToolButton#toolButton_cardResultAnimationDraw7,\n"
-"QToolButton#toolButton_cardResultAnimationDraw5,\n"
+"QToolButton#toolButton_"
+                        "cardResultAnimationDraw5,\n"
 "QToolButton#toolButton_cardResultAnimationDraw6{\n"
 "background-color: transparent;\n"
-"border: 1px solid "
-                        "#222222;\n"
+"border: 1px solid #222222;\n"
 "border-radius: 3px;\n"
 "margin-left: 4px;\n"
 "}\n"
@@ -216,14 +222,14 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "QScrollArea#scrollArea,\n"
 "#verticalLayout_containerCardResultAnimation,\n"
-"#scrollAreaWidgetContents{\n"
+"#scrollAreaWi"
+                        "dgetContents{\n"
 "background-color: transparent;\n"
 "}\n"
 "\n"
 "\n"
 "/*###########################################################*/\n"
-""
-                        "/*################                 FRAME MSN          #####################*/\n"
+"/*################                 FRAME MSN          #####################*/\n"
 "/*###########################################################*/\n"
 "\n"
 "\n"
@@ -261,13 +267,13 @@ class Ui_FormMenuResultTable(object):
 "/*TOP*/\n"
 "QScrollBar::sub-line:vertical{\n"
 "    background-color: #666666;\n"
-"	border: none;\n"
+"	border: n"
+                        "one;\n"
 "	border-top-left-radius: 7px;\n"
 "	border-top-right-radius: 7px;\n"
 "	height: 15px;\n"
 "	subcontrol-position: top;\n"
-"	subcontr"
-                        "ol-origin: margin;\n"
+"	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "\n"
@@ -308,12 +314,12 @@ class Ui_FormMenuResultTable(object):
 "}\n"
 "\n"
 "\n"
-"/*######################      SCROLL BAR    HORIZONTAL  ############################*/\n"
+"/*############"
+                        "##########      SCROLL BAR    HORIZONTAL  ############################*/\n"
 "\n"
 "QScrollBar:horizontal{\n"
 "height: 14px;\n"
-"border: no"
-                        "ne;\n"
+"border: none;\n"
 "border-radius: 0px;\n"
 "margin: 0px 15px 0px 15px;\n"
 "}\n"
@@ -351,13 +357,13 @@ class Ui_FormMenuResultTable(object):
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal{\n"
-"    background-color: #666666;\n"
+"    background-color: #666666"
+                        ";\n"
 "	border: none;	\n"
 "	border-top-right-radius: 7px;\n"
 "	border-bottom-right-radius: 7px;\n"
 "	width: 15px;\n"
-"	subcontrol-position"
-                        ": right;\n"
+"	subcontrol-position: right;\n"
 "	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
@@ -401,8 +407,8 @@ class Ui_FormMenuResultTable(object):
 "border: 1px solid #666666;\n"
 "}\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "\n"
 "QToolButton[QToolButtonStyle=\"1\"]{\n"
@@ -436,7 +442,8 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "QToolButton[QToolButtonStyle=\"4\"]:pressed{\n"
 "border-top: 2px solid #222222;\n"
-"border-left: 2px solid #222222;\n"
+"border-left: 2px solid"
+                        " #222222;\n"
 "}  \n"
 "\n"
 "\n"
@@ -444,8 +451,7 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "/*******************************************/\n"
 "QToolButton[QToolButtonStyle=\"2\"]{\n"
-"font: 50"
-                        "0 10pt \"Ubuntu\";\n"
+"font: 500 10pt \"Ubuntu\";\n"
 "color: #222222;\n"
 "background-color: #77ACA2;\n"
 "border: none;\n"
@@ -482,13 +488,13 @@ class Ui_FormMenuResultTable(object):
 "QToolButton[QToolButtonStyle=\"5\"],\n"
 "QToolButton[QToolButtonStyle=\"6\"],\n"
 "QToolButton[QToolButtonStyle=\"7\"],\n"
-"QToolButton[QToolButtonStyle=\"8\"] {\n"
+"QToo"
+                        "lButton[QToolButtonStyle=\"8\"] {\n"
 "    font: 500 10pt \"Ubuntu\";    \n"
 "    padding: 4px 20px;\n"
 "	border: 2px solid #C8CC8E;\n"
 "    \n"
-""
-                        "}\n"
+"}\n"
 "\n"
 "QToolButton[QToolButtonStyle=\"5\"] {\n"
 "    background-color: transparent;    \n"
@@ -519,12 +525,12 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "QToolButton[QToolButtonStyle=\"8\"] {\n"
 "    background-color: #C8CC8E;\n"
-"	border-top-left-radius: 0px;\n"
+"	border-top-lef"
+                        "t-radius: 0px;\n"
 "	border-top-right-radius: 10px;\n"
 "	border-bottom-right-radius: 10px;\n"
 "	border-bottom-left-radius: 0px;\n"
-"	color: #22222"
-                        "2;\n"
+"	color: #222222;\n"
 "}\n"
 "\n"
 "\n"
@@ -561,7 +567,8 @@ class Ui_FormMenuResultTable(object):
 "QLineEdit#lineEdit_textResultAnimation3{\n"
 "font: 7pt \"Ubuntu\";\n"
 "color: #DDDDDD;\n"
-"background-color: #333333;\n"
+"backg"
+                        "round-color: #333333;\n"
 "border: 1px solid #444444;\n"
 "border-radius: 2px ;\n"
 "padding-right: 2px;\n"
@@ -569,8 +576,7 @@ class Ui_FormMenuResultTable(object):
 "\n"
 "}\n"
 "\n"
-""
-                        "\n"
+"\n"
 "/*\n"
 "QLineEdit#lineEdit_textResultAnimation3,\n"
 "QLineEdit#lineEdit_textResultAnimation5{\n"
@@ -589,15 +595,15 @@ class Ui_FormMenuResultTable(object):
 "/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QToolButton[QToolButtonSubTitleStyle=\"1\"] {\n"
-"background-color: transparent;\n"
+"backgr"
+                        "ound-color: transparent;\n"
 "}\n"
 "\n"
 "\n"
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QLabel[QLabelStyle=\"1\"] {\n"
 "font: 700 9pt \"Ubuntu\";\n"
@@ -632,12 +638,12 @@ class Ui_FormMenuResultTable(object):
 "Azules #36C9C6 #00BDB9 #77ACA2\n"
 "rojos #910D3F #C70039 #F94646\n"
 "naranjas #D34E24 #F28123 #F7F052\n"
-"*/\n"
+""
+                        "*/\n"
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           Q"
-                        "ComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QComboBox[QComboBoxStyle=\"1\"] {\n"
 "    border: none;\n"
 "    background-color: #444444;\n"
@@ -656,12 +662,12 @@ class Ui_FormMenuResultTable(object):
 "}\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QCheckBox[QCheckBoxStyle=\"1\"] {\n"
 "    \n"
 "    background-color: #444444;\n"
-"	color: #DDDDDD;"
-                        "\n"
+"	color: #DDDDDD;\n"
 "    padding: 5px;\n"
 "	font:  9pt \"Ubuntu\";\n"
 "    selection-background-color: #808080;\n"
@@ -686,27 +692,27 @@ class Ui_FormMenuResultTable(object):
         self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
         self.frame_ResultAnimationProject = QFrame(FormMenuResultTable)
         self.frame_ResultAnimationProject.setObjectName(u"frame_ResultAnimationProject")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_ResultAnimationProject.sizePolicy().hasHeightForWidth())
         self.frame_ResultAnimationProject.setSizePolicy(sizePolicy1)
-        self.frame_ResultAnimationProject.setFrameShape(QFrame.StyledPanel)
-        self.frame_ResultAnimationProject.setFrameShadow(QFrame.Raised)
+        self.frame_ResultAnimationProject.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_ResultAnimationProject.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_ResultAnimationProject)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.frame_hide = QFrame(self.frame_ResultAnimationProject)
         self.frame_hide.setObjectName(u"frame_hide")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.frame_hide.sizePolicy().hasHeightForWidth())
         self.frame_hide.setSizePolicy(sizePolicy2)
         self.frame_hide.setMinimumSize(QSize(20, 0))
-        self.frame_hide.setFrameShape(QFrame.StyledPanel)
-        self.frame_hide.setFrameShadow(QFrame.Raised)
+        self.frame_hide.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_hide.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.frame_hide)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -716,15 +722,15 @@ class Ui_FormMenuResultTable(object):
         sizePolicy2.setHeightForWidth(self.frame_hide2.sizePolicy().hasHeightForWidth())
         self.frame_hide2.setSizePolicy(sizePolicy2)
         self.frame_hide2.setMinimumSize(QSize(20, 0))
-        self.frame_hide2.setFrameShape(QFrame.StyledPanel)
-        self.frame_hide2.setFrameShadow(QFrame.Raised)
+        self.frame_hide2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_hide2.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_4 = QVBoxLayout(self.frame_hide2)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.toolButton_hideShow = QToolButton(self.frame_hide2)
         self.toolButton_hideShow.setObjectName(u"toolButton_hideShow")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.toolButton_hideShow.sizePolicy().hasHeightForWidth())
@@ -737,17 +743,17 @@ class Ui_FormMenuResultTable(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
-        self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
 
         self.verticalLayout_4.addWidget(self.toolButton_hideShow)
 
 
         self.verticalLayout_2.addWidget(self.frame_hide2)
 
-        self.verticalSpacer = QSpacerItem(20, 507, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 507, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
@@ -758,33 +764,33 @@ class Ui_FormMenuResultTable(object):
         self.frame_ResultAnimation.setObjectName(u"frame_ResultAnimation")
         sizePolicy1.setHeightForWidth(self.frame_ResultAnimation.sizePolicy().hasHeightForWidth())
         self.frame_ResultAnimation.setSizePolicy(sizePolicy1)
-        self.frame_ResultAnimation.setFrameShape(QFrame.StyledPanel)
-        self.frame_ResultAnimation.setFrameShadow(QFrame.Raised)
+        self.frame_ResultAnimation.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_ResultAnimation.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_3 = QVBoxLayout(self.frame_ResultAnimation)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.frame_title = QFrame(self.frame_ResultAnimation)
         self.frame_title.setObjectName(u"frame_title")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy4.setHorizontalStretch(0)
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.frame_title.sizePolicy().hasHeightForWidth())
         self.frame_title.setSizePolicy(sizePolicy4)
         self.frame_title.setMinimumSize(QSize(0, 30))
         self.frame_title.setMaximumSize(QSize(16777215, 30))
-        self.frame_title.setFrameShape(QFrame.StyledPanel)
-        self.frame_title.setFrameShadow(QFrame.Raised)
+        self.frame_title.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_title.setFrameShadow(QFrame.Shadow.Raised)
         self.frame_title.setLineWidth(0)
         self.horizontalLayout_2 = QHBoxLayout(self.frame_title)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label_cardResultAnimationTitle = QLabel(self.frame_title)
         self.label_cardResultAnimationTitle.setObjectName(u"label_cardResultAnimationTitle")
-        self.label_cardResultAnimationTitle.setProperty("QLabelStyle", 1)
+        self.label_cardResultAnimationTitle.setProperty(u"QLabelStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.label_cardResultAnimationTitle)
 
-        self.horizontalSpacer = QSpacerItem(58, 7, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(58, 7, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
@@ -793,14 +799,14 @@ class Ui_FormMenuResultTable(object):
 
         self.frame_info = QFrame(self.frame_ResultAnimation)
         self.frame_info.setObjectName(u"frame_info")
-        self.frame_info.setFrameShape(QFrame.StyledPanel)
-        self.frame_info.setFrameShadow(QFrame.Raised)
+        self.frame_info.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_info.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_info)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.frame_ResultAnimationSubTitle1 = QFrame(self.frame_info)
         self.frame_ResultAnimationSubTitle1.setObjectName(u"frame_ResultAnimationSubTitle1")
-        self.frame_ResultAnimationSubTitle1.setFrameShape(QFrame.StyledPanel)
-        self.frame_ResultAnimationSubTitle1.setFrameShadow(QFrame.Raised)
+        self.frame_ResultAnimationSubTitle1.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_ResultAnimationSubTitle1.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_ResultAnimationSubTitle1)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -808,17 +814,17 @@ class Ui_FormMenuResultTable(object):
         self.label_cardResultAnimationSubTitle1 = QLabel(self.frame_ResultAnimationSubTitle1)
         self.label_cardResultAnimationSubTitle1.setObjectName(u"label_cardResultAnimationSubTitle1")
         self.label_cardResultAnimationSubTitle1.setMinimumSize(QSize(262, 0))
-        self.label_cardResultAnimationSubTitle1.setProperty("QLabelStyle", 2)
+        self.label_cardResultAnimationSubTitle1.setProperty(u"QLabelStyle", 2)
 
         self.horizontalLayout_3.addWidget(self.label_cardResultAnimationSubTitle1)
 
         self.toolButton_cardResultAnimationSubTitle1 = QToolButton(self.frame_ResultAnimationSubTitle1)
         self.toolButton_cardResultAnimationSubTitle1.setObjectName(u"toolButton_cardResultAnimationSubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardResultAnimationSubTitle1.setIcon(icon1)
-        self.toolButton_cardResultAnimationSubTitle1.setArrowType(Qt.NoArrow)
-        self.toolButton_cardResultAnimationSubTitle1.setProperty("QToolButtonSubTitleStyle", 1)
+        self.toolButton_cardResultAnimationSubTitle1.setArrowType(Qt.ArrowType.NoArrow)
+        self.toolButton_cardResultAnimationSubTitle1.setProperty(u"QToolButtonSubTitleStyle", 1)
 
         self.horizontalLayout_3.addWidget(self.toolButton_cardResultAnimationSubTitle1)
 
@@ -829,61 +835,61 @@ class Ui_FormMenuResultTable(object):
         self.frame_ResultAnimation1.setObjectName(u"frame_ResultAnimation1")
         sizePolicy1.setHeightForWidth(self.frame_ResultAnimation1.sizePolicy().hasHeightForWidth())
         self.frame_ResultAnimation1.setSizePolicy(sizePolicy1)
-        self.frame_ResultAnimation1.setFrameShape(QFrame.StyledPanel)
-        self.frame_ResultAnimation1.setFrameShadow(QFrame.Raised)
+        self.frame_ResultAnimation1.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_ResultAnimation1.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_6 = QVBoxLayout(self.frame_ResultAnimation1)
         self.verticalLayout_6.setSpacing(10)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.label_textPointMaterialName = QLabel(self.frame_ResultAnimation1)
         self.label_textPointMaterialName.setObjectName(u"label_textPointMaterialName")
         self.label_textPointMaterialName.setMinimumSize(QSize(0, 30))
-        self.label_textPointMaterialName.setProperty("QLabelStyle", 3)
+        self.label_textPointMaterialName.setProperty(u"QLabelStyle", 3)
 
         self.verticalLayout_6.addWidget(self.label_textPointMaterialName)
 
         self.lineEdit_tableSearchByPointId = QLineEdit(self.frame_ResultAnimation1)
         self.lineEdit_tableSearchByPointId.setObjectName(u"lineEdit_tableSearchByPointId")
         self.lineEdit_tableSearchByPointId.setMinimumSize(QSize(0, 25))
-        self.lineEdit_tableSearchByPointId.setProperty("QLineEditStyle", 1)
+        self.lineEdit_tableSearchByPointId.setProperty(u"QLineEditStyle", 1)
 
         self.verticalLayout_6.addWidget(self.lineEdit_tableSearchByPointId)
 
         self.label_textResultAnimation3 = QLabel(self.frame_ResultAnimation1)
         self.label_textResultAnimation3.setObjectName(u"label_textResultAnimation3")
         self.label_textResultAnimation3.setMinimumSize(QSize(110, 0))
-        self.label_textResultAnimation3.setProperty("QLabelStyle", 3)
+        self.label_textResultAnimation3.setProperty(u"QLabelStyle", 3)
 
         self.verticalLayout_6.addWidget(self.label_textResultAnimation3)
 
         self.pushButton_ClearTable = QPushButton(self.frame_ResultAnimation1)
         self.pushButton_ClearTable.setObjectName(u"pushButton_ClearTable")
-        self.pushButton_ClearTable.setProperty("QPushButtonStyle", 3)
+        self.pushButton_ClearTable.setProperty(u"QPushButtonStyle", 3)
 
         self.verticalLayout_6.addWidget(self.pushButton_ClearTable)
 
         self.pushButton_tableShowHideColumn = QPushButton(self.frame_ResultAnimation1)
         self.pushButton_tableShowHideColumn.setObjectName(u"pushButton_tableShowHideColumn")
-        self.pushButton_tableShowHideColumn.setProperty("QPushButtonStyle", 3)
+        self.pushButton_tableShowHideColumn.setProperty(u"QPushButtonStyle", 3)
 
         self.verticalLayout_6.addWidget(self.pushButton_tableShowHideColumn)
 
         self.pushButton_SaveData = QPushButton(self.frame_ResultAnimation1)
         self.pushButton_SaveData.setObjectName(u"pushButton_SaveData")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/excel.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"app/resources/iconos/excel.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.pushButton_SaveData.setIcon(icon2)
         self.pushButton_SaveData.setIconSize(QSize(30, 30))
-        self.pushButton_SaveData.setProperty("QPushButtonStyle", 1)
+        self.pushButton_SaveData.setProperty(u"QPushButtonStyle", 1)
 
         self.verticalLayout_6.addWidget(self.pushButton_SaveData)
 
         self.pushButton_GeneratePDF = QPushButton(self.frame_ResultAnimation1)
         self.pushButton_GeneratePDF.setObjectName(u"pushButton_GeneratePDF")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/pdf.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"app/resources/iconos/pdf.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.pushButton_GeneratePDF.setIcon(icon3)
         self.pushButton_GeneratePDF.setIconSize(QSize(30, 30))
-        self.pushButton_GeneratePDF.setProperty("QPushButtonStyle", 2)
+        self.pushButton_GeneratePDF.setProperty(u"QPushButtonStyle", 2)
 
         self.verticalLayout_6.addWidget(self.pushButton_GeneratePDF)
 
@@ -892,21 +898,21 @@ class Ui_FormMenuResultTable(object):
 
         self.frame_ResultAnimation3 = QFrame(self.frame_info)
         self.frame_ResultAnimation3.setObjectName(u"frame_ResultAnimation3")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy5.setHorizontalStretch(0)
         sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.frame_ResultAnimation3.sizePolicy().hasHeightForWidth())
         self.frame_ResultAnimation3.setSizePolicy(sizePolicy5)
         self.frame_ResultAnimation3.setMinimumSize(QSize(0, 150))
         self.frame_ResultAnimation3.setStyleSheet(u"")
-        self.frame_ResultAnimation3.setFrameShape(QFrame.StyledPanel)
-        self.frame_ResultAnimation3.setFrameShadow(QFrame.Raised)
+        self.frame_ResultAnimation3.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_ResultAnimation3.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_13 = QHBoxLayout(self.frame_ResultAnimation3)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
 
         self.verticalLayout_5.addWidget(self.frame_ResultAnimation3)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_5.addItem(self.verticalSpacer_2)
 
@@ -915,12 +921,12 @@ class Ui_FormMenuResultTable(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_msn = QLabel(self.frame_info)
         self.label_msn.setObjectName(u"label_msn")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy6.setHorizontalStretch(0)
         sizePolicy6.setVerticalStretch(0)
         sizePolicy6.setHeightForWidth(self.label_msn.sizePolicy().hasHeightForWidth())
         self.label_msn.setSizePolicy(sizePolicy6)
-        self.label_msn.setAlignment(Qt.AlignCenter)
+        self.label_msn.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_5.addWidget(self.label_msn)
 

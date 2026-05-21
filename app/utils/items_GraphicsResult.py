@@ -545,7 +545,11 @@ class ItemResultNode(QGraphicsItem):
             percent = self.evaluatePercent(value_data, (min_value, max_value))
             
             if self.color_style == "Rojo-Azul":
-                hue = int((1-(percent/100))*300)
+                hue = int((percent/100)*240)
+                saturation = 255
+                value = 255                
+            elif self.color_style == "Azul-Rojo":
+                hue = int((1-(percent/100))*240)
                 saturation = 255
                 value = 255                
             elif self.color_style == "Escala de grises":
@@ -740,21 +744,27 @@ class ItemResultColorBar(QGraphicsItem):
         gradient = QLinearGradient(0,0,0,self.rect_color_h)
         
 
-        if  color_type == 1:
-            gradient.setColorAt(1.0, QColor(255, 0, 0, 255)) # rojo
-            gradient.setColorAt(0.8, QColor(255, 255, 0, 255)) # amarillo
-            gradient.setColorAt(0.6, QColor(0, 255, 0, 255)) # verde            
-            gradient.setColorAt(0.4, QColor(0, 255,255, 255)  ) # cyan
-            gradient.setColorAt(0.2, QColor(0, 0, 255, 255)) # azul
-            gradient.setColorAt(0.0, QColor(255, 0, 255, 255)) # magenta
+        if  color_type == 1: # Rojo-Azul
+            gradient.setColorAt(0.0, QColor(255, 0, 0, 255)) # rojo
+            gradient.setColorAt(0.25, QColor(255, 255, 0, 255)) # amarillo
+            gradient.setColorAt(0.5, QColor(0, 255, 0, 255)) # verde            
+            gradient.setColorAt(0.75, QColor(0, 255, 255, 255)) # cyan
+            gradient.setColorAt(1.0, QColor(0, 0, 255, 255)) # azul
                        
-        elif color_type == 2:
+        elif color_type == 2: # Escala de grises
             gradient.setColorAt(0, QColor(255, 255, 255, 255))
             gradient.setColorAt(1, QColor(0, 0, 0, 255)) # 
         
-        elif color_type == 3:
+        elif color_type == 3: # Escala color
             gradient.setColorAt(0, QColor(255, 255, 255, 255))
             gradient.setColorAt(1, color)
+
+        elif  color_type == 4: # Azul-Rojo       
+            gradient.setColorAt(0.0, QColor(0, 0, 255, 255)) # azul
+            gradient.setColorAt(0.25, QColor(0, 255, 255, 255)) # cyan
+            gradient.setColorAt(0.5, QColor(0, 255, 0, 255)) # verde            
+            gradient.setColorAt(0.75, QColor(255, 255, 0, 255)) # amarillo
+            gradient.setColorAt(1.0, QColor(255, 0, 0, 255)) # rojo
 
         self.brush_rect_color = QBrush(gradient)
         self.pen_rect_color = QPen(QColor("#555"), 0, Qt.SolidLine)

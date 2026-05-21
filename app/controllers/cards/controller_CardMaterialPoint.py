@@ -30,7 +30,8 @@ class ControllerCardMaterialPoint(QObject):
 	###############################################################################
     def __initCard(self):
         self.view_card_material_point = viewCardDrawMaterialPoint(self)
-        self.view_card_material_point.showData(name = self.name, color = self.color, name_property=self.name_property, name_mesh=self.mesh_base.getName())
+        name_mesh = self.mesh_base.getName() if self.mesh_base is not None else "Archivo"
+        self.view_card_material_point.showData(name = self.name, color = self.color, name_property=self.name_property, name_mesh=name_mesh)
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -102,7 +103,7 @@ class ControllerCardMaterialPoint(QObject):
         self.model_point_material.setColorItem(color)
         
     def setListBaseMeshViews(self):  
-        name_mesh = self.mesh_base.getName()        
+        name_mesh = self.mesh_base.getName() if self.mesh_base is not None else "Archivo"
         self.view_card_material_point.setBaseMesh(name_mesh=name_mesh)
 
 

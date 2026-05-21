@@ -102,19 +102,36 @@ class ModelBoundary:
         Ty = self.getRestrictionY()
         nodes_boundary = self.getNodes()
         nodes_mesh = self.model_mesh_back.getNodes()
+        marker_size = self.model_mesh_back.getSizeElement() * 0.4
+
+        # Centroide de todos los nodos de la malla para determinar
+        # la dirección "hacia afuera" de cada nodo de frontera
+        all_coords = [n["COORDINATES"] for n in nodes_mesh.values()]
+        cx = sum(c[0] for c in all_coords) / len(all_coords)
+        cy = sum(c[1] for c in all_coords) / len(all_coords)
 
         coor_points = []
         #crear item escena
         for node_boundary in nodes_boundary:
             node_id = node_boundary
             point = nodes_mesh[node_boundary]["COORDINATES"]
+            px, py = point[0], point[1]
+            dx, dy = px - cx, py - cy
+            if abs(dx) > abs(dy):
+                dir_x, dir_y = (1.0 if dx > 0 else -1.0), 0.0
+            else:
+                dir_x, dir_y = 0.0, (1.0 if dy > 0 else -1.0)
+
             item = PointBoundaryTxItem(node_id=node_id,
                                       name=name,
-                                     coordinatesX=point[0],
-                                     coordinatesY=point[1],
-                                     Tx=Tx,
-                                     Ty=Ty
-                                     )
+                                      coordinatesX=px,
+                                      coordinatesY=py,
+                                      Tx=Tx,
+                                      Ty=Ty,
+                                      size=marker_size,
+                                      dir_x=dir_x,
+                                      dir_y=dir_y
+                                      )
             coor_points.append(point)
             self.group_boundary.addToGroup(item)
         self.group_boundary.setZValue(15)

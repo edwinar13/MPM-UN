@@ -626,6 +626,9 @@ class ModelProjectCurrent(QObject):
         elif id_mesh_base in ids_meshs_quadrilaterals: 
             mesh_base = self.models_meshs_quadrilaterals[id_mesh_base]
  
+        else:
+            # Modo Archivo: no hay malla base asociada
+            mesh_base = None
 
         model_material_point = ModelMaterialPoint(scene_draw=self.__scene,
                                                       model_repository=self.model_repository,

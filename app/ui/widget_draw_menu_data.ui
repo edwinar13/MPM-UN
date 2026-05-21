@@ -72,6 +72,13 @@ QWidget#FormDataProject{
 
 }
 
+QFrame#frame_info,
+QFrame#frame_data0,
+QFrame#frame_data1,
+QFrame#frame_data2{
+background: transparent;
+}
+
 QFrame#frame_dataProject{
 background: #333333;
 border-radius: 8px
@@ -275,10 +282,10 @@ background-color: transparent;
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
@@ -311,10 +318,10 @@ background-color: transparent;
          </size>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
@@ -347,10 +354,10 @@ background-color: transparent;
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
@@ -411,7 +418,7 @@ background-color: transparent;
                </size>
               </property>
               <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonIconOnly</enum>
+               <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
               </property>
              </widget>
             </item>
@@ -421,7 +428,7 @@ background-color: transparent;
          <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Orientation::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -443,10 +450,10 @@ background-color: transparent;
          </sizepolicy>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="spacing">
@@ -485,10 +492,10 @@ background-color: transparent;
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="lineWidth">
             <number>0</number>
@@ -504,7 +511,7 @@ background-color: transparent;
             <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -520,19 +527,19 @@ background-color: transparent;
          <item>
           <widget class="QFrame" name="frame_info">
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
              <widget class="QFrame" name="frame_dataSubTitle1">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
@@ -573,7 +580,7 @@ background-color: transparent;
                    <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -590,7 +597,7 @@ background-color: transparent;
                    <normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -607,7 +614,7 @@ background-color: transparent;
                    <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                 </widget>
                </item>
@@ -629,10 +636,10 @@ background-color: transparent;
                </size>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout">
                <item row="0" column="5">
@@ -663,7 +670,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -698,7 +705,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -733,7 +740,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -774,7 +781,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <string>1</string>
@@ -809,7 +816,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <string>1</string>
@@ -844,7 +851,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -879,7 +886,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -914,7 +921,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -949,7 +956,7 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="style_draw_button" stdset="0">
                   <number>1</number>
@@ -962,10 +969,10 @@ background-color: transparent;
             <item>
              <widget class="QFrame" name="frame_dataSubTitle2">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <property name="spacing">
@@ -1006,7 +1013,7 @@ background-color: transparent;
                    <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                 </widget>
                </item>
@@ -1016,10 +1023,10 @@ background-color: transparent;
             <item>
              <widget class="QFrame" name="frame_data1">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QFormLayout" name="formLayout">
                <item row="0" column="0">
@@ -1150,10 +1157,10 @@ background-color: transparent;
             <item>
              <widget class="QFrame" name="frame_dataSubTitle3">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
@@ -1194,7 +1201,7 @@ background-color: transparent;
                    <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                 </widget>
                </item>
@@ -1204,10 +1211,10 @@ background-color: transparent;
             <item>
              <widget class="QFrame" name="frame_data2">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QFormLayout" name="formLayout_2">
                <item row="0" column="0">
@@ -1280,7 +1287,7 @@ background-color: transparent;
             <item>
              <spacer name="verticalSpacer_2">
               <property name="orientation">
-               <enum>Qt::Vertical</enum>
+               <enum>Qt::Orientation::Vertical</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -1307,7 +1314,7 @@ background-color: transparent;
                  <string>Empty</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>

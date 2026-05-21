@@ -101,13 +101,10 @@ class ModelMeshTriangle:
     def deleteMesh(self):
         """ funcion para eliminar la malla de la escena y
         eliminar los grupos de items de la escena"""
-        for item in self.group_mesh.childItems():
-            self.group_mesh.removeFromGroup(item)
-            self.scene_draw.removeItem(item)
         self.scene_draw.removeItem(self.group_mesh)
         self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
-    
+
     def createMeshTriangle(self):
         """ funcion para crear una malla triangular en la escena"""        
         name = self.getName()
@@ -263,13 +260,10 @@ class ModelMeshQuadrilateral:
     def deleteMesh(self):
         """ funcion para eliminar la malla de la escena y
         eliminar los grupos de items de la escena"""
-        for item in self.group_mesh.childItems():
-            self.group_mesh.removeFromGroup(item)
-            self.scene_draw.removeItem(item)
         self.scene_draw.removeItem(self.group_mesh)
         self.scene_draw.removeItem(self.text_name)
         self.scene_draw.update()
-        
+
     def createMeshQuadrilateral(self):
         """ funcion para crear una malla cuadrilateral en la escena"""
         name = self.getName()

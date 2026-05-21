@@ -94,6 +94,7 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
         self.comboBox_ResultAnimationColorStyles_Resultados.addItem("Rojo-Azul")
         self.comboBox_ResultAnimationColorStyles_Resultados.addItem("Escala de grises")
         self.comboBox_ResultAnimationColorStyles_Resultados.addItem("Escala color")  
+        self.comboBox_ResultAnimationColorStyles_Resultados.addItem("Azul-Rojo")
         self.showStyleColor(0)
         
         self.lineEdit_textColor.setAlignment(Qt.AlignCenter)
@@ -367,6 +368,7 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
                 0: Rojo-Azul
                 1: Escala de grises
                 2: Escala color
+                3: Azul-Rojo
         """
 
         self.btn_select_color.setEnabled(False)
@@ -382,7 +384,7 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
                 color = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.49 #a8821d, stop:0.51 #594c2b);"
         else:
             if index == 0:
-                color = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.2 rgba(255, 255, 0, 255), stop:0.40 rgba(0, 255, 0, 255), stop:0.6 rgba(0, 255,255, 255), stop:0.8 rgba(0, 0, 255, 255),stop:1  rgba(250, 0, 255, 255));"
+                color = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.25 rgba(255, 255, 0, 255), stop:0.5 rgba(0, 255, 0, 255), stop:0.75 rgba(0, 255, 255, 255), stop:1 rgba(0, 0, 255, 255));"
             elif index == 1:
                 color = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));"   
             elif index == 2:
@@ -390,7 +392,8 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
                 color = QColor.fromHsv(self.__color_custom_hue, 255, 255)  
                 color_input = color.name()
                 color = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,stop:0 rgba(255, 255, 255, 255), stop:1 {});".format(color_input)
-        
+            elif index == 3:
+                color = "qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 255, 255), stop:0.25 rgba(0, 255, 255, 255), stop:0.5 rgba(0, 255, 0, 255), stop:0.75 rgba(255, 255, 0, 255), stop:1 rgba(255, 0, 0, 255));"
         self.lineEdit_textColor.setStyleSheet("border-color: #444444;background-color: {};".format(color))
 
     def setSteps(self, steps):
