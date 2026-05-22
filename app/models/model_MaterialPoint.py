@@ -4,7 +4,7 @@ from models.model_Mesh import ModelMeshTriangle, ModelMeshQuadrilateral
 from utils.items_GraphicsDraw import (TextMptem, TextFrameItem, PointMaterialItem, 
                                       PointForceItem, PointVelocityItem)
 from views.view_GraphicsDraw import QGraphicsScene
-from PySide6.QtWidgets import QGraphicsItemGroup
+from PySide6.QtWidgets import QGraphicsItemGroup, QGraphicsItem
 
 class ModelMaterialPoint:
 
@@ -174,6 +174,9 @@ class ModelMaterialPoint:
                                      force=item_force,
                                      velocity=item_velocity,)            
             coor_points.append(coordinates)
+            item.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
+            item_force.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
+            item_velocity.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
             self.group_material_point.addToGroup(item)
             self.group_material_point.addToGroup(item_force)
             self.group_material_point.addToGroup(item_velocity)

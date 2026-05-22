@@ -2,8 +2,8 @@ from models.model_Repository import ModelRepository
 from models.model_Mesh import ModelMeshBack
 from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewResult
 from utils.items_GraphicsResult import (ItemResultAxisMeshBack, ItemResultGridMeshBack, ItemResultLabelGridMeshBack,
-                                     ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem,CircleMpItem, ArrowMpItem,
-                                       ItemResultTextLabel)
+                                     ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem, CircleMpItem, ArrowMpItem,
+                                     ItemResultTextLabel, PointDetailPanelItem)
 import random
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -213,8 +213,8 @@ class ModelResult(QObject):
         elif item == "grid":
             self.grid_mesh_back_result.setVisible(not self.grid_mesh_back_result.isVisible())
         elif item == "values":
-            for node in self.__item_result_nodes:                               
-                node.setVisibleValue(is_visible)
+            for node in self.__item_result_nodes:
+                node.setShowOnlyId(is_visible)
 
 
 
@@ -228,7 +228,26 @@ class ModelResult(QObject):
         for node in self.__item_result_nodes:
             node.setSizeTexts(size_texts)
         self.scene_result.update()
-        
+
+    def addDetailPanelForNode(self, id_text: str, size_text: int):
+        """Agrega (muestra) el panel de detalle para el punto indicado sin ocultar los demás."""
+        if not id_text.strip():
+            return
+        try:
+            node_id = int(id_text.strip())
+        except ValueError:
+            return
+        idx = node_id - 1
+        if 0 <= idx < len(self.__item_result_nodes):
+            self.__item_result_nodes[idx].setDetailPanelVisible(True, size_text)
+        self.scene_result.update()
+
+    def clearAllDetailPanels(self):
+        """Oculta todos los paneles de detalle."""
+        for node in self.__item_result_nodes:
+            node.setDetailPanelVisible(False)
+        self.scene_result.update()
+
     def setTypeResult(self, type_result, axis, vector, color_style, hue=0):
         for node in self.__item_result_nodes: 
             node.setTypeResult(type_result, axis, vector, color_style, hue)
@@ -324,15 +343,29 @@ class ModelResult(QObject):
     
        
     
-    def  drawItemPointsScene(self):     
-        
-        size_mesh_back = self.model_mesh_back.getSizeDx()  
-        
-        for node in self.__result_nodes:
-            
+    def  drawItemPointsScene(self):
+        import math
+
+        # Construir lista de volúmenes en el mismo orden que result_nodes (orden numérico)
+        volumes_list = []
+        for id_MP in self.__point_materials:
+            pts = self.__point_materials[id_MP].get("POINTS", {})
+            for pk in sorted(pts.keys(), key=lambda k: int(k.split('#')[1])):
+                volumes_list.append(pts[pk].get("VOLUME", None))
+
+        ele_size = self.model_mesh_back.getSizeElement()
+        fallback_radius = ele_size / 7  # fallback si no hay volumen
+
+        for idx, node in enumerate(sorted(self.__result_nodes.keys(), key=lambda k: int(k))):
+
             # random_color_bicolor =  0 o 1
             random_color_bicolor = random.choices([1,2], weights=[70, 30], k=1)[0]
-            radius = size_mesh_back/100          
+
+            vol = volumes_list[idx] if idx < len(volumes_list) else None
+            if vol and vol > 0:
+                radius = (math.sqrt(vol / math.pi)) / 2
+            else:
+                radius = fallback_radius
 
             # texto
             text_node = TextNoMpItem(node, 0,0)
@@ -354,13 +387,19 @@ class ModelResult(QObject):
                 radius,
                 random_color_bicolor,
                 self.__graphic_time,
-                self.__result_nodes[node], 
+                self.__result_nodes[node],
                 self.__result_min,
                 self.__result_max,
                 text_node,
                 circle_node,
                 arrow_node)
-            
+
+            # panel de detalle (oculto por defecto, posicionado en coords iniciales del punto)
+            detail_panel = PointDetailPanelItem(node, 0, 0)
+            self.scene_result.addItem(detail_panel)
+            node_result.setDetailPanelNode(detail_panel)
+            detail_panel.newPos(node_result.coor)
+
             self.__item_result_nodes.append(node_result)
             self.scene_result.addItem(node_result)
             node_result.setZValue(11)

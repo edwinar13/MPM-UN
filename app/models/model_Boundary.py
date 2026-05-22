@@ -104,11 +104,13 @@ class ModelBoundary:
         nodes_mesh = self.model_mesh_back.getNodes()
         marker_size = self.model_mesh_back.getSizeElement() * 0.4
 
-        # Centroide de todos los nodos de la malla para determinar
-        # la dirección "hacia afuera" de cada nodo de frontera
+        # Bounding box de la malla para determinar la dirección
+        # "hacia afuera" de cada nodo de frontera por proximidad al borde
         all_coords = [n["COORDINATES"] for n in nodes_mesh.values()]
-        cx = sum(c[0] for c in all_coords) / len(all_coords)
-        cy = sum(c[1] for c in all_coords) / len(all_coords)
+        all_x = [c[0] for c in all_coords]
+        all_y = [c[1] for c in all_coords]
+        min_x, max_x = min(all_x), max(all_x)
+        min_y, max_y = min(all_y), max(all_y)
 
         coor_points = []
         #crear item escena
@@ -116,11 +118,20 @@ class ModelBoundary:
             node_id = node_boundary
             point = nodes_mesh[node_boundary]["COORDINATES"]
             px, py = point[0], point[1]
-            dx, dy = px - cx, py - cy
-            if abs(dx) > abs(dy):
-                dir_x, dir_y = (1.0 if dx > 0 else -1.0), 0.0
+            # Distancia al borde más cercano del bounding box
+            dist_left   = abs(px - min_x)
+            dist_right  = abs(px - max_x)
+            dist_top    = abs(py - max_y)
+            dist_bottom = abs(py - min_y)
+            min_dist = min(dist_left, dist_right, dist_top, dist_bottom)
+            if min_dist == dist_left:
+                dir_x, dir_y = -1.0, 0.0
+            elif min_dist == dist_right:
+                dir_x, dir_y = 1.0, 0.0
+            elif min_dist == dist_bottom:
+                dir_x, dir_y = 0.0, -1.0
             else:
-                dir_x, dir_y = 0.0, (1.0 if dy > 0 else -1.0)
+                dir_x, dir_y = 0.0, 1.0
 
             item = PointBoundaryTxItem(node_id=node_id,
                                       name=name,

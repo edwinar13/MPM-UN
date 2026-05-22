@@ -661,6 +661,8 @@ def plot_boundary_particles(xp, bound_value):
     """ Función auxiliar para validar visualmente la detección de fronteras """
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
-    ax.scatter(xp[:, 0], xp[:, 1], c=bound_value, cmap='viridis')
+
+    ax.scatter(xp[:, 0], xp[:, 1], c=bound_value, cmap='viridis', s=1)
+
     plt.show()
     

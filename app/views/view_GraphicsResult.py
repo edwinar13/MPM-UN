@@ -13,8 +13,8 @@ from PySide6.QtWidgets import*
 
 class ViewGraphicsSceneResult(QGraphicsScene):
     def __init__(self):
-        super().__init__()  
-        #self.setSceneRect(QRectF(-20, -20, 40, 40))
+        super().__init__()
+        self.setSceneRect(QRectF(-10000, -10000, 20000, 20000))
     
     #rectangulo en el rect de la scena
     def drawBackground(self, painter: QPainter, rect: QRectF|QRect) -> None:
@@ -113,25 +113,34 @@ class ViewGraphicsViewResult(QGraphicsView):
     
 
     def updateView(self):
+        """Centra los ítems en el viewport ocupando ~80%. Bypassa fitInView
+        para evitar interacción con el scale(1,-1) y el anchor configurado.
+        """
         scene = self.scene()
-        r = scene.sceneRect()
-        self.fitInView(r, Qt.KeepAspectRatio)
+        rect = scene.itemsBoundingRect()
+        vp = self.viewport().rect()
+        # Si viewport o rect no son válidos aún, reintentar más tarde
+        if rect.isEmpty() or vp.width() < 50 or vp.height() < 50:
+            return
+        # Calcular escala uniforme para que rect ocupe 80% del viewport
+        target_w = rect.width() * 1.25
+        target_h = rect.height() * 1.25
+        scale = min(vp.width() / target_w, vp.height() / target_h)
+        # Reset y reaplicar escala con Y invertida (consistente con __init__)
+        self.resetTransform()
+        self.scale(scale, -scale)
+        # Centrar exactamente en el centro de los ítems
+        self.centerOn(rect.center())
 
-    def resizeEvent(self, event):  
-        if self.adjust_view_on_resize <=3:
-            self.updateView()
-            self.adjust_view_on_resize +=1
-        else:
-            factor = 1.25
-            self.scale(factor, factor)  
-            factor = 0.8
-            self.scale(factor, factor)  
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        # Siempre re-fit en resize. El usuario puede zoom/pan después manualmente.
+        self.updateView()
 
     def showEvent(self, event):
-        if not event.spontaneous():            
-            if self.adjust_view_on_show:
-                self.updateView()
-            self.adjust_view_on_show = False
+        super().showEvent(event)
+        if not event.spontaneous():
+            self.updateView()
 
 
 
@@ -166,7 +175,7 @@ class ViewGraphicsViewResult(QGraphicsView):
     def mousePressEvent(self, event: QMouseEvent) -> None:
             
         #mover la escena
-        if event.button() == Qt.MiddleButton:
+        if event.button() == Qt.RightButton:
 
             self.scene().isPan = True
             self.setDragMode(QGraphicsView.ScrollHandDrag)
@@ -196,12 +205,12 @@ class ViewGraphicsViewResult(QGraphicsView):
         self.scene().update()
         super(ViewGraphicsViewResult, self).mouseMoveEvent(event)
 
-    def mouseReleaseEvent(self, event: QMouseEvent) -> None:      
-        if event.button() == Qt.MiddleButton:
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
+        if event.button() == Qt.RightButton:
             self.setDragMode(QGraphicsView.NoDrag)
-            #self.viewport().setCursor(Qt.BlankCursor)
-        
-  
 
         super(ViewGraphicsViewResult, self).mouseReleaseEvent(event)
+
+    def contextMenuEvent(self, event):
+        event.accept()  # right-click es pan, no menú contextual
 

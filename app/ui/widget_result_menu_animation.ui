@@ -153,6 +153,11 @@ margin-left: 4px;
 }
 
 
+QToolButton#toolButton_closePointLabel{
+background-color: transparent;
+}
+
+QToolButton#toolButton_closePointLabel:hover,
 QToolButton#toolButton_cardResultAnimationDraw7:hover,
 QToolButton#toolButton_cardResultAnimationDraw5:hover, 
 QToolButton#toolButton_cardResultAnimationDraw6:hover{ 
@@ -1606,6 +1611,36 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                     </property>
                    </widget>
                   </item>
+                  <item row="0" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                     <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles_Resultados">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QComboBoxStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles_Puntos">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="QComboBoxStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
                   <item row="1" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
@@ -1954,30 +1989,118 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_textResultAnimation1_5">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Agregar etiqueta:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_10">
                     <item>
-                     <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles_Resultados">
+                     <widget class="QLineEdit" name="lineEdit_ResultAnimation_LabelByPointId">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
                         <height>25</height>
                        </size>
                       </property>
-                      <property name="QComboBoxStyle" stdset="0">
+                      <property name="toolTip">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;Puede buscar por id como 1 o 2 o 3 etc. O por conjuntos separados por coma, por ejemplo 1,2,3…&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                      <property name="inputMask">
+                       <string/>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="placeholderText">
+                       <string>id punto</string>
+                      </property>
+                      <property name="QLineEditStyle" stdset="0">
                        <number>1</number>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBox_ResultAnimationColorStyles_Puntos">
+                     <widget class="QToolButton" name="toolButton_AddPointLabel">
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../../../MPM-UN_2025/app/resources/iconos/icono_result/add.svg</normaloff>../../../MPM-UN_2025/app/resources/iconos/icono_result/add.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="arrowType">
+                       <enum>Qt::ArrowType::NoArrow</enum>
+                      </property>
+                      <property name="QToolButtonStyle" stdset="0">
+                       <number>1</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolButton_closePointLabel">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
                       <property name="minimumSize">
                        <size>
-                        <width>0</width>
+                        <width>25</width>
                         <height>25</height>
                        </size>
                       </property>
-                      <property name="QComboBoxStyle" stdset="0">
+                      <property name="maximumSize">
+                       <size>
+                        <width>25</width>
+                        <height>25</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Ubuntu</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>../../../MPM-UN_2025/app/resources/iconos/iconos_consola/exit.svg</normaloff>../../../MPM-UN_2025/app/resources/iconos/iconos_consola/exit.svg</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>15</width>
+                        <height>15</height>
+                       </size>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+                      </property>
+                      <property name="style_mesh_card_button" stdset="0">
                        <number>1</number>
                       </property>
                      </widget>
@@ -2031,7 +2154,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                  <item>
                   <widget class="QCheckBox" name="checkBox_ResultAnimationValues">
                    <property name="text">
-                    <string>Ver Valores</string>
+                    <string>Ver numeración</string>
                    </property>
                    <property name="checked">
                     <bool>false</bool>

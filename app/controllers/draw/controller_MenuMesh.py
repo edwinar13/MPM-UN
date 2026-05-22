@@ -270,9 +270,13 @@ class ControllerMenuMesh(QObject):
                 
             if type_mesh == "Triangular":
                 self.newMeshTriangular(name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh)
-                
+
             elif type_mesh == "Cuadrilátera":
                 self.newMeshQuadrilateral(name_mesh, color_mesh, selected_objects, size_element_mesh, type_mesh)
+
+            elif type_mesh == "Estructurada":
+                subdivision = self.view_menu_mesh.getSubdivision()
+                self.newMeshAligned(name_mesh, color_mesh, selected_objects, subdivision)
         
         
     def newMeshFile(self, name_mesh, color_mesh, path_file):
@@ -523,13 +527,130 @@ class ControllerMenuMesh(QObject):
                                                     color=color_mesh,
                                                     nodes=nodes,
                                                     elements = elements,)
-        
+
         model_mesh = self.model_current_project.getModelsMeshsQuadrilaterals()[id]
         self.createMeshCard(model_mesh)
 
         self.view_menu_mesh.endMesh()
         self.endDrawMesh()
-        
+
+
+    def newMeshAligned(self, name_mesh, color_mesh, selected_objects, subdivision):
+        """Genera una malla cuadrilátera alineada a la malla de fondo.
+        Subdivide cada celda de la malla de fondo en NxN subceldas (subdivision = N*N)
+        y solo conserva las subceldas cuyo centro cae dentro del polígono seleccionado.
+        """
+        # 1) Validar malla de fondo
+        model_mesh_back = self.model_current_project.getModelMeshBack()
+        if model_mesh_back is None or not model_mesh_back.getNodes():
+            self.view_menu_mesh.msnAlertSelected(True, "Requiere malla de fondo definida")
+            return
+
+        # 2) Validar polígono cerrado (mínimo 3 líneas, reusa helpers existentes)
+        if len(selected_objects) < 3:
+            self.view_menu_mesh.msnAlertSelected(True, "Para Estructurada, selecciona al menos 3 líneas")
+            return
+
+        lines = []
+        for line in selected_objects:
+            lines.append(
+                ((line.start_point.pos().x(), line.start_point.pos().y()),
+                 (line.end_point.pos().x(),   line.end_point.pos().y()))
+            )
+
+        polygon = self.is_closed_polygon(lines)
+        if not polygon:
+            self.view_menu_mesh.msnAlertSelected(True, "Selección no es un polígono cerrado")
+            return
+        self.view_menu_mesh.msnAlertSelected(False)
+
+        if self.line_Intersection(polygon):
+            self.view_menu_mesh.msnAlertSelected(True, "Dos líneas se interceptan")
+            return
+        self.view_menu_mesh.msnAlertSelected(False)
+
+        # 3) Vértices del polígono en orden
+        vertices = [line[0] for line in polygon]
+
+        # 4) Tamaño de subcelda derivado de la malla de fondo
+        ele_size = model_mesh_back.getSizeElement()
+        n_per_axis = int(round(math.sqrt(subdivision)))
+        sub_size = ele_size / n_per_axis
+
+        # 5) Bounding box del polígono
+        xs = [v[0] for v in vertices]
+        ys = [v[1] for v in vertices]
+        x_min, x_max = min(xs), max(xs)
+        y_min, y_max = min(ys), max(ys)
+
+        # 6) Recorrer subceldas en el bounding box y filtrar por containment
+        nodes_dict = {}
+        elements_dict = {}
+        node_pos_to_id = {}
+        next_node_id = 1
+        next_elem_id = 1
+
+        i_start = math.floor(x_min / sub_size)
+        i_end   = math.ceil(x_max / sub_size)
+        j_start = math.floor(y_min / sub_size)
+        j_end   = math.ceil(y_max / sub_size)
+
+        for i in range(i_start, i_end):
+            for j in range(j_start, j_end):
+                cx = (i + 0.5) * sub_size
+                cy = (j + 0.5) * sub_size
+                if not self._point_in_polygon(cx, cy, vertices):
+                    continue
+                corners = [
+                    (i*sub_size,     j*sub_size),
+                    ((i+1)*sub_size, j*sub_size),
+                    ((i+1)*sub_size, (j+1)*sub_size),
+                    (i*sub_size,     (j+1)*sub_size),
+                ]
+                corner_ids = []
+                for (cx_n, cy_n) in corners:
+                    key = (round(cx_n, 9), round(cy_n, 9))
+                    if key not in node_pos_to_id:
+                        nid = f"NODE#{next_node_id}"
+                        nodes_dict[nid] = {"COORDINATES": [cx_n, cy_n]}
+                        node_pos_to_id[key] = nid
+                        next_node_id += 1
+                    corner_ids.append(node_pos_to_id[key])
+                elements_dict[f"ELEMENT#{next_elem_id}"] = corner_ids
+                next_elem_id += 1
+
+        if not elements_dict:
+            self.view_menu_mesh.msnAlertSelected(True, "Ninguna subcelda cae dentro del polígono")
+            return
+
+        # 7) Guardar como malla cuadrilátera estándar (reusa flujo existente)
+        id_mesh = self.model_current_project.createMeshQuadrilateral(
+            name=name_mesh,
+            color=color_mesh,
+            nodes=nodes_dict,
+            elements=elements_dict,
+        )
+
+        model_mesh = self.model_current_project.getModelsMeshsQuadrilaterals()[id_mesh]
+        self.createMeshCard(model_mesh)
+
+        self.view_menu_mesh.endMesh()
+        self.endDrawMesh()
+
+
+    def _point_in_polygon(self, x, y, vertices):
+        """Ray casting algorithm. vertices: lista [(x,y), ...]"""
+        inside = False
+        n = len(vertices)
+        j = n - 1
+        for i in range(n):
+            xi, yi = vertices[i]
+            xj, yj = vertices[j]
+            if ((yi > y) != (yj > y)) and \
+               (x < (xj - xi) * (y - yi) / (yj - yi + 1e-15) + xi):
+                inside = not inside
+            j = i
+        return inside
 
 
     # ::::::::::::::::::::         MÉTODOS  CURRENT        ::::::::::::::::::::

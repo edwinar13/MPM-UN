@@ -68,13 +68,13 @@ class ControllerGraphicsDraw(QObject):
         self.view_draw_1.setScene(self.scene_draw) 
         self.view_draw_1.setObjectName("ViewDraw1")  
         self.view_draw_1.setFocus()
-        self.view_draw_1.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
+        self.view_draw_1.setViewportUpdateMode(QGraphicsView.MinimalViewportUpdate)
 
-        # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsView 2 ::::::::::::::::::        
-        self.view_draw_2 = ViewGraphicsViewDraw()       
-        self.view_draw_2.setScene(self.scene_draw)       
+        # ::::::::::::::::::   INICIANDO  DRAW  QGraphicsView 2 ::::::::::::::::::
+        self.view_draw_2 = ViewGraphicsViewDraw()
+        self.view_draw_2.setScene(self.scene_draw)
         self.view_draw_2.setObjectName("ViewDraw2")
-        self.view_draw_2.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
+        self.view_draw_2.setViewportUpdateMode(QGraphicsView.MinimalViewportUpdate)
 
 
         

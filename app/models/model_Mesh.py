@@ -3,7 +3,7 @@ from utils.items_GraphicsDraw import (TextFrameItem, NodeMeshBackItem,
                                       TriangleMeshItem, QuadrilateraLMeshItem,
                                     ElementMeshBackItem, TextMeshBackItem)
 from views.view_GraphicsDraw import QGraphicsScene
-from PySide6.QtWidgets import QGraphicsItemGroup
+from PySide6.QtWidgets import QGraphicsItemGroup, QGraphicsItem
 
 class ModelMeshTriangle:
 
@@ -126,7 +126,8 @@ class ModelMeshTriangle:
             item = TriangleMeshItem(id=element,
                                       name=name,
                                      color=color,
-                                     coordinates = coordinates)            
+                                     coordinates = coordinates)
+            item.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
             self.group_mesh.addToGroup(item)
         self.group_mesh.setZValue(5)
 
@@ -289,8 +290,9 @@ class ModelMeshQuadrilateral:
                                       name=name,
                                      color=color,
                                      coordinates = coordinates)
+            item.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
             self.group_mesh.addToGroup(item)
-        
+
         self.group_mesh.setZValue(10)
         
         # Crear etiqueta de la malla
@@ -455,6 +457,7 @@ class ModelMeshBack:
                                     coordinatesX= coordinates[0],
                                     coordinatesY= coordinates[1]
                                     )
+            node_item.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
             self.group_mesh_point.addToGroup(node_item)
             node_items[node] = node_item
                             
@@ -482,12 +485,13 @@ class ModelMeshBack:
             
             
 
-            item = ElementMeshBackItem(  
+            item = ElementMeshBackItem(
                                         node1=node_items[node_a],
                                         node2=node_items[node_b],
                                         node3=node_items[node_c],
                                         node4=node_items[node_d]
                                         )
+            item.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
             self.group_mesh_element.addToGroup(item)
             
         self.group_MeshBack.addToGroup(self.group_mesh_label)

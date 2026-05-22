@@ -374,10 +374,12 @@ class ControllerPageResult(QObject):
         
         self.model_result.signal_reset_result.connect(self.resetResult)
         
-    def configResult(self):        
-        if self.model_result != None:         
-            self.view_page_result.updateViewTableResult('')           
-            
+    def configResult(self):
+        if self.model_result != None:
+            self.view_page_result.updateViewTableResult('')
+            from PySide6.QtCore import QTimer
+            QTimer.singleShot(100, self.controller_graphics_result.view_result.updateView)
+
            
     def getView(self):
         return self.view_page_result

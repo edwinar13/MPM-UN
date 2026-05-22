@@ -17,7 +17,9 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     signal_result_animation_label = Signal()
     signal_result_animation_values_text = Signal()
     signal_result_animation_size_points = Signal()
-    signal_result_animation_size_texts = Signal()    
+    signal_result_animation_size_texts = Signal()
+    signal_result_animation_add_point_label = Signal()
+    signal_result_animation_close_point_labels = Signal()    
  
     signal_scene_type_result = Signal()
     signal_scene_regress = Signal()
@@ -136,7 +138,9 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
         self.checkBox_ResultAnimationLabel.stateChanged.connect(self.__stateChangedCheckBoxResultAnimationLabel)
         self.checkBox_ResultAnimationValues.stateChanged.connect(self.__valueChangedcheckBoxResultAnimationValuesText)
         self.doubleSpinBoxl_textResultAnimationSizePoints.valueChanged.connect(self.__valueChangedDoubleSpinBoxlTextResultAnimationSizePoints)
-        self.spinBox_ResultAnimationSizeText.valueChanged.connect(self.__valueChangedSpinBoxlTextResultAnimationSizeTexts) 
+        self.spinBox_ResultAnimationSizeText.valueChanged.connect(self.__valueChangedSpinBoxlTextResultAnimationSizeTexts)
+        self.toolButton_AddPointLabel.clicked.connect(self.__clickedToolButtonAddPointLabel)
+        self.toolButton_closePointLabel.clicked.connect(self.__clickedToolButtonClosePointLabel)
           
                 
         
@@ -225,6 +229,13 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     def __valueChangedSpinBoxlTextResultAnimationSizeTexts(self):
         self.signal_result_animation_size_texts.emit()
 
+    def __clickedToolButtonAddPointLabel(self):
+        self.signal_result_animation_add_point_label.emit()
+
+    def __clickedToolButtonClosePointLabel(self):
+        self.lineEdit_ResultAnimation_LabelByPointId.clear()
+        self.signal_result_animation_close_point_labels.emit()
+
     # ::::::::::::::::::::      EVENTOS RESULT MENU DATA ANIMATION    ::::::::::::::::::::
     
     def __valueChangedDoubleSpinBoxlTextResultAnimationVelocity(self):
@@ -289,6 +300,9 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     
     def getValuesText(self):
         return self.checkBox_ResultAnimationValues.isChecked()
+
+    def getLabelByPointId(self) -> str:
+        return self.lineEdit_ResultAnimation_LabelByPointId.text()
     
     def resetTypeResult(self):
         self.comboBox_sceneTypeResult.setCurrentIndex(0)

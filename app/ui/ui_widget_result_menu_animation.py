@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_animationfLxfUH.ui'
+## Form generated from reading UI file 'widget_result_menu_animationhDMrsB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.11.0
 ##
@@ -156,8 +156,13 @@ class Ui_FormMenuResultAnimation(object):
 "}\n"
 "\n"
 "\n"
-"QToolButton#toolButton_cardResultA"
-                        "nimationDraw7:hover,\n"
+"QToolButton#toolButton_closePointL"
+                        "abel{\n"
+"background-color: transparent;\n"
+"}\n"
+"\n"
+"QToolButton#toolButton_closePointLabel:hover,\n"
+"QToolButton#toolButton_cardResultAnimationDraw7:hover,\n"
 "QToolButton#toolButton_cardResultAnimationDraw5:hover, \n"
 "QToolButton#toolButton_cardResultAnimationDraw6:hover{ \n"
 "background-color: #444444;\n"
@@ -184,10 +189,10 @@ class Ui_FormMenuResultAnimation(object):
 "}\n"
 "\n"
 "\n"
-"/*###########################################################*/\n"
+"/*##################################"
+                        "#########################*/\n"
 "/*################                 FRAME MSN          #####################*/\n"
-"/*########################"
-                        "###################################*/\n"
+"/*###########################################################*/\n"
 "\n"
 "\n"
 "QLabel#label_msn{\n"
@@ -228,14 +233,14 @@ class Ui_FormMenuResultAnimation(object):
 "	border-top-left-radius: 7px;\n"
 "	border-top-right-radius: 7px;\n"
 "	height: 15px;\n"
-"	subcontrol-position: top;\n"
+"	subcont"
+                        "rol-position: top;\n"
 "	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "\n"
 "QScrollBar::sub-line:vertical:hover{\n"
-"    background-color: #77777"
-                        "7;\n"
+"    background-color: #777777;\n"
 "}\n"
 "QScrollBar::sub-line:vertical:pressed{\n"
 "    background-color: #666666;\n"
@@ -274,7 +279,8 @@ class Ui_FormMenuResultAnimation(object):
 "/*######################      SCROLL BAR    HORIZONTAL  ############################*/\n"
 "\n"
 "QScrollBar:horizontal{\n"
-"height: 14px;\n"
+""
+                        "height: 14px;\n"
 "border: none;\n"
 "border-radius: 0px;\n"
 "margin: 0px 15px 0px 15px;\n"
@@ -282,8 +288,7 @@ class Ui_FormMenuResultAnimation(object):
 "\n"
 "\n"
 "/*Deslizador*/\n"
-"QScrollBar"
-                        "::handle:horizontal {\n"
+"QScrollBar::handle:horizontal {\n"
 "    background-color: #888888;\n"
 "	border-radius: 7px;\n"
 "	min-width: 14px;\n"
@@ -318,14 +323,14 @@ class Ui_FormMenuResultAnimation(object):
 "	border: none;	\n"
 "	border-top-right-radius: 7px;\n"
 "	border-bottom-right-radius: 7px;\n"
-"	width: 15px;\n"
+"	width: 15"
+                        "px;\n"
 "	subcontrol-position: right;\n"
 "	subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover{\n"
-"    backg"
-                        "round-color: #777777;\n"
+"    background-color: #777777;\n"
 "}QScrollBar::add-line:vertical:pressed{\n"
 "    background-color: #666666;\n"
 "}\n"
@@ -364,8 +369,8 @@ class Ui_FormMenuResultAnimation(object):
 "border: 1px solid #666666;\n"
 "}\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QToolButton   "
+                        "        \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "\n"
 "QToolButton[QToolButtonStyle=\"1\"]{\n"
@@ -406,13 +411,13 @@ class Ui_FormMenuResultAnimation(object):
 "\n"
 "\n"
 "/*******************************************/\n"
-"QToolButton[QToolButtonStyle=\"2\"]{\n"
+"QToolButton[QTool"
+                        "ButtonStyle=\"2\"]{\n"
 "font: 500 10pt \"Ubuntu\";\n"
 "color: #222222;\n"
 "background-color: #77ACA2;\n"
 "border: none;\n"
-"padding: 6px 25p"
-                        "x;\n"
+"padding: 6px 25px;\n"
 "border-radius: 8px ;\n"
 "}\n"
 "QToolButton[QToolButtonStyle=\"2\"]:hover{\n"
@@ -448,14 +453,14 @@ class Ui_FormMenuResultAnimation(object):
 "QToolButton[QToolButtonStyle=\"8\"] {\n"
 "    font: 500 10pt \"Ubuntu\";    \n"
 "    padding: 4px 20px;\n"
-"	border: 2px solid #C8CC8E;\n"
+"	bord"
+                        "er: 2px solid #C8CC8E;\n"
 "    \n"
 "}\n"
 "\n"
 "QToolButton[QToolButtonStyle=\"5\"] {\n"
 "    background-color: transparent;    \n"
-"	border-"
-                        "top-left-radius: 10px;\n"
+"	border-top-left-radius: 10px;\n"
 "	border-top-right-radius: 0px;\n"
 "	border-bottom-right-radius: 0px;\n"
 "	border-bottom-left-radius: 10px;\n"
@@ -485,15 +490,15 @@ class Ui_FormMenuResultAnimation(object):
 "	border-top-left-radius: 0px;\n"
 "	border-top-right-radius: 10px;\n"
 "	border-bottom-right-radius: 10px;\n"
-"	border-bottom-left-radius: 0px;\n"
+"	border-bottom-"
+                        "left-radius: 0px;\n"
 "	color: #222222;\n"
 "}\n"
 "\n"
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLineEdit           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "\n"
 "\n"
@@ -528,7 +533,8 @@ class Ui_FormMenuResultAnimation(object):
 "border: 1px solid #444444;\n"
 "border-radius: 2px ;\n"
 "padding-right: 2px;\n"
-"padding-left: 2px;\n"
+"pad"
+                        "ding-left: 2px;\n"
 "\n"
 "}\n"
 "\n"
@@ -536,8 +542,7 @@ class Ui_FormMenuResultAnimation(object):
 "/*\n"
 "QLineEdit#lineEdit_textResultAnimation3,\n"
 "QLineEdit#lineEdit_textResultAnimation5{\n"
-"color"
-                        ": #888888;\n"
+"color: #888888;\n"
 "}\n"
 "*/\n"
 "\n"
@@ -559,8 +564,8 @@ class Ui_FormMenuResultAnimation(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QLabel           \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "\n"
 "QLabel[QLabelStyle=\"1\"] {\n"
 "font: 700 9pt \"Ubuntu\";\n"
@@ -599,8 +604,8 @@ class Ui_FormMenuResultAnimation(object):
 "\n"
 "\n"
 "\n"
-"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
-                        "\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
+"/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8"
+                        "\u25d8\u25d8\u25d8\u25d8           QComboBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QComboBox[QComboBoxStyle=\"1\"] {\n"
 "    border: none;\n"
 "    background-color: #444444;\n"
@@ -622,15 +627,15 @@ class Ui_FormMenuResultAnimation(object):
 "/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QCheckBox            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QCheckBox[QCheckBoxStyle=\"1\"] {\n"
 "    \n"
-"    background-color: #444444;\n"
+"    background-"
+                        "color: #444444;\n"
 "	color: #DDDDDD;\n"
 "    padding: 5px;\n"
 "	font:  9pt \"Ubuntu\";\n"
 "    selection-background-color: #808080;\n"
 "}\n"
 "\n"
-""
-                        "QCheckBox[QCheckBoxStyle=\"1\"]:disabled {    \n"
+"QCheckBox[QCheckBoxStyle=\"1\"]:disabled {    \n"
 "    background-color: #333;\n"
 "	color: #777;\n"
 "}\n"
@@ -654,13 +659,13 @@ class Ui_FormMenuResultAnimation(object):
 "\n"
 "/*\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8           QRadioButton            \u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8\u25d8*/\n"
 "QRadioButton[QRadioButtonStyle=\"1\"] {    \n"
-"    background-color: transparent;\n"
+"    "
+                        "background-color: transparent;\n"
 "	color: #DDDDDD;\n"
 "    padding: 5px;\n"
 "	font:  9pt \"Ubuntu\";\n"
 "    selection-background-color: #808080;\n"
-""
-                        "}\n"
+"}\n"
 "QRadioButton[QRadioButtonStyle=\"1\"]:disabled {    \n"
 "    background-color: #333;\n"
 "	color: #777;\n"
@@ -1115,6 +1120,25 @@ class Ui_FormMenuResultAnimation(object):
 
         self.formLayout_4.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_textResultAnimation1_2)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.comboBox_ResultAnimationColorStyles_Resultados = QComboBox(self.frame_4)
+        self.comboBox_ResultAnimationColorStyles_Resultados.setObjectName(u"comboBox_ResultAnimationColorStyles_Resultados")
+        self.comboBox_ResultAnimationColorStyles_Resultados.setMinimumSize(QSize(0, 25))
+        self.comboBox_ResultAnimationColorStyles_Resultados.setProperty(u"QComboBoxStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.comboBox_ResultAnimationColorStyles_Resultados)
+
+        self.comboBox_ResultAnimationColorStyles_Puntos = QComboBox(self.frame_4)
+        self.comboBox_ResultAnimationColorStyles_Puntos.setObjectName(u"comboBox_ResultAnimationColorStyles_Puntos")
+        self.comboBox_ResultAnimationColorStyles_Puntos.setMinimumSize(QSize(0, 25))
+        self.comboBox_ResultAnimationColorStyles_Puntos.setProperty(u"QComboBoxStyle", 1)
+
+        self.horizontalLayout_4.addWidget(self.comboBox_ResultAnimationColorStyles_Puntos)
+
+
+        self.formLayout_4.setLayout(0, QFormLayout.ItemRole.FieldRole, self.horizontalLayout_4)
+
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.lineEdit_textColor = QLineEdit(self.frame_4)
@@ -1215,24 +1239,52 @@ class Ui_FormMenuResultAnimation(object):
 
         self.formLayout_4.setWidget(3, QFormLayout.ItemRole.FieldRole, self.spinBox_ResultAnimationSizeText)
 
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.comboBox_ResultAnimationColorStyles_Resultados = QComboBox(self.frame_4)
-        self.comboBox_ResultAnimationColorStyles_Resultados.setObjectName(u"comboBox_ResultAnimationColorStyles_Resultados")
-        self.comboBox_ResultAnimationColorStyles_Resultados.setMinimumSize(QSize(0, 25))
-        self.comboBox_ResultAnimationColorStyles_Resultados.setProperty(u"QComboBoxStyle", 1)
+        self.label_textResultAnimation1_5 = QLabel(self.frame_4)
+        self.label_textResultAnimation1_5.setObjectName(u"label_textResultAnimation1_5")
+        self.label_textResultAnimation1_5.setMinimumSize(QSize(110, 0))
+        self.label_textResultAnimation1_5.setProperty(u"QLabelStyle", 3)
 
-        self.horizontalLayout_4.addWidget(self.comboBox_ResultAnimationColorStyles_Resultados)
+        self.formLayout_4.setWidget(4, QFormLayout.ItemRole.LabelRole, self.label_textResultAnimation1_5)
 
-        self.comboBox_ResultAnimationColorStyles_Puntos = QComboBox(self.frame_4)
-        self.comboBox_ResultAnimationColorStyles_Puntos.setObjectName(u"comboBox_ResultAnimationColorStyles_Puntos")
-        self.comboBox_ResultAnimationColorStyles_Puntos.setMinimumSize(QSize(0, 25))
-        self.comboBox_ResultAnimationColorStyles_Puntos.setProperty(u"QComboBoxStyle", 1)
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.lineEdit_ResultAnimation_LabelByPointId = QLineEdit(self.frame_4)
+        self.lineEdit_ResultAnimation_LabelByPointId.setObjectName(u"lineEdit_ResultAnimation_LabelByPointId")
+        self.lineEdit_ResultAnimation_LabelByPointId.setMinimumSize(QSize(0, 25))
+        self.lineEdit_ResultAnimation_LabelByPointId.setProperty(u"QLineEditStyle", 1)
 
-        self.horizontalLayout_4.addWidget(self.comboBox_ResultAnimationColorStyles_Puntos)
+        self.horizontalLayout_10.addWidget(self.lineEdit_ResultAnimation_LabelByPointId)
+
+        self.toolButton_AddPointLabel = QToolButton(self.frame_4)
+        self.toolButton_AddPointLabel.setObjectName(u"toolButton_AddPointLabel")
+        icon7 = QIcon()
+        icon7.addFile(u"app/app/app/MPM-UN_2025/app/resources/iconos/icono_result/add.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolButton_AddPointLabel.setIcon(icon7)
+        self.toolButton_AddPointLabel.setIconSize(QSize(20, 20))
+        self.toolButton_AddPointLabel.setArrowType(Qt.ArrowType.NoArrow)
+        self.toolButton_AddPointLabel.setProperty(u"QToolButtonStyle", 1)
+
+        self.horizontalLayout_10.addWidget(self.toolButton_AddPointLabel)
+
+        self.toolButton_closePointLabel = QToolButton(self.frame_4)
+        self.toolButton_closePointLabel.setObjectName(u"toolButton_closePointLabel")
+        sizePolicy3.setHeightForWidth(self.toolButton_closePointLabel.sizePolicy().hasHeightForWidth())
+        self.toolButton_closePointLabel.setSizePolicy(sizePolicy3)
+        self.toolButton_closePointLabel.setMinimumSize(QSize(25, 25))
+        self.toolButton_closePointLabel.setMaximumSize(QSize(25, 25))
+        self.toolButton_closePointLabel.setFont(font)
+        self.toolButton_closePointLabel.setStyleSheet(u"")
+        icon8 = QIcon()
+        icon8.addFile(u"app/app/app/MPM-UN_2025/app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolButton_closePointLabel.setIcon(icon8)
+        self.toolButton_closePointLabel.setIconSize(QSize(15, 15))
+        self.toolButton_closePointLabel.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.toolButton_closePointLabel.setProperty(u"style_mesh_card_button", 1)
+
+        self.horizontalLayout_10.addWidget(self.toolButton_closePointLabel)
 
 
-        self.formLayout_4.setLayout(0, QFormLayout.ItemRole.FieldRole, self.horizontalLayout_4)
+        self.formLayout_4.setLayout(4, QFormLayout.ItemRole.FieldRole, self.horizontalLayout_10)
 
 
         self.verticalLayout_7.addWidget(self.frame_4)
@@ -1340,10 +1392,19 @@ class Ui_FormMenuResultAnimation(object):
         self.label_textResultAnimation1_3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tama\u00f1o puntos (r):", None))
         self.doubleSpinBoxl_textResultAnimationSizePoints.setSuffix(QCoreApplication.translate("FormMenuResultAnimation", u"m", None))
         self.label_textResultAnimation1_4.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tama\u00f1o textos:", None))
+        self.label_textResultAnimation1_5.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Agregar etiqueta:", None))
+#if QT_CONFIG(tooltip)
+        self.lineEdit_ResultAnimation_LabelByPointId.setToolTip(QCoreApplication.translate("FormMenuResultAnimation", u"<html><head/><body><p><span style=\" font-size:10pt; font-style:italic;\">Puede buscar por id como 1 o 2 o 3 etc. O por conjuntos separados por coma, por ejemplo 1,2,3\u2026</span></p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+        self.lineEdit_ResultAnimation_LabelByPointId.setInputMask("")
+        self.lineEdit_ResultAnimation_LabelByPointId.setText("")
+        self.lineEdit_ResultAnimation_LabelByPointId.setPlaceholderText(QCoreApplication.translate("FormMenuResultAnimation", u"id punto", None))
+        self.toolButton_AddPointLabel.setText("")
+        self.toolButton_closePointLabel.setText("")
         self.checkBox_ResultAnimationCountour.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Contorno", None))
         self.checkBox_ResultAnimationLabel.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Etiquetas", None))
         self.checkBox_ResultAnimationGrid.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Grilla", None))
-        self.checkBox_ResultAnimationValues.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Valores", None))
+        self.checkBox_ResultAnimationValues.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver numeraci\u00f3n", None))
         self.label_msn.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Empty", None))
     # retranslateUi
 

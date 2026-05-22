@@ -155,9 +155,12 @@ class ElementMeshBackItem(QGraphicsItem):
 
         self.isSelected = False
         self.isActive = False
-        
-        self.generatePath()        
-        
+
+        self.generatePath()
+        xs = [c.x() for c in self.nodes_coordenates]
+        ys = [c.y() for c in self.nodes_coordenates]
+        self._bounding_rect = QRectF(min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys))
+
     def signalThemeChanged(self, theme:str):
         if theme == "dark":
             color = QColor(self.COLOR_T1)
@@ -173,19 +176,11 @@ class ElementMeshBackItem(QGraphicsItem):
         self.path.addPolygon(QPolygonF(self.nodes_coordenates))
 
     def boundingRect(self):
-        points = []
-        for node_coor in self.nodes_coordenates:
-            points.append([node_coor.x(), node_coor.y()])
-            
-        left = min(point[0] for point in points)
-        top = min(point[1] for point in points)
-        right = max(point[0] for point in points)
-        bottom = max(point[1] for point in points)
-        return QRectF(left, top, right - left, bottom - top)
+        return self._bounding_rect
 
-    def paint(self, painter, option, widget):        
-        painter.setPen(self.pen)        
-        painter.drawPath(self.path)   
+    def paint(self, painter, option, widget):
+        painter.setPen(self.pen)
+        painter.drawPath(self.path)
 
 class TextFrameItem(QGraphicsItem):
     HIGT = 20
@@ -271,9 +266,9 @@ class TriangleMeshItem(QGraphicsItem):
         points = []
         for point in self.coordinates:
             point = QPointF(point[0], point[1])
-            points.append(point)        
-
+            points.append(point)
         self.path.addPolygon(QPolygonF(points))
+        self._bounding_rect = self._triangleBoundingRect(self.coordinates)
 
     def setColor(self, color):
         self.color = color
@@ -287,21 +282,19 @@ class TriangleMeshItem(QGraphicsItem):
         self.update()
 
     def boundingRect(self):
-        rect = self._triangleBoundingRect(self.coordinates)
-        return rect
+        return self._bounding_rect
 
     def _triangleBoundingRect(self, points):
-        # Calcula el rectángulo que envuelve un triángulo
         left = min(point[0] for point in points)
         top = min(point[1] for point in points)
         right = max(point[0] for point in points)
         bottom = max(point[1] for point in points)
         return QRectF(left, top, right - left, bottom - top)
 
-    def paint(self, painter, option, widget):        
-        painter.setPen(self.pen)  
-        painter.setBrush(self.brush) 
-        painter.drawPath(self.path) 
+    def paint(self, painter, option, widget):
+        painter.setPen(self.pen)
+        painter.setBrush(self.brush)
+        painter.drawPath(self.path)
 
 class QuadrilateraLMeshItem(QGraphicsItem):
 
@@ -330,40 +323,37 @@ class QuadrilateraLMeshItem(QGraphicsItem):
     def generatePath(self):
         self.path = QPainterPath()
         points = []
-
         for point in self.coordinates:
             point = QPointF(point[0], point[1])
             points.append(point)
         points.append(QPointF(self.coordinates[0][0], self.coordinates[0][1]))
         self.path.addPolygon(QPolygonF(points))
+        self._bounding_rect = self._triangleBoundingRect(self.coordinates)
 
-    def setColor(self, color):        
+    def setColor(self, color):
         self.color = color
-        color_q  = QColor(color)
+        color_q = QColor(color)
         color_darker = color_q.darker(150)
         self.pen.setColor(color_darker)
-
         color_transparente = color_q
-        color_transparente.setAlpha(150)#(0-255)
+        color_transparente.setAlpha(150)
         self.brush = QBrush(color_transparente)
         self.update()
 
     def boundingRect(self):
-        rect = self._triangleBoundingRect(self.coordinates)
-        return rect
+        return self._bounding_rect
 
     def _triangleBoundingRect(self, points):
-        # Calcula el rectángulo que envuelve un triángulo
         left = min(point[0] for point in points)
         top = min(point[1] for point in points)
         right = max(point[0] for point in points)
         bottom = max(point[1] for point in points)
         return QRectF(left, top, right - left, bottom - top)
 
-    def paint(self, painter, option, widget):        
-        painter.setBrush(self.brush)        
-        painter.setPen(self.pen)        
-        painter.drawPath(self.path)   
+    def paint(self, painter, option, widget):
+        painter.setBrush(self.brush)
+        painter.setPen(self.pen)
+        painter.drawPath(self.path)
 
 
 
@@ -733,7 +723,10 @@ class PointMaterialItem(QGraphicsItem):
 
         self.brush = QBrush(QColor(self.color))
         self.brush_selected = QBrush(QColor("#33333300"))
-        
+
+        self.pen_selected_dash  = QPen(QColor("#ff0000"), 0, Qt.DashLine)
+        self.pen_selected_solid = QPen(QColor("#000000"), 0, Qt.SolidLine)
+
         self.isSelectedPointMaterial = False
         
     def setColor(self, color):
@@ -763,9 +756,9 @@ class PointMaterialItem(QGraphicsItem):
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         if self.isSelectedPointMaterial:
-            painter.setPen(QPen(QColor("#ff0000"), 0, Qt.DashLine))
-            painter.setPen(QPen(QColor("#000000"), 0, Qt.SolidLine))
-            painter.drawRect(self.boundingRect())            
+            painter.setPen(self.pen_selected_dash)
+            painter.setPen(self.pen_selected_solid)
+            painter.drawRect(self.boundingRect())
         else:
             painter.setBrush(self.brush)
             painter.setPen(self.pen)

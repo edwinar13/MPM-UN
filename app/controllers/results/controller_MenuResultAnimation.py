@@ -40,6 +40,8 @@ class ControllerMenuResultAnimation(QObject):
         
         self.view_menu_result_animation.signal_result_animation_size_points.connect(self.signalResultAnimationSizePoints)
         self.view_menu_result_animation.signal_result_animation_size_texts.connect(self.signalResultAnimationSizeTexts)
+        self.view_menu_result_animation.signal_result_animation_add_point_label.connect(self.signalResultAnimationAddPointLabel)
+        self.view_menu_result_animation.signal_result_animation_close_point_labels.connect(self.signalResultAnimationClosePointLabels)
         self.view_menu_result_animation.signal_scene_type_result.connect(self.signalSceneTypeResult)
 
         self.view_menu_result_animation.signal_scene_regress.connect(self.signalSceneRegress)
@@ -68,7 +70,23 @@ class ControllerMenuResultAnimation(QObject):
         return self.view_menu_result_animation
     
     def updateMenuResults(self):
-        size = self.model_result.model_mesh_back.getSizeDx()/100
+        # Calcular radio inicial basado en volumen promedio de los puntos (igual a drawItemPointsScene)
+        import math
+        volumes_list = []
+        point_materials = self.model_result.getPointMaterials()
+        for id_MP in point_materials:
+            pts = point_materials[id_MP].get("POINTS", {})
+            for pk in pts:
+                v = pts[pk].get("VOLUME", None)
+                if v and v > 0:
+                    volumes_list.append(v)
+
+        if volumes_list:
+            avg_v = sum(volumes_list) / len(volumes_list)
+            size = (math.sqrt(avg_v / math.pi)) / 2
+        else:
+            size = self.model_result.model_mesh_back.getSizeElement() / 7
+
         self.view_menu_result_animation.setSizePoint(size=size)
         self.view_menu_result_animation.resetTypeResult()
         
@@ -129,6 +147,16 @@ class ControllerMenuResultAnimation(QObject):
     @Slot()
     def signalResultAnimationSizeTexts(self):
         self.model_result.setSizeTexts(self.view_menu_result_animation.getSizeTexts())
+
+    @Slot()
+    def signalResultAnimationAddPointLabel(self):
+        id_text = self.view_menu_result_animation.getLabelByPointId()
+        size_text = self.view_menu_result_animation.getSizeTexts()
+        self.model_result.addDetailPanelForNode(id_text, size_text)
+
+    @Slot()
+    def signalResultAnimationClosePointLabels(self):
+        self.model_result.clearAllDetailPanels()
         
     
     

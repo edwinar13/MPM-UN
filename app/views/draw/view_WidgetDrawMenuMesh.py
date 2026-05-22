@@ -3,7 +3,7 @@ es el widget menú de mallas."""
 
 from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
 from PySide6.QtGui import (QIcon, QFont,QTransform, QPen, QBrush, QPolygonF, QColor, QPalette)
-from PySide6.QtWidgets import (QFileDialog, QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDialog)
+from PySide6.QtWidgets import (QFileDialog, QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDialog, QComboBox)
 from ui.ui_widget_draw_menu_mesh import Ui_FormDrawMenuMesh
 from utils import class_general
 
@@ -113,7 +113,17 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         
         self.toolButton_cardMeshUploadFile.setVisible(False)
         self.label_textMesh_path.setVisible(False)
-        
+
+        # Combo de subdivisión para tipo "Estructurada" (oculto por defecto)
+        self.label_MeshSubdivision = QLabel("Subdivisión:")
+        self.comboBox_MeshSubdivision = QComboBox()
+        self.comboBox_MeshSubdivision.addItems(["1", "4", "16"])
+        self.comboBox_MeshSubdivision.setCurrentIndex(1)
+        self.comboBox_MeshSubdivision.setMinimumHeight(25)
+        self.formLayout_3.addRow(self.label_MeshSubdivision, self.comboBox_MeshSubdivision)
+        self.label_MeshSubdivision.setVisible(False)
+        self.comboBox_MeshSubdivision.setVisible(False)
+
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -281,18 +291,32 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
 
     def __currentIndexChangedComboBoxMeshType (self):
         selected_index = self.comboBox_MeshType.currentIndex()
-        if selected_index == 2:
+        if selected_index == 2:  # Archivo
             self.toolButton_cardMeshUploadFile.setVisible(True)
             self.label_textMesh_path.setVisible(True)
-            
+            self.label_MeshSubdivision.setVisible(False)
+            self.comboBox_MeshSubdivision.setVisible(False)
+
             self.lineEdit_textMeshSelected.setEnabled(False)
             self.doubleSpinBoxl_textMeshSize.setEnabled(False)
             self.toolButton_cardMeshDrawSelected.setEnabled(False)
             self.toolButton_cardMeshDrawSize.setEnabled(False)
-        else:
+        elif selected_index == 3:  # Estructurada
             self.toolButton_cardMeshUploadFile.setVisible(False)
             self.label_textMesh_path.setVisible(False)
-            
+            self.label_MeshSubdivision.setVisible(True)
+            self.comboBox_MeshSubdivision.setVisible(True)
+
+            self.lineEdit_textMeshSelected.setEnabled(True)
+            self.doubleSpinBoxl_textMeshSize.setEnabled(False)
+            self.toolButton_cardMeshDrawSelected.setEnabled(True)
+            self.toolButton_cardMeshDrawSize.setEnabled(False)
+        else:  # Triangular o Cuadrilátera
+            self.toolButton_cardMeshUploadFile.setVisible(False)
+            self.label_textMesh_path.setVisible(False)
+            self.label_MeshSubdivision.setVisible(False)
+            self.comboBox_MeshSubdivision.setVisible(False)
+
             self.lineEdit_textMeshSelected.setEnabled(True)
             self.doubleSpinBoxl_textMeshSize.setEnabled(True)
             self.toolButton_cardMeshDrawSelected.setEnabled(True)
@@ -324,7 +348,11 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     
     def getType (self):
         return self.comboBox_MeshType.currentText()
-    
+
+    def getSubdivision(self) -> int:
+        """Retorna la subdivisión por celda para mallas Estructuradas (1, 4 o 16)."""
+        return int(self.comboBox_MeshSubdivision.currentText())
+
     def getPathFile(self):
         return self.path_file
     
@@ -389,9 +417,9 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         widget.update()
 
     def setListTypes(self):
-        list_types = ["Triangular","Cuadrilátera", "Archivo"]
+        list_types = ["Triangular","Cuadrilátera", "Archivo", "Estructurada"]
         for item_index in range(len(list_types)):
-            self.comboBox_MeshType.addItem(list_types[item_index])  
+            self.comboBox_MeshType.addItem(list_types[item_index])
 
     def setType(self, index):     
         self.comboBox_MeshType.setCurrentIndex(index)

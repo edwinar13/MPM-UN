@@ -29,7 +29,7 @@ class TextNoMpItem(QGraphicsItem):
         # Configura el color del texto según el tema
         config_manager.signalThemeChanged.connect(self.signalThemeChanged)
         self.signalThemeChanged(config_manager.getTheme())
-        self.node = f'MP{node}:'
+        self.node = f'MP{node}'
         self.setTextResult()
         self.coordenates = QPointF(coordinatesX,coordinatesY)
         self.newPos(self.coordenates)
@@ -80,28 +80,22 @@ class TextNoMpItem(QGraphicsItem):
                              2*size, 2*size)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        painter.setPen(self.pen)    
-        painter.setFont(self.font)  
-        
-        # Calculate the width and height of the text
-        font_metrics = QFontMetrics(self.font)
-        node_width = font_metrics.horizontalAdvance(self.node)
-        node_height = font_metrics.height()
+        painter.setPen(self.pen)
+        painter.setFont(self.font)
 
-        # Draw the text centered
-        painter.drawText(QPointF(-node_width/2, -self.seprate_text ), self.node)
-        #painter.drawText(QPointF(-node_width/2, -self.seprate_text - node_height/2), self.node)
+        fm_node = QFontMetrics(self.font)
+        node_width = fm_node.horizontalAdvance(self.node)
 
-        painter.setFont(self.font_value)   
-
-        # Calculate the width and height of the text
-        font_metrics_value = QFontMetrics(self.font_value)
-        text_width = font_metrics_value.horizontalAdvance(self.text)
-        text_height = font_metrics_value.height()
-
-        # Draw the text centered
-        painter.drawText(QPointF(-text_width/2, self.seprate_text ), self.text)
-        #painter.drawText(QPointF(-text_width/2, self.seprate_text - text_height/2), self.text)
+        if self.text:
+            # dos líneas: ID arriba, valor abajo
+            painter.drawText(QPointF(-node_width / 2, -self.seprate_text), self.node)
+            painter.setFont(self.font_value)
+            fm_val = QFontMetrics(self.font_value)
+            text_width = fm_val.horizontalAdvance(self.text)
+            painter.drawText(QPointF(-text_width / 2, self.seprate_text), self.text)
+        else:
+            # solo ID: centrado verticalmente sobre el punto
+            painter.drawText(QPointF(-node_width / 2, fm_node.ascent() / 2), self.node)
   
         '''
         painter.setPen(self.pen)    
@@ -340,6 +334,98 @@ class TextResultItem(QGraphicsItem):
         painter.scale(1, -1)
         painter.drawText(self.coor, self.text)
       
+class PointDetailPanelItem(QGraphicsItem):
+    """Mini panel con fondo y borde que muestra ID, valor y coordenadas de un punto específico."""
+
+    PADDING = 6
+    OFFSET_X = 12   # px a la derecha del punto
+    OFFSET_Y = -8   # px sobre el punto
+
+    def __init__(self, node_id: str, coordinatesX: float, coordinatesY: float):
+        QGraphicsItem.__init__(self)
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        self.node_id_text = f'MP{node_id}'
+        self.value_text = ""
+        self.coord_text = ""
+        self.font_size = 12
+        self.setVisible(False)
+        self.setZValue(200)
+        self.coordenates = QPointF(coordinatesX, coordinatesY)
+        self.setPos(self.coordenates)
+
+        self.bg_color = QColor(20, 20, 30, 215)
+        self.border_pen = QPen(QColor("#4da6ff"), 1)
+        self.pen_id = QPen(QColor("#88ccff"))
+        self.pen_value = QPen(QColor("#ffffff"))
+        self.pen_coord = QPen(QColor("#aaaaaa"))
+
+    def setSize(self, size: int):
+        self.font_size = size
+        self.update()
+
+    def setData(self, value: str, coord_x: float, coord_y: float):
+        self.value_text = value
+        self.coord_text = f"({coord_x:.3f}, {coord_y:.3f})"
+        self.update()
+
+    def newPos(self, pos: QPointF):
+        self.coordenates = pos
+        self.setPos(pos)
+
+    def boundingRect(self) -> QRectF:
+        return QRectF(-5, -130, 275, 140)
+
+    def paint(self, painter: QPainter, option, widget):
+        sz = self.font_size
+        font_id = QFont("Ubuntu", sz)
+        font_id.setWeight(QFont.Bold)
+        font_val = QFont("Monospace", max(sz - 1, 7))
+        font_coord = QFont("Ubuntu", max(sz - 2, 6))
+
+        fm_id = QFontMetrics(font_id)
+        fm_val = QFontMetrics(font_val)
+        fm_coord = QFontMetrics(font_coord)
+
+        p = self.PADDING
+        lines = [
+            (self.node_id_text, font_id,    fm_id,    self.pen_id),
+            (self.value_text,   font_val,   fm_val,   self.pen_value),
+            (self.coord_text,   font_coord, fm_coord, self.pen_coord),
+        ]
+
+        widths = [fm.horizontalAdvance(txt) for txt, _, fm, _ in lines if txt]
+        panel_w = (max(widths) if widths else 80) + p * 2
+        panel_h = sum(fm.height() for _, _, fm, _ in lines) + p * 2
+
+        x0 = self.OFFSET_X
+        y0 = self.OFFSET_Y - panel_h
+        anchor = QPointF(x0, y0 + panel_h)  # esquina inferior-izquierda del panel
+
+        # línea de referencia: desde el centro del punto hasta el borde del panel
+        line_pen = QPen(QColor("#4da6ff"), 1, Qt.DotLine)
+        line_pen.setCapStyle(Qt.RoundCap)
+        painter.setPen(line_pen)
+        painter.setBrush(Qt.NoBrush)
+        painter.drawLine(QPointF(0, 0), anchor)
+
+        # punto indicador en el origen
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QBrush(QColor("#4da6ff")))
+        painter.drawEllipse(QPointF(0, 0), 3, 3)
+
+        # fondo y borde del panel
+        painter.setPen(self.border_pen)
+        painter.setBrush(QBrush(self.bg_color))
+        painter.drawRoundedRect(QRectF(x0, y0, panel_w, panel_h), 4, 4)
+
+        y_cur = y0 + p
+        for txt, font, fm, pen in lines:
+            painter.setPen(pen)
+            painter.setFont(font)
+            painter.drawText(QPointF(x0 + p, y_cur + fm.ascent()), txt)
+            y_cur += fm.height()
+
+
 class ItemResultNode(QGraphicsItem):
     """color_type 1 o 2"""
     COLOR_1A = "#e8ca7b"
@@ -394,9 +480,14 @@ class ItemResultNode(QGraphicsItem):
         self.vector_draw = (0, 0)
 
         self.random_color_bicolor = random_color_bicolor
-        self.radius = radius   
+        self.radius = radius
         self._time_view = 0
         self.hue = 0
+
+        # panel de detalle (asignado externamente desde model_Result)
+        self._detail_panel_node: Optional['PointDetailPanelItem'] = None
+        # modo "solo ID" del checkbox
+        self._show_only_id = False
   
         xo = self.coorX[0]
         yo = self.coorY[0]        
@@ -477,8 +568,43 @@ class ItemResultNode(QGraphicsItem):
         self.arrow_node.setArrowSize(size_points)
     
     def setSizeTexts(self, size_texts):
-        self.text_node.setSize(size_texts)       
-        
+        self.text_node.setSize(size_texts)
+        if self._detail_panel_node is not None:
+            self._detail_panel_node.setSize(size_texts)
+
+    def setShowOnlyId(self, visible: bool):
+        """Checkbox 'Ver numeración': muestra solo el nº del punto, sin valor."""
+        self._show_only_id = visible
+        self.showLabel = visible
+        if visible:
+            self.text_node.setTextResult("")
+        self.update()
+
+    def setDetailPanelNode(self, panel: 'PointDetailPanelItem'):
+        self._detail_panel_node = panel
+
+    def setDetailPanelVisible(self, visible: bool, size_text: int = None):
+        if self._detail_panel_node is None:
+            return
+        if size_text is not None:
+            self._detail_panel_node.setSize(size_text)
+        self._detail_panel_node.setVisible(visible)
+        if visible:
+            self._update_detail_panel()
+
+    def _update_detail_panel(self):
+        if self._detail_panel_node is None or not self._detail_panel_node.isVisible():
+            return
+        x = self.data_result['CORX'][self._time_view]
+        y = self.data_result['CORY'][self._time_view]
+        if self.type_result != 'default':
+            key = 'EQPLAS' if self.type_result == 'eqplas' else f'{self.type_result}{self.axis}'.upper()
+            val = self.data_result[key][self._time_view]
+            value_str = str(format_number(val))
+        else:
+            value_str = ""
+        self._detail_panel_node.setData(value_str, x, y)
+
     def setVisibleValue(self, visible):
         self.showLabel = visible
         self.update()
@@ -568,14 +694,20 @@ class ItemResultNode(QGraphicsItem):
             self.arrow_node.setColor(color.name())
 
      
-        # actualiza el texto
-        if self.type_result != 'default':
-            value_text = format_number(value_data)
+        # actualiza el texto del label básico
+        if not self._show_only_id:
+            if self.type_result != 'default':
+                value_text = format_number(value_data)
+            else:
+                x = self.data_result['CORX'][self._time_view]
+                y = self.data_result['CORY'][self._time_view]
+                value_text = f"({round(x,2)}, {round(y,2)})"
+            self.text_node.setTextResult(str(value_text))
         else:
-            x = self.data_result['CORX'][self._time_view]
-            y = self.data_result['CORY'][self._time_view]
-            value_text = f"({round(x,2)}, {round(y,2)})"     
-        self.text_node.setTextResult(str(value_text))
+            self.text_node.setTextResult("")
+
+        # actualiza el panel de detalle si está visible
+        self._update_detail_panel()
 
    
     def evaluatePercent(self, value, range):
@@ -601,13 +733,15 @@ class ItemResultNode(QGraphicsItem):
         return self._time_view
 
 
-    def movePoint(self, pos:QPointF):
+    def movePoint(self, pos: QPointF):
         try:
             self.coor = pos
             self.setPos(pos)
             self.text_node.newPos(self.coor)
             self.circle_node.newPos(self.coor)
             self.arrow_node.newPos(self.coor)
+            if self._detail_panel_node is not None:
+                self._detail_panel_node.newPos(self.coor)
         except Exception as e:
             print("-->Error movePoint", e)
         

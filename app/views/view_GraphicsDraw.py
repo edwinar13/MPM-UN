@@ -100,6 +100,21 @@ class ViewGraphicsViewDraw (QGraphicsView):
         self.pen_crosshair_draw = QPen()
         self.pen_crosshair_draw.setWidth(0)
 
+        # plumas y brushes pre-alocados para drawForeground (evitar alloc por frame)
+        self.pen_fg_border = QPen(QColor(254, 233, 183, 255))
+        self.pen_fg_arrow_y = QPen(QColor("#C8CC8E"))
+        self.pen_fg_arrow_y.setWidth(0)
+        self.brush_fg_arrow_y = QBrush(Qt.SolidPattern)
+        self.brush_fg_arrow_y.setColor(QColor("#C8CC8E"))
+        self.pen_fg_arrow_x = QPen(QColor("#742427"))
+        self.pen_fg_arrow_x.setWidth(0)
+        self.brush_fg_arrow_x = QBrush(Qt.SolidPattern)
+        self.brush_fg_arrow_x.setColor(QColor("#742427"))
+        self.pen_fg_origin = QPen(QColor("#aaaaaa"))
+        self.pen_fg_origin.setWidth(0)
+        self.brush_fg_origin = QBrush(Qt.SolidPattern)
+        self.brush_fg_origin.setColor(QColor("#bbbbbb"))
+
         # Para mover la escena
         self.start_pos = None
 
@@ -151,14 +166,12 @@ class ViewGraphicsViewDraw (QGraphicsView):
     
     def reset_view(self):
         """Reinicia la vista, colocando el rectángulo de la escena al tamaño de la vista scale=1."""
-        
+
         self.resetTransform()
         rect = self.scene().itemsBoundingRect()
         rect = rect.adjusted(-rect.width()/2, -rect.height()/2, rect.width()/2, rect.height()/2)
-               
 
-        self.setSceneRect(rect)
-        self.centerOn(0,0)
+        self.centerOn(0, 0)
         self.fitInView(rect, Qt.KeepAspectRatio)
         self.scale(1, -1)
         self.scene().update()
@@ -209,7 +222,7 @@ class ViewGraphicsViewDraw (QGraphicsView):
             self.p1_zoom_window = event.pos()
             
         #mover la escena
-        elif event.button() == Qt.MiddleButton:
+        elif event.button() == Qt.RightButton:
 
             self.scene().isPan = True
             self.setDragMode(QGraphicsView.ScrollHandDrag)
@@ -238,7 +251,7 @@ class ViewGraphicsViewDraw (QGraphicsView):
 
         #Emite la señal para seleccionar view como principal
         self.signal_main_view.emit(self.objectName())
-        self.scene().update()
+        self.viewport().update()
         super(ViewGraphicsViewDraw, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
@@ -267,13 +280,16 @@ class ViewGraphicsViewDraw (QGraphicsView):
             self.signal_end_draw_geometry.emit()
             
 
-        if event.button() == Qt.MiddleButton:
+        if event.button() == Qt.RightButton:
             self.setDragMode(QGraphicsView.NoDrag)
             self.viewport().setCursor(Qt.BlankCursor)
 
   
 
         super(ViewGraphicsViewDraw, self).mouseReleaseEvent(event)
+
+    def contextMenuEvent(self, event):
+        event.accept()  # right-click es pan, no menú contextual
 
     def drawBackground(self, painter: QPainter, rect: QRectF|QRect) -> None:
         
@@ -389,12 +405,10 @@ class ViewGraphicsViewDraw (QGraphicsView):
             w_scene = (self.rect().width())-4 # no se ha podido identificar por que se requiere
             h_scene = (self.rect().height())-4
 
-            rect_scene = self.mapToScene(QRect(x_scene,y_scene,w_scene,h_scene)) 
-            painter.save()  
-            scale_Width = 2 * (1/scale_view)
-            pen = QPen(QColor(254,233,183,255))                
-            pen.setWidthF(scale_Width)
-            painter.setPen(pen)
+            rect_scene = self.mapToScene(QRect(x_scene,y_scene,w_scene,h_scene))
+            painter.save()
+            self.pen_fg_border.setWidthF(2 * (1/scale_view))
+            painter.setPen(self.pen_fg_border)
             painter.drawPolygon(rect_scene)
             painter.restore()            
 
@@ -408,55 +422,31 @@ class ViewGraphicsViewDraw (QGraphicsView):
             scale_arrow = 2.1 * (1/scale_view)
 
             #Origen Y
-            pen = QPen(QColor("#C8CC8E"))
-            pen.setWidth(0)
-            brush = QBrush(Qt.SolidPattern)
-            brush.setColor(QColor("#C8CC8E"))
-            painter.setBrush(brush)
-            painter.setPen(pen)
-
-            coord_arrow_y=[
-            [xo + (4.5 * scale_arrow)  , yo + ( 5.5 * scale_arrow)],
-            [xo + (6.5 * scale_arrow)  , yo + ( 5.5 * scale_arrow)],
-            [xo + (6.5 * scale_arrow)  , yo + (19.5 * scale_arrow)],
-            [xo + (9.0 * scale_arrow)  , yo + (19.5 * scale_arrow)],
-            [xo + (5.5 * scale_arrow)  , yo + (25.5 * scale_arrow)],
-            [xo + (2.0 * scale_arrow)  , yo + (19.5 * scale_arrow)],
-            [xo + (4.5 * scale_arrow)  , yo + (19.5 * scale_arrow)]]                
-
-            arrow_y = QPolygonF()
-            for i in coord_arrow_y:
-                arrow_y.append(QPointF(i[0], i[1]))
-            painter.drawPolygon(arrow_y)
+            painter.setBrush(self.brush_fg_arrow_y)
+            painter.setPen(self.pen_fg_arrow_y)
+            painter.drawPolygon(QPolygonF([
+                QPointF(xo + (4.5*scale_arrow), yo + ( 5.5*scale_arrow)),
+                QPointF(xo + (6.5*scale_arrow), yo + ( 5.5*scale_arrow)),
+                QPointF(xo + (6.5*scale_arrow), yo + (19.5*scale_arrow)),
+                QPointF(xo + (9.0*scale_arrow), yo + (19.5*scale_arrow)),
+                QPointF(xo + (5.5*scale_arrow), yo + (25.5*scale_arrow)),
+                QPointF(xo + (2.0*scale_arrow), yo + (19.5*scale_arrow)),
+                QPointF(xo + (4.5*scale_arrow), yo + (19.5*scale_arrow))]))
 
             #Origen X
-            pen = QPen(QColor("#742427"))
-            pen.setWidth(0)
-            brush = QBrush(Qt.SolidPattern)
-            brush.setColor(QColor("#742427"))
-            painter.setBrush(brush)
-            painter.setPen(pen)
+            painter.setBrush(self.brush_fg_arrow_x)
+            painter.setPen(self.pen_fg_arrow_x)
+            painter.drawPolygon(QPolygonF([
+                QPointF(xo + ( 5.5*scale_arrow), yo + (6.5*scale_arrow)),
+                QPointF(xo + ( 5.5*scale_arrow), yo + (4.5*scale_arrow)),
+                QPointF(xo + (19.5*scale_arrow), yo + (4.5*scale_arrow)),
+                QPointF(xo + (19.5*scale_arrow), yo + (2.0*scale_arrow)),
+                QPointF(xo + (25.5*scale_arrow), yo + (5.5*scale_arrow)),
+                QPointF(xo + (19.5*scale_arrow), yo + (9.0*scale_arrow)),
+                QPointF(xo + (19.5*scale_arrow), yo + (6.5*scale_arrow))]))
 
-            coord_arrow_x=[
-            [xo + ( 5.5 * scale_arrow), yo + (6.5 * scale_arrow)],
-            [xo + ( 5.5 * scale_arrow), yo + (4.5 * scale_arrow)],
-            [xo + (19.5 * scale_arrow), yo + (4.5 * scale_arrow)],
-            [xo + (19.5 * scale_arrow), yo + (2.0 * scale_arrow)],
-            [xo + (25.5 * scale_arrow), yo + (5.5 * scale_arrow)],
-            [xo + (19.5 * scale_arrow), yo + (9.0 * scale_arrow)],
-            [xo + (19.5 * scale_arrow), yo + (6.5 * scale_arrow)]]           
-
-            arrow_x = QPolygonF()
-            for i in coord_arrow_x:
-                arrow_x.append(QPointF(i[0], i[1]))
-            painter.drawPolygon(arrow_x)
-
-            pen = QPen(QColor("#aaaaaa"))                
-            pen.setWidth(0)
-            painter.setPen(pen)
-            brush= QBrush(Qt.SolidPattern)
-            brush.setColor(QColor("#bbbbbb"))
-            painter.setBrush(brush)
+            painter.setPen(self.pen_fg_origin)
+            painter.setBrush(self.brush_fg_origin)
 
             painter.drawEllipse(QPointF(xo + (5.5*scale_arrow),yo + (5.5*scale_arrow)), 2*scale_arrow, 2*scale_arrow)
 
@@ -606,7 +596,15 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         self.mode_snap_grid = False
         self.snap_grid_adaptative  = False
         self.snap_grid_spacing = 10
-        
+
+        # pens/brushes pre-alocados para drawBackground (evitar alloc por frame)
+        self._pen_scene_border = QPen()
+        self._pen_scene_border.setWidth(0)
+        self._pen_scene_border.setColor(QColor("#56fdb6"))
+        self._pen_scene_border.setStyle(Qt.DashLine)
+        self._brush_scene_bg = QBrush(Qt.SolidPattern)
+        self._brush_scene_bg.setColor(QColor(255, 255, 255, 50))
+
         #Atributos para dibujo
         self.isDrawGeometry = False
 
@@ -1068,19 +1066,11 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         super(ViewGraphicsSceneDraw, self).mouseReleaseEvent(event)
 
     def drawBackground(self, painter: QPainter, rect: QRectF| QRect) -> None:
-
-        pen = QPen()
-        pen.setWidth(0)
-        pen.setColor("#56fdb6")
-        pen.setStyle(Qt.DashLine)
-        brush = QBrush(Qt.SolidPattern)
-        brush.setColor(QColor(255, 255, 255, 50))        
         painter.save()
-        painter.setPen(pen)
-        painter.setBrush(brush)
+        painter.setPen(self._pen_scene_border)
+        painter.setBrush(self._brush_scene_bg)
         painter.drawRect(self.sceneRect())
         painter.restore()
-        
         super(ViewGraphicsSceneDraw, self).drawBackground(painter, rect)
 
     def drawForeground(self, painter: QPainter, rect: QRectF | QRect) -> None:
