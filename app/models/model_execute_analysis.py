@@ -306,44 +306,11 @@ class ModelExcuteAnalysisMPM:
         # 2 → Transferir partículas a nodos
         grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem
         particle = xp, vp, Vp, Mp, sig, bp, tp
-        '''
-        #agregar al final del archivo
-        with open("result_iteracion.txt", "w") as f:
-            f.write(str(use_gauss) + "\n")
-            f.write(str(plasticity_flag) + "\n")
-            f.write(str(dampfac) + "\n")
-            f.write(str(dtime) + "\n")
-            f.write(str(bound_val) + "\n")
-        return True
-        '''
 
         if use_gauss:
-            '''
-            with open("result_iteracion.txt", "w") as f:
-                f.write( "---------------------------------\n")
-                f.write(str(grid)+ "\n")
-                f.write( "---------------------------------\n")
-                f.write(str( particle)+ "\n")
-                f.write( "---------------------------------\n")
-                f.write(str(bound_val)+ "\n")
-            '''
             nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes_gauss2(grid, particle, bound_val)
         else:
             nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
-        '''
-        with open("result_iteracion.txt", "w") as f:
-            f.write( "---------------mal1------------------\n")
-            f.write(str(neforce)+ "\n")
-            f.write( "----------------mal2-----------------\n")
-            f.write(str(niforce)+ "\n")
-            f.write( "-----------------mal3----------------\n")
-            #f.write(str(ndamping)+  "\n")
-            #f.write( "----------------mal4-----------------\n")
-            #f.write(str(nforce)+ "\n")
-            #f.write( "-----------------mal5----------------\n")
-            f.write(str(dtime)+  "\n")
-            f.write( "---------------------------------\n")
-        '''
 
         # 3 → Solución sistema de ecuaciones nodales (EXPLÍCITO)
         nforce = niforce + neforce
@@ -351,54 +318,13 @@ class ModelExcuteAnalysisMPM:
         nforce = nforce + ndamping
         nmomentum += nforce * dtime
 
-        '''
-        with open("result_iteracion.txt", "w") as f:
-            f.write( "---------------mal1------------------\n")
-            f.write(str(nmomentum)+ "\n")
-            f.write( "----------------mal1-----------------\n")
-            f.write(str(nforce)+ "\n")
-            f.write( "-----------------mal1----------------\n")
-            f.write(str(neforce)+  "\n")
-            f.write( "---------------------------------\n")
-        '''
-            
-                    
         # 4 → Condiciones de contorno Dirichlet
         nmomentum, nforce, niforce, neforce = BC_Dirichlet_momentum(
             active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce, niforce, neforce)
-        '''
-        with open("result_iteracion.txt", "w") as f:
-            f.write( "---------------------------------\n")
-            f.write(str(nmass) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(nmomentum) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(nforce) + "\n")
-            f.write( "---------------------------------\n")
-        '''
+
         # 5 → Transferir nodos a partículas: velocidad y posición
         nquantities = nmass, nmomentum, nforce
         particle = xp, vp, Vp, Mp, sig, shfnp
-
-        with open("result_iteracion.txt", "w") as f:
-            f.write(str(grid) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(particle) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(nquantities) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(dtime) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(active_nodes) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(fixed_nodesX) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(fixed_nodesY) + "\n")
-            f.write( "---------------------------------\n")
-        '''
-            f.write(str(nvel) + "\n")
-            f.write( "---------------------------------\n")
-        '''
 
         xp, vp, nvel = nodes_to_particle_vel(grid, particle, nquantities, dtime)
         nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel)
@@ -406,25 +332,6 @@ class ModelExcuteAnalysisMPM:
         # 6 → Transferir nodos a partículas: esfuerzo y deformación
         # Flag de plasticidad: 0 = elastoplástico, 1 = solo elástico
         particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
-        
-        '''        
-        #agregar al final del archivo
-        with open("result_iteracion.txt", "w") as f:
-            f.write(str(use_gauss) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(grid) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(particle) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(bound_val) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(nvel) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(dtime) + "\n")
-            f.write( "---------------------------------\n")
-            f.write(str(plasticity_flag) + "\n")
-            f.write( "---------------------------------\n")
-        '''
 
         if use_gauss:
             Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(
@@ -432,13 +339,7 @@ class ModelExcuteAnalysisMPM:
         else:
             Fp, Vp, epse, epsp, sig = nodes_to_particle_stress(
                 grid, particle, nvel, dtime, plasticity_flag)
-        # dtime, plasticity_flag
-        #print("sig max x",np.max(sig[:,0]))
-        
-        #agregar al final del archivo
-        #with open("result_iteracion.txt", "w") as f:
-        #    f.write(f" {sig[0]}\n")
-        
+
         # Actualizar variables de instancia
         self.__mp_xp = xp
         self.__vm_vp = vp
@@ -978,13 +879,12 @@ class ModelExcuteAnalysisMPM:
         # elementos donde esta cada punto material      ::  mp_elem
         # los elementos que tienen puntos materiales    :: active_elem 
         # coordenadas de los puntos materiales          ::  xp
-        #    NOTA xp: en MPM-UN orginal la lista tiene otro orden 
-        #             inf-izq, inf-der, sup-izq, sup-der 
+        #    NOTA xp (orden): en MPM-UN original la lista tiene otro orden
+        #             inf-izq, inf-der, sup-izq, sup-der
         #             en este programa
-        #             sup-izq, inf-izq, inf-der,  sup-der 
-        #             Tambien revisar por que se esta asignado points,
-        #             pero si son varios materiales no agrega todos
-        #             sino el ultimo material point
+        #             sup-izq, inf-izq, inf-der, sup-der
+        #             Relevante al validar contra el script: el orden de
+        #             particulas difiere, comparar alineando por coordenada.
 
         list_point_material = self.list_point_material
         models_material_point = self.model_current_project.getModelsPointsMaterials()
@@ -1051,14 +951,9 @@ class ModelExcuteAnalysisMPM:
         '''
 
         
-        #►►►►►►►►►►►►►►                                 ◄◄◄◄◄◄◄◄◄◄◄◄◄
-        #     esto ajjstar cuando sean dos materiales
-        #     o mas, por que solo se esta asignando el
-        #     ultimo material point.
         self.VOLUMES = mp_volumes
         self.VELOCITIES = mp_velocities
         self.FORCES = mp_forces
-        #►►►►►►►►►►►►►►                                 ◄◄◄◄◄◄◄◄◄◄◄◄◄
 
     def initProperties(self):
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
@@ -1069,9 +964,6 @@ class ModelExcuteAnalysisMPM:
         # Cohesion KPa                  :: C'
         # Angulo de friccion            :: Phi
         # Angulo de dilatancia          :: psi
-        #    NOTA property: revisar por que se esta asignado property,
-        #             pero si son varios materiales no agrega todos
-        #             sino el ultimo property
 
         list_point_material = self.list_point_material
         models_material_point = self.model_current_project.getModelsPointsMaterials()
@@ -1124,9 +1016,6 @@ class ModelExcuteAnalysisMPM:
         Prop = np.asarray(mp_prop)
         self.__mp_prop = Prop
         self.DENSITY = mp_density
-        '''
-        print("self.__mp_prop", self.__mp_prop)
-        '''
           
     def initVerctorAndMatrix(self):
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
