@@ -212,9 +212,15 @@ class ModelExcuteAnalysisMPM:
             return self.runViga()
         
         print(f"[MPM-UN] run() con config: {config.analysis_type.value}")
-        
+
+        # Asegurar que las etapas estan pobladas (geoestatico, dinamico, etc.)
+        config.build_default_stages()
+
         # Pipeline de inicialización (genérico, no cambia)
-        if config.analysis_type == AnalysisType.QUASI_STATIC:
+        # Si alguna etapa usa incrementos (cuasi-estatico/geoestatico),
+        # preparar dincre/nincre desde esa etapa.
+        if any(s.stage_type in (StageType.LOAD_INCREMENT, StageType.GEOSTATIC)
+               for s in config.stages):
             self.initConditionsFromConfig(config)
         self.initConditions()
         self.initBoundary()
@@ -233,7 +239,12 @@ class ModelExcuteAnalysisMPM:
     def initConditionsFromConfig(self, config: AnalysisConfig):
         """Inicializa condiciones específicas del análisis cuasi-estático
         a partir del AnalysisConfig, sin depender de model_current_project."""
-        stage = config.stages[0]  # Primera etapa
+        # Tomar la primera etapa que use incrementos (cuasi-estatico/geoestatico)
+        stage = next(
+            (s for s in config.stages
+             if s.stage_type in (StageType.LOAD_INCREMENT, StageType.GEOSTATIC)),
+            config.stages[0]
+        )
         nincre = stage.n_increments
         dincre = stage.load_increment_value
         dincreGrav = stage.gravity_increment_value
@@ -249,12 +260,36 @@ class ModelExcuteAnalysisMPM:
         print(f"[Config] nincre={nincre}, dincre={dincre}, dincreGrav={dincreGrav}")
     
     def execute(self, config: AnalysisConfig):
-        """Ejecuta el análisis según el tipo configurado.
-        
-        Despacha al bucle dinámico o cuasi-estático según config.
+        """Ejecuta el análisis recorriendo TODAS las etapas de config.
+
+        Entre una etapa y la siguiente pasa el estado físico
+        (esfuerzos, posiciones, deformaciones...) con _capture_state /
+        _inject_state. Una sola etapa = una sola vuelta sin inyección,
+        idéntico al comportamiento anterior.
         """
-        stage = config.stages[0]  # Por ahora, una sola etapa
-        
+        if not config.stages:
+            config.build_default_stages()
+
+        prev_state = None
+        n_stages = len(config.stages)
+        for index, stage in enumerate(config.stages):
+            print(f"[EXECUTE] Etapa {index + 1}/{n_stages}: {stage.stage_type.value}")
+
+            # Heredar el estado de la etapa anterior (handoff)
+            if prev_state is not None:
+                self._inject_state(prev_state)
+
+            ok = self._dispatch_stage(config, stage)
+            if not ok:
+                return False
+
+            # Tomar la 'foto' del estado para entregarla a la etapa siguiente
+            prev_state = self._capture_state()
+
+        return True
+
+    def _dispatch_stage(self, config: AnalysisConfig, stage):
+        """Despacha UNA etapa a su bucle según el tipo."""
         if stage.stage_type == StageType.DYNAMIC:
             return self._run_dynamic_loop(config, stage)
         elif stage.stage_type == StageType.LOAD_INCREMENT:
@@ -350,9 +385,43 @@ class ModelExcuteAnalysisMPM:
         self.__vm_epsp = epsp
         self.__mp_mp_elem = mp_elem
 
-        
+
         return nmass, niforce, neforce, nvel
-    
+
+    # ===================================================================
+    #  Handoff de estado entre etapas (FASE A)
+    # ===================================================================
+    def _capture_state(self):
+        """Toma una 'foto' del estado físico actual de las partículas.
+
+        Empaqueta (con copia) las variables que evolucionan durante una
+        etapa, para entregarlas como condición inicial de la etapa
+        siguiente (p.ej. handoff geoestático → falla).
+        """
+        return {
+            'xp': np.copy(self.__mp_xp),
+            'vp': np.copy(self.__vm_vp),
+            'Vp': np.copy(self.__vm_Vp),
+            'Fp': np.copy(self.__vm_Fp),
+            'sig': np.copy(self.__vm_sig),
+            'epse': np.copy(self.__vm_epse),
+            'epsp': np.copy(self.__vm_epsp),
+            'mp_elem': np.copy(self.__mp_mp_elem),
+        }
+
+    def _inject_state(self, state):
+        """Pega un estado (de _capture_state) sobre las variables de
+        instancia, para que la etapa actual arranque desde ese estado
+        en lugar de desde cero."""
+        self.__mp_xp = np.copy(state['xp'])
+        self.__vm_vp = np.copy(state['vp'])
+        self.__vm_Vp = np.copy(state['Vp'])
+        self.__vm_Fp = np.copy(state['Fp'])
+        self.__vm_sig = np.copy(state['sig'])
+        self.__vm_epse = np.copy(state['epse'])
+        self.__vm_epsp = np.copy(state['epsp'])
+        self.__mp_mp_elem = np.copy(state['mp_elem'])
+
     def _init_result_arrays(self, n_steps):
         """Inicializa los arrays de resultados para n_steps pasos gráficos."""
         nmp = self.__mp_nmp
@@ -1017,7 +1086,7 @@ class ModelExcuteAnalysisMPM:
         self.__mp_prop = Prop
         self.DENSITY = mp_density
           
-    def initVerctorAndMatrix(self):
+    def initVerctorAndMatrix(self, initial_state=None):
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
         #::::::::::::: incializar materiales ::::::::::::::::::::::
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄    
@@ -1105,6 +1174,12 @@ class ModelExcuteAnalysisMPM:
         self.__vm_bp = bp
         self.__vm_bp0 = bp0
         self.__vm_tp0 = tp0
+
+        # Handoff (FASE A): si se entrega un estado inicial — de una etapa
+        # previa o de un geoestatico guardado — arrancar desde ahi en vez
+        # de desde cero (sobrescribe sig/Fp/epse/epsp/xp/vp/Vp/mp_elem).
+        if initial_state is not None:
+            self._inject_state(initial_state)
         '''
         print("self.__vm_Fp", self.__vm_Fp)
         print("self.__vm_sig", self.__vm_sig)

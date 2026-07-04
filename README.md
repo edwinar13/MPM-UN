@@ -65,7 +65,7 @@ MPM-UN/
 
 2. **Crea y activa un entorno virtual** (Buenas prácticas):
    * En Windows:
-     ```bash
+     ```powershell
      python -m venv .venv
      .venv\Scripts\activate
      ```
