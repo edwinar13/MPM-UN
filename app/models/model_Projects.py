@@ -399,7 +399,23 @@ class ModelProjects:
                     "DELTAINCREMENTO": 0.0,
                     "DELTAINCREMENTO_GRAV": 0.0,
                     "NUMEROINCREMENTOS": 0
-                }
+                },
+                "ETAPAS": [
+                    {
+                        "NOMBRE": "Etapa 1",
+                        "TIPO": "dynamic",
+                        "DAMPING": 0.05,
+                        "COURANT": 0.1,
+                        "NUMEROINCREMENTOS": 1,
+                        "DELTAINCREMENTO": 0.0,
+                        "DELTAINCREMENTO_GRAV": 0.0,
+                        "TIEMPOANALISIS": 1.0,
+                        "TOLFF": 0.01,
+                        "TOLEE": 0.01,
+                        "PLASTICIDAD": 1,
+                        "GAUSS": None
+                    }
+                ]
             }
             
             data['RESULTADOS'] = {

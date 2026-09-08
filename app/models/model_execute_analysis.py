@@ -2,7 +2,8 @@
 from ezdxf.entities import factory
 from motorMPM.mesh import create_uniform, contour_fixe, setup_MP,search_MP
 from motorMPM.mesh import traction_forces,boundary_particles,boundary_particles2, boundary_particles3, node_conectivity
-from models.model_analysis_config import AnalysisConfig, AnalysisType, LoadMode, StageType
+from models.model_analysis_config import AnalysisConfig, AnalysisType, LoadMode, StageType, stage_use_gauss
+from models.analysis_utils import compute_min_dt, build_time_arrays
 from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, static_convergence, nodes_to_particle_stress_gauss
 from motorMPM.graphics import graphic_button,graphic_button2,graphic_button3,graphic_button4, graphic_video2,graphic_gif
@@ -278,6 +279,11 @@ class ModelExcuteAnalysisMPM:
             # Heredar el estado de la etapa anterior (handoff)
             if prev_state is not None:
                 self._inject_state(prev_state)
+                # Recalcular partículas de frontera con las posiciones nuevas
+                self.initBoundaryParticles()
+
+            # Configurar dt y arrays de tiempo de ESTA etapa (según su Courant)
+            self._prepare_stage_time(stage)
 
             ok = self._dispatch_stage(config, stage)
             if not ok:
@@ -299,7 +305,33 @@ class ModelExcuteAnalysisMPM:
         else:
             print(f"[ERROR] Tipo de etapa no soportado: {stage.stage_type}")
             return False
-    
+
+    def _prepare_stage_time(self, stage):
+        """Calcula el dt de ESTA etapa (según su Courant y los materiales
+        presentes) y, para etapas dinámicas, reconstruye los arrays de
+        tiempo a partir de la duración de la etapa. Los loops cuasi-estáticos
+        solo usan el dt (sus 'pasos' son los incrementos)."""
+        ele_size = self.mesh.ele_size()
+        # Materiales únicos presentes: (E, nu, rho[Mg/m³])
+        mat = np.column_stack((self.__mp_prop[:, 0], self.__mp_prop[:, 1], self.__vm_rhop))
+        uniq = np.unique(mat, axis=0)
+        materials = [(float(r[0]), float(r[1]), float(r[2])) for r in uniq]
+        dt, cp, _ = compute_min_dt(materials, ele_size, stage.courant_number)
+        self.__tm_dt_time = dt
+
+        if stage.stage_type == StageType.DYNAMIC:
+            fps = 30
+            if isinstance(self.__tm_dataTime, dict):
+                fps = self.__tm_dataTime.get('fps', 30)
+            ta = build_time_arrays(dt, stage.analysis_time, fps)
+            self.__tm_list_time = ta['tiempo']
+            self.__tm_list_time_graphic = ta['tiempographic']
+            self.__tm_dt_graphic = ta['dt_graphic']
+            self.__tm_steps_time = ta['steps']
+            self.__tm_steps_time_graphic = ta['steps_graphic']
+
+        print(f"[STAGE TIME] {stage.stage_type.value}: courant={stage.courant_number}, dt={dt:.3e}")
+
     def _run_one_mpm_step(self, use_gauss, plasticity_flag):
         """Ejecuta UN paso del MPM: particles→nodes→BC→nodes→particles.
         
@@ -365,7 +397,7 @@ class ModelExcuteAnalysisMPM:
         nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel)
         
         # 6 → Transferir nodos a partículas: esfuerzo y deformación
-        # Flag de plasticidad: 0 = elastoplástico, 1 = solo elástico
+        # Flag de plasticidad: 0 = elástico lineal, 1 = elastoplástico (Mohr-Coulomb)
         particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
 
         if use_gauss:
@@ -556,9 +588,9 @@ class ModelExcuteAnalysisMPM:
         # Configurar damping y tp para este bucle
         self.__step_dampfac = stage.damping_factor
         self.__vm_tp_current = self.__vm_tp0.copy()
-        
-        use_gauss = config.use_gauss_integration
-        plasticity_flag = config.plasticity_flag
+
+        use_gauss = stage_use_gauss(stage)
+        plasticity_flag = stage.plasticity_flag
         
         t0 = tm.time()
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
@@ -641,18 +673,23 @@ class ModelExcuteAnalysisMPM:
         """
         analysis_dialog = self.analysis_dialog
         
-        # Parámetros de incrementos
-        dincre = self.__dincre
-        dincreGrav = self.__dincreGrav
-        charge = self.__charge
-        nincre = self.__nincre
+        # Parámetros de incrementos (por etapa)
+        nincre = stage.n_increments if stage.n_increments and stage.n_increments > 0 else 1
+        if stage.stage_type == StageType.GEOSTATIC:
+            # Rampa de gravedad: sin carga externa; gravedad 0 → full en nincre pasos
+            dincre = 0.0
+            dincreGrav = 1.0 / nincre
+        else:  # LOAD_INCREMENT
+            dincre = stage.load_increment_value
+            dincreGrav = stage.gravity_increment_value
+        charge = -np.linspace(0, dincre * nincre, nincre + 1)
         dtime = self.__tm_dt_time
-        
+
         # Configurar damping
         self.__step_dampfac = stage.damping_factor
-        
-        use_gauss = config.use_gauss_integration
-        plasticity_flag = config.plasticity_flag
+
+        use_gauss = stage_use_gauss(stage)
+        plasticity_flag = stage.plasticity_flag
         
         # Arrays de tiempo para CE
         list_time_graphic = np.linspace(0, nincre, nincre + 1)

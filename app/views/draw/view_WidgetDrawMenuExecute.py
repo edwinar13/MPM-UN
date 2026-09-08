@@ -15,13 +15,14 @@ from utils import class_general
 
 class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
     
-    signal_execute= Signal() 
-    signal_state_view_boundary= Signal(dict) 
+    signal_execute= Signal()
+    signal_state_view_boundary= Signal(dict)
     signal_update_time = Signal()
     signal_change_state_analysis_ce = Signal(bool)
     signal_update_no_incre = Signal()
     Signal_update_dincre = Signal()
     Signal_update_dincreGrav = Signal()
+    signal_stages = Signal()  # abrir diálogo de etapas de análisis
     
     def __init__(self):
         super(ViewWidgetDrawMenuExecute, self).__init__()
@@ -146,8 +147,14 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.doubleSpinBoxl_ExecuteAnalysisCE_noIncre.valueChanged.connect(self.emitSignalUpdateNoIncre)
         
         self.toolButton_Execute.clicked.connect(self.__clickedToolButtonExecute)
-        
-        
+
+        # Botón "Etapas de análisis…" (se agrega en Qt Designer como
+        # toolButton_ExecuteStages). Conexión defensiva: si aún no existe
+        # el widget, no se conecta y no rompe nada.
+        if hasattr(self, 'toolButton_ExecuteStages'):
+            self.toolButton_ExecuteStages.clicked.connect(self.signal_stages.emit)
+
+
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::

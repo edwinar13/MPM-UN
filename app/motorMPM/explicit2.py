@@ -2167,7 +2167,7 @@ def nodes_to_particle_stress(grid, particle, nvel, dtime, elapla):
                         sig[mp-1,:], depse, depsp, Prop[mp-1,5] = MC_elastoplastic2(sig[mp-1,:], deps, Prop[mp-1,:])
                         epse[mp-1,:] += depse
                         epsp[mp-1,:] += depsp
-                    except ZeroDivisionError:
+                    except Exception:
                         print("No convergencia del Algo de integracion de esfuerzos")
                         
                         # ++++ CALCULANDO Fa Y Fc ++++

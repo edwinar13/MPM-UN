@@ -688,10 +688,36 @@ class ModelRepository():
             print("[Doc: {}] Error al actualizar registro en <CONFIGANALISIS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
-    
-  
-    
-	# ::::::::::::::::::::       MÉTODOS DB RESULTADOS     ::::::::::::::::::::   
+
+    # ::::::::::::::::::::        ETAPAS DE ANALISIS       ::::::::::::::::::::
+    def readStagesDB(self):
+        """Lee la lista de etapas de análisis (CONFIGANALISIS.ETAPAS).
+
+        Returns:
+            (list | None): lista de dicts de etapas, o None si el proyecto
+            no tiene la clave ETAPAS (proyecto antiguo, requiere migración).
+        """
+        return self.__unguarded_copy_db_project['CONFIGANALISIS'].get('ETAPAS', None)
+
+    def updateStagesDB(self, stages_list):
+        """Sobrescribe la lista de etapas de análisis.
+
+        Args:
+            stages_list (list): lista de dicts de etapas (AnalysisStage.to_dict()).
+        Returns:
+            bool: True si fue exitoso, False en caso de error.
+        """
+        try:
+            self.__unguarded_copy_db_project['CONFIGANALISIS']['ETAPAS'] = stages_list
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar <CONFIGANALISIS.ETAPAS> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err), err))
+            return False
+
+
+
+	# ::::::::::::::::::::       MÉTODOS DB RESULTADOS     ::::::::::::::::::::
 
     def readResultDataBaseDB(self):
         """return  analysis_result_nodes"""

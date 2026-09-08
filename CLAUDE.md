@@ -84,5 +84,5 @@ The factory methods `AnalysisConfig.from_legacy_viga()` and `AnalysisConfig.from
 - **Numba functions** in `explicit2.py` use `@njit`. They only accept NumPy arrays and Python scalars — no Python objects, dicts, or dataclasses. Translate `AnalysisConfig` to plain arrays/scalars before calling them.
 - **Project files** use the `.mpm` extension and are serialized by `ModelRepository` (likely pickle or JSON — check before modifying serialization).
 - **`use_gauss_integration`** in `AnalysisConfig` selects `particles_to_nodes_gauss2` (for Capacity/CE-type problems) vs. `particles_to_nodes` (standard). This must match the problem type.
-- **`plasticity_flag`**: `0` = elastoplastic, `1` = elastic only.
+- **`plasticity_flag`** (aka `elapla` in `explicit2.py`): `0` = linear elastic, `1` = elastoplastic (Mohr-Coulomb). Matches the solver's `nodes_to_particle_stress*` (`if elapla == 0: lineal elastico`). In Fase A this becomes per-stage (`AnalysisStage.plasticity_flag`).
 - **Damping**: quasi-static stages use ~0.75; dynamic stages use 0.0–0.05.

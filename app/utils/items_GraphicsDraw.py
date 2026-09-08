@@ -588,9 +588,8 @@ class PointForceItem(QGraphicsItem):
    
     
     def boundingRect(self) -> QRectF:
-        size = 0.2
-        return QRectF(-size, -size,
-                             2*size, 2*size)
+        s = self.size * 2 + 2
+        return QRectF(-s, -s, 2*s, 2*s)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         self.pen.setWidthF(1 / painter.transform().m11()) # m11()
@@ -682,9 +681,8 @@ class PointVelocityItem(QGraphicsItem):
    
     
     def boundingRect(self) -> QRectF:
-        size = 0.2
-        return QRectF(-size, -size,
-                             2*size, 2*size)
+        s = self.size * 2 + 2
+        return QRectF(-s, -s, 2*s, 2*s)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         self.pen.setWidthF(1 / painter.transform().m11()) # m11()

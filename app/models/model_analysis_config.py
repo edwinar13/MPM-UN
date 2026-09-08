@@ -80,6 +80,66 @@ class AnalysisStage:
     # dt se calcula automáticamente por Courant, pero puede sobreescribirse
     dt_override: Optional[float] = None
 
+    # ─── Configuración por etapa (Fase A: panel de etapas) ───
+    # Etiqueta para la UI ("Geostático", "Falla", ...)
+    name: str = ""
+    # Número de Courant de ESTA etapa (talud: 0.6 geoestático / 0.1 falla)
+    courant_number: float = 0.1
+    # Duración en segundos (solo etapas dinámicas)
+    analysis_time: float = 0.0
+    # Flag de plasticidad de la etapa: 0 = elástico, 1 = elastoplástico (MC)
+    plasticity_flag: int = 1
+    # Integración: True = gauss (particles_to_nodes_gauss2), False = estándar.
+    # None = se decide por el tipo de etapa (ver stage_use_gauss()).
+    use_gauss: Optional[bool] = None
+
+    # ─── Serialización (persistencia en el .mpm) ───
+    def to_dict(self) -> dict:
+        """Serializa la etapa a un dict con claves JSON (español)."""
+        return {
+            "NOMBRE": self.name,
+            "TIPO": self.stage_type.value,
+            "DAMPING": self.damping_factor,
+            "COURANT": self.courant_number,
+            "NUMEROINCREMENTOS": self.n_increments,
+            "DELTAINCREMENTO": self.load_increment_value,
+            "DELTAINCREMENTO_GRAV": self.gravity_increment_value,
+            "TIEMPOANALISIS": self.analysis_time,
+            "TOLFF": self.convergence_tol_force,
+            "TOLEE": self.convergence_tol_energy,
+            "PLASTICIDAD": self.plasticity_flag,
+            "GAUSS": self.use_gauss,
+        }
+
+    @staticmethod
+    def from_dict(d: dict) -> 'AnalysisStage':
+        """Reconstruye una etapa desde un dict persistido."""
+        return AnalysisStage(
+            stage_type=StageType(d.get("TIPO", StageType.DYNAMIC.value)),
+            damping_factor=d.get("DAMPING", 0.0),
+            convergence_tol_force=d.get("TOLFF", 0.01),
+            convergence_tol_energy=d.get("TOLEE", 0.01),
+            n_increments=int(d.get("NUMEROINCREMENTOS", 1)),
+            load_increment_value=d.get("DELTAINCREMENTO", 0.0),
+            gravity_increment_value=d.get("DELTAINCREMENTO_GRAV", 0.0),
+            name=d.get("NOMBRE", ""),
+            courant_number=d.get("COURANT", 0.1),
+            analysis_time=d.get("TIEMPOANALISIS", 0.0),
+            plasticity_flag=int(d.get("PLASTICIDAD", 1)),
+            use_gauss=d.get("GAUSS", None),
+        )
+
+
+def stage_use_gauss(stage: AnalysisStage) -> bool:
+    """Decide si la etapa usa integración gaussiana.
+
+    Si stage.use_gauss es None, se usa el default por tipo:
+    geoestático/carga incremental → gauss ON, dinámico → OFF.
+    """
+    if stage.use_gauss is not None:
+        return bool(stage.use_gauss)
+    return stage.stage_type in (StageType.GEOSTATIC, StageType.LOAD_INCREMENT)
+
 
 @dataclass
 class TimeConfig:
@@ -151,8 +211,12 @@ class AnalysisConfig:
     # True = usar particles_to_nodes_gauss2 (para traction forces / CE)
     # False = usar particles_to_nodes (estándar)
     use_gauss_integration: bool = False
-    # Flag de plasticidad: 0 = elastoplástico (Legacy default), 1 = solo elástico
-    # Se establece en 1 por defecto para coincidir con el comportamiento esperado por el usuario.
+    # Flag de plasticidad (elapla en explicit2.py):
+    #   0 = elástico lineal
+    #   1 = elastoplástico (Mohr-Coulomb)
+    # NOTA: en Fase A la plasticidad pasa a ser por-etapa (AnalysisStage.plasticity_flag).
+    # Este campo se mantiene como fallback/compatibilidad. Default 0 = elástico
+    # (coincide con el comportamiento de la viga/beam validada).
     plasticity_flag: int = 0
 
     def build_default_stages(self):
@@ -215,6 +279,44 @@ class AnalysisConfig:
                     time_steps=self.time_config.analysis_steps
                 )
             ]
+
+    @staticmethod
+    def from_stage_dicts(stage_dicts: list, gravity: float,
+                         time_config: 'TimeConfig' = None) -> 'AnalysisConfig':
+        """Construye un AnalysisConfig desde la lista de etapas persistida.
+
+        Es el punto de entrada del panel de etapas: la UI entrega
+        `model_current_project.getStages()` (lista de dicts) + la gravedad
+        global + la config de tiempo (para fps). El analysis_type se deriva
+        de la mezcla de etapas.
+
+        Args:
+            stage_dicts: lista de dicts (ver AnalysisStage.to_dict()).
+            gravity: gravedad global (m/s²).
+            time_config: TimeConfig con al menos fps (para pasos gráficos).
+        """
+        stages = [AnalysisStage.from_dict(d) for d in stage_dicts]
+        if not stages:
+            # Sin etapas: una dinámica por defecto (no debería pasar tras migración)
+            stages = [AnalysisStage(stage_type=StageType.DYNAMIC, name="Etapa 1")]
+
+        # Derivar el tipo general a partir de los tipos de etapa presentes
+        types = {s.stage_type for s in stages}
+        has_dynamic = StageType.DYNAMIC in types
+        has_quasi = bool(types & {StageType.GEOSTATIC, StageType.LOAD_INCREMENT})
+        if has_dynamic and has_quasi:
+            analysis_type = AnalysisType.MIXED
+        elif has_dynamic:
+            analysis_type = AnalysisType.DYNAMIC
+        else:
+            analysis_type = AnalysisType.QUASI_STATIC
+
+        return AnalysisConfig(
+            analysis_type=analysis_type,
+            gravity=gravity,
+            time_config=time_config if time_config is not None else TimeConfig(),
+            stages=stages,
+        )
 
     @staticmethod
     def from_legacy_viga(dataTime: dict, gravity: float, dampfac: float) -> 'AnalysisConfig':
