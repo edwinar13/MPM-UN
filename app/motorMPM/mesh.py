@@ -652,8 +652,11 @@ def boundary_particles3(xp):
     bound_value = np.zeros(len(xp)).astype(int)
     bound_value[list(boundary_indices)] = 1
 
-    # 7. Validación visual (Opcional — comentar en producción)
-    plot_boundary_particles(xp, bound_value)
+    # 7. Validación visual (Opcional — deshabilitada en producción, ver
+    #    plot_boundary_particles() más abajo. Descomentar solo para debug
+    #    manual: plt.show() es bloqueante y con múltiples etapas abriría
+    #    una ventana por cada transición de etapa).
+    # plot_boundary_particles(xp, bound_value)
     
     return boundary_pts, bound_value
 

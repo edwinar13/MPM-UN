@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_executefwUKLS.ui'
+## Form generated from reading UI file 'widget_draw_menu_executeSAPnlM.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.11.0
 ##
@@ -775,7 +775,7 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"../resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -853,7 +853,7 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_cardExecuteSubTitle2 = QToolButton(self.frame_ExecuteSubTitle2)
         self.toolButton_cardExecuteSubTitle2.setObjectName(u"toolButton_cardExecuteSubTitle2")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u"../resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardExecuteSubTitle2.setIcon(icon1)
         self.toolButton_cardExecuteSubTitle2.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardExecuteSubTitle2.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -1251,6 +1251,22 @@ class Ui_FormDrawMenuExecute(object):
 
         self.verticalLayout_5.addWidget(self.frame_Execute1)
 
+        self.toolButton_ExecuteStages = QToolButton(self.frame_info)
+        self.toolButton_ExecuteStages.setObjectName(u"toolButton_ExecuteStages")
+        self.toolButton_ExecuteStages.setMinimumSize(QSize(180, 0))
+        self.toolButton_ExecuteStages.setMaximumSize(QSize(200, 16777215))
+        icon2 = QIcon()
+        icon2.addFile(u"../resources/iconos/iconos_analisis/excute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolButton_ExecuteStages.setIcon(icon2)
+        self.toolButton_ExecuteStages.setIconSize(QSize(30, 30))
+        self.toolButton_ExecuteStages.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self.toolButton_ExecuteStages.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        self.toolButton_ExecuteStages.setAutoRaise(False)
+        self.toolButton_ExecuteStages.setArrowType(Qt.ArrowType.RightArrow)
+        self.toolButton_ExecuteStages.setProperty(u"QToolButtonStyle", 9)
+
+        self.verticalLayout_5.addWidget(self.toolButton_ExecuteStages)
+
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
 
@@ -1267,8 +1283,6 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_Execute.setObjectName(u"toolButton_Execute")
         self.toolButton_Execute.setMinimumSize(QSize(180, 0))
         self.toolButton_Execute.setMaximumSize(QSize(200, 16777215))
-        icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_analisis/excute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_Execute.setIcon(icon2)
         self.toolButton_Execute.setIconSize(QSize(30, 30))
         self.toolButton_Execute.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
@@ -1348,6 +1362,7 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_cardExecuteSubTitle1.setText("")
         self.label_textBoundary1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Puntos materiales", None))
         self.label_textBoundary3.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Contornos:", None))
+        self.toolButton_ExecuteStages.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Ejecutar etapas", None))
         self.toolButton_Execute.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Ejecutar An\u00e1lisis", None))
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Empty", None))
     # retranslateUi

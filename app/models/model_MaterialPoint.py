@@ -248,5 +248,6 @@ class ModelMaterialPoint:
                     item.setVelocity(vox, voy)
             if isinstance(item, PointMaterialItem):
                 item.isSelectedPointMaterial = False
+                item.update()
         self.scene_draw.update()
         

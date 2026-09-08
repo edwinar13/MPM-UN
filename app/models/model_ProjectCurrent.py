@@ -12,6 +12,7 @@ from models.model_Property import ModelProperty
 from models.model_Boundary import ModelBoundary
 from models.model_Result import ModelResult
 from models.model_Repository import ModelRepository
+from models.model_analysis_config import AnalysisStage, StageType
 from views.view_GraphicsDraw import ViewGraphicsSceneDraw, ViewGraphicsViewDraw
 from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewResult
 from utils.items_GraphicsDraw import TextItem, PointItem, LineItem, NodeMeshBackItem, PointMaterialItem
@@ -392,9 +393,33 @@ class ModelProjectCurrent(QObject):
                 }
             },
         '''  
-        data = self.model_repository.readConfigAnalysisDB()        
+        data = self.model_repository.readConfigAnalysisDB()
         return data
-       
+
+    def getStages(self) -> list:
+        """Retorna la lista de etapas de análisis (dicts) del proyecto.
+
+        Los proyectos nuevos ya traen ETAPAS en la plantilla. Si por alguna
+        razón faltara (p.ej. un .mpm sin la clave), se devuelve una etapa
+        dinámica por defecto para que el usuario la configure en el diálogo
+        de etapas. No se migran claves legacy (no se da soporte a archivos
+        antiguos: es un proyecto nuevo).
+        """
+        stages = self.model_repository.readStagesDB()
+        if stages:
+            return stages
+
+        default = AnalysisStage(
+            stage_type=StageType.DYNAMIC,
+            name="Etapa 1",
+            damping_factor=0.0,
+            courant_number=0.1,
+            analysis_time=1.0,
+            plasticity_flag=1,
+            use_gauss=False,
+        )
+        return [default.to_dict()]
+
     ###############################################################################
     # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
     ###############################################################################
@@ -423,6 +448,14 @@ class ModelProjectCurrent(QObject):
             delta_increment=dincre,
             delta_increment_grav=dincreGrav,
             number_increments=noincre)
+
+    def updateStages(self, stages_list):
+        """Sobrescribe la lista de etapas de análisis del proyecto.
+
+        Args:
+            stages_list (list): lista de dicts (AnalysisStage.to_dict()).
+        """
+        self.model_repository.updateStagesDB(stages_list)
     
     # ::::::::::::::::::::                ITEMS  POINTS             ::::::::::::::::::::
     def getModelsPoints(self) -> dict[str, ModelItemPoint]:
@@ -923,6 +956,7 @@ class ModelProjectCurrent(QObject):
                         count += 1
                         self.__selected_objects.append(item)
                         item.isSelectedPointMaterial = True
+                        item.update()
                         self.addSelectedItems(item)
      
 
@@ -1776,6 +1810,7 @@ class ModelProjectCurrent(QObject):
     def endVectorQuantityPointsMaterial(self):
         for item in self.__selected_objects:
             item.isSelectedPointMaterial = False
+            item.update()
         self.__selected_objects=[]
         self.__scene.update()
         self.__scene.endDrawGeometry()

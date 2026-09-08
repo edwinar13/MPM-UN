@@ -8,7 +8,9 @@ from utils.class_ui_dialog_loanding import DialogLoanding
 from utils import class_ui_dialog_msg
 
 from models.model_execute_analysis import ModelExcuteAnalysisMPM
-from models.model_analysis_config import AnalysisConfig
+from models.model_analysis_config import AnalysisConfig, TimeConfig
+from models.analysis_utils import compute_min_dt, build_time_arrays
+from views.view_DialogStages import DialogStages
 
 import os
 import numpy as np
@@ -136,6 +138,7 @@ class ControllerMenuExecute(QObject):
         self.view_menu_execute.signal_execute.connect(self.executeAnalysis)
         self.view_menu_execute.signal_state_view_boundary.connect(self.stateViewBoundary)
         self.view_menu_execute.signal_update_time.connect(self.updateTime)
+        self.view_menu_execute.signal_stages.connect(self.openStagesDialog)
         
         self.view_menu_execute.signal_change_state_analysis_ce.connect(self.changeStateAnalysisCE)
         self.view_menu_execute.Signal_update_dincre.connect(self.updateDincre)
@@ -255,88 +258,65 @@ class ControllerMenuExecute(QObject):
         
         list_point_material = self.view_menu_execute.getListExecutePointMaterial()
         list_boundaries = self.view_menu_execute.getListExecuteBoundaries()
-                
-        dtime = self.dtime
-        tiempo = self.tiempo
-        steps_time = self.__dataTime['analysis_steps']
-        dtimegraphic = self.dtimegraphic
-        tiempographic = self.tiempographic
-        steps_timegraphic = self.__dataTime['graphic_steps']
-        
+
         # verificar que los puntos materiales y los contornos esten seleccionados
         if not list_point_material:
-            #loading_popup.close()
             analysis_dialog.close()
             self.view_menu_execute.msnAlertDefault(True,"Selecciona los puntos materiales")
             return
-        
+
         elif not list_boundaries:
-            #loading_popup.close()
             analysis_dialog.close()
             self.view_menu_execute.msnAlertDefault(True,"Selecciona los contornos")
             return
-        
-        elif dtime is None or tiempo is None or steps_time is None or dtimegraphic is None or tiempographic is None or steps_timegraphic is None:
-            self.view_menu_execute.msnAlertDefault(True,"Evalué los parámetros de tiempo")
-            return
-        
+
         # verificar que los puntos materiales esten en la malla de fondo
         model_mesh_back = self.model_current_project.model_mesh_back
-        
-        
         nodes = model_mesh_back.getNodes()
-        cells = model_mesh_back.getElements()        
+        cells = model_mesh_back.getElements()
 
-        for id_mp in list_point_material:            
+        for id_mp in list_point_material:
             model_mp = self.model_current_project.getModelsPointsMaterials()[id_mp]
             points = model_mp.getPoints()
-            cells_by_point = self.findCellForPoints(material_points=points, 
+            cells_by_point = self.findCellForPoints(material_points=points,
                                                     elements=cells,
                                                     nodes=nodes)
-            
+
             if len(cells_by_point) != len(points):
                 self.view_menu_execute.msnAlertDefault(True," pm fuera la malla de fondo '{}'".format(model_mp.getName()))
                 analysis_dialog.close()
                 return
-        
-        
-        #ejectuar el análisis
 
-        
-        # Construir AnalysisConfig según tipo de análisis
-        type_analysis_ce = self.model_current_project.getExecuteAnalysisCE()
+        # ── Construir AnalysisConfig desde las ETAPAS configuradas ──
         gravity = self.model_current_project.getGravity()
-        dampfac = self.model_current_project.getDampfac()
-        
-        if type_analysis_ce:
-            nincre = self.model_current_project.getNoIncre()
-            dincre_val = self.model_current_project.getDincre()
-            # dincreGrav se calcula automaticamente
-            dincreGrav_val = 1.0 / nincre if nincre > 0 else 1.0
-            analysis_config = AnalysisConfig.from_legacy_ce(
-                dataTime=self.__dataTime,
-                gravity=gravity,
-                dampfac=dampfac,
-                nincre=nincre,
-                dincre=dincre_val,
-                dincreGrav=dincreGrav_val
-            )
-        else:
-            analysis_config = AnalysisConfig.from_legacy_viga(
-                dataTime=self.__dataTime,
-                gravity=gravity,
-                dampfac=dampfac
-            )
-        
+        stage_dicts = self.model_current_project.getStages()
+        if not stage_dicts:
+            analysis_dialog.close()
+            self.view_menu_execute.msnAlertDefault(True, "Configura al menos una etapa de análisis")
+            return
+
+        fps = self.view_menu_execute.getFps()
+        time_config = TimeConfig(fps=fps)
+        analysis_config = AnalysisConfig.from_stage_dicts(
+            stage_dicts=stage_dicts, gravity=gravity, time_config=time_config)
+
+        # Semilla de tiempo (el executor recalcula dt/pasos por etapa)
+        seed = self._build_seed_time(analysis_config, fps)
+        if seed is None:
+            analysis_dialog.close()
+            self.view_menu_execute.msnAlertDefault(True, "No se pudo calcular dt (revisa los materiales)")
+            return
+        dtime, tiempo, dtimegraphic, tiempographic, steps_time, steps_timegraphic, dataTime = seed
+
         print(f"[Controller] AnalysisConfig: {analysis_config}")
-        
+
         analysis_mpm = ModelExcuteAnalysisMPM(
                                     analysis_dialog= analysis_dialog,
                                     model_current_project=self.model_current_project,
                                     model_result=self.model_result,
-                                    dataTime=self.__dataTime,
+                                    dataTime=dataTime,
                                     list_boundaries=list_boundaries,
-                                    list_point_material=list_point_material, 
+                                    list_point_material=list_point_material,
                                     dt_time=dtime,
                                     list_time=tiempo,
                                     steps_time=steps_time,
@@ -361,6 +341,81 @@ class ControllerMenuExecute(QObject):
             analysis_dialog.close()
             self.view_menu_execute.msnAlertDefault(True,"Análisis cancelado")
             print("[NOT→] Análisis cancelado")
+
+    # ::::::::::::::::::::   ETAPAS DE ANÁLISIS   ::::::::::::::::::::
+    def _gather_selected_materials(self):
+        """Materiales de los puntos materiales seleccionados en Ejecutar.
+
+        Returns:
+            (materials, prop_ids) donde materials es lista de
+            (E, nu, rho[Mg/m³]) y prop_ids es la lista paralela de ids de
+            propiedad. Ambas vacías si no hay selección.
+        """
+        list_mp = self.view_menu_execute.getListExecutePointMaterial()
+        models_mp = self.model_current_project.models_material_point
+        materials = []
+        prop_ids = []
+        for id_mp in list_mp:
+            data = models_mp[id_mp].getProperty().getData()
+            k = list(data.keys())[0]
+            materials.append((
+                data[k]["MODULOELASTICIDAD"],
+                data[k]["RELACIONPOISSON"],
+                data[k]["DENSIDAD"] / 1000.0,
+            ))
+            prop_ids.append(k)
+        return materials, prop_ids
+
+    def _build_seed_time(self, config, fps):
+        """Semilla de dt/arrays de tiempo desde la 1ª etapa y los materiales
+        seleccionados. El executor recalcula dt por etapa; esto solo
+        inicializa el modelo y alimenta el diálogo de progreso y el guardado
+        de metadatos (dataTime).
+
+        Returns:
+            (dt, tiempo, dt_graphic, tiempographic, steps, steps_graphic, dataTime)
+            o None si no se pudo calcular.
+        """
+        materials, prop_ids = self._gather_selected_materials()
+        if not materials:
+            return None
+        ele_size = self.model_current_project.model_mesh_back.getSizeElement()
+        stage0 = config.stages[0]
+        dt, cp, idx = compute_min_dt(materials, ele_size, stage0.courant_number)
+        if dt is None:
+            return None
+        id_property = prop_ids[idx] if idx is not None else prop_ids[0]
+        dur = stage0.analysis_time if (stage0.analysis_time and stage0.analysis_time > 0) else 1.0
+        ta = build_time_arrays(dt, dur, fps)
+        dataTime = {
+            'id_property': id_property,
+            'courant_number': stage0.courant_number,
+            'analysis_time': dur,
+            'fps': fps,
+            'dt_analysis': dt,
+            'dt_graphic': ta['dt_graphic'],
+            'analysis_steps': ta['steps'],
+            'graphic_steps': ta['steps_graphic'],
+            'speed_cp': cp,
+        }
+        return (dt, ta['tiempo'], ta['dt_graphic'], ta['tiempographic'],
+                ta['steps'], ta['steps_graphic'], dataTime)
+
+    @Slot()
+    def openStagesDialog(self):
+        """Abre el diálogo de configuración de etapas de análisis."""
+        def dt_provider(courant):
+            materials, _ = self._gather_selected_materials()
+            if not materials:
+                return None
+            ele_size = self.model_current_project.model_mesh_back.getSizeElement()
+            dt, _, _ = compute_min_dt(materials, ele_size, courant)
+            return dt
+
+        dlg = DialogStages(self.model_current_project,
+                           dt_provider=dt_provider,
+                           parent=self.view_menu_execute)
+        dlg.exec()
             
             
 

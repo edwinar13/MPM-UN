@@ -1116,6 +1116,7 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
                 
             if isinstance(item, PointMaterialItem):
                 item.isSelectedPointMaterial = False
+                item.update()
 
         for  line in self.selected_items_line:
             line.isSelectedDraw = False

@@ -1860,6 +1860,50 @@ naranjas #D34E24 #F28123 #F7F052
              </widget>
             </item>
             <item>
+             <widget class="QToolButton" name="toolButton_ExecuteStages">
+              <property name="minimumSize">
+               <size>
+                <width>180</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Ejecutar etapas</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../resources/iconos/iconos_analisis/excute.svg</normaloff>../resources/iconos/iconos_analisis/excute.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="popupMode">
+               <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
+              </property>
+              <property name="autoRaise">
+               <bool>false</bool>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::ArrowType::RightArrow</enum>
+              </property>
+              <property name="QToolButtonStyle" stdset="0">
+               <number>9</number>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QVBoxLayout" name="verticalLayout_6"/>
             </item>
             <item>
