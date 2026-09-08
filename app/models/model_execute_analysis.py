@@ -5,7 +5,7 @@ from motorMPM.mesh import traction_forces,boundary_particles,boundary_particles2
 from models.model_analysis_config import AnalysisConfig, StageType, stage_use_gauss
 from models.analysis_utils import compute_min_dt, build_time_arrays
 from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
-from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, static_convergence, nodes_to_particle_stress_gauss
+from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, nodes_to_particle_stress2, static_convergence, nodes_to_particle_stress_gauss
 from motorMPM.graphics import graphic_button,graphic_button2,graphic_button3,graphic_button4, graphic_video2,graphic_gif
 from models.model_ProjectCurrent import ModelProjectCurrent
 from models.model_Result import ModelResult
@@ -157,6 +157,10 @@ class ModelExcuteAnalysisMPM:
         
         # Configuración de análisis genérica (FASE 2)
         self.analysis_config = analysis_config
+
+        # Etapa en curso (para los mensajes de progreso)
+        self.__stage_index = 0
+        self.__n_stages = 1
          
         #===========  variables  ===========
         
@@ -238,15 +242,16 @@ class ModelExcuteAnalysisMPM:
         idéntico al comportamiento anterior.
         """
         prev_state = None
+        prev_stage = None
         n_stages = len(config.stages)
+        self.__n_stages = n_stages
         for index, stage in enumerate(config.stages):
+            self.__stage_index = index
             print(f"[EXECUTE] Etapa {index + 1}/{n_stages}: {stage.stage_type.value}")
 
             # Heredar el estado de la etapa anterior (handoff)
             if prev_state is not None:
-                self._inject_state(prev_state)
-                # Recalcular partículas de frontera con las posiciones nuevas
-                self.initBoundaryParticles()
+                self._handoff(prev_state, prev_stage, stage)
 
             # Configurar dt y arrays de tiempo de ESTA etapa (según su Courant)
             self._prepare_stage_time(stage)
@@ -257,8 +262,14 @@ class ModelExcuteAnalysisMPM:
 
             # Tomar la 'foto' del estado para entregarla a la etapa siguiente
             prev_state = self._capture_state()
+            prev_stage = stage
 
         return True
+
+    def _stage_label(self, stage):
+        """Prefijo 'Etapa i/n — nombre' para los mensajes de progreso."""
+        name = stage.name or stage.stage_type.value
+        return f"Etapa {self.__stage_index + 1}/{self.__n_stages} — {name}"
 
     def _dispatch_stage(self, config: AnalysisConfig, stage):
         """Despacha UNA etapa a su bucle según el tipo."""
@@ -369,10 +380,14 @@ class ModelExcuteAnalysisMPM:
         particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
 
         if use_gauss:
+            # La variante gauss ya sub-incrementa la plasticidad (deps/10).
             Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(
                 grid, particle, bound_val, nvel, dtime, plasticity_flag)
         else:
-            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress(
+            # stress2 = misma rama elástica que nodes_to_particle_stress, pero
+            # la rama plástica siempre usa 10 sub-incrementos de deformación.
+            # Es la que emplea el script de referencia talud_2021_v2.py (l. 689-693).
+            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress2(
                 grid, particle, nvel, dtime, plasticity_flag)
 
         # Actualizar variables de instancia
@@ -407,6 +422,10 @@ class ModelExcuteAnalysisMPM:
             'epse': np.copy(self.__vm_epse),
             'epsp': np.copy(self.__vm_epsp),
             'mp_elem': np.copy(self.__mp_mp_elem),
+            # bp: fuerza de cuerpo alcanzada al final de la etapa (una rampa
+            # de gravedad interrumpida la deja parcial). Necesaria para que un
+            # checkpoint reanude con la misma gravedad que tenía.
+            'bp': np.copy(self.__vm_bp),
         }
 
     def _inject_state(self, state):
@@ -421,6 +440,29 @@ class ModelExcuteAnalysisMPM:
         self.__vm_epse = np.copy(state['epse'])
         self.__vm_epsp = np.copy(state['epsp'])
         self.__mp_mp_elem = np.copy(state['mp_elem'])
+        if 'bp' in state and state['bp'] is not None:
+            self.__vm_bp = np.copy(state['bp'])
+
+    def _handoff(self, prev_state, prev_stage, stage):
+        """Entrega el estado de la etapa anterior a la etapa `stage`.
+
+        Además de inyectar el estado:
+        - recalcula las partículas de frontera con las posiciones nuevas;
+        - al entrar a una etapa DINÁMICA desde una cuasi-estática, pone la
+          velocidad en cero. La velocidad residual del amortiguamiento
+          cuasi-estático no es física: el script de referencia
+          talud_2021_v2.py crea `vp` nuevo en cero al iniciar el colapso
+          (l. 474) en vez de heredarlo del paso geoestático.
+        """
+        self._inject_state(prev_state)
+        self.initBoundaryParticles()
+
+        if (stage.stage_type == StageType.DYNAMIC and
+                prev_stage is not None and
+                prev_stage.stage_type in (StageType.GEOSTATIC, StageType.LOAD_INCREMENT)):
+            self.__vm_vp[:] = 0.0
+            print("[HANDOFF] vp=0 al entrar a la etapa dinámica "
+                  f"(desde {prev_stage.stage_type.value})")
 
     def _init_result_arrays(self, n_steps):
         """Inicializa los arrays de resultados para n_steps pasos gráficos."""
@@ -557,12 +599,17 @@ class ModelExcuteAnalysisMPM:
         self.__step_dampfac = stage.damping_factor
         self.__vm_tp_current = self.__vm_tp0.copy()
 
+        # Gravedad completa y explícita: una etapa cuasi-estática previa
+        # interrumpida a mitad de la rampa deja bp parcial.
+        self.__vm_bp[:] = self.__vm_bp0
+
         use_gauss = stage_use_gauss(stage)
         plasticity_flag = stage.plasticity_flag
-        
+        stage_label = self._stage_label(stage)
+
         t0 = tm.time()
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        print(f'[DYNAMIC] Inicio. Steps={steps_time}, dt={dt_time}, damp={stage.damping_factor}')
+        print(f'[DYNAMIC] {stage_label}. Steps={steps_time}, dt={dt_time}, damp={stage.damping_factor}')
         
         # Inicializar arrays de resultados
         n_graphic_steps = len(list_time_graphic)
@@ -577,15 +624,15 @@ class ModelExcuteAnalysisMPM:
             current_time_graphic = list_time_graphic[current_index_graphic]
             
             # Verificar cancelación/pausa
-            msg = f"Ejecutando paso del análisis:\n→ {index:.0f} de {steps_time} pasos."
+            msg = f"{stage_label}\n→ paso {index:.0f} de {steps_time}."
             if self._check_dialog_cancel_pause(msg):
                 return False
-            
+
             # Verificar que las partículas están dentro de la malla
             try:
                 # Ejecutar un paso MPM
                 analysis_dialog.setProgress(100 * index / steps_time)
-                analysis_dialog.setStatus(False, f"Ejecutando paso del análisis:\n→ {index:.0f} de {steps_time} pasos.")
+                analysis_dialog.setStatus(False, msg)
                 QApplication.processEvents()
                 
                 nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
@@ -657,14 +704,15 @@ class ModelExcuteAnalysisMPM:
 
         use_gauss = stage_use_gauss(stage)
         plasticity_flag = stage.plasticity_flag
-        
+        stage_label = self._stage_label(stage)
+
         # Arrays de tiempo para CE
         list_time_graphic = np.linspace(0, nincre, nincre + 1)
         list_time = np.linspace(0, nincre, nincre + 1)
-        
+
         t0 = tm.time()
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        print(f'[QUASI-STATIC] Inicio. Incrementos={nincre}, dincre={dincre}, damp={stage.damping_factor}')
+        print(f'[QUASI-STATIC] {stage_label}. Incrementos={nincre}, dincre={dincre}, damp={stage.damping_factor}')
         
         # Inicializar arrays de resultados
         arrays = self._init_result_arrays(nincre + 1)
@@ -679,12 +727,12 @@ class ModelExcuteAnalysisMPM:
         
         for i in range(nincre):
             # Verificar cancelación/pausa
-            msg = f"Ejecutando incremento del análisis:\n→ {i:.0f} de {nincre} pasos."
+            msg = f"{stage_label}\n→ incremento {i:.0f} de {nincre}."
             if self._check_dialog_cancel_pause(msg):
                 return False
-            
+
             analysis_dialog.setProgress(100 * i / nincre)
-            analysis_dialog.setStatus(False, f"Ejecutando incremento del análisis:\n→ {i:.0f} de {nincre} pasos.")
+            analysis_dialog.setStatus(False, msg)
             QApplication.processEvents()
             
             # Aplicar incremento de carga
