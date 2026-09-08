@@ -858,11 +858,15 @@ class ModelRepository():
             return False
 
     
-    def updateResultDataBaseDB(self, gravity=None, dampfac=None):
-        try:         
+    def updateResultDataBaseDB(self, gravity=None, dampfac=None,
+                               stages=None, stages_frames=None):
+        try:
             self.__unguarded_copy_db_project['RESULTADOS']['DATOSBASE']["GRAVEDAD"]= gravity
-            self.__unguarded_copy_db_project['RESULTADOS']['DATOSBASE']["DAMPFAC"]=          dampfac   
-            return True        
+            self.__unguarded_copy_db_project['RESULTADOS']['DATOSBASE']["DAMPFAC"]=          dampfac
+            # Etapas ejecutadas y a qué rango de frames corresponde cada una
+            self.__unguarded_copy_db_project['RESULTADOS']['DATOSBASE']["ETAPAS"] = stages if stages is not None else []
+            self.__unguarded_copy_db_project['RESULTADOS']['DATOSBASE']["ETAPAS_FRAMES"] = stages_frames if stages_frames is not None else []
+            return True
         except BaseException as err:
             print("[Doc: {}] Error al agregar registro en <RESULTADOS> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))

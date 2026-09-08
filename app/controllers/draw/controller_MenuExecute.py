@@ -273,11 +273,15 @@ class ControllerMenuExecute(QObject):
 
         if state_ok:
             self.signal_enable_results.emit()
-            analysis_dialog.setStatus("Análisis completado")
             analysis_dialog.close()
-            self.view_menu_execute.msnAlertDefault(False,"Análisis ejecutado")
+            if analysis_mpm.cancelled_partial:
+                self.view_menu_execute.msnAlertDefault(
+                    True, "Análisis cancelado: se guardaron los resultados parciales")
+                print("[OK→] Análisis cancelado con resultados parciales guardados")
+            else:
+                self.view_menu_execute.msnAlertDefault(False,"Análisis ejecutado")
+                print("[OK→] Análisis finalizado")
             self.signal_update_menu_result.emit()
-            print("[OK→] Análisis finalizado")
 
         else:
             analysis_dialog.setStatus("Análisis cancelado")

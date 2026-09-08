@@ -482,14 +482,28 @@ class ModelResult(QObject):
         self.model_repository.deleteAllResultDB()
         
     
-    def updateResultDataBase(self, gravity, dampfac):
+    def updateResultDataBase(self, gravity, dampfac, stages=None, stages_frames=None):
+        """Datos base del resultado.
+
+        Args:
+            gravity: gravedad usada (m/s²).
+            dampfac: damping de la primera etapa (informativo; el damping
+                real es por etapa y va dentro de ETAPAS).
+            stages: lista de dicts de las etapas ejecutadas (AnalysisStage.to_dict()).
+            stages_frames: para cada etapa, qué rango de frames del resultado
+                le corresponde: [{'ETAPA','TIPO','NOMBRE','FRAME_INICIO','FRAME_FIN','DT'}].
+        """
         self.__data_base = {
             'GRAVEDAD': gravity,
-            'DAMPFAC': dampfac
+            'DAMPFAC': dampfac,
+            'ETAPAS': stages if stages is not None else [],
+            'ETAPAS_FRAMES': stages_frames if stages_frames is not None else []
         }
         self.model_repository.updateResultDataBaseDB(
              gravity=gravity,
-             dampfac=dampfac
+             dampfac=dampfac,
+             stages=stages,
+             stages_frames=stages_frames
             )
 
 
