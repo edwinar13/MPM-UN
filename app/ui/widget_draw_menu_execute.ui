@@ -1013,7 +1013,7 @@ naranjas #D34E24 #F28123 #F7F052
                   </size>
                  </property>
                  <property name="text">
-                  <string>Tiempo crítico</string>
+                  <string>Graficado</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>

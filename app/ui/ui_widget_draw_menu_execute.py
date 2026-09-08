@@ -1098,7 +1098,7 @@ class Ui_FormDrawMenuExecute(object):
         FormDrawMenuExecute.setWindowTitle(QCoreApplication.translate("FormDrawMenuExecute", u"Form", None))
         self.toolButton_hideShow.setText("")
         self.label_cardExecuteTitle.setText(QCoreApplication.translate("FormDrawMenuExecute", u"AN\u00c1LISIS", None))
-        self.label_cardExecuteSubTitle2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Tiempo cr\u00edtico", None))
+        self.label_cardExecuteSubTitle2.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Graficado", None))
         self.toolButton_cardExecuteSubTitle2.setText("")
         self.label_texExcute_10.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Fps:", None))
         self.label_cardExecuteSubTitle1.setText(QCoreApplication.translate("FormDrawMenuExecute", u"Datos", None))
