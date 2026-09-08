@@ -15,6 +15,9 @@ import numpy as np
 import time as tm
 import math
 import time
+import os
+import json
+from datetime import datetime
 import pandas as pd
 
 class MeshBack:
@@ -167,6 +170,8 @@ class ModelExcuteAnalysisMPM:
         self.__rs_stages_frames = []
         # True si el usuario canceló pero se alcanzó a guardar algo
         self.cancelled_partial = False
+        # Motivo del fallo, para que el controlador lo muestre
+        self.error_message = ""
          
         #===========  variables  ===========
         
@@ -226,6 +231,7 @@ class ModelExcuteAnalysisMPM:
 
         self.__rs_stages = []
         self.cancelled_partial = False
+        self.error_message = ""
 
         # Pipeline de inicialización (genérico, no cambia)
         self.initConditions()
@@ -261,15 +267,45 @@ class ModelExcuteAnalysisMPM:
         _inject_state. Una sola etapa = una sola vuelta sin inyección,
         idéntico al comportamiento anterior.
         """
-        prev_state = None
-        prev_stage = None
         n_stages = len(config.stages)
         self.__n_stages = n_stages
-        for index, stage in enumerate(config.stages):
+
+        prev_state = None
+        prev_stage = None
+        start_index = 0
+
+        # ── Reanudar desde un checkpoint, si se pidió ──
+        resume = int(getattr(config, 'resume_from_stage', 0) or 0)
+        if resume >= 2:
+            if resume > n_stages:
+                self.error_message = (
+                    f"Se pidió reanudar en la etapa {resume} pero solo hay {n_stages} etapas.")
+                print(f"[ERROR] {self.error_message}")
+                return False
+            state, meta = self._load_checkpoint(resume - 1)
+            if state is None:
+                self.error_message = meta  # aquí meta es el mensaje de error
+                print(f"[ERROR] {self.error_message}")
+                return False
+            # No se inyecta aquí: _handoff() lo hace en la primera vuelta del
+            # bucle, junto con initBoundaryParticles() y la regla de vp=0.
+            prev_state = state
+            prev_stage = config.stages[resume - 2]
+            start_index = resume - 1
+            msg = (f"Reanudando desde el checkpoint de la etapa {resume - 1} "
+                   f"({meta.get('fecha', '')})")
+            print(f"[RESUME] {msg}")
+            self.analysis_dialog.setStatus(False, msg)
+            QApplication.processEvents()
+
+        for index in range(start_index, n_stages):
+            stage = config.stages[index]
             self.__stage_index = index
             print(f"[EXECUTE] Etapa {index + 1}/{n_stages}: {stage.stage_type.value}")
 
-            # Heredar el estado de la etapa anterior (handoff)
+            # Heredar el estado de la etapa anterior (handoff).
+            # En una corrida reanudada, la primera vuelta ya trae el estado
+            # del checkpoint: solo falta la regla de vp=0 al entrar a dinámica.
             if prev_state is not None:
                 self._handoff(prev_state, prev_stage, stage)
 
@@ -283,6 +319,7 @@ class ModelExcuteAnalysisMPM:
             # Tomar la 'foto' del estado para entregarla a la etapa siguiente
             prev_state = self._capture_state()
             prev_stage = stage
+            self._save_checkpoint(index + 1, stage, prev_state)
 
         return True
 
@@ -462,6 +499,70 @@ class ModelExcuteAnalysisMPM:
         self.__mp_mp_elem = np.copy(state['mp_elem'])
         if 'bp' in state and state['bp'] is not None:
             self.__vm_bp = np.copy(state['bp'])
+
+    # ===================================================================
+    #  Checkpoints por etapa (guardar / reanudar)
+    # ===================================================================
+    def _save_checkpoint(self, stage_number, stage, state):
+        """Guarda el estado al TERMINAR la etapa `stage_number` (1-based).
+
+        Permite reanudar desde la etapa siguiente sin repetir las anteriores
+        (p.ej. correr el geostático del talud una vez y luego iterar la falla).
+        Mismo espíritu que el .npz de talud_2021_v2.py (l. 372-385).
+        """
+        try:
+            path = self.model_current_project.getCheckpointPath(stage_number)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            np.savez_compressed(
+                path,
+                nmp=np.int64(self.__mp_nmp),
+                ele_size=np.float64(self.mesh.ele_size()),
+                stage_index=np.int64(stage_number),
+                stage_json=json.dumps(stage.to_dict()),
+                fecha=datetime.now().strftime("%Y-%m-%d %H:%M"),
+                **state)
+            print(f"[CHECKPOINT] guardado: {path}")
+            return True
+        except BaseException as err:
+            # No es fatal: el análisis ya corrió, solo se pierde el atajo
+            print(f"[CHECKPOINT] no se pudo guardar la etapa {stage_number}: "
+                  f"{type(err).__name__}: {err}")
+            return False
+
+    def _load_checkpoint(self, stage_number):
+        """Carga el checkpoint de la etapa `stage_number` (1-based).
+
+        Returns:
+            (state, meta) o (None, mensaje de error) si no se puede usar.
+        """
+        path = self.model_current_project.getCheckpointPath(stage_number)
+        if not os.path.exists(path):
+            return None, f"No existe el checkpoint de la etapa {stage_number}"
+        try:
+            data = np.load(path, allow_pickle=False)
+        except BaseException as err:
+            return None, f"No se pudo leer el checkpoint: {type(err).__name__}: {err}"
+
+        # El checkpoint debe corresponder al mismo modelo: si cambió el número
+        # de partículas o la malla, los arrays no encajan.
+        nmp_ck = int(data['nmp'])
+        if nmp_ck != int(self.__mp_nmp):
+            return None, (f"El checkpoint tiene {nmp_ck} partículas y el modelo "
+                          f"actual {int(self.__mp_nmp)}. Vuelve a correr desde el inicio.")
+        ele_ck = float(data['ele_size'])
+        ele_now = float(self.mesh.ele_size())
+        if abs(ele_ck - ele_now) > 1e-9:
+            return None, (f"El checkpoint se hizo con malla de {ele_ck} y la actual "
+                          f"es {ele_now}. Vuelve a correr desde el inicio.")
+
+        state = {k: data[k] for k in
+                 ('xp', 'vp', 'Vp', 'Fp', 'sig', 'epse', 'epsp', 'mp_elem', 'bp')
+                 if k in data.files}
+        meta = {
+            'fecha': str(data['fecha']) if 'fecha' in data.files else '',
+            'stage_json': str(data['stage_json']) if 'stage_json' in data.files else '',
+        }
+        return state, meta
 
     def _handoff(self, prev_state, prev_stage, stage):
         """Entrega el estado de la etapa anterior a la etapa `stage`.
