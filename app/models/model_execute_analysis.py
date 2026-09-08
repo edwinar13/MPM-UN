@@ -2,7 +2,7 @@
 from ezdxf.entities import factory
 from motorMPM.mesh import create_uniform, contour_fixe, setup_MP,search_MP
 from motorMPM.mesh import traction_forces,boundary_particles,boundary_particles2, boundary_particles3, node_conectivity
-from models.model_analysis_config import AnalysisConfig, AnalysisType, LoadMode, StageType, stage_use_gauss
+from models.model_analysis_config import AnalysisConfig, StageType, stage_use_gauss
 from models.analysis_utils import compute_min_dt, build_time_arrays
 from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, static_convergence, nodes_to_particle_stress_gauss
@@ -214,15 +214,7 @@ class ModelExcuteAnalysisMPM:
         
         print(f"[MPM-UN] run() con config: {config.analysis_type.value}")
 
-        # Asegurar que las etapas estan pobladas (geoestatico, dinamico, etc.)
-        config.build_default_stages()
-
         # Pipeline de inicialización (genérico, no cambia)
-        # Si alguna etapa usa incrementos (cuasi-estatico/geoestatico),
-        # preparar dincre/nincre desde esa etapa.
-        if any(s.stage_type in (StageType.LOAD_INCREMENT, StageType.GEOSTATIC)
-               for s in config.stages):
-            self.initConditionsFromConfig(config)
         self.initConditions()
         self.initBoundary()
         self.initMaterialPoint()
@@ -237,29 +229,6 @@ class ModelExcuteAnalysisMPM:
             response = self.saveResults()
         return response
     
-    def initConditionsFromConfig(self, config: AnalysisConfig):
-        """Inicializa condiciones específicas del análisis cuasi-estático
-        a partir del AnalysisConfig, sin depender de model_current_project."""
-        # Tomar la primera etapa que use incrementos (cuasi-estatico/geoestatico)
-        stage = next(
-            (s for s in config.stages
-             if s.stage_type in (StageType.LOAD_INCREMENT, StageType.GEOSTATIC)),
-            config.stages[0]
-        )
-        nincre = stage.n_increments
-        dincre = stage.load_increment_value
-        dincreGrav = stage.gravity_increment_value
-        charge = -np.linspace(0, dincre * nincre, nincre + 1)
-        chargeGrav = -np.linspace(0, dincreGrav * nincre, nincre + 1)
-        
-        self.__dincre = dincre
-        self.__dincreGrav = dincreGrav
-        self.__charge = charge
-        self.__chargeGrav = chargeGrav
-        self.__nincre = nincre
-        
-        print(f"[Config] nincre={nincre}, dincre={dincre}, dincreGrav={dincreGrav}")
-    
     def execute(self, config: AnalysisConfig):
         """Ejecuta el análisis recorriendo TODAS las etapas de config.
 
@@ -268,9 +237,6 @@ class ModelExcuteAnalysisMPM:
         _inject_state. Una sola etapa = una sola vuelta sin inyección,
         idéntico al comportamiento anterior.
         """
-        if not config.stages:
-            config.build_default_stages()
-
         prev_state = None
         n_stages = len(config.stages)
         for index, stage in enumerate(config.stages):
@@ -317,6 +283,8 @@ class ModelExcuteAnalysisMPM:
         uniq = np.unique(mat, axis=0)
         materials = [(float(r[0]), float(r[1]), float(r[2])) for r in uniq]
         dt, cp, _ = compute_min_dt(materials, ele_size, stage.courant_number)
+        if dt is None:
+            raise RuntimeError("No se pudo calcular dt: la etapa no tiene materiales")
         self.__tm_dt_time = dt
 
         if stage.stage_type == StageType.DYNAMIC:
@@ -682,7 +650,6 @@ class ModelExcuteAnalysisMPM:
         else:  # LOAD_INCREMENT
             dincre = stage.load_increment_value
             dincreGrav = stage.gravity_increment_value
-        charge = -np.linspace(0, dincre * nincre, nincre + 1)
         dtime = self.__tm_dt_time
 
         # Configurar damping
@@ -789,7 +756,6 @@ class ModelExcuteAnalysisMPM:
         final_idx = last_i + 2
         for key in arrays:
             arrays[key] = arrays[key][:, :final_idx]
-        charge = charge[:final_idx]
         
         tf = tm.time()
         print(f"[QUASI-STATIC] Fin. Tiempo total: {tf - t0:.2f}s")
