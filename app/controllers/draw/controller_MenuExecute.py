@@ -241,7 +241,8 @@ class ControllerMenuExecute(QObject):
         fps = self.view_menu_execute.getFps()
         time_config = TimeConfig(fps=fps)
         analysis_config = AnalysisConfig.from_stage_dicts(
-            stage_dicts=stage_dicts, gravity=gravity, time_config=time_config)
+            stage_dicts=stage_dicts, gravity=gravity, time_config=time_config,
+            resume_from_stage=self.model_current_project.getResumeFrom())
 
         # Semilla de tiempo (el executor recalcula dt/pasos por etapa)
         seed = self._build_seed_time(analysis_config, fps)
@@ -284,10 +285,10 @@ class ControllerMenuExecute(QObject):
             self.signal_update_menu_result.emit()
 
         else:
-            analysis_dialog.setStatus("Análisis cancelado")
             analysis_dialog.close()
-            self.view_menu_execute.msnAlertDefault(True,"Análisis cancelado")
-            print("[NOT→] Análisis cancelado")
+            motivo = analysis_mpm.error_message or "Análisis cancelado"
+            self.view_menu_execute.msnAlertDefault(True, motivo)
+            print(f"[NOT→] {motivo}")
 
     # ::::::::::::::::::::   ETAPAS DE ANÁLISIS   ::::::::::::::::::::
     def _gather_selected_materials(self):

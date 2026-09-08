@@ -134,3 +134,6 @@ dmypy.json
 test/
 
 
+
+# Checkpoints de etapas de analisis (estado .npz junto al proyecto)
+*_checkpoints/

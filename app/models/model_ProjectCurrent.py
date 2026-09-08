@@ -19,6 +19,7 @@ from utils.items_GraphicsDraw import TextItem, PointItem, LineItem, NodeMeshBack
 from utils.command_GraphicsDraw import AddPointCommand, AddLineCommand, MoveCommand, RotateCommand, RemoveLineCommand,RemovePointCommand, UpdateCommand
 import uuid
 import math
+import os
 import ezdxf
 #clases
 '''
@@ -456,6 +457,26 @@ class ModelProjectCurrent(QObject):
             stages_list (list): lista de dicts (AnalysisStage.to_dict()).
         """
         self.model_repository.updateStagesDB(stages_list)
+
+    def getResumeFrom(self) -> int:
+        """Etapa desde la que se reanudará el análisis (0 = desde el inicio)."""
+        return self.model_repository.readResumeFromDB()
+
+    def updateResumeFrom(self, resume_from):
+        """Guarda la etapa desde la que se reanudará el análisis."""
+        self.model_repository.updateResumeFromDB(resume_from)
+
+    def getCheckpointDir(self) -> str:
+        """Carpeta donde se guardan los checkpoints de etapa de este proyecto.
+
+        Es '<proyecto sin extensión>_checkpoints'. No se crea aquí; el
+        modelo de ejecución la crea al guardar el primer checkpoint.
+        """
+        return os.path.splitext(self.__path_doc)[0] + "_checkpoints"
+
+    def getCheckpointPath(self, stage_number: int) -> str:
+        """Ruta del checkpoint guardado al TERMINAR la etapa `stage_number` (1-based)."""
+        return os.path.join(self.getCheckpointDir(), f"etapa_{int(stage_number)}.npz")
     
     # ::::::::::::::::::::                ITEMS  POINTS             ::::::::::::::::::::
     def getModelsPoints(self) -> dict[str, ModelItemPoint]:

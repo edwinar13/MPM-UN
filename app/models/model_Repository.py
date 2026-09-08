@@ -715,6 +715,28 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err), err))
             return False
 
+    def readResumeFromDB(self):
+        """Etapa desde la que se debe reanudar el análisis.
+
+        Returns:
+            (int): 0 = correr desde el inicio; N >= 2 = arrancar en la etapa N
+            usando el checkpoint guardado al terminar la etapa N-1.
+        """
+        try:
+            return int(self.__unguarded_copy_db_project['CONFIGANALISIS'].get('REANUDAR_DESDE', 0) or 0)
+        except BaseException:
+            return 0
+
+    def updateResumeFromDB(self, resume_from):
+        """Guarda la etapa desde la que se reanudará el análisis."""
+        try:
+            self.__unguarded_copy_db_project['CONFIGANALISIS']['REANUDAR_DESDE'] = int(resume_from or 0)
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar <CONFIGANALISIS.REANUDAR_DESDE> de la base de datos".format(self.__name_doc_py))
+            print("[Tipo: {}, Erro: {}]".format(type(err), err))
+            return False
+
 
 
 	# ::::::::::::::::::::       MÉTODOS DB RESULTADOS     ::::::::::::::::::::

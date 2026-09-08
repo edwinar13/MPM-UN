@@ -28,6 +28,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 
+import os
+
 
 # (etiqueta visible, valor persistido TIPO)
 STAGE_TYPES = [
@@ -241,6 +243,11 @@ class DialogStages(QDialog):
         if not self._stages:
             self._stages = [_new_stage_dict("dynamic", "Etapa 1")]
 
+        # Etapa desde la que se reanudará (0 = desde el inicio)
+        self._resume_from = model_current_project.getResumeFrom()
+        if self._resume_from > len(self._stages):
+            self._resume_from = 0
+
         self.setWindowTitle("Etapas de análisis")
         self.setMinimumSize(640, 470)
         self.setStyleSheet(DIALOG_STYLE)
@@ -282,6 +289,19 @@ class DialogStages(QDialog):
         btns.addWidget(self.btnUp, 1, 0)
         btns.addWidget(self.btnDown, 1, 1)
         left.addLayout(btns)
+
+        # ── Reanudar desde un checkpoint ──
+        lbl_resume = QLabel("Reanudar desde")
+        lbl_resume.setObjectName("labelSectionTitle")
+        left.addWidget(lbl_resume)
+        self.cbResume = QComboBox()
+        self.cbResume.currentIndexChanged.connect(self._on_resume_changed)
+        left.addWidget(self.cbResume)
+        self.lblResume = QLabel("")
+        self.lblResume.setObjectName("labelDt")
+        self.lblResume.setWordWrap(True)
+        left.addWidget(self.lblResume)
+        self._reload_resume_combo()
 
         left_box = QWidget()
         left_box.setLayout(left)
@@ -360,6 +380,55 @@ class DialogStages(QDialog):
         self.buttonBox.rejected.connect(self.reject)
         root.addWidget(self.buttonBox)
 
+    # -------------------------------------------------- reanudar
+    def _reload_resume_combo(self):
+        """Puebla el combo con las etapas que tienen checkpoint disponible.
+
+        La opción "Etapa N" usa el checkpoint guardado al terminar la etapa
+        N-1, así que solo se habilita si ese archivo existe.
+        """
+        self.cbResume.blockSignals(True)
+        self.cbResume.clear()
+        self.cbResume.addItem("Desde el inicio", 0)
+        model = self.cbResume.model()
+        for n in range(2, len(self._stages) + 1):
+            info = self._checkpoint_info(n - 1)
+            name = self._stages[n - 1].get("NOMBRE") or f"Etapa {n}"
+            if info:
+                self.cbResume.addItem(f"Etapa {n}: {name}  ·  {info}", n)
+            else:
+                self.cbResume.addItem(f"Etapa {n}: {name}  (sin checkpoint)", n)
+                model.item(self.cbResume.count() - 1).setEnabled(False)
+        self._set_combo_data(self.cbResume, self._resume_from)
+        self.cbResume.blockSignals(False)
+        self._update_resume_label()
+
+    def _checkpoint_info(self, stage_number):
+        """Fecha del checkpoint de `stage_number`, o None si no existe."""
+        try:
+            path = self.model_current_project.getCheckpointPath(stage_number)
+            if not os.path.exists(path):
+                return None
+            import numpy as np
+            with np.load(path, allow_pickle=False) as d:
+                if 'fecha' in d.files:
+                    return str(d['fecha'])
+            return "guardado"
+        except BaseException:
+            return None
+
+    def _on_resume_changed(self, _idx):
+        self._resume_from = self.cbResume.currentData() or 0
+        self._update_resume_label()
+
+    def _update_resume_label(self):
+        if self._resume_from:
+            self.lblResume.setText(
+                f"⚠ Se saltarán las etapas 1 a {self._resume_from - 1} y se usará "
+                f"el estado guardado.")
+        else:
+            self.lblResume.setText("")
+
     def _make_dspin(self, lo, hi, step, decimals):
         sp = QDoubleSpinBox()
         sp.setRange(lo, hi)
@@ -383,6 +452,11 @@ class DialogStages(QDialog):
             tipo = type_label.get(s.get("TIPO"), s.get("TIPO"))
             QListWidgetItem(f"{i + 1}. {name}  ({tipo})", self.listWidget)
         self.listWidget.blockSignals(False)
+        # La lista de etapas cambió: rehacer las opciones de "Reanudar desde"
+        if hasattr(self, 'cbResume'):
+            if self._resume_from > len(self._stages):
+                self._resume_from = 0
+            self._reload_resume_combo()
         if select is not None and 0 <= select < len(self._stages):
             self.listWidget.setCurrentRow(select)
         elif self._stages:
@@ -550,7 +624,12 @@ class DialogStages(QDialog):
                     f"Etapa {n}: el número de incrementos debe ser ≥ 1.")
                 return
 
+        # Si se quitaron etapas, la opción de reanudar puede haber quedado fuera de rango
+        if self._resume_from > len(self._stages):
+            self._resume_from = 0
+
         self.model_current_project.updateStages(self._stages)
+        self.model_current_project.updateResumeFrom(self._resume_from)
         self.accept()
 
     def getStages(self):
