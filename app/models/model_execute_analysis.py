@@ -161,6 +161,12 @@ class ModelExcuteAnalysisMPM:
         # Etapa en curso (para los mensajes de progreso)
         self.__stage_index = 0
         self.__n_stages = 1
+
+        # Resultados acumulados por etapa (ver _append_stage_results)
+        self.__rs_stages = []
+        self.__rs_stages_frames = []
+        # True si el usuario canceló pero se alcanzó a guardar algo
+        self.cancelled_partial = False
          
         #===========  variables  ===========
         
@@ -218,6 +224,9 @@ class ModelExcuteAnalysisMPM:
         
         print(f"[MPM-UN] run() con config: {config.analysis_type.value}")
 
+        self.__rs_stages = []
+        self.cancelled_partial = False
+
         # Pipeline de inicialización (genérico, no cambia)
         self.initConditions()
         self.initBoundary()
@@ -225,11 +234,22 @@ class ModelExcuteAnalysisMPM:
         self.initProperties()
         self.initVerctorAndMatrix()
         self.initBoundaryParticles()
-        
+
         # Ejecutar según tipo de análisis
         response = self.execute(config)
-        
+
+        if not response and self.__rs_stages:
+            # Cancelado a mitad de camino pero hay etapas (o parte de una)
+            # ya calculadas: se guardan en vez de perderse.
+            print(f"[MPM-UN] Cancelado: se guardan {len(self.__rs_stages)} bloque(s) de resultados")
+            self.cancelled_partial = True
+            response = True
+
         if response:
+            if not self.__rs_stages:
+                print("[MPM-UN] No hay resultados que guardar")
+                return False
+            self._finalize_results()
             response = self.saveResults()
         return response
     
@@ -560,30 +580,112 @@ class ModelExcuteAnalysisMPM:
                     return True
         return False
     
-    def _store_results_to_instance(self, arrays, list_time, list_time_graphic):
-        """Copia los arrays de resultados a las variables de instancia __rs_*
-        para que saveResults() los encuentre."""
-        self.__rs_new_list_time = list_time.copy() if hasattr(list_time, 'copy') else list_time[:]
-        self.__rs_new_list_time_graphic = list_time_graphic.copy() if hasattr(list_time_graphic, 'copy') else list_time_graphic[:]
-        self.__rs_corX = arrays['corX']
-        self.__rs_corY = arrays['corY']
-        self.__rs_sigxx = arrays['sigxx']
-        self.__rs_sigyy = arrays['sigyy']
-        self.__rs_sigxy = arrays['sigxy']
-        self.__rs_epsexx = arrays['epsexx']
-        self.__rs_epseyy = arrays['epseyy']
-        self.__rs_epsexy = arrays['epsexy']
-        self.__rs_epspxx = arrays['epspxx']
-        self.__rs_epspyy = arrays['epspyy']
-        self.__rs_epspxy = arrays['epspxy']
-        self.__rs_velxy = arrays['velxy']
-        self.__rs_velxx = arrays['velxx']
-        self.__rs_velyy = arrays['velyy']
-        self.__rs_desplxx = arrays['desplxx']
-        self.__rs_desplyy = arrays['desplyy']
-        self.__rs_desplxy = arrays['desplxy']
-        self.__rs_eqplas = arrays['eqplas']
-    
+    def _append_stage_results(self, stage, arrays, list_time, list_time_graphic):
+        """Guarda el bloque de resultados de UNA etapa.
+
+        Antes cada bucle sobrescribía los resultados de la etapa anterior,
+        así que de un análisis geostático→falla solo sobrevivían los frames
+        de la falla. Ahora cada etapa aporta su bloque y _finalize_results()
+        los concatena.
+        """
+        self.__rs_stages.append({
+            'stage': stage,
+            'dt': self.__tm_dt_time,
+            'arrays': {k: v for k, v in arrays.items()},
+            'list_time': np.asarray(list_time, dtype=float),
+            'list_time_graphic': np.asarray(list_time_graphic, dtype=float),
+        })
+        n_frames = arrays['corX'].shape[1]
+        print(f"[RESULTS] Etapa '{stage.name or stage.stage_type.value}': "
+              f"{n_frames} frame(s) guardado(s)")
+
+    def _finalize_results(self):
+        """Concatena los bloques de todas las etapas y los deja en las
+        variables __rs_* que saveResults() ya lee.
+
+        Detalles:
+        - El frame 0 de cada etapa es el estado con el que arrancó, que es
+          el último de la etapa anterior: se descarta salvo en el primer
+          bloque (donde es la única representación del estado inicial).
+        - El eje de tiempo se hace monótono desplazando cada etapa por el
+          acumulado. Las unidades son mixtas (incrementos en cuasi-estático,
+          segundos en dinámico); ETAPAS_FRAMES dice qué es cada tramo.
+        - Los desplazamientos NO se re-referencian: cada etapa los mide
+          desde su propio frame 0 (convención geotécnica: se reinician
+          después del geostático). Ver _save_step_to_arrays.
+        """
+        keys = list(self.__rs_stages[0]['arrays'].keys())
+        blocks = {k: [] for k in keys}
+        times, times_graphic, frames_meta = [], [], []
+
+        offset_t = 0.0
+        offset_tg = 0.0
+        frame_cursor = 0
+
+        for i, block in enumerate(self.__rs_stages):
+            skip = 0 if i == 0 else 1  # descartar el frame duplicado del handoff
+            arrays = block['arrays']
+            n_frames = arrays['corX'].shape[1]
+            if n_frames <= skip:
+                continue  # etapa sin frames útiles (cancelada de inmediato)
+
+            for k in keys:
+                blocks[k].append(arrays[k][:, skip:])
+
+            lt = block['list_time']
+            ltg = block['list_time_graphic']
+            times.append(lt[skip:] + offset_t if lt.size > skip else lt[:0])
+            times_graphic.append(ltg[skip:] + offset_tg if ltg.size > skip else ltg[:0])
+
+            n_added = n_frames - skip
+            stage = block['stage']
+            frames_meta.append({
+                'ETAPA': i + 1,
+                'TIPO': stage.stage_type.value,
+                'NOMBRE': stage.name or stage.stage_type.value,
+                'FRAME_INICIO': frame_cursor,
+                'FRAME_FIN': frame_cursor + n_added - 1,
+                'DT': block['dt'],
+            })
+            frame_cursor += n_added
+
+            if lt.size:
+                offset_t += float(lt[-1])
+            if ltg.size:
+                offset_tg += float(ltg[-1])
+
+        self.__rs_stages_frames = frames_meta
+        self.__rs_new_list_time = np.concatenate(times) if times else np.zeros(0)
+        self.__rs_new_list_time_graphic = (
+            np.concatenate(times_graphic) if times_graphic else np.zeros(0))
+
+        merged = {k: np.concatenate(blocks[k], axis=1) for k in keys}
+        self.__rs_corX = merged['corX']
+        self.__rs_corY = merged['corY']
+        self.__rs_sigxx = merged['sigxx']
+        self.__rs_sigyy = merged['sigyy']
+        self.__rs_sigxy = merged['sigxy']
+        self.__rs_epsexx = merged['epsexx']
+        self.__rs_epseyy = merged['epseyy']
+        self.__rs_epsexy = merged['epsexy']
+        self.__rs_epspxx = merged['epspxx']
+        self.__rs_epspyy = merged['epspyy']
+        self.__rs_epspxy = merged['epspxy']
+        self.__rs_velxy = merged['velxy']
+        self.__rs_velxx = merged['velxx']
+        self.__rs_velyy = merged['velyy']
+        self.__rs_desplxx = merged['desplxx']
+        self.__rs_desplyy = merged['desplyy']
+        self.__rs_desplxy = merged['desplxy']
+        self.__rs_eqplas = merged['eqplas']
+
+        print(f"[RESULTS] Total: {merged['corX'].shape[1]} frames de "
+              f"{len(frames_meta)} etapa(s)")
+        for f in frames_meta:
+            print(f"   Etapa {f['ETAPA']} ({f['TIPO']}): frames "
+                  f"{f['FRAME_INICIO']}-{f['FRAME_FIN']}")
+
+
     def _run_dynamic_loop(self, config: AnalysisConfig, stage):
         """Bucle dinámico: for t in range(N).
         
@@ -626,6 +728,13 @@ class ModelExcuteAnalysisMPM:
             # Verificar cancelación/pausa
             msg = f"{stage_label}\n→ paso {index:.0f} de {steps_time}."
             if self._check_dialog_cancel_pause(msg):
+                # Guardar lo alcanzado hasta aquí en vez de descartarlo
+                n_keep = current_index_graphic + 1
+                for key in arrays:
+                    arrays[key] = arrays[key][:, :n_keep]
+                self._append_stage_results(
+                    stage, arrays, new_list_time[:index + 1],
+                    new_list_time_graphic[:n_keep])
                 return False
 
             # Verificar que las partículas están dentro de la malla
@@ -676,8 +785,8 @@ class ModelExcuteAnalysisMPM:
         tf = tm.time()
         print(f"[DYNAMIC] Fin. Tiempo total: {tf - t0:.2f}s")
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        
-        self._store_results_to_instance(arrays, new_list_time, new_list_time_graphic)
+
+        self._append_stage_results(stage, arrays, new_list_time, new_list_time_graphic)
         return True
     
     def _run_quasi_static_increment_loop(self, config: AnalysisConfig, stage):
@@ -729,6 +838,12 @@ class ModelExcuteAnalysisMPM:
             # Verificar cancelación/pausa
             msg = f"{stage_label}\n→ incremento {i:.0f} de {nincre}."
             if self._check_dialog_cancel_pause(msg):
+                # Guardar los incrementos ya convergidos en vez de descartarlos
+                n_keep = i + 1  # frame 0 (inicial) + i incrementos completados
+                for key in arrays:
+                    arrays[key] = arrays[key][:, :n_keep]
+                self._append_stage_results(
+                    stage, arrays, list_time[:n_keep], list_time_graphic[:n_keep])
                 return False
 
             analysis_dialog.setProgress(100 * i / nincre)
@@ -811,7 +926,7 @@ class ModelExcuteAnalysisMPM:
                 
         list_time = list_time[:final_idx]
         list_time_graphic = list_time_graphic[:final_idx]
-        self._store_results_to_instance(arrays, list_time, list_time_graphic)
+        self._append_stage_results(stage, arrays, list_time, list_time_graphic)
         return True
     
     # ===================================================================
@@ -2001,11 +2116,18 @@ class ModelExcuteAnalysisMPM:
         ########################################################################
         #                           analisis finalizado
         ########################################################################        
-        self.model_result.clearResult()        
-        
+        self.model_result.clearResult()
+
+        # Etapas ejecutadas + a qué frames corresponde cada una. El damping
+        # global queda como informativo: el que gobierna es el de cada etapa.
+        stages_dicts = [b['stage'].to_dict() for b in self.__rs_stages]
+        dampfac = (self.__rs_stages[0]['stage'].damping_factor
+                   if self.__rs_stages else self.__ic_dampfac)
         self.model_result.updateResultDataBase(
             gravity= self.__ic_gravity,
-            dampfac=  self.__ic_dampfac
+            dampfac=  dampfac,
+            stages=stages_dicts,
+            stages_frames=self.__rs_stages_frames
         )
         
         
