@@ -158,35 +158,136 @@ Etapa 2" → la corrida salta la etapa 1, arranca con `sig ≠ 0` y produce 3 fr
 
 ## PASO 5 — Oráculo numérico y matriz de smoke tests
 
-### 5.1 `tools/compare_results.py` (sin Qt)
-- `python tools/compare_results.py ref.json new.json [--rtol 1e-6]` → máximo error
-  absoluto/relativo por campo y frame; exit ≠ 0 si excede la tolerancia.
-- Copiar los `.json` con resultados legacy a `test/6 referencia/` **sin modificar**.
+### 5.1 `tools/smoke_stages.py` — arnés sin GUI (implementado)
+Corre un análisis por etapas sin abrir la interfaz y, con `--compare`, contrasta el
+resultado nuevo contra el que ya está guardado dentro del `.json`. **No escribe el
+proyecto a disco**, así que es seguro correrlo sobre los archivos de referencia.
 
-### 5.2 Matriz de smoke (segundos cada una; correr tras cada paso 1-4)
-| # | Modelo | Etapas | Verifica |
+```bash
+python tools/smoke_stages.py "<proyecto.json>" \
+    --stages "geostatic:n=10,courant=0.6,damp=0.75,plast=0,gauss=1" \
+    --mp "Talud,Base" --compare --rtol 1e-9
+```
+Opciones: `--resume N` (reanudar desde checkpoint), `--cancel-at N` (simular cancelación),
+`maxit=` dentro del spec (tope de iteraciones, solo diagnóstico).
+La salida incluye un **desglose por frame**: el primer frame que difiere señala el
+incremento donde las dos corridas se separaron — fue lo que permitió encontrar la
+discrepancia de plasticidad del talud en minutos en vez de horas.
+
+### 5.1b `tools/compare_ref.py` — referencia contra app (implementado)
+`smoke_stages.py --compare` contrasta la app contra la propia app: detecta regresiones,
+pero **no valida nada** contra el motor original. `compare_ref.py` cierra ese hueco:
+compara el `.npz` que dejan los scripts de referencia
+(`1 Referencia/Codigo MPM-UN Original_V1/resultados_referencia/`, escritos por `ref_io.py`)
+contra `RESULTADOS.RESULTADOSNODOS` de un proyecto ya corrido.
+
+```bash
+python tools/compare_ref.py "<...>/resultados_referencia/beam.npz" \
+    "test/5 archivos_mpm 2607/1_validacion_viga.json" \
+    --material "Material  Beam" --frames-comunes --rtol 1e-9
+```
+
+Alinea las dos corridas sin suponer nada sobre el orden interno de cada lado:
+* **partículas** por su posición inicial (de paso comprueba que los dos discretizaron
+  el mismo dominio);
+* **frames** por el valor del eje (tiempo, carga o fracción de gravedad). Si los ejes no
+  calzan — típicamente porque el FPS del proyecto no es el del script — lo dice, y con
+  `--frames-comunes` compara solo los que coinciden.
+
+La tolerancia al emparejar frames está topeada en 5.1e-4 (la app redondea
+`TIEMPOSGRAFICAR` a 3 decimales): con medio paso se emparejarían frames separados por un
+`dt` del solver, que son estados distintos.
+
+### 5.2 Qué archivos sirven de oráculo (verificado leyendo los .json)
+Cada resultado guarda **qué grupos de puntos materiales se usaron**, así que se puede
+comprobar si es reproducible. Sirven:
+
+| Caso | Archivo | Grupos | Frames |
 |---|---|---|---|
-| S1 | viga (prueba) | dyn 0.01 s | app abre, corre, resultados se ven |
-| S2 | CE reducido (9 PM) | load_increment n=2 | rama gauss + plasticidad |
-| S3 | CE reducido | geostatic n=2 → load_increment n=2 | handoff, concatenación (5 frames), checkpoint creado |
-| S4 | CE reducido | reanudar desde etapa 2 | resume, 3 frames, `sig≠0` en frame 0 |
-| S5 | talud mini | geostatic n=2 → dyn 0.01 s | `vp=0`, `bp=bp0`, stress2, mensajes "Etapa i/n" |
-| S6 | cualquiera | cancelar a mitad de etapa 2 | resultados parciales guardados |
+| Viga | `test/5 archivos_mpm 2607/1_validacion_viga.json` | **MP-Beam_2** (304), *no* MP-beam | 123 |
+| Cap. portante | `test/4 .../3_capacidad_portante (medio).json` | **MP-Suelo** (800) | 57 |
+| Talud geostático | `test/4 .../5_talud_elastoplastico (reducido).json` | Base + Talud (1308) | 11 |
+| Talud geostático grande | `test/4 .../8_talud_elastoplastico full.json` | Base + Talud (6559) | 11 |
 
-### 5.3 Checklist de parámetros por validación larga
-Los proyectos de validación son archivos antiguos (sin `ETAPAS`): al abrirlos, el diálogo
-propone 1 etapa dinámica por defecto. Configurar a mano:
+No sirven: `test/5/2_capacidad_portante.json` (cortada en el incremento 54 de 56),
+`test/4/1_validacion_viga (prueba).json` (cortada en t=0.254 de 1.0),
+`test/4/7_..._mini.json` (resultados de grupos que ya no existen).
+
+> **`7_..._mini` no es un modelo válido**: tiene 221 partículas en 221 celdas, o sea
+> **1 partícula por celda**, el caso degenerado del MPM. La integración gaussiana no
+> tiene con qué reconstruir el esfuerzo y el residuo se clava en `ff ≈ 0.11` sin importar
+> incrementos, plasticidad ni variante de `boundary_particles`. Sirve para "¿corre?",
+> nunca para nada numérico. El modelo bueno es `5_talud (reducido)`: 2.43 partículas
+> por celda.
+
+### 5.3 Checklist de parámetros (verificado contra el contenido de los oráculos)
 
 | Modelo | Etapa | Tipo | Courant | Damping | Plast. | Gauss | Otros |
 |---|---|---|---|---|---|---|---|
-| Viga | 1 | dynamic | `RESULTADOS.DATOSTIEMPO.NUMEROCOURANT` del json | `CONFIGURACION.DAMPFAC` del json | 0 | False | `TIEMPOANALISIS`, `FPS` del json |
-| Cap. portante | 1 | load_increment | 0.1 | 0.75 | 1 | True | `NUMEROINCREMENTOS`, `DELTAINCREMENTO` de `ANALISISCUASIESTATICO`; tol 0.01; **gravedad 0** |
-| Talud | 1 | geostatic | 0.6 | 0.75 | 0 | True | n = 10 |
-| Talud | 2 | dynamic | 0.1 | **0.10** (no el default 0.05) | 1 | False | 8.0 s, `FPS` del json |
+| Viga | 1 | dynamic | 0.5 | 0.0 | 0 | No | t=4.0, fps=30 |
+| Cap. portante | 1 | load_increment | 0.5 | 0.75 | **1** | Sí | n=56, dincre=−2.0, **gravedad 0** |
+| Talud | 1 | geostatic | 0.6 | 0.75 | **0** | Sí | n=10, tol 0.01 |
+| Talud | 2 | dynamic | 0.1 | **0.10** (no el default 0.05) | 1 | No | 8.0 s |
 
-- Viga y CE: `compare_results.py` contra el oráculo (equivalencia numérica). Talud: solo
-  cualitativo hasta Fase B (la referencia es de dos cuerpos).
-- Orden: viga → CE → talud (geostático con checkpoint) → falla del talud reanudando.
+> **La plasticidad del geostático es 0, no 1.** Se comprobó leyendo los oráculos:
+> `5_talud` y `8_talud` tienen `EPSP` exactamente cero en las 14.388 / 72.149 entradas
+> → se corrieron elásticos. Coincide con `talud_2021_v2.py`, que usa
+> `nodes_to_particle_stress_gauss(..., 0)` en el geostático, y con el default del
+> diálogo. Con `plast=1` el talud plastifica en el incremento 2 y el residuo se dispara
+> a 0.34 sin converger nunca.
+>
+> **Ojo con la tolerancia en capacidad portante.** El legacy `executeAnalysisCE` la tiene
+> hardcodeada en **`ff > 0.011`**, mientras la ruta nueva y el script de referencia usan
+> `0.01`. El oráculo del talud salió por la ruta nueva (0.01, ya verificado); el de
+> capacidad portante lo produjo `executeAnalysisCE`, así que si no reproduce con 0.01,
+> probar 0.011.
+>
+> `ff` es un **cociente normalizado** (`‖neforce+niforce‖/‖neforce‖`): subir el número de
+> incrementos **no** ayuda a que converja, solo cambia la trayectoria plástica.
+
+### 5.4 Estado de la validación — refactor verificado
+
+| Caso | Rama del motor ejercitada | Frames | Tiempo | Resultado |
+|---|---|---|---|---|
+| Viga | dinámica, sin gauss, elástica (`stress2`) | 123 | 6 s | **IDÉNTICO bit a bit** |
+| Talud geostático (1308 pts) | cuasi-estática, gauss, elástica | 11 | 59 s | **IDÉNTICO bit a bit** |
+| Capacidad portante (medio) | cuasi-estática, gauss, **plástica** | 57 | 369 s | **IDÉNTICO bit a bit** (con `tolff=0.011`) |
+| S3: CE reducido 2 etapas | handoff + concatenación + checkpoints | 5 | 2 s | ✔ |
+| S5: talud mini 2 etapas | handoff `vp=0`, dt por etapa | 3 | 172 s | ✔ corre (modelo degenerado, no converge) |
+
+`0.0000e+00` en los 18 campos de los tres oráculos. **Los PASOS 1–4 no cambiaron ningún
+número**: ni el cambio a `nodes_to_particle_stress2`, ni la concatenación de resultados,
+ni el handoff, ni los checkpoints.
+
+Pendiente: talud de 2 etapas (falla) reanudando desde el checkpoint del geostático —
+sin oráculo, evaluación cualitativa, y limitado a un cuerpo hasta la Fase B.
+
+### 5.5 Decisión abierta: la tolerancia de capacidad portante
+
+El oráculo de capacidad portante solo reproduce con **`tolff = 0.011`**, el valor
+hardcodeado en el legacy `executeAnalysisCE`. Con `0.01` (el valor del script de
+referencia `Ca_portante2.py` y el default del diálogo) la corrida **también completa los
+56 incrementos**, pero da otro resultado:
+
+| Campo | Diferencia absoluta | Relativa |
+|---|---|---|
+| SIGYY | 20.8 kPa | 14 % |
+| SIGXX | 17.6 kPa | 17 % |
+| DESPLYY | 0.033 m | 7.6 % |
+| EQPLAS | 0.014 | 8.6 % |
+
+La divergencia arranca en el frame 1 y **crece monótonamente** hasta el 56: es acumulación
+en un problema dependiente de la trayectoria, no un error de código.
+
+> **Esto es un hallazgo sobre el modelo, no sobre el refactor.** Que mover la tolerancia
+> de 0.010 a 0.011 (un 10 %) cambie los esfuerzos un ~15 % significa que la solución no
+> está convergida en el sentido útil de la palabra. Antes de usar ese caso como validación
+> en la tesis conviene un estudio de sensibilidad (0.011 / 0.01 / 0.005 / 0.001) y ver si
+> la respuesta se estabiliza. Cada corrida cuesta ~6 min con `tools/smoke_stages.py`.
+
+Decisión a tomar: adoptar `0.01` (coherente con la referencia y con el resto de la app) y
+**re-establecer la línea base** de ese caso documentando el cambio, o conservar `0.011`
+por compatibilidad con el resultado histórico.
 
 ---
 
