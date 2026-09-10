@@ -824,8 +824,7 @@ class ModelExcuteAnalysisMPM:
         
         for index in range(list_time.size - 1):
             current_time = list_time[index]
-            current_time_graphic = list_time_graphic[current_index_graphic]
-            
+
             # Verificar cancelación/pausa
             msg = f"{stage_label}\n→ paso {index:.0f} de {steps_time}."
             if self._check_dialog_cancel_pause(msg):
@@ -878,10 +877,20 @@ class ModelExcuteAnalysisMPM:
                         break
                 break
             
-            # Guardar datos cuando toca el frame gráfico
-            if abs(current_time - current_time_graphic) < 1e-13:
-                self._save_step_to_arrays(arrays, current_index_graphic + 1)
-                current_index_graphic += 1
+            # Guardar datos cuando toca el frame gráfico.
+            # El estado que acaba de calcularse corresponde a list_time[index+1],
+            # no a list_time[index]: hay que compararlo contra el frame gráfico
+            # SIGUIENTE. Comparando contra el actual, el frame k terminaba
+            # guardando el estado del paso ndt*(k-1)+1 en vez del paso ndt*k
+            # — con fps 30 y dt 1e-3, 32 pasos antes de lo que dice su rótulo.
+            # Mismo criterio que los scripts de referencia (beam.py l. 139,
+            # talud_2021.py fase_falla).
+            next_graphic = current_index_graphic + 1
+            if (next_graphic < n_graphic_steps and
+                    abs(list_time[index + 1] -
+                        list_time_graphic[next_graphic]) < 1e-13):
+                self._save_step_to_arrays(arrays, next_graphic)
+                current_index_graphic = next_graphic
         
         tf = tm.time()
         print(f"[DYNAMIC] Fin. Tiempo total: {tf - t0:.2f}s")
@@ -931,10 +940,12 @@ class ModelExcuteAnalysisMPM:
         tol_ff = stage.convergence_tol_force
         tol_ee = stage.convergence_tol_energy
         
-        tmax = 0
         finfor = False
         last_i = 0
-        
+        # Duración del primer incremento; sirve de referencia para el corte por
+        # tiempo. Antes esto reusaba t0 y rompía el total impreso al final.
+        t_first_incr = 1e9
+
         for i in range(nincre):
             # Verificar cancelación/pausa
             msg = f"{stage_label}\n→ incremento {i:.0f} de {nincre}."
@@ -965,35 +976,44 @@ class ModelExcuteAnalysisMPM:
             ee = 1
             nework = 0
             tcont = 0
-            tinicial = time.time()       
+            tinicial = time.time()
             while (ff > tol_ff) or (ee > tol_ee):
-         
+
                 analysis_dialog.setTimer(f"⏳ {time.time() - tinicial:.0f}seg")
                 QApplication.processEvents()
                 tcont += 1
                 if tcont % 100 == 0:
                     print("----- Iteracion=",tcont,"ff=",ff,"ee=",ee)
-                #print("Iteracion=",tcont,"ff=",ff,"ee=",ee)
-                
+
                 nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
-                
+
                 # Evaluar convergencia
                 nework0 = nework
-                #print("mass",nmass)
-                #print("niforce",niforce)
-                #print("neforce",neforce)
-                #print("nvel",nvel)
-                #print("dtime",dtime)
-                #print("nework0",nework0)
                 ff, ee, nework = static_convergence(nmass, niforce, neforce, nvel, dtime, nework0)
-                
-                if tcont == 1:
-                    pass
-                    #a= 5/0
+
+                # ff y ee son cocientes: si no hay fuerza externa el denominador
+                # es 0 y salen nan/inf. Con nan la condición del while es falsa y
+                # el incremento se daría por convergido en silencio; con inf el
+                # bucle no terminaría nunca. En ambos casos hay que avisar.
+                if not (np.isfinite(ff) and np.isfinite(ee)):
+                    print(f"[AVISO] incremento {i + 1}: convergencia no evaluable "
+                          f"(ff={ff}, ee={ee}). Suele significar que no hay fuerza "
+                          f"externa en esta etapa (¿gravedad 0 y sin cargas?). "
+                          f"Se da por convergido tras {tcont} iteración(es).")
+                    break
+
+                # Tope de iteraciones de la etapa: evita que un incremento que no
+                # converge se lleve horas de una validación.
+                if stage.max_iterations and tcont >= stage.max_iterations:
+                    print(f"[AVISO] incremento {i + 1}: se alcanzó el máximo de "
+                          f"{stage.max_iterations} iteraciones sin converger "
+                          f"(ff={ff:.4g}, ee={ee:.4g}). Se detiene la etapa.")
+                    finfor = True
+                    break
 
                 # Condición de seguridad: tiempo máximo
                 tiempoi = time.time() - tinicial
-                if (tiempoi > 100 * t0) and (i > 0):
+                if (tiempoi > 100 * t_first_incr) and (i > 0):
                     print("se excedió tiempo máximo de ejecución!!")
                     finfor = True
                     break
@@ -1004,8 +1024,10 @@ class ModelExcuteAnalysisMPM:
             # Guardar resultados del incremento
             tiempo_incr = time.time() - tinicial
             if i == 0:
-                t0 = tiempo_incr
-            
+                # Referencia para el corte por tiempo: si un incremento tarda
+                # 100x lo que tardó el primero, algo se atascó.
+                t_first_incr = tiempo_incr
+
             print(f"incremento {i + 1}, num ciclos {tcont}")
             print(f"tiempo en este incremento {tiempo_incr:.2f}s")
             print(f"desbalance fuerzas {ff}, Energía cinética {ee}")
