@@ -198,6 +198,12 @@ La tolerancia al emparejar frames está topeada en 5.1e-4 (la app redondea
 `TIEMPOSGRAFICAR` a 3 decimales): con medio paso se emparejarían frames separados por un
 `dt` del solver, que son estados distintos.
 
+> **Resultados de las comparaciones**: los hallazgos de correr esto contra los
+> scripts originales están en
+> [validacion_motor_vs_referencia.md](validacion_motor_vs_referencia.md) —
+> el error de frames del bucle dinámico, la validación exacta de la viga, y por
+> qué capacidad portante coincide en orden de magnitud pero no dígito a dígito.
+
 ### 5.2 Qué archivos sirven de oráculo (verificado leyendo los .json)
 Cada resultado guarda **qué grupos de puntos materiales se usaron**, así que se puede
 comprobar si es reproducible. Sirven:

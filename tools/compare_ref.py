@@ -157,9 +157,24 @@ def emparejar_particulas(ref, app, tol_pos):
     return p_ref, p_app
 
 
-def emparejar_frames(eje_ref, eje_app, nombre_eje, unidad, comunes):
+def emparejar_frames(eje_ref, eje_app, nombre_eje, unidad, comunes,
+                     por_indice=False):
     n_ref, n_app = len(eje_ref), len(eje_app)
     print(f"  frames:      referencia={n_ref}   app={n_app}")
+
+    if por_indice:
+        # Análisis por incrementos: el frame k es el incremento k en los dos
+        # lados, aunque el eje esté en unidades distintas (la app numera los
+        # incrementos, los scripts guardan la carga en kN/m). Además cada lado
+        # puede haber cortado en un incremento distinto por su tope de tiempo,
+        # así que se compara el prefijo común.
+        n = min(n_ref, n_app)
+        print(f"  alineados por índice: {n} frames"
+              + ("" if n_ref == n_app else
+                 f"  (se descartan {abs(n_ref - n_app)} del lado más largo)"))
+        print(f"  eje referencia {eje_ref[0]:.4g}..{eje_ref[n - 1]:.4g} {unidad}"
+              f"   |   eje app {eje_app[0]:.4g}..{eje_app[n - 1]:.4g}")
+        return np.arange(n), np.arange(n)
 
     if n_ref == n_app:
         desfase = float(np.abs(eje_ref - eje_app).max())
@@ -285,6 +300,12 @@ def main():
     ap.add_argument("--frames-comunes", action="store_true",
                     help="si los ejes no coinciden, comparar solo los frames "
                          "que sí calzan")
+    ap.add_argument("--por-indice", action="store_true",
+                    help="alinear los frames por posición y no por el valor del "
+                         "eje. Es lo que corresponde en análisis por incrementos: "
+                         "la app numera los incrementos y los scripts guardan la "
+                         "carga en kN/m. Compara el prefijo común si un lado "
+                         "cortó antes.")
     ap.add_argument("--top", type=int, default=8,
                     help="cuántos frames malos listar")
     args = ap.parse_args()
@@ -310,7 +331,7 @@ def main():
         return 2
 
     f_ref, f_app = emparejar_frames(eje_ref, eje_app, nombre_eje, unidad,
-                                    args.frames_comunes)
+                                    args.frames_comunes, args.por_indice)
     if f_ref is None:
         return 2
 
