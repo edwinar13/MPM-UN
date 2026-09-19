@@ -115,7 +115,7 @@ class ModelRepository():
         """
         return self.__unguarded_copy_db_project['CONFIGURACION']
     
-    def updateConfigDB(self, gravity = None, dampfac = None):    
+    def updateConfigDB(self, gravity = None):
         """Actualiza la configuración básica almacenada en la base de datos del proyecto actual.
 
         Args:
@@ -124,19 +124,16 @@ class ModelRepository():
         Returns:
             bool: True si la actualización fue exitosa, False en caso contrario.
 
-        """ 
+        """
 
-        try:  
-            if gravity != None:          
+        try:
+            if gravity != None:
                 self.__unguarded_copy_db_project['CONFIGURACION']['GRAVEDAD']=gravity
-            
-            if dampfac != None:
-                self.__unguarded_copy_db_project['CONFIGURACION']['DAMPFAC']=dampfac            
 
             return True
 
         except BaseException as err:
-            print("[Doc: {}]  Error al actualizar registro en <CONFIGURACION> de la base de datos {}".format(self.__name_doc_py))
+            print("[Doc: {}]  Error al actualizar registro en <CONFIGURACION> de la base de datos".format(self.__name_doc_py))
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False
 
@@ -650,46 +647,9 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err),err))
             return False    
         
-    '''
-      "CONFIGANALISIS":{
-    "ANALISISCUASIESTATICO": {
-      "EVALUARESTACONDICION": false,
-      "DELTAINCREMENTO": 0.0,
-      "NUMEROINCREMENTOS": 0
-    }
-  },
-    '''
-    # ::::::::::::::::::::        CONFIGURACION ANALISIS       ::::::::::::::::::::
-    def readConfigAnalysisDB(self):
-        """
-        Lee la configuración del análisis almacenadas en la base de datos del proyecto actual.
-        Returns:
-            (dict): Diccionario con la configuración del análisis del proyecto.
-        """ 
-        return self.__unguarded_copy_db_project['CONFIGANALISIS']
-    
-    def updateConfigAnalysisDB(self, evaluate_condition=None, 
-                               delta_increment=None,
-                               delta_increment_grav = None,
-                                 number_increments=None):
-
-        try:                  
-            if evaluate_condition != None:   
-                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["EVALUARESTACONDICION"]=evaluate_condition
-            if delta_increment != None:   
-                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"]=delta_increment
-            if delta_increment_grav != None:
-                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["DELTAINCREMENTO_GRAV"]=delta_increment_grav
-            if number_increments != None:   
-                self.__unguarded_copy_db_project['CONFIGANALISIS']["ANALISISCUASIESTATICO"]["NUMEROINCREMENTOS"]=number_increments
-
-            return True
-        except BaseException as err:
-            print("[Doc: {}] Error al actualizar registro en <CONFIGANALISIS> de la base de datos".format(self.__name_doc_py))
-            print("[Tipo: {}, Erro: {}]".format(type(err),err))
-            return False
-
     # ::::::::::::::::::::        ETAPAS DE ANALISIS       ::::::::::::::::::::
+    # CONFIGANALISIS = {"ETAPAS": [...], "REANUDAR_DESDE": 0}. Los proyectos
+    # viejos pueden traer además ANALISISCUASIESTATICO: ya no se lee.
     def readStagesDB(self):
         """Lee la lista de etapas de análisis (CONFIGANALISIS.ETAPAS).
 

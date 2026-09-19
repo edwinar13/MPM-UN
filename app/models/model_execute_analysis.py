@@ -1,12 +1,9 @@
 
-from ezdxf.entities import factory
-from motorMPM.mesh import create_uniform, contour_fixe, setup_MP,search_MP
-from motorMPM.mesh import traction_forces,boundary_particles,boundary_particles2, boundary_particles3, node_conectivity
+from motorMPM.mesh import search_MP, boundary_particles3, node_conectivity
 from models.model_analysis_config import AnalysisConfig, StageType, stage_use_gauss
 from models.analysis_utils import compute_min_dt, build_time_arrays
-from motorMPM.explicit2 import deltatime,deltatime2, particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
-from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress, nodes_to_particle_stress2, static_convergence, nodes_to_particle_stress_gauss
-from motorMPM.graphics import graphic_button,graphic_button2,graphic_button3,graphic_button4, graphic_video2,graphic_gif
+from motorMPM.explicit2 import particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
+from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress2, static_convergence, nodes_to_particle_stress_gauss
 from models.model_ProjectCurrent import ModelProjectCurrent
 from models.model_Result import ModelResult
 #from controllers.draw.controller_MenuExecute import AnalysisProgressDialog
@@ -18,7 +15,6 @@ import time
 import os
 import json
 from datetime import datetime
-import pandas as pd
 
 class MeshBack:
     """Clase que contiene la malla de fondo
@@ -174,16 +170,8 @@ class ModelExcuteAnalysisMPM:
         self.error_message = ""
          
         #===========  variables  ===========
-        
-        # Condiciones iniciales Cuasi-Estatico
-        self.__dincre = None
-        self.__dincreGrav = None
-        self.__nincre = None
-        self.__charge = None
-        self.__chargeGrav = None
-        
+
         # Condiciones iniciales
-        self.__ic_dampfac = None
         self.__ic_gravity = None
         
         # Restricciones
@@ -212,21 +200,17 @@ class ModelExcuteAnalysisMPM:
         
         
     # ===================================================================
-    #  MÉTODO UNIFICADO (FASE 2) - Reemplaza runViga y runAnalysisCE
+    #  Ejecución
     # ===================================================================
     def run(self):
-        """Método unificado de ejecución.
-        
-        Usa self.analysis_config (AnalysisConfig) para determinar
-        el tipo de análisis y ejecutar el bucle correspondiente.
-        Si analysis_config es None, se comporta como runViga (legacy).
-        """
+        """Inicializa el modelo, corre todas las etapas de
+        self.analysis_config y guarda los resultados."""
         config = self.analysis_config
         if config is None:
-            # Fallback legacy: construir config desde parámetros actuales
-            print("[WARN] run() sin AnalysisConfig, usando legacy")
-            return self.runViga()
-        
+            self.error_message = "No hay configuración de análisis (etapas)."
+            print(f"[ERROR] {self.error_message}")
+            return False
+
         print(f"[MPM-UN] run() con config: {config.analysis_type.value}")
 
         self.__rs_stages = []
@@ -789,8 +773,8 @@ class ModelExcuteAnalysisMPM:
 
     def _run_dynamic_loop(self, config: AnalysisConfig, stage):
         """Bucle dinámico: for t in range(N).
-        
-        Equivalente al antiguo executeAnalysisViga.
+
+        Mismo esquema que beam.py y la fase de falla de talud_2021_v2.py.
         """
         analysis_dialog = self.analysis_dialog
         list_time_graphic = self.__tm_list_time_graphic
@@ -902,8 +886,9 @@ class ModelExcuteAnalysisMPM:
     def _run_quasi_static_increment_loop(self, config: AnalysisConfig, stage):
         """Bucle cuasi-estático con incrementos de carga:
         for i in range(nincre): while(ff > tol).
-        
-        Equivalente al antiguo executeAnalysisCE.
+
+        Mismo esquema que Ca_portante2.py y la fase geostática de
+        talud_2021_v2.py.
         """
         analysis_dialog = self.analysis_dialog
         
@@ -1053,86 +1038,11 @@ class ModelExcuteAnalysisMPM:
         return True
     
     # ===================================================================
-    #  MÉTODOS LEGACY (se mantienen por compatibilidad)
+    #  Inicialización (común a todas las etapas)
     # ===================================================================
-    def runViga(self):  
-        print("runViga (LEGACY)")      
-        response = self.initConditions()
-        #response = self.initMeshBack()
-        response = self.initBoundary()
-        response = self.initMaterialPoint()
-        response = self.initProperties()
-        response = self.initVerctorAndMatrix()
-        response = self.initBoundaryParticles()        
-        response = self.executeAnalysisViga()       
-        if response: 
-            response = self.saveResults()        
-        return response
-
-    def runAnalysisCE(self):
-        print("runAnalysisCE")
-        response = self.initConditionsAnalysisCE()
-        response = self.initConditions()
-        #response = self.initMeshBack()
-        response = self.initBoundary()        
-        response = self.initMaterialPoint()
-        response = self.initProperties()
-        response = self.initVerctorAndMatrix()
-        response = self.initBoundaryParticles()        
-        response = self.executeAnalysisCE()         
-        if response: 
-            response = self.saveResults()        
-        return response
-
-    def runAnalysisDisc(self):
-        print("runAnalysisDisc")
-        return
-        response = self.initConditions()
-        #response = self.initMeshBack()
-        response = self.initBoundary()        
-        response = self.initMaterialPoint()
-        response = self.initProperties()
-        response = self.initVerctorAndMatrix()
-        response =self.initStateStressGeo()
-        response = self.executeAnalysisDisc() 
-        return
-        response = self.initBoundaryParticles()        
-        if response: 
-            response = self.saveResults()        
-        return response
-              
-        
-        
-        
-    def initConditionsAnalysisCE(self):
-        nincre = self.model_current_project.getNoIncre()
-        dincre = self.model_current_project.getDincre()
-        dincreGrav = self.model_current_project.getDincreGrav()
-        charge = -np.linspace(0, dincre*nincre, nincre + 1) # array con los valores de carga de cada incremento
-        chargeGrav = -np.linspace(0, dincreGrav*nincre, nincre + 1) # array con los valores de gravedad de cada incremento 
-        '''
-        '''
-        self.__dincre = dincre
-        self.__dincreGrav = dincreGrav
-        self.__charge = charge
-        self.__chargeGrav = chargeGrav
-        self.__nincre = nincre
-        
-        print("self.__dincre", self.__dincre)
-        print("self.__dincreGrav", self.__dincreGrav)
-        print("self.__charge", self.__charge)
-        print("self.__chargeGrav", self.__chargeGrav)
-        print("self.__nincre", self.__nincre)
-        
-
-    
     def initConditions(self):
-        self.__ic_dampfac = self.model_current_project.getDampfac()
+        # El damping ya no es global: lo fija cada etapa (stage.damping_factor).
         self.__ic_gravity = self.model_current_project.getGravity()
-        '''
-        print("self.__ic_dampfac", self.__ic_dampfac)
-        print("self.__ic_gravity", self.__ic_gravity)
-        '''
 
       
     def initMeshBack(self):
@@ -1524,687 +1434,6 @@ class ModelExcuteAnalysisMPM:
         self.__bo_bound_ptcl = bound_ptcl
         self.__bo_bound_val = bound_val
         
-    def initStateStressGeo(self):
-        # ==== ESTADO DE ESFUERZOS GEOSTATICO =========
-        Prop_1 = self.__mp_prop
-        rhop_1 = self.__vm_rhop
-        nmp_1 = self.__mp_nmp
-        ele_size = self.__mb_ele_size
-        xp_1 = self.__mp_xp
-        sig_1 = self.__vm_sig
-        
-        nmpe_1 = 4
-        
-        # Definir un valor inicial de esfuerzo
-        k0 = Prop_1[:,1] / (1 - Prop_1[:,1]) # definicion elastica
-        #k0 = 1 - np.sin(Prop[:,3]) # definicion Jacky
-        ymax = [np.max(xp_1[np.where(xp_1[:,0] == xp_1[i,0])[0],1]) for i in range(nmp_1)] + ele_size / (2 * (nmpe_1)**(1/2))*np.ones(nmp_1)
-        sig_1[:,1] = -(ymax - xp_1[:,1]) * rhop_1[:] * 0 # 9.81 # esfuerzo en y
-        sig_1[:,0] = sig_1[:,1] * k0 # esfuerzo en x
-        sig_1[:,3] = sig_1[:,1] * k0 # esfuerzo en z
-        
-        
-        
-        print("K0: ", k0)
-        print("Esfuerzo en y: ", sig_1[:,1])
-        print("Esfuerzo en x: ", sig_1[:,0])
-        print("Esfuerzo en z: ", sig_1[:,3])
-                
-            
-    def executeAnalysisDisc(self):
-        inci = self.__mb_inci
-        active_elem_1 = self.__mp_active_elem
-        active_nodes_1 = np.unique(inci[active_elem_1 - 1,:])
-        '''
-        print("active_nodes_1", active_nodes_1)
-        '''
-        
-    def executeAnalysisCE(self):
-        
-        # variables necesarias
-        analysis_dialog = self.analysis_dialog
-
-        # incrementos de carga
-        dincre = self.__dincre
-        dincreGrav = self.__dincreGrav
-        charge = self.__charge
-        chargeGrav = self.__chargeGrav
-
-        nincre = self.__nincre
-
-
-        
-        
-
-        list_time_graphic = np.linspace(0, nincre, nincre+1)
-        list_time = np.linspace(0, nincre, nincre+1)
-        steps_time = nincre
-        dtime = self.__tm_dt_time
-        
-    
-        
-      
-        '''
-        # mesh back
-        ele_size = self.__mb_ele_size
-        nelex = self.__mb_nelex
-        inci = self.__mb_inci
-        cor = self.__mb_cor
-        '''
-
-
-        
-        # material point
-        nmp =   self.__mp_nmp
-        xp =    self.__mp_xp
-        mp_elem = self.__mp_mp_elem
-        
-        # boundary
-        fixed_nodesX = self.__bo_fixed_nodesX
-        fixed_nodesY = self.__bo_fixed_nodesY
-        
-        #properties
-        Prop = self.__mp_prop
-        
-        # vertor and matrix
-        Fp =   self.__vm_Fp
-        sig =   self.__vm_sig
-        epse = self.__vm_epse
-        epsp = self.__vm_epsp
-        vp = self.__vm_vp
-        Vp = self.__vm_Vp
-        Vp0 = self.__vm_Vp0
-        Mp = self.__vm_Mp
-        bp = self.__vm_bp
-        bp0 = self.__vm_bp0
-        tp0 = self.__vm_tp0
-        
-        
-        dampfac = self.__ic_dampfac
-        
-        
-        bound_ptcl = self.__bo_bound_ptcl
-        bound_val = self.__bo_bound_val
-        
-        
-        
-        
-        t0 = tm.time()	
-        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        print(f'tiempo inicial: {t0}')     
-        
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        #::::::::::::::::::::::::::  arrays para guardar info a graficar :::::::::::::::::::::::::::::::::::
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        """Crea listas que contiene los puntos y cada punto tiene una lista de los resultados en cada dtime"""
-        #       :: corX
-        #       :: corY
-        #       :: sigxx
-        #       :: sigyy
-        #       :: sigxy
-        #       :: epsxx
-        #       :: epsyy
-        #       :: epsxy
-
-        corX = np.empty((nmp, nincre+1))
-        corY = np.empty((nmp, nincre+1))  
-        sigxx = np.empty((nmp, nincre+1))
-        sigyy = np.empty((nmp, nincre+1))
-        sigxy = np.empty((nmp, nincre+1))
-        epspxx = np.empty((nmp, nincre+1))
-        epspyy = np.empty((nmp, nincre+1))
-        epspxy = np.empty((nmp, nincre+1))
-        epsexx = np.empty((nmp, nincre+1))
-        epseyy = np.empty((nmp, nincre+1))
-        epsexy = np.empty((nmp, nincre+1))
-        velxx = np.zeros((nmp, nincre+1))
-        velyy = np.zeros((nmp, nincre+1))
-        velxy = np.zeros((nmp, nincre+1))
-        desplxx = np.zeros((nmp, nincre+1))
-        desplyy = np.zeros((nmp, nincre+1))
-        desplxy = np.zeros((nmp, nincre+1))
-        eqplas = np.zeros((nmp, nincre+1))            
-   
-
-        corX[:,0], corY[:,0] = xp[:,0], xp[:,1] # coordenadas de las particulas
-        sigxx[:,0], sigyy[:,0], sigxy[:,0] = sig[:,0], sig[:,1], sig[:,2] # esfuerzos
-        epsexx[:,0], epseyy[:,0], epsexy[:,0] = epse[:,0], epse[:,1], epse[:,2] # deformaciones elasticas
-        epspxx[:,0], epspyy[:,0], epspxy[:,0] = epsp[:,0], epsp[:,1], epsp[:,2] # deformaciones plasticas
-        velxx[:,0], velyy[:,0] = vp[:,0], vp[:,1]
-        velxy = np.sqrt(velxx[:,0]**2 + velyy[:,0]**2)
-        desplxx[:,0], desplyy[:,0] , desplxy[:,0] = 0, 0, 0 # desplazamiento inicial
-        eqplas[:,0] = 0 # def plastica equivalente
-    
-    
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        #::::::::::::::::::::::::::  Tiempo :::::::::::::::::::::::::::::::::::
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        # Timepo de analisis de entrada                                         :: time_ini
-        #       NOTA time: debe ser entrada de usuario
-        # delta de tiempo redondeado con un solo decimal diferente de cero      :: dtime
-        # el nuevo iimepo de analisis ajustado                                  :: time
-        # Lista de tiempos segun timepo maximo y dtime                          :: tiempo
-        # fotogramas por segundo                                                :: fps
-        #       NOTA fps: no se si esto sea entrada del usuario 
-        # delta de tiempo para graficar                                         :: dtimegraphic
-        # Lista de tiempos para graficar segun timepo maximo y dtimegraphic     :: tiempographic
-
-      
-        
-       
-
-        #new_list_time_graphic = list_time_graphic.copy()
-        #new_list_time = list_time.copy()
-        #current_index_graphic = 0
-
-
-        # -- INICIO CICLO INCREMENTOS DE CARGA --
-        tmax = 0 # tiempo maximo por incremento
-        mp = 1-1 # particula superior izquierda
-        for i in range(nincre):
-        
-            ########################################################################
-            #              Si se pausa o se cancela el análisis       
-            ########################################################################                
-                
-            # si se cierra el dialogo
-            if analysis_dialog.cancelled:
-                analysis_dialog.close()
-                return False
-            
-            # si se pausa en el dialogo
-            if analysis_dialog.paused:
-                analysis_dialog.setStatus(False, f"Ejecutando incremento del análisis:\n→ {i:.0f} de {nincre} pasos.\n\nAnálisis pausado")
-                while analysis_dialog.paused:
-                    time.sleep(0.1)
-                    QApplication.processEvents()  # Mantener la ventana actualizada
-                    if analysis_dialog.cancelled:
-                        analysis_dialog.close()
-                        return False
-                #analysis_dialog.setStatus(False, "Reanudando análisis...") 
-            
-            
-            ########################################################################
-            #              Si todo esta bien se continua con el análisis
-            #                      analisis de las particulas                   
-            ########################################################################        
-            analysis_dialog.setProgress(100*i/nincre)
-            analysis_dialog.setStatus(False, f"Ejecutando incremento del análisis:\n→ {i:.0f} de {nincre} pasos.")
-            QApplication.processEvents()     
-            
-                
-            if dincreGrav != 0:
-                bp[:, 1] = (i+1) * dincreGrav * bp0[:, 1] # haciendo el incremento de carga de gravedad
-            else:
-                bp[:, 1] = bp0[:, 1] # mantener la gravedad constante si no hay incremento
-            
-            tp = (i+1) * dincre * tp0 # haciendo el incremento de carga  
-            print("-"*20)
-            print("tp", tp)
-            print("bp", bp)
-            print("-"*20)
-            # inicializando parametros de convergencia
-            ff = 1
-            ee = 1
-            nework = 0
-
-            tcont = 0 # contador de interaciones
-            # -- INCIAR CILO EN EL TIEMPO --
-            tinicial = time.time() 
-            
-            while (ff > 0.011) or (ee > 0.01):
-                # imprimir timepo de ejecucion en la iteracion pero borra el tiempo anterior
-                analysis_dialog.setTimer(f"⏳ {time.time() - tinicial:.0f}seg")
-                QApplication.processEvents()     
-                #print(f"⏳ {time.time() - tinicial:.0f}seg", end="\r")
-                tcont += 1 #avanzando contador de tiempo
-                            
-                ########################################################################
-                #              Si el material se encuentra fuera de la malla            
-                #                         se detiene el análisis 
-                ########################################################################
-                # --- buscar elementos y nodos activos ---
-                mp_elem, active_elem = search_MP(mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex()) # buscar en que elem estan los MPs
-                active_nodes = np.unique(self.mesh.inci()[active_elem - 1,:]) # lista de nodos activos
- 
-                ########################################################################                    
-                # --- transferir de las particulas a los nodos ----
-                grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem # creando lista de valores de la malla
-                particle = xp, vp, Vp, Mp, sig, bp, tp # creando lista de partiulas 
-
-
-                #nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
-                nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes_gauss2(grid, particle, bound_val) # habilitar si es integracion mixta
-                #print(nmass, nmomentum,niforce, neforce, shfnp)
-                
-                
-                # --- Solucion sistema de ecuaciones nodales --- EXPLICITO!!
-                #dampfac = 0.75
-                ndamping = -dampfac*np.multiply(np.absolute(niforce + neforce), np.sign(nmomentum))
-                nforce = niforce + neforce + ndamping
-                nmomentum += nforce*dtime
-                
-                # --- Fijar nodos de Dirichlet ---
-                nmomentum, nforce, niforce, neforce = BC_Dirichlet_momentum(active_nodes, fixed_nodesX, fixed_nodesY, nmomentum, nforce, niforce, neforce)
-                
-                # --- Transferir de los nodos a las particulas - velocidad y posicion ---
-                nquantities = nmass, nmomentum, nforce # creando lista de valores nodales
-                particle = xp, vp, Vp, Mp, sig, shfnp # creando lista de particulas
-                xp, vp, nvel = nodes_to_particle_vel(grid, particle, nquantities, dtime)
-
-                nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel) # fijar nodos de Dirichlet nvel
-
- 
-
-                # --- Transferir de los nodos a las particulas - Esfuerzo y deformacion ---
-                particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
-                #Fp, Vp, epse, epsp, sig = nodes_to_particle_stress(grid, particle, nvel, dtime, 1)
-                Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(grid, particle, bound_val, nvel, dtime, 1)
-                '''
-                print(sig[:,1])
-                if i == nincre-1:
-                    print(f"[{algo}] mp{mp+1}:{sig[:,1][mp]}")
-                    algo += 1            
-                if algo == 1:
-                    return
-                    
-                 mp1:-0.010161493288590595
-                '''
-                                
-                # --- Calcular parametros que determinar el equilibrio cuasi-estatico ---
-                # Parametros tiempo anterior
-                ff0 = ff
-                ee0 = ee
-                nework0 = nework 
-                ff, ee, nework = static_convergence(nmass, niforce, neforce, nvel, dtime, nework0)
-                
-                # Condicion para que salga del ciclo si lleva mucho tiempo en la iteracion
-                tiempoi = time.time() - tinicial
-                if (tiempoi > 100*t0) and (i > 0):
-                    # si el tiempo de ejecucion es mayor a 20 veces el max anterior a partir de i=1
-                    print("se excedio tiempo maximo de ejecucion!!")
-                    finfor = True
-                    break
-                else:
-                    finfor = False
-
-            # -- FIN CICLO DE TIEMPO --
-            tiempo = time.time() - tinicial # tiempo en la iteracion
-            if i == 0:
-                # guardando nuevo valor de tiempo de la iteracion 1
-                t0 = tiempo
-            
-            print("incremento ", i + 1, "numero de ciclos ", tcont)
-            print("tiempo en este incremento ", tiempo, " segundos")
-            print("desbalance de fuerzas ", ff, "Energia cinetica ", ee)
-            print()
-            # Grabar informacion del tiempo que consigue el equilibrio estatico
-            corX[:,i+1], corY[:,i+1] = xp[:,0], xp[:,1] # coordenadas de las particulas
-            sigxx[:,i+1], sigyy[:,i+1], sigxy[:,i+1] = sig[:,0], sig[:,1], sig[:,2] # esfuerzos           
-            epsexx[:,i+1], epseyy[:,i+1], epsexy[:,i+1] = epse[:,0], epse[:,1], epse[:,2] # deformaciones elasticas
-            epspxx[:,i+1], epspyy[:,i+1], epspxy[:,i+1] = epsp[:,0], epsp[:,1], epsp[:,2] # deformaciones plasticas
-            # calcular desplazamiento total
-
-            desplxx[:,i+1] = corX[:,i+1] -corX[:,0]
-            desplyy[:,i+1] = corY[:,i+1] -corY[:,0]
-            desplxy[:,i+1] = np.sqrt((corX[:,0] - corX[:,i+1])**2 + (corY[:,0] - corY[:,i+1])**2)
-            # deformacion plastica equivalente
-            eqplas[:,i+1] = np.sqrt(4/9*(epsp[:,0]**2 - epsp[:,0]*epsp[:,1] + epsp[:,1]**2) + 4/3*epsp[:,2]**2)
-                
-            if finfor == True:
-                # se debe salir del ciclo for por que no se alcanzo equilibrio
-                break
-
-        # -- FIN CICLO DE INCREMENTOS DE CARGA --
-                
-        # tomar solo los array que se llenaron - HASTA EL VALOR QUE TENGA i
-        corX, corY = corX[:,:i+2], corY[:,:i+2]
-        sigxx, sigyy, sigxy = sigxx[:,:i+2], sigyy[:,:i+2], sigxy[:,:i+2]
-        epsexx, epseyy, epsexy = epsexx[:,:i+2], epseyy[:,:i+2], epsexy[:,:i+2]
-        epspxx, epspyy, epspxy = epspxx[:,:i+2], epspyy[:,:i+2], epspxy[:,:i+2]        
-        eqplas = eqplas[:,:i+2]
-        charge = charge[:i+2]
-
-        #print("Desplazamiento en la parte superior: ", corY[-int((xf-xi)/ele_size/2)*nmpe,0] - corY[-int((xf-xi)/ele_size/2)*nmpe, -1])
-        #print("Esfuerzo syy en la base: ", sigyy[int((xf-xi)/ele_size/2)*nmpe, -1])
-
-    
-        tf =tm.time()
-        print("tiempo", tf- t0)
-        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        dimy = 2
-        dimx = 2
-        #print(corX, corY, sigyy, Vp0[0]*(12/dimy)**2, charge, dimx, dimy)
-        graphic_button2(corX, corY, desplxy, Vp0[0]*(12/dimy)**2, charge, dimx, dimy)
-        #guardar en un archivo excel corX, corY, sigyy
-        self.save_results_excel(corX, corY, sigyy)
-
-    
-        # con np
-        self.__rs_new_list_time = list_time.copy()
-        #self.__rs_new_list_time = new_list_time
-        self.__rs_new_list_time_graphic = list_time_graphic.copy()
-        #self.__rs_new_list_time_graphic = new_list_time_graphic
-        self.__rs_corX = corX
-        self.__rs_corY = corY
-        self.__rs_sigxx = sigxx
-        self.__rs_sigyy = sigyy
-        self.__rs_sigxy = sigxy
-        self.__rs_epsexx = epsexx
-        self.__rs_epseyy = epseyy
-        self.__rs_epsexy = epsexy
-        self.__rs_epspxx = epspxx
-        self.__rs_epspyy = epspyy
-        self.__rs_epspxy = epspxy
-        self.__rs_velxy = velxy
-        self.__rs_velxx = velxx
-        self.__rs_velyy = velyy
-        self.__rs_desplxy = desplxy
-        self.__rs_desplxx = desplxx
-        self.__rs_desplyy = desplyy
-        self.__rs_eqplas = eqplas               
-        
-        
-        return True
-
-    def executeAnalysisViga(self):       
-        
-        # variables necesarias
-        analysis_dialog = self.analysis_dialog
-        
-        list_time_graphic = self.__tm_list_time_graphic
-        list_time =         self.__tm_list_time
-        steps_time =        self.__tm_steps_time
-        dt_time =           self.__tm_dt_time
-        
-        # mesh back
-        '''
-        ele_size = self.__mb_ele_size
-        nelex = self.__mb_nelex
-        inci = self.__mb_inci
-        cor = self.__mb_cor
-        '''
-        
-        # material point
-        nmp =   self.__mp_nmp
-        xp =    self.__mp_xp
-        mp_elem = self.__mp_mp_elem
-        
-        # boundary
-        fixed_nodesX = self.__bo_fixed_nodesX
-        fixed_nodesY = self.__bo_fixed_nodesY
-        
-        #properties
-        Prop = self.__mp_prop
-        
-        # vertor and matrix
-        Fp =   self.__vm_Fp
-        sig =   self.__vm_sig
-        epse = self.__vm_epse
-        epsp = self.__vm_epsp
-        vp = self.__vm_vp
-        Vp = self.__vm_Vp
-        Vp0 = self.__vm_Vp0
-        Mp = self.__vm_Mp
-        bp = self.__vm_bp
-        tp = self.__vm_tp0
-        
-        
-        dampfac = self.__ic_dampfac
-        
-        
-        
-        
-        
-        t0 = tm.time()	
-        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        print(f'tiempo inicial: {t0}')     
-        
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        #::::::::::::::::::::::::::  arrays para guardar info a graficar :::::::::::::::::::::::::::::::::::
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        """Crea listas que contiene los puntos y cada punto tiene una lista de los resultados en cada dtime"""
-        #       :: corX
-        #       :: corY
-        #       :: sigxx
-        #       :: sigyy
-        #       :: sigxy
-        #       :: epsxx
-        #       :: epsyy
-        #       :: epsxy
-
-        corX = np.zeros((nmp, len(list_time_graphic)))
-        corY = np.zeros((nmp, len(list_time_graphic)))     
-        sigxx = np.zeros((nmp, len(list_time_graphic)))
-        sigyy = np.zeros((nmp, len(list_time_graphic)))
-        sigxy = np.zeros((nmp, len(list_time_graphic)))
-        epsexx = np.zeros((nmp, len(list_time_graphic)))
-        epseyy = np.zeros((nmp, len(list_time_graphic)))
-        epsexy = np.zeros((nmp, len(list_time_graphic)))
-        epspxx = np.zeros((nmp, len(list_time_graphic)))
-        epspyy = np.zeros((nmp, len(list_time_graphic)))
-        epspxy = np.zeros((nmp, len(list_time_graphic)))
-        velxx = np.zeros((nmp, len(list_time_graphic)))
-        velyy = np.zeros((nmp, len(list_time_graphic)))
-        velxy = np.zeros((nmp, len(list_time_graphic)))
-        desplxx = np.zeros((nmp, len(list_time_graphic)))
-        desplyy = np.zeros((nmp, len(list_time_graphic)))
-        desplxy = np.zeros((nmp, len(list_time_graphic)))
-        eqplas = np.zeros((nmp, len(list_time_graphic)))
-        
-   
- 
-        corX[:,0], corY[:,0] = xp[:,0], xp[:,1]
-        sigxx[:,0], sigyy[:,0], sigxy[:,0] = sig[:,0], sig[:,1], sig[:,2]
-        epspxx[:,0], epspyy[:,0], epspxy[:,0] = epsp[:,0], epsp[:,1], epsp[:,2]
-        epsexx[:,0], epseyy[:,0], epsexy[:,0] = epse[:,0], epse[:,1], epse[:,2]
-        velxx[:,0], velyy[:,0] = vp[:,0], vp[:,1]   
-        velxy[:, 0] = np.sqrt(velxx[:,0]**2 + velyy[:,0]**2)
-        desplxx[:,0], desplyy[:,0] , desplxy[:,0] = 0, 0, 0
-        eqplas[:,0] = 0 # def plastica equivalente
-
-        
-
-
-
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        #::::::::::::::::::::::::::  Tiempo :::::::::::::::::::::::::::::::::::
-        #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
-        # Timepo de analisis de entrada                                         :: time_ini
-        #       NOTA time: debe ser entrada de usuario
-        # delta de tiempo redondeado con un solo decimal diferente de cero      :: dtime
-        # el nuevo iimepo de analisis ajustado                                  :: time
-        # Lista de tiempos segun timepo maximo y dtime                          :: tiempo
-        # fotogramas por segundo                                                :: fps
-        #       NOTA fps: no se si esto sea entrada del usuario 
-        # delta de tiempo para graficar                                         :: dtimegraphic
-        # Lista de tiempos para graficar segun timepo maximo y dtimegraphic     :: tiempographic
-
-            
-       
-
-        new_list_time_graphic = list_time_graphic.copy()
-        new_list_time = list_time.copy()
-        current_index_graphic = 0
-
-        # se usa list_time.size-1 para que no analice en el ultimo paso de tiempo
-        #ya que los analisis de tiempo i dan resultados en tiempo i+1
-        
-        for index in range(list_time.size-1):            
-       
-            current_time = list_time[index]
-            current_time_graphic = list_time_graphic[current_index_graphic]
-
-            ########################################################################
-            #              Si se pausa o se cancela el análisis       
-            ########################################################################                
-                
-            # si se cierra el dialogo
-            if analysis_dialog.cancelled:
-                analysis_dialog.close()
-                return False
-            
-            # si se pausa en el dialogo
-            if analysis_dialog.paused:
-                analysis_dialog.setStatus(False, f"Ejecutando paso del análisis:\n→ {index:.0f} de {steps_time} pasos.\n\nAnálisis pausado")
-                while analysis_dialog.paused:
-                    time.sleep(0.1)
-                    QApplication.processEvents()  # Mantener la ventana actualizada
-                    if analysis_dialog.cancelled:
-                        analysis_dialog.close()
-                        return False
-                #analysis_dialog.setStatus(False, "Reanudando análisis...") 
-            
-            
-            ########################################################################
-            #              Si el material se encuentra fuera de la malla            
-            #                         se detiene el análisis 
-            ########################################################################
-            # 1 => Buscamos en que elementos estan los MP
-            mp_elem, active_elem = search_MP(mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex())      
-            try:
-                active_nodes = np.unique(self.mesh.inci()[active_elem-1, :])
-            except Exception as e:
-                
-                print("---------------------//-------------------------")
-                print("Error: ", e)
-                print("Error en el tiempo: ", current_time, " paso: ", index)
-                print("Tamaño de inci:", self.mesh.inci().shape)
-                print("Índice a acceder:", active_elem)
-                print("---------------------//-------------------------")
-                
-                #tiempo = tiempo[:t]
-                # Abre un dialogo de error y pregunta si se desea finalizar el análisis
-                text_error = f"Error en el tiempo: {current_time} "
-                text_error = f"Paso:[{index} de {steps_time}]\n"
-                text_error += f"El material se encuentra fuera de la malla\nEl análisis se detendrá en este punto.\n"
-                analysis_dialog.setStatus(True,text_error)
-                text_question = f"¿Quieres finalizar el análisis hasta este punto\n"
-                text_question += f"y guardar los resultados?"
-                analysis_dialog.setQuestion(text_question)
-                analysis_dialog.pauseAnalysis()
-                analysis_dialog.setViewError()
-                while analysis_dialog.paused:
-                    time.sleep(0.1)
-                    QApplication.processEvents()  # Mantener la ventana actualizada
-                    # Si se cancela el análisis
-                    if analysis_dialog.cancelled:
-                        analysis_dialog.close()
-                        return False
-                    # Si se acepta el análisis
-                    if analysis_dialog.accepted:
-                        analysis_dialog.close()
-
-                        # quitamos las filas que no se han llenado                       
-                        new_list_time = new_list_time[:index]
-                        position_max = current_index_graphic
-                        new_list_time_graphic = new_list_time_graphic[:position_max]
-                        corX = corX[:, :position_max] # antes era position_max+1
-                        corY = corY[:, :position_max]
-                        sigxx = sigxx[:, :position_max]
-                        sigyy = sigyy[:, :position_max]
-                        sigxy = sigxy[:, :position_max]
-                        epspxx = epspxx[:, :position_max]
-                        epspyy = epspyy[:, :position_max]
-                        epspxy = epspxy[:, :position_max]
-                        epsexx = epsexx[:, :position_max]
-                        epseyy = epseyy[:, :position_max]
-                        epsexy = epsexy[:, :position_max]
-                        velxx = velxx[:, :position_max]
-                        velyy = velyy[:, :position_max]
-                        velxy = velxy[:, :position_max]
-                        desplxx = desplxx[:, :position_max]
-                        desplyy = desplyy[:, :position_max]
-                        desplxy = desplxy[:, :position_max]
-                        eqplas = eqplas[:, :position_max]
-                        break              
-                break
-                
-                
-                
-               
-            ########################################################################
-            #              Si todo esta bien se continua con el análisis
-            #                      analisis de las particulas                   
-            ########################################################################        
-            analysis_dialog.setProgress(100*index/steps_time)
-            analysis_dialog.setStatus(False, f"Ejecutando paso del análisis:\n→ {index:.0f} de {steps_time} pasos.")
-            QApplication.processEvents()          
-     
-            #new_list_time.append(list_time[index])
-            
-            # 3 => Transferir la informacion de las particulas a lo nodos de la malla
-            grid = self.mesh.inci(), self.mesh.cor(), active_elem, active_nodes, mp_elem
-            particle = xp, vp, Vp, Mp, sig, bp, tp
-            nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
-            nforce = niforce + neforce
-            
-                   
-            
-            # 4 => Aplicar condiciones de frontera
-            ndamping = dampfac * (np.multiply(np.absolute(nforce),np.sign(nmomentum)))
-            nforce = nforce + ndamping
-            nmomentum += nforce*dt_time
-            nmomentum, nforce, niforce, neforce = BC_Dirichlet_momentum(active_nodes, fixed_nodesX,fixed_nodesY, nmomentum, nforce,  niforce, neforce)
-            
-            
-            # 5 => Calcula la velocidad y posicion de las particulas, transfiriendo de los nodos a las particulas
-            nquantities = nmass, nmomentum, nforce
-            particle= xp, vp, Vp, Mp, sig, shfnp
-            xp, vp, nvel=nodes_to_particle_vel(grid, particle, nquantities, dt_time)
-            
-            nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY,nvel)
-            
-            # 6 => Calcula esfuerzo y deformacion de las particulas, transfiriendo la velocidad nodal de las particulas
-            particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
-            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress(grid, particle, nvel, dt_time, 0)
-
-            # Guardar datos para graficar current_time_graphic+1 para guarde desde el segundo tiempo
-            # ya que el primero es la condicion inicial en ceros
-            if abs(current_time - current_time_graphic) < 1e-13: 
-                corX[:,current_index_graphic + 1],corY[:,current_index_graphic + 1]= xp[:,0],xp[:,1]
-                sigxx[:,current_index_graphic + 1],sigyy[:,current_index_graphic + 1],sigxy[:,current_index_graphic + 1]=sig[:,0],sig[:,1],sig[:,2]
-                epsexx[:,current_index_graphic + 1],epseyy[:,current_index_graphic + 1],epsexy[:,current_index_graphic + 1]=epse[:,0],epse[:,1],epse[:,2]
-                epspxx[:,current_index_graphic + 1],epspyy[:,current_index_graphic + 1],epspxy[:,current_index_graphic + 1]=epsp[:,0],epsp[:,1],epsp[:,2]
-                velxx[:,current_index_graphic + 1], velyy[:,current_index_graphic + 1] = vp[:,0], vp[:,1]
-                velxy[:, current_index_graphic + 1] = np.sqrt(vp[:,0]**2 + vp[:,1]**2)
-                desplxx[:,current_index_graphic + 1] = corX[:,current_index_graphic + 1] - corX[:,0]
-                desplyy[:,current_index_graphic + 1] = corY[:,current_index_graphic + 1] - corY[:,0]
-                desplxy[:,current_index_graphic + 1] = np.sqrt((corX[:,0] - corX[:,current_index_graphic + 1])**2 + (corY[:,0] - corY[:,current_index_graphic + 1])**2)                   
-                current_index_graphic += 1
-          
-        print(">>: ", vp[0])
-        print('*/*/*/* velxy ', velxy.shape)
-        print('++/++/++/++ velx ', velxx.shape)
-        tf =tm.time()
-        print("tiempo", tf- t0)
-        print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        
-        self.__rs_new_list_time = new_list_time
-        self.__rs_new_list_time_graphic = new_list_time_graphic
-        self.__rs_corX = corX
-        self.__rs_corY = corY
-        self.__rs_sigxx = sigxx
-        self.__rs_sigyy = sigyy
-        self.__rs_sigxy = sigxy
-        self.__rs_epsexx = epsexx
-        self.__rs_epseyy = epseyy
-        self.__rs_epsexy = epsexy
-        self.__rs_epspxx = epspxx
-        self.__rs_epspyy = epspyy
-        self.__rs_epspxy = epspxy
-        self.__rs_velxy = velxy
-        self.__rs_velxx = velxx
-        self.__rs_velyy = velyy
-        self.__rs_desplxx = desplxx
-        self.__rs_desplyy = desplyy
-        self.__rs_desplxy = desplxy
-        self.__rs_eqplas = eqplas
-        
-        
-        
-        return True
-    
     def saveResults(self):
         model_mesh_back = self.model_current_project.getModelMeshBack()
         
@@ -2241,11 +1470,12 @@ class ModelExcuteAnalysisMPM:
         ########################################################################        
         self.model_result.clearResult()
 
-        # Etapas ejecutadas + a qué frames corresponde cada una. El damping
-        # global queda como informativo: el que gobierna es el de cada etapa.
+        # Etapas ejecutadas + a qué frames corresponde cada una. DAMPFAC se
+        # guarda solo como dato informativo (el de la primera etapa): el que
+        # gobierna es el de cada etapa, que va completo en ETAPAS.
+        # run() no llega aquí sin al menos un bloque de resultados.
         stages_dicts = [b['stage'].to_dict() for b in self.__rs_stages]
-        dampfac = (self.__rs_stages[0]['stage'].damping_factor
-                   if self.__rs_stages else self.__ic_dampfac)
+        dampfac = self.__rs_stages[0]['stage'].damping_factor
         self.model_result.updateResultDataBase(
             gravity= self.__ic_gravity,
             dampfac=  dampfac,
@@ -2412,24 +1642,6 @@ class ModelExcuteAnalysisMPM:
     
 
     
-    def save_results_excel(self, corX, corY, sigyy):
-        #guardar en un archivo excel corX, corY, sigyy con pandas
-        path = "D:/Programacion/Tesis UNAL Geotecnia/2 Software/MPM-UN/test/3  archivos _mpm 2404\EXCEL/"
-        name = "resultados_CE.xlsx"
-        with pd.ExcelWriter(path + name) as writer:
-            df = pd.DataFrame(corX)
-            df.to_excel(writer, sheet_name='corX')
-            df = pd.DataFrame(corY)
-            df.to_excel(writer, sheet_name='corY')
-            df = pd.DataFrame(sigyy)
-            df.to_excel(writer, sheet_name='sigyy')
-        return
-        # abrir archivo
-        #import subprocess
-        #subprocess.Popen([path_data], shell=True)
-    
-
-
     def findCellForPoints(self, material_points, elements, nodes) -> dict:
         """Encuentra la celda a la que pertenece cada punto.
         Descripcion detallada de la función:  

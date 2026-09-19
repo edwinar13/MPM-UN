@@ -1249,38 +1249,6 @@ background-color: transparent;
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_textData_DataDampfac">
-                 <property name="minimumSize">
-                  <size>
-                   <width>110</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Coef. amortiguamiento:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>3</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_textData_DataDampfac">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>25</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="QLineEditStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </item>

@@ -351,7 +351,6 @@ class ModelProjects:
             
             data['CONFIGURACION'] = {
                 "GRAVEDAD": 9.80,
-                "DAMPFAC": 0.00,
             }
             data['ITEMSDIBUJO'] = {
                 "PUNTOS": {},
@@ -394,12 +393,6 @@ class ModelProjects:
             data['CONTORNOS'] = {}            
 
             data['CONFIGANALISIS'] = {
-                "ANALISISCUASIESTATICO": {
-                    "EVALUARESTACONDICION": False,
-                    "DELTAINCREMENTO": 0.0,
-                    "DELTAINCREMENTO_GRAV": 0.0,
-                    "NUMEROINCREMENTOS": 0
-                },
                 "ETAPAS": [
                     {
                         "NOMBRE": "Etapa 1",

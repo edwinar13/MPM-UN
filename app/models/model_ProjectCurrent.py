@@ -57,7 +57,6 @@ class ModelProjectCurrent(QObject):
         self.__author = None 
         self.__description = None
         self.__gravity = None
-        self.__dampfac = None
 
         self.model_repository = ModelRepository(self.__path_doc)
 
@@ -132,8 +131,7 @@ class ModelProjectCurrent(QObject):
         # Configuracion
         data = self.model_repository.readConfigDB()
         self.__gravity = data["GRAVEDAD"]
-        self.__dampfac = data["DAMPFAC"]
-    
+
     def __initItem(self):
         items_points = self.model_repository.readItemPointDrawDB()
         for id_items_point in items_points: 
@@ -353,48 +351,13 @@ class ModelProjectCurrent(QObject):
         gravity = self.getDataConfig()["GRAVEDAD"]
         return  gravity
     
-    def getDampfac(self):
-        dampfac = self.getDataConfig()["DAMPFAC"]
-        return  dampfac
-    
-    
-    def getExecuteAnalysisCE(self):
-        execute_analysis_CE = self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["EVALUARESTACONDICION"]
-        return execute_analysis_CE
-    
-    def getDincre(self)->float:
-        dincre = float(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["DELTAINCREMENTO"])        
-        return dincre
-    
-    def getDincreGrav(self)->float:
-        dincregrav = float(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["DELTAINCREMENTO_GRAV"])
-        return dincregrav
-    
-    def getNoIncre(self) -> int:
-        noincre = int(self.getDataConfigAnalysis()["ANALISISCUASIESTATICO"]["NUMEROINCREMENTOS"])
-        return noincre
-    
-    
     def getDataConfig(self):
         '''
         Retorna la configuracion del proyecto
-        {'GRAVEDAD': 30.0, 'DAMPFAC': 0.0}
-        '''  
-        data = self.model_repository.readConfigDB()        
-        return data
-    
-    def getDataConfigAnalysis(self):
+        {'GRAVEDAD': 9.81}
+        El damping ya no es global: va en cada etapa (CONFIGANALISIS.ETAPAS).
         '''
-        Retorna la configuracion del analisis del proyecto
-          "CONFIGANALISIS":{
-                "ANALISISCUASIESTATICO": {
-                    "EVALUARESTACONDICION": false,
-                    "DELTAINCREMENTO": 0.0,
-                    "NUMEROINCREMENTOS": 0
-                }
-            },
-        '''  
-        data = self.model_repository.readConfigAnalysisDB()
+        data = self.model_repository.readConfigDB()
         return data
 
     def getStages(self) -> list:
@@ -436,19 +399,9 @@ class ModelProjectCurrent(QObject):
             author=author,
             description=description)
 
-    def updateConfig(self, gravity= None, dampfac=None): 
-        """ funcion para actualizar la configuracion del proyecto """       
-        self.model_repository.updateConfigDB(
-            gravity=gravity,
-            dampfac=dampfac)
-        
-    def updateConfigAnalysis(self, execute_analysis_CE=None, dincreGrav=None, dincre=None, noincre=None):
-        """ funcion para actualizar la configuracion del analisis del proyecto """
-        self.model_repository.updateConfigAnalysisDB(
-            evaluate_condition=execute_analysis_CE,
-            delta_increment=dincre,
-            delta_increment_grav=dincreGrav,
-            number_increments=noincre)
+    def updateConfig(self, gravity= None):
+        """ funcion para actualizar la configuracion del proyecto """
+        self.model_repository.updateConfigDB(gravity=gravity)
 
     def updateStages(self, stages_list):
         """Sobrescribe la lista de etapas de análisis del proyecto.

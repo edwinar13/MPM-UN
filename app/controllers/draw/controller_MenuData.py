@@ -40,8 +40,7 @@ class ControllerMenuData(QObject):
     
     def configDrawMenuData(self):
         dataInfo = self.model_current_project.getDataInfo()
-        dataConf = [self.model_current_project.getGravity(),
-                    self.model_current_project.getDampfac()]
+        dataConf = [self.model_current_project.getGravity()]
         self.view_menu_data.setTextWidget(dataInfo, dataConf)
 
     def getView(self):
@@ -88,10 +87,7 @@ class ControllerMenuData(QObject):
             
         elif name_attribute == "gravity":
             self.model_current_project.updateConfig(gravity=value_input)
-            
-        elif name_attribute == "dampfac":
-            self.model_current_project.updateConfig(dampfac=value_input)
-        
+
 
     
     @Slot(str)

@@ -77,7 +77,7 @@ Smoke al final: la app abre, `1_validacion_viga (prueba)` corre con 1 etapa din�
 - Eliminar: `LoadMode`, `load_mode`, `use_gauss_integration`, `plasticity_flag` global,
   `build_default_stages`, `from_legacy_viga`, `from_legacy_ce`, `time_steps`, `dt_override`.
 - Agregar `AnalysisConfig.resume_from_stage: int = 0` (PASO 4).
-- Actualizar `CLAUDE.md`.
+- Actualizar las notas de guía del proyecto.
 
 ### 1.3 Controlador — `app/controllers/draw/controller_MenuExecute.py`
 - Borrar `analysisViga` y `analysisCapacidadPoratnte` (sin llamadores).
@@ -299,16 +299,30 @@ por compatibilidad con el resultado histórico.
 
 ## PASO 6 — Post-validación (no ejecutar antes de que 5.3 pase)
 
-- Borrar legacy del modelo: `runViga`, `runAnalysisCE`, `runAnalysisDisc`,
+Hecho el 2026-09-18, tras cerrar la validación (ver `validacion_motor_vs_referencia.md`).
+
+- [x] Borrar legacy del modelo: `runViga`, `runAnalysisCE`, `runAnalysisDisc`,
   `initConditionsAnalysisCE`, `initStateStressGeo`, `executeAnalysisDisc`,
   `executeAnalysisCE`, `executeAnalysisViga`, `save_results_excel`, campos
   `__dincre/__dincreGrav/__nincre/__charge/__chargeGrav`, fallback `if config is None` en
-  `run()`, imports no usados (`ezdxf`, `deltatime2`, `graphic_*`).
-- Borrar `ANALISISCUASIESTATICO` y sus getters/setters; quitar `DAMPFAC` del menú Data (o
-  relabel "sin efecto").
-- Ejecutar `docs/plan_simplificacion_cargas.md` **agregando** a su PASO 2 la eliminación de
-  `gravity_increment_value` / `DELTAINCREMENTO_GRAV` y anotando en §5.1 que la equivalencia
-  CE no depende de la rampa de gravedad (gravedad 0).
+  `run()` (ahora devuelve False con `error_message`), imports no usados (`ezdxf`,
+  `deltatime*`, `graphic_*`, `pandas`, `boundary_particles/2`, `nodes_to_particle_stress`...).
+  `model_execute_analysis.py`: 2477 → ~1700 líneas.
+- [x] Borrar `ANALISISCUASIESTATICO` y sus getters/setters (`getDincre`, `getNoIncre`,
+  `getDincreGrav`, `getExecuteAnalysisCE`, `updateConfigAnalysis`, `read/updateConfigAnalysisDB`)
+  y la clave de la plantilla de proyecto nuevo.
+- [x] Quitar `DAMPFAC` del menú Data (`.ui` regenerado con `pyside6-uic`), del modelo y de la
+  plantilla. `RESULTADOS.DATOSBASE.DAMPFAC` se sigue escribiendo como dato informativo
+  (damping de la etapa 1) para el reporte PDF.
+- [x] Anotado en `plan_simplificacion_cargas.md` (PASO 2 y §5.1) lo de
+  `gravity_increment_value` / `DELTAINCREMENTO_GRAV`. **Ejecutar ese plan** queda como
+  paso siguiente, aparte: cambia cómo se definen las cargas.
+
+Verificación: `tools/smoke_stages.py` antes y después sobre viga (prueba), capacidad
+portante (reducido, geostático→carga) y talud mini (geostático→dinámico): **0.000e+00** en
+los 19 campos de los tres casos. Además: los 60 módulos de `models/controllers/views`
+importan, `ControllerMainWindow` se construye, y el menú Data funciona con un proyecto
+nuevo y con uno viejo que aún trae `DAMPFAC`.
 
 ---
 

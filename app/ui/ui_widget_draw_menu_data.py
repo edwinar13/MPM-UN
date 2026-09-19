@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_dataNiHXTA.ui'
+## Form generated from reading UI file 'widget_draw_menu_data.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -693,20 +693,6 @@ class Ui_FormDrawMenuData(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataGravity)
 
-        self.label_textData_DataDampfac = QLabel(self.frame_data2)
-        self.label_textData_DataDampfac.setObjectName(u"label_textData_DataDampfac")
-        self.label_textData_DataDampfac.setMinimumSize(QSize(110, 0))
-        self.label_textData_DataDampfac.setProperty(u"QLabelStyle", 3)
-
-        self.formLayout_2.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_textData_DataDampfac)
-
-        self.lineEdit_textData_DataDampfac = QLineEdit(self.frame_data2)
-        self.lineEdit_textData_DataDampfac.setObjectName(u"lineEdit_textData_DataDampfac")
-        self.lineEdit_textData_DataDampfac.setMinimumSize(QSize(150, 25))
-        self.lineEdit_textData_DataDampfac.setProperty(u"QLineEditStyle", 1)
-
-        self.formLayout_2.setWidget(1, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataDampfac)
-
 
         self.verticalLayout_5.addWidget(self.frame_data2)
 
@@ -780,8 +766,6 @@ class Ui_FormDrawMenuData(object):
         self.toolButton_cardDataSubTitle3.setText("")
         self.label_textData_DataGravity.setText(QCoreApplication.translate("FormDrawMenuData", u"<html><head/><body><p>Gravedad [m/s<span style=\" vertical-align:super;\">2</span>]:</p></body></html>", None))
         self.lineEdit_textData_DataGravity.setText("")
-        self.label_textData_DataDampfac.setText(QCoreApplication.translate("FormDrawMenuData", u"<html><head/><body><p>Coef. amortiguamiento:</p></body></html>", None))
-        self.lineEdit_textData_DataDampfac.setText("")
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuData", u"Empty", None))
         self.toolButton_updateData.setText(QCoreApplication.translate("FormDrawMenuData", u"Actualizar", None))
     # retranslateUi

@@ -123,7 +123,6 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.lineEdit_textData_DataAuthor.editingFinished.connect(self.__editingFinishedLineEditDataAuthor)
         self.textEdit_textData_DataDescription.textChanged.connect(self.__textChangedTextEditDataDescription)
         self.lineEdit_textData_DataGravity.editingFinished.connect(self.__editingFinishedLineEditDataGravity)
-        self.lineEdit_textData_DataDampfac.editingFinished.connect(self.__editingFinishedLineEditDataDampfactor)
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -274,26 +273,6 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             self.label_msn.setText("Revisa la gravedad")          
             QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
 
-    def __editingFinishedLineEditDataDampfactor(self):
-        """Verifica al salir del QLineEdit si el texto es
-        un número, si es verdadero le da formato decimal y
-        actualiza factor damping en la copia de la bd del proyecto.
-        si no es número da mensaje de error""" 
-        dampfac = self.lineEdit_textData_DataDampfac.text()
-        if general_functions.isNumber(dampfac):
-            self.lineEdit_textData_DataDampfac.setText(str(float(dampfac)))            
-            self.lineEdit_textData_DataDampfac.setStyleSheet("border-color: #444444")
-            self.label_msn.setText("Empty")
-            self.label_msn.setStyleSheet("color: #333333") 
-            self.signal_data_project.emit({"dampfac":float(dampfac)})
-
-        else:            
-            self.lineEdit_textData_DataDampfac.setFocus()
-            self.lineEdit_textData_DataDampfac.setStyleSheet("border: 1px solid #F94646")  
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa el factor de amortiguamiento")          
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-            
   
             
 
@@ -309,13 +288,11 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.author=data_info[2]
         self.description=data_info[3]
         self.gravity=data_config[0]
-        self.dampfac=data_config[1]
-  
+
         self.lineEdit_textData_DataTitleProject.setText(self.name_project)
         self.lineEdit_textData_DataLocation.setText(self.location)
         self.lineEdit_textData_DataAuthor.setText(self.author)
         self.textEdit_textData_DataDescription.setText(self.description)
         self.lineEdit_textData_DataGravity.setText("{}".format(self.gravity))
-        self.lineEdit_textData_DataDampfac.setText("{}".format(self.dampfac))
 
 

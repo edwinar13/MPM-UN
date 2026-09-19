@@ -137,3 +137,6 @@ test/
 
 # Checkpoints de etapas de analisis (estado .npz junto al proyecto)
 *_checkpoints/
+
+# Instrucciones de trabajo para el asistente de codigo (solo local)
+CLAUDE.md

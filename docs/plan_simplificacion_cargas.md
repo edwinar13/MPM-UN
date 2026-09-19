@@ -105,7 +105,8 @@ ya oculta `nincre` y `dincre` para `dynamic` (solo muestra `tiempo`).
 
 ### PASO 1 — Bucle cuasi-estático
 
-[model_execute_analysis.py:678-685](../app/models/model_execute_analysis.py#L678-L685):
+`_run_quasi_static_increment_loop` en
+[model_execute_analysis.py:897-903](../app/models/model_execute_analysis.py#L897-L903):
 
 ```python
 # ANTES
@@ -122,10 +123,10 @@ if stage.stage_type == StageType.GEOSTATIC:
     dincreGrav = 1.0 / nincre
 else:  # LOAD_INCREMENT
     load_step = 1.0 / nincre     # rampa 0 → 100 % de tp0
-    dincreGrav = stage.gravity_increment_value
+    dincreGrav = 0.0             # gravedad completa (ver PASO 2)
 ```
 
-[model_execute_analysis.py:730](../app/models/model_execute_analysis.py#L730):
+[model_execute_analysis.py:957](../app/models/model_execute_analysis.py#L957):
 
 ```python
 # ANTES
@@ -134,8 +135,7 @@ self.__vm_tp_current = (i + 1) * dincre * self.__vm_tp0
 self.__vm_tp_current = (i + 1) * load_step * self.__vm_tp0
 ```
 
-`charge` (línea 685) es solo para etiquetas de gráfica; recalcularlo como
-`-np.linspace(0, 1, nincre+1)` o dejarlo en función de la carga total.
+(`charge` ya no existe: se quitó en el PASO 1.1 de `plan_pre_validacion.md`.)
 
 ### PASO 2 — Modelo de datos
 
@@ -144,8 +144,15 @@ En [model_analysis_config.py](../app/models/model_analysis_config.py):
 - Eliminar `load_increment_value` de `AnalysisStage` y de `to_dict()`.
 - En `from_dict()`: dejar de leer `DELTAINCREMENTO` (o leerlo solo si se
   implementa la migración automática del PASO 5).
+- Eliminar también `gravity_increment_value` (clave `DELTAINCREMENTO_GRAV`).
+  Sobra con el flujo canónico: la rampa de gravedad la hace la etapa
+  geostática (`1/nincre`, automática) y la etapa de carga trabaja con la
+  gravedad completa. Quitarla también de la plantilla de proyecto nuevo
+  (`model_Projects.py`), de los defaults de `view_DialogStages.py` y de
+  `tools/smoke_stages.py`.
 
-Clave JSON `DELTAINCREMENTO` deja de escribirse. `NUMEROINCREMENTOS` se conserva.
+Claves JSON `DELTAINCREMENTO` y `DELTAINCREMENTO_GRAV` dejan de escribirse.
+`NUMEROINCREMENTOS` se conserva.
 
 ### PASO 3 — Diálogo de etapas
 
@@ -205,6 +212,9 @@ después la clave.
 
 1. **Equivalencia numérica** — capacidad portante con `Fy = 112` y `nincre = 16`
    debe dar el mismo resultado que hoy con `Fy = 1.0`, `dincre = −7`, `nincre = 16`.
+   Esta equivalencia no depende de la rampa de gravedad: la referencia
+   (`Ca_portante2.py`) corre con **gravedad 0**, así que quitar
+   `DELTAINCREMENTO_GRAV` no la afecta.
 2. **Viga (dinámica)** — sin cambios; confirmar que `Fy` sigue significando lo mismo.
 3. **Geostática** — confirmar que sigue ignorando las fuerzas y que ahora lo avisa.
 4. **Cadena geostática → carga** — la etapa 2 arranca con `sig ≠ 0` y aplica la carga
