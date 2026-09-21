@@ -177,6 +177,16 @@ mismos:
 > `t·l/ntp`, de modo que `t` es presión. Lo confirma que la carga de colapso caiga
 > en el valor analítico (§4.3).
 
+> **Cambio posterior en la app (2026-09-19): definición de cargas.** La app ya no
+> usa `Δ carga`: `Fy` de cada partícula es la fuerza final y la etapa llega a ella
+> en rampa, `tp = (i+1)·Fy/n` (ver `plan_simplificacion_cargas.md`). Los
+> proyectos de `test/6` se migraron una vez
+> (`Fy = Δ·n·Fy_semilla`: 0.5 → −56 en malla 1.0, 0.25 → −28 en malla 0.5). Para
+> estos valores la carga de cada incremento es **idéntica bit a bit** a la
+> anterior (comprobado en los 56 incrementos y con corridas de prueba a
+> 0.000e+00), así que los resultados de esta sección siguen valiendo sin
+> volver a correrlos.
+
 ### 4.2 Las dos corridas no coinciden dígito a dígito
 
 Comparando frame a frame (`--por-indice`):
@@ -498,7 +508,7 @@ cd "1 Referencia/Codigo MPM-UN Original_V1"
 # 2. Correr la app sin GUI y exportar al mismo formato
 cd "2 Software/MPM-UN"
 python tools/smoke_stages.py "test/6 archivos_mpm 2609/2_capacidad_portante_malla1.json" \
-    --stages "load_increment:n=56,dincre=-2,courant=0.1,damp=0.75,plast=1,gauss=1,tolff=0.011,tolee=0.01" \
+    --stages "load_increment:n=56,courant=0.1,damp=0.75,plast=1,gauss=1,tolff=0.011,tolee=0.01" \
     --mp "MP-Suelo" --export salida.npz
 
 # 3. Comparar

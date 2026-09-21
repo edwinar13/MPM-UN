@@ -36,29 +36,39 @@ for i in range(nincre):   # ej: nincre = 1
 
 **¿Qué hace en cada incremento?**
 
-### 3.1 Aplica la fracción de gravedad (L717-721)
+### 3.1 Aplica la fracción de gravedad
 
 ```python
 bp0 = self.__vm_bp0                           # gravedad base: [0, -9.81]
-self.__vm_bp[:, 1] = (i+1) * dincreGrav * bp0[:, 1]
+if dincreGrav != 0:                           # etapa geostática
+    self.__vm_bp[:, 1] = (i+1) * dincreGrav * bp0[:, 1]
+else:                                         # etapa de incrementos de carga
+    self.__vm_bp[:, 1] = bp0[:, 1]
 ```
 
 - `bp0` = gravedad completa (ej: `[0, -9.81]` para todas las partículas)
-- `dincreGrav` = `1/nincre` (ej: si `nincre=1`, entonces `dincreGrav=1.0`)
-- En el incremento `i=0`: `bp = 1.0 * 1.0 * (-9.81)` = gravedad completa
-- Si `nincre=10`: incremento 0 aplica 10%, incremento 1 aplica 20%, etc.
+- Etapa **geostática**: `dincreGrav = 1/nincre`. Si `nincre=10`, el incremento 0
+  aplica el 10 %, el 1 el 20 %, etc.
+- Etapa de **incrementos de carga**: gravedad completa desde el primer incremento
+  (el peso propio ya lo equilibró la etapa geostática anterior).
 
 > **Nota:** `bp` son las **fuerzas de cuerpo** = aceleración gravitatoria asignada a cada partícula. NO son fuerzas en Newtons todavía — se multiplican por la masa más adelante.
 
-### 3.2 Aplica la fracción de fuerzas externas (L723)
+### 3.2 Aplica la fracción de fuerzas externas
 
 ```python
-self.__vm_tp_current = (i+1) * dincre * self.__vm_tp0
+if geostatic:
+    self.__vm_tp_current = 0.0 * self.__vm_tp0             # solo peso propio
+else:
+    self.__vm_tp_current = (i + 1) * self.__vm_tp0 / nincre
 ```
 
-- `tp0` = fuerzas de tracción aplicadas (cargas puntuales definidas por el usuario)
-- `dincre` = `1/nincre`
-- Misma lógica incremental que la gravedad
+- `tp0` = fuerzas Fx/Fy asignadas a las partículas: **fuerza final** por partícula
+  [kN por metro de espesor]
+- En la etapa de incrementos de carga se llega a ella en rampa: 1/n, 2/n, … 100 %
+- La etapa geostática no aplica fuerzas externas: solo peso propio
+- Se multiplica primero y se divide al final para que el valor sea el redondeo
+  correcto de `(i+1)·Fy/n` (ver `docs/plan_simplificacion_cargas.md`)
 
 ---
 

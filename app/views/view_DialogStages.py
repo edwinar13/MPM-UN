@@ -41,18 +41,32 @@ STAGE_TYPES = [
 # Defaults por tipo al crear/cambiar una etapa
 STAGE_DEFAULTS = {
     "geostatic":      dict(DAMPING=0.75, COURANT=0.6, PLASTICIDAD=0, GAUSS=True,
-                           NUMEROINCREMENTOS=10, DELTAINCREMENTO=0.0, TIEMPOANALISIS=0.0),
+                           NUMEROINCREMENTOS=10, TIEMPOANALISIS=0.0),
     "load_increment": dict(DAMPING=0.75, COURANT=0.1, PLASTICIDAD=1, GAUSS=True,
-                           NUMEROINCREMENTOS=10, DELTAINCREMENTO=1.0, TIEMPOANALISIS=0.0),
+                           NUMEROINCREMENTOS=10, TIEMPOANALISIS=0.0),
     "dynamic":        dict(DAMPING=0.05, COURANT=0.1, PLASTICIDAD=1, GAUSS=False,
-                           NUMEROINCREMENTOS=1, DELTAINCREMENTO=0.0, TIEMPOANALISIS=1.0),
+                           NUMEROINCREMENTOS=1, TIEMPOANALISIS=1.0),
 }
 
 # Campos visibles según tipo
 VISIBLE_FIELDS = {
     "geostatic":      {"nincre", "tolff", "tolee"},
-    "load_increment": {"nincre", "dincre", "tolff", "tolee"},
+    "load_increment": {"nincre", "tolff", "tolee"},
     "dynamic":        {"tiempo"},
+}
+
+# Qué hace cada tipo con las cargas (nota bajo el formulario)
+STAGE_LOAD_NOTE = {
+    "geostatic": (
+        "Aplica solo el peso propio, con una rampa de gravedad en n pasos. "
+        "Las fuerzas Fx/Fy de las partículas no se usan en esta etapa."),
+    "load_increment": (
+        "Las fuerzas Fx/Fy de las partículas son la carga final "
+        "[kN por metro de espesor]. Se aplican en rampa: 1/n, 2/n, … hasta "
+        "el 100 %, con la gravedad completa."),
+    "dynamic": (
+        "Las fuerzas Fx/Fy de las partículas se aplican completas desde el "
+        "inicio, junto con la gravedad."),
 }
 
 
@@ -219,8 +233,6 @@ def _new_stage_dict(stage_type="dynamic", name="Etapa"):
         "DAMPING": d["DAMPING"],
         "COURANT": d["COURANT"],
         "NUMEROINCREMENTOS": d["NUMEROINCREMENTOS"],
-        "DELTAINCREMENTO": d["DELTAINCREMENTO"],
-        "DELTAINCREMENTO_GRAV": 0.0,
         "TIEMPOANALISIS": d["TIEMPOANALISIS"],
         "TOLFF": 0.01,
         "TOLEE": 0.01,
@@ -337,9 +349,6 @@ class DialogStages(QDialog):
         self.spNincre.valueChanged.connect(self._on_field_changed)
         self._add_row(form, "nincre", "N.º de incrementos", self.spNincre)
 
-        self.spDincre = self._make_dspin(-1e6, 1e6, 1.0, 4)
-        self._add_row(form, "dincre", "Δ carga por incremento", self.spDincre)
-
         self.spTiempo = self._make_dspin(0.0, 1e6, 0.5, 3)
         self._add_row(form, "tiempo", "Duración (s)", self.spTiempo)
 
@@ -365,6 +374,12 @@ class DialogStages(QDialog):
         self.lblDt = QLabel("—")
         self.lblDt.setObjectName("labelDt")
         self._add_row(form, "dt", "dt estimado", self.lblDt)
+
+        # Nota de qué hace la etapa con las cargas (cambia con el tipo)
+        self.lblLoadNote = QLabel("")
+        self.lblLoadNote.setObjectName("labelDt")
+        self.lblLoadNote.setWordWrap(True)
+        form.addRow(self.lblLoadNote)
 
         body.addWidget(self.form_group, 1)
 
@@ -514,7 +529,6 @@ class DialogStages(QDialog):
         stage["PLASTICIDAD"] = defaults["PLASTICIDAD"]
         stage["GAUSS"] = defaults["GAUSS"]
         stage["NUMEROINCREMENTOS"] = defaults["NUMEROINCREMENTOS"]
-        stage["DELTAINCREMENTO"] = defaults["DELTAINCREMENTO"]
         stage["TIEMPOANALISIS"] = defaults["TIEMPOANALISIS"]
         self._load_selected_into_form()
         self._reload_list(select=self._current_index())
@@ -547,7 +561,6 @@ class DialogStages(QDialog):
             self.spDamping.setValue(float(stage.get("DAMPING", 0.0)))
             self.spCourant.setValue(float(stage.get("COURANT", 0.1)))
             self.spNincre.setValue(int(stage.get("NUMEROINCREMENTOS", 1)))
-            self.spDincre.setValue(float(stage.get("DELTAINCREMENTO", 0.0)))
             self.spTiempo.setValue(float(stage.get("TIEMPOANALISIS", 0.0)))
             self.spTolFF.setValue(float(stage.get("TOLFF", 0.01)))
             self.spTolEE.setValue(float(stage.get("TOLEE", 0.01)))
@@ -567,7 +580,6 @@ class DialogStages(QDialog):
         stage["DAMPING"] = self.spDamping.value()
         stage["COURANT"] = self.spCourant.value()
         stage["NUMEROINCREMENTOS"] = self.spNincre.value()
-        stage["DELTAINCREMENTO"] = self.spDincre.value()
         stage["TIEMPOANALISIS"] = self.spTiempo.value()
         stage["TOLFF"] = self.spTolFF.value()
         stage["TOLEE"] = self.spTolEE.value()
@@ -576,11 +588,12 @@ class DialogStages(QDialog):
 
     def _apply_type_visibility(self, stage_type):
         visible = VISIBLE_FIELDS.get(stage_type, set())
-        for key in ("nincre", "dincre", "tiempo", "tolff", "tolee"):
+        for key in ("nincre", "tiempo", "tolff", "tolee"):
             show = key in visible
             label, field = self._rows[key]
             label.setVisible(show)
             field.setVisible(show)
+        self.lblLoadNote.setText(STAGE_LOAD_NOTE.get(stage_type, ""))
 
     def _update_dt_label(self):
         if self.dt_provider is None:

@@ -61,14 +61,11 @@ class AnalysisStage:
     max_iterations: int = 50000
 
     # ─── Parámetros de carga (solo si aplica) ───
-    # Número de incrementos de carga o de rampa de gravedad
+    # Número de incrementos (cuasi-estático). Solo divide:
+    # - geostática: rampa de gravedad 1/n, 2/n, ... 100 %;
+    # - incrementos de carga: Fx/Fy de las partículas es la fuerza FINAL
+    #   y se aplica en rampa (i+1)/n, con la gravedad completa.
     n_increments: int = 1
-    # Valor del incremento de carga (multiplica a Fx/Fy de las partículas).
-    # Pendiente de eliminar: ver docs/plan_simplificacion_cargas.md
-    load_increment_value: float = 0.0
-    # Valor del incremento de gravedad. 0 = gravedad completa desde el
-    # primer incremento. Pendiente de eliminar junto con load_increment_value.
-    gravity_increment_value: float = 0.0
 
     # ─── Configuración por etapa ───
     # Etiqueta para la UI ("Geostático", "Falla", ...)
@@ -92,8 +89,6 @@ class AnalysisStage:
             "DAMPING": self.damping_factor,
             "COURANT": self.courant_number,
             "NUMEROINCREMENTOS": self.n_increments,
-            "DELTAINCREMENTO": self.load_increment_value,
-            "DELTAINCREMENTO_GRAV": self.gravity_increment_value,
             "TIEMPOANALISIS": self.analysis_time,
             "TOLFF": self.convergence_tol_force,
             "TOLEE": self.convergence_tol_energy,
@@ -110,8 +105,6 @@ class AnalysisStage:
             convergence_tol_force=d.get("TOLFF", 0.01),
             convergence_tol_energy=d.get("TOLEE", 0.01),
             n_increments=int(d.get("NUMEROINCREMENTOS", 1)),
-            load_increment_value=d.get("DELTAINCREMENTO", 0.0),
-            gravity_increment_value=d.get("DELTAINCREMENTO_GRAV", 0.0),
             name=d.get("NOMBRE", ""),
             courant_number=d.get("COURANT", 0.1),
             analysis_time=d.get("TIEMPOANALISIS", 0.0),

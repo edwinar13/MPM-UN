@@ -315,8 +315,9 @@ Hecho el 2026-09-18, tras cerrar la validación (ver `validacion_motor_vs_refere
   plantilla. `RESULTADOS.DATOSBASE.DAMPFAC` se sigue escribiendo como dato informativo
   (damping de la etapa 1) para el reporte PDF.
 - [x] Anotado en `plan_simplificacion_cargas.md` (PASO 2 y §5.1) lo de
-  `gravity_increment_value` / `DELTAINCREMENTO_GRAV`. **Ejecutar ese plan** queda como
-  paso siguiente, aparte: cambia cómo se definen las cargas.
+  `gravity_increment_value` / `DELTAINCREMENTO_GRAV`.
+- [x] Ejecutado `plan_simplificacion_cargas.md` (2026-09-19): `Fy` es la fuerza final,
+  sin `Δ carga`; carga idéntica bit a bit tras migrar (ver su §7).
 
 Verificación: `tools/smoke_stages.py` antes y después sobre viga (prueba), capacidad
 portante (reducido, geostático→carga) y talud mini (geostático→dinámico): **0.000e+00** en

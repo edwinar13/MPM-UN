@@ -20,14 +20,17 @@ El spec de etapas son etapas separadas por ';', cada una:
     tipo   geostatic | load_increment | dynamic
     n      n.º de incrementos (cuasi-estático)
     t      duración en segundos (dinámico)
-    courant, damp, plast (0|1), gauss (0|1), dincre, tolff, tolee
+    courant, damp, plast (0|1), gauss (0|1), tolff, tolee
     nombre etiqueta de la etapa
+
+La carga de una etapa load_increment es la Fx/Fy guardada en las
+partículas del proyecto (fuerza final), aplicada en rampa (i+1)/n.
 
 Ejemplos
 --------
     # capacidad portante reducido: geostático + carga
     python tools/smoke_stages.py "test/4  archivos_mpm 2502/3_capacidad_portante (reducido).json" \
-        --stages "geostatic:n=2,courant=0.5,damp=0.75,plast=1,gauss=1,nombre=Geo;load_increment:n=2,dincre=-2,courant=0.5,damp=0.75,plast=1,gauss=1,nombre=Carga"
+        --stages "geostatic:n=2,courant=0.5,damp=0.75,plast=1,gauss=1,nombre=Geo;load_increment:n=2,courant=0.5,damp=0.75,plast=1,gauss=1,nombre=Carga"
 
     # reanudar desde el checkpoint de la etapa 1
     python tools/smoke_stages.py "<proyecto>" --stages "..." --resume 2
@@ -49,7 +52,7 @@ from PySide6.QtWidgets import QApplication  # noqa: E402
 _ALIAS = {
     "n": "NUMEROINCREMENTOS", "t": "TIEMPOANALISIS", "courant": "COURANT",
     "damp": "DAMPING", "plast": "PLASTICIDAD", "gauss": "GAUSS",
-    "dincre": "DELTAINCREMENTO", "tolff": "TOLFF", "tolee": "TOLEE",
+    "tolff": "TOLFF", "tolee": "TOLEE",
     "nombre": "NOMBRE", "maxit": "MAXITER",
 }
 _TIPOS = ("geostatic", "load_increment", "dynamic")
@@ -67,8 +70,7 @@ def parse_stages(spec):
             "NOMBRE": f"Etapa {i + 1}", "TIPO": tipo,
             "DAMPING": 0.75 if tipo != "dynamic" else 0.05,
             "COURANT": 0.6 if tipo == "geostatic" else 0.1,
-            "NUMEROINCREMENTOS": 1, "DELTAINCREMENTO": 0.0,
-            "DELTAINCREMENTO_GRAV": 0.0,
+            "NUMEROINCREMENTOS": 1,
             "TIEMPOANALISIS": 1.0 if tipo == "dynamic" else 0.0,
             "TOLFF": 0.01, "TOLEE": 0.01,
             "PLASTICIDAD": 0 if tipo == "geostatic" else 1,
@@ -350,7 +352,7 @@ def main():
     print("ETAPAS   :")
     for i, s in enumerate(stage_dicts):
         extra = (f"t={s['TIEMPOANALISIS']}s" if s["TIPO"] == "dynamic"
-                 else f"n={s['NUMEROINCREMENTOS']}, dincre={s['DELTAINCREMENTO']}")
+                 else f"n={s['NUMEROINCREMENTOS']}")
         print(f"   {i+1}. {s['TIPO']:15s} '{s['NOMBRE']}'  courant={s['COURANT']} "
               f"damp={s['DAMPING']} plast={s['PLASTICIDAD']} gauss={s['GAUSS']}  {extra}")
     if args.resume:

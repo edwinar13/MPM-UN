@@ -1,7 +1,8 @@
 # Plan: simplificación de la definición de cargas
 
-> **Estado:** pendiente. Ejecutar **después** de validar el ejemplo de capacidad
-> portante contra `Ca_portante2.py` con el esquema actual.
+> **Estado:** ejecutado el 2026-09-19 (ver §7, que recoge lo que cambió respecto
+> a este plan). Las referencias de línea de §2 y §4 describen el código de
+> antes del cambio.
 > **Fecha de acuerdo:** 2026-07-29
 
 ---
@@ -229,3 +230,83 @@ después la clave.
 - Entrada por esfuerzo (descartada, §3.2).
 - Factor de carga por etapa tipo ΣMstage de Plaxis.
 - Cargas que varían en el tiempo dentro de una etapa dinámica.
+
+---
+
+## 7. Ejecución (2026-09-19)
+
+Se hicieron los PASOS 1 a 5 con tres cambios respecto al plan.
+
+### 7.1 Fórmula: multiplicar primero, dividir al final
+
+El plan proponía `tp = (i+1)/n · Fy`. Se usa **`tp = (i+1) · Fy / n`**:
+
+```python
+self.__vm_tp_current = (i + 1) * self.__vm_tp0 / nincre
+```
+
+Motivo: con `Fy = Δ·n·Fy_semilla`, el valor exacto de la carga de cada incremento
+es el mismo que antes, pero `(i+1)/n` no es representable (n = 56 = 8·7) y el
+producto posterior se separa en 1 ulp en algún incremento. Por el efecto de la
+tolerancia de convergencia (ver `validacion_motor_vs_referencia.md`), 1 ulp
+puede terminar como ~1 % en los resultados. Multiplicando primero, `(i+1)·Fy` es
+exacto y la división da el redondeo correcto del mismo número que producía
+`((i+1)·Δ)·Fy_semilla`: **los mismos bits**.
+
+Comprobación aritmética en los 56 incrementos de los proyectos de la tesis:
+
+| n | Δ | Fy semilla → Fy final | `(i+1)/n·Fy` | `(i+1)·Fy/n` |
+|---|---|---|---|---|
+| 56 | −2 | 0.25 → −28 | 1 incremento distinto | idénticos |
+| 56 | −2 | 0.5 → −56 | 1 incremento distinto | idénticos |
+| 56 | 2 | 5 → 560 | idénticos | idénticos |
+| 10 | 1 | 1 → 10 | idénticos | idénticos |
+| 7 | −3 | 1 → −21 | idénticos | idénticos |
+
+La etapa geostática sigue sin aplicar fuerzas (`tp = 0·tp0`, igual que antes con
+`dincre = 0`), y la etapa de carga usa siempre la gravedad completa (se eliminó
+`gravity_increment_value`; ningún proyecto la usaba).
+
+### 7.2 Migración: una sola vez, sin soporte para proyectos viejos
+
+La app **no da soporte al esquema anterior**: es de un solo usuario y los
+proyectos en uso son los de `test/6`. No hay detección ni migración automática;
+un proyecto viejo simplemente correría con la carga equivocada.
+
+Los proyectos existentes se migraron una vez con un script descartable que
+multiplicó Fx/Fy por `Δ·n` y quitó `DELTAINCREMENTO`/`DELTAINCREMENTO_GRAV` de
+las etapas, sin tocar `RESULTADOS`:
+
+| Proyecto | Factor `Δ·n` | Fy resultante |
+|---|---|---|
+| `test/6 …/2_capacidad_portante.json` | −112 | −28 |
+| `test/6 …/2_capacidad_portante_malla1.json` | −112 | −56 |
+| `test/4 …/3_capacidad_portante (reducido).json` | 10 | 10 |
+| `test/5 …/2_capacidad_portante.json` | 112 | 56, 560, 12544 |
+
+Cada uno conserva su respaldo `<proyecto>.json.antes_migracion_cargas.bak` junto
+al original (en `test/`, fuera del repo).
+
+### 7.3 Interfaz
+
+- Diálogo de etapas: sin la fila "Δ carga por incremento"; al pie, una nota que
+  cambia con el tipo de etapa y dice qué hace con las fuerzas.
+- Panel de Punto Material: nota bajo Fox/Foy (`F = q·L/n`, kN por metro) y el
+  texto completo como tooltip de los dos campos. Se agrega desde la vista, sin
+  tocar el `.ui`.
+
+### 7.4 Verificación
+
+`tools/smoke_stages.py` con el esquema viejo (código anterior) y con el nuevo
+(proyecto migrado con el propio script), capacidad portante reducido:
+
+| Caso | Etapas | Resultado |
+|---|---|---|
+| a | geostática n=2 → carga n=2, Δ=−2 | **0.000e+00** (19 campos, 5 frames) |
+| b | carga n=7, Δ=−3 | **0.000e+00** (19 campos, 8 frames) |
+| talud mini | geostática n=2 → dinámica 0.01 s | **0.000e+00** |
+
+Más: los 4 proyectos migrados tienen las fuerzas exactas (`Fy_nuevo = Fy·Δ·n`),
+`RESULTADOS` y el resto del archivo idénticos al respaldo, y ya no disparan el
+bloqueo. La ventana principal, el diálogo de etapas y el panel se construyen sin
+errores.

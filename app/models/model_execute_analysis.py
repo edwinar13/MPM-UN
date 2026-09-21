@@ -893,14 +893,13 @@ class ModelExcuteAnalysisMPM:
         analysis_dialog = self.analysis_dialog
         
         # Parámetros de incrementos (por etapa)
+        # - Geostática: rampa de gravedad 0 → 100 % en nincre pasos; las
+        #   fuerzas de las partículas NO se aplican (solo peso propio).
+        # - Incrementos de carga: gravedad completa; Fx/Fy de las partículas
+        #   es la fuerza FINAL y se llega a ella en rampa: (i+1)/nincre.
         nincre = stage.n_increments if stage.n_increments and stage.n_increments > 0 else 1
-        if stage.stage_type == StageType.GEOSTATIC:
-            # Rampa de gravedad: sin carga externa; gravedad 0 → full en nincre pasos
-            dincre = 0.0
-            dincreGrav = 1.0 / nincre
-        else:  # LOAD_INCREMENT
-            dincre = stage.load_increment_value
-            dincreGrav = stage.gravity_increment_value
+        geostatic = stage.stage_type == StageType.GEOSTATIC
+        dincreGrav = 1.0 / nincre if geostatic else 0.0
         dtime = self.__tm_dt_time
 
         # Configurar damping
@@ -916,7 +915,9 @@ class ModelExcuteAnalysisMPM:
 
         t0 = tm.time()
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        print(f'[QUASI-STATIC] {stage_label}. Incrementos={nincre}, dincre={dincre}, damp={stage.damping_factor}')
+        print(f'[QUASI-STATIC] {stage_label}. Incrementos={nincre}, '
+              f'{"solo peso propio" if geostatic else "Fx/Fy en rampa hasta el 100 %"}, '
+              f'damp={stage.damping_factor}')
         
         # Inicializar arrays de resultados
         arrays = self._init_result_arrays(nincre + 1)
@@ -954,8 +955,15 @@ class ModelExcuteAnalysisMPM:
             else:
                 self.__vm_bp[:, 1] = bp0[:, 1]
                 
-            self.__vm_tp_current = (i + 1) * dincre * self.__vm_tp0
-            
+            if geostatic:
+                self.__vm_tp_current = 0.0 * self.__vm_tp0
+            else:
+                # Multiplicar primero y dividir al final: así el resultado es
+                # el redondeo correcto de (i+1)·Fy/n, idéntico bit a bit al
+                # esquema anterior (i+1)·Δ·Fy_semilla con Fy = Δ·n·Fy_semilla.
+                # (i+1)/n·Fy se separa en 1 ulp en algunos incrementos (n=56).
+                self.__vm_tp_current = (i + 1) * self.__vm_tp0 / nincre
+
             # Inicializar convergencia
             ff = 1
             ee = 1

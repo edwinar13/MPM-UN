@@ -1,7 +1,7 @@
 
 from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
 from PySide6.QtGui import (QIcon, QFont, QPixmap, QColor, QPainter, QPen)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QFileDialog)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QFileDialog, QLabel)
 
 from ui.ui_widget_draw_menu_pointMaterial import Ui_FormDrawMenuPointMaterial
 from utils import class_general
@@ -79,6 +79,19 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         # Ocultar widgets de carga de archivo al inicio
         self.toolButton_PointMaterialUploadFile.setVisible(False)
         self.label_textPointMaterial_path.setVisible(False)
+
+        # Ayuda de unidades bajo Fox/Foy: son FUERZAS por partícula, no presiones
+        texto_fuerza = ("Fox, Foy: fuerza final por partícula [kN por metro de espesor].\n"
+                        "Presión q sobre un tramo L con n partículas: F = q·L/n\n"
+                        "(n = puntos seleccionados). Si cambias la malla, recalcula F.")
+        self.label_forceHelp = QLabel("Fuerza por partícula [kN/m]. Presión q en un "
+                                      "tramo L con n partículas: F = q·L/n")
+        self.label_forceHelp.setWordWrap(True)
+        self.label_forceHelp.setStyleSheet(
+            "QLabel { background: transparent; color: #999999; font: italic 8pt Ubuntu; }")
+        self.formLayout_4.insertRow(3, self.label_forceHelp)
+        self.lineEdit_textPM_Felx.setToolTip(texto_fuerza)
+        self.lineEdit_textPM_Fely.setToolTip(texto_fuerza)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
