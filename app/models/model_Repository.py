@@ -439,9 +439,10 @@ class ModelRepository():
 	# ::::::::::::::::::::       MÉTODOS DB PROPIEDADES     ::::::::::::::::::::   
     ###############################################################################
     
-    def createPropertiesDB(self, id_properties, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):    
-        
-        try:                 
+    def createPropertiesDB(self, id_properties, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy,
+                           model="MOHR_COULOMB"):
+
+        try:
             self.__unguarded_copy_db_project['MATERIALES'][id_properties] = {
                 "COLOR": color,
                 "NAME": name,
@@ -450,7 +451,8 @@ class ModelRepository():
                 "COHESION": cohesion,                           #C' KPa
                 "ANGULOFRICCION": friction_angle,               #Phi °
                 "DENSIDAD": density,                            #P kg/m3
-                "ANGULODILATANCIA": angle_dilatancy             #Psi °
+                "ANGULODILATANCIA": angle_dilatancy,            #Psi °
+                "MODELO": model                                 #MOHR_COULOMB | ELASTICO
             }
             
             return True
@@ -476,9 +478,10 @@ class ModelRepository():
                            cohesion=None,
                            friction_angle=None,
                            density=None,
-                           angle_dilatancy=None):
+                           angle_dilatancy=None,
+                           model=None):
 
-        try: 
+        try:
             if id_properties in self.__unguarded_copy_db_project['MATERIALES']: 
                 if name != None:                      
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["NAME"]=name
@@ -494,8 +497,10 @@ class ModelRepository():
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULOFRICCION"]=friction_angle
                 if density != None:
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["DENSIDAD"]=density                    
-                if angle_dilatancy != None:   
+                if angle_dilatancy != None:
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULODILATANCIA"]=angle_dilatancy
+                if model != None:
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties]["MODELO"]=model
 
             return True
         except BaseException as err:

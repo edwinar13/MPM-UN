@@ -1,10 +1,13 @@
 
 from PySide6.QtCore import ( Signal, QSize,QTimer)
 from PySide6.QtGui import (QIcon, QFont, QColor)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QLabel, QComboBox)
 
 from ui.ui_widget_draw_menu_properties import Ui_FormDrawMenuProperties
 from utils import class_general
+
+# (texto visible, valor guardado en MATERIALES.<id>.MODELO)
+MODEL_OPTIONS = [("Mohr-Coulomb", "MOHR_COULOMB"), ("Elástico", "ELASTICO")]
 
 
 class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
@@ -69,6 +72,24 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.verticalLayout_2.addItem(self.verticalSpacer)
         self.label_lat.setVisible(False)
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+        # Modelo constitutivo. Se agrega por código al final del formulario del
+        # .ui (no aparece en Qt Designer; si se reorganiza ese formulario allá,
+        # revisar que esta fila siga en su lugar).
+        self.label_textPropertiesModel = QLabel("Modelo:", self.frame_4)
+        self.label_textPropertiesModel.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesModel.setProperty("QLabelStyle", 3)
+        self.comboBox_textPropertiesModel = QComboBox(self.frame_4)
+        self.comboBox_textPropertiesModel.setMinimumSize(QSize(120, 25))
+        self.comboBox_textPropertiesModel.setProperty("QComboBoxStyle", 1)
+        for text, value in MODEL_OPTIONS:
+            self.comboBox_textPropertiesModel.addItem(text, value)
+        tip = ("Mohr-Coulomb: plastifica en las etapas con plasticidad activa.\n"
+               "Elástico lineal: nunca plastifica (c, φ y ψ no se usan).")
+        self.label_textPropertiesModel.setToolTip(tip)
+        self.comboBox_textPropertiesModel.setToolTip(tip)
+        self.formLayout_4.addRow(self.label_textPropertiesModel,
+                                 self.comboBox_textPropertiesModel)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -193,6 +214,9 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
     def getPropertiesPsi(self):
         return self.doubleSpinBoxl_textPropertiesPsi.value()
 
+    def getPropertiesModel(self):
+        return self.comboBox_textPropertiesModel.currentData()
+
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
@@ -219,6 +243,7 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.doubleSpinBoxl_textPropertiesC.setValue(5)
         self.doubleSpinBoxl_textPropertiesPhi.setValue(1000)
         self.doubleSpinBoxl_textPropertiesPsi.setValue(5)
+        self.comboBox_textPropertiesModel.setCurrentIndex(0)
         self.__color_property = None
         self.lineEdit_textPropertiesColor.setStyleSheet('background-color : #333333')
         

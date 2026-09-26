@@ -1,6 +1,9 @@
 # Plan Fase B: varios cuerpos con contacto friccional
 
-> **Estado:** B0 (estudio y diseño) terminado el 2026-09-20. B1 en adelante, pendientes.
+> **Estado:** B0 terminado el 2026-09-20. B1 y B2 el 2026-09-23. **B3 terminado
+> el 2026-09-25**: la falla del talud es idéntica bit a bit a la referencia (§6.4).
+> Pendiente: la versión general de `contact2` (N cuerpos, normales calculadas),
+> ver [contacto_multicuerpo.md](contacto_multicuerpo.md).
 >
 > **Decisión 2026-09-22:** se va por la **versión general** del contacto (N cuerpos y
 > normales calculadas), no por reproducir primero el caso de dos cuerpos. Se trabaja
@@ -132,11 +135,14 @@ etapa 2 dinámica multi-cuerpo.
 `AnalysisStage.friction` (clave `FRICCION`, default 0.0), visible en el diálogo
 solo cuando `multi_body` está activo. Es el `mu` de `contact()`.
 
-### 3.3 Plasticidad y peso propio **por cuerpo** — *en discusión (2026-09-22)*
+### 3.3 Plasticidad y peso propio **por cuerpo** — *decidido (2026-09-23)*
 
-> Propuesta revisada, pendiente de confirmar: la plasticidad se toma del
-> **material** ("¿puede plastificar?") combinada con la de la **etapa** ("¿se
-> permite ahora?"). Lo de abajo es la propuesta original.
+> **Plasticidad: decidido 2026-09-23.** El material gana un campo "Modelo"
+> (Elástico lineal / Mohr-Coulomb). Una partícula plastifica si su material es
+> Mohr-Coulomb **y** la etapa tiene la plasticidad activa. Cada interruptor tiene
+> un solo significado: el material dice si *puede* plastificar, la etapa si se
+> *permite ahora*. Reproduce la referencia (base elástica, talud M-C en la falla).
+> La propuesta original de abajo (`PLASTICIDAD` por grupo) queda descartada.
 >
 > **Peso propio: resuelto con experimento (2026-09-22), no se agrega campo.**
 > `tools/experimentos/peso_base.py` corre la falla de referencia 8 s con la base
@@ -228,7 +234,101 @@ una prueba corta (0.05 s) contra la referencia.
 
 ---
 
-## 6. Fuera de alcance
+## 6. Ejecución
+
+### 6.1 B1 — cuerpos como rangos (2026-09-23)
+
+No hizo falta una clase `Body` ni partir el estado: los arrays de partículas
+siguen siendo uno solo (ya estaban ordenados grupo por grupo) y un cuerpo es un
+rango `[start, end)` de ellos (`self.__bodies`, armado en `initMaterialPoint`).
+Checkpoints, handoff y resultados no cambian. El paso mono-cuerpo solo cambió en
+el punto 6: si los cuerpos tienen distinto flag de plasticidad, `stress2` se
+llama por cuerpo (actualiza cada partícula por separado, así que da lo mismo que
+una sola llamada).
+
+Campos nuevos: etapa `MULTICUERPO` / `FRICCION`; material `MODELO`
+(`MOHR_COULOMB` por defecto, `ELASTICO`; aún sin interfaz, el smoke lo fija con
+`--elastico`). Todas las etapas se validan antes de correr la primera.
+
+**Aceptación:** viga, capacidad portante (geostático → carga) y talud mini
+(geostático → dinámico) contra la línea base: **0.000e+00** los tres.
+
+### 6.2 B2 — contacto (2026-09-23)
+
+`_run_one_mpm_step_multibody`: el ciclo de `fase_falla()` con vistas por cuerpo
+y `contact2`. Por ahora exactamente 2 cuerpos (la generalización a N es trabajo
+de `contact2`, ver [contacto_multicuerpo.md](contacto_multicuerpo.md)).
+
+**Aceptación:** `tools/experimentos/dos_cuerpos.py`, bit a bit contra el ciclo de
+la referencia con el motor original: **0.000e+00** en talud mini (100 pasos) y
+talud completo (50 pasos).
+
+### 6.3 Hallazgo para B3: la referencia cambia de material y de estado entre fases
+
+Comparando el proyecto de la app con el script:
+
+| | Geostático (script) | Falla (script) | Proyecto de la app |
+|---|---|---|---|
+| E base / talud (kPa) | 15e3 / 15e3 | 10e3 / 3.8e3 | 15e3 / 15e3 |
+| c talud (kPa) | 5 | 20 | 5 |
+| φ / ψ talud | 35° / 35° | 20° / 10° | 35° / 35° |
+
+Además, la falla **no hereda** posiciones, `Fp`, `epse` ni `epsp` del geostático:
+recrea las partículas en su posición inicial y solo toma `sig`. La app hoy
+hereda todo y tiene un material fijo por grupo.
+
+**Decidido 2026-09-24** (como en el software comercial):
+
+1. **Material por etapa.** El grupo se arma con un material, y cada etapa puede
+   cambiárselo (`CAMBIOMATERIAL = {id_grupo: id_material}`). El cambio persiste
+   en las etapas siguientes hasta que otra lo cambie; al reanudar se recalcula
+   desde las etapas anteriores. Al cambiar: `Prop` nueva (columna 5 en cero) y
+   `Mp = rho·Vp0`, igual que la falla de la referencia.
+2. **Reiniciar deformaciones, opcional por etapa** (`REINICIARDEFORMACIONES`):
+   `Fp = I`, `epse = epsp = 0`, `Vp = Vp0`. Se conservan esfuerzos y
+   **posiciones**: devolver las partículas a su sitio inicial, como hace el
+   script, descarta el asentamiento del geostático, que en este talud llega a
+   **0.40 m**.
+3. Material: campo "Modelo" (Mohr-Coulomb / Elástico) en el panel y la tarjeta
+   de materiales.
+
+Para validar se usa `talud_2021_falla_app.py` (carpeta de la referencia): copia
+de `talud_2021.py` con cambios marcados, que arranca la falla desde las
+posiciones del geostático y con la base con peso.
+
+### 6.4 B3 — falla completa, 8 s (2026-09-25)
+
+App: proyecto del talud completo (6740 partículas) con los materiales de la
+falla agregados, reanudando desde el checkpoint geostático; etapa dinámica 8 s,
+Courant 0.1, damping 0.10, contacto μ = 0.268, reiniciar deformaciones, cambio
+de material (base elástica). dt = 6.0e-4 s en ambos, 13 334 pasos, 162 frames,
+~75 min cada corrida.
+
+**(a) Contra la referencia desde SU geostático** (`geostatic_state_v2.npz`):
+
+| t (s) | runout del pie ref / app (m) | desplazamiento medio talud ref / app (m) |
+|---|---|---|
+| 1 | 2.29 / 2.28 | 1.11 / 1.10 |
+| 4 | 11.22 / 11.50 | 5.28 / 5.31 |
+| 8 | **13.57 / 13.76 (+1.4 %)** | **6.13 / 6.15 (+0.3 %)** |
+
+Los dos arrancan de geostáticos que ya difieren en t = 0 (1e-4 m en posición,
+3.7 kPa en σyy: la tolerancia con que se validó el geostático). El flujo
+amplifica esa diferencia; partícula a partícula llega a 0.7 m (media 0.07 m).
+
+**(b) Contra la referencia desde el geostático DE LA APP** (mismo estado de
+entrada; malla, contornos y volúmenes verificados idénticos):
+`talud_2021_falla_app.py <geo.npz> _geo_app`, con `sig` y `xp` del checkpoint de
+la app. **0.000e+00 en los 18 campos y los 162 frames, durante los 8 s.**
+
+Conclusión: la fase de falla de la app (contacto, cambio de material, reinicio
+de deformaciones, handoff y guardado de resultados) es idéntica a la de la
+referencia. El 1.4 % de (a) viene entero de la diferencia entre los dos
+geostáticos, ya documentada en la validación del geostático.
+
+---
+
+## 7. Fuera de alcance
 
 - Más de dos cuerpos (la función de la referencia es para dos; generalizar
   después, si el muro lo pide).

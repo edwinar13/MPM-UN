@@ -86,6 +86,7 @@ class ControllerMenuProperties(QObject):
         friction_angle =self.view_menu_properties.getPropertiesPhi()
         density =self.view_menu_properties.getPropertiesRho()
         angle_dilatancy =self.view_menu_properties.getPropertiesPsi()
+        model = self.view_menu_properties.getPropertiesModel()
 
  
          
@@ -108,7 +109,8 @@ class ControllerMenuProperties(QObject):
                                                     cohesion=cohesion,
                                                     friction_angle=friction_angle,
                                                     density= density,
-                                                    angle_dilatancy = angle_dilatancy)
+                                                    angle_dilatancy = angle_dilatancy,
+                                                    model = model)
         model_property = self.model_current_project.getModelsProperties()[id]
         self.createPropertyCard(model_property)
 

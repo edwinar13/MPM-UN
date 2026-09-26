@@ -4,6 +4,7 @@ from models.model_analysis_config import AnalysisConfig, StageType, stage_use_ga
 from models.analysis_utils import compute_min_dt, build_time_arrays
 from motorMPM.explicit2 import particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress2, static_convergence, nodes_to_particle_stress_gauss
+from motorMPM.explicit2 import BC_Dirichlet_momentum3, contact2
 from models.model_ProjectCurrent import ModelProjectCurrent
 from models.model_Result import ModelResult
 #from controllers.draw.controller_MenuExecute import AnalysisProgressDialog
@@ -183,7 +184,12 @@ class ModelExcuteAnalysisMPM:
         self.__mp_xp = None
         self.__mp_active_elem = None
         self.__mp_nmp = None
-        
+        # Cuerpos: un grupo de puntos materiales = un rango [start, end) de
+        # los arrays de partículas (ver initMaterialPoint). Los arrays siguen
+        # siendo uno solo; un cuerpo es una vista sobre ellos.
+        self.__bodies = []
+        self.__node_support = None
+
         # Vertor and matrix
         self.__vm_Fp = None
         self.__vm_sig = None
@@ -258,6 +264,24 @@ class ModelExcuteAnalysisMPM:
         prev_stage = None
         start_index = 0
 
+        # Validar TODAS las etapas antes de correr la primera: un error de
+        # configuración en la etapa 2 no debe descubrirse tras horas de la 1.
+        models_property = self.model_current_project.getModelsProperties()
+        for index, stage in enumerate(config.stages):
+            targets = self._stage_materials(config, index)
+            missing = [t for t in targets if t not in models_property]
+            if missing:
+                msg = (f"Etapa '{stage.name or stage.stage_type.value}': cambia a un "
+                       f"material que ya no existe en el proyecto.")
+            else:
+                flags = [stage.plasticity_flag if self._material_row(t)[2] else 0
+                         for t in targets]
+                msg = self._check_stage_bodies(stage, stage_use_gauss(stage), flags)
+            if msg:
+                self.error_message = msg
+                print(f"[ERROR] {msg}")
+                return False
+
         # ── Reanudar desde un checkpoint, si se pidió ──
         resume = int(getattr(config, 'resume_from_stage', 0) or 0)
         if resume >= 2:
@@ -292,6 +316,9 @@ class ModelExcuteAnalysisMPM:
             # del checkpoint: solo falta la regla de vp=0 al entrar a dinámica.
             if prev_state is not None:
                 self._handoff(prev_state, prev_stage, stage)
+
+            # Material vigente de cada cuerpo (antes del dt, que depende de él)
+            self._apply_stage_materials(config, index)
 
             # Configurar dt y arrays de tiempo de ESTA etapa (según su Courant)
             self._prepare_stage_time(stage)
@@ -352,15 +379,19 @@ class ModelExcuteAnalysisMPM:
 
         print(f"[STAGE TIME] {stage.stage_type.value}: courant={stage.courant_number}, dt={dt:.3e}")
 
-    def _run_one_mpm_step(self, use_gauss, plasticity_flag):
+    def _run_one_mpm_step(self, use_gauss, plasticity_flags):
         """Ejecuta UN paso del MPM: particles→nodes→BC→nodes→particles.
-        
+
         Este es el corazón del MPM que no cambia nunca.
         Retorna las variables actualizadas.
-        
+
+        Un solo campo de velocidad para todos los grupos (interfaz adherida).
+
         Args:
             use_gauss: Si True, usa particles_to_nodes_gauss2 y nodes_to_particle_stress_gauss.
-            plasticity_flag: Flag de plasticidad (0 o 1).
+            plasticity_flags: flag de plasticidad (0 o 1) de cada cuerpo, ver
+                _body_plasticity_flags(). Si todos coinciden, el esfuerzo se
+                actualiza en una sola llamada, exactamente como antes.
         """
         # Referencias locales
         xp = self.__mp_xp
@@ -420,16 +451,31 @@ class ModelExcuteAnalysisMPM:
         # Flag de plasticidad: 0 = elástico lineal, 1 = elastoplástico (Mohr-Coulomb)
         particle = Fp, Vp, Vp0, epse, epsp, sig, shfnp, Prop
 
-        if use_gauss:
-            # La variante gauss ya sub-incrementa la plasticidad (deps/10).
-            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(
-                grid, particle, bound_val, nvel, dtime, plasticity_flag)
+        if len(set(plasticity_flags)) == 1:
+            plasticity_flag = plasticity_flags[0]
+            if use_gauss:
+                # La variante gauss ya sub-incrementa la plasticidad (deps/10).
+                Fp, Vp, epse, epsp, sig = nodes_to_particle_stress_gauss(
+                    grid, particle, bound_val, nvel, dtime, plasticity_flag)
+            else:
+                # stress2 = misma rama elástica que nodes_to_particle_stress, pero
+                # la rama plástica siempre usa 10 sub-incrementos de deformación.
+                # Es la que emplea el script de referencia talud_2021_v2.py (l. 689-693).
+                Fp, Vp, epse, epsp, sig = nodes_to_particle_stress2(
+                    grid, particle, nvel, dtime, plasticity_flag)
         else:
-            # stress2 = misma rama elástica que nodes_to_particle_stress, pero
-            # la rama plástica siempre usa 10 sub-incrementos de deformación.
-            # Es la que emplea el script de referencia talud_2021_v2.py (l. 689-693).
-            Fp, Vp, epse, epsp, sig = nodes_to_particle_stress2(
-                grid, particle, nvel, dtime, plasticity_flag)
+            # Cuerpos con distinto flag (un material elástico junto a uno
+            # Mohr-Coulomb en una etapa plástica). stress2 actualiza cada
+            # partícula por separado, así que llamarla por cuerpo da lo mismo
+            # que una sola llamada, pero con el flag de cada uno. La variante
+            # gauss promedia por elemento entre partículas: no se puede partir
+            # así (se valida antes de la etapa, ver _check_stage_bodies).
+            for body, flag in zip(self.__bodies, plasticity_flags):
+                s = slice(body['start'], body['end'])
+                grid_b = grid[0], grid[1], grid[2], grid[3], mp_elem[s]
+                particle_b = Fp[s], Vp[s], Vp0[s], epse[s], epsp[s], sig[s], shfnp[s], Prop[s]
+                Fp[s], Vp[s], epse[s], epsp[s], sig[s] = nodes_to_particle_stress2(
+                    grid_b, particle_b, nvel, dtime, flag)
 
         # Actualizar variables de instancia
         self.__mp_xp = xp
@@ -443,6 +489,116 @@ class ModelExcuteAnalysisMPM:
 
 
         return nmass, niforce, neforce, nvel
+
+    # ===================================================================
+    #  Varios cuerpos con contacto (FASE B, docs/plan_fase_b.md)
+    # ===================================================================
+    def _body_plasticity_flags(self, stage):
+        """Flag de plasticidad de cada cuerpo en esta etapa.
+
+        Plastifica si el material es Mohr-Coulomb Y la etapa lo permite: el
+        material dice si PUEDE plastificar, la etapa si se permite AHORA.
+        """
+        return [stage.plasticity_flag if body['plastic'] else 0
+                for body in self.__bodies]
+
+    def _check_stage_bodies(self, stage, use_gauss, flags):
+        """Combinaciones que el motor todavía no resuelve. Devuelve un
+        mensaje de error, o '' si la etapa se puede correr."""
+        name = stage.name or stage.stage_type.value
+        if use_gauss and len(set(flags)) > 1:
+            return (f"Etapa '{name}': hay materiales elásticos y Mohr-Coulomb con "
+                    f"integración gauss. Esa combinación aún no está soportada; "
+                    f"usa una etapa sin gauss o sin plasticidad.")
+        if stage.multi_body:
+            if stage.stage_type != StageType.DYNAMIC or use_gauss:
+                return (f"Etapa '{name}': el contacto entre cuerpos solo está "
+                        f"disponible en etapas dinámicas sin integración gauss.")
+            if len(self.__bodies) != 2:
+                return (f"Etapa '{name}': el contacto entre cuerpos funciona por ahora "
+                        f"con exactamente 2 grupos de puntos materiales "
+                        f"(hay {len(self.__bodies)}).")
+        return ""
+
+    def _run_one_mpm_step_multibody(self, plasticity_flags, mu):
+        """Un paso con un campo de velocidad por cuerpo y contacto friccional.
+
+        Mismo orden de operaciones que la fase de falla de la referencia
+        (talud_2021_v2.py, l. 616-693):
+          search_MP por cuerpo → malla activa del SISTEMA
+          particles_to_nodes por cuerpo → predictor por cuerpo
+          campo del sistema → contact2 (corrector)
+          fuerza = Δmomentum/dt → Dirichlet por cuerpo → nodos→partículas.
+
+        Cada cuerpo trabaja sobre vistas (rangos) de los arrays de partículas,
+        así que los resultados se escriben en su sitio.
+        """
+        inci, cor = self.mesh.inci(), self.mesh.cor()
+        ele_size, nelex = self.mesh.ele_size(), self.mesh.nelex()
+        fixed_nodesX = self.__bo_fixed_nodesX
+        fixed_nodesY = self.__bo_fixed_nodesY
+        dampfac = self.__step_dampfac
+        dtime = self.__tm_dt_time
+        if self.__node_support is None:
+            self.__node_support = self.mesh.nodeSupport()
+
+        xp, vp, Vp, Vp0, Mp = (self.__mp_xp, self.__vm_vp, self.__vm_Vp,
+                               self.__vm_Vp0, self.__vm_Mp)
+        sig, bp, tp = self.__vm_sig, self.__vm_bp, self.__vm_tp_current
+        Fp, epse, epsp, Prop = (self.__vm_Fp, self.__vm_epse,
+                                self.__vm_epsp, self.__mp_prop)
+        slices = [slice(b['start'], b['end']) for b in self.__bodies]
+
+        # --- elementos y nodos activos: por cuerpo y del sistema ---
+        mp_elem_b, active_elem_b = [], []
+        for s in slices:
+            m, a = search_MP(self.__mp_mp_elem[s], xp[s], ele_size, nelex)
+            mp_elem_b.append(m)
+            active_elem_b.append(a)
+        active_elem = np.unique(np.concatenate(active_elem_b, axis=0))
+        active_nodes_b = [np.unique(inci[a - 1, :]) for a in active_elem_b]
+        active_nodes = np.unique(inci[active_elem - 1, :])
+
+        # --- partículas → nodos y predictor, por cuerpo ---
+        grids, nmass_b, nmomentum_b, nmomentum_bt, shfnp_b = [], [], [], [], []
+        for s, m in zip(slices, mp_elem_b):
+            grid = inci, cor, active_elem, active_nodes, m
+            particle = xp[s], vp[s], Vp[s], Mp[s], sig[s], bp[s], tp[s]
+            nmass, nmomentum, niforce, neforce, shfnp = particles_to_nodes(grid, particle)
+            nmomentum_t = np.copy(nmomentum)
+            ndamping = -dampfac*np.multiply(np.absolute(niforce + neforce), np.sign(nmomentum))
+            nforce = niforce + neforce + ndamping
+            nmomentum += nforce*dtime
+            grids.append(grid)
+            nmass_b.append(nmass)
+            nmomentum_b.append(nmomentum)
+            nmomentum_bt.append(nmomentum_t)
+            shfnp_b.append(shfnp)
+
+        # --- campo del sistema y corrector de contacto ---
+        nmassS = nmass_b[0] + nmass_b[1]
+        nmomentumS = nmomentum_b[0] + nmomentum_b[1]
+        mesh = inci, cor, self.__node_support, active_nodes
+        body1, body2 = [
+            (nmass_b[k], nmomentum_b[k], active_elem_b[k], active_nodes_b[k],
+             mp_elem_b[k], Mp[slices[k]], xp[slices[k]]) for k in (0, 1)]
+        nmomentum_b[0], nmomentum_b[1] = contact2(body1, body2, nmassS, nmomentumS,
+                                                  mesh, dtime, mu)
+
+        # --- nodos → partículas, por cuerpo ---
+        for k, s in enumerate(slices):
+            nforce = 1 / dtime * (nmomentum_b[k] - nmomentum_bt[k])
+            nmomentum, nforce = BC_Dirichlet_momentum3(
+                active_nodes, fixed_nodesX, fixed_nodesY, nmomentum_b[k], nforce)
+            nquantities = nmass_b[k], nmomentum, nforce
+            particle = xp[s], vp[s], Vp[s], Mp[s], sig[s], shfnp_b[k]
+            xp[s], vp[s], nvel = nodes_to_particle_vel(grids[k], particle, nquantities, dtime)
+            nvel = BC_Dirichlet_vel(active_nodes, fixed_nodesX, fixed_nodesY, nvel)
+
+            particle = Fp[s], Vp[s], Vp0[s], epse[s], epsp[s], sig[s], shfnp_b[k], Prop[s]
+            Fp[s], Vp[s], epse[s], epsp[s], sig[s] = nodes_to_particle_stress2(
+                grids[k], particle, nvel, dtime, plasticity_flags[k])
+            self.__mp_mp_elem[s] = mp_elem_b[k]
 
     # ===================================================================
     #  Handoff de estado entre etapas (FASE A)
@@ -568,6 +724,17 @@ class ModelExcuteAnalysisMPM:
             self.__vm_vp[:] = 0.0
             print("[HANDOFF] vp=0 al entrar a la etapa dinámica "
                   f"(desde {prev_stage.stage_type.value})")
+
+        if stage.reset_strains:
+            # Deformaciones a cero; esfuerzos y posiciones se conservan. Con
+            # Fp = I el volumen vuelve a Vp0 (Vp = det(Fp)·Vp0).
+            self.__vm_Fp[:] = 0.0
+            self.__vm_Fp[:, 0] = 1.0
+            self.__vm_Fp[:, 3] = 1.0
+            self.__vm_epse[:] = 0.0
+            self.__vm_epsp[:] = 0.0
+            self.__vm_Vp[:] = self.__vm_Vp0
+            print("[HANDOFF] deformaciones reiniciadas (Fp = I, eps = 0, Vp = Vp0)")
 
     def _init_result_arrays(self, n_steps):
         """Inicializa los arrays de resultados para n_steps pasos gráficos."""
@@ -791,12 +958,16 @@ class ModelExcuteAnalysisMPM:
         self.__vm_bp[:] = self.__vm_bp0
 
         use_gauss = stage_use_gauss(stage)
-        plasticity_flag = stage.plasticity_flag
+        plasticity_flags = self._body_plasticity_flags(stage)
         stage_label = self._stage_label(stage)
+        multi_body = stage.multi_body
 
         t0 = tm.time()
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
         print(f'[DYNAMIC] {stage_label}. Steps={steps_time}, dt={dt_time}, damp={stage.damping_factor}')
+        if multi_body:
+            print(f"[DYNAMIC] {len(self.__bodies)} cuerpos con contacto, mu={stage.friction}, "
+                  f"plasticidad por cuerpo={plasticity_flags}")
         
         # Inicializar arrays de resultados
         n_graphic_steps = len(list_time_graphic)
@@ -828,8 +999,11 @@ class ModelExcuteAnalysisMPM:
                 analysis_dialog.setStatus(False, msg)
                 QApplication.processEvents()
                 
-                nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
-                
+                if multi_body:
+                    self._run_one_mpm_step_multibody(plasticity_flags, stage.friction)
+                else:
+                    self._run_one_mpm_step(use_gauss, plasticity_flags)
+
             except Exception as e:
                 print(f"---------------------//-------------------------")
                 print(f"Error: {e}")
@@ -906,7 +1080,7 @@ class ModelExcuteAnalysisMPM:
         self.__step_dampfac = stage.damping_factor
 
         use_gauss = stage_use_gauss(stage)
-        plasticity_flag = stage.plasticity_flag
+        plasticity_flags = self._body_plasticity_flags(stage)
         stage_label = self._stage_label(stage)
 
         # Arrays de tiempo para CE
@@ -978,7 +1152,7 @@ class ModelExcuteAnalysisMPM:
                 if tcont % 100 == 0:
                     print("----- Iteracion=",tcont,"ff=",ff,"ee=",ee)
 
-                nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flag)
+                nmass, niforce, neforce, nvel = self._run_one_mpm_step(use_gauss, plasticity_flags)
 
                 # Evaluar convergencia
                 nework0 = nework
@@ -1177,13 +1351,17 @@ class ModelExcuteAnalysisMPM:
         mp_volumes=[]
         mp_velocities=[]
         mp_forces=[]
-                
+        bodies = []
+
         for id_material_point in list_point_material:
             model_material_point = models_material_point[id_material_point]
             points = model_material_point.getPoints()
             name = model_material_point.getName()
             id_property = model_material_point.getIdProperty()
-            
+            bodies.append({'id': id_material_point, 'name': name,
+                           'start': len(mp_xp), 'end': len(mp_xp) + len(points),
+                           'plastic': True})  # 'plastic' lo fija initProperties
+
             cells_by_point = self.findCellForPoints(material_points = points,
                                         elements=cells,
                                         nodes=nodes)           
@@ -1218,7 +1396,9 @@ class ModelExcuteAnalysisMPM:
         self.__mp_mp_elem = np.asarray(mp_elem)
         self.__mp_active_elem = np.unique(self.__mp_mp_elem[:, 0])
         self.__mp_nmp = len(self.__mp_mp_elem)
-        
+        self.__bodies = bodies
+        assert bodies[-1]['end'] == self.__mp_nmp, "rangos de cuerpos inconsistentes"
+
         '''
         print("self.__mp_xp", self.__mp_xp)
         print("self.__mp_mp_elem", self.__mp_mp_elem)
@@ -1243,56 +1423,88 @@ class ModelExcuteAnalysisMPM:
 
         list_point_material = self.list_point_material
         models_material_point = self.model_current_project.getModelsPointsMaterials()
-        models_property = self.model_current_project.getModelsProperties()
-        
-
 
         mp_prop=[]
         mp_density = []
-        for id_material_point in list_point_material:
+        for body, id_material_point in zip(self.__bodies, list_point_material):
             model_material_point = models_material_point[id_material_point]
-            points = model_material_point.getPoints()            
+            points = model_material_point.getPoints()
             id_material = model_material_point.getIdProperty()
-            
-            model_property = models_property[id_material]
-            '''
-            {'f00e68c9-e12f-4b63-915c-215abcebad44':
-                {
-                'COLOR': '#646464',
-                'NAME': 'material beam',
-                'MODULOELASTICIDAD': 10000.0,
-                'RELACIONPOISSON': 0.2,
-                'COHESION': 5.0,
-                'ANGULOFRICCION': 25.0,
-                'DENSIDAD': 2000,
-                'ANGULODILATANCIA': 5.0 }
-            }
-            '''
-            data = model_property.getData()
-            id_mat = list(data.keys())[0]
-            name = data[id_mat]['NAME']
-            modulus_elasticity = data[id_mat]['MODULOELASTICIDAD']
-            poisson_ratio = data[id_mat]['RELACIONPOISSON']
-            cohesion = data[id_mat]['COHESION']
-            friction_angle = data[id_mat]['ANGULOFRICCION']
-            density = data[id_mat]['DENSIDAD']
-            angle_dilatancy = data[id_mat]['ANGULODILATANCIA']
-            
-            for point in points:     
-                         
-                mp_prop.append([modulus_elasticity,
-                                poisson_ratio,
-                                cohesion,
-                                friction_angle / 180*math.pi,
-                                angle_dilatancy / 180*math.pi,
-                                0]) # este cero lo tiene los archivos de referencia leon(2019)
-                mp_density.append(density/1000)
-                
+            row, density, plastic = self._material_row(id_material)
+            # Material con que se armó el grupo, y el que tiene aplicado ahora
+            # (una etapa puede cambiarlo, ver _apply_stage_materials)
+            body['material0'] = id_material
+            body['material'] = id_material
+            body['plastic'] = plastic
+
+            for point in points:
+                mp_prop.append(list(row))
+                mp_density.append(density)
+
         #variables
         Prop = np.asarray(mp_prop)
         self.__mp_prop = Prop
         self.DENSITY = mp_density
-          
+
+    def _material_row(self, id_material):
+        """Propiedades de un material como las usa el motor.
+
+        Returns:
+            (fila de Prop [E, nu, c, phi(rad), psi(rad), 0], densidad en Mg/m³,
+             True si es Mohr-Coulomb / False si es elástico lineal)
+        """
+        # getData() = {id: {'NAME', 'MODULOELASTICIDAD', 'RELACIONPOISSON',
+        #                   'COHESION', 'ANGULOFRICCION', 'DENSIDAD' [kg/m³],
+        #                   'ANGULODILATANCIA', 'MODELO' (opcional)}}
+        data = self.model_current_project.getModelsProperties()[id_material].getData()
+        mat = data[list(data.keys())[0]]
+        row = [mat['MODULOELASTICIDAD'],
+               mat['RELACIONPOISSON'],
+               mat['COHESION'],
+               mat['ANGULOFRICCION'] / 180*math.pi,
+               mat['ANGULODILATANCIA'] / 180*math.pi,
+               0]  # este cero lo tiene los archivos de referencia leon(2019)
+        # Modelo constitutivo: 'MOHR_COULOMB' (default) o 'ELASTICO'. Un
+        # material elástico no plastifica aunque la etapa lo permita.
+        plastic = mat.get('MODELO', 'MOHR_COULOMB') != 'ELASTICO'
+        return row, mat['DENSIDAD']/1000, plastic
+
+    def _stage_materials(self, config, index):
+        """Material vigente de cada cuerpo en la etapa `index`: el último
+        CAMBIOMATERIAL de las etapas 0..index, o el material del grupo."""
+        targets = []
+        for body in self.__bodies:
+            target = body['material0']
+            for st in config.stages[:index + 1]:
+                target = st.material_changes.get(body['id'], target)
+            targets.append(target)
+        return targets
+
+    def _apply_stage_materials(self, config, index):
+        """Asigna a cada cuerpo el material vigente en la etapa `index`.
+
+        El vigente es el último cambio (CAMBIOMATERIAL) de las etapas 0..index,
+        o el material con que se armó el grupo. Se recalcula desde cero en
+        cada etapa, así que también vale al reanudar desde un checkpoint.
+        Solo toca los cuerpos cuyo material cambia: los demás conservan su
+        Prop tal cual (la columna 5 es una variable de estado de la
+        plasticidad). Al cambiar, se hace como la fase de falla de la
+        referencia: Prop nueva con columna 5 en cero y Mp = rho·Vp0.
+        """
+        for body, target in zip(self.__bodies, self._stage_materials(config, index)):
+            if target == body['material']:
+                continue
+            row, density, plastic = self._material_row(target)
+            s = slice(body['start'], body['end'])
+            self.__mp_prop[s] = row
+            self.__vm_rhop[s] = density
+            self.__vm_Mp[s] = np.multiply(self.__vm_rhop[s], self.__vm_Vp0[s])
+            body['material'] = target
+            body['plastic'] = plastic
+            print(f"[MATERIAL] cuerpo '{body['name']}': material {target} "
+                  f"(E={row[0]}, c={row[2]}, rho={density}, "
+                  f"{'Mohr-Coulomb' if plastic else 'elástico'})")
+
     def initVerctorAndMatrix(self, initial_state=None):
         #►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄
         #::::::::::::: incializar materiales ::::::::::::::::::::::

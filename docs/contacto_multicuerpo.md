@@ -217,6 +217,8 @@ calculadas sin depender del código de referencia, que nunca las usó.
 | Fecha | Cambio en `contact2` / `normals2` | Verificación |
 |---|---|---|
 | 2026-09-22 | Copia literal de `contact` / `normals` (solo cambia el nombre). 209 líneas agregadas al final de `explicit2.py`, ninguna línea existente modificada | Fuente idéntica salvo el nombre (`inspect.getsource`); smoke de la viga contra la línea base: **0.000e+00** |
+| 2026-09-23 | `contact2` (aún igual a `contact`) conectado al ejecutor: `_run_one_mpm_step_multibody`, con cada cuerpo como un rango de los arrays de partículas | `tools/experimentos/dos_cuerpos.py`: N pasos de la app frente al ciclo de `fase_falla()` con el motor original, mismo estado de entrada (geostático). Talud mini (221 part., 100 pasos) y talud completo (6740 part., 50 pasos): **0.000e+00** en `xp, vp, Vp, Fp, sig, epse, epsp, mp_elem`, con movimiento y plastificación reales |
+| 2026-09-25 | Sin cambios en `contact2`; corrida completa de la falla del talud (8 s, 13 334 pasos) desde la app | Contra `talud_2021_falla_app.py` arrancando del mismo geostático: **0.000e+00** en los 18 campos y 162 frames (ver plan_fase_b.md §6.4) |
 
 ---
 

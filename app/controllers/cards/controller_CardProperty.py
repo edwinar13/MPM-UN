@@ -38,6 +38,7 @@ class ControllerCardProperty(QObject):
         self.friction_angle = data[self.id]["ANGULOFRICCION"]
         self.density = data[self.id]["DENSIDAD"]
         self.angle_dilatancy = data[self.id]["ANGULODILATANCIA"]
+        self.model = model_property.getModel()
         self.__initCard()
         self.__initEvent()
 
@@ -53,7 +54,8 @@ class ControllerCardProperty(QObject):
                                         cohesion=self.cohesion,
                                         friction_angle=self.friction_angle,
                                         density=self.density,
-                                        angle_dilatancy=self.angle_dilatancy)
+                                        angle_dilatancy=self.angle_dilatancy,
+                                        model=self.model)
 
     def __initEvent(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -101,6 +103,7 @@ class ControllerCardProperty(QObject):
         self.friction_angle= self.view_card_property.getFrictionAngle()
         self.density= self.view_card_property.getDensity()
         self.angle_dilatancy= self.view_card_property.getAngleDilatancy()
+        self.model = self.view_card_property.getModel()
 
         self.model_property.updateProperty(
             id=self.id,
@@ -111,7 +114,8 @@ class ControllerCardProperty(QObject):
             cohesion=self.cohesion,
             friction_angle=self.friction_angle,
             density=self.density,
-            angle_dilatancy=self.angle_dilatancy
+            angle_dilatancy=self.angle_dilatancy,
+            model=self.model
             )
         self.signal_edit_property.emit()
 

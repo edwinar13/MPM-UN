@@ -2,10 +2,18 @@
 Es el widget card de cada materialPoint."""
 from PySide6.QtCore import ( QSize, Signal)
 from PySide6.QtGui import (QColor,QIcon)
-from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog)
+from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog, QLabel, QComboBox)
 
 from ui.ui_widget_draw_property_card import Ui_FormDrawPropertyCard
 from utils import class_ui_dialog_msg
+from views.draw.view_WidgetDrawMenuProperties import MODEL_OPTIONS
+
+COMBO_STYLE = """
+QComboBox { background-color: #444444; color: #DDDDDD; border: 1px solid #555555;
+            border-radius: 4px; padding: 2px 6px; font: 9pt "Ubuntu"; }
+QComboBox QAbstractItemView { background-color: #383838; color: #DDDDDD;
+            selection-background-color: #444444; selection-color: #C8CC8E; }
+"""
 
  
 class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
@@ -70,7 +78,28 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.toolButton_PropertyExit.setVisible(False)
         self.toolButton_colorProperty.setVisible(False)
         self.frame_edit.setVisible(False)
-     
+
+        # Modelo constitutivo: fila agregada por código al final de los
+        # formularios de vista y de edición del .ui (no aparece en Qt Designer).
+        self.__model = MODEL_OPTIONS[0][1]
+        label_view = QLabel("Modelo:", self.frame_view)
+        label_view.setProperty("QLabelStyle", 3)
+        self.label_textPropertiesModel = QLabel("", self.frame_view)
+        self.label_textPropertiesModel.setProperty("QLabelStyle", 3)
+        self.formLayout_2.addRow(label_view, self.label_textPropertiesModel)
+        label_edit = QLabel("Modelo:", self.frame_edit)
+        label_edit.setProperty("QLabelStyle", 3)
+        self.comboBox_textPropertiesModel = QComboBox(self.frame_edit)
+        self.comboBox_textPropertiesModel.setStyleSheet(COMBO_STYLE)
+        for text, value in MODEL_OPTIONS:
+            self.comboBox_textPropertiesModel.addItem(text, value)
+        self.formLayout.addRow(label_edit, self.comboBox_textPropertiesModel)
+
+    def __setModel(self, model):
+        self.__model = model
+        text = dict((v, t) for t, v in MODEL_OPTIONS).get(model, model)
+        self.label_textPropertiesModel.setText(text)
+
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         self.toolButton_PropertiesShow.clicked.connect(self.__clickedToolButtonPropertiesShow)
@@ -128,7 +157,9 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.doubleSpinBoxl_textPropertiesPhi.setValue(float(self.label_textPropertiesPhi.text()))
         self.doubleSpinBoxl_textPropertiesP.setValue(float(self.label_textPropertiesP.text()))
         self.doubleSpinBoxl_textPropertiesPsi.setValue(float(self.label_textPropertiesPsi.text()))
-          
+        index = self.comboBox_textPropertiesModel.findData(self.__model)
+        self.comboBox_textPropertiesModel.setCurrentIndex(max(index, 0))
+
     def __clickedToolButtonColorProperty(self):
         color = QColorDialog.getColor(initial=QColor(self.__card_color_property))
         if color.isValid():
@@ -172,6 +203,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.label_textPropertiesPhi.setText(str(self.doubleSpinBoxl_textPropertiesPhi.value()))
         self.label_textPropertiesP.setText(str(self.doubleSpinBoxl_textPropertiesP.value()))
         self.label_textPropertiesPsi.setText( str(self.doubleSpinBoxl_textPropertiesPsi.value()))
+        self.__setModel(self.comboBox_textPropertiesModel.currentData())
 
         self.card_color_property_prev = None
         self.signal_update_property.emit()
@@ -234,12 +266,17 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
     def getAngleDilatancy(self):
         return float(self.label_textPropertiesPsi.text())
 
+    def getModel(self):
+        return self.__model
+
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
 
-    def showData(self, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density, angle_dilatancy):        
+    def showData(self, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density, angle_dilatancy,
+                 model="MOHR_COULOMB"):
+        self.__setModel(model)
         self.__card_color_property = color
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
         self.label_cardPropertyName.setText(u"{}".format(name))

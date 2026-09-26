@@ -54,7 +54,11 @@ class ModelProperty:
     
     def getAngleDilatancy(self):
         angle_dilatancy = self.getData()[self.__id]["ANGULODILATANCIA"]
-        return angle_dilatancy 
+        return angle_dilatancy
+
+    def getModel(self):
+        """'MOHR_COULOMB' (default) o 'ELASTICO' (no plastifica nunca)."""
+        return self.getData()[self.__id].get("MODELO", "MOHR_COULOMB")
 
     def getData(self):
         
@@ -94,9 +98,10 @@ class ModelProperty:
                         cohesion= None,
                         friction_angle= None,
                         density= None,
-                        angle_dilatancy= None ):
+                        angle_dilatancy= None,
+                        model= None):
 
-        
+
         self.model_repository.updatePropertiesDB(
             id_properties=id,
             name=name,
@@ -106,7 +111,8 @@ class ModelProperty:
             cohesion=cohesion,
             friction_angle=friction_angle,
             density=density,
-            angle_dilatancy=angle_dilatancy
+            angle_dilatancy=angle_dilatancy,
+            model=model
             )
 
                 

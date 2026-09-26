@@ -80,6 +80,24 @@ class AnalysisStage:
     # None = se decide por el tipo de etapa (ver stage_use_gauss()).
     use_gauss: Optional[bool] = None
 
+    # ─── Contacto entre cuerpos (docs/plan_fase_b.md) ───
+    # False = un solo campo de velocidad para todos los grupos de puntos
+    # materiales (interfaz adherida). True = cada grupo es un cuerpo con su
+    # propio campo y contacto friccional entre ellos. Solo etapas dinámicas
+    # sin integración gauss, como en la referencia (talud_2021_v2.py).
+    multi_body: bool = False
+    # Coeficiente de fricción de Coulomb entre cuerpos (solo si multi_body)
+    friction: float = 0.0
+
+    # ─── Cambios al entrar a la etapa ───
+    # Material que toma cada grupo desde esta etapa: {id_grupo: id_material}.
+    # Vacío = sin cambios. El cambio persiste en las etapas siguientes hasta
+    # que otra lo cambie (el grupo arranca con el material con que se armó).
+    material_changes: dict = field(default_factory=dict)
+    # True = al entrar a la etapa se ponen en cero las deformaciones
+    # (Fp = I, epse = epsp = 0, Vp = Vp0). Se conservan esfuerzos y posiciones.
+    reset_strains: bool = False
+
     # ─── Serialización (persistencia en el .mpm) ───
     def to_dict(self) -> dict:
         """Serializa la etapa a un dict con claves JSON (español)."""
@@ -94,6 +112,10 @@ class AnalysisStage:
             "TOLEE": self.convergence_tol_energy,
             "PLASTICIDAD": self.plasticity_flag,
             "GAUSS": self.use_gauss,
+            "MULTICUERPO": self.multi_body,
+            "FRICCION": self.friction,
+            "CAMBIOMATERIAL": dict(self.material_changes),
+            "REINICIARDEFORMACIONES": self.reset_strains,
         }
 
     @staticmethod
@@ -110,6 +132,10 @@ class AnalysisStage:
             analysis_time=d.get("TIEMPOANALISIS", 0.0),
             plasticity_flag=int(d.get("PLASTICIDAD", 1)),
             use_gauss=d.get("GAUSS", None),
+            multi_body=bool(d.get("MULTICUERPO", False)),
+            friction=float(d.get("FRICCION", 0.0)),
+            material_changes=dict(d.get("CAMBIOMATERIAL") or {}),
+            reset_strains=bool(d.get("REINICIARDEFORMACIONES", False)),
         )
 
 

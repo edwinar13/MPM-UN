@@ -52,8 +52,9 @@ STAGE_DEFAULTS = {
 VISIBLE_FIELDS = {
     "geostatic":      {"nincre", "tolff", "tolee"},
     "load_increment": {"nincre", "tolff", "tolee"},
-    "dynamic":        {"tiempo"},
+    "dynamic":        {"tiempo", "contact"},
 }
+TYPE_DEPENDENT_FIELDS = ("nincre", "tiempo", "tolff", "tolee", "contact")
 
 # Qué hace cada tipo con las cargas (nota bajo el formulario)
 STAGE_LOAD_NOTE = {
@@ -260,8 +261,17 @@ class DialogStages(QDialog):
         if self._resume_from > len(self._stages):
             self._resume_from = 0
 
+        # Grupos de puntos materiales y materiales del proyecto (para el
+        # cambio de material por etapa): listas de (id, nombre)
+        self._groups = [(k, m.getName()) for k, m in
+                        model_current_project.getModelsPointsMaterials().items()]
+        self._materials = []
+        for k, p in model_current_project.getModelsProperties().items():
+            data = p.getData()
+            self._materials.append((k, data[list(data.keys())[0]].get("NAME", k)))
+
         self.setWindowTitle("Etapas de análisis")
-        self.setMinimumSize(640, 470)
+        self.setMinimumSize(680, 600)
         self.setStyleSheet(DIALOG_STYLE)
         self._build_ui()
         self._reload_list(select=0)
@@ -370,6 +380,50 @@ class DialogStages(QDialog):
         self.cbGauss.addItem("No", False)
         self.cbGauss.currentIndexChanged.connect(self._on_field_changed)
         self._add_row(form, "gauss", "Integración Gauss (avanzado)", self.cbGauss)
+
+        # Interfaz entre grupos de puntos materiales (solo dinámico)
+        self.cbContact = QComboBox()
+        self.cbContact.addItem("Adherida (un solo campo)", False)
+        self.cbContact.addItem("Friccional (cada grupo es un cuerpo)", True)
+        self.cbContact.setToolTip(
+            "Adherida: los grupos se mueven juntos en la interfaz (no deslizan "
+            "ni se separan).\nFriccional: cada grupo es un cuerpo con contacto "
+            "de Coulomb; pueden deslizar y separarse.\nPor ahora con exactamente "
+            "2 grupos y sin integración Gauss.")
+        self.cbContact.currentIndexChanged.connect(self._on_field_changed)
+        self.cbContact.currentIndexChanged.connect(self._update_friction_visibility)
+        self._add_row(form, "contact", "Interfaz entre grupos", self.cbContact)
+
+        self.spFriction = self._make_dspin(0.0, 10.0, 0.01, 3)
+        self.spFriction.setToolTip("Coeficiente de fricción de Coulomb μ entre cuerpos.")
+        self._add_row(form, "friction", "Fricción μ", self.spFriction)
+
+        self.cbReset = QComboBox()
+        self.cbReset.addItem("No", False)
+        self.cbReset.addItem("Sí", True)
+        self.cbReset.setToolTip(
+            "Al empezar la etapa pone en cero las deformaciones (elásticas, "
+            "plásticas y gradiente de deformación).\nSe conservan esfuerzos y "
+            "posiciones. Los desplazamientos de resultados ya se miden desde el "
+            "inicio de cada etapa.")
+        self.cbReset.currentIndexChanged.connect(self._on_field_changed)
+        self._add_row(form, "reset", "Reiniciar deformaciones", self.cbReset)
+
+        # Cambio de material por grupo, desde esta etapa
+        lbl_mat = QLabel("Material desde esta etapa")
+        lbl_mat.setObjectName("labelSectionTitle")
+        form.addRow(lbl_mat)
+        self.cbMaterial = {}  # id_grupo -> combo
+        for gid, gname in self._groups:
+            cb = QComboBox()
+            cb.addItem("(sin cambio)", None)
+            for mid, mname in self._materials:
+                cb.addItem(mname, mid)
+            cb.setToolTip("El cambio se mantiene en las etapas siguientes hasta "
+                          "que otra lo cambie.")
+            cb.currentIndexChanged.connect(self._on_field_changed)
+            self.cbMaterial[gid] = cb
+            form.addRow(QLabel(gname), cb)
 
         self.lblDt = QLabel("—")
         self.lblDt.setObjectName("labelDt")
@@ -566,6 +620,12 @@ class DialogStages(QDialog):
             self.spTolEE.setValue(float(stage.get("TOLEE", 0.01)))
             self._set_combo_data(self.cbPlast, int(stage.get("PLASTICIDAD", 1)))
             self._set_combo_data(self.cbGauss, stage.get("GAUSS", None))
+            self._set_combo_data(self.cbContact, bool(stage.get("MULTICUERPO", False)))
+            self.spFriction.setValue(float(stage.get("FRICCION", 0.0)))
+            self._set_combo_data(self.cbReset, bool(stage.get("REINICIARDEFORMACIONES", False)))
+            changes = stage.get("CAMBIOMATERIAL") or {}
+            for gid, cb in self.cbMaterial.items():
+                self._set_combo_data(cb, changes.get(gid))
         finally:
             self._loading = False
         self._apply_type_visibility(stage.get("TIPO", "dynamic"))
@@ -585,15 +645,30 @@ class DialogStages(QDialog):
         stage["TOLEE"] = self.spTolEE.value()
         stage["PLASTICIDAD"] = self.cbPlast.currentData()
         stage["GAUSS"] = self.cbGauss.currentData()
+        # La interfaz friccional solo existe en etapas dinámicas
+        stage["MULTICUERPO"] = bool(self.cbContact.currentData()) and stage["TIPO"] == "dynamic"
+        stage["FRICCION"] = self.spFriction.value()
+        stage["REINICIARDEFORMACIONES"] = bool(self.cbReset.currentData())
+        stage["CAMBIOMATERIAL"] = {gid: cb.currentData()
+                                   for gid, cb in self.cbMaterial.items()
+                                   if cb.currentData() is not None}
 
     def _apply_type_visibility(self, stage_type):
         visible = VISIBLE_FIELDS.get(stage_type, set())
-        for key in ("nincre", "tiempo", "tolff", "tolee"):
+        for key in TYPE_DEPENDENT_FIELDS:
             show = key in visible
             label, field = self._rows[key]
             label.setVisible(show)
             field.setVisible(show)
+        self._update_friction_visibility()
         self.lblLoadNote.setText(STAGE_LOAD_NOTE.get(stage_type, ""))
+
+    def _update_friction_visibility(self, *_):
+        show = (self.cbType.currentData() == "dynamic"
+                and bool(self.cbContact.currentData()))
+        label, field = self._rows["friction"]
+        label.setVisible(show)
+        field.setVisible(show)
 
     def _update_dt_label(self):
         if self.dt_provider is None:
