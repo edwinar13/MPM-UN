@@ -85,6 +85,7 @@ MPM-UN/
 Para abrir la interfaz gráfica, simplemente ejecuta:
 
 ```bash
+source .venv/Scripts/activate
 python app/main.py
 ```
 

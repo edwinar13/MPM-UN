@@ -5,6 +5,14 @@
 > Pendiente: la versión general de `contact2` (N cuerpos, normales calculadas),
 > ver [contacto_multicuerpo.md](contacto_multicuerpo.md).
 >
+> **Pendiente anotado (2026-09-25), sin hacer todavía:** cuando una etapa
+> cuasi-estática se corta sin converger (máximo de iteraciones o tiempo), el
+> análisis sigue con la siguiente y termina con "Análisis finalizado"; el aviso
+> solo queda en la consola. El mensaje final debería decirlo (p. ej. "La etapa 1
+> se detuvo sin converger en el incremento 1 de 2, ff = 0.100"). Se vio con el
+> talud mini de malla 1.0, que con tolerancia 0.01 no converge (ff se estanca
+> en 0.100); con 0.15 converge en 2 s.
+>
 > **Decisión 2026-09-22:** se va por la **versión general** del contacto (N cuerpos y
 > normales calculadas), no por reproducir primero el caso de dos cuerpos. Se trabaja
 > sobre copias (`contact2`, `normals2`) sin tocar las originales. El algoritmo, sus

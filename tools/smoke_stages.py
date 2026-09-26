@@ -21,7 +21,14 @@ El spec de etapas son etapas separadas por ';', cada una:
     n      n.º de incrementos (cuasi-estático)
     t      duración en segundos (dinámico)
     courant, damp, plast (0|1), gauss (0|1), tolff, tolee
+    multi  (0|1) un cuerpo por grupo de puntos materiales, con contacto
+    mu     fricción entre cuerpos
+    reset  (0|1) reiniciar deformaciones al entrar a la etapa
+    mat    cambio de material, por nombre: Grupo>Material+Grupo>Material
     nombre etiqueta de la etapa
+
+--elastico "Grupo1,Grupo2" marca (solo en memoria) el material de esos
+grupos como elástico lineal: no plastifica aunque la etapa lo permita.
 
 La carga de una etapa load_increment es la Fx/Fy guardada en las
 partículas del proyecto (fuerza final), aplicada en rampa (i+1)/n.
@@ -54,6 +61,8 @@ _ALIAS = {
     "damp": "DAMPING", "plast": "PLASTICIDAD", "gauss": "GAUSS",
     "tolff": "TOLFF", "tolee": "TOLEE",
     "nombre": "NOMBRE", "maxit": "MAXITER",
+    "multi": "MULTICUERPO", "mu": "FRICCION",
+    "reset": "REINICIARDEFORMACIONES", "mat": "CAMBIOMATERIAL",
 }
 _TIPOS = ("geostatic", "load_increment", "dynamic")
 
@@ -87,8 +96,11 @@ def parse_stages(spec):
                 st[key] = v
             elif key in ("NUMEROINCREMENTOS", "PLASTICIDAD", "MAXITER"):
                 st[key] = int(v)
-            elif key == "GAUSS":
+            elif key in ("GAUSS", "MULTICUERPO", "REINICIARDEFORMACIONES"):
                 st[key] = bool(int(v))
+            elif key == "CAMBIOMATERIAL":
+                # nombres por ahora; main() los traduce a ids con el proyecto
+                st[key] = dict(p.split(">", 1) for p in v.split("+"))
             else:
                 st[key] = float(v)
         stages.append(st)
@@ -289,6 +301,8 @@ def main():
     ap.add_argument("--mp", default=None,
                     help="nombres de grupos de puntos materiales a usar, separados por coma "
                          "(por defecto: todos)")
+    ap.add_argument("--elastico", default=None,
+                    help="grupos cuyo material se trata como elástico lineal (en memoria)")
     ap.add_argument("--resume", type=int, default=0,
                     help="reanudar desde la etapa N usando el checkpoint de la N-1")
     ap.add_argument("--cancel-at", type=int, default=None,
@@ -344,6 +358,29 @@ def main():
                          f"Disponibles: {[m.getName() for m in models_mp.values()]}")
     list_boundaries = [{"id": k, "name": m.getName()}
                        for k, m in project.getModelsBoundaries().items()]
+
+    # CAMBIOMATERIAL: nombres de grupo y de material → ids
+    materials_by_name = {}
+    for id_prop, p in project.getModelsProperties().items():
+        data = p.getData()
+        materials_by_name[data[list(data.keys())[0]]["NAME"]] = id_prop
+    groups_by_name = {m.getName(): id_mp for id_mp, m in models_mp.items()}
+    for s in stage_dicts:
+        if "CAMBIOMATERIAL" in s:
+            try:
+                s["CAMBIOMATERIAL"] = {groups_by_name[g]: materials_by_name[m]
+                                       for g, m in s["CAMBIOMATERIAL"].items()}
+            except KeyError as err:
+                raise SystemExit(f"mat=: no existe {err}. Grupos: {list(groups_by_name)}; "
+                                 f"materiales: {list(materials_by_name)}")
+
+    if args.elastico:
+        elasticos = [s.strip() for s in args.elastico.split(",")]
+        for id_mp, m in models_mp.items():
+            if m.getName() in elasticos:
+                data = m.getProperty().getData()
+                data[list(data.keys())[0]]["MODELO"] = "ELASTICO"
+                print(f"ELÁSTICO : grupo '{m.getName()}'")
 
     npts = sum(len(models_mp[k].getPoints()) for k in list_point_material)
     print(f"GRUPOS   : {[v['name'] for v in list_point_material.values()]}  ({npts} partículas)")

@@ -10,8 +10,9 @@
 > método: función nueva junto a la original, validada contra ella) y
 > [validacion_motor_vs_referencia.md](validacion_motor_vs_referencia.md).
 
-Inicio: 2026-09-22. Estado: **copia de partida hecha; versión general pendiente**
-(ver §6, registro de cambios).
+Inicio: 2026-09-22. Estado: **paso 1 hecho** (lista de cuerpos, modo compatible
+idéntico a `contact()`); pendientes las normales calculadas y la normal común
+por par (ver §6, registro de cambios).
 
 ---
 
@@ -219,6 +220,7 @@ calculadas sin depender del código de referencia, que nunca las usó.
 | 2026-09-22 | Copia literal de `contact` / `normals` (solo cambia el nombre). 209 líneas agregadas al final de `explicit2.py`, ninguna línea existente modificada | Fuente idéntica salvo el nombre (`inspect.getsource`); smoke de la viga contra la línea base: **0.000e+00** |
 | 2026-09-23 | `contact2` (aún igual a `contact`) conectado al ejecutor: `_run_one_mpm_step_multibody`, con cada cuerpo como un rango de los arrays de partículas | `tools/experimentos/dos_cuerpos.py`: N pasos de la app frente al ciclo de `fase_falla()` con el motor original, mismo estado de entrada (geostático). Talud mini (221 part., 100 pasos) y talud completo (6740 part., 50 pasos): **0.000e+00** en `xp, vp, Vp, Fp, sig, epse, epsp, mp_elem`, con movimiento y plastificación reales |
 | 2026-09-25 | Sin cambios en `contact2`; corrida completa de la falla del talud (8 s, 13 334 pasos) desde la app | Contra `talud_2021_falla_app.py` arrancando del mismo geostático: **0.000e+00** en los 18 campos y 162 frames (ver plan_fase_b.md §6.4) |
+| 2026-09-26 | **Paso 1 (cambios 1 y 5 de §4.2).** `contact2(bodies, nmassS, nmomentumS, mesh, dt, miu, normales='fija_y')`: recibe una **lista** de cuerpos; el bloque duplicado de `contact()` pasa a una sola función `_contact_correct()` que se aplica a cada cuerpo, con las mismas operaciones en el mismo orden. Modo `'fija_y'` = el de `contact()` (2 cuerpos, normal +y y su opuesta). Dos cambios de costo sin efecto en los números: el índice de cada nodo con `np.searchsorted` en vez de un `np.where` por nodo (mismo resultado porque `active_nodes` sale ordenado de `np.unique`), y `(v − vS)·n` fila a fila en vez de la diagonal de un producto N×N | `dos_cuerpos.py`: talud mini (100 pasos) y completo (50 pasos) **0.000e+00**. `contact` frente a `contact2` sobre el mismo estado con velocidades perturbadas al azar: **0.000e+00**, y 44 ms → 0.7 ms por llamada (6740 partículas). Falla completa del talud (8 s) con `contact2` nueva frente a la corrida anterior (idéntica a la referencia): **0.000e+00** en todos los campos y frames |
 
 ---
 

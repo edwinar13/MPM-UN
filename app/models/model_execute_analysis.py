@@ -579,11 +579,11 @@ class ModelExcuteAnalysisMPM:
         nmassS = nmass_b[0] + nmass_b[1]
         nmomentumS = nmomentum_b[0] + nmomentum_b[1]
         mesh = inci, cor, self.__node_support, active_nodes
-        body1, body2 = [
+        bodies = [
             (nmass_b[k], nmomentum_b[k], active_elem_b[k], active_nodes_b[k],
              mp_elem_b[k], Mp[slices[k]], xp[slices[k]]) for k in (0, 1)]
-        nmomentum_b[0], nmomentum_b[1] = contact2(body1, body2, nmassS, nmomentumS,
-                                                  mesh, dtime, mu)
+        nmomentum_b = contact2(bodies, nmassS, nmomentumS, mesh, dtime, mu,
+                               normales='fija_y')
 
         # --- nodos → partículas, por cuerpo ---
         for k, s in enumerate(slices):
