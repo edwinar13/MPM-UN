@@ -2662,196 +2662,159 @@ def contact(body1, body2, nmassS, nmomentumS, mesh, dt, miu):
 # Cada cambio respecto a la copia se registra en el documento, con su motivo y
 # su validación.
 #
-# Estado: copia literal, todavía sin cambios.
+# Estado (2026-09-26): contact2 recibe una LISTA de cuerpos. Modo 'fija_y' idéntico
+# a contact() (paso 1 del documento); modo 'gradiente' con normales calculadas por
+# gradiente de masa (mass_gradient2) y comunes por par (pasos 2 y 3). Las copias
+# literales de normals/contact están en el historial de git.
+#
+# DECISIÓN (2026-09-26): la app usa solo 'fija_y'. El modo 'gradiente' se probó
+# con un bloque sobre un plano inclinado y traba el deslizamiento (errores de la
+# normal de 15-40° en superficies inclinadas respecto a la malla); con la normal
+# exacta el resultado es igual al analítico. Se deja aquí como trabajo futuro,
+# sin interfaz. Ver docs/contacto_multicuerpo.md y tools/experimentos/plano_inclinado.py.
 # =====================================================================================
 
 
-def normals2(nodos, node_support, active_elem, mp_elem, inci, cor, Mp, xp):
-    """Funcion que calcula los vectores normales unitarios en direccion hacia
-        afuera para la lista de nodos ingresados, se usa el metodo del gradiente
-        de masa nodal"""
-    
-    # calculo array para almacenar vectores normales
-    nor = np.zeros((len(nodos),2))
-    
-    # ciclo en los nodos
-    for k in range(len(nodos)):
-        nodo = nodos[k] # tomando el id del nodo
-        elems = node_support[nodo - 1,:] # elementos asociados al nodo
-        
-        prueba = [elems[i] in active_elem for i in range(len(elems))]
-        if np.any(prueba): # algun elemento asociado esta en los elementos activos
-            pass
-        #else:
-            #print("El nodo no tiene elementos activos asociados !!")
-        
-        # ciclo en los elementos
-        for i in range(len(elems)):
-            ele = elems[i] # elemento i
-            
-            # ele puede ser = 0 en los nodos de la frontera!!!!
-            if ele == 0:
-                continue
-                                    
-            # determinar si el elemento i es un elemento activo
-            nodes = inci[ele - 1,:] # nodos asocidos al elemento
-            xn = cor[nodes - 1, :] # coordenasdas de los nodos
-            
-            if ele in active_elem:
-                # el elemento i  es un nodo activo
-                mpe = elem_i_mp(mp_elem, ele) # particulas dentro del elemento
-                #if len(mpe) == 0:
-                    #print("Error - entra a un nodo activo que no tiene particulas")
-                
-                # ciclo en las particulas
-                for j in range(len(mpe)):
-                    mp = mpe[j] # particula j
-                    x = xp[mp - 1, 0]; y = xp[mp - 1, 1]
-                    Np = shape_func(x, y, xn) # funciones de forma y sus derivadas
-                    
-                    # determinar id local del nodo dentro del elemento
-                    idlocal = np.where(nodes == nodo)[0]
-                    # calculo gradiente masa nodal
-                    nor[k,0] += Np[1,idlocal]*Mp[mp-1]
-                    nor[k,1] += Np[2,idlocal]*Mp[mp-1]
-                # endfor particulas
-            #endif
-        #endfor elementos
-    #endfor nodos
-    magnitud = np.array([np.sqrt(nor[:,0]**2 + nor[:,1]**2)])
-    error = np.where(magnitud[:,:] == 0)[0]
-    #if len(error) > 0:
-        #print("Magnitudes normales igual a cero")
-    
-    # normalizacion vectores
-    normal = np.divide(nor, np.transpose(magnitud))
-    #if np.any(np.isnan(normal) == True):
-        #print("algunos valores del vector de normales unitario con NaN")
-    
-    return normal
+@njit(cache=True)
+def mass_gradient2(inci, cor, mp_elem, xp, Mp, nnodes):
+    """Gradiente de la masa nodal de UN cuerpo en todos los nodos de la malla:
+        grad m_i = sum_p Mp * grad N_i(x_p)
+    Devuelve un array (nnodes, 2) con indexacion global - 1. Reemplaza a la copia
+    de normals() (que recorria nodo por nodo y nunca se uso; ver el historial):
+    aqui se recorren las particulas una sola vez."""
+    g = np.zeros((nnodes, 2))
+    for p in range(len(Mp)):
+        nodes = inci[mp_elem[p, 0] - 1, :]
+        Np = shape_func(xp[p, 0], xp[p, 1], cor[nodes - 1, :])
+        for k in range(len(nodes)):
+            g[nodes[k] - 1, 0] += Np[1, k] * Mp[p]
+            g[nodes[k] - 1, 1] += Np[2, k] * Mp[p]
+    return g
 
 
 
-def contact2(body1, body2, nmassS, nmomentumS, mesh, dt, miu):
-    """Funcion para lal correcion de velocidad nodal para un algoritmo de contacto friccional
-        de coulomb - Algoritmo predictor corrector"""
-    
+def contact2(bodies, nmassS, nmomentumS, mesh, dt, miu, normales='fija_y'):
+    """Correccion de las velocidades nodales por contacto friccional de Coulomb
+    entre varios cuerpos - algoritmo predictor-corrector (version general de
+    contact(), ver docs/contacto_multicuerpo.md).
+
+    Cada cuerpo se corrige contra el campo del SISTEMA (centro de masa), igual
+    que en contact(); lo que cambia es que los cuerpos llegan en una lista.
+
+    bodies   : lista de tuplas (nmass, nmomentum, active_elem, active_nodes,
+               mp_elem, Mp, xp), una por cuerpo, como body1/body2 en contact()
+    normales : 'fija_y' = modo compatible con contact(): exactamente 2 cuerpos,
+               normal +y para el primero y la opuesta para el segundo (solo
+               valido para contactos horizontales)
+               'gradiente' = normal calculada con el gradiente de masa nodal de
+               los cuerpos, comun (y opuesta) para cada par; cualquier geometria
+    Devuelve la lista de nmomentum corregidos, en el orden de `bodies`.
+    """
     inci, cor, node_support, active_nodes = mesh
-    nmass_1, nmomentum_1, active_elem_1, active_nodes_1, mp_elem_1, Mp_1, xp_1 = body1
-    nmass_2, nmomentum_2, active_elem_2, active_nodes_2, mp_elem_2, Mp_2, xp_2 = body2
-    
-    # numero de nodos activos en el sistema
-    nnodes = len(nmass_1[:,0])
-    # crear array para almacenar la velocidad nodal
-    nvelo_1 = np.zeros((nnodes, 2))
-    nvelo_2 = np.zeros((nnodes, 2))
-    nveloS = np.zeros((nnodes, 2))
-    
-    for i in range(nnodes):
-        if nmass_1[i] != 0: # evitar division por cero
-            nvelo_1[i,0] = nmomentum_1[i,0] / nmass_1[i]
-            nvelo_1[i,1] = nmomentum_1[i,1] / nmass_1[i]
-        if nmass_2[i] != 0:
-            nvelo_2[i,0] = nmomentum_2[i,0] / nmass_2[i]
-            nvelo_2[i,1] = nmomentum_2[i,1] / nmass_2[i]
-        # velocidad del sistema
-        nveloS[i,0] = nmomentumS[i,0] / nmassS[i]
-        nveloS[i,1] = nmomentumS[i,1] / nmassS[i]
-    
-    
-    #  ########## CUERPO 1 #####################
-    # id nodes activos cuerpo 1 dentro del array elementos activos del sistema
-    id_nodes_1 = np.array([np.where(active_nodes == active_nodes_1[i])[0][0] for i in range(len(active_nodes_1))])
-    # detectar nodos de contacto
-    ncontac_1 = np.unique(np.where(np.absolute(nvelo_1[id_nodes_1,:] - nveloS[id_nodes_1,:]) > 1e-10)[0]) # numeracion en nodos activos del cuerpo 2
-    ncontac_1S = id_nodes_1[ncontac_1] # numeracion en nodos activos del sistema    
-    ncontac_1G = active_nodes[ncontac_1S] # ??????? numeracion en nodos globales - Indexacion desde 1!
-    
-    # Calculo de normales de los nodos
-    #norm_1 = normals(ncontac_1G, node_support, active_elem_1, mp_elem_1, inci, cor, Mp_1, xp_1)
-    norm_1 = np.zeros((len(ncontac_1G),2))
-    norm_1[:,1] = 1
-    
-    # Detectar cuerpos se aproximan o se separan
-    vel_rela = np.dot((nvelo_1[ncontac_1S,:] - nveloS[ncontac_1S,:]), np.transpose(norm_1)).diagonal() # array 1D
-    naprox = np.where(vel_rela > 0)[0] # nodos aproximan en los nodos de contacto
-    naproxS = ncontac_1S[naprox] # nodos aproximan en los nodos activos del sistema
-    
-    # componentes de velocidad relativa
-    vnormal = np.multiply(norm_1[naprox,:], np.transpose(np.array([vel_rela[naprox]])))
-    vtangen = nvelo_1[naproxS,:] - nveloS[naproxS,:] - vnormal
-    
-    # +++ Correccion componente normal de velocidad ++++
-    nvelo_1[naproxS,:] = nvelo_1[naproxS,:] - vnormal
-    
-    # Fuerza tangenete
-    Ftan_1 = 1/dt * np.multiply(nmass_1[naproxS], vtangen) # fuerza tangente - Array 2D
-    magFtan_1 = np.array([np.sqrt(Ftan_1[:,0]**2 + Ftan_1[:,1]**2)]) # magnitud fuerza tangente - Array 2D fila
-    tan_1 = np.divide(Ftan_1, np.transpose(magFtan_1), out=np.zeros_like(Ftan_1), where=np.transpose(magFtan_1) !=0) # Vector tange unitaria
-    
-    # nodos a corregir por exeder fuerza tangente - nodos que deslizan
-    Fcoulomb_1 = miu / dt * np.multiply(nmass_1[naproxS], np.transpose(np.array([vel_rela[naprox]]))) # fuerza tangente maxima
-    ntang = np.where(magFtan_1[0,:] > Fcoulomb_1[:,0])[0] # id nodos que deslizan en los nodos que aproximan
-    ntangS = ncontac_1S[naprox[ntang]] # id nodos que deslizan en los nodos activos del sistema
-    nstick = np.where(magFtan_1[0,:] <= Fcoulomb_1[:,0])[0] # id nodos que NO deslizan
-    nstickS = ncontac_1S[naprox[nstick]] # id nodos que NO delsizan en los nodos activos del sistema
-    
-    # +++  Correccion componente tangente de velocidad
-    nvelo_1[ntangS,:] = nvelo_1[ntangS, :] - miu * np.multiply(tan_1[ntang,:], np.transpose(np.array([vel_rela[naprox[ntang]]])))
-    nvelo_1[nstickS,:] = nvelo_1[nstickS, :] - vtangen[nstick, :] # correccion velocidad stick
-    # ############# FIN CUERPO 1 #################################
-    
-    
-    #  ########## CUERPO 2 #####################
-    # id nodes activos cuerpo 2 dentro del array elementos activos del sistema
-    id_nodes_2 = np.array([np.where(active_nodes == active_nodes_2[i])[0][0] for i in range(len(active_nodes_2))])
-    # detectar nodos de contacto
-    ncontac_2 = np.unique(np.where(np.absolute(nvelo_2[id_nodes_2,:] - nveloS[id_nodes_2,:]) > 1e-10)[0]) # numeracion en nodos activos del cuerpo 2
-    ncontac_2S = id_nodes_2[ncontac_2] # numeracion en nodos activos del sistema    
-    ncontac_2G = active_nodes[ncontac_2S] # ??????? numeracion en nodos globales - Indexacion desde 1!
-    
-    if np.all(ncontac_1G == ncontac_2G):
-        pass
+
+    # velocidades nodales de cada cuerpo y del sistema (sin dividir por cero
+    # donde el cuerpo no tiene masa; el sistema tiene masa en todo nodo activo)
+    nvelo = [np.divide(b[1], b[0], out=np.zeros_like(b[1]), where=b[0] != 0)
+             for b in bodies]
+    nveloS = nmomentumS / nmassS
+
+    # nodos de contacto de cada cuerpo, numerados en los nodos activos del
+    # sistema: donde su velocidad difiere de la del sistema
+    ncontacS = []
+    for b, v in zip(bodies, nvelo):
+        # active_nodes (np.unique) esta ordenado: searchsorted da el mismo
+        # indice que el np.where por nodo de contact(), sin su costo O(N^2)
+        id_nodes = np.searchsorted(active_nodes, b[3])
+        ncontac = np.unique(np.where(np.absolute(v[id_nodes, :] - nveloS[id_nodes, :]) > 1e-10)[0])
+        ncontacS.append(id_nodes[ncontac])
+
+    # normales hacia afuera de cada cuerpo en sus nodos de contacto
+    if not isinstance(normales, str):
+        # Normal constante dada (nx, ny) para el primer cuerpo y su opuesta para
+        # el segundo: generaliza 'fija_y' a un contacto plano inclinado. Sirve
+        # para pruebas con la normal exacta (tools/experimentos/plano_inclinado.py).
+        assert len(bodies) == 2, "una normal constante es para exactamente 2 cuerpos"
+        norm_1 = np.zeros((len(ncontacS[0]), 2))
+        norm_1[:, 0], norm_1[:, 1] = normales[0], normales[1]
+        norms = [norm_1, - norm_1]
+    elif normales == 'fija_y':
+        assert len(bodies) == 2, "el modo 'fija_y' es para exactamente 2 cuerpos"
+        if not np.array_equal(active_nodes[ncontacS[0]], active_nodes[ncontacS[1]]):
+            print("diferentes nodos en contacto entre los cuerpos!!")
+        norm_1 = np.zeros((len(ncontacS[0]), 2))
+        norm_1[:, 1] = 1
+        norms = [norm_1, - norm_1]  # garantizar colinealidad de las normales
+    elif normales == 'gradiente':
+        # Normal hacia afuera del cuerpo k a partir de g_k = sum Mp grad N_i(xp).
+        # OJO con el signo: g_k NO es el gradiente espacial de la densidad. En
+        # un nodo del borde, las particulas del cuerpo quedan de un lado y
+        # grad N_i(xp) apunta desde ellas hacia el nodo: g_k apunta HACIA AFUERA
+        # del cuerpo (por eso normals() usa g/|g| como normal exterior).
+        # Normal comun del par: d_k = g_k - g_resto.
+        # Con 2 cuerpos es d_1 = g_1 - g_2 y d_2 = g_2 - g_1 = -d_1 EXACTO (la
+        # resta es simetrica en coma flotante): normales opuestas, que es lo
+        # que conserva el momentum (docs/contacto_multicuerpo.md, 3.3).
+        # Con 3 o mas, g_resto = g_S - g_k: solo es exacto en los nodos donde
+        # se tocan dos cuerpos (el caso de tres en un nodo es de esquina).
+        nn = len(cor)
+        grads = [mass_gradient2(inci, cor, b[4], b[6], b[5], nn)[active_nodes - 1, :]
+                 for b in bodies]
+        if len(bodies) == 2:
+            dirs = [grads[0] - grads[1], grads[1] - grads[0]]
+        else:
+            gS = grads[0].copy()
+            for g in grads[1:]:
+                gS += g
+            dirs = [g - (gS - g) for g in grads]
+        norms = []
+        for d, ncS in zip(dirs, ncontacS):
+            d = d[ncS, :]
+            mag = np.sqrt(d[:, 0]**2 + d[:, 1]**2)[:, None]
+            # |d| = 0 (sin direccion definida): normal nula, el nodo no se
+            # corrige. normals() dividia sin proteger y devolvia NaN.
+            norms.append(np.divide(d, mag, out=np.zeros_like(d), where=mag > 0))
     else:
-        print("diferentes nodos en contacto entre los cuerpos!!")
-    
-    
-    # Calculo de normales de los nodos
-    norm_2 = - norm_1 # garantizar colinealidad de las normales
-    #norm_2 = normals(ncontac_2G, node_support, active_elem_2, mp_elem_2, inci, cor, Mp_2, xp_2)
-    
-    # Detectar cuerpos se aproximan o se separan
-    vel_rela = np.dot((nvelo_2[ncontac_2S,:] - nveloS[ncontac_2S,:]), np.transpose(norm_2)).diagonal() # array 1D
+        raise ValueError(f"modo de normales desconocido: {normales}")
+
+    # correccion de cada cuerpo contra el sistema
+    out = []
+    for b, v, ncS, nor in zip(bodies, nvelo, ncontacS, norms):
+        v = _contact_correct(b[0], v, nveloS, ncS, nor, dt, miu)
+        # recalcular el momentum nodal con las velocidades corregidas
+        out.append(np.multiply(b[0], v))
+    return out
+
+
+def _contact_correct(nmass, nvelo, nveloS, ncontacS, norm, dt, miu):
+    """Correccion normal y tangencial (Coulomb) de UN cuerpo contra el sistema.
+    Mismas operaciones, en el mismo orden, que cada bloque de contact()."""
+    # Detectar cuerpos se aproximan o se separan: (v - vS)·n por fila. contact()
+    # lo calcula como la diagonal de un producto matricial N x N; fila a fila
+    # es lo mismo y no arma la matriz.
+    vel_rela = np.sum((nvelo[ncontacS, :] - nveloS[ncontacS, :]) * norm, axis=1)
     naprox = np.where(vel_rela > 0)[0] # nodos aproximan en los nodos de contacto
-    naproxS = ncontac_2S[naprox] # nodos aproximan en los nodos activos del sistema
-    
+    naproxS = ncontacS[naprox] # nodos aproximan en los nodos activos del sistema
+
     # componentes de velocidad relativa
-    vnormal = np.multiply(norm_2[naprox,:], np.transpose(np.array([vel_rela[naprox]])))
-    vtangen = nvelo_2[naproxS,:] - nveloS[naproxS,:] - vnormal
-    
+    vnormal = np.multiply(norm[naprox, :], np.transpose(np.array([vel_rela[naprox]])))
+    vtangen = nvelo[naproxS, :] - nveloS[naproxS, :] - vnormal
+
     # +++ Correccion componente normal de velocidad ++++
-    nvelo_2[naproxS,:] = nvelo_2[naproxS,:] - vnormal
-    
-    # Fuerza tangenete
-    Ftan_2 = 1/dt * np.multiply(nmass_2[naproxS], vtangen) # fuerza tangente - Array 2D
-    magFtan_2 = np.array([np.sqrt(Ftan_2[:,0]**2 + Ftan_2[:,1]**2)]) # magnitud fuerza tangente - Array 2D fila
-    tan_2 = np.divide(Ftan_2, np.transpose(magFtan_2), out=np.zeros_like(Ftan_2), where=np.transpose(magFtan_2) !=0) # Vector tange unitaria
-    
-    # nodos a corregir por exeder fuerza tangente - nodos que deslizan
-    Fcoulomb_2 = miu / dt * np.multiply(nmass_2[naproxS], np.transpose(np.array([vel_rela[naprox]]))) # fuerza tangente maxima
-    ntang = np.where(magFtan_2[0,:] > Fcoulomb_2[:,0])[0] # id nodos que deslizan en los nodos que aproximan
-    ntangS = ncontac_2S[naprox[ntang]] # id nodos que deslizan en los nodos activos del sistema
-    nstick = np.where(magFtan_2[0,:] <= Fcoulomb_2[:,0])[0] # id nodos que NO deslizan
-    nstickS = ncontac_2S[naprox[nstick]] # id nodos que NO delsizan en los nodos activos del sistema
-    
+    nvelo[naproxS, :] = nvelo[naproxS, :] - vnormal
+
+    # Fuerza tangente
+    Ftan = 1/dt * np.multiply(nmass[naproxS], vtangen) # fuerza tangente - Array 2D
+    magFtan = np.array([np.sqrt(Ftan[:, 0]**2 + Ftan[:, 1]**2)]) # magnitud fuerza tangente - Array 2D fila
+    tan = np.divide(Ftan, np.transpose(magFtan), out=np.zeros_like(Ftan), where=np.transpose(magFtan) != 0) # Vector tangente unitario
+
+    # nodos a corregir por exceder fuerza tangente - nodos que deslizan
+    Fcoulomb = miu / dt * np.multiply(nmass[naproxS], np.transpose(np.array([vel_rela[naprox]]))) # fuerza tangente maxima
+    ntang = np.where(magFtan[0, :] > Fcoulomb[:, 0])[0] # id nodos que deslizan en los nodos que aproximan
+    ntangS = ncontacS[naprox[ntang]] # id nodos que deslizan en los nodos activos del sistema
+    nstick = np.where(magFtan[0, :] <= Fcoulomb[:, 0])[0] # id nodos que NO deslizan
+    nstickS = ncontacS[naprox[nstick]] # id nodos que NO deslizan en los nodos activos del sistema
+
     # +++  Correccion componente tangente de velocidad
-    nvelo_2[ntangS,:] = nvelo_2[ntangS, :] - miu * np.multiply(tan_2[ntang,:], np.transpose(np.array([vel_rela[naprox[ntang]]])))
-    nvelo_2[nstickS,:] = nvelo_2[nstickS, :] - vtangen[nstick, :] # correccion velocidad stick
-    
-    # ############# FIN CUERPO 2 #################################
-    
-    # recalcular el momentum nodal con las velocidades corregidas
-    nmomentum_1 = np.multiply(nmass_1, nvelo_1)
-    nmomentum_2 = np.multiply(nmass_2, nvelo_2)
-    
-    return nmomentum_1, nmomentum_2
+    nvelo[ntangS, :] = nvelo[ntangS, :] - miu * np.multiply(tan[ntang, :], np.transpose(np.array([vel_rela[naprox[ntang]]])))
+    nvelo[nstickS, :] = nvelo[nstickS, :] - vtangen[nstick, :] # correccion velocidad stick
+    return nvelo

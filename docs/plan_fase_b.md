@@ -2,8 +2,13 @@
 
 > **Estado:** B0 terminado el 2026-09-20. B1 y B2 el 2026-09-23. **B3 terminado
 > el 2026-09-25**: la falla del talud es idéntica bit a bit a la referencia (§6.4).
-> Pendiente: la versión general de `contact2` (N cuerpos, normales calculadas),
-> ver [contacto_multicuerpo.md](contacto_multicuerpo.md).
+> **Fase B cerrada el 2026-09-26** con la normal vertical (contactos
+> horizontales). Las normales calculadas se probaron y no sirven en superficies
+> inclinadas; quedan documentadas como trabajo futuro en
+> [contacto_multicuerpo.md](contacto_multicuerpo.md).
+>
+> **Extras solo si queda tiempo al final:** `Disc.py` (validación analítica del
+> contacto; requiere gravedad con ángulo) y `Collapse_contact.py`.
 >
 > **Pendiente anotado (2026-09-25), sin hacer todavía:** cuando una etapa
 > cuasi-estática se corta sin converger (máximo de iteraciones o tiempo), el

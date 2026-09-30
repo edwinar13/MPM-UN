@@ -520,7 +520,7 @@ class ModelExcuteAnalysisMPM:
                         f"(hay {len(self.__bodies)}).")
         return ""
 
-    def _run_one_mpm_step_multibody(self, plasticity_flags, mu):
+    def _run_one_mpm_step_multibody(self, plasticity_flags, mu, normals='fija_y'):
         """Un paso con un campo de velocidad por cuerpo y contacto friccional.
 
         Mismo orden de operaciones que la fase de falla de la referencia
@@ -583,7 +583,7 @@ class ModelExcuteAnalysisMPM:
             (nmass_b[k], nmomentum_b[k], active_elem_b[k], active_nodes_b[k],
              mp_elem_b[k], Mp[slices[k]], xp[slices[k]]) for k in (0, 1)]
         nmomentum_b = contact2(bodies, nmassS, nmomentumS, mesh, dtime, mu,
-                               normales='fija_y')
+                               normales=normals)
 
         # --- nodos → partículas, por cuerpo ---
         for k, s in enumerate(slices):
@@ -1000,7 +1000,8 @@ class ModelExcuteAnalysisMPM:
                 QApplication.processEvents()
                 
                 if multi_body:
-                    self._run_one_mpm_step_multibody(plasticity_flags, stage.friction)
+                    self._run_one_mpm_step_multibody(plasticity_flags, stage.friction,
+                                                     stage.contact_normals)
                 else:
                     self._run_one_mpm_step(use_gauss, plasticity_flags)
 

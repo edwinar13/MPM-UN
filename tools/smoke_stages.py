@@ -23,6 +23,7 @@ El spec de etapas son etapas separadas por ';', cada una:
     courant, damp, plast (0|1), gauss (0|1), tolff, tolee
     multi  (0|1) un cuerpo por grupo de puntos materiales, con contacto
     mu     fricción entre cuerpos
+    normales  fija_y | gradiente (normales de contacto)
     reset  (0|1) reiniciar deformaciones al entrar a la etapa
     mat    cambio de material, por nombre: Grupo>Material+Grupo>Material
     nombre etiqueta de la etapa
@@ -61,7 +62,7 @@ _ALIAS = {
     "damp": "DAMPING", "plast": "PLASTICIDAD", "gauss": "GAUSS",
     "tolff": "TOLFF", "tolee": "TOLEE",
     "nombre": "NOMBRE", "maxit": "MAXITER",
-    "multi": "MULTICUERPO", "mu": "FRICCION",
+    "multi": "MULTICUERPO", "mu": "FRICCION", "normales": "NORMALESCONTACTO",
     "reset": "REINICIARDEFORMACIONES", "mat": "CAMBIOMATERIAL",
 }
 _TIPOS = ("geostatic", "load_increment", "dynamic")
@@ -92,7 +93,7 @@ def parse_stages(spec):
                 raise SystemExit(f"Clave desconocida '{k}' en la etapa {i + 1}")
             key = _ALIAS[k]
             v = v.strip()
-            if key == "NOMBRE":
+            if key in ("NOMBRE", "NORMALESCONTACTO"):
                 st[key] = v
             elif key in ("NUMEROINCREMENTOS", "PLASTICIDAD", "MAXITER"):
                 st[key] = int(v)

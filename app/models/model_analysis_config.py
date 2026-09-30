@@ -88,6 +88,10 @@ class AnalysisStage:
     multi_body: bool = False
     # Coeficiente de fricción de Coulomb entre cuerpos (solo si multi_body)
     friction: float = 0.0
+    # Normales de contacto: 'fija_y' (la de la referencia, solo contactos
+    # horizontales) o 'gradiente' (calculadas, cualquier geometría). Ver
+    # docs/contacto_multicuerpo.md. Sin interfaz todavía.
+    contact_normals: str = 'fija_y'
 
     # ─── Cambios al entrar a la etapa ───
     # Material que toma cada grupo desde esta etapa: {id_grupo: id_material}.
@@ -114,6 +118,7 @@ class AnalysisStage:
             "GAUSS": self.use_gauss,
             "MULTICUERPO": self.multi_body,
             "FRICCION": self.friction,
+            "NORMALESCONTACTO": self.contact_normals,
             "CAMBIOMATERIAL": dict(self.material_changes),
             "REINICIARDEFORMACIONES": self.reset_strains,
         }
@@ -134,6 +139,7 @@ class AnalysisStage:
             use_gauss=d.get("GAUSS", None),
             multi_body=bool(d.get("MULTICUERPO", False)),
             friction=float(d.get("FRICCION", 0.0)),
+            contact_normals=d.get("NORMALESCONTACTO", 'fija_y'),
             material_changes=dict(d.get("CAMBIOMATERIAL") or {}),
             reset_strains=bool(d.get("REINICIARDEFORMACIONES", False)),
         )

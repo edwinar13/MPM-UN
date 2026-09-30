@@ -10,9 +10,10 @@
 > método: función nueva junto a la original, validada contra ella) y
 > [validacion_motor_vs_referencia.md](validacion_motor_vs_referencia.md).
 
-Inicio: 2026-09-22. Estado: **paso 1 hecho** (lista de cuerpos, modo compatible
-idéntico a `contact()`); pendientes las normales calculadas y la normal común
-por par (ver §6, registro de cambios).
+Inicio: 2026-09-22. **Cerrado el 2026-09-26.** La app usa la normal vertical
+(`'fija_y'`, contactos horizontales), idéntica a la referencia. Las normales
+calculadas quedaron implementadas y probadas, pero **no se usan**: fallan en
+superficies inclinadas (ver el hallazgo del 2026-09-26 al final de §6 y §7).
 
 ---
 
@@ -221,9 +222,48 @@ calculadas sin depender del código de referencia, que nunca las usó.
 | 2026-09-23 | `contact2` (aún igual a `contact`) conectado al ejecutor: `_run_one_mpm_step_multibody`, con cada cuerpo como un rango de los arrays de partículas | `tools/experimentos/dos_cuerpos.py`: N pasos de la app frente al ciclo de `fase_falla()` con el motor original, mismo estado de entrada (geostático). Talud mini (221 part., 100 pasos) y talud completo (6740 part., 50 pasos): **0.000e+00** en `xp, vp, Vp, Fp, sig, epse, epsp, mp_elem`, con movimiento y plastificación reales |
 | 2026-09-25 | Sin cambios en `contact2`; corrida completa de la falla del talud (8 s, 13 334 pasos) desde la app | Contra `talud_2021_falla_app.py` arrancando del mismo geostático: **0.000e+00** en los 18 campos y 162 frames (ver plan_fase_b.md §6.4) |
 | 2026-09-26 | **Paso 1 (cambios 1 y 5 de §4.2).** `contact2(bodies, nmassS, nmomentumS, mesh, dt, miu, normales='fija_y')`: recibe una **lista** de cuerpos; el bloque duplicado de `contact()` pasa a una sola función `_contact_correct()` que se aplica a cada cuerpo, con las mismas operaciones en el mismo orden. Modo `'fija_y'` = el de `contact()` (2 cuerpos, normal +y y su opuesta). Dos cambios de costo sin efecto en los números: el índice de cada nodo con `np.searchsorted` en vez de un `np.where` por nodo (mismo resultado porque `active_nodes` sale ordenado de `np.unique`), y `(v − vS)·n` fila a fila en vez de la diagonal de un producto N×N | `dos_cuerpos.py`: talud mini (100 pasos) y completo (50 pasos) **0.000e+00**. `contact` frente a `contact2` sobre el mismo estado con velocidades perturbadas al azar: **0.000e+00**, y 44 ms → 0.7 ms por llamada (6740 partículas). Falla completa del talud (8 s) con `contact2` nueva frente a la corrida anterior (idéntica a la referencia): **0.000e+00** en todos los campos y frames |
+| 2026-09-26 | **Pasos 2 y 3.** `mass_gradient2()` (Numba, recorre las partículas una vez; reemplaza la copia de `normals()`) y modo `'gradiente'`: normal del par `d = g₁ − g₂`, la del otro cuerpo exactamente `−d`, normal nula si `|d| = 0`. Ojo con el signo: `g = Σ Mp ∇N_i(x_p)` apunta **hacia afuera** del cuerpo (en un nodo de borde las partículas quedan de un lado y ∇N_i apunta hacia el nodo), no hacia adentro. También se admite una normal constante `(nx, ny)` para pruebas | Talud: normales a 0.01° de +y en la interfaz (salvo el borde x = 0 y el pie x = 18, 8° y 15°); momentum conservado (suma de correcciones ~1e-19). `'fija_y'` sigue a 0.000e+00. **Plano inclinado** (`tools/experimentos/plano_inclinado.py`, θ = 30°, μ = 0.2, geostático previo): con la **normal exacta** a = 3.206 m/s², igual a la teórica 3.206, y avance 2.308 m igual al teórico → el algoritmo de Coulomb es correcto. Con la normal **por gradiente** el bloque **no desliza** (a ≈ 0): en los 11 nodos de contacto el error de la normal tiene mediana 6° y máximos de 28–42° (escalera de la rampa y esquinas del bloque), y esos nodos frenan el deslizamiento. Suavizar o usar un solo cuerpo baja el máximo a ~15°, insuficiente |
+
+### Hallazgo 2026-09-26: la normal por gradiente de masa no sirve en superficies inclinadas a esta resolución
+
+El algoritmo de contacto es exacto si la normal es correcta (prueba anterior).
+El gradiente de masa nodal da normales con errores de 15–40° en superficies que
+no están alineadas con la malla: la superficie de partículas es una escalera y
+en las esquinas de un cuerpo el gradiente apunta de lado. Un nodo con la normal
+girada δ lee el deslizamiento como aproximación y le quita la componente
+sen δ en cada paso: con δ ≈ 15° eso frena el cuerpo por completo. En la
+interfaz horizontal del talud no se nota porque ahí la escalera no existe.
 
 ---
 
+### Decisión 2026-09-26
+
+- La app usa **solo la normal vertical**: contactos horizontales, como el talud
+  de la tesis. Es lo mismo que hace todo el código original: `talud_2021_v2.py`,
+  `Collapse_contact.py` (columna granular sobre una placa) y `Disc.py` (disco
+  sobre un plano inclinado, simulado **girando la gravedad** con la placa
+  horizontal) usan `contact()` con la normal fija en +y.
+- Se conservan en el motor, sin interfaz: `contact2` para una lista de cuerpos,
+  el modo `'gradiente'`, `mass_gradient2` y la normal constante `(nx, ny)`. El
+  ejecutor sigue limitado a 2 cuerpos (el modo vertical es de dos).
+- `tools/experimentos/plano_inclinado.py` reproduce el hallazgo.
+- **Trabajo futuro** (otra tesis): normales a partir de la geometría de la
+  superficie (p. ej. un ajuste local por las partículas de borde) en vez del
+  gradiente de masa, validadas con este mismo plano inclinado.
+- **Extras, solo si queda tiempo al final** (en orden): `Disc.py` como
+  validación analítica del contacto (requiere gravedad con ángulo en el
+  proyecto e importar las partículas del disco; ~1-2 días), y
+  `Collapse_contact.py` (misma estructura que el talud; solo armar el proyecto).
+
 ## 7. Qué afirmar en la tesis
 
-*(Se completa al terminar la validación.)*
+1. La fase de falla del talud con dos cuerpos y contacto friccional es idéntica
+   bit a bit a la referencia en 8 s de simulación, arrancando del mismo
+   geostático (plan_fase_b.md §6.4).
+2. El algoritmo de contacto de Coulomb es exacto cuando la normal es correcta:
+   bloque sobre plano inclinado, aceleración y avance iguales a la solución
+   analítica a tres cifras.
+3. La normal por gradiente de masa nodal no es confiable en superficies
+   inclinadas respecto a la malla: errores de 15–40° que traban el
+   deslizamiento. Por eso la aplicación se limita a contactos horizontales, como
+   el código original, y se deja como trabajo futuro.
