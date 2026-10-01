@@ -70,7 +70,7 @@ def armar(nmpe):
     return cor, inci, nelex, fixed_x, fixed_y, mp_elem, xp
 
 
-def correr(t_total, alpha, nmpe, dt=None, verbose=True):
+def correr(t_total, alpha, nmpe, dt=None, verbose=True, amort="alg2"):
     cor, inci, nelex, fixed_x, fixed_y, mp_elem, xp = armar(nmpe)
     nmp = len(xp)
 
@@ -136,7 +136,12 @@ def correr(t_total, alpha, nmpe, dt=None, verbose=True):
         else:
             damp_w = damp_s = 0.0
         nforce_w = fw + ndforce_w + damp_w
-        nforce_m = fm + damp_s + damp_w
+        if amort == "ec531":
+            # Ec. 5-31: cada amortiguamiento ponderado por la fracción de volumen de su fase
+            nforce_m = fm + N0 * damp_w + (1 - N0) * damp_s
+        else:
+            # Algoritmo 2, líneas 17 y 19: suma directa
+            nforce_m = fm + damp_s + damp_w
 
         # 20-23: aceleraciones (Algoritmo 4) y nodos de Dirichlet
         nacele_w = nforce_w / nmass_weq
@@ -185,9 +190,8 @@ def comparar(r, alpha, ruta_png=None):
     # grado de consolidación a partir de la presión media (partículas de igual volumen)
     U_num = 1 - p_rel.mean(axis=0)
     U_ana = np.array([terzaghi.grado_consolidacion(tv) for tv in Tv])
-    # partícula más cercana a media altura
-    im = int(np.argmin(np.abs(y0 - H / 2) + 1e-9 * np.abs(r["y0"] - LX / 2)))
-    err_mid = np.abs(p_rel[im] - np.array([terzaghi.presion(1 - y0[im] / H, tv) for tv in Tv]))
+    im = int(np.argmin(np.abs(y0 - H / 2)))       # partícula más cercana a media altura
+    err_mid = error_particula_media(r)[1]
 
     print(f"\ncv = {c:.3f} m²/s   α = {alpha}")
     print(f"{'Tv':>5s} | {'U MPM':>6s} {'U Terz.':>7s} | {'error máx p/p0 en la columna':>28s}")
@@ -230,6 +234,69 @@ def comparar(r, alpha, ruta_png=None):
         print(f"figura: {ruta_png}")
 
 
+def particula_media(y0):
+    """Índice de la partícula más cercana a media altura, siempre del elemento de
+    abajo (0.4-0.5 m): con varias particiones hay empates entre 0.5 ± δ."""
+    d = np.where(y0 <= H / 2, H / 2 - y0, np.inf)
+    return int(np.argmin(d))
+
+
+def error_particula_media(r):
+    """Tv y |p num − p ana| / p0 en la partícula media (Ec. 7-7 de la referencia)."""
+    Tv = terzaghi.cv(K, E, NU) * r["t"] / H ** 2
+    y0 = r["y0"]
+    im = particula_media(y0)
+    p_num = -r["pp"][im] / Q0
+    p_ana = np.array([terzaghi.presion(1 - y0[im] / H, tv) for tv in Tv])
+    return Tv, np.abs(p_num - p_ana)
+
+
+def error_elemento_medio(r):
+    """Tv y error del promedio de p en el elemento 0.4-0.5 m frente al promedio
+    analítico del mismo tramo. Con SRI la presión es constante por elemento, así
+    que esta métrica no depende de dónde cae la partícula dentro del elemento."""
+    Tv = terzaghi.cv(K, E, NU) * r["t"] / H ** 2
+    y0 = r["y0"]
+    sel = (y0 > H / 2 - ELE) & (y0 < H / 2)
+    ys = np.linspace(H / 2 - ELE, H / 2, 41)
+    p_ana = np.array([terzaghi.presion(1 - ys / H, tv).mean() for tv in Tv])
+    return Tv, np.abs(-r["pp"][sel].mean(axis=0) / Q0 - p_ana)
+
+
+def figura_nmpe(salida, alpha, t_total, nmpes=(4, 9, 16, 25, 36, 49)):
+    """Sensibilidad al número de partículas por elemento (Figura 7-10 de la referencia)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(12, 4.5), sharey=True)
+    print(f"{'':5s} | {'partícula media':^29s} | {'promedio del elemento':^29s}")
+    print(f"{'nmpe':>5s} | {'máx':>9s} {'Tv ≥ 0.5':>9s} {'Tv ≥ 1.5':>9s} | "
+          f"{'máx':>9s} {'Tv ≥ 0.5':>9s} {'Tv ≥ 1.5':>9s}")
+    for n in nmpes:
+        ruta = os.path.join(salida, f"consol1d_a{alpha:g}_n{n}_t{t_total:g}.npz")
+        if not os.path.exists(ruta):
+            print(f"{n:5d} | falta {os.path.basename(ruta)}")
+            continue
+        r = dict(np.load(ruta))
+        fila = []
+        for ax, fn in ((a1, error_particula_media), (a2, error_elemento_medio)):
+            Tv, err = fn(r)
+            fila += [err.max(), err[Tv >= 0.5].max(), err[Tv >= 1.5].max()]
+            ax.plot(Tv, err, lw=1, label=f"nmpe = {n}")
+        print(f"{n:5d} | " + " ".join(f"{v:9.4f}" for v in fila[:3]) + " | "
+              + " ".join(f"{v:9.4f}" for v in fila[3:]))
+    a1.set(xlabel="Tv", ylabel="|p num − p ana| / p0", title="Partícula media (Ec. 7-7)")
+    a2.set(xlabel="Tv", title="Promedio del elemento 0.4–0.5 m")
+    for ax in (a1, a2):
+        ax.grid(alpha=0.3)
+        ax.legend(fontsize=8)
+    fig.suptitle(f"Sensibilidad al número de partículas por elemento (α = {alpha:g})")
+    fig.tight_layout()
+    png = os.path.join(salida, f"consol1d_sensibilidad_nmpe_a{alpha:g}.png")
+    fig.savefig(png, dpi=150)
+    print(f"figura: {png}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("salida")
@@ -237,10 +304,18 @@ def main():
     ap.add_argument("--alpha", type=float, default=0.0, help="amortiguamiento local")
     ap.add_argument("--nmpe", type=int, default=49, help="partículas por elemento (cuadrado perfecto)")
     ap.add_argument("--dt", type=float, default=None, help="Δt (por defecto el CFL con Courant 0.98)")
+    ap.add_argument("--amort", choices=("alg2", "ec531"), default="alg2",
+                    help="amortiguamiento de la mezcla: Algoritmo 2 (suma) o Ec. 5-31 (ponderado por n)")
+    ap.add_argument("--figura-nmpe", action="store_true",
+                    help="no corre: dibuja la sensibilidad a nmpe con los .npz ya guardados en <salida>")
     args = ap.parse_args()
     os.makedirs(args.salida, exist_ok=True)
-    r = correr(args.t, args.alpha, args.nmpe, args.dt)
-    base = os.path.join(args.salida, f"consol1d_a{args.alpha:g}_n{args.nmpe}_t{args.t:g}")
+    if args.figura_nmpe:
+        figura_nmpe(args.salida, args.alpha, args.t)
+        return
+    r = correr(args.t, args.alpha, args.nmpe, args.dt, amort=args.amort)
+    sufijo = "" if args.amort == "alg2" else f"_{args.amort}"
+    base = os.path.join(args.salida, f"consol1d_a{args.alpha:g}_n{args.nmpe}_t{args.t:g}{sufijo}")
     np.savez_compressed(base + ".npz", **r)
     comparar(r, args.alpha, base + ".png")
 

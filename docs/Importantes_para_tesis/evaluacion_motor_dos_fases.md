@@ -2,7 +2,8 @@
 
 **Autor:** Edwin Arévalo — Maestría en Ingeniería, Geotecnia (UNAL)
 **Fecha:** Julio de 2026 — **actualizada el 30 de septiembre de 2026** tras una revisión
-detallada del código fuente y del documento de referencia (sección 5).
+detallada del código fuente y del documento de referencia (sección 5) y con el
+resultado del escenario A (sección 9).
 **Propósito:** Evaluar técnicamente qué implica incorporar el motor de doble fase a la
 aplicación y dimensionar el trabajo restante.
 
@@ -139,6 +140,75 @@ Solicitar a Wilson Caro o a David León los **scripts de ejecución de los casos
 consolidación validados**. No es bloqueante —el procedimiento puede reconstruirse del
 documento—, pero aclararía cómo se aplicaron el drenaje y la carga y acortaría la
 depuración del escenario A.
+
+## 9. Resultado del escenario A (30 de septiembre de 2026)
+
+**El escenario A quedó terminado en un día**, frente a los 4–5 estimados: el ciclo
+reconstruido a partir del Algoritmo 2 reprodujo la solución de Terzaghi en la primera
+corrida completa, sin necesidad de los scripts originales.
+
+**Implementación.**
+
+- `app/motorMPM/dos_fases.py`: las funciones de doble fase de la referencia, copiadas
+  sin cambios; las funciones comunes se importan del motor de una fase, que no se
+  modificó.
+- `tools/experimentos/terzaghi.py`: solución analítica (verificada contra los valores
+  tabulados de U(Tv)).
+- `tools/experimentos/consolidacion_1d.py`: caso 7.1 con los datos de la Tabla 7-1
+  (490 partículas, Δt = 0.0002 s, 4 s, 20 000 pasos, **33 s de cómputo**).
+
+**Condiciones de frontera.** Laterales y fondo impermeables (velocidad del agua y del
+esqueleto restringidas en los mismos nodos); superficie libre. La condición de drenaje
+p = 0 en la superficie no requirió tratamiento especial: queda impuesta en forma débil
+por la ecuación de momento de la fase líquida con presión prescrita nula.
+
+**Resultados con α = 0** (caso de las Figuras 7-5 y 7-6 de la referencia):
+
+| Tv | U (MPM) | U (Terzaghi) | Error máx. de p/p0 en la columna |
+|---|---|---|---|
+| 0.05 | 0.236 | 0.255 | 0.113 |
+| 0.1 | 0.341 | 0.360 | 0.082 |
+| 0.2 | 0.494 | 0.509 | 0.058 |
+| 0.5 | 0.754 | 0.764 | 0.029 |
+| 1.0 | 0.925 | 0.931 | 0.012 |
+
+![Consolidación 1D frente a Terzaghi](figuras/consolidacion_1d_terzaghi.png)
+
+El error es mayor en los primeros instantes y tiende a cero (< 0.005 para Tv ≥ 1.5),
+el mismo comportamiento descrito en la referencia. La solución numérica va
+ligeramente retrasada respecto a la analítica (≈ 1–2 % en U). Las isócronas muestran
+escalones por elemento porque la integración selectiva reducida (SRI) asigna una
+presión de poros constante a cada elemento.
+
+**Sensibilidad al número de partículas por elemento** (4 a 49):
+
+| nmpe | Partícula media: máx | Tv ≥ 0.5 | Elemento medio: máx | Tv ≥ 0.5 |
+|---|---|---|---|---|
+| 4 | 0.043 | 0.020 | 0.030 | 0.011 |
+| 9 | 0.052 | 0.024 | 0.024 | 0.011 |
+| 16 | 0.056 | 0.025 | 0.024 | 0.011 |
+| 49 | 0.061 | 0.028 | 0.025 | 0.012 |
+
+![Sensibilidad al número de partículas](figuras/consolidacion_1d_sensibilidad_nmpe.png)
+
+Con SRI la presión de poros es constante dentro de cada elemento, de modo que el
+error medido en una partícula (Ec. 7-7 de la referencia) depende sobre todo de su
+posición dentro del elemento: al aumentar nmpe la partícula media se acerca al borde
+del elemento y el error puntual crece. Medido sobre el promedio del elemento, el error
+es prácticamente independiente de nmpe a partir de 9 partículas; solo nmpe = 4 es algo
+peor en los primeros instantes, en línea con lo reportado en la referencia. La
+precisión la controla el tamaño de elemento, no el número de partículas.
+
+**Amortiguamiento local.** Con α = 0.025 y 0.05 el error aumenta ligeramente (0.037 y
+0.046 en la partícula media para Tv ≥ 0.5, frente a 0.028 con α = 0), tanto con la
+suma directa del Algoritmo 2 como con la ponderación por porosidad de la Ec. 5-31. La
+referencia reporta una mejora con α = 0.025 en los primeros instantes; la diferencia
+puede estar en detalles de implementación del programa principal que no se conserva.
+Dado que la validación de la referencia se presenta primero con α = 0 y que en esa
+condición el resultado ya coincide con Terzaghi, se adopta α = 0 para la validación.
+
+**Consecuencia para el plan.** Con A terminado el 30 de septiembre, el escenario B
+(7–9 días) cabe dentro del plazo del 19 de octubre.
 
 ---
 

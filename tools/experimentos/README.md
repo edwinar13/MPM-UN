@@ -44,3 +44,21 @@ Lee el orden de partículas de
 
 Cubre los incrementos 1–3, todos elásticos. Para cerrar también el rango
 plástico basta subir el `range(3)` del bucle de `corrida()`.
+
+## Doble fase: `terzaghi.py` y `consolidacion_1d.py`
+
+Validación del MPM de doble fase (`app/motorMPM/dos_fases.py`) con el caso de
+consolidación 1D de Caro González (2024), §7.1. Resultados y figuras en
+[docs/Importantes_para_tesis/evaluacion_motor_dos_fases.md](../../docs/Importantes_para_tesis/evaluacion_motor_dos_fases.md) §9.
+
+```bash
+python tools/experimentos/terzaghi.py                        # verifica la serie contra U(Tv) tabulado
+python tools/experimentos/consolidacion_1d.py <salida>       # caso completo, α = 0, 49 part./elem (~35 s)
+python tools/experimentos/consolidacion_1d.py <salida> --alpha 0.025 [--amort ec531]
+for n in 4 9 16 25 36 49; do python tools/experimentos/consolidacion_1d.py <salida> --nmpe $n; done
+python tools/experimentos/consolidacion_1d.py <salida> --figura-nmpe   # sensibilidad con los .npz guardados
+```
+
+**Resultado (α = 0):** U difiere menos de 2 % de Terzaghi; el error de p/p0 es
+máximo al inicio (≈ 0.06 en la partícula media) y < 0.005 para Tv ≥ 1.5. El
+amortiguamiento local no mejora el ajuste.
