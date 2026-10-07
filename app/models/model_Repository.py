@@ -440,10 +440,10 @@ class ModelRepository():
     ###############################################################################
     
     def createPropertiesDB(self, id_properties, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy,
-                           model="MOHR_COULOMB"):
+                           model="MOHR_COULOMB", two_phase=None):
 
         try:
-            self.__unguarded_copy_db_project['MATERIALES'][id_properties] = {
+            material = self.__unguarded_copy_db_project['MATERIALES'][id_properties] = {
                 "COLOR": color,
                 "NAME": name,
                 "MODULOELASTICIDAD": modulus_elasticity,        #E KPa
@@ -454,7 +454,10 @@ class ModelRepository():
                 "ANGULODILATANCIA": angle_dilatancy,            #Psi °
                 "MODELO": model                                 #MOHR_COULOMB | ELASTICO
             }
-            
+            # Doble fase: POROSIDAD (-), PERMEABILIDAD (m/s), MODULOAGUA (kPa)
+            if two_phase:
+                material.update(two_phase)
+
             return True
         
         except BaseException as err:
@@ -479,7 +482,8 @@ class ModelRepository():
                            friction_angle=None,
                            density=None,
                            angle_dilatancy=None,
-                           model=None):
+                           model=None,
+                           two_phase=None):
 
         try:
             if id_properties in self.__unguarded_copy_db_project['MATERIALES']: 
@@ -501,6 +505,8 @@ class ModelRepository():
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["ANGULODILATANCIA"]=angle_dilatancy
                 if model != None:
                     self.__unguarded_copy_db_project['MATERIALES'][id_properties]["MODELO"]=model
+                if two_phase:
+                    self.__unguarded_copy_db_project['MATERIALES'][id_properties].update(two_phase)
 
             return True
         except BaseException as err:
@@ -760,9 +766,9 @@ class ModelRepository():
              epspxx, epspyy, epspxy,
              velxx, velyy,  velxy,
              desplxx, desplyy, desplxy,
-             eqplas):  
-        try:                 
-            self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
+             eqplas, presporos=None):
+        try:
+            node = self.__unguarded_copy_db_project['RESULTADOS']['RESULTADOSNODOS'][id_result_node] = {
                 "MATERIAL": material_node,
                 "CORX": corx,
                 "CORY": cory,
@@ -781,9 +787,13 @@ class ModelRepository():
                 "DESPLXX": desplxx,
                 "DESPLYY": desplyy,
                 "DESPLXY": desplxy,
-                "EQPLAS": eqplas                
+                "EQPLAS": eqplas
             }
-            
+            # Presión de poros (kPa, + compresión): solo la escriben los
+            # análisis que la calculan; los resultados viejos no la tienen.
+            if presporos is not None:
+                node["PRESIONPOROS"] = presporos
+
             return True
             
         except BaseException as err:
@@ -924,8 +934,10 @@ class ModelRepository():
                           epspxx=None, epspyy=None, epspxy=None,
                           velxx = None, velyy = None, velxy = None,
                           desplxx = None, desplyy = None, desplxy = None,
-                          eqplas = None):
-        try:             
+                          eqplas = None, presporos = None):
+        try:
+            if presporos != None:
+                self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['PRESIONPOROS'] = presporos
             if corx != None:   
                 self.__unguarded_copy_db_project['RESULTADOS']['MINIMOSRESULTADOS']['CORX'] = corx
             if cory != None:
@@ -974,9 +986,11 @@ class ModelRepository():
                           epspxx=None, epspyy=None, epspxy=None,
                           velxx=None, velyy=None,  velxy=None,
                           desplxx=None, desplyy=None, desplxy=None,
-                          eqplas=None):
-            try: 
-                
+                          eqplas=None, presporos=None):
+            try:
+                if presporos != None:
+                    self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['PRESIONPOROS'] = presporos
+
                 if corx != None:   
                     self.__unguarded_copy_db_project['RESULTADOS']['MAXIMOSRESULTADOS']['CORX'] = corx
                 if cory != None:

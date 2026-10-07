@@ -4,6 +4,7 @@ from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewR
 from utils.items_GraphicsResult import (ItemResultAxisMeshBack, ItemResultGridMeshBack, ItemResultLabelGridMeshBack,
                                      ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem, CircleMpItem, ArrowMpItem,
                                      ItemResultTextLabel, PointDetailPanelItem)
+from utils.general_functions import result_key
 import random
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -248,8 +249,13 @@ class ModelResult(QObject):
             node.setDetailPanelVisible(False)
         self.scene_result.update()
 
+    def hasResult(self, key):
+        """True si los resultados cargados traen el campo `key` (p. ej.
+        'PRESIONPOROS', que solo existe si el análisis tuvo consolidación)."""
+        return bool(self.__result_min) and self.__result_min.get(key) is not None
+
     def setTypeResult(self, type_result, axis, vector, color_style, hue=0):
-        for node in self.__item_result_nodes: 
+        for node in self.__item_result_nodes:
             node.setTypeResult(type_result, axis, vector, color_style, hue)
         self.scene_result.update() 
         
@@ -258,12 +264,8 @@ class ModelResult(QObject):
             min = 0
             max = 0
         else:
-            if type_result == "eqplas":
-                min = self.__result_min[f'{type_result}'.upper()]
-                max = self.__result_max[f'{type_result}'.upper()]
-            else:
-                min = self.__result_min[f'{type_result}{axis}'.upper()]
-                max = self.__result_max[f'{type_result}{axis}'.upper()]
+            min = self.__result_min[result_key(type_result, axis)]
+            max = self.__result_max[result_key(type_result, axis)]
         self.color_bar_result.setTypeResult(type_result, axis, max, min)
         
                
@@ -580,7 +582,7 @@ class ModelResult(QObject):
         
     def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, 
                         epsexx, epseyy, epsexy, epspxx, epspyy, epspxy,
-                        velxy, velxx,velyy, desplxx, desplyy, desplxy, eqplas):
+                        velxy, velxx,velyy, desplxx, desplyy, desplxy, eqplas, presporos=None):
         self.__result_min ={
             'CORX': corx,
             'CORY': cory,
@@ -599,9 +601,10 @@ class ModelResult(QObject):
             'DESPLXY': desplxy,
             'DESPLXX': desplxx,
             'DESPLYY': desplyy,
-            'EQPLAS': eqplas
+            'EQPLAS': eqplas,
+            'PRESIONPOROS': presporos
         }
-        
+
         self.model_repository.updateResultMinDB(
             corx=corx,
             cory=cory,
@@ -620,13 +623,14 @@ class ModelResult(QObject):
             desplxx=desplxx,
             desplyy=desplyy,
             desplxy=desplxy,
-            eqplas=eqplas
+            eqplas=eqplas,
+            presporos=presporos
             )
-        
-        
-    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy, 
-                        epsexx, epseyy, epsexy, epspxx, epspyy, epspxy, 
-                        velxy,velxx,velyy, desplxx, desplyy, desplxy, eqplas):  
+
+
+    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy,
+                        epsexx, epseyy, epsexy, epspxx, epspyy, epspxy,
+                        velxy,velxx,velyy, desplxx, desplyy, desplxy, eqplas, presporos=None):
         self.__result_max ={
             'CORX': corx,
             'CORY': cory,
@@ -645,8 +649,9 @@ class ModelResult(QObject):
             'DESPLXX': desplxx,
             'DESPLYY': desplyy,
             'DESPLXY': desplxy,
-            'EQPLAS': eqplas
-        }     
+            'EQPLAS': eqplas,
+            'PRESIONPOROS': presporos
+        }
         
         self.model_repository.updateResultMaxDB(
             corx=corx,
@@ -667,17 +672,18 @@ class ModelResult(QObject):
             desplxx=desplxx,
             desplyy=desplyy,
             desplxy=desplxy,
-            eqplas=eqplas
-            )  
+            eqplas=eqplas,
+            presporos=presporos
+            )
 
-                
+
     def addResultNode(self, id_result_node, material_node, corx=None, cory=None,
              sigxx=None, sigyy=None, sigxy=None,
              epsexx=None, epseyy=None, epsexy=None,
              epspxx=None, epspyy=None, epspxy=None,
              velxx = None, velyy = None, velxy = None,
              desplxx=None, desplyy=None, desplxy=None,
-               eqplas = None):
+               eqplas = None, presporos=None):
         
 
 
@@ -701,10 +707,11 @@ class ModelResult(QObject):
             desplxx=desplxx,
             desplyy=desplyy,
             desplxy=desplxy,
-            eqplas=eqplas
+            eqplas=eqplas,
+            presporos=presporos
         )
 
-       
+
 
         self.__result_nodes = self.model_repository.readResultNodesDB()
         

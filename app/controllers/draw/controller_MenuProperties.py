@@ -87,8 +87,12 @@ class ControllerMenuProperties(QObject):
         density =self.view_menu_properties.getPropertiesRho()
         angle_dilatancy =self.view_menu_properties.getPropertiesPsi()
         model = self.view_menu_properties.getPropertiesModel()
+        two_phase = self.view_menu_properties.getPropertiesTwoPhase()
+        if two_phase is None:
+            self.view_menu_properties.msnAlertDefault("Revisa los datos de doble fase (n0, k, Kw)")
+            return
 
- 
+
          
         if property_name == "":
             self.view_menu_properties.msnAlertName(True, "Revisa el nombre  de la propiedad")
@@ -110,7 +114,8 @@ class ControllerMenuProperties(QObject):
                                                     friction_angle=friction_angle,
                                                     density= density,
                                                     angle_dilatancy = angle_dilatancy,
-                                                    model = model)
+                                                    model = model,
+                                                    two_phase = two_phase)
         model_property = self.model_current_project.getModelsProperties()[id]
         self.createPropertyCard(model_property)
 

@@ -1,13 +1,68 @@
 
 from PySide6.QtCore import ( Signal, QSize,QTimer)
 from PySide6.QtGui import (QIcon, QFont, QColor)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QLabel, QComboBox)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QLabel, QComboBox,
+                                QLineEdit)
 
 from ui.ui_widget_draw_menu_properties import Ui_FormDrawMenuProperties
 from utils import class_general
 
 # (texto visible, valor guardado en MATERIALES.<id>.MODELO)
 MODEL_OPTIONS = [("Mohr-Coulomb", "MOHR_COULOMB"), ("Elástico", "ELASTICO")]
+
+# Doble fase (solo la usa la etapa de consolidación): (clave, rótulo, unidad, valor por defecto)
+TWO_PHASE_FIELDS = [("POROSIDAD", "Porosidad n0:", "", 0.3),
+                    ("PERMEABILIDAD", "Permeabilidad k:", "m/s", 1e-5),
+                    ("MODULOAGUA", "Módulo agua Kw:", "kPa", 2.2e6)]
+TWO_PHASE_TIP = ("Solo para la etapa de consolidación (doble fase).\n"
+                 "En ella la densidad del material se toma como densidad SECA ρd;\n"
+                 "la de sólidos es ρd/(1−n0) y la del agua 1000 kg/m³.\n"
+                 "Kw real ≈ 2.2e6 kPa; un valor menor agranda el paso de tiempo.")
+
+
+class TwoPhaseFields:
+    """Las tres filas de doble fase (n0, k, Kw), agregadas por código a un
+    QFormLayout. Acepta notación científica (1e-5)."""
+
+    def __init__(self, parent, form_layout, style=None):
+        self.edits = {}
+        for key, text, unit, default in TWO_PHASE_FIELDS:
+            label = QLabel(text, parent)
+            label.setProperty("QLabelStyle", 3)
+            label.setToolTip(TWO_PHASE_TIP)
+            edit = QLineEdit(parent)
+            edit.setMinimumSize(QSize(120, 25))
+            edit.setPlaceholderText(unit)
+            edit.setToolTip(f"{unit}\n{TWO_PHASE_TIP}" if unit else TWO_PHASE_TIP)
+            if style:
+                edit.setStyleSheet(style)
+            form_layout.addRow(label, edit)
+            self.edits[key] = edit
+        self.set(None)
+
+    def set(self, values):
+        """Muestra `values` (dict) o los valores por defecto si es None."""
+        for key, _, _, default in TWO_PHASE_FIELDS:
+            v = default if not values or key not in values else values[key]
+            self.edits[key].setText(f"{v:g}")
+
+    def get(self):
+        """dict con los tres valores, o None si alguno no es un número válido."""
+        out = {}
+        for key, *_ in TWO_PHASE_FIELDS:
+            try:
+                out[key] = float(self.edits[key].text().replace(",", "."))
+            except ValueError:
+                return None
+        return out
+
+
+def format_two_phase(values):
+    """Texto corto para mostrar los datos de doble fase en una tarjeta."""
+    if not values:
+        return "—"
+    return (f"n0={values['POROSIDAD']:g}, k={values['PERMEABILIDAD']:g} m/s, "
+            f"Kw={values['MODULOAGUA']:g} kPa")
 
 
 class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
@@ -90,6 +145,8 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.comboBox_textPropertiesModel.setToolTip(tip)
         self.formLayout_4.addRow(self.label_textPropertiesModel,
                                  self.comboBox_textPropertiesModel)
+        # Doble fase (etapa de consolidación), también por código
+        self.two_phase_fields = TwoPhaseFields(self.frame_4, self.formLayout_4)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
@@ -217,6 +274,10 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
     def getPropertiesModel(self):
         return self.comboBox_textPropertiesModel.currentData()
 
+    def getPropertiesTwoPhase(self):
+        """dict de doble fase, o None si algún valor no es un número."""
+        return self.two_phase_fields.get()
+
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
@@ -244,6 +305,7 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.doubleSpinBoxl_textPropertiesPhi.setValue(1000)
         self.doubleSpinBoxl_textPropertiesPsi.setValue(5)
         self.comboBox_textPropertiesModel.setCurrentIndex(0)
+        self.two_phase_fields.set(None)
         self.__color_property = None
         self.lineEdit_textPropertiesColor.setStyleSheet('background-color : #333333')
         

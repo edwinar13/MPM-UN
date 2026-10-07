@@ -87,7 +87,8 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
         self.comboBox_sceneTypeResult.addItem("SIG→Esfuerzo")
         self.comboBox_sceneTypeResult.addItem("EPSP→Def. plástica")
         self.comboBox_sceneTypeResult.addItem("EPSE→Def. elástica")
-        self.comboBox_sceneTypeResult.addItem("EQPLAS→Def. plástica eq")  
+        self.comboBox_sceneTypeResult.addItem("EQPLAS→Def. plástica eq")
+        self.comboBox_sceneTypeResult.addItem("PP→Presión de poros")
 
            
 

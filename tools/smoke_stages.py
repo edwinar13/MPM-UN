@@ -17,9 +17,10 @@ El spec de etapas son etapas separadas por ';', cada una:
 
     tipo:clave=valor,clave=valor
 
-    tipo   geostatic | load_increment | dynamic
+    tipo   geostatic | load_increment | dynamic | consolidation
     n      n.º de incrementos (cuasi-estático)
-    t      duración en segundos (dinámico)
+    t      duración en segundos (dinámico y consolidación)
+    p0     presión de poros inicial en kPa, + compresión (consolidación)
     courant, damp, plast (0|1), gauss (0|1), tolff, tolee
     multi  (0|1) un cuerpo por grupo de puntos materiales, con contacto
     mu     fricción entre cuerpos
@@ -64,8 +65,10 @@ _ALIAS = {
     "nombre": "NOMBRE", "maxit": "MAXITER",
     "multi": "MULTICUERPO", "mu": "FRICCION", "normales": "NORMALESCONTACTO",
     "reset": "REINICIARDEFORMACIONES", "mat": "CAMBIOMATERIAL",
+    "p0": "PRESIONPOROSINICIAL",
 }
-_TIPOS = ("geostatic", "load_increment", "dynamic")
+_TIPOS = ("geostatic", "load_increment", "dynamic", "consolidation")
+_EN_TIEMPO = ("dynamic", "consolidation")   # etapas que avanzan en segundos
 
 
 def parse_stages(spec):
@@ -78,13 +81,13 @@ def parse_stages(spec):
             raise SystemExit(f"Tipo de etapa desconocido: '{tipo}' (usa {'|'.join(_TIPOS)})")
         st = {
             "NOMBRE": f"Etapa {i + 1}", "TIPO": tipo,
-            "DAMPING": 0.75 if tipo != "dynamic" else 0.05,
-            "COURANT": 0.6 if tipo == "geostatic" else 0.1,
+            "DAMPING": {"dynamic": 0.05, "consolidation": 0.0}.get(tipo, 0.75),
+            "COURANT": {"geostatic": 0.6, "consolidation": 0.98}.get(tipo, 0.1),
             "NUMEROINCREMENTOS": 1,
-            "TIEMPOANALISIS": 1.0 if tipo == "dynamic" else 0.0,
+            "TIEMPOANALISIS": 1.0 if tipo in _EN_TIEMPO else 0.0,
             "TOLFF": 0.01, "TOLEE": 0.01,
-            "PLASTICIDAD": 0 if tipo == "geostatic" else 1,
-            "GAUSS": tipo != "dynamic",
+            "PLASTICIDAD": 0 if tipo in ("geostatic", "consolidation") else 1,
+            "GAUSS": tipo not in _EN_TIEMPO,
         }
         for pair in (p for p in rest.split(",") if p.strip()):
             k, _, v = pair.partition("=")
@@ -157,7 +160,7 @@ def export_npz(ruta, nodes, graphic_time, project_path, stage_dicts, fps):
     campos = ("CORX", "CORY", "SIGXX", "SIGYY", "SIGXY",
               "EPSEXX", "EPSEYY", "EPSEXY", "EPSPXX", "EPSPYY", "EPSPXY",
               "VELXX", "VELYY", "VELXY", "DESPLXX", "DESPLYY", "DESPLXY",
-              "EQPLAS")
+              "EQPLAS", "PRESIONPOROS")
     try:
         ids = sorted(nodes, key=int)
     except (TypeError, ValueError):
@@ -389,8 +392,10 @@ def main():
     print(f"MALLA    : ele={project.model_mesh_back.getSizeElement()}")
     print("ETAPAS   :")
     for i, s in enumerate(stage_dicts):
-        extra = (f"t={s['TIEMPOANALISIS']}s" if s["TIPO"] == "dynamic"
+        extra = (f"t={s['TIEMPOANALISIS']}s" if s["TIPO"] in _EN_TIEMPO
                  else f"n={s['NUMEROINCREMENTOS']}")
+        if s["TIPO"] == "consolidation":
+            extra += f" p0={s.get('PRESIONPOROSINICIAL', 0.0)}kPa"
         print(f"   {i+1}. {s['TIPO']:15s} '{s['NOMBRE']}'  courant={s['COURANT']} "
               f"damp={s['DAMPING']} plast={s['PLASTICIDAD']} gauss={s['GAUSS']}  {extra}")
     if args.resume:

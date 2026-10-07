@@ -6,6 +6,18 @@ func:
 """
 import re
 
+# Resultados escalares (sin componente xx/yy/xy): tipo del menú → clave guardada
+SCALAR_RESULTS = {'eqplas': 'EQPLAS', 'pp': 'PRESIONPOROS'}
+
+
+def result_key(type_result, axis):
+    """Clave del resultado guardado ('SIGXX', 'EQPLAS', 'PRESIONPOROS', ...)
+    para un tipo del menú de animación y un eje ('xx', 'yy', 'xy')."""
+    if type_result in SCALAR_RESULTS:
+        return SCALAR_RESULTS[type_result]
+    return f'{type_result}{axis}'.upper()
+
+
 def isNumber(value):
     """verificar si es un número.
 

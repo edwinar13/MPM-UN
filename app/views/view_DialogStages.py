@@ -36,6 +36,7 @@ STAGE_TYPES = [
     ("Geostático", "geostatic"),
     ("Incrementos de carga", "load_increment"),
     ("Dinámico", "dynamic"),
+    ("Consolidación (doble fase)", "consolidation"),
 ]
 
 # Defaults por tipo al crear/cambiar una etapa
@@ -46,15 +47,19 @@ STAGE_DEFAULTS = {
                            NUMEROINCREMENTOS=10, TIEMPOANALISIS=0.0),
     "dynamic":        dict(DAMPING=0.05, COURANT=0.1, PLASTICIDAD=1, GAUSS=False,
                            NUMEROINCREMENTOS=1, TIEMPOANALISIS=1.0),
+    # Caso de validación (Caro González, 2024): sin amortiguamiento, Courant 0.98
+    "consolidation":  dict(DAMPING=0.0, COURANT=0.9, PLASTICIDAD=0, GAUSS=False,
+                           NUMEROINCREMENTOS=1, TIEMPOANALISIS=1.0),
 }
 
 # Campos visibles según tipo
 VISIBLE_FIELDS = {
-    "geostatic":      {"nincre", "tolff", "tolee"},
-    "load_increment": {"nincre", "tolff", "tolee"},
-    "dynamic":        {"tiempo", "contact"},
+    "geostatic":      {"nincre", "tolff", "tolee", "gauss"},
+    "load_increment": {"nincre", "tolff", "tolee", "gauss"},
+    "dynamic":        {"tiempo", "contact", "gauss"},
+    "consolidation":  {"tiempo", "p0"},
 }
-TYPE_DEPENDENT_FIELDS = ("nincre", "tiempo", "tolff", "tolee", "contact")
+TYPE_DEPENDENT_FIELDS = ("nincre", "tiempo", "tolff", "tolee", "contact", "gauss", "p0")
 
 # Qué hace cada tipo con las cargas (nota bajo el formulario)
 STAGE_LOAD_NOTE = {
@@ -68,6 +73,12 @@ STAGE_LOAD_NOTE = {
     "dynamic": (
         "Las fuerzas Fx/Fy de las partículas se aplican completas desde el "
         "inicio, junto con la gravedad."),
+    "consolidation": (
+        "Doble fase (sólido + agua). Las fuerzas Fx/Fy se aplican completas desde "
+        "el inicio. Los contornos con restricción son impermeables; las superficies "
+        "libres drenan. Un solo material, con porosidad, permeabilidad y módulo del "
+        "agua (su densidad se toma como seca). Los esfuerzos de resultados son "
+        "efectivos y se agrega la presión de poros."),
 }
 
 
@@ -362,6 +373,15 @@ class DialogStages(QDialog):
         self.spTiempo = self._make_dspin(0.0, 1e6, 0.5, 3)
         self._add_row(form, "tiempo", "Duración (s)", self.spTiempo)
 
+        self.spP0 = self._make_dspin(0.0, 1e6, 1.0, 3)
+        self.spP0.setSuffix(" kPa")
+        self.spP0.setToolTip(
+            "Presión de poros inicial, uniforme (positiva en compresión). Se asigna "
+            "al entrar a la primera etapa de consolidación;\nuna etapa de "
+            "consolidación posterior conserva la presión que trae.\nPara una carga "
+            "aplicada de golpe sobre suelo saturado: p0 = carga.")
+        self._add_row(form, "p0", "Presión de poros inicial", self.spP0)
+
         self.spTolFF = self._make_dspin(1e-6, 1.0, 0.005, 5)
         self._add_row(form, "tolff", "Tolerancia fuerza (ff)", self.spTolFF)
 
@@ -584,6 +604,10 @@ class DialogStages(QDialog):
         stage["GAUSS"] = defaults["GAUSS"]
         stage["NUMEROINCREMENTOS"] = defaults["NUMEROINCREMENTOS"]
         stage["TIEMPOANALISIS"] = defaults["TIEMPOANALISIS"]
+        if new_type == "consolidation":
+            stage.setdefault("PRESIONPOROSINICIAL", 0.0)
+        else:
+            stage.pop("PRESIONPOROSINICIAL", None)
         self._load_selected_into_form()
         self._reload_list(select=self._current_index())
 
@@ -616,6 +640,7 @@ class DialogStages(QDialog):
             self.spCourant.setValue(float(stage.get("COURANT", 0.1)))
             self.spNincre.setValue(int(stage.get("NUMEROINCREMENTOS", 1)))
             self.spTiempo.setValue(float(stage.get("TIEMPOANALISIS", 0.0)))
+            self.spP0.setValue(float(stage.get("PRESIONPOROSINICIAL", 0.0)))
             self.spTolFF.setValue(float(stage.get("TOLFF", 0.01)))
             self.spTolEE.setValue(float(stage.get("TOLEE", 0.01)))
             self._set_combo_data(self.cbPlast, int(stage.get("PLASTICIDAD", 1)))
@@ -641,6 +666,10 @@ class DialogStages(QDialog):
         stage["COURANT"] = self.spCourant.value()
         stage["NUMEROINCREMENTOS"] = self.spNincre.value()
         stage["TIEMPOANALISIS"] = self.spTiempo.value()
+        if stage["TIPO"] == "consolidation":
+            stage["PRESIONPOROSINICIAL"] = self.spP0.value()
+        else:
+            stage.pop("PRESIONPOROSINICIAL", None)
         stage["TOLFF"] = self.spTolFF.value()
         stage["TOLEE"] = self.spTolEE.value()
         stage["PLASTICIDAD"] = self.cbPlast.currentData()
@@ -671,6 +700,10 @@ class DialogStages(QDialog):
         field.setVisible(show)
 
     def _update_dt_label(self):
+        if self.cbType.currentData() == "consolidation":
+            # La onda no drenada (Kw/n0) es mucho más rápida que la del esqueleto
+            self.lblDt.setText("se calcula al correr (onda no drenada, mucho menor)")
+            return
         if self.dt_provider is None:
             self.lblDt.setText("—")
             return
@@ -703,9 +736,9 @@ class DialogStages(QDialog):
         for i, s in enumerate(self._stages):
             tipo = s.get("TIPO")
             n = i + 1
-            if tipo == "dynamic" and float(s.get("TIEMPOANALISIS", 0)) <= 0:
+            if tipo in ("dynamic", "consolidation") and float(s.get("TIEMPOANALISIS", 0)) <= 0:
                 QMessageBox.warning(self, "Etapas",
-                    f"Etapa {n} (dinámica): la duración debe ser mayor que 0.")
+                    f"Etapa {n}: la duración debe ser mayor que 0.")
                 return
             if tipo in ("geostatic", "load_increment") and int(s.get("NUMEROINCREMENTOS", 0)) < 1:
                 QMessageBox.warning(self, "Etapas",

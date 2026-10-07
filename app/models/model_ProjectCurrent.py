@@ -672,7 +672,8 @@ class ModelProjectCurrent(QObject):
                             friction_angle,
                             density,
                             angle_dilatancy,
-                            model="MOHR_COULOMB"):
+                            model="MOHR_COULOMB",
+                            two_phase=None):
         id = str(uuid.uuid4())
         self.model_repository.createPropertiesDB(
             id_properties = id,
@@ -684,8 +685,9 @@ class ModelProjectCurrent(QObject):
             friction_angle=friction_angle,
             density= density,
             angle_dilatancy=angle_dilatancy,
-            model=model)
-        
+            model=model,
+            two_phase=two_phase)
+
         self.addPropertyToCurrentProject(
                 id=id,
                 name=name,

@@ -12,7 +12,7 @@ from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
 
-from utils.general_functions import format_number
+from utils.general_functions import format_number, result_key, SCALAR_RESULTS
 from config import config_manager
 import sys
 import weakref
@@ -552,7 +552,7 @@ class ItemResultNode(QGraphicsItem):
         self.vector = vector
         
         # muestra o oculata la flecha
-        if self.type_result in ['default', 'eqplas', 'sig', 'epsp', 'epse']:
+        if self.type_result in ['default', 'sig', 'epsp', 'epse'] or self.type_result in SCALAR_RESULTS:
             self.showCircle = True
         elif self.vector:
             self.showCircle = False 
@@ -598,7 +598,7 @@ class ItemResultNode(QGraphicsItem):
         x = self.data_result['CORX'][self._time_view]
         y = self.data_result['CORY'][self._time_view]
         if self.type_result != 'default':
-            key = 'EQPLAS' if self.type_result == 'eqplas' else f'{self.type_result}{self.axis}'.upper()
+            key = result_key(self.type_result, self.axis)
             val = self.data_result[key][self._time_view]
             value_str = str(format_number(val))
         else:
@@ -661,11 +661,8 @@ class ItemResultNode(QGraphicsItem):
             else:
                 self.circle_node.setColorBicolor(self.random_color_bicolor)
         else:
-            if self.type_result == 'eqplas':
-                type_result = f'{self.type_result}'.upper()            
-            else:
-                type_result = f'{self.type_result}{self.axis}'.upper()            
-            min_value = self.result_min[type_result]     
+            type_result = result_key(self.type_result, self.axis)
+            min_value = self.result_min[type_result]
             max_value = self.result_max[type_result] 
             value_data = self.data_result[type_result][self._time_view]  
             percent = self.evaluatePercent(value_data, (min_value, max_value))

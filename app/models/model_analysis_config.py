@@ -29,6 +29,7 @@ class StageType(Enum):
     GEOSTATIC = "geostatic"          # Equilibrio bajo peso propio (rampa de gravedad)
     DYNAMIC = "dynamic"              # Evolución en el tiempo
     LOAD_INCREMENT = "load_increment"  # Carga incremental cuasi-estática
+    CONSOLIDATION = "consolidation"  # Doble fase (v-w) en el tiempo, docs/plan_dos_fases_ui.md
 
 
 @dataclass
@@ -102,6 +103,12 @@ class AnalysisStage:
     # (Fp = I, epse = epsp = 0, Vp = Vp0). Se conservan esfuerzos y posiciones.
     reset_strains: bool = False
 
+    # ─── Consolidación (doble fase) ───
+    # Presión de poros inicial (kPa, positiva en compresión), uniforme. Se
+    # asigna al entrar a la primera etapa de consolidación; si las partículas
+    # ya traen presión de una etapa de consolidación anterior, se conserva.
+    initial_pore_pressure: float = 0.0
+
     # ─── Serialización (persistencia en el .mpm) ───
     def to_dict(self) -> dict:
         """Serializa la etapa a un dict con claves JSON (español)."""
@@ -121,6 +128,7 @@ class AnalysisStage:
             "NORMALESCONTACTO": self.contact_normals,
             "CAMBIOMATERIAL": dict(self.material_changes),
             "REINICIARDEFORMACIONES": self.reset_strains,
+            "PRESIONPOROSINICIAL": self.initial_pore_pressure,
         }
 
     @staticmethod
@@ -142,6 +150,7 @@ class AnalysisStage:
             contact_normals=d.get("NORMALESCONTACTO", 'fija_y'),
             material_changes=dict(d.get("CAMBIOMATERIAL") or {}),
             reset_strains=bool(d.get("REINICIARDEFORMACIONES", False)),
+            initial_pore_pressure=float(d.get("PRESIONPOROSINICIAL", 0.0)),
         )
 
 
@@ -151,6 +160,8 @@ def stage_use_gauss(stage: AnalysisStage) -> bool:
     Si stage.use_gauss es None, se usa el default por tipo:
     geoestático/carga incremental → gauss ON, dinámico → OFF.
     """
+    if stage.stage_type == StageType.CONSOLIDATION:
+        return False  # la doble fase integra en partículas (+ SRI para la presión)
     if stage.use_gauss is not None:
         return bool(stage.use_gauss)
     return stage.stage_type in (StageType.GEOSTATIC, StageType.LOAD_INCREMENT)
@@ -251,7 +262,8 @@ class AnalysisConfig:
 
         # Derivar el tipo general a partir de los tipos de etapa presentes
         types = {s.stage_type for s in stages}
-        has_dynamic = StageType.DYNAMIC in types
+        # La consolidación avanza en el tiempo como la dinámica
+        has_dynamic = bool(types & {StageType.DYNAMIC, StageType.CONSOLIDATION})
         has_quasi = bool(types & {StageType.GEOSTATIC, StageType.LOAD_INCREMENT})
         if has_dynamic and has_quasi:
             analysis_type = AnalysisType.MIXED

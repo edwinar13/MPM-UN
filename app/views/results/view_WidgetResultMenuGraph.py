@@ -72,8 +72,11 @@ class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
         self.label_lat.setVisible(False)
 
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
-        
-       
+
+        # Solo con datos si el análisis tuvo una etapa de consolidación
+        self.comboBox_chartTypeResult.addItem("Presión de poros")
+
+
     def __initEventUi(self):
 
     

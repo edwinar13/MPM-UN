@@ -6,13 +6,18 @@ from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog,
 
 from ui.ui_widget_draw_property_card import Ui_FormDrawPropertyCard
 from utils import class_ui_dialog_msg
-from views.draw.view_WidgetDrawMenuProperties import MODEL_OPTIONS
+from views.draw.view_WidgetDrawMenuProperties import (MODEL_OPTIONS, TwoPhaseFields,
+                                                      format_two_phase, TWO_PHASE_TIP)
 
 COMBO_STYLE = """
 QComboBox { background-color: #444444; color: #DDDDDD; border: 1px solid #555555;
             border-radius: 4px; padding: 2px 6px; font: 9pt "Ubuntu"; }
 QComboBox QAbstractItemView { background-color: #383838; color: #DDDDDD;
             selection-background-color: #444444; selection-color: #C8CC8E; }
+"""
+LINE_STYLE = """
+QLineEdit { background-color: #444444; color: #DDDDDD; border: 1px solid #555555;
+            border-radius: 4px; padding: 2px 6px; font: 9pt "Ubuntu"; }
 """
 
  
@@ -95,6 +100,22 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
             self.comboBox_textPropertiesModel.addItem(text, value)
         self.formLayout.addRow(label_edit, self.comboBox_textPropertiesModel)
 
+        # Doble fase (etapa de consolidación): un rótulo en la vista y tres
+        # campos en la edición, también por código.
+        self.__two_phase = None
+        label_view = QLabel("Doble fase:", self.frame_view)
+        label_view.setProperty("QLabelStyle", 3)
+        label_view.setToolTip(TWO_PHASE_TIP)
+        self.label_textPropertiesTwoPhase = QLabel("—", self.frame_view)
+        self.label_textPropertiesTwoPhase.setProperty("QLabelStyle", 3)
+        self.label_textPropertiesTwoPhase.setWordWrap(True)
+        self.formLayout_2.addRow(label_view, self.label_textPropertiesTwoPhase)
+        self.two_phase_fields = TwoPhaseFields(self.frame_edit, self.formLayout, LINE_STYLE)
+
+    def __setTwoPhase(self, values):
+        self.__two_phase = values
+        self.label_textPropertiesTwoPhase.setText(format_two_phase(values))
+
     def __setModel(self, model):
         self.__model = model
         text = dict((v, t) for t, v in MODEL_OPTIONS).get(model, model)
@@ -159,6 +180,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.doubleSpinBoxl_textPropertiesPsi.setValue(float(self.label_textPropertiesPsi.text()))
         index = self.comboBox_textPropertiesModel.findData(self.__model)
         self.comboBox_textPropertiesModel.setCurrentIndex(max(index, 0))
+        self.two_phase_fields.set(self.__two_phase)
 
     def __clickedToolButtonColorProperty(self):
         color = QColorDialog.getColor(initial=QColor(self.__card_color_property))
@@ -181,6 +203,11 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
             self.frame_properties1.setVisible(True)
       
     def __clickedToolButtonPropertyOk(self):
+        two_phase = self.two_phase_fields.get()
+        if two_phase is None:
+            # Un valor no numérico: no se cierra la edición
+            self.two_phase_fields.edits["POROSIDAD"].setFocus()
+            return
 
         self.lineEdit_PropertyName.setVisible(False)
         self.toolButton_PropertyOk.setVisible(False)
@@ -204,6 +231,7 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.label_textPropertiesP.setText(str(self.doubleSpinBoxl_textPropertiesP.value()))
         self.label_textPropertiesPsi.setText( str(self.doubleSpinBoxl_textPropertiesPsi.value()))
         self.__setModel(self.comboBox_textPropertiesModel.currentData())
+        self.__setTwoPhase(two_phase)
 
         self.card_color_property_prev = None
         self.signal_update_property.emit()
@@ -269,14 +297,18 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
     def getModel(self):
         return self.__model
 
+    def getTwoPhase(self):
+        return self.__two_phase
+
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
 
     def showData(self, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density, angle_dilatancy,
-                 model="MOHR_COULOMB"):
+                 model="MOHR_COULOMB", two_phase=None):
         self.__setModel(model)
+        self.__setTwoPhase(two_phase)
         self.__card_color_property = color
         self.frame_color.setStyleSheet('background-color : {}'.format(color))
         self.label_cardPropertyName.setText(u"{}".format(name))

@@ -287,7 +287,13 @@ class ControllerPageResult(QObject):
                         data_axis_y = data[point_search]['VELX']
                     elif self.graphics_type_result.lower() == 'vely':
                         data_axis_y = data[point_search]['VELY']
+                    elif self.graphics_type_result.lower() == 'presión de poros':
+                        data_axis_y = data[point_search].get('PRESIONPOROS')
 
+                    if data_axis_y is None:
+                        print(f"[GRÁFICAS] el punto {point_search} no tiene "
+                              f"'{self.graphics_type_result}' en estos resultados")
+                        continue
                     color = self.view_page_result.setDatePointChart(times_x, data_axis_y, point_search)
                     self.view_page_result.canvas.draw()
 
@@ -307,8 +313,9 @@ class ControllerPageResult(QObject):
         ymin = 1000*100
         self.graphics_type_result  = type_result
         
-        for point_graphics in self.graphics_list_point:   
+        for point_graphics in self.graphics_list_point:
 
+            data_axis_y = None
             if self.graphics_type_result.lower() == 'coordenada x':
                 data_axis_y = data[point_graphics]['CORX']
             elif self.graphics_type_result.lower() == 'coordenada y':
@@ -337,8 +344,12 @@ class ControllerPageResult(QObject):
                 data_axis_y = data[point_graphics]['DESPLXY']                
             elif self.graphics_type_result.lower() == 'eqplas':
                 data_axis_y = data[point_graphics]['EQPLAS']
-                
-            
+            elif self.graphics_type_result.lower() == 'presión de poros':
+                data_axis_y = data[point_graphics].get('PRESIONPOROS')
+            if data_axis_y is None:
+                continue  # resultados sin presión de poros (sin consolidación)
+
+
 
             self.view_page_result.changeTypeResultChart(id_point=point_graphics,
                                                      y_new=data_axis_y)

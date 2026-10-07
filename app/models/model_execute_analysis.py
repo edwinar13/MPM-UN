@@ -5,6 +5,10 @@ from models.analysis_utils import compute_min_dt, build_time_arrays
 from motorMPM.explicit2 import particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress2, static_convergence, nodes_to_particle_stress_gauss
 from motorMPM.explicit2 import BC_Dirichlet_momentum3, contact2
+from motorMPM.dos_fases import (deltatime_two_phases_CFL, particles_to_nodes_two_phases,
+                                nodes_to_particle_vel_two_phases, nodes_to_particle_xp_two_phases,
+                                BC_Dirichlet_acele_force_two_phases, BC_Dirichlet_vel_two_phases,
+                                nodes_to_particle_stress_MP_and_pore_pressure_SRI_k_act_NUMBA)
 from models.model_ProjectCurrent import ModelProjectCurrent
 from models.model_Result import ModelResult
 #from controllers.draw.controller_MenuExecute import AnalysisProgressDialog
@@ -131,6 +135,9 @@ class Body:
         
 
 class ModelExcuteAnalysisMPM:
+    # Densidad del agua (Mg/m³) en la etapa de consolidación
+    RHO_W = 1.0
+
     def __init__(self, analysis_dialog, model_current_project: ModelProjectCurrent, model_result:ModelResult,
                  dataTime, list_boundaries, list_point_material, 
                 dt_time, list_time ,steps_time,
@@ -199,7 +206,15 @@ class ModelExcuteAnalysisMPM:
         self.__vm_bp = None
         self.__vm_bp0 = None
         self.__vm_tp0 = None
-        
+
+        # Doble fase (etapa de consolidación, docs/plan_dos_fases_ui.md).
+        # None hasta la primera etapa de consolidación, que los crea.
+        self.__vm_wp = None    # velocidad del agua (nmp, 2)
+        self.__vm_pp = None    # presión de poros (nmp, 3), compresión < 0 (σ = σ' + pp)
+        self.__vm_np = None    # porosidad (nmp,)
+        self.__vm_kp = None    # permeabilidad (nmp,)
+        self.__two_phase = None  # (n0, k0, Kw) del material de la etapa en curso
+
         self.mesh = None
         self.initMeshBack()
         
@@ -277,6 +292,8 @@ class ModelExcuteAnalysisMPM:
                 flags = [stage.plasticity_flag if self._material_row(t)[2] else 0
                          for t in targets]
                 msg = self._check_stage_bodies(stage, stage_use_gauss(stage), flags)
+                if not msg and stage.stage_type == StageType.CONSOLIDATION:
+                    msg = self._check_consolidation(stage, targets)
             if msg:
                 self.error_message = msg
                 print(f"[ERROR] {msg}")
@@ -319,6 +336,8 @@ class ModelExcuteAnalysisMPM:
 
             # Material vigente de cada cuerpo (antes del dt, que depende de él)
             self._apply_stage_materials(config, index)
+            if stage.stage_type == StageType.CONSOLIDATION:
+                self._enter_consolidation(config, index, stage)
 
             # Configurar dt y arrays de tiempo de ESTA etapa (según su Courant)
             self._prepare_stage_time(stage)
@@ -347,6 +366,9 @@ class ModelExcuteAnalysisMPM:
             return self._run_quasi_static_increment_loop(config, stage)
         elif stage.stage_type == StageType.GEOSTATIC:
             return self._run_quasi_static_increment_loop(config, stage)
+        elif stage.stage_type == StageType.CONSOLIDATION:
+            # Avanza en el tiempo igual que la dinámica; cambia el paso (doble fase)
+            return self._run_dynamic_loop(config, stage)
         else:
             print(f"[ERROR] Tipo de etapa no soportado: {stage.stage_type}")
             return False
@@ -364,9 +386,16 @@ class ModelExcuteAnalysisMPM:
         dt, cp, _ = compute_min_dt(materials, ele_size, stage.courant_number)
         if dt is None:
             raise RuntimeError("No se pudo calcular dt: la etapa no tiene materiales")
+        if stage.stage_type == StageType.CONSOLIDATION:
+            # Onda de compresión no drenada (domina Kw/n0): mucho más rápida
+            # que la del esqueleto. Misma función que el script de validación.
+            n0, _, kw = self.__two_phase
+            rho_sat = self.__vm_rhop + n0 * self.RHO_W   # ρd + n0·ρw
+            dt = deltatime_two_phases_CFL(self.__mp_prop[:, 0], self.__mp_prop[:, 1],
+                                          rho_sat, ele_size, stage.courant_number, kw, n0)
         self.__tm_dt_time = dt
 
-        if stage.stage_type == StageType.DYNAMIC:
+        if stage.stage_type in (StageType.DYNAMIC, StageType.CONSOLIDATION):
             fps = 30
             if isinstance(self.__tm_dataTime, dict):
                 fps = self.__tm_dataTime.get('fps', 30)
@@ -601,6 +630,148 @@ class ModelExcuteAnalysisMPM:
             self.__mp_mp_elem[s] = mp_elem_b[k]
 
     # ===================================================================
+    #  Consolidación: doble fase v-w (docs/plan_dos_fases_ui.md)
+    # ===================================================================
+    def _two_phase_params(self, id_material):
+        """(n0, k [m/s], Kw [kPa]) de un material; ceros si no los tiene."""
+        data = self.model_current_project.getModelsProperties()[id_material].getData()
+        mat = data[list(data.keys())[0]]
+        return (float(mat.get('POROSIDAD', 0.0) or 0.0),
+                float(mat.get('PERMEABILIDAD', 0.0) or 0.0),
+                float(mat.get('MODULOAGUA', 0.0) or 0.0))
+
+    def _check_consolidation(self, stage, targets):
+        """Lo que la etapa de consolidación necesita. Devuelve un mensaje de
+        error, o '' si se puede correr."""
+        name = stage.name or stage.stage_type.value
+        if stage.multi_body:
+            return f"Etapa '{name}': la consolidación no admite contacto entre cuerpos."
+        if len(set(targets)) > 1:
+            # La función SRI de la referencia usa n0, k0 y Kw escalares
+            return (f"Etapa '{name}': la consolidación funciona por ahora con un solo "
+                    f"material para todos los grupos de puntos materiales.")
+        n0, k, kw = self._two_phase_params(targets[0])
+        if not (0.0 < n0 < 1.0 and k > 0.0 and kw > 0.0):
+            return (f"Etapa '{name}': el material necesita porosidad (entre 0 y 1), "
+                    f"permeabilidad y módulo volumétrico del agua mayores que cero.")
+        return ""
+
+    def _enter_consolidation(self, config, index, stage):
+        """Fija los parámetros de doble fase de la etapa y, si es la primera
+        de consolidación, crea el estado del agua.
+
+        Condición inicial (como la referencia, caso 7.1): presión de poros
+        uniforme p0 = PRESIONPOROSINICIAL, velocidad del agua igual a la del
+        esqueleto, porosidad y permeabilidad iniciales del material. Una etapa
+        de consolidación posterior hereda el estado del agua sin tocarlo.
+        """
+        target = self._stage_materials(config, index)[0]
+        n0, k0, kw = self._two_phase_params(target)
+        self.__two_phase = (n0, k0, kw)
+        if self.__vm_pp is not None:
+            print("[CONSOLIDACIÓN] se conserva la presión de poros de la etapa anterior")
+            return
+        nmp = self.__mp_nmp
+        self.__vm_np = np.full(nmp, n0)
+        self.__vm_kp = np.full(nmp, k0)
+        self.__vm_wp = np.copy(self.__vm_vp)
+        self.__vm_pp = np.full((nmp, 3), -float(stage.initial_pore_pressure))
+        print(f"[CONSOLIDACIÓN] n0={n0}, k={k0} m/s, Kw={kw} kPa, "
+              f"p0={stage.initial_pore_pressure} kPa")
+
+    def _run_one_mpm_step_two_phase(self, plasticity_flag):
+        """Un paso del MPM de doble fase y único punto (formulación v-w).
+
+        Algoritmo 2 de Caro González (2024), igual que
+        tools/experimentos/consolidacion_1d.py (validado contra Terzaghi):
+        partículas→nodos de las dos fases, ecuación nodal del agua y de la
+        mezcla con amortiguamiento local, Dirichlet en aceleraciones,
+        velocidades (MUSL), posiciones, esfuerzo efectivo en partículas y
+        presión de poros con SRI.
+
+        Drenaje: la velocidad del agua se restringe en los mismos nodos que la
+        del esqueleto (contorno restringido = impermeable); una superficie
+        libre drena (p = 0 en forma débil).
+        """
+        inci, cor = self.mesh.inci(), self.mesh.cor()
+        fixed_nodesX = self.__bo_fixed_nodesX
+        fixed_nodesY = self.__bo_fixed_nodesY
+        alpha = self.__step_dampfac
+        dtime = self.__tm_dt_time
+        n0, k0, kw = self.__two_phase
+        rho_w = self.RHO_W
+
+        xp, vp, wp = self.__mp_xp, self.__vm_vp, self.__vm_wp
+        Vp, Vp0 = self.__vm_Vp, self.__vm_Vp0
+        sig_e, pp = self.__vm_sig, self.__vm_pp
+        n_p, k_p = self.__vm_np, self.__vm_kp
+        bp, tp = self.__vm_bp, self.__vm_tp_current
+        Fp, epse, epsp, Prop = self.__vm_Fp, self.__vm_epse, self.__vm_epsp, self.__mp_prop
+        Mp_s0 = self.__vm_Mp                      # ρd·Vp0: masa de sólidos, constante
+        nmp = self.__mp_nmp
+
+        # 1 → elementos y nodos activos
+        mp_elem, active_elem = search_MP(self.__mp_mp_elem, xp, self.mesh.ele_size(), self.mesh.nelex())
+        active_nodes = np.unique(inci[active_elem - 1, :])
+        grid = inci, cor, active_elem, active_nodes, mp_elem
+
+        # 2 → partículas a nodos; masa del agua según la porosidad actual
+        Mp_w = n_p * rho_w * Vp
+        Mp_weq = rho_w * Vp
+        Mp = Mp_w + Mp_s0
+        sig_t = np.copy(sig_e)
+        sig_t[:, :2] += pp[:, :2]
+        pb_p = np.zeros((nmp, 2))                 # presión prescrita en el contorno: 0
+        particle = (xp, vp, wp, Vp, Mp, Mp_w, Mp_s0, Mp_weq, sig_t, sig_e, pp,
+                    bp, tp, pb_p, n_p, k_p, rho_w)
+        (nmass_s, nmass_w, nmass_weq, nmass, nmom_s, nmom_w, niforce_w, neforce_w,
+         ndforce_w, neforce_m, niforce_m, shfnp) = particles_to_nodes_two_phases(grid, particle)
+
+        # 3 → ecuación nodal con amortiguamiento local (Ec. 5-28, 5-29)
+        fw = niforce_w + neforce_w
+        fm = niforce_m + neforce_m
+        if alpha > 0:
+            w_n = np.divide(nmom_w, nmass_w, out=np.zeros_like(nmom_w), where=nmass_w != 0)
+            v_n = np.divide(nmom_s, nmass_s, out=np.zeros_like(nmom_s), where=nmass_s != 0)
+            damp_w = -alpha * np.abs(fw) * np.sign(w_n)
+            damp_s = -alpha * np.abs(fm - fw) * np.sign(v_n)
+        else:
+            damp_w = damp_s = 0.0
+        nforce_w = fw + ndforce_w + damp_w
+        nforce_m = fm + damp_s + damp_w
+        nacele_w = nforce_w / nmass_weq
+        nacele_s = (nforce_m - nmass_w * nacele_w) / nmass_s
+
+        # 4 → Dirichlet en aceleraciones (las dos fases)
+        nq = (nacele_w, nacele_s, nforce_w, niforce_w, neforce_w, ndforce_w,
+              nforce_m, neforce_m, niforce_m)
+        nacele_s, nacele_w = BC_Dirichlet_acele_force_two_phases(
+            active_nodes, fixed_nodesX, fixed_nodesY, nq)[:2]
+
+        # 5 → velocidades de partículas y nodales (MUSL), posiciones
+        vp, wp, nvel_s, nvel_w = nodes_to_particle_vel_two_phases(
+            grid, (xp, vp, wp, Vp, Mp, Mp_w, Mp_s0, shfnp),
+            (nacele_w, nacele_s, nmass, nmass_w, nmass_s, nmass_weq), dtime)
+        nvel_s, nvel_w = BC_Dirichlet_vel_two_phases(
+            active_nodes, fixed_nodesX, fixed_nodesY, nvel_s, nvel_w)
+        xp = nodes_to_particle_xp_two_phases(xp, nvel_s, grid, shfnp, dtime)
+
+        # 6 → esfuerzo efectivo, presión de poros (SRI) y porosidad
+        bound_val = np.zeros(nmp, dtype=np.int64)  # no lo usa la función SRI
+        Fp, Vp, epse, epsp, sig_e, pp, n_p, k_p = \
+            nodes_to_particle_stress_MP_and_pore_pressure_SRI_k_act_NUMBA(
+                grid, (Fp, Vp, Vp0, n_p, np.full(nmp, n0), k_p, k0, n0, epse, epsp,
+                       sig_e, sig_t, pp, shfnp, Prop),
+                bound_val, nvel_s, nvel_w, dtime, plasticity_flag, kw)
+
+        self.__mp_xp = xp
+        self.__vm_vp, self.__vm_wp = vp, wp
+        self.__vm_Vp, self.__vm_Fp = Vp, Fp
+        self.__vm_sig, self.__vm_epse, self.__vm_epsp = sig_e, epse, epsp
+        self.__vm_pp, self.__vm_np, self.__vm_kp = pp, n_p, k_p
+        self.__mp_mp_elem = mp_elem
+
+    # ===================================================================
     #  Handoff de estado entre etapas (FASE A)
     # ===================================================================
     def _capture_state(self):
@@ -610,7 +781,7 @@ class ModelExcuteAnalysisMPM:
         etapa, para entregarlas como condición inicial de la etapa
         siguiente (p.ej. handoff geoestático → falla).
         """
-        return {
+        state = {
             'xp': np.copy(self.__mp_xp),
             'vp': np.copy(self.__vm_vp),
             'Vp': np.copy(self.__vm_Vp),
@@ -624,6 +795,11 @@ class ModelExcuteAnalysisMPM:
             # checkpoint reanude con la misma gravedad que tenía.
             'bp': np.copy(self.__vm_bp),
         }
+        # Estado del agua: solo existe desde la primera etapa de consolidación
+        if self.__vm_pp is not None:
+            state.update(wp=np.copy(self.__vm_wp), pp=np.copy(self.__vm_pp),
+                         n_p=np.copy(self.__vm_np), k_p=np.copy(self.__vm_kp))
+        return state
 
     def _inject_state(self, state):
         """Pega un estado (de _capture_state) sobre las variables de
@@ -639,6 +815,11 @@ class ModelExcuteAnalysisMPM:
         self.__mp_mp_elem = np.copy(state['mp_elem'])
         if 'bp' in state and state['bp'] is not None:
             self.__vm_bp = np.copy(state['bp'])
+        if 'pp' in state:
+            self.__vm_wp = np.copy(state['wp'])
+            self.__vm_pp = np.copy(state['pp'])
+            self.__vm_np = np.copy(state['n_p'])
+            self.__vm_kp = np.copy(state['k_p'])
 
     # ===================================================================
     #  Checkpoints por etapa (guardar / reanudar)
@@ -696,7 +877,8 @@ class ModelExcuteAnalysisMPM:
                           f"es {ele_now}. Vuelve a correr desde el inicio.")
 
         state = {k: data[k] for k in
-                 ('xp', 'vp', 'Vp', 'Fp', 'sig', 'epse', 'epsp', 'mp_elem', 'bp')
+                 ('xp', 'vp', 'Vp', 'Fp', 'sig', 'epse', 'epsp', 'mp_elem', 'bp',
+                  'wp', 'pp', 'n_p', 'k_p')
                  if k in data.files}
         meta = {
             'fecha': str(data['fecha']) if 'fecha' in data.files else '',
@@ -718,11 +900,13 @@ class ModelExcuteAnalysisMPM:
         self._inject_state(prev_state)
         self.initBoundaryParticles()
 
-        if (stage.stage_type == StageType.DYNAMIC and
+        if (stage.stage_type in (StageType.DYNAMIC, StageType.CONSOLIDATION) and
                 prev_stage is not None and
                 prev_stage.stage_type in (StageType.GEOSTATIC, StageType.LOAD_INCREMENT)):
             self.__vm_vp[:] = 0.0
-            print("[HANDOFF] vp=0 al entrar a la etapa dinámica "
+            if self.__vm_wp is not None:
+                self.__vm_wp[:] = 0.0
+            print(f"[HANDOFF] vp=0 al entrar a la etapa {stage.stage_type.value} "
                   f"(desde {prev_stage.stage_type.value})")
 
         if stage.reset_strains:
@@ -771,8 +955,13 @@ class ModelExcuteAnalysisMPM:
         epspxx[:, 0], epspyy[:, 0], epspxy[:, 0] = epsp[:, 0], epsp[:, 1], epsp[:, 2]
         velxx[:, 0], velyy[:, 0] = vp[:, 0], vp[:, 1]
         velxy[:, 0] = np.sqrt(velxx[:, 0]**2 + velyy[:, 0]**2)
-        
+        # Presión de poros (kPa, + compresión); cero mientras no haya agua
+        presporos = np.zeros((nmp, n_steps))
+        if self.__vm_pp is not None:
+            presporos[:, 0] = -self.__vm_pp[:, 0]
+
         return {
+            'presporos': presporos,
             'corX': corX, 'corY': corY,
             'sigxx': sigxx, 'sigyy': sigyy, 'sigxy': sigxy,
             'epsexx': epsexx, 'epseyy': epseyy, 'epsexy': epsexy,
@@ -814,7 +1003,9 @@ class ModelExcuteAnalysisMPM:
             4/9 * (epsp[:, 0]**2 - epsp[:, 0] * epsp[:, 1] + epsp[:, 1]**2) +
             4/3 * epsp[:, 2]**2
         )
-    
+        if self.__vm_pp is not None:
+            arrays['presporos'][:, step_idx] = -self.__vm_pp[:, 0]
+
     def _check_dialog_cancel_pause(self, msg):
         """Verifica si el usuario canceló o pausó el diálogo.
         Retorna True si se canceló, False si continúa."""
@@ -930,6 +1121,11 @@ class ModelExcuteAnalysisMPM:
         self.__rs_desplyy = merged['desplyy']
         self.__rs_desplxy = merged['desplxy']
         self.__rs_eqplas = merged['eqplas']
+        # La presión de poros solo se guarda si alguna etapa la calculó: así
+        # los proyectos de una fase no crecen.
+        has_pp = any(b['stage'].stage_type == StageType.CONSOLIDATION
+                     for b in self.__rs_stages)
+        self.__rs_presporos = merged['presporos'] if has_pp else None
 
         print(f"[RESULTS] Total: {merged['corX'].shape[1]} frames de "
               f"{len(frames_meta)} etapa(s)")
@@ -961,10 +1157,12 @@ class ModelExcuteAnalysisMPM:
         plasticity_flags = self._body_plasticity_flags(stage)
         stage_label = self._stage_label(stage)
         multi_body = stage.multi_body
+        consolidation = stage.stage_type == StageType.CONSOLIDATION
 
         t0 = tm.time()
         print("#►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄►◄")
-        print(f'[DYNAMIC] {stage_label}. Steps={steps_time}, dt={dt_time}, damp={stage.damping_factor}')
+        print(f'[{"CONSOLIDATION" if consolidation else "DYNAMIC"}] {stage_label}. '
+              f'Steps={steps_time}, dt={dt_time}, damp={stage.damping_factor}')
         if multi_body:
             print(f"[DYNAMIC] {len(self.__bodies)} cuerpos con contacto, mu={stage.friction}, "
                   f"plasticidad por cuerpo={plasticity_flags}")
@@ -999,7 +1197,9 @@ class ModelExcuteAnalysisMPM:
                 analysis_dialog.setStatus(False, msg)
                 QApplication.processEvents()
                 
-                if multi_body:
+                if consolidation:
+                    self._run_one_mpm_step_two_phase(plasticity_flags[0])
+                elif multi_body:
                     self._run_one_mpm_step_multibody(plasticity_flags, stage.friction,
                                                      stage.contact_normals)
                 else:
@@ -1685,7 +1885,8 @@ class ModelExcuteAnalysisMPM:
         desplyy = self.__rs_desplyy
         desplxy = self.__rs_desplxy
         eqplas = self.__rs_eqplas
-        
+        presporos = self.__rs_presporos   # None si ninguna etapa la calculó
+
         ########################################################################
         #                           analisis finalizado
         ########################################################################        
@@ -1800,7 +2001,8 @@ class ModelExcuteAnalysisMPM:
             desplxx=desplxx.min(),
             desplyy=desplyy.min(),
             desplxy=desplxy.min(),
-            eqplas=eqplas.min()
+            eqplas=eqplas.min(),
+            presporos=None if presporos is None else float(presporos.min())
         )
         self.model_result.updateResultMax(
             corx=corX.max(),
@@ -1820,8 +2022,8 @@ class ModelExcuteAnalysisMPM:
             desplxx=desplxx.max(),
             desplyy=desplyy.max(),
             desplxy=desplxy.max(),
-            eqplas=eqplas.max()
-            
+            eqplas=eqplas.max(),
+            presporos=None if presporos is None else float(presporos.max())
         )
         
 
@@ -1833,6 +2035,7 @@ class ModelExcuteAnalysisMPM:
         velxy_l = velxy.tolist(); velxx_l = velxx.tolist(); velyy_l = velyy.tolist()
         desplxx_l = desplxx.tolist(); desplyy_l = desplyy.tolist(); desplxy_l = desplxy.tolist()
         eqplas_l = eqplas.tolist()
+        presporos_l = presporos.tolist() if presporos is not None else None
 
         for node in range(len(corX)):
             self.model_result.addResultNode(
@@ -1855,7 +2058,8 @@ class ModelExcuteAnalysisMPM:
                 desplxx=desplxx_l[node],
                 desplyy=desplyy_l[node],
                 desplxy=desplxy_l[node],
-                eqplas=eqplas_l[node]
+                eqplas=eqplas_l[node],
+                presporos=presporos_l[node] if presporos_l is not None else None
             )
         
         self.model_result.updateResult()

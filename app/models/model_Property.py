@@ -60,6 +60,15 @@ class ModelProperty:
         """'MOHR_COULOMB' (default) o 'ELASTICO' (no plastifica nunca)."""
         return self.getData()[self.__id].get("MODELO", "MOHR_COULOMB")
 
+    def getTwoPhase(self):
+        """Datos de doble fase {'POROSIDAD', 'PERMEABILIDAD', 'MODULOAGUA'}, o
+        None si el material no los tiene (solo los usa la etapa de consolidación)."""
+        mat = self.getData()[self.__id]
+        keys = ("POROSIDAD", "PERMEABILIDAD", "MODULOAGUA")
+        if not all(k in mat for k in keys):
+            return None
+        return {k: mat[k] for k in keys}
+
     def getData(self):
         
         """return: dict con los datos de la propiedad, por ejemplo:
@@ -99,7 +108,8 @@ class ModelProperty:
                         friction_angle= None,
                         density= None,
                         angle_dilatancy= None,
-                        model= None):
+                        model= None,
+                        two_phase= None):
 
 
         self.model_repository.updatePropertiesDB(
@@ -112,7 +122,8 @@ class ModelProperty:
             friction_angle=friction_angle,
             density=density,
             angle_dilatancy=angle_dilatancy,
-            model=model
+            model=model,
+            two_phase=two_phase
             )
 
                 

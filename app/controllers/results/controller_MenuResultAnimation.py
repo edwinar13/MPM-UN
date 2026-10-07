@@ -3,6 +3,7 @@ from views.results.view_WidgetResultMenuAnimation import ViewWidgetResultMenuAni
 from models.model_ProjectCurrent import ModelProjectCurrent
 from controllers.cards.controller_CardMesh import ControllerCardMesh
 from motorMPM.mesh import create_uniform
+from utils.general_functions import SCALAR_RESULTS
 import pygmsh
 import math
 import time
@@ -169,8 +170,14 @@ class ControllerMenuResultAnimation(QObject):
         type_result = self.view_menu_result_animation.getTypeResult()
         axis = self.view_menu_result_animation.getAxisResult()
         vector = self.view_menu_result_animation.getVectorResult()
-        
-        if type_result == 'default' or type_result == 'eqplas':
+
+        # La presión de poros solo existe si el análisis tuvo consolidación
+        if type_result == 'pp' and not self.model_result.hasResult('PRESIONPOROS'):
+            print("[RESULTADOS] este análisis no tiene presión de poros (sin etapa de consolidación)")
+            self.view_menu_result_animation.resetTypeResult()
+            return
+
+        if type_result == 'default' or type_result in SCALAR_RESULTS:
             self.view_menu_result_animation.setEnabledSeletedAxis(False)
             self.view_menu_result_animation.setEnabledSeletedVector(False)
         elif type_result == 'despl' or type_result == 'vel':
