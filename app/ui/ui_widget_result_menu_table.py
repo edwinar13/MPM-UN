@@ -884,16 +884,6 @@ class Ui_FormMenuResultTable(object):
 
         self.verticalLayout_6.addWidget(self.pushButton_SaveData)
 
-        self.pushButton_GeneratePDF = QPushButton(self.frame_ResultAnimation1)
-        self.pushButton_GeneratePDF.setObjectName(u"pushButton_GeneratePDF")
-        icon3 = QIcon()
-        icon3.addFile(u":/iconos/pdf.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pushButton_GeneratePDF.setIcon(icon3)
-        self.pushButton_GeneratePDF.setIconSize(QSize(30, 30))
-        self.pushButton_GeneratePDF.setProperty(u"QPushButtonStyle", 2)
-
-        self.verticalLayout_6.addWidget(self.pushButton_GeneratePDF)
-
 
         self.verticalLayout_5.addWidget(self.frame_ResultAnimation1)
 
@@ -969,7 +959,6 @@ class Ui_FormMenuResultTable(object):
 #endif // QT_CONFIG(whatsthis)
         self.pushButton_tableShowHideColumn.setText(QCoreApplication.translate("FormMenuResultTable", u"Mostrar/ocultar columnas", None))
         self.pushButton_SaveData.setText(QCoreApplication.translate("FormMenuResultTable", u"     Guardar en csv", None))
-        self.pushButton_GeneratePDF.setText(QCoreApplication.translate("FormMenuResultTable", u"     Generar reporte", None))
         self.label_msn.setText(QCoreApplication.translate("FormMenuResultTable", u"Empty", None))
     # retranslateUi
 

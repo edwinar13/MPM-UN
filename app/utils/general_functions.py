@@ -33,6 +33,19 @@ GRAPH_RESULTS = {
     'Presión de poros (kPa)': 'PRESIONPOROS',
 }
 
+# Columnas de la tabla resumen y del csv: nodo, tiempo y los mismos resultados de la gráfica
+TABLE_COLUMNS = ['Nodo', 'Tiempo'] + list(GRAPH_RESULTS)
+
+
+def table_rows(result_nodes, times):
+    """Filas (listas de texto) de la tabla resumen: una por nodo y tiempo. Un
+    resultado que no está guardado (p. ej. presión de poros) queda vacío."""
+    keys = list(GRAPH_RESULTS.values())
+    for node, data in result_nodes.items():
+        series = [data.get(k) for k in keys]
+        for i, t in enumerate(times):
+            yield [str(node), f"{t:.6g}"] + ["" if s is None else f"{s[i]:.6e}" for s in series]
+
 
 def result_key(type_result, axis):
     """Clave del resultado guardado ('SIGXX', 'EQPLAS', 'PRESIONPOROS', ...)

@@ -1,7 +1,6 @@
 from PySide6.QtCore import (Slot,Signal, QObject,QPointF,QLineF)
 from views.results.view_WidgetResultMenuGraph import ViewWidgetResultMenuGraph
 from models.model_ProjectCurrent import ModelProjectCurrent
-from utils.general_functions import isNumber
 
 class ControllerMenuResultGraph(QObject):   
     
@@ -106,69 +105,6 @@ class ControllerMenuResultGraph(QObject):
 
 
 
-    # ::::::::::::::::::::      SLOT PAGE TABLE     ::::::::::::::::::::
-    @Slot()
-    def signalTableSearchPoint(self):
-
-        if self.model_result == None:
-            return
-
-        ids_point = self.view_page_result.getIdPointSearch()
-
-        # separamos los puntos
-        ids_point = ids_point.split(",")        
-        
-        for id_point in ids_point:
-            point_range_int = []
-            point_range_str = []
-            # verificamos si los puntos corresponde a rango de puntos 
-            if ":" in id_point:
-                #separamos los rangos en puntos
-                point_range = id_point.split(":")  
-                #verificamos que los puntos sean validos (Ejemplo NO: "", "d")
-                for x in point_range:
-                    if isNumber(x):
-                        point_range_int.append(int(x))                
-                if len(point_range_int) > 0:
-                    point_range_init = min(point_range_int)
-                    point_range_end = max(point_range_int)
-
-                    # se asigna los puntos que están en el rango
-                    for i in range(point_range_init, point_range_end+1):
-                        point_range_str.append("{}".format(i))
-            if len(point_range_str) > 0:            
-                ids_point.extend(point_range_str)
-
-
-        data = self.model_result.getResultNodes()          
-        list_keys = data.keys()
-
-        list_point_search = []
-        for id_point in ids_point:
-            if id_point in list_keys:
-                list_point_search.append(id_point)
-
-        if len(list_point_search)>0:
-            
-            list_data_point = {}
-            for point_search in list_point_search:
-                if point_search in list_keys:
-                    list_data_point[point_search]  = data[point_search]    
-
-            self.view_page_result.updateViewTableResult(list_data_point)        
-        else:
-            self.view_page_result.clearViewTableResult()
-        
-    @Slot()
-    def signalTableAllPoints(self):
-
-        if self.model_result == None:
-            return
-
-        data = self.model_result.getResultNodes()         
-        self.view_page_result.updateViewTableResult(data)
-        self.view_page_result.clearLineEdit()
-    
     def addCardPoint(self, card_point): 
         self.view_menu_result_graph.addCardPoint(card_point)       
 

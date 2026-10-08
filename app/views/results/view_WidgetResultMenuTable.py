@@ -6,6 +6,7 @@ from PySide6.QtGui import (QAction,QIcon, QFont, QColor)
 from PySide6.QtWidgets import (QFileDialog, QMenu, QFrame, QSpacerItem, QSizePolicy,QColorDialog)
 from ui.ui_widget_result_menu_table import Ui_FormMenuResultTable
 from utils import class_general
+from utils import general_functions
 
 
 class ViewWidgetResultMenuTable(QFrame, Ui_FormMenuResultTable):
@@ -62,19 +63,18 @@ class ViewWidgetResultMenuTable(QFrame, Ui_FormMenuResultTable):
 
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
                 # ::::::::::   AJUSTA LA TABLA DE RESUMEN  ::::::::::::
-        result_column_names = ('ID Nodo', 'dt', 'cor x', 'cor y',
-                                        'sigxx', 'sigyy', 'sigxy',
-                                        'epsxx', 'epsyy', 'epsxy', 'Todos')
+        # Mismas columnas de la tabla (general_functions.TABLE_COLUMNS); "Todas" = -1
         self.menu_tableHideShowColumn = QMenu(self)
-        for index, column in enumerate(result_column_names, start=0):
+        for index, column in enumerate(general_functions.TABLE_COLUMNS):
             action = QAction(column, self.menu_tableHideShowColumn)
-            if index != 10:
-                action.setCheckable(True)
-                action.setChecked(True)
-            else:
-                self.menu_tableHideShowColumn.addSeparator()
+            action.setCheckable(True)
+            action.setChecked(True)
             action.setData(index)
             self.menu_tableHideShowColumn.addAction(action)
+        self.menu_tableHideShowColumn.addSeparator()
+        action = QAction("Todas", self.menu_tableHideShowColumn)
+        action.setData(-1)
+        self.menu_tableHideShowColumn.addAction(action)
         self.pushButton_tableShowHideColumn.setMenu(self.menu_tableHideShowColumn)
         
     def __initEventUi(self):
@@ -89,7 +89,8 @@ class ViewWidgetResultMenuTable(QFrame, Ui_FormMenuResultTable):
         self.lineEdit_tableSearchByPointId.textEdited.connect(self.__textEditedLineEditTableSearchByPointId)
         self.menu_tableHideShowColumn.triggered.connect(self.__triggeredMenuTableHideShowColumn)
         self.pushButton_SaveData.clicked.connect(self.__clickedToolButtonSaveData)
-        self.pushButton_GeneratePDF.clicked.connect(self.__clickedToolButtonGeneratePDF)
+        # El reporte PDF está oculto (botón quitado del .ui) hasta rehacerlo con etapas;
+        # __clickedToolButtonGeneratePDF y ControllerMenuResultTable.signalGeneratePdf quedan.
       
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -132,10 +133,11 @@ class ViewWidgetResultMenuTable(QFrame, Ui_FormMenuResultTable):
     def __triggeredMenuTableHideShowColumn(self, action):
         column_select = action.data()
         
-        if column_select == 10: 
-            for action in self.menu_tableHideShowColumn.actions():
-                action.setChecked(True)
-        
+        if column_select == -1:
+            for item in self.menu_tableHideShowColumn.actions():
+                if item.isCheckable():
+                    item.setChecked(True)
+
         self.signal_table_hise_show_column.emit({'column':column_select, 'checked':action.isChecked()})
     
     def __clickedToolButtonSaveData(self):

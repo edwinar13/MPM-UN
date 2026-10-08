@@ -756,10 +756,10 @@ naranjas #D34E24 #F28123 #F7F052
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="tabPosition">
-        <enum>QTabWidget::North</enum>
+        <enum>QTabWidget::TabPosition::North</enum>
        </property>
        <property name="tabShape">
-        <enum>QTabWidget::Rounded</enum>
+        <enum>QTabWidget::TabShape::Rounded</enum>
        </property>
        <property name="currentIndex">
         <number>2</number>
@@ -809,10 +809,10 @@ naranjas #D34E24 #F28123 #F7F052
          <item row="0" column="0">
           <widget class="QFrame" name="frame">
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="QFrameStyle" stdset="0">
             <number>1</number>
@@ -836,10 +836,10 @@ naranjas #D34E24 #F28123 #F7F052
             <item>
              <widget class="QFrame" name="frame_pointMaterial">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <property name="QFrameStyle" stdset="0">
                <number>0</number>
@@ -917,10 +917,10 @@ naranjas #D34E24 #F28123 #F7F052
          <item row="0" column="0">
           <widget class="QFrame" name="frame_4">
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="QFrameStyle" stdset="0">
             <number>1</number>
@@ -944,10 +944,10 @@ naranjas #D34E24 #F28123 #F7F052
             <item>
              <widget class="QFrame" name="frame_6">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
@@ -968,10 +968,10 @@ naranjas #D34E24 #F28123 #F7F052
                <item>
                 <widget class="QFrame" name="frame_chart">
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::Shape::StyledPanel</enum>
                  </property>
                  <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                  <enum>QFrame::Shadow::Raised</enum>
                  </property>
                  <property name="QFrameStyle" stdset="0">
                   <number>2</number>
@@ -1062,19 +1062,19 @@ naranjas #D34E24 #F28123 #F7F052
             <string/>
            </property>
            <property name="editTriggers">
-            <set>QAbstractItemView::NoEditTriggers</set>
+            <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
            </property>
            <property name="alternatingRowColors">
             <bool>true</bool>
            </property>
            <property name="selectionMode">
-            <enum>QAbstractItemView::ContiguousSelection</enum>
+            <enum>QAbstractItemView::SelectionMode::ContiguousSelection</enum>
            </property>
            <property name="rowCount">
             <number>0</number>
            </property>
            <property name="columnCount">
-            <number>12</number>
+            <number>0</number>
            </property>
            <property name="QTableWidgetStyle" stdset="0">
             <number>1</number>
@@ -1091,66 +1091,6 @@ naranjas #D34E24 #F28123 #F7F052
            <attribute name="verticalHeaderVisible">
             <bool>false</bool>
            </attribute>
-           <column>
-            <property name="text">
-             <string>ID Nodo</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>dt</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>cor x</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>cor y</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>sigxx</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>sigyy</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>sigxy</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>epsxx</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>epsyy</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>epsxy</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>velx</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>vely</string>
-            </property>
-           </column>
           </widget>
          </item>
         </layout>

@@ -1129,26 +1129,6 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_GeneratePDF">
-                 <property name="text">
-                  <string>     Generar reporte</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/pdf.svg</normaloff>:/iconos/pdf.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="QPushButtonStyle" stdset="0">
-                  <number>2</number>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </item>

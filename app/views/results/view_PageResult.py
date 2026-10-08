@@ -3,6 +3,7 @@ from PySide6.QtCore import (Qt,QMimeData)
 from PySide6.QtWidgets import (QApplication, QFrame, QMenu,QTableWidgetItem,QHeaderView)
 from PySide6.QtGui import (QActionGroup,QAction)
 from ui.ui_frame_result import Ui_FormResult
+from utils.general_functions import TABLE_COLUMNS, table_rows
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
@@ -54,8 +55,10 @@ class ViewPageResult(QFrame, Ui_FormResult):
         
         # ::::::::::   AJUSTA LA TABLA DE RESUMEN  ::::::::::::      
         self.tableWidget_tableResult.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tableWidget_tableResult.setColumnCount(len(TABLE_COLUMNS))
+        self.tableWidget_tableResult.setHorizontalHeaderLabels(TABLE_COLUMNS)
+        # 21 columnas: ancho según contenido y barra horizontal (Stretch las aplastaba)
         self.tableWidget_tableResult.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.tableWidget_tableResult.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch) 
         self.copy_information = QApplication.clipboard()
         self.tabWidget.setCurrentIndex(0)
         
@@ -247,92 +250,18 @@ class ViewPageResult(QFrame, Ui_FormResult):
         self.tableWidget_tableResult.clearContents()
         self.tableWidget_tableResult.setRowCount(0)
 
-    def updateViewTableResult(self, data, data_time=None): 
-        
-        row = 0        
-        self.tableWidget_tableResult.clearContents()
-        self.tableWidget_tableResult.setRowCount(0)
-                              
-        for data_node in data:
-            dt = data_time
-            corx = data[data_node]['CORX']
-            cory = data[data_node]['CORY']    
+    def updateViewTableResult(self, data, data_time=None):
+        """Llena la tabla con los resultados de los nodos de `data` (vacío = limpiar)."""
+        table = self.tableWidget_tableResult
+        table.clearContents()
+        rows = list(table_rows(data, data_time)) if data else []
+        table.setRowCount(len(rows))
+        for row, values in enumerate(rows):
+            for column, value in enumerate(values):
+                item = QTableWidgetItem(value)
+                item.setTextAlignment(Qt.AlignCenter)
+                table.setItem(row, column, item)
 
-            sigxx = data[data_node]['SIGXX']            
-            sigyy = data[data_node]['SIGYY']            
-            sigxy = data[data_node]['SIGXY']   
-
-            epsxx = data[data_node]['EPSXX']            
-            epsyy = data[data_node]['EPSYY']            
-            epsxy = data[data_node]['EPSXY']    
-            
-            velx = data[data_node]['VELX']
-            vely = data[data_node]['VELY']    
-            despl = data[data_node]['DESPL']
-            eqplas = data[data_node]['EQPLAS']           
-            
-            for i in range(len(corx)):
-                self.tableWidget_tableResult.setRowCount(row + 1)
-
-                id_node = QTableWidgetItem(data_node)
-                id_node.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 0, id_node)
-
-                dt_i = QTableWidgetItem("{:.6e}".format(dt[i]))
-                dt_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 1, dt_i)
-
-                corx_i = QTableWidgetItem("{:.10e}".format(corx[i]))
-                corx_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 2, corx_i)
-
-                cory_i = QTableWidgetItem("{:.10e}".format(cory[i]))
-                cory_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 3, cory_i)
-
-                sigxx_i = QTableWidgetItem("{:.10e}".format(sigxx[i]))
-                sigxx_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 4, sigxx_i)
-
-                sigyy_i = QTableWidgetItem("{:.10e}".format(sigyy[i]))
-                sigyy_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 5, sigyy_i)
-
-                sigxy_i = QTableWidgetItem("{:.10e}".format(sigxy[i]))
-                sigxy_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 6, sigxy_i)
-
-                epsxx_i = QTableWidgetItem("{:.10e}".format(epsxx[i]))
-                epsxx_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 7, epsxx_i)
-
-                epsyy_i = QTableWidgetItem("{:.10e}".format(epsyy[i]))
-                epsyy_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 8, epsyy_i)
-
-                epsxy_i = QTableWidgetItem("{:.10e}".format(epsxy[i]))
-                epsxy_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 9, epsxy_i)
-                
-                velx_i = QTableWidgetItem("{:.10e}".format(velx[i]))
-                velx_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 10, velx_i)
-                
-                vely_i = QTableWidgetItem("{:.10e}".format(vely[i]))
-                vely_i.setTextAlignment(Qt.AlignCenter)                
-                self.tableWidget_tableResult.setItem(row, 11, vely_i)
-                
-                despl_i = QTableWidgetItem("{:.10e}".format(despl[i]))
-                despl_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 12, despl_i)
-                
-                eqplas_i = QTableWidgetItem("{:.10e}".format(eqplas[i]))
-                eqplas_i.setTextAlignment(Qt.AlignCenter)
-                self.tableWidget_tableResult.setItem(row, 13, eqplas_i)
-                
-
-                row += 1
-                
     def copyTableWidgetItem(self, action):
         rows_selected = self.tableWidget_tableResult.selectedIndexes()
 
@@ -372,8 +301,8 @@ class ViewPageResult(QFrame, Ui_FormResult):
         column_select = dict_data['column']
         cheked = dict_data['checked']
         
-        if column_select == 10: #mostrar todos 
-            for column in range(0,10):
+        if column_select == -1:  # mostrar todas
+            for column in range(len(TABLE_COLUMNS)):
                 self.tableWidget_tableResult.setColumnHidden(column, False)
         else:            
             self.tableWidget_tableResult.setColumnHidden(column_select, not cheked)

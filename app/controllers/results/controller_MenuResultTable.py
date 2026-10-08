@@ -5,7 +5,8 @@ from controllers.cards.controller_CardMesh import ControllerCardMesh
 import pygmsh
 import math
 import time
-from utils.general_functions import isNumber
+from utils.general_functions import isNumber, TABLE_COLUMNS, table_rows
+import csv
 
 
 from reportlab.lib.pagesizes import letter
@@ -75,25 +76,12 @@ class ControllerMenuResultTable(QObject):
         
     @Slot(str)
     def signalSaveData(self, path_data):
-        graphic_times = self.model_result.getData()["GRAPHIC_TIME"]
-        result_nodes = self.model_result.getData()["RESULT_NODES"]
-        with open(path_data, 'w') as file:
-            for data_node in result_nodes:
-                dt = graphic_times
-                
-                corx = result_nodes[data_node]['CORX']
-                cory = result_nodes[data_node]['CORY']    
-
-                sigxx = result_nodes[data_node]['SIGXX']            
-                sigyy = result_nodes[data_node]['SIGYY']            
-                sigxy = result_nodes[data_node]['SIGXY']   
-
-                epsxx = result_nodes[data_node]['EPSXX']            
-                epsyy = result_nodes[data_node]['EPSYY']            
-                epsxy = result_nodes[data_node]['EPSXY'] 
-                file.write('NODO TIMEPO CORX CORY SIGXX SIGYY SIGXY EPSXX EPSYY EPSXY\n')
-                for i in range(len(graphic_times)):
-                    file.write(str(data_node)+' '+str(dt[i])+' '+str(corx[i])+' '+str(cory[i])+' '+str(sigxx[i])+' '+str(sigyy[i])+' '+str(sigxy[i])+' '+str(epsxx[i])+' '+str(epsyy[i])+' '+str(epsxy[i])+'\n')      
+        # Todos los nodos, mismas columnas que la tabla; utf-8-sig para que Excel lea σ, ε, τ
+        with open(path_data, 'w', newline='', encoding='utf-8-sig') as file:
+            writer = csv.writer(file)
+            writer.writerow(TABLE_COLUMNS)
+            writer.writerows(table_rows(self.model_result.getResultNodes(),
+                                        self.model_result.getGrapihcsTimes()))
         # abrir archivo
         import subprocess
         subprocess.Popen([path_data], shell=True)
