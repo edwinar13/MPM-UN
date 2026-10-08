@@ -1428,7 +1428,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                          </size>
                         </property>
                         <property name="text">
-                         <string>Pasos</string>
+                         <string>Frame</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1456,7 +1456,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                     </size>
                    </property>
                    <property name="text">
-                    <string>Numero de pasos</string>
+                    <string>Número de frames</string>
                    </property>
                    <property name="QLabelStyle" stdset="0">
                     <number>3</number>
@@ -1472,7 +1472,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                     </size>
                    </property>
                    <property name="text">
-                    <string>11532</string>
+                    <string>0</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>
