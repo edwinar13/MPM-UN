@@ -962,7 +962,9 @@ class ItemResultAxisMeshBack(QGraphicsItem):
         QGraphicsItem.__init__(self)
 
         self.color = self.COLOR
-        self.width_border = self.WIDTH*(width/50)
+        # Grosor según la dimensión que manda al ajustar el modelo a la vista
+        # (ver ItemResultLabelGridMeshBack)
+        self.width_border = self.WIDTH*(max(width, 1.5*height)/50)
 
         self.x = x
         self.y = y
@@ -1087,18 +1089,20 @@ class ItemResultLabelGridMeshBack(QGraphicsItem):
         self.nodes = nodes 
 
         self.color = self.COLOR
-        self.width_border = self.WIDTH *(width/50)
+        # Tamaños referidos a la dimensión que manda al ajustar el modelo a la
+        # vista (más ancha que alta, ≈ 3:2): así las etiquetas se ven del mismo
+        # tamaño en pantalla en cualquier modelo. Con min(ancho, alto) una
+        # columna angosta (consolidación 1D) dejaba etiquetas y marcas diminutas.
+        # Los divisores dan lo mismo que antes en un modelo de 60 x 32 m (talud).
+        len_ref = max(width, 1.5*height)
+        self.width_border = self.WIDTH *(len_ref/50)
 
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        len_min = min(self.width, self.height)
-        dxy = len_min/10
-        line_label_dxy = dxy/10
-
-
-        text_height = len_min/500
+        line_label_dxy = len_ref/188
+        text_height = len_ref/940
         
         self.labes_text = []
         self.lines = []
@@ -1233,8 +1237,9 @@ class ItemResultTextLabel(QGraphicsItem):
 
         self.font = QFont("Times", self.FONT_SIZE)
 
-        width = self.boundingRect().width()
-        height = self.boundingRect().height()
+        font_metrics = QFontMetrics(self.font)
+        width = font_metrics.boundingRect(self.text).width()
+        height = font_metrics.ascent()
         self.coor = QPointF(0, 0)
         if alignment=="TOP":
             self.coor = QPointF(-width/2, -height)
@@ -1244,16 +1249,19 @@ class ItemResultTextLabel(QGraphicsItem):
             self.coor = QPointF((-width*2), height/2)
         elif alignment=="RIGHT":
             self.coor = QPointF(width,  height/2)
-        
-    def newPos(self, pos:QPointF|QPoint):   
-        self.position = pos     
+        # Área real del texto en coordenadas del ítem: paint() invierte el eje y
+        # y escribe con la línea base en coor. (QFontMetrics.boundingRect(texto)
+        # no sirve aquí: su origen puede salir muy lejos, p. ej. en 100000, y
+        # con eso el ajuste de la vista dejaba el modelo diminuto en una esquina.)
+        self._rect = QRectF(self.coor.x(), -self.coor.y() - font_metrics.descent(),
+                            width, height + font_metrics.descent())
+
+    def newPos(self, pos:QPointF|QPoint):
+        self.position = pos
         self.setPos(pos)
 
     def boundingRect(self) -> QRectF:
-        font_metrics = QFontMetrics(self.font)
-        text_rect = font_metrics.boundingRect(self.text)
-        text_rect.setHeight(font_metrics.ascent())
-        return text_rect
+        return self._rect
 
     def paint(self, painter: QPainter, option, widget=None):
         painter.setPen(self.pen)

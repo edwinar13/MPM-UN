@@ -10,6 +10,7 @@ class:
 from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
+from utils.class_general import model_bounding_rect
 
 class ViewGraphicsSceneResult(QGraphicsScene):
     def __init__(self):
@@ -116,8 +117,7 @@ class ViewGraphicsViewResult(QGraphicsView):
         """Centra los ítems en el viewport ocupando ~80%. Bypassa fitInView
         para evitar interacción con el scale(1,-1) y el anchor configurado.
         """
-        scene = self.scene()
-        rect = scene.itemsBoundingRect()
+        rect = model_bounding_rect(self.scene())
         vp = self.viewport().rect()
         # Si viewport o rect no son válidos aún, reintentar más tarde
         if rect.isEmpty() or vp.width() < 50 or vp.height() < 50:

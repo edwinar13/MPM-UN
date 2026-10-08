@@ -251,6 +251,8 @@ class ControllerMainWindow():
        
         self.view_main_window.activateMenuLat()
         self.selectedMenuSide("toolButton_drawData")
+        # Encuadrar el modelo cuando la vista ya tenga su tamaño final
+        QTimer.singleShot(0, lambda: self.controller_page_draw.zoomDraw("ZoomExtend"))
         nodes_no = len(self.model_current_project.getModelResult().getResultNodes())
         if nodes_no > 0:
             self.view_main_window.activateMenuLatResult()

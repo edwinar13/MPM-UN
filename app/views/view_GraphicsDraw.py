@@ -25,6 +25,7 @@ import datetime
 
 
 from utils.items_GraphicsDraw import LineItem, PointItem, TextItem, RectItem, NodeMeshBackItem, PointMaterialItem
+from utils.class_general import model_bounding_rect
 
 
 # ☼  ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►► ►►►
@@ -168,7 +169,7 @@ class ViewGraphicsViewDraw (QGraphicsView):
         """Reinicia la vista, colocando el rectángulo de la escena al tamaño de la vista scale=1."""
 
         self.resetTransform()
-        rect = self.scene().itemsBoundingRect()
+        rect = model_bounding_rect(self.scene())
         rect = rect.adjusted(-rect.width()/2, -rect.height()/2, rect.width()/2, rect.height()/2)
 
         self.centerOn(0, 0)
