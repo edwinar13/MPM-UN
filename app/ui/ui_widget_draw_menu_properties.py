@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QDoubleSpinBox, QFormLayout,
-    QFrame, QHBoxLayout, QLabel, QLineEdit,
-    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
-    QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QComboBox, QDoubleSpinBox,
+    QFormLayout, QFrame, QHBoxLayout, QLabel,
+    QLineEdit, QScrollArea, QSizePolicy, QSpacerItem,
+    QSpinBox, QToolButton, QVBoxLayout, QWidget)
 from . import iconos_rc
 
 class Ui_FormDrawMenuProperties(object):
@@ -957,6 +957,66 @@ class Ui_FormDrawMenuProperties(object):
 
         self.formLayout_4.setWidget(7, QFormLayout.ItemRole.LabelRole, self.label_textProperties4_2)
 
+        self.comboBox_textPropertiesModel = QComboBox(self.frame_4)
+        self.comboBox_textPropertiesModel.setObjectName(u"comboBox_textPropertiesModel")
+        self.comboBox_textPropertiesModel.setEnabled(True)
+        self.comboBox_textPropertiesModel.setMinimumSize(QSize(0, 25))
+        self.comboBox_textPropertiesModel.setProperty(u"QComboBoxStyle", 1)
+
+        self.formLayout_4.setWidget(8, QFormLayout.ItemRole.FieldRole, self.comboBox_textPropertiesModel)
+
+        self.label_textPropertiesModel = QLabel(self.frame_4)
+        self.label_textPropertiesModel.setObjectName(u"label_textPropertiesModel")
+        self.label_textPropertiesModel.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesModel.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(8, QFormLayout.ItemRole.LabelRole, self.label_textPropertiesModel)
+
+        self.label_textPropertiesPermeability = QLabel(self.frame_4)
+        self.label_textPropertiesPermeability.setObjectName(u"label_textPropertiesPermeability")
+        self.label_textPropertiesPermeability.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesPermeability.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(10, QFormLayout.ItemRole.LabelRole, self.label_textPropertiesPermeability)
+
+        self.label_textPropertiesPorosity = QLabel(self.frame_4)
+        self.label_textPropertiesPorosity.setObjectName(u"label_textPropertiesPorosity")
+        self.label_textPropertiesPorosity.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesPorosity.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(9, QFormLayout.ItemRole.LabelRole, self.label_textPropertiesPorosity)
+
+        self.label_textPropertiesKw = QLabel(self.frame_4)
+        self.label_textPropertiesKw.setObjectName(u"label_textPropertiesKw")
+        self.label_textPropertiesKw.setMinimumSize(QSize(110, 0))
+        self.label_textPropertiesKw.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout_4.setWidget(11, QFormLayout.ItemRole.LabelRole, self.label_textPropertiesKw)
+
+        self.lineEdit_textPropertiesPorosity = QLineEdit(self.frame_4)
+        self.lineEdit_textPropertiesPorosity.setObjectName(u"lineEdit_textPropertiesPorosity")
+        self.lineEdit_textPropertiesPorosity.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textPropertiesPorosity.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textPropertiesPorosity.setProperty(u"QLineEditStyle", 1)
+
+        self.formLayout_4.setWidget(9, QFormLayout.ItemRole.FieldRole, self.lineEdit_textPropertiesPorosity)
+
+        self.lineEdit_textPropertiesPermeability = QLineEdit(self.frame_4)
+        self.lineEdit_textPropertiesPermeability.setObjectName(u"lineEdit_textPropertiesPermeability")
+        self.lineEdit_textPropertiesPermeability.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textPropertiesPermeability.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textPropertiesPermeability.setProperty(u"QLineEditStyle", 1)
+
+        self.formLayout_4.setWidget(10, QFormLayout.ItemRole.FieldRole, self.lineEdit_textPropertiesPermeability)
+
+        self.lineEdit_textPropertiesKw = QLineEdit(self.frame_4)
+        self.lineEdit_textPropertiesKw.setObjectName(u"lineEdit_textPropertiesKw")
+        self.lineEdit_textPropertiesKw.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textPropertiesKw.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_textPropertiesKw.setProperty(u"QLineEditStyle", 1)
+
+        self.formLayout_4.setWidget(11, QFormLayout.ItemRole.FieldRole, self.lineEdit_textPropertiesKw)
+
 
         self.verticalLayout_7.addWidget(self.frame_4)
 
@@ -1175,6 +1235,27 @@ class Ui_FormDrawMenuProperties(object):
         self.label_textProperties4_2.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
 #endif // QT_CONFIG(tooltip)
         self.label_textProperties4_2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"\u03c1 (kg/m3):", None))
+#if QT_CONFIG(tooltip)
+        self.label_textPropertiesModel.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textPropertiesModel.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Modelo:", None))
+#if QT_CONFIG(tooltip)
+        self.label_textPropertiesPermeability.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textPropertiesPermeability.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Permeabilidad k:", None))
+#if QT_CONFIG(tooltip)
+        self.label_textPropertiesPorosity.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textPropertiesPorosity.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Porosidad n0:", None))
+#if QT_CONFIG(tooltip)
+        self.label_textPropertiesKw.setToolTip(QCoreApplication.translate("FormDrawMenuProperties", u"Cohesi\u00f3n ", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_textPropertiesKw.setText(QCoreApplication.translate("FormDrawMenuProperties", u"M\u00f3dulo agua Kw:", None))
+        self.lineEdit_textPropertiesPorosity.setText("")
+        self.lineEdit_textPropertiesPermeability.setText("")
+        self.lineEdit_textPropertiesPermeability.setPlaceholderText(QCoreApplication.translate("FormDrawMenuProperties", u"m/s", None))
+        self.lineEdit_textPropertiesKw.setText("")
+        self.lineEdit_textPropertiesKw.setPlaceholderText(QCoreApplication.translate("FormDrawMenuProperties", u"kPa", None))
         self.toolButton_PropertiesCancel.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Cancelar", None))
         self.toolButton_PropertiesCreateProperty.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Crear material", None))
         self.label_cardPropertiesSubTitle2.setText(QCoreApplication.translate("FormDrawMenuProperties", u"Lista de materiales", None))

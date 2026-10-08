@@ -1582,6 +1582,170 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </property>
                    </widget>
                   </item>
+                  <item row="8" column="1">
+                   <widget class="QComboBox" name="comboBox_textPropertiesModel">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="QComboBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="0">
+                   <widget class="QLabel" name="label_textPropertiesModel">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Cohesión </string>
+                    </property>
+                    <property name="text">
+                     <string>Modelo:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="10" column="0">
+                   <widget class="QLabel" name="label_textPropertiesPermeability">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Cohesión </string>
+                    </property>
+                    <property name="text">
+                     <string>Permeabilidad k:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="0">
+                   <widget class="QLabel" name="label_textPropertiesPorosity">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Cohesión </string>
+                    </property>
+                    <property name="text">
+                     <string>Porosidad n0:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="11" column="0">
+                   <widget class="QLabel" name="label_textPropertiesKw">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Cohesión </string>
+                    </property>
+                    <property name="text">
+                     <string>Módulo agua Kw:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="1">
+                   <widget class="QLineEdit" name="lineEdit_textPropertiesPorosity">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="QLineEditStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="10" column="1">
+                   <widget class="QLineEdit" name="lineEdit_textPropertiesPermeability">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="placeholderText">
+                     <string>m/s</string>
+                    </property>
+                    <property name="QLineEditStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="11" column="1">
+                   <widget class="QLineEdit" name="lineEdit_textPropertiesKw">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="placeholderText">
+                     <string>kPa</string>
+                    </property>
+                    <property name="QLineEditStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </item>

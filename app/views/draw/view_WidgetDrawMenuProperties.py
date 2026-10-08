@@ -1,8 +1,7 @@
 
 from PySide6.QtCore import ( Signal, QSize,QTimer)
 from PySide6.QtGui import (QIcon, QFont, QColor)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog, QLabel, QComboBox,
-                                QLineEdit)
+from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy, QColorDialog)
 
 from ui.ui_widget_draw_menu_properties import Ui_FormDrawMenuProperties
 from utils import class_general
@@ -21,22 +20,20 @@ TWO_PHASE_TIP = ("Solo para la etapa de consolidación (doble fase).\n"
 
 
 class TwoPhaseFields:
-    """Las tres filas de doble fase (n0, k, Kw), agregadas por código a un
-    QFormLayout. Acepta notación científica (1e-5)."""
+    """Las tres filas de doble fase (n0, k, Kw) del formulario. Los campos están
+    en el .ui con los mismos nombres en el menú y en la tarjeta
+    (lineEdit_textPropertiesPorosity/Permeability/Kw); aquí se leen y escriben.
+    Acepta notación científica (1e-5)."""
 
-    def __init__(self, parent, form_layout, style=None):
+    WIDGETS = {"POROSIDAD": "Porosity", "PERMEABILIDAD": "Permeability", "MODULOAGUA": "Kw"}
+
+    def __init__(self, form):
         self.edits = {}
-        for key, text, unit, default in TWO_PHASE_FIELDS:
-            label = QLabel(text, parent)
-            label.setProperty("QLabelStyle", 3)
-            label.setToolTip(TWO_PHASE_TIP)
-            edit = QLineEdit(parent)
-            edit.setMinimumSize(QSize(120, 25))
-            edit.setPlaceholderText(unit)
+        for key, _, unit, _ in TWO_PHASE_FIELDS:
+            suffix = self.WIDGETS[key]
+            edit = getattr(form, f"lineEdit_textProperties{suffix}")
             edit.setToolTip(f"{unit}\n{TWO_PHASE_TIP}" if unit else TWO_PHASE_TIP)
-            if style:
-                edit.setStyleSheet(style)
-            form_layout.addRow(label, edit)
+            getattr(form, f"label_textProperties{suffix}").setToolTip(TWO_PHASE_TIP)
             self.edits[key] = edit
         self.set(None)
 
@@ -55,6 +52,17 @@ class TwoPhaseFields:
             except ValueError:
                 return None
         return out
+
+
+def fill_model_combo(combo, label=None):
+    """Opciones de MODEL_OPTIONS (texto visible + valor guardado) y su tooltip."""
+    for text, value in MODEL_OPTIONS:
+        combo.addItem(text, value)
+    tip = ("Mohr-Coulomb: plastifica en las etapas con plasticidad activa.\n"
+           "Elástico lineal: nunca plastifica (c, φ y ψ no se usan).")
+    for w in (combo, label):
+        if w is not None:
+            w.setToolTip(tip)
 
 
 def format_two_phase(values):
@@ -128,25 +136,10 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         self.label_lat.setVisible(False)
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        # Modelo constitutivo. Se agrega por código al final del formulario del
-        # .ui (no aparece en Qt Designer; si se reorganiza ese formulario allá,
-        # revisar que esta fila siga en su lugar).
-        self.label_textPropertiesModel = QLabel("Modelo:", self.frame_4)
-        self.label_textPropertiesModel.setMinimumSize(QSize(110, 0))
-        self.label_textPropertiesModel.setProperty("QLabelStyle", 3)
-        self.comboBox_textPropertiesModel = QComboBox(self.frame_4)
-        self.comboBox_textPropertiesModel.setMinimumSize(QSize(120, 25))
-        self.comboBox_textPropertiesModel.setProperty("QComboBoxStyle", 1)
-        for text, value in MODEL_OPTIONS:
-            self.comboBox_textPropertiesModel.addItem(text, value)
-        tip = ("Mohr-Coulomb: plastifica en las etapas con plasticidad activa.\n"
-               "Elástico lineal: nunca plastifica (c, φ y ψ no se usan).")
-        self.label_textPropertiesModel.setToolTip(tip)
-        self.comboBox_textPropertiesModel.setToolTip(tip)
-        self.formLayout_4.addRow(self.label_textPropertiesModel,
-                                 self.comboBox_textPropertiesModel)
-        # Doble fase (etapa de consolidación), también por código
-        self.two_phase_fields = TwoPhaseFields(self.frame_4, self.formLayout_4)
+        # Modelo constitutivo y doble fase: filas del .ui; aquí solo las opciones
+        # del combo (cada una con su valor guardado) y los tooltips.
+        fill_model_combo(self.comboBox_textPropertiesModel, self.label_textPropertiesModel)
+        self.two_phase_fields = TwoPhaseFields(self)
 
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 

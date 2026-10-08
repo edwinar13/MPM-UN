@@ -2,23 +2,12 @@
 Es el widget card de cada materialPoint."""
 from PySide6.QtCore import ( QSize, Signal)
 from PySide6.QtGui import (QColor,QIcon)
-from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog, QLabel, QComboBox)
+from PySide6.QtWidgets import ( QFrame, QGraphicsDropShadowEffect, QColorDialog)
 
 from ui.ui_widget_draw_property_card import Ui_FormDrawPropertyCard
 from utils import class_ui_dialog_msg
-from views.draw.view_WidgetDrawMenuProperties import (MODEL_OPTIONS, TwoPhaseFields,
+from views.draw.view_WidgetDrawMenuProperties import (MODEL_OPTIONS, TwoPhaseFields, fill_model_combo,
                                                       format_two_phase, TWO_PHASE_TIP)
-
-COMBO_STYLE = """
-QComboBox { background-color: #444444; color: #DDDDDD; border: 1px solid #555555;
-            border-radius: 4px; padding: 2px 6px; font: 9pt "Ubuntu"; }
-QComboBox QAbstractItemView { background-color: #383838; color: #DDDDDD;
-            selection-background-color: #444444; selection-color: #C8CC8E; }
-"""
-LINE_STYLE = """
-QLineEdit { background-color: #444444; color: #DDDDDD; border: 1px solid #555555;
-            border-radius: 4px; padding: 2px 6px; font: 9pt "Ubuntu"; }
-"""
 
  
 class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
@@ -84,33 +73,13 @@ class viewCardDrawProperty(QFrame, Ui_FormDrawPropertyCard):
         self.toolButton_colorProperty.setVisible(False)
         self.frame_edit.setVisible(False)
 
-        # Modelo constitutivo: fila agregada por código al final de los
-        # formularios de vista y de edición del .ui (no aparece en Qt Designer).
+        # Modelo constitutivo y doble fase: filas del .ui (vista y edición);
+        # aquí solo las opciones del combo y los tooltips.
         self.__model = MODEL_OPTIONS[0][1]
-        label_view = QLabel("Modelo:", self.frame_view)
-        label_view.setProperty("QLabelStyle", 3)
-        self.label_textPropertiesModel = QLabel("", self.frame_view)
-        self.label_textPropertiesModel.setProperty("QLabelStyle", 3)
-        self.formLayout_2.addRow(label_view, self.label_textPropertiesModel)
-        label_edit = QLabel("Modelo:", self.frame_edit)
-        label_edit.setProperty("QLabelStyle", 3)
-        self.comboBox_textPropertiesModel = QComboBox(self.frame_edit)
-        self.comboBox_textPropertiesModel.setStyleSheet(COMBO_STYLE)
-        for text, value in MODEL_OPTIONS:
-            self.comboBox_textPropertiesModel.addItem(text, value)
-        self.formLayout.addRow(label_edit, self.comboBox_textPropertiesModel)
-
-        # Doble fase (etapa de consolidación): un rótulo en la vista y tres
-        # campos en la edición, también por código.
+        fill_model_combo(self.comboBox_textPropertiesModel, self.label_textPropertiesModelEdit)
         self.__two_phase = None
-        label_view = QLabel("Doble fase:", self.frame_view)
-        label_view.setProperty("QLabelStyle", 3)
-        label_view.setToolTip(TWO_PHASE_TIP)
-        self.label_textPropertiesTwoPhase = QLabel("—", self.frame_view)
-        self.label_textPropertiesTwoPhase.setProperty("QLabelStyle", 3)
-        self.label_textPropertiesTwoPhase.setWordWrap(True)
-        self.formLayout_2.addRow(label_view, self.label_textPropertiesTwoPhase)
-        self.two_phase_fields = TwoPhaseFields(self.frame_edit, self.formLayout, LINE_STYLE)
+        self.label_textPropertiesTwoPhase.setToolTip(TWO_PHASE_TIP)
+        self.two_phase_fields = TwoPhaseFields(self)
 
     def __setTwoPhase(self, values):
         self.__two_phase = values
