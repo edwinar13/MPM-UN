@@ -17,9 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
     QDoubleSpinBox, QFrame, QHBoxLayout, QLabel,
-    QLineEdit, QScrollArea, QSizePolicy, QSlider,
-    QSpacerItem, QSpinBox, QSplitter, QVBoxLayout,
-    QWidget)
+    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
+    QSpinBox, QSplitter, QVBoxLayout, QWidget)
 
 class Ui_FormSetting(object):
     def setupUi(self, FormSetting):
@@ -28,12 +27,6 @@ class Ui_FormSetting(object):
         FormSetting.resize(665, 559)
         self.verticalLayout = QVBoxLayout(FormSetting)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.lineEdit_settingSearch = QLineEdit(FormSetting)
-        self.lineEdit_settingSearch.setObjectName(u"lineEdit_settingSearch")
-        self.lineEdit_settingSearch.setMinimumSize(QSize(0, 30))
-
-        self.verticalLayout.addWidget(self.lineEdit_settingSearch)
-
         self.frame_2 = QFrame(FormSetting)
         self.frame_2.setObjectName(u"frame_2")
         self.frame_2.setFrameShape(QFrame.StyledPanel)
@@ -495,16 +488,6 @@ class Ui_FormSetting(object):
 
         self.verticalLayout_10.addWidget(self.label_31)
 
-        self.label_37 = QLabel(self.frame_5)
-        self.label_37.setObjectName(u"label_37")
-        sizePolicy1.setHeightForWidth(self.label_37.sizePolicy().hasHeightForWidth())
-        self.label_37.setSizePolicy(sizePolicy1)
-        self.label_37.setMinimumSize(QSize(0, 30))
-        self.label_37.setWordWrap(False)
-        self.label_37.setProperty(u"type_label_table", 2)
-
-        self.verticalLayout_10.addWidget(self.label_37)
-
         self.splitter.addWidget(self.frame_5)
         self.frame_6 = QFrame(self.splitter)
         self.frame_6.setObjectName(u"frame_6")
@@ -825,61 +808,12 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_28.addWidget(self.label_41)
 
-        self.label_42 = QLabel(self.frame_18)
-        self.label_42.setObjectName(u"label_42")
-        self.label_42.setMinimumSize(QSize(0, 0))
-        self.label_42.setProperty(u"type_label_table", 5)
-
-        self.horizontalLayout_28.addWidget(self.label_42)
-
-        self.label_43 = QLabel(self.frame_18)
-        self.label_43.setObjectName(u"label_43")
-        self.label_43.setProperty(u"type_label_table", 4)
-
-        self.horizontalLayout_28.addWidget(self.label_43)
-
         self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_28.addItem(self.horizontalSpacer_14)
 
 
         self.verticalLayout_11.addWidget(self.frame_18)
-
-        self.frame_17 = QFrame(self.frame_6)
-        self.frame_17.setObjectName(u"frame_17")
-        self.frame_17.setMinimumSize(QSize(0, 32))
-        self.frame_17.setFrameShape(QFrame.StyledPanel)
-        self.frame_17.setFrameShadow(QFrame.Raised)
-        self.frame_17.setProperty(u"type_frame_table", 3)
-        self.horizontalLayout_27 = QHBoxLayout(self.frame_17)
-        self.horizontalLayout_27.setSpacing(10)
-        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
-        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
-        self.label_38 = QLabel(self.frame_17)
-        self.label_38.setObjectName(u"label_38")
-        self.label_38.setProperty(u"type_label_table", 4)
-
-        self.horizontalLayout_27.addWidget(self.label_38)
-
-        self.label_39 = QLabel(self.frame_17)
-        self.label_39.setObjectName(u"label_39")
-        self.label_39.setMinimumSize(QSize(0, 0))
-        self.label_39.setProperty(u"type_label_table", 5)
-
-        self.horizontalLayout_27.addWidget(self.label_39)
-
-        self.label_40 = QLabel(self.frame_17)
-        self.label_40.setObjectName(u"label_40")
-        self.label_40.setProperty(u"type_label_table", 4)
-
-        self.horizontalLayout_27.addWidget(self.label_40)
-
-        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_27.addItem(self.horizontalSpacer_13)
-
-
-        self.verticalLayout_11.addWidget(self.frame_17)
 
         self.splitter.addWidget(self.frame_6)
 
@@ -988,13 +922,6 @@ class Ui_FormSetting(object):
 
     def retranslateUi(self, FormSetting):
         FormSetting.setWindowTitle(QCoreApplication.translate("FormSetting", u"Form", None))
-#if QT_CONFIG(tooltip)
-        self.lineEdit_settingSearch.setToolTip(QCoreApplication.translate("FormSetting", u"<html><head/><body><p><br/></p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
-        self.lineEdit_settingSearch.setWhatsThis(QCoreApplication.translate("FormSetting", u"<html><head/><body><p><br/></p></body></html>", None))
-#endif // QT_CONFIG(whatsthis)
-        self.lineEdit_settingSearch.setPlaceholderText(QCoreApplication.translate("FormSetting", u"b\u00fasqueda", None))
 #if QT_CONFIG(accessibility)
         self.label_settingTitleTree_1.setAccessibleName(QCoreApplication.translate("FormSetting", u"label_settingTitleTree_1", None))
 #endif // QT_CONFIG(accessibility)
@@ -1028,8 +955,7 @@ class Ui_FormSetting(object):
         self.label_8.setText(QCoreApplication.translate("FormSetting", u"Ocultar o mostrar ejes ", None))
         self.label_9.setText(QCoreApplication.translate("FormSetting", u"Ocultar o mostrar grilla", None))
         self.label_35.setText(QCoreApplication.translate("FormSetting", u"Ocultar o mostrar consola ", None))
-        self.label_31.setText(QCoreApplication.translate("FormSetting", u"## Ctrl+a imprime los elemetos en la escena", None))
-        self.label_37.setText(QCoreApplication.translate("FormSetting", u"## Ctrl++ cambia el estilo de la vista", None))
+        self.label_31.setText(QCoreApplication.translate("FormSetting", u"Ocultar o mostrar etiquetas", None))
         self.label_3.setText(QCoreApplication.translate("FormSetting", u"Atajo de teclado", None))
         self.label_13.setText(QCoreApplication.translate("FormSetting", u"Ctrl", None))
         self.label_10.setText(QCoreApplication.translate("FormSetting", u"+", None))
@@ -1048,16 +974,11 @@ class Ui_FormSetting(object):
         self.label_30.setText(QCoreApplication.translate("FormSetting", u"Shift", None))
         self.label_32.setText(QCoreApplication.translate("FormSetting", u"+", None))
         self.label_33.setText(QCoreApplication.translate("FormSetting", u"S", None))
-        self.label_45.setText(QCoreApplication.translate("FormSetting", u"F6", None))
-        self.label_12.setText(QCoreApplication.translate("FormSetting", u"F7", None))
-        self.label_11.setText(QCoreApplication.translate("FormSetting", u"F8", None))
-        self.label_44.setText(QCoreApplication.translate("FormSetting", u"F9", None))
-        self.label_41.setText(QCoreApplication.translate("FormSetting", u"Ctrl", None))
-        self.label_42.setText(QCoreApplication.translate("FormSetting", u"+", None))
-        self.label_43.setText(QCoreApplication.translate("FormSetting", u"a", None))
-        self.label_38.setText(QCoreApplication.translate("FormSetting", u"Ctrl", None))
-        self.label_39.setText(QCoreApplication.translate("FormSetting", u"+", None))
-        self.label_40.setText(QCoreApplication.translate("FormSetting", u"+", None))
+        self.label_45.setText(QCoreApplication.translate("FormSetting", u"F5", None))
+        self.label_12.setText(QCoreApplication.translate("FormSetting", u"F6", None))
+        self.label_11.setText(QCoreApplication.translate("FormSetting", u"F7", None))
+        self.label_44.setText(QCoreApplication.translate("FormSetting", u"F8", None))
+        self.label_41.setText(QCoreApplication.translate("FormSetting", u"F9", None))
         self.label_settingTitle_3.setText(QCoreApplication.translate("FormSetting", u"Archivo", None))
         self.label_settingSubtitle_4.setText(QCoreApplication.translate("FormSetting", u"Guardado autom\u00e1tico", None))
         self.label_settingDescription_4.setText(QCoreApplication.translate("FormSetting", u"<html><head/><body><p>Al seleccionar <span style=\" color:#c8cc8e;\">\u00ab Auto guardado \u00bb</span> se realizar\u00e1 un guardado autom\u00e1tico del proyecto en intervalos, seg\u00fan el tiempo seleccionado </p></body></html>", None))

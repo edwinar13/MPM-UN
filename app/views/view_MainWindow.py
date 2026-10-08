@@ -79,10 +79,6 @@ class ViewMainWindow(QMainWindow):
         self.ui.action_guardar.setStatusTip('Guardar')
         self.ui.action_guardarComo.setShortcut('Ctrl+shift+s')
         self.ui.action_guardarComo.setStatusTip('Guardar como')
-        self.ui.action_importar.setShortcut('Ctrl+i')
-        self.ui.action_importar.setStatusTip('Importar')
-        self.ui.action_exportar.setShortcut('Ctrl+e')
-        self.ui.action_exportar.setStatusTip('Exportar')        
         self.ui.action_deshacer.setShortcut('Ctrl+z')
         self.ui.action_rehacer.setShortcut('Ctrl+y')        
 
@@ -174,18 +170,13 @@ class ViewMainWindow(QMainWindow):
         self.ui.action_guardarComo.triggered.connect(self.__triggeredActionSaveAsProject)
         self.ui.action_deshacer.triggered.connect(self.__triggeredActionUndo)
         self.ui.action_rehacer.triggered.connect(self.__triggeredActionRedo)
-        """
-        #self.ui.action_importar.triggered.connect(self.triggeredActionXXXXXXXX)
-        #self.ui.actionExportar.triggered.connect(self.triggeredActionXXXXXXXX)
 
-        """
+        # ::::::::::::::::::::   EVENTOS  MENU VISTA ::::::::::::::::::::
         self.ui.action_origin.triggered.connect(self.__triggeredActionShowHideOrigin)
         self.ui.action_axis.triggered.connect(self.__triggeredActionShowHideAxis)
         self.ui.action_grid.triggered.connect(self.__triggeredActionShowHideGrid)
         self.ui.action_console.triggered.connect(self.__triggeredActionShowHideConsole)
         self.ui.action_label.triggered.connect(self.__triggeredActionShowHideLabel)
-        """
-        """
 
 
 
@@ -413,7 +404,7 @@ class ViewMainWindow(QMainWindow):
     def __triggeredActionNuevoProyecto(self):
         """ Abre cuadro de dialogo para nuevo proyecto. """
         options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Pryecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
+        file_path, _ = QFileDialog.getSaveFileName(self,"Nuevo Proyecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
         if file_path:
             self.signal_new_project.emit(file_path)
    
@@ -421,7 +412,7 @@ class ViewMainWindow(QMainWindow):
         """ Abre cuadro de dialogo para abrir proyecto. """
         options = QFileDialog.Options()
         # archivos mpm y json
-        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Pryecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
+        file_path, _ = QFileDialog.getOpenFileName(self,"Abrir Proyecto","","Data files json (*.json) ;; Data files mpm (*.mpm)", options=options)
         if file_path:
             self.signal_open_project.emit(file_path)
 

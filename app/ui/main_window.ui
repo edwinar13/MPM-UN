@@ -879,7 +879,7 @@ QCheckBox::indicator {
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Particulas</string>
+                <string>Partículas</string>
                </property>
                <property name="icon">
                 <iconset resource="../resources/iconos.qrc">
@@ -1203,7 +1203,7 @@ QCheckBox::indicator {
              </font>
             </property>
             <property name="text">
-             <string>Mallado</string>
+             <string>Ajustes</string>
             </property>
             <property name="icon">
              <iconset resource="../resources/iconos.qrc">
@@ -1434,8 +1434,6 @@ QCheckBox::indicator {
     <addaction name="action_guardarComo"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
-    <addaction name="action_importar"/>
-    <addaction name="action_exportar"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menu_editar">
@@ -1453,9 +1451,6 @@ QCheckBox::indicator {
     <addaction name="action_deshacer"/>
     <addaction name="action_rehacer"/>
     <addaction name="separator"/>
-    <addaction name="action_copiar"/>
-    <addaction name="action_pegar"/>
-    <addaction name="action_cortar"/>
    </widget>
    <widget class="QMenu" name="menu_vista">
     <property name="font">
@@ -1474,30 +1469,11 @@ QCheckBox::indicator {
     <addaction name="action_grid"/>
     <addaction name="action_console"/>
     <addaction name="action_label"/>
-    <addaction name="action_rule"/>
-    <addaction name="action_dibujo"/>
     <addaction name="separator"/>
-    <addaction name="action_opcionVisualizacion"/>
-   </widget>
-   <widget class="QMenu" name="menu_ayuda">
-    <property name="font">
-     <font>
-      <family>Ubuntu</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
-      <fontweight>Medium</fontweight>
-     </font>
-    </property>
-    <property name="title">
-     <string>Ayuda</string>
-    </property>
-    <addaction name="action_ayuda"/>
-    <addaction name="action_acerdaDe"/>
    </widget>
    <addaction name="menu_archivo"/>
    <addaction name="menu_editar"/>
    <addaction name="menu_vista"/>
-   <addaction name="menu_ayuda"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="statusTip">
@@ -1539,59 +1515,12 @@ QCheckBox::indicator {
     <string>Guardar como</string>
    </property>
   </action>
-  <action name="action_importar">
-   <property name="icon">
-    <iconset resource="../resources/iconos.qrc">
-     <normaloff>:/iconos/iconos_menu_superior/import.svg</normaloff>:/iconos/iconos_menu_superior/import.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Importar</string>
-   </property>
-  </action>
-  <action name="action_exportar">
-   <property name="icon">
-    <iconset resource="../resources/iconos.qrc">
-     <normaloff>:/iconos/iconos_menu_superior/export.svg</normaloff>:/iconos/iconos_menu_superior/export.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Exportar</string>
-   </property>
-  </action>
-  <action name="action_ayuda">
-   <property name="text">
-    <string>Ayuda</string>
-   </property>
-  </action>
-  <action name="action_acerdaDe">
-   <property name="text">
-    <string>Acerda de</string>
-   </property>
-  </action>
   <action name="action_grid">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>Grilla</string>
-   </property>
-  </action>
-  <action name="action_rule">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Regla</string>
-   </property>
-  </action>
-  <action name="action_dibujo">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Dibujo</string>
    </property>
   </action>
   <action name="action_console">
@@ -1608,11 +1537,6 @@ QCheckBox::indicator {
    </property>
    <property name="text">
     <string>Origen</string>
-   </property>
-  </action>
-  <action name="action_opcionVisualizacion">
-   <property name="text">
-    <string>Opción de visualización</string>
    </property>
   </action>
   <action name="action_deshacer">
@@ -1636,21 +1560,6 @@ QCheckBox::indicator {
    </property>
    <property name="text">
     <string>Rehacer</string>
-   </property>
-  </action>
-  <action name="action_copiar">
-   <property name="text">
-    <string>Copiar</string>
-   </property>
-  </action>
-  <action name="action_pegar">
-   <property name="text">
-    <string>Pegar</string>
-   </property>
-  </action>
-  <action name="action_cortar">
-   <property name="text">
-    <string>Cortar</string>
    </property>
   </action>
   <action name="action_listadoRecinetes">

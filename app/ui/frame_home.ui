@@ -851,7 +851,7 @@ barra empotrada</string>
                    </property>
                    <property name="text">
                     <string>Capacidad portante
-sobre suelo tresca</string>
+sobre suelo Tresca</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>

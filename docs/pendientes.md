@@ -22,8 +22,14 @@ aplicación (≈ 15 de octubre de 2026).
       Ejecutar igual bit a bit a la corrida del 7 oct.
 - [x] Proyectos leídos y escritos en UTF-8 (antes cp1252: un archivo UTF-8 hecho
       fuera de la aplicación quedaba con tildes dañadas al guardarlo) — 8 oct.
-- [ ] Revisar las vistas que faltan: ventana principal, inicio, configuración,
-      tarjetas y diálogo de progreso del análisis.
+- [x] Ventana principal y configuración: menú Vista conectado (F5–F9), menús sin
+      función retirados (importar/exportar, copiar/pegar/cortar, regla, dibujo,
+      ayuda), tabla de atajos corregida, caja de búsqueda retirada — 8 oct.
+- [ ] Ejemplos de la página de inicio: las tarjetas apuntan a `recursos\ejemplos\*.mpm`
+      (no existe; los `.mpm` de `app/resources/ejemplos` son de 2022, formato viejo).
+      Cuando estén todas las validaciones, poner como ejemplos los proyectos
+      validados (sin `RESULTADOS`) y cambiar la tarjeta del disco si sigue sin
+      multicuerpo.
 - [ ] Reporte PDF: el botón está oculto. Rehacerlo con etapas, gráficas reales y
       claves actuales (`controller_MenuResultTable.signalGeneratePdf`).
 - [ ] "Campo de vectores" de la animación de resultados: confirmar que las flechas

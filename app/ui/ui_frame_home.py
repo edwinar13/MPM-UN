@@ -840,7 +840,7 @@ class Ui_FormHome(object):
 "barra empotrada", None))
         self.toolButton_cardNew3.setText("")
         self.label_cardNew3.setText(QCoreApplication.translate("FormHome", u"Capacidad portante\n"
-"sobre suelo tresca", None))
+"sobre suelo Tresca", None))
         self.toolButton_cardNew4.setText("")
         self.label_cardNew4.setText(QCoreApplication.translate("FormHome", u"Disco deslizando sobre\n"
 "un plano inclinado", None))
