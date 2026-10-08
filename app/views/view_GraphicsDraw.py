@@ -252,8 +252,31 @@ class ViewGraphicsViewDraw (QGraphicsView):
 
         #Emite la señal para seleccionar view como principal
         self.signal_main_view.emit(self.objectName())
-        self.viewport().update()
+        # Sin comando en curso solo cambian la cruz y la caja del puntero: se
+        # repinta su zona anterior y la nueva en vez de toda la vista (con miles
+        # de partículas el repintado completo en cada movimiento se notaba).
+        last = getattr(self, "_last_cursor_pos", None)
+        if (last is not None and self.scene().isIdle()
+                and self.dragMode() == QGraphicsView.NoDrag):  # al panear se desplaza todo
+            self.viewport().update(self.__crosshairRegion(last) + self.__crosshairRegion(point_view))
+        else:
+            self.viewport().update()
+        self._last_cursor_pos = point_view
         super(ViewGraphicsViewDraw, self).mouseMoveEvent(event)
+
+    def __crosshairRegion(self, pos):
+        """Zona del viewport que ocupan la cruz (líneas de lado a lado) y la caja
+        del puntero centradas en pos."""
+        w, h = self.viewport().width(), self.viewport().height()
+        x, y = pos.x(), pos.y()
+        half_box = min(max(self.pick_box_size, 5), 50) // 2 + 3
+        return (QRegion(0, y - 3, w, 7) + QRegion(x - 3, 0, 7, h)
+                + QRegion(x - half_box, y - half_box, 2 * half_box, 2 * half_box))
+
+    def leaveEvent(self, event):
+        # Al volver a entrar, el primer movimiento repinta todo (borra la cruz vieja)
+        self._last_cursor_pos = None
+        super(ViewGraphicsViewDraw, self).leaveEvent(event)
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         #mover la escena
@@ -1084,6 +1107,16 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
     ###############################################################################
 	# ::::::::::::::::::::      MÉTODOS PARA DIBUJO     ::::::::::::::::::::
 	############################################################################### 
+    BUSY_FLAGS = ("mode_osnap", "isDrawGeometry", "isDrawLine", "isDrawRectangle", "isDrawPoint",
+                  "isDrawPolyline", "isDrawMove", "isDrawCopy", "isDrawRotate", "isDrawErase",
+                  "isDrawIntersection", "isDrawRule", "isDrawSelect", "isPointBackSelect",
+                  "isPointMaterialSelect", "isMeshSelect", "isMeshCua", "isMeshSize")
+
+    def isIdle(self):
+        """True si no hay un comando de dibujo o selección en curso ni osnap: al
+        mover el ratón solo cambian la cruz y la caja del puntero."""
+        return not any(getattr(self, flag, False) for flag in self.BUSY_FLAGS)
+
     def endDrawGeometry(self):
         self.isDrawPoint = False
         self.isDrawLine = False

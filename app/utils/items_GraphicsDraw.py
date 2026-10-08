@@ -567,7 +567,11 @@ class PointForceItem(QGraphicsItem):
         self.flag_Fo = True
         if Fx == 0.0 and Fy == 0.0:
             self.flag_Fo = False
+            # Oculta: hay una flecha por partícula y casi todas valen cero; aun
+            # sin dibujar nada, cada una visible costaba en cada repintado
+            self.setVisible(False)
             return
+        self.setVisible(True)
         
         # Flecha que llega a la partícula en el sentido de F: cola en -x, punta
         # en el origen apuntando a +x (antes la cola estaba en +x y la flecha
@@ -663,8 +667,11 @@ class PointVelocityItem(QGraphicsItem):
         self.Voy = Vy
         self.flag_Vo = True
         if Vx == 0.0 and Vy == 0.0:
-            self.flag_Vo = False            
-            return       
+            self.flag_Vo = False
+            # Oculta: ver PointForceItem.setForce
+            self.setVisible(False)
+            return
+        self.setVisible(True)
              
         size = self.size
         
