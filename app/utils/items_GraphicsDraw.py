@@ -549,16 +549,19 @@ class PointForceItem(QGraphicsItem):
             self.flag_Fo = False
             return
         
+        # Flecha que llega a la partícula en el sentido de F: cola en -x, punta
+        # en el origen apuntando a +x (antes la cola estaba en +x y la flecha
+        # se dibujaba al revés: una carga hacia abajo se veía hacia arriba).
         size = self.size
         pointsFoR =[
             QPointF(0, 0),
-            QPointF(size, (size/2)),
-            QPointF(size, (size/2)*(1/3)),
-            QPointF((size*2), (size/2)*(1/3)),
-            
-            QPointF((size*2), -(size/2)*(1/3)),
-            QPointF(size, -(size/2)*(1/3)),
-            QPointF(size, -(size/2)),
+            QPointF(-size, (size/2)),
+            QPointF(-size, (size/2)*(1/3)),
+            QPointF(-(size*2), (size/2)*(1/3)),
+
+            QPointF(-(size*2), -(size/2)*(1/3)),
+            QPointF(-size, -(size/2)*(1/3)),
+            QPointF(-size, -(size/2)),
             QPointF(0, 0)
         ]
         

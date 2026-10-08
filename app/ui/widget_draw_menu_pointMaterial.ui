@@ -897,7 +897,7 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear Puntos Material</string>
+                  <string>Crear puntos materiales</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>
@@ -1324,23 +1324,6 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_showHideLabelVector">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <widget class="QToolButton" name="toolButton_cardPointMaterialSubTitle3">
                  <property name="text">
                   <string/>
@@ -1456,6 +1439,9 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolButton_btnMPDrawSelected">
+                      <property name="toolTip">
+                       <string>Seleccionar puntos en el dibujo</string>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -1601,7 +1587,7 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                      </size>
                     </property>
                     <property name="text">
-                     <string>Fuerza [kN]:</string>
+                     <string>Fuerza [kN/m]:</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
@@ -1662,6 +1648,9 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                          <height>25</height>
                         </size>
                        </property>
+                       <property name="toolTip">
+                        <string>Fuerza final por partícula [kN/m]. Presión q en un tramo L con n partículas: F = q·L/n. Si cambias la malla, recalcula F.</string>
+                       </property>
                        <property name="text">
                         <string>0.0</string>
                        </property>
@@ -1694,6 +1683,9 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                          <height>25</height>
                         </size>
                        </property>
+                       <property name="toolTip">
+                        <string>Fuerza final por partícula [kN/m]. Presión q en un tramo L con n partículas: F = q·L/n. Si cambias la malla, recalcula F.</string>
+                       </property>
                        <property name="text">
                         <string>0.0</string>
                        </property>
@@ -1706,6 +1698,19 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                    </widget>
                   </item>
                  </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_forceHelp">
+                 <property name="styleSheet">
+                  <string notr="true">background: transparent; color: #999999; font: italic 8pt &quot;Ubuntu&quot;;</string>
+                 </property>
+                 <property name="text">
+                  <string>Fuerza por partícula [kN/m]. Presión q en un tramo L con n partículas: F = q·L/n</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -1839,6 +1844,9 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
+                 <property name="toolTip">
+                  <string>Tamaño de los puntos en el dibujo</string>
+                 </property>
                  <property name="minimum">
                   <number>1</number>
                  </property>
@@ -1876,6 +1884,9 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_showHideLabel">
+                 <property name="toolTip">
+                  <string>Mostrar/ocultar etiquetas</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -1893,6 +1904,9 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_showHidePointMaterial">
+                 <property name="toolTip">
+                  <string>Mostrar/ocultar puntos</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
