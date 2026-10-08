@@ -408,8 +408,8 @@ background-color: transparent;
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -576,8 +576,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -593,8 +593,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -610,8 +610,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -660,8 +660,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/rule.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/rule.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/rule.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rule.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -695,8 +695,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/move.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/move.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/move.svg</normaloff>:/iconos/iconos_menu_draw_mesh/move.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -730,8 +730,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/copy.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/copy.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/copy.svg</normaloff>:/iconos/iconos_menu_draw_mesh/copy.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -771,8 +771,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/point.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/point.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/point.svg</normaloff>:/iconos/iconos_menu_draw_mesh/point.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -806,8 +806,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/line.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/line.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -841,8 +841,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/erase.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/erase.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/erase.svg</normaloff>:/iconos/iconos_menu_draw_mesh/erase.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -876,8 +876,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/import.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/import.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/import.svg</normaloff>:/iconos/iconos_menu_draw_mesh/import.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -911,8 +911,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/rotate.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/rotate.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/rotate.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rotate.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -946,8 +946,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/point_in_lines.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/point_in_lines.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/point_in_lines.svg</normaloff>:/iconos/iconos_menu_draw_mesh/point_in_lines.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1009,8 +1009,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1197,8 +1197,8 @@ background-color: transparent;
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1306,6 +1306,8 @@ background-color: transparent;
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

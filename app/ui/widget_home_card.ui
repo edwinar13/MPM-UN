@@ -127,7 +127,7 @@ border-radius: 5px
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>../resources/iconos/iconos_frame_inicio/doc_mpm.svg</pixmap>
+         <pixmap resource="../resources/iconos.qrc">:/iconos/iconos_frame_inicio/doc_mpm.svg</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -200,6 +200,8 @@ border-radius: 5px
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

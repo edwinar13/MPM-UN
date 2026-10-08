@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog_loandingvJdvKh.ui'
+## Form generated from reading UI file 'dialog_loanding.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QLabel, QLayout, QProgressBar, QPushButton,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_DialogLoanding(object):
     def setupUi(self, DialogLoanding):
@@ -25,7 +26,7 @@ class Ui_DialogLoanding(object):
             DialogLoanding.setObjectName(u"DialogLoanding")
         DialogLoanding.setEnabled(True)
         DialogLoanding.resize(390, 347)
-        sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(DialogLoanding.sizePolicy().hasHeightForWidth())
@@ -201,25 +202,25 @@ class Ui_DialogLoanding(object):
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(-1, -1, -1, 20)
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
 
         self.label_icon = QLabel(self.frame_dialog)
         self.label_icon.setObjectName(u"label_icon")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.label_icon.sizePolicy().hasHeightForWidth())
         self.label_icon.setSizePolicy(sizePolicy1)
         self.label_icon.setMinimumSize(QSize(0, 100))
         self.label_icon.setMaximumSize(QSize(100, 100))
-        self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_dialogo_ejecutar/Ejecutando_analisis.svg"))
+        self.label_icon.setPixmap(QPixmap(u":/iconos/iconos_dialogo_ejecutar/Ejecutando_analisis.svg"))
         self.label_icon.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.label_icon)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
@@ -251,34 +252,34 @@ class Ui_DialogLoanding(object):
 
         self.timer_label = QLabel(self.frame_content)
         self.timer_label.setObjectName(u"timer_label")
-        self.timer_label.setProperty("QLabelStyle", 1)
+        self.timer_label.setProperty(u"QLabelStyle", 1)
 
         self.verticalLayout.addWidget(self.timer_label)
 
         self.question_label = QLabel(self.frame_content)
         self.question_label.setObjectName(u"question_label")
-        self.question_label.setProperty("QLabelStyle", 1)
+        self.question_label.setProperty(u"QLabelStyle", 1)
 
         self.verticalLayout.addWidget(self.question_label)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setSizeConstraint(QLayout.SetMinAndMaxSize)
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
         self.acept_button = QPushButton(self.frame_content)
         self.acept_button.setObjectName(u"acept_button")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.acept_button.sizePolicy().hasHeightForWidth())
         self.acept_button.setSizePolicy(sizePolicy2)
         self.acept_button.setMinimumSize(QSize(80, 30))
         self.acept_button.setMaximumSize(QSize(120, 30))
-        self.acept_button.setProperty("style_msn_button", 1)
-        self.acept_button.setProperty("QPushButtonStyle", 1)
+        self.acept_button.setProperty(u"style_msn_button", 1)
+        self.acept_button.setProperty(u"QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.acept_button)
 
@@ -288,8 +289,8 @@ class Ui_DialogLoanding(object):
         self.pause_button.setSizePolicy(sizePolicy2)
         self.pause_button.setMinimumSize(QSize(80, 30))
         self.pause_button.setMaximumSize(QSize(120, 30))
-        self.pause_button.setProperty("style_msn_button", 1)
-        self.pause_button.setProperty("QPushButtonStyle", 3)
+        self.pause_button.setProperty(u"style_msn_button", 1)
+        self.pause_button.setProperty(u"QPushButtonStyle", 3)
 
         self.horizontalLayout_2.addWidget(self.pause_button)
 
@@ -299,8 +300,8 @@ class Ui_DialogLoanding(object):
         self.cancel_button.setSizePolicy(sizePolicy2)
         self.cancel_button.setMinimumSize(QSize(80, 30))
         self.cancel_button.setMaximumSize(QSize(120, 30))
-        self.cancel_button.setProperty("style_msn_button", 1)
-        self.cancel_button.setProperty("QPushButtonStyle", 2)
+        self.cancel_button.setProperty(u"style_msn_button", 1)
+        self.cancel_button.setProperty(u"QPushButtonStyle", 2)
 
         self.horizontalLayout_2.addWidget(self.cancel_button)
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_settingfkhjsm.ui'
+## Form generated from reading UI file 'frame_setting.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -48,17 +48,17 @@ class Ui_FormSetting(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.label_settingTitleTree_1 = QLabel(self.frame_3)
         self.label_settingTitleTree_1.setObjectName(u"label_settingTitleTree_1")
-        self.label_settingTitleTree_1.setProperty("type_label", 1)
+        self.label_settingTitleTree_1.setProperty(u"type_label", 1)
 
         self.verticalLayout_5.addWidget(self.label_settingTitleTree_1)
 
         self.label_settingTitleTree_2 = QLabel(self.frame_3)
         self.label_settingTitleTree_2.setObjectName(u"label_settingTitleTree_2")
-        self.label_settingTitleTree_2.setProperty("type_label", 1)
+        self.label_settingTitleTree_2.setProperty(u"type_label", 1)
 
         self.verticalLayout_5.addWidget(self.label_settingTitleTree_2)
 
-        self.verticalSpacer_4 = QSpacerItem(20, 603, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_4 = QSpacerItem(20, 603, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_5.addItem(self.verticalSpacer_4)
 
@@ -78,7 +78,7 @@ class Ui_FormSetting(object):
         self.verticalLayout_8.setContentsMargins(-1, -1, 50, -1)
         self.label_settingTitle_1 = QLabel(self.scrollAreaWidgetContents)
         self.label_settingTitle_1.setObjectName(u"label_settingTitle_1")
-        self.label_settingTitle_1.setProperty("type_label", 2)
+        self.label_settingTitle_1.setProperty(u"type_label", 2)
 
         self.verticalLayout_8.addWidget(self.label_settingTitle_1)
 
@@ -94,7 +94,7 @@ class Ui_FormSetting(object):
         self.frame_settingCard_2.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_2.setFrameShape(QFrame.StyledPanel)
         self.frame_settingCard_2.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_2.setProperty("type_frame", 1)
+        self.frame_settingCard_2.setProperty(u"type_frame", 1)
         self.verticalLayout_4 = QVBoxLayout(self.frame_settingCard_2)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.frame_settingCard_1 = QFrame(self.frame_settingCard_2)
@@ -102,19 +102,19 @@ class Ui_FormSetting(object):
         self.frame_settingCard_1.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_1.setFrameShape(QFrame.StyledPanel)
         self.frame_settingCard_1.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_1.setProperty("type_frame", 1)
+        self.frame_settingCard_1.setProperty(u"type_frame", 1)
         self.verticalLayout_3 = QVBoxLayout(self.frame_settingCard_1)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.label_settingSubtitle_1 = QLabel(self.frame_settingCard_1)
         self.label_settingSubtitle_1.setObjectName(u"label_settingSubtitle_1")
-        self.label_settingSubtitle_1.setProperty("type_label", 3)
+        self.label_settingSubtitle_1.setProperty(u"type_label", 3)
 
         self.verticalLayout_3.addWidget(self.label_settingSubtitle_1)
 
         self.label_settingDescription_1 = QLabel(self.frame_settingCard_1)
         self.label_settingDescription_1.setObjectName(u"label_settingDescription_1")
         self.label_settingDescription_1.setWordWrap(True)
-        self.label_settingDescription_1.setProperty("type_label", 4)
+        self.label_settingDescription_1.setProperty(u"type_label", 4)
 
         self.verticalLayout_3.addWidget(self.label_settingDescription_1)
 
@@ -124,7 +124,7 @@ class Ui_FormSetting(object):
         self.spinBox_1.setObjectName(u"spinBox_1")
         self.spinBox_1.setMinimumSize(QSize(60, 25))
         self.spinBox_1.setMaximumSize(QSize(16777215, 16777215))
-        self.spinBox_1.setProperty("type_spinBox", 1)
+        self.spinBox_1.setProperty(u"type_spinBox", 1)
 
         self.horizontalLayout_6.addWidget(self.spinBox_1)
 
@@ -135,7 +135,7 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_6.addWidget(self.horizontalSlider_1)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
 
@@ -147,14 +147,14 @@ class Ui_FormSetting(object):
 
         self.label_settingSubtitle_2 = QLabel(self.frame_settingCard_2)
         self.label_settingSubtitle_2.setObjectName(u"label_settingSubtitle_2")
-        self.label_settingSubtitle_2.setProperty("type_label", 3)
+        self.label_settingSubtitle_2.setProperty(u"type_label", 3)
 
         self.verticalLayout_4.addWidget(self.label_settingSubtitle_2)
 
         self.label_settingDescription_2 = QLabel(self.frame_settingCard_2)
         self.label_settingDescription_2.setObjectName(u"label_settingDescription_2")
         self.label_settingDescription_2.setWordWrap(True)
-        self.label_settingDescription_2.setProperty("type_label", 4)
+        self.label_settingDescription_2.setProperty(u"type_label", 4)
 
         self.verticalLayout_4.addWidget(self.label_settingDescription_2)
 
@@ -191,7 +191,7 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_9.addWidget(self.horizontalSlider_2)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_9.addItem(self.horizontalSpacer)
 
@@ -206,19 +206,19 @@ class Ui_FormSetting(object):
         self.frame_settingCard_3.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_3.setFrameShape(QFrame.StyledPanel)
         self.frame_settingCard_3.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_3.setProperty("type_frame", 1)
+        self.frame_settingCard_3.setProperty(u"type_frame", 1)
         self.verticalLayout_9 = QVBoxLayout(self.frame_settingCard_3)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.label_settingSubtitle_3 = QLabel(self.frame_settingCard_3)
         self.label_settingSubtitle_3.setObjectName(u"label_settingSubtitle_3")
-        self.label_settingSubtitle_3.setProperty("type_label", 3)
+        self.label_settingSubtitle_3.setProperty(u"type_label", 3)
 
         self.verticalLayout_9.addWidget(self.label_settingSubtitle_3)
 
         self.label_settingDescription_3 = QLabel(self.frame_settingCard_3)
         self.label_settingDescription_3.setObjectName(u"label_settingDescription_3")
         self.label_settingDescription_3.setWordWrap(True)
-        self.label_settingDescription_3.setProperty("type_label", 4)
+        self.label_settingDescription_3.setProperty(u"type_label", 4)
 
         self.verticalLayout_9.addWidget(self.label_settingDescription_3)
 
@@ -228,7 +228,7 @@ class Ui_FormSetting(object):
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.comboBox_3.setObjectName(u"comboBox_3")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboBox_3.sizePolicy().hasHeightForWidth())
@@ -237,7 +237,7 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_10.addWidget(self.comboBox_3)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_10.addItem(self.horizontalSpacer_3)
 
@@ -255,19 +255,19 @@ class Ui_FormSetting(object):
         self.frame_settingCard_a_4.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_a_4.setFrameShape(QFrame.StyledPanel)
         self.frame_settingCard_a_4.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_a_4.setProperty("type_frame", 1)
+        self.frame_settingCard_a_4.setProperty(u"type_frame", 1)
         self.verticalLayout_14 = QVBoxLayout(self.frame_settingCard_a_4)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.label_settingSubtitle_a_4 = QLabel(self.frame_settingCard_a_4)
         self.label_settingSubtitle_a_4.setObjectName(u"label_settingSubtitle_a_4")
-        self.label_settingSubtitle_a_4.setProperty("type_label", 3)
+        self.label_settingSubtitle_a_4.setProperty(u"type_label", 3)
 
         self.verticalLayout_14.addWidget(self.label_settingSubtitle_a_4)
 
         self.label_settingDescription_a_4 = QLabel(self.frame_settingCard_a_4)
         self.label_settingDescription_a_4.setObjectName(u"label_settingDescription_a_4")
         self.label_settingDescription_a_4.setWordWrap(True)
-        self.label_settingDescription_a_4.setProperty("type_label", 4)
+        self.label_settingDescription_a_4.setProperty(u"type_label", 4)
 
         self.verticalLayout_14.addWidget(self.label_settingDescription_a_4)
 
@@ -281,7 +281,7 @@ class Ui_FormSetting(object):
         self.doubleSpinBox_grid_spacing.setMaximum(1000.000000000000000)
         self.doubleSpinBox_grid_spacing.setSingleStep(1.000000000000000)
         self.doubleSpinBox_grid_spacing.setValue(1.000000000000000)
-        self.doubleSpinBox_grid_spacing.setProperty("type_spinBox", 1)
+        self.doubleSpinBox_grid_spacing.setProperty(u"type_spinBox", 1)
 
         self.horizontalLayout_25.addWidget(self.doubleSpinBox_grid_spacing)
 
@@ -290,7 +290,7 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_25.addWidget(self.checkBox_grid_adaptative)
 
-        self.horizontalSpacer_a_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_a_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_25.addItem(self.horizontalSpacer_a_4)
 
@@ -305,19 +305,19 @@ class Ui_FormSetting(object):
         self.frame_settingCard_a_5.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_a_5.setFrameShape(QFrame.StyledPanel)
         self.frame_settingCard_a_5.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_a_5.setProperty("type_frame", 1)
+        self.frame_settingCard_a_5.setProperty(u"type_frame", 1)
         self.verticalLayout_15 = QVBoxLayout(self.frame_settingCard_a_5)
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
         self.label_settingSubtitle_a_5 = QLabel(self.frame_settingCard_a_5)
         self.label_settingSubtitle_a_5.setObjectName(u"label_settingSubtitle_a_5")
-        self.label_settingSubtitle_a_5.setProperty("type_label", 3)
+        self.label_settingSubtitle_a_5.setProperty(u"type_label", 3)
 
         self.verticalLayout_15.addWidget(self.label_settingSubtitle_a_5)
 
         self.label_settingDescription_a_5 = QLabel(self.frame_settingCard_a_5)
         self.label_settingDescription_a_5.setObjectName(u"label_settingDescription_a_5")
         self.label_settingDescription_a_5.setWordWrap(True)
-        self.label_settingDescription_a_5.setProperty("type_label", 4)
+        self.label_settingDescription_a_5.setProperty(u"type_label", 4)
 
         self.verticalLayout_15.addWidget(self.label_settingDescription_a_5)
 
@@ -333,7 +333,7 @@ class Ui_FormSetting(object):
         self.doubleSpinBox_snap_grid_spacing.setSingleStep(1.000000000000000)
         self.doubleSpinBox_snap_grid_spacing.setStepType(QAbstractSpinBox.DefaultStepType)
         self.doubleSpinBox_snap_grid_spacing.setValue(1.000000000000000)
-        self.doubleSpinBox_snap_grid_spacing.setProperty("type_spinBox", 1)
+        self.doubleSpinBox_snap_grid_spacing.setProperty(u"type_spinBox", 1)
 
         self.horizontalLayout_26.addWidget(self.doubleSpinBox_snap_grid_spacing)
 
@@ -342,7 +342,7 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_26.addWidget(self.checkBox_snap_grid_adaptative)
 
-        self.horizontalSpacer_a_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_a_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_26.addItem(self.horizontalSpacer_a_5)
 
@@ -354,7 +354,7 @@ class Ui_FormSetting(object):
 
         self.label_settingTitle_2 = QLabel(self.scrollAreaWidgetContents)
         self.label_settingTitle_2.setObjectName(u"label_settingTitle_2")
-        self.label_settingTitle_2.setProperty("type_label", 2)
+        self.label_settingTitle_2.setProperty(u"type_label", 2)
 
         self.verticalLayout_8.addWidget(self.label_settingTitle_2)
 
@@ -387,21 +387,21 @@ class Ui_FormSetting(object):
         self.label.setObjectName(u"label")
         self.label.setMinimumSize(QSize(0, 40))
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setProperty("type_label_table", 1)
-        self.label.setProperty("type_label_title_table", 1)
+        self.label.setProperty(u"type_label_table", 1)
+        self.label.setProperty(u"type_label_title_table", 1)
 
         self.verticalLayout_10.addWidget(self.label)
 
         self.label_7 = QLabel(self.frame_5)
         self.label_7.setObjectName(u"label_7")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
         self.label_7.setSizePolicy(sizePolicy1)
         self.label_7.setMinimumSize(QSize(0, 30))
         self.label_7.setWordWrap(False)
-        self.label_7.setProperty("type_label_table", 2)
+        self.label_7.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_7)
 
@@ -411,7 +411,7 @@ class Ui_FormSetting(object):
         self.label_15.setSizePolicy(sizePolicy1)
         self.label_15.setMinimumSize(QSize(0, 30))
         self.label_15.setWordWrap(False)
-        self.label_15.setProperty("type_label_table", 3)
+        self.label_15.setProperty(u"type_label_table", 3)
 
         self.verticalLayout_10.addWidget(self.label_15)
 
@@ -421,7 +421,7 @@ class Ui_FormSetting(object):
         self.label_16.setSizePolicy(sizePolicy1)
         self.label_16.setMinimumSize(QSize(0, 30))
         self.label_16.setWordWrap(False)
-        self.label_16.setProperty("type_label_table", 2)
+        self.label_16.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_16)
 
@@ -431,7 +431,7 @@ class Ui_FormSetting(object):
         self.label_17.setSizePolicy(sizePolicy1)
         self.label_17.setMinimumSize(QSize(0, 30))
         self.label_17.setWordWrap(False)
-        self.label_17.setProperty("type_label_table", 3)
+        self.label_17.setProperty(u"type_label_table", 3)
 
         self.verticalLayout_10.addWidget(self.label_17)
 
@@ -441,7 +441,7 @@ class Ui_FormSetting(object):
         self.label_18.setSizePolicy(sizePolicy1)
         self.label_18.setMinimumSize(QSize(0, 30))
         self.label_18.setWordWrap(False)
-        self.label_18.setProperty("type_label_table", 2)
+        self.label_18.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_18)
 
@@ -451,7 +451,7 @@ class Ui_FormSetting(object):
         self.label_36.setSizePolicy(sizePolicy1)
         self.label_36.setMinimumSize(QSize(0, 30))
         self.label_36.setWordWrap(False)
-        self.label_36.setProperty("type_label_table", 2)
+        self.label_36.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_36)
 
@@ -461,7 +461,7 @@ class Ui_FormSetting(object):
         self.label_8.setSizePolicy(sizePolicy1)
         self.label_8.setMinimumSize(QSize(0, 30))
         self.label_8.setWordWrap(False)
-        self.label_8.setProperty("type_label_table", 3)
+        self.label_8.setProperty(u"type_label_table", 3)
 
         self.verticalLayout_10.addWidget(self.label_8)
 
@@ -471,7 +471,7 @@ class Ui_FormSetting(object):
         self.label_9.setSizePolicy(sizePolicy1)
         self.label_9.setMinimumSize(QSize(0, 30))
         self.label_9.setWordWrap(False)
-        self.label_9.setProperty("type_label_table", 2)
+        self.label_9.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_9)
 
@@ -481,7 +481,7 @@ class Ui_FormSetting(object):
         self.label_35.setSizePolicy(sizePolicy1)
         self.label_35.setMinimumSize(QSize(0, 30))
         self.label_35.setWordWrap(False)
-        self.label_35.setProperty("type_label_table", 2)
+        self.label_35.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_35)
 
@@ -491,7 +491,7 @@ class Ui_FormSetting(object):
         self.label_31.setSizePolicy(sizePolicy1)
         self.label_31.setMinimumSize(QSize(0, 30))
         self.label_31.setWordWrap(False)
-        self.label_31.setProperty("type_label_table", 2)
+        self.label_31.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_31)
 
@@ -501,7 +501,7 @@ class Ui_FormSetting(object):
         self.label_37.setSizePolicy(sizePolicy1)
         self.label_37.setMinimumSize(QSize(0, 30))
         self.label_37.setWordWrap(False)
-        self.label_37.setProperty("type_label_table", 2)
+        self.label_37.setProperty(u"type_label_table", 2)
 
         self.verticalLayout_10.addWidget(self.label_37)
 
@@ -519,8 +519,8 @@ class Ui_FormSetting(object):
         self.label_3.setObjectName(u"label_3")
         self.label_3.setMinimumSize(QSize(0, 40))
         self.label_3.setAlignment(Qt.AlignCenter)
-        self.label_3.setProperty("type_label_table", 1)
-        self.label_3.setProperty("type_label_title_table", 2)
+        self.label_3.setProperty(u"type_label_table", 1)
+        self.label_3.setProperty(u"type_label_title_table", 2)
 
         self.verticalLayout_11.addWidget(self.label_3)
 
@@ -529,31 +529,31 @@ class Ui_FormSetting(object):
         self.frame_12.setMinimumSize(QSize(0, 32))
         self.frame_12.setFrameShape(QFrame.StyledPanel)
         self.frame_12.setFrameShadow(QFrame.Raised)
-        self.frame_12.setProperty("type_frame_table", 2)
+        self.frame_12.setProperty(u"type_frame_table", 2)
         self.horizontalLayout_13 = QHBoxLayout(self.frame_12)
         self.horizontalLayout_13.setSpacing(10)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.label_13 = QLabel(self.frame_12)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setProperty("type_label_table", 4)
+        self.label_13.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_13.addWidget(self.label_13)
 
         self.label_10 = QLabel(self.frame_12)
         self.label_10.setObjectName(u"label_10")
         self.label_10.setMinimumSize(QSize(0, 0))
-        self.label_10.setProperty("type_label_table", 5)
+        self.label_10.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_13.addWidget(self.label_10)
 
         self.label_14 = QLabel(self.frame_12)
         self.label_14.setObjectName(u"label_14")
-        self.label_14.setProperty("type_label_table", 4)
+        self.label_14.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_13.addWidget(self.label_14)
 
-        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_8)
 
@@ -565,31 +565,31 @@ class Ui_FormSetting(object):
         self.frame_14.setMinimumSize(QSize(0, 32))
         self.frame_14.setFrameShape(QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QFrame.Raised)
-        self.frame_14.setProperty("type_frame_table", 3)
+        self.frame_14.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_18 = QHBoxLayout(self.frame_14)
         self.horizontalLayout_18.setSpacing(10)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.horizontalLayout_18.setContentsMargins(0, 0, 0, 0)
         self.label_22 = QLabel(self.frame_14)
         self.label_22.setObjectName(u"label_22")
-        self.label_22.setProperty("type_label_table", 4)
+        self.label_22.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_18.addWidget(self.label_22)
 
         self.label_23 = QLabel(self.frame_14)
         self.label_23.setObjectName(u"label_23")
         self.label_23.setMinimumSize(QSize(0, 0))
-        self.label_23.setProperty("type_label_table", 5)
+        self.label_23.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_18.addWidget(self.label_23)
 
         self.label_24 = QLabel(self.frame_14)
         self.label_24.setObjectName(u"label_24")
-        self.label_24.setProperty("type_label_table", 4)
+        self.label_24.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_18.addWidget(self.label_24)
 
-        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_18.addItem(self.horizontalSpacer_10)
 
@@ -601,31 +601,31 @@ class Ui_FormSetting(object):
         self.frame_13.setMinimumSize(QSize(0, 32))
         self.frame_13.setFrameShape(QFrame.StyledPanel)
         self.frame_13.setFrameShadow(QFrame.Raised)
-        self.frame_13.setProperty("type_frame_table", 2)
+        self.frame_13.setProperty(u"type_frame_table", 2)
         self.horizontalLayout_16 = QHBoxLayout(self.frame_13)
         self.horizontalLayout_16.setSpacing(10)
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.horizontalLayout_16.setContentsMargins(0, 0, 0, 0)
         self.label_19 = QLabel(self.frame_13)
         self.label_19.setObjectName(u"label_19")
-        self.label_19.setProperty("type_label_table", 4)
+        self.label_19.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_16.addWidget(self.label_19)
 
         self.label_20 = QLabel(self.frame_13)
         self.label_20.setObjectName(u"label_20")
         self.label_20.setMinimumSize(QSize(0, 0))
-        self.label_20.setProperty("type_label_table", 5)
+        self.label_20.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_16.addWidget(self.label_20)
 
         self.label_21 = QLabel(self.frame_13)
         self.label_21.setObjectName(u"label_21")
-        self.label_21.setProperty("type_label_table", 4)
+        self.label_21.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_16.addWidget(self.label_21)
 
-        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_16.addItem(self.horizontalSpacer_9)
 
@@ -637,31 +637,31 @@ class Ui_FormSetting(object):
         self.frame_15.setMinimumSize(QSize(0, 32))
         self.frame_15.setFrameShape(QFrame.StyledPanel)
         self.frame_15.setFrameShadow(QFrame.Raised)
-        self.frame_15.setProperty("type_frame_table", 3)
+        self.frame_15.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_23 = QHBoxLayout(self.frame_15)
         self.horizontalLayout_23.setSpacing(10)
         self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.label_25 = QLabel(self.frame_15)
         self.label_25.setObjectName(u"label_25")
-        self.label_25.setProperty("type_label_table", 4)
+        self.label_25.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_23.addWidget(self.label_25)
 
         self.label_26 = QLabel(self.frame_15)
         self.label_26.setObjectName(u"label_26")
         self.label_26.setMinimumSize(QSize(0, 0))
-        self.label_26.setProperty("type_label_table", 5)
+        self.label_26.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_23.addWidget(self.label_26)
 
         self.label_27 = QLabel(self.frame_15)
         self.label_27.setObjectName(u"label_27")
-        self.label_27.setProperty("type_label_table", 4)
+        self.label_27.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_23.addWidget(self.label_27)
 
-        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_23.addItem(self.horizontalSpacer_11)
 
@@ -673,44 +673,44 @@ class Ui_FormSetting(object):
         self.frame_16.setMinimumSize(QSize(0, 32))
         self.frame_16.setFrameShape(QFrame.StyledPanel)
         self.frame_16.setFrameShadow(QFrame.Raised)
-        self.frame_16.setProperty("type_frame_table", 2)
+        self.frame_16.setProperty(u"type_frame_table", 2)
         self.horizontalLayout_24 = QHBoxLayout(self.frame_16)
         self.horizontalLayout_24.setSpacing(10)
         self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
         self.horizontalLayout_24.setContentsMargins(0, 0, 0, 0)
         self.label_28 = QLabel(self.frame_16)
         self.label_28.setObjectName(u"label_28")
-        self.label_28.setProperty("type_label_table", 4)
+        self.label_28.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_24.addWidget(self.label_28)
 
         self.label_29 = QLabel(self.frame_16)
         self.label_29.setObjectName(u"label_29")
         self.label_29.setMinimumSize(QSize(0, 0))
-        self.label_29.setProperty("type_label_table", 5)
+        self.label_29.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_24.addWidget(self.label_29)
 
         self.label_30 = QLabel(self.frame_16)
         self.label_30.setObjectName(u"label_30")
-        self.label_30.setProperty("type_label_table", 4)
+        self.label_30.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_24.addWidget(self.label_30)
 
         self.label_32 = QLabel(self.frame_16)
         self.label_32.setObjectName(u"label_32")
         self.label_32.setMinimumSize(QSize(0, 0))
-        self.label_32.setProperty("type_label_table", 5)
+        self.label_32.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_24.addWidget(self.label_32)
 
         self.label_33 = QLabel(self.frame_16)
         self.label_33.setObjectName(u"label_33")
-        self.label_33.setProperty("type_label_table", 4)
+        self.label_33.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_24.addWidget(self.label_33)
 
-        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_24.addItem(self.horizontalSpacer_12)
 
@@ -722,18 +722,18 @@ class Ui_FormSetting(object):
         self.frame_20.setMinimumSize(QSize(0, 32))
         self.frame_20.setFrameShape(QFrame.StyledPanel)
         self.frame_20.setFrameShadow(QFrame.Raised)
-        self.frame_20.setProperty("type_frame_table", 3)
+        self.frame_20.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_30 = QHBoxLayout(self.frame_20)
         self.horizontalLayout_30.setSpacing(10)
         self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
         self.horizontalLayout_30.setContentsMargins(0, 0, 0, 0)
         self.label_45 = QLabel(self.frame_20)
         self.label_45.setObjectName(u"label_45")
-        self.label_45.setProperty("type_label_table", 4)
+        self.label_45.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_30.addWidget(self.label_45)
 
-        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_30.addItem(self.horizontalSpacer_16)
 
@@ -745,18 +745,18 @@ class Ui_FormSetting(object):
         self.frame_11.setMinimumSize(QSize(0, 32))
         self.frame_11.setFrameShape(QFrame.StyledPanel)
         self.frame_11.setFrameShadow(QFrame.Raised)
-        self.frame_11.setProperty("type_frame_table", 3)
+        self.frame_11.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_15 = QHBoxLayout(self.frame_11)
         self.horizontalLayout_15.setSpacing(10)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
         self.label_12 = QLabel(self.frame_11)
         self.label_12.setObjectName(u"label_12")
-        self.label_12.setProperty("type_label_table", 4)
+        self.label_12.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_15.addWidget(self.label_12)
 
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_15.addItem(self.horizontalSpacer_7)
 
@@ -768,18 +768,18 @@ class Ui_FormSetting(object):
         self.frame_10.setMinimumSize(QSize(0, 32))
         self.frame_10.setFrameShape(QFrame.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Raised)
-        self.frame_10.setProperty("type_frame_table", 2)
+        self.frame_10.setProperty(u"type_frame_table", 2)
         self.horizontalLayout_14 = QHBoxLayout(self.frame_10)
         self.horizontalLayout_14.setSpacing(10)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.label_11 = QLabel(self.frame_10)
         self.label_11.setObjectName(u"label_11")
-        self.label_11.setProperty("type_label_table", 4)
+        self.label_11.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_14.addWidget(self.label_11)
 
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_6)
 
@@ -791,18 +791,18 @@ class Ui_FormSetting(object):
         self.frame_19.setMinimumSize(QSize(0, 32))
         self.frame_19.setFrameShape(QFrame.StyledPanel)
         self.frame_19.setFrameShadow(QFrame.Raised)
-        self.frame_19.setProperty("type_frame_table", 3)
+        self.frame_19.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_29 = QHBoxLayout(self.frame_19)
         self.horizontalLayout_29.setSpacing(10)
         self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
         self.horizontalLayout_29.setContentsMargins(0, 0, 0, 0)
         self.label_44 = QLabel(self.frame_19)
         self.label_44.setObjectName(u"label_44")
-        self.label_44.setProperty("type_label_table", 4)
+        self.label_44.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_29.addWidget(self.label_44)
 
-        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_29.addItem(self.horizontalSpacer_15)
 
@@ -814,31 +814,31 @@ class Ui_FormSetting(object):
         self.frame_18.setMinimumSize(QSize(0, 32))
         self.frame_18.setFrameShape(QFrame.StyledPanel)
         self.frame_18.setFrameShadow(QFrame.Raised)
-        self.frame_18.setProperty("type_frame_table", 3)
+        self.frame_18.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_28 = QHBoxLayout(self.frame_18)
         self.horizontalLayout_28.setSpacing(10)
         self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
         self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
         self.label_41 = QLabel(self.frame_18)
         self.label_41.setObjectName(u"label_41")
-        self.label_41.setProperty("type_label_table", 4)
+        self.label_41.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_28.addWidget(self.label_41)
 
         self.label_42 = QLabel(self.frame_18)
         self.label_42.setObjectName(u"label_42")
         self.label_42.setMinimumSize(QSize(0, 0))
-        self.label_42.setProperty("type_label_table", 5)
+        self.label_42.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_28.addWidget(self.label_42)
 
         self.label_43 = QLabel(self.frame_18)
         self.label_43.setObjectName(u"label_43")
-        self.label_43.setProperty("type_label_table", 4)
+        self.label_43.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_28.addWidget(self.label_43)
 
-        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_28.addItem(self.horizontalSpacer_14)
 
@@ -850,31 +850,31 @@ class Ui_FormSetting(object):
         self.frame_17.setMinimumSize(QSize(0, 32))
         self.frame_17.setFrameShape(QFrame.StyledPanel)
         self.frame_17.setFrameShadow(QFrame.Raised)
-        self.frame_17.setProperty("type_frame_table", 3)
+        self.frame_17.setProperty(u"type_frame_table", 3)
         self.horizontalLayout_27 = QHBoxLayout(self.frame_17)
         self.horizontalLayout_27.setSpacing(10)
         self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
         self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
         self.label_38 = QLabel(self.frame_17)
         self.label_38.setObjectName(u"label_38")
-        self.label_38.setProperty("type_label_table", 4)
+        self.label_38.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_27.addWidget(self.label_38)
 
         self.label_39 = QLabel(self.frame_17)
         self.label_39.setObjectName(u"label_39")
         self.label_39.setMinimumSize(QSize(0, 0))
-        self.label_39.setProperty("type_label_table", 5)
+        self.label_39.setProperty(u"type_label_table", 5)
 
         self.horizontalLayout_27.addWidget(self.label_39)
 
         self.label_40 = QLabel(self.frame_17)
         self.label_40.setObjectName(u"label_40")
-        self.label_40.setProperty("type_label_table", 4)
+        self.label_40.setProperty(u"type_label_table", 4)
 
         self.horizontalLayout_27.addWidget(self.label_40)
 
-        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_27.addItem(self.horizontalSpacer_13)
 
@@ -890,7 +890,7 @@ class Ui_FormSetting(object):
 
         self.label_settingTitle_3 = QLabel(self.scrollAreaWidgetContents)
         self.label_settingTitle_3.setObjectName(u"label_settingTitle_3")
-        self.label_settingTitle_3.setProperty("type_label", 2)
+        self.label_settingTitle_3.setProperty(u"type_label", 2)
 
         self.verticalLayout_8.addWidget(self.label_settingTitle_3)
 
@@ -907,19 +907,19 @@ class Ui_FormSetting(object):
         self.frame_settingCard_4.setMaximumSize(QSize(16777215, 16777215))
         self.frame_settingCard_4.setFrameShape(QFrame.StyledPanel)
         self.frame_settingCard_4.setFrameShadow(QFrame.Raised)
-        self.frame_settingCard_4.setProperty("type_frame", 1)
+        self.frame_settingCard_4.setProperty(u"type_frame", 1)
         self.verticalLayout_12 = QVBoxLayout(self.frame_settingCard_4)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label_settingSubtitle_4 = QLabel(self.frame_settingCard_4)
         self.label_settingSubtitle_4.setObjectName(u"label_settingSubtitle_4")
-        self.label_settingSubtitle_4.setProperty("type_label", 3)
+        self.label_settingSubtitle_4.setProperty(u"type_label", 3)
 
         self.verticalLayout_12.addWidget(self.label_settingSubtitle_4)
 
         self.label_settingDescription_4 = QLabel(self.frame_settingCard_4)
         self.label_settingDescription_4.setObjectName(u"label_settingDescription_4")
         self.label_settingDescription_4.setWordWrap(True)
-        self.label_settingDescription_4.setProperty("type_label", 4)
+        self.label_settingDescription_4.setProperty(u"type_label", 4)
 
         self.verticalLayout_12.addWidget(self.label_settingDescription_4)
 
@@ -943,7 +943,7 @@ class Ui_FormSetting(object):
 
         self.horizontalLayout_12.addWidget(self.comboBox_intervalAutoSave)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_4)
 
@@ -965,7 +965,7 @@ class Ui_FormSetting(object):
 
         self.verticalLayout_8.addWidget(self.frame_8)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 58, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_3 = QSpacerItem(20, 58, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_8.addItem(self.verticalSpacer_3)
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_meshbDQZEQ.ui'
+## Form generated from reading UI file 'widget_draw_menu_mesh.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox, QFormLay
     QFrame, QHBoxLayout, QLabel, QLineEdit,
     QScrollArea, QSizePolicy, QSpacerItem, QToolButton,
     QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMenuMesh(object):
     def setupUi(self, FormDrawMenuMesh):
@@ -693,7 +694,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -771,7 +772,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshSubTitle0 = QToolButton(self.frame_meshSubTitle0)
         self.toolButton_cardMeshSubTitle0.setObjectName(u"toolButton_cardMeshSubTitle0")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardMeshSubTitle0.setIcon(icon1)
         self.toolButton_cardMeshSubTitle0.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardMeshSubTitle0.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -883,7 +884,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDrawUpdate = QToolButton(self.frame_mesh2_2)
         self.toolButton_cardMeshDrawUpdate.setObjectName(u"toolButton_cardMeshDrawUpdate")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/update.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/iconos_menu_draw_mesh/update.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardMeshDrawUpdate.setIcon(icon2)
         self.toolButton_cardMeshDrawUpdate.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDrawUpdate.setArrowType(Qt.ArrowType.NoArrow)
@@ -927,7 +928,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_meshShowHideLabelPoint.setObjectName(u"toolButton_meshShowHideLabelPoint")
         self.toolButton_meshShowHideLabelPoint.setMinimumSize(QSize(40, 0))
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_point_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/iconos_menu_draw_mesh/label_point_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_meshShowHideLabelPoint.setIcon(icon3)
         self.toolButton_meshShowHideLabelPoint.setIconSize(QSize(20, 25))
         self.toolButton_meshShowHideLabelPoint.setArrowType(Qt.ArrowType.NoArrow)
@@ -1059,7 +1060,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDrawColor = QToolButton(self.frame_3)
         self.toolButton_cardMeshDrawColor.setObjectName(u"toolButton_cardMeshDrawColor")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardMeshDrawColor.setIcon(icon4)
         self.toolButton_cardMeshDrawColor.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDrawColor.setArrowType(Qt.ArrowType.NoArrow)
@@ -1111,7 +1112,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDrawSize.setObjectName(u"toolButton_cardMeshDrawSize")
         self.toolButton_cardMeshDrawSize.setEnabled(False)
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(u":/iconos/iconos_menu_draw_mesh/click.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardMeshDrawSize.setIcon(icon5)
         self.toolButton_cardMeshDrawSize.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDrawSize.setArrowType(Qt.ArrowType.NoArrow)
@@ -1145,7 +1146,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_cardMeshDrawSelected.setObjectName(u"toolButton_cardMeshDrawSelected")
         self.toolButton_cardMeshDrawSelected.setEnabled(False)
         icon6 = QIcon()
-        icon6.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon6.addFile(u":/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardMeshDrawSelected.setIcon(icon6)
         self.toolButton_cardMeshDrawSelected.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshDrawSelected.setArrowType(Qt.ArrowType.NoArrow)
@@ -1176,7 +1177,7 @@ class Ui_FormDrawMenuMesh(object):
         sizePolicy4.setHeightForWidth(self.toolButton_cardMeshUploadFile.sizePolicy().hasHeightForWidth())
         self.toolButton_cardMeshUploadFile.setSizePolicy(sizePolicy4)
         icon7 = QIcon()
-        icon7.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/cloud_computing.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon7.addFile(u":/iconos/iconos_menu_draw_mesh/cloud_computing.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardMeshUploadFile.setIcon(icon7)
         self.toolButton_cardMeshUploadFile.setIconSize(QSize(20, 20))
         self.toolButton_cardMeshUploadFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
@@ -1246,7 +1247,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_showHideLabel = QToolButton(self.frame_meshSubTitle2)
         self.toolButton_showHideLabel.setObjectName(u"toolButton_showHideLabel")
         icon8 = QIcon()
-        icon8.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon8.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideLabel.setIcon(icon8)
         self.toolButton_showHideLabel.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideLabel.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -1256,7 +1257,7 @@ class Ui_FormDrawMenuMesh(object):
         self.toolButton_showHideMesh = QToolButton(self.frame_meshSubTitle2)
         self.toolButton_showHideMesh.setObjectName(u"toolButton_showHideMesh")
         icon9 = QIcon()
-        icon9.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon9.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideMesh.setIcon(icon9)
         self.toolButton_showHideMesh.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideMesh.setProperty(u"QToolButtonSubTitleStyle", 1)

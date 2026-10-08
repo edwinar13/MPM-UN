@@ -784,8 +784,8 @@ naranjas #D34E24 #F28123 #F7F052
          <number>1</number>
         </property>
         <attribute name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/icono_result/view_points.svg</normaloff>../resources/iconos/icono_result/view_points.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/icono_result/view_points.svg</normaloff>:/iconos/icono_result/view_points.svg</iconset>
         </attribute>
         <attribute name="title">
          <string>PUNTOS MATERIALES</string>
@@ -892,8 +892,8 @@ naranjas #D34E24 #F28123 #F7F052
          <number>1</number>
         </property>
         <attribute name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/icono_result/view_graphics.svg</normaloff>../resources/iconos/icono_result/view_graphics.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/icono_result/view_graphics.svg</normaloff>:/iconos/icono_result/view_graphics.svg</iconset>
         </attribute>
         <attribute name="title">
          <string>GRAFICAS </string>
@@ -1015,8 +1015,8 @@ naranjas #D34E24 #F28123 #F7F052
          <number>1</number>
         </property>
         <attribute name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/icono_result/view_board.svg</normaloff>../resources/iconos/icono_result/view_board.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/icono_result/view_board.svg</normaloff>:/iconos/icono_result/view_board.svg</iconset>
         </attribute>
         <attribute name="title">
          <string>TABLA RESUMEN</string>
@@ -1161,6 +1161,8 @@ naranjas #D34E24 #F28123 #F7F052
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

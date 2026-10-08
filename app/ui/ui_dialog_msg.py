@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog_msgiBdFjh.ui'
+## Form generated from reading UI file 'dialog_msg.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QLabel, QLayout, QPushButton, QSizePolicy,
     QSpacerItem, QTextBrowser, QToolButton, QVBoxLayout,
     QWidget)
+from . import iconos_rc
 
 class Ui_DialogMsg(object):
     def setupUi(self, DialogMsg):
@@ -26,7 +27,7 @@ class Ui_DialogMsg(object):
             DialogMsg.setObjectName(u"DialogMsg")
         DialogMsg.setEnabled(True)
         DialogMsg.resize(621, 390)
-        sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(DialogMsg.sizePolicy().hasHeightForWidth())
@@ -161,13 +162,13 @@ class Ui_DialogMsg(object):
         self.verticalLayout_2.setContentsMargins(20, 20, 20, 20)
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_4)
 
         self.toolButton_exit = QToolButton(self.frame_dialog)
         self.toolButton_exit.setObjectName(u"toolButton_exit")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.toolButton_exit.sizePolicy().hasHeightForWidth())
@@ -182,7 +183,7 @@ class Ui_DialogMsg(object):
         self.toolButton_exit.setFont(font)
         self.toolButton_exit.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_exit.setIcon(icon)
         self.toolButton_exit.setIconSize(QSize(15, 15))
         self.toolButton_exit.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -195,25 +196,25 @@ class Ui_DialogMsg(object):
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(-1, -1, -1, 20)
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
 
         self.label_icon = QLabel(self.frame_dialog)
         self.label_icon.setObjectName(u"label_icon")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_icon.sizePolicy().hasHeightForWidth())
         self.label_icon.setSizePolicy(sizePolicy2)
         self.label_icon.setMinimumSize(QSize(0, 100))
         self.label_icon.setMaximumSize(QSize(100, 100))
-        self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_msg/question.svg"))
+        self.label_icon.setPixmap(QPixmap(u":/iconos/iconos_msg/question.svg"))
         self.label_icon.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.label_icon)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
@@ -233,7 +234,7 @@ class Ui_DialogMsg(object):
         self.verticalLayout.setContentsMargins(-1, 20, -1, -1)
         self.label_text = QLabel(self.frame_content)
         self.label_text.setObjectName(u"label_text")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.label_text.sizePolicy().hasHeightForWidth())
@@ -252,7 +253,7 @@ class Ui_DialogMsg(object):
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setSizeConstraint(QLayout.SetMinAndMaxSize)
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
@@ -260,7 +261,7 @@ class Ui_DialogMsg(object):
         self.pushButton_save.setObjectName(u"pushButton_save")
         self.pushButton_save.setMinimumSize(QSize(0, 30))
         self.pushButton_save.setMaximumSize(QSize(120, 30))
-        self.pushButton_save.setProperty("QPushButtonStyle", 1)
+        self.pushButton_save.setProperty(u"QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_save)
 
@@ -268,21 +269,21 @@ class Ui_DialogMsg(object):
         self.pushButton_yes.setObjectName(u"pushButton_yes")
         self.pushButton_yes.setMinimumSize(QSize(0, 30))
         self.pushButton_yes.setMaximumSize(QSize(120, 30))
-        self.pushButton_yes.setProperty("QPushButtonStyle", 1)
+        self.pushButton_yes.setProperty(u"QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_yes)
 
         self.pushButton_accept = QPushButton(self.frame_content)
         self.pushButton_accept.setObjectName(u"pushButton_accept")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy4.setHorizontalStretch(0)
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.pushButton_accept.sizePolicy().hasHeightForWidth())
         self.pushButton_accept.setSizePolicy(sizePolicy4)
         self.pushButton_accept.setMinimumSize(QSize(0, 30))
         self.pushButton_accept.setMaximumSize(QSize(120, 30))
-        self.pushButton_accept.setProperty("style_msn_button", 1)
-        self.pushButton_accept.setProperty("QPushButtonStyle", 1)
+        self.pushButton_accept.setProperty(u"style_msn_button", 1)
+        self.pushButton_accept.setProperty(u"QPushButtonStyle", 1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_accept)
 
@@ -290,7 +291,7 @@ class Ui_DialogMsg(object):
         self.pushButton_notSave.setObjectName(u"pushButton_notSave")
         self.pushButton_notSave.setMinimumSize(QSize(0, 30))
         self.pushButton_notSave.setMaximumSize(QSize(120, 30))
-        self.pushButton_notSave.setProperty("QPushButtonStyle", 2)
+        self.pushButton_notSave.setProperty(u"QPushButtonStyle", 2)
 
         self.horizontalLayout_2.addWidget(self.pushButton_notSave)
 
@@ -298,7 +299,7 @@ class Ui_DialogMsg(object):
         self.pushButton_not.setObjectName(u"pushButton_not")
         self.pushButton_not.setMinimumSize(QSize(0, 30))
         self.pushButton_not.setMaximumSize(QSize(120, 30))
-        self.pushButton_not.setProperty("QPushButtonStyle", 2)
+        self.pushButton_not.setProperty(u"QPushButtonStyle", 2)
 
         self.horizontalLayout_2.addWidget(self.pushButton_not)
 
@@ -306,7 +307,7 @@ class Ui_DialogMsg(object):
         self.pushButton_cancel.setObjectName(u"pushButton_cancel")
         self.pushButton_cancel.setMinimumSize(QSize(0, 30))
         self.pushButton_cancel.setMaximumSize(QSize(120, 30))
-        self.pushButton_cancel.setProperty("QPushButtonStyle", 3)
+        self.pushButton_cancel.setProperty(u"QPushButtonStyle", 3)
 
         self.horizontalLayout_2.addWidget(self.pushButton_cancel)
 

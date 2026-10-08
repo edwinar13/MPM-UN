@@ -14,8 +14,8 @@
    <string>MainWindow</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../resources/iconos/iconos_logo/Logo_WindowIcon.svg</normaloff>../resources/iconos/iconos_logo/Logo_WindowIcon.svg</iconset>
+   <iconset resource="../resources/iconos.qrc">
+    <normaloff>:/iconos/iconos_logo/Logo_WindowIcon.svg</normaloff>:/iconos/iconos_logo/Logo_WindowIcon.svg</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">/*Colores primarios*/
@@ -189,7 +189,7 @@ QProgressBar#progressBar_load::chunk{
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>../resources/iconos/iconos_logo/Logo_V1.svg</pixmap>
+                  <pixmap resource="../resources/iconos.qrc">:/iconos/iconos_logo/Logo_V1.svg</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -385,6 +385,8 @@ QProgressBar#progressBar_load::chunk{
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

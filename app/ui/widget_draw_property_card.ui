@@ -223,8 +223,8 @@ padding-left: 6px;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>:/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -246,8 +246,8 @@ padding-left: 6px;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_menu_draw_mesh/view.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/view.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_menu_draw_mesh/view.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view.svg</iconset>
         </property>
         <property name="arrowType">
          <enum>Qt::NoArrow</enum>
@@ -356,8 +356,8 @@ padding-left: 6px;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_generales/ok.svg</normaloff>../resources/iconos/iconos_generales/ok.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_generales/ok.svg</normaloff>:/iconos/iconos_generales/ok.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -406,8 +406,8 @@ padding-left: 6px;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_generales/exit_2.svg</normaloff>../resources/iconos/iconos_generales/exit_2.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_generales/exit_2.svg</normaloff>:/iconos/iconos_generales/exit_2.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -456,8 +456,8 @@ padding-left: 6px;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_generales/edit.svg</normaloff>../resources/iconos/iconos_generales/edit.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_generales/edit.svg</normaloff>:/iconos/iconos_generales/edit.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -506,8 +506,8 @@ padding-left: 6px;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_consola/exit.svg</normaloff>../resources/iconos/iconos_consola/exit.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_consola/exit.svg</normaloff>:/iconos/iconos_consola/exit.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1158,6 +1158,8 @@ padding-left: 6px;
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

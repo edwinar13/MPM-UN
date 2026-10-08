@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'splash_screenajyjsJ.ui'
+## Form generated from reading UI file 'splash_screen.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QMainWindow, QProgressBar, QSizePolicy, QSpacerItem,
     QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_SplashScreen(object):
     def setupUi(self, SplashScreen):
@@ -25,7 +26,7 @@ class Ui_SplashScreen(object):
             SplashScreen.setObjectName(u"SplashScreen")
         SplashScreen.resize(750, 500)
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         SplashScreen.setWindowIcon(icon)
         SplashScreen.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
@@ -108,7 +109,7 @@ class Ui_SplashScreen(object):
         self.frame_background.setFrameShadow(QFrame.Raised)
         self.verticalLayout_6 = QVBoxLayout(self.frame_background)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalSpacer_2 = QSpacerItem(20, 5, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_2 = QSpacerItem(20, 5, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_6.addItem(self.verticalSpacer_2)
 
@@ -117,7 +118,7 @@ class Ui_SplashScreen(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
@@ -125,25 +126,25 @@ class Ui_SplashScreen(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
         self.label_logo = QLabel(self.frame_background)
         self.label_logo.setObjectName(u"label_logo")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_logo.sizePolicy().hasHeightForWidth())
         self.label_logo.setSizePolicy(sizePolicy)
         self.label_logo.setMinimumSize(QSize(150, 150))
         self.label_logo.setMaximumSize(QSize(150, 150))
-        self.label_logo.setPixmap(QPixmap(u"app/resources/iconos/iconos_logo/Logo_V1.svg"))
+        self.label_logo.setPixmap(QPixmap(u":/iconos/iconos_logo/Logo_V1.svg"))
         self.label_logo.setScaledContents(True)
 
         self.horizontalLayout_2.addWidget(self.label_logo)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
@@ -160,7 +161,7 @@ class Ui_SplashScreen(object):
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalSpacer = QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
@@ -179,7 +180,7 @@ class Ui_SplashScreen(object):
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_3)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_4)
 
@@ -189,7 +190,7 @@ class Ui_SplashScreen(object):
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setSpacing(10)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_5)
 
@@ -200,7 +201,7 @@ class Ui_SplashScreen(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_info = QLabel(self.frame_background)
         self.label_info.setObjectName(u"label_info")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.label_info.sizePolicy().hasHeightForWidth())
@@ -209,7 +210,7 @@ class Ui_SplashScreen(object):
 
         self.horizontalLayout_5.addWidget(self.label_info)
 
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer_7)
 
@@ -228,7 +229,7 @@ class Ui_SplashScreen(object):
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_4)
 
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_6)
 
@@ -238,7 +239,7 @@ class Ui_SplashScreen(object):
 
         self.verticalLayout_6.addLayout(self.verticalLayout_5)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 5, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_3 = QSpacerItem(20, 5, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_6.addItem(self.verticalSpacer_3)
 

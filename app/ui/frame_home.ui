@@ -328,7 +328,7 @@ background: none;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>../resources/iconos/iconos_logo/Logo_V1.svg</pixmap>
+             <pixmap resource="../resources/iconos.qrc">:/iconos/iconos_logo/Logo_V1.svg</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -681,8 +681,8 @@ border: none;
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../resources/imagenes/ejemplo_viga.png</normaloff>../resources/imagenes/ejemplo_viga.png</iconset>
+                         <iconset resource="../resources/iconos.qrc">
+                          <normaloff>:/imagenes/ejemplo_viga.png</normaloff>:/imagenes/ejemplo_viga.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -806,8 +806,8 @@ barra empotrada</string>
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../resources/imagenes/ejemplo_capacidad_portante.png</normaloff>../resources/imagenes/ejemplo_capacidad_portante.png</iconset>
+                         <iconset resource="../resources/iconos.qrc">
+                          <normaloff>:/imagenes/ejemplo_capacidad_portante.png</normaloff>:/imagenes/ejemplo_capacidad_portante.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -931,8 +931,8 @@ sobre suelo tresca</string>
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../resources/imagenes/ejemplo_disco.png</normaloff>../resources/imagenes/ejemplo_disco.png</iconset>
+                         <iconset resource="../resources/iconos.qrc">
+                          <normaloff>:/imagenes/ejemplo_disco.png</normaloff>:/imagenes/ejemplo_disco.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -1059,8 +1059,8 @@ un plano inclinado</string>
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../resources/imagenes/ejemplo_talud.png</normaloff>../resources/imagenes/ejemplo_talud.png</iconset>
+                         <iconset resource="../resources/iconos.qrc">
+                          <normaloff>:/imagenes/ejemplo_talud.png</normaloff>:/imagenes/ejemplo_talud.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -1260,7 +1260,7 @@ elastoplástico</string>
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap>../resources/iconos/iconos_frame_inicio/doc_basic.svg</pixmap>
+              <pixmap resource="../resources/iconos.qrc">:/iconos/iconos_frame_inicio/doc_basic.svg</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -1441,6 +1441,8 @@ border: none;</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

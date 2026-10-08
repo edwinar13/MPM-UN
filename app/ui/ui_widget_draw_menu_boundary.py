@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_boundaryUEhHaR.ui'
+## Form generated from reading UI file 'widget_draw_menu_boundary.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QFormLayout, QFrame,
     QHBoxLayout, QLabel, QLineEdit, QScrollArea,
     QSizePolicy, QSpacerItem, QToolButton, QVBoxLayout,
     QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMenuBoundary(object):
     def setupUi(self, FormDrawMenuBoundary):
@@ -685,7 +686,7 @@ class Ui_FormDrawMenuBoundary(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -763,7 +764,7 @@ class Ui_FormDrawMenuBoundary(object):
         self.toolButton_cardBoundarySubTitle1 = QToolButton(self.frame_boundarySubTitle1)
         self.toolButton_cardBoundarySubTitle1.setObjectName(u"toolButton_cardBoundarySubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardBoundarySubTitle1.setIcon(icon1)
         self.toolButton_cardBoundarySubTitle1.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardBoundarySubTitle1.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -1039,7 +1040,7 @@ class Ui_FormDrawMenuBoundary(object):
         self.toolButton_cardBoundaryDrawSelected = QToolButton(self.frame_3)
         self.toolButton_cardBoundaryDrawSelected.setObjectName(u"toolButton_cardBoundaryDrawSelected")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardBoundaryDrawSelected.setIcon(icon2)
         self.toolButton_cardBoundaryDrawSelected.setIconSize(QSize(20, 20))
         self.toolButton_cardBoundaryDrawSelected.setArrowType(Qt.ArrowType.NoArrow)
@@ -1135,7 +1136,7 @@ class Ui_FormDrawMenuBoundary(object):
         self.toolButton_showHideLabel = QToolButton(self.frame_boundarySubTitle3)
         self.toolButton_showHideLabel.setObjectName(u"toolButton_showHideLabel")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideLabel.setIcon(icon3)
         self.toolButton_showHideLabel.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideLabel.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -1145,7 +1146,7 @@ class Ui_FormDrawMenuBoundary(object):
         self.toolButton_showHideBoundary = QToolButton(self.frame_boundarySubTitle3)
         self.toolButton_showHideBoundary.setObjectName(u"toolButton_showHideBoundary")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideBoundary.setIcon(icon4)
         self.toolButton_showHideBoundary.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideBoundary.setProperty(u"QToolButtonSubTitleStyle", 1)

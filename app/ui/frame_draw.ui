@@ -346,8 +346,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_consola/exit.svg</normaloff>../resources/iconos/iconos_consola/exit.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_consola/exit.svg</normaloff>:/iconos/iconos_consola/exit.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -396,8 +396,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_consola/zoom_extend.svg</normaloff>../resources/iconos/iconos_consola/zoom_extend.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_consola/zoom_extend.svg</normaloff>:/iconos/iconos_consola/zoom_extend.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -446,8 +446,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_consola/zoom_window.svg</normaloff>../resources/iconos/iconos_consola/zoom_window.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_consola/zoom_window.svg</normaloff>:/iconos/iconos_consola/zoom_window.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -496,8 +496,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_consola/view_two.svg</normaloff>../resources/iconos/iconos_consola/view_two.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_consola/view_two.svg</normaloff>:/iconos/iconos_consola/view_two.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -540,7 +540,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <enum>Qt::PlainText</enum>
               </property>
               <property name="pixmap">
-               <pixmap>../resources/iconos/iconos_consola/code.svg</pixmap>
+               <pixmap resource="../resources/iconos.qrc">:/iconos/iconos_consola/code.svg</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -557,8 +557,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <string>_line</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_draw_mesh/line.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/line.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</iconset>
                </property>
               </item>
               <item>
@@ -566,8 +566,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <string>_polyLine</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_draw_mesh/polyline.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/polyline.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_draw_mesh/polyline.svg</normaloff>:/iconos/iconos_menu_draw_mesh/polyline.svg</iconset>
                </property>
               </item>
               <item>
@@ -575,8 +575,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <string>_rectangle</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_draw_mesh/rectangle.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/rectangle.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_draw_mesh/rectangle.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rectangle.svg</iconset>
                </property>
               </item>
              </widget>
@@ -646,6 +646,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

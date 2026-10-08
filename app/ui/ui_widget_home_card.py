@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_home_cardYjnqdS.ui'
+## Form generated from reading UI file 'widget_home_card.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,13 +17,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QSizePolicy, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormHomeCard(object):
     def setupUi(self, FormHomeCard):
         if not FormHomeCard.objectName():
             FormHomeCard.setObjectName(u"FormHomeCard")
         FormHomeCard.resize(533, 101)
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormHomeCard.sizePolicy().hasHeightForWidth())
@@ -73,7 +74,7 @@ class Ui_FormHomeCard(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.frame_card = QFrame(FormHomeCard)
         self.frame_card.setObjectName(u"frame_card")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_card.sizePolicy().hasHeightForWidth())
@@ -86,14 +87,14 @@ class Ui_FormHomeCard(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.label = QLabel(self.frame_card)
         self.label.setObjectName(u"label")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(30)
         sizePolicy2.setVerticalStretch(30)
         sizePolicy2.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy2)
         self.label.setMinimumSize(QSize(30, 30))
         self.label.setMaximumSize(QSize(30, 30))
-        self.label.setPixmap(QPixmap(u"app/resources/iconos/iconos_frame_inicio/doc_mpm.svg"))
+        self.label.setPixmap(QPixmap(u":/iconos/iconos_frame_inicio/doc_mpm.svg"))
         self.label.setScaledContents(True)
 
         self.horizontalLayout.addWidget(self.label)
@@ -108,7 +109,7 @@ class Ui_FormHomeCard(object):
 
         self.label_cardPath = QLabel(self.frame_card)
         self.label_cardPath.setObjectName(u"label_cardPath")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Preferred)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.label_cardPath.sizePolicy().hasHeightForWidth())
@@ -122,7 +123,7 @@ class Ui_FormHomeCard(object):
 
         self.label_cardDataTime = QLabel(self.frame_card)
         self.label_cardDataTime.setObjectName(u"label_cardDataTime")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy4.setHorizontalStretch(0)
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.label_cardDataTime.sizePolicy().hasHeightForWidth())

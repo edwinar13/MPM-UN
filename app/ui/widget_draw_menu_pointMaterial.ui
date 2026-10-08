@@ -733,8 +733,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -910,8 +910,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1091,8 +1091,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                         <string>   Subir Archivo</string>
                        </property>
                        <property name="icon">
-                        <iconset>
-                         <normaloff>../resources/iconos/iconos_menu_draw_mesh/cloud_computing.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/cloud_computing.svg</iconset>
+                        <iconset resource="../resources/iconos.qrc">
+                         <normaloff>:/iconos/iconos_menu_draw_mesh/cloud_computing.svg</normaloff>:/iconos/iconos_menu_draw_mesh/cloud_computing.svg</iconset>
                        </property>
                        <property name="iconSize">
                         <size>
@@ -1329,8 +1329,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1346,8 +1346,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1460,8 +1460,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../resources/iconos/iconos_menu_draw_mesh/select.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/select.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/iconos_menu_draw_mesh/select.svg</normaloff>:/iconos/iconos_menu_draw_mesh/select.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -1880,8 +1880,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1897,8 +1897,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1914,8 +1914,8 @@ QSlider[QSliderStyle=&quot;1&quot;]::handle:horizontal:hover {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -2066,6 +2066,8 @@ border: none;</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

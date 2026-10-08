@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_drawnCuMEh.ui'
+## Form generated from reading UI file 'frame_draw.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QLabel, QLineEdit, QSizePolicy, QSplitter,
     QTextBrowser, QToolButton, QUndoView, QVBoxLayout,
     QWidget)
+from . import iconos_rc
 
 class Ui_FormDraw(object):
     def setupUi(self, FormDraw):
@@ -154,7 +155,7 @@ class Ui_FormDraw(object):
         self.horizontalLayout_draw.setObjectName(u"horizontalLayout_draw")
         self.splitter = QSplitter(FormDraw)
         self.splitter.setObjectName(u"splitter")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
@@ -171,7 +172,7 @@ class Ui_FormDraw(object):
         self.splitter.addWidget(self.horizontalLayoutWidget)
         self.frame_3 = QFrame(self.splitter)
         self.frame_3.setObjectName(u"frame_3")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
@@ -213,7 +214,7 @@ class Ui_FormDraw(object):
 
         self.frame_console = QFrame(self.frame_3)
         self.frame_console.setObjectName(u"frame_console")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.frame_console.sizePolicy().hasHeightForWidth())
@@ -227,7 +228,7 @@ class Ui_FormDraw(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 3)
         self.toolButton_closeConsole = QToolButton(self.frame_console)
         self.toolButton_closeConsole.setObjectName(u"toolButton_closeConsole")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.toolButton_closeConsole.sizePolicy().hasHeightForWidth())
@@ -240,7 +241,7 @@ class Ui_FormDraw(object):
         self.toolButton_closeConsole.setFont(font)
         self.toolButton_closeConsole.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_closeConsole.setIcon(icon)
         self.toolButton_closeConsole.setIconSize(QSize(15, 15))
         self.toolButton_closeConsole.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -256,7 +257,7 @@ class Ui_FormDraw(object):
         self.toolButton_zoomExtend.setFont(font)
         self.toolButton_zoomExtend.setStyleSheet(u"")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_consola/zoom_extend.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/iconos/iconos_consola/zoom_extend.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_zoomExtend.setIcon(icon1)
         self.toolButton_zoomExtend.setIconSize(QSize(19, 19))
         self.toolButton_zoomExtend.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -272,7 +273,7 @@ class Ui_FormDraw(object):
         self.toolButton_zoomWindow.setFont(font)
         self.toolButton_zoomWindow.setStyleSheet(u"")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_consola/zoom_window.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/iconos/iconos_consola/zoom_window.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_zoomWindow.setIcon(icon2)
         self.toolButton_zoomWindow.setIconSize(QSize(19, 19))
         self.toolButton_zoomWindow.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -281,7 +282,7 @@ class Ui_FormDraw(object):
 
         self.toolButton_views = QToolButton(self.frame_console)
         self.toolButton_views.setObjectName(u"toolButton_views")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy4.setHorizontalStretch(50)
         sizePolicy4.setVerticalStretch(50)
         sizePolicy4.setHeightForWidth(self.toolButton_views.sizePolicy().hasHeightForWidth())
@@ -291,7 +292,7 @@ class Ui_FormDraw(object):
         self.toolButton_views.setFont(font)
         self.toolButton_views.setStyleSheet(u"")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_consola/view_two.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/iconos/iconos_consola/view_two.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_views.setIcon(icon3)
         self.toolButton_views.setIconSize(QSize(19, 19))
         self.toolButton_views.setToolButtonStyle(Qt.ToolButtonIconOnly)
@@ -305,20 +306,20 @@ class Ui_FormDraw(object):
         self.label_4.setMinimumSize(QSize(20, 20))
         self.label_4.setMaximumSize(QSize(20, 20))
         self.label_4.setTextFormat(Qt.PlainText)
-        self.label_4.setPixmap(QPixmap(u"app/resources/iconos/iconos_consola/code.svg"))
+        self.label_4.setPixmap(QPixmap(u":/iconos/iconos_consola/code.svg"))
         self.label_4.setScaledContents(True)
 
         self.horizontalLayout_2.addWidget(self.label_4)
 
         self.comboBox_console = QComboBox(self.frame_console)
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/iconos/iconos_menu_draw_mesh/line.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.comboBox_console.addItem(icon4, "")
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/polyline.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/iconos/iconos_menu_draw_mesh/polyline.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.comboBox_console.addItem(icon5, "")
         icon6 = QIcon()
-        icon6.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/rectangle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon6.addFile(u":/iconos/iconos_menu_draw_mesh/rectangle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.comboBox_console.addItem(icon6, "")
         self.comboBox_console.setObjectName(u"comboBox_console")
 
@@ -381,13 +382,13 @@ class Ui_FormDraw(object):
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.toolButton_closeConsole.setText("")
-        self.toolButton_closeConsole.setProperty("style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
+        self.toolButton_closeConsole.setProperty(u"style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
         self.toolButton_zoomExtend.setText("")
-        self.toolButton_zoomExtend.setProperty("style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
+        self.toolButton_zoomExtend.setProperty(u"style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
         self.toolButton_zoomWindow.setText("")
-        self.toolButton_zoomWindow.setProperty("style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
+        self.toolButton_zoomWindow.setProperty(u"style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
         self.toolButton_views.setText("")
-        self.toolButton_views.setProperty("style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
+        self.toolButton_views.setProperty(u"style_console_button", QCoreApplication.translate("FormDraw", u"1", None))
         self.label_4.setText("")
         self.comboBox_console.setItemText(0, QCoreApplication.translate("FormDraw", u"_line", None))
         self.comboBox_console.setItemText(1, QCoreApplication.translate("FormDraw", u"_polyLine", None))

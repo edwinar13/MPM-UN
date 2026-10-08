@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_mesh_cardOjXmhM.ui'
+## Form generated from reading UI file 'widget_draw_mesh_card.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,13 +18,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLineEdit, QSizePolicy, QSpacerItem, QToolButton,
     QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMeshCard(object):
     def setupUi(self, FormDrawMeshCard):
         if not FormDrawMeshCard.objectName():
             FormDrawMeshCard.setObjectName(u"FormDrawMeshCard")
         FormDrawMeshCard.resize(481, 41)
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormDrawMeshCard.sizePolicy().hasHeightForWidth())
@@ -107,7 +108,7 @@ class Ui_FormDrawMeshCard(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 8, 5)
         self.frame_card = QFrame(FormDrawMeshCard)
         self.frame_card.setObjectName(u"frame_card")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_card.sizePolicy().hasHeightForWidth())
@@ -132,17 +133,17 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_colorMesh = QToolButton(self.frame_card)
         self.toolButton_colorMesh.setObjectName(u"toolButton_colorMesh")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_colorMesh.setIcon(icon)
         self.toolButton_colorMesh.setIconSize(QSize(20, 20))
         self.toolButton_colorMesh.setArrowType(Qt.NoArrow)
-        self.toolButton_colorMesh.setProperty("style_mesh_card_button", 1)
+        self.toolButton_colorMesh.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_colorMesh)
 
         self.label_cardNameMesh = QLabel(self.frame_card)
         self.label_cardNameMesh.setObjectName(u"label_cardNameMesh")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_cardNameMesh.sizePolicy().hasHeightForWidth())
@@ -162,13 +163,13 @@ class Ui_FormDrawMeshCard(object):
 
         self.horizontalLayout.addWidget(self.lineEdit_nameMesh)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
         self.toolButton_okMesh = QToolButton(self.frame_card)
         self.toolButton_okMesh.setObjectName(u"toolButton_okMesh")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.toolButton_okMesh.sizePolicy().hasHeightForWidth())
@@ -181,11 +182,11 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_okMesh.setFont(font)
         self.toolButton_okMesh.setStyleSheet(u"")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/iconos/iconos_generales/ok.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_okMesh.setIcon(icon1)
         self.toolButton_okMesh.setIconSize(QSize(15, 15))
         self.toolButton_okMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_okMesh.setProperty("style_mesh_card_button", 1)
+        self.toolButton_okMesh.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_okMesh)
 
@@ -198,11 +199,11 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_exitMesh.setFont(font)
         self.toolButton_exitMesh.setStyleSheet(u"")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_exitMesh.setIcon(icon2)
         self.toolButton_exitMesh.setIconSize(QSize(15, 15))
         self.toolButton_exitMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_exitMesh.setProperty("style_mesh_card_button", 1)
+        self.toolButton_exitMesh.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_exitMesh)
 
@@ -215,17 +216,17 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_editMesh.setFont(font)
         self.toolButton_editMesh.setStyleSheet(u"")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/iconos/iconos_generales/edit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_editMesh.setIcon(icon3)
         self.toolButton_editMesh.setIconSize(QSize(15, 15))
         self.toolButton_editMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_editMesh.setProperty("style_mesh_card_button", 1)
+        self.toolButton_editMesh.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_editMesh)
 
         self.toolButton_showHideMesh = QToolButton(self.frame_card)
         self.toolButton_showHideMesh.setObjectName(u"toolButton_showHideMesh")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy4.setHorizontalStretch(25)
         sizePolicy4.setVerticalStretch(25)
         sizePolicy4.setHeightForWidth(self.toolButton_showHideMesh.sizePolicy().hasHeightForWidth())
@@ -235,11 +236,11 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_showHideMesh.setFont(font)
         self.toolButton_showHideMesh.setStyleSheet(u"")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideMesh.setIcon(icon4)
         self.toolButton_showHideMesh.setIconSize(QSize(15, 15))
         self.toolButton_showHideMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_showHideMesh.setProperty("style_mesh_card_button", 1)
+        self.toolButton_showHideMesh.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_showHideMesh)
 
@@ -252,11 +253,11 @@ class Ui_FormDrawMeshCard(object):
         self.toolButton_closeMesh.setFont(font)
         self.toolButton_closeMesh.setStyleSheet(u"")
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_closeMesh.setIcon(icon5)
         self.toolButton_closeMesh.setIconSize(QSize(15, 15))
         self.toolButton_closeMesh.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_closeMesh.setProperty("style_mesh_card_button", 1)
+        self.toolButton_closeMesh.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_closeMesh)
 

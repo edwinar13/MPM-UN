@@ -17,8 +17,8 @@
    <string>MPM-UN</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../resources/iconos/iconos_logo/Logo_WindowIcon.svg</normaloff>../resources/iconos/iconos_logo/Logo_WindowIcon.svg</iconset>
+   <iconset resource="../resources/iconos.qrc">
+    <normaloff>:/iconos/iconos_logo/Logo_WindowIcon.svg</normaloff>:/iconos/iconos_logo/Logo_WindowIcon.svg</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -549,8 +549,8 @@ QCheckBox::indicator {
                 <string>Inicio</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/home.svg</normaloff>../resources/iconos/iconos_menu_lateral/home.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/home.svg</normaloff>:/iconos/iconos_menu_lateral/home.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -633,8 +633,8 @@ QCheckBox::indicator {
                 <string>Datos</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/control.svg</normaloff>../resources/iconos/iconos_menu_lateral/control.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/control.svg</normaloff>:/iconos/iconos_menu_lateral/control.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -717,8 +717,8 @@ QCheckBox::indicator {
                 <string>Mallado</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/mesh.svg</normaloff>../resources/iconos/iconos_menu_lateral/mesh.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/mesh.svg</normaloff>:/iconos/iconos_menu_lateral/mesh.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -801,8 +801,8 @@ QCheckBox::indicator {
                 <string>Materiales</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/file.svg</normaloff>../resources/iconos/iconos_menu_lateral/file.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/file.svg</normaloff>:/iconos/iconos_menu_lateral/file.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -882,8 +882,8 @@ QCheckBox::indicator {
                 <string>Particulas</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/particle.svg</normaloff>../resources/iconos/iconos_menu_lateral/particle.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/particle.svg</normaloff>:/iconos/iconos_menu_lateral/particle.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -966,8 +966,8 @@ QCheckBox::indicator {
                 <string>Contorno</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/boundary.svg</normaloff>../resources/iconos/iconos_menu_lateral/boundary.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/boundary.svg</normaloff>:/iconos/iconos_menu_lateral/boundary.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1047,8 +1047,8 @@ QCheckBox::indicator {
                 <string>Ejecutar</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/execute.svg</normaloff>../resources/iconos/iconos_menu_lateral/execute.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/execute.svg</normaloff>:/iconos/iconos_menu_lateral/execute.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1128,8 +1128,8 @@ QCheckBox::indicator {
                 <string>Resultados</string>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>../resources/iconos/iconos_menu_lateral/view.svg</normaloff>../resources/iconos/iconos_menu_lateral/view.svg</iconset>
+                <iconset resource="../resources/iconos.qrc">
+                 <normaloff>:/iconos/iconos_menu_lateral/view.svg</normaloff>:/iconos/iconos_menu_lateral/view.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1206,8 +1206,8 @@ QCheckBox::indicator {
              <string>Mallado</string>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>../resources/iconos/iconos_menu_lateral/config.svg</normaloff>../resources/iconos/iconos_menu_lateral/config.svg</iconset>
+             <iconset resource="../resources/iconos.qrc">
+              <normaloff>:/iconos/iconos_menu_lateral/config.svg</normaloff>:/iconos/iconos_menu_lateral/config.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1422,8 +1422,8 @@ QCheckBox::indicator {
       <string>Recientes</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../resources/iconos/iconos_menu_superior/recent.svg</normaloff>../resources/iconos/iconos_menu_superior/recent.svg</iconset>
+      <iconset resource="../resources/iconos.qrc">
+       <normaloff>:/iconos/iconos_menu_superior/recent.svg</normaloff>:/iconos/iconos_menu_superior/recent.svg</iconset>
      </property>
      <addaction name="action_listadoRecinetes"/>
     </widget>
@@ -1509,8 +1509,8 @@ QCheckBox::indicator {
   </widget>
   <action name="action_nuevo">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/new.svg</normaloff>../resources/iconos/iconos_menu_superior/new.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/new.svg</normaloff>:/iconos/iconos_menu_superior/new.svg</iconset>
    </property>
    <property name="text">
     <string>Nuevo</string>
@@ -1518,8 +1518,8 @@ QCheckBox::indicator {
   </action>
   <action name="action_abrir">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/open.svg</normaloff>../resources/iconos/iconos_menu_superior/open.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/open.svg</normaloff>:/iconos/iconos_menu_superior/open.svg</iconset>
    </property>
    <property name="text">
     <string>Abrir</string>
@@ -1527,8 +1527,8 @@ QCheckBox::indicator {
   </action>
   <action name="action_guardar">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/save.svg</normaloff>../resources/iconos/iconos_menu_superior/save.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/save.svg</normaloff>:/iconos/iconos_menu_superior/save.svg</iconset>
    </property>
    <property name="text">
     <string>Guardar</string>
@@ -1541,8 +1541,8 @@ QCheckBox::indicator {
   </action>
   <action name="action_importar">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/import.svg</normaloff>../resources/iconos/iconos_menu_superior/import.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/import.svg</normaloff>:/iconos/iconos_menu_superior/import.svg</iconset>
    </property>
    <property name="text">
     <string>Importar</string>
@@ -1550,8 +1550,8 @@ QCheckBox::indicator {
   </action>
   <action name="action_exportar">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/export.svg</normaloff>../resources/iconos/iconos_menu_superior/export.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/export.svg</normaloff>:/iconos/iconos_menu_superior/export.svg</iconset>
    </property>
    <property name="text">
     <string>Exportar</string>
@@ -1617,8 +1617,8 @@ QCheckBox::indicator {
   </action>
   <action name="action_deshacer">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/undo.svg</normaloff>../resources/iconos/iconos_menu_superior/undo.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/undo.svg</normaloff>:/iconos/iconos_menu_superior/undo.svg</iconset>
    </property>
    <property name="text">
     <string>Deshacer</string>
@@ -1631,8 +1631,8 @@ QCheckBox::indicator {
   </action>
   <action name="action_rehacer">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/iconos/iconos_menu_superior/redo.svg</normaloff>../resources/iconos/iconos_menu_superior/redo.svg</iconset>
+    <iconset resource="../resources/iconos.qrc">
+     <normaloff>:/iconos/iconos_menu_superior/redo.svg</normaloff>:/iconos/iconos_menu_superior/redo.svg</iconset>
    </property>
    <property name="text">
     <string>Rehacer</string>
@@ -1686,6 +1686,8 @@ QCheckBox::indicator {
   <tabstop>toolButton_viewResult</tabstop>
   <tabstop>toolButton_setting</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

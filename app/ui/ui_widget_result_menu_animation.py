@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_animationhDMrsB.ui'
+## Form generated from reading UI file 'widget_result_menu_animation.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBo
     QLabel, QLineEdit, QRadioButton, QSizePolicy,
     QSpacerItem, QSpinBox, QToolButton, QVBoxLayout,
     QWidget)
+from . import iconos_rc
 
 class Ui_FormMenuResultAnimation(object):
     def setupUi(self, FormMenuResultAnimation):
@@ -753,7 +754,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -831,7 +832,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_cardResultAnimationSubTitle1 = QToolButton(self.frame_ResultAnimationSubTitle1)
         self.toolButton_cardResultAnimationSubTitle1.setObjectName(u"toolButton_cardResultAnimationSubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardResultAnimationSubTitle1.setIcon(icon1)
         self.toolButton_cardResultAnimationSubTitle1.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardResultAnimationSubTitle1.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -948,7 +949,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_sceneRegress.setObjectName(u"toolButton_sceneRegress")
         self.toolButton_sceneRegress.setMinimumSize(QSize(40, 40))
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/icono_result/atras.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/icono_result/atras.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_sceneRegress.setIcon(icon2)
         self.toolButton_sceneRegress.setIconSize(QSize(25, 25))
         self.toolButton_sceneRegress.setProperty(u"QToolButtonStyle", 1)
@@ -959,7 +960,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_sceneStop.setObjectName(u"toolButton_sceneStop")
         self.toolButton_sceneStop.setMinimumSize(QSize(40, 40))
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/icono_result/stop.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/icono_result/stop.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_sceneStop.setIcon(icon3)
         self.toolButton_sceneStop.setIconSize(QSize(25, 25))
         self.toolButton_sceneStop.setProperty(u"QToolButtonStyle", 1)
@@ -970,7 +971,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_scenePlay.setObjectName(u"toolButton_scenePlay")
         self.toolButton_scenePlay.setMinimumSize(QSize(40, 40))
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/icono_result/play.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/iconos/icono_result/play.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_scenePlay.setIcon(icon4)
         self.toolButton_scenePlay.setIconSize(QSize(25, 25))
         self.toolButton_scenePlay.setProperty(u"QToolButtonStyle", 1)
@@ -981,7 +982,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_sceneAdvance.setObjectName(u"toolButton_sceneAdvance")
         self.toolButton_sceneAdvance.setMinimumSize(QSize(40, 40))
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/icono_result/adelante.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(u":/iconos/icono_result/adelante.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_sceneAdvance.setIcon(icon5)
         self.toolButton_sceneAdvance.setIconSize(QSize(25, 25))
         self.toolButton_sceneAdvance.setProperty(u"QToolButtonStyle", 1)
@@ -1189,7 +1190,7 @@ class Ui_FormMenuResultAnimation(object):
         self.btn_select_color = QToolButton(self.frame_4)
         self.btn_select_color.setObjectName(u"btn_select_color")
         icon6 = QIcon()
-        icon6.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon6.addFile(u":/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btn_select_color.setIcon(icon6)
         self.btn_select_color.setIconSize(QSize(20, 20))
         self.btn_select_color.setArrowType(Qt.ArrowType.NoArrow)
@@ -1258,7 +1259,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_AddPointLabel = QToolButton(self.frame_4)
         self.toolButton_AddPointLabel.setObjectName(u"toolButton_AddPointLabel")
         icon7 = QIcon()
-        icon7.addFile(u"app/app/app/MPM-UN_2025/app/resources/iconos/icono_result/add.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon7.addFile(u":/iconos/icono_result/add.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_AddPointLabel.setIcon(icon7)
         self.toolButton_AddPointLabel.setIconSize(QSize(20, 20))
         self.toolButton_AddPointLabel.setArrowType(Qt.ArrowType.NoArrow)
@@ -1275,7 +1276,7 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_closePointLabel.setFont(font)
         self.toolButton_closePointLabel.setStyleSheet(u"")
         icon8 = QIcon()
-        icon8.addFile(u"app/app/app/MPM-UN_2025/app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon8.addFile(u":/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_closePointLabel.setIcon(icon8)
         self.toolButton_closePointLabel.setIconSize(QSize(15, 15))
         self.toolButton_closePointLabel.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)

@@ -823,8 +823,8 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -997,8 +997,8 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1115,8 +1115,8 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                   <string>     Guardar en csv</string>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/excel.svg</normaloff>../resources/iconos/excel.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/excel.svg</normaloff>:/iconos/excel.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1135,8 +1135,8 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
                   <string>     Generar reporte</string>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/pdf.svg</normaloff>../resources/iconos/pdf.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/pdf.svg</normaloff>:/iconos/pdf.svg</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1228,6 +1228,8 @@ QCheckBox[QCheckBoxStyle=&quot;1&quot;]::indicator:checked {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

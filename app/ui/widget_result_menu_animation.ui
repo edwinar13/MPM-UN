@@ -831,8 +831,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1005,8 +1005,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1247,8 +1247,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string>...</string>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../resources/iconos/icono_result/atras.svg</normaloff>../resources/iconos/icono_result/atras.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/icono_result/atras.svg</normaloff>:/iconos/icono_result/atras.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -1273,8 +1273,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string>...</string>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../resources/iconos/icono_result/stop.svg</normaloff>../resources/iconos/icono_result/stop.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/icono_result/stop.svg</normaloff>:/iconos/icono_result/stop.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -1299,8 +1299,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string>...</string>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../resources/iconos/icono_result/play.svg</normaloff>../resources/iconos/icono_result/play.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/icono_result/play.svg</normaloff>:/iconos/icono_result/play.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -1325,8 +1325,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string>...</string>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../resources/iconos/icono_result/adelante.svg</normaloff>../resources/iconos/icono_result/adelante.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/icono_result/adelante.svg</normaloff>:/iconos/icono_result/adelante.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -1533,8 +1533,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1876,8 +1876,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/iconos_menu_draw_mesh/colo_picker.svg</normaloff>:/iconos/iconos_menu_draw_mesh/colo_picker.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -2038,8 +2038,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../../../MPM-UN_2025/app/resources/iconos/icono_result/add.svg</normaloff>../../../MPM-UN_2025/app/resources/iconos/icono_result/add.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/icono_result/add.svg</normaloff>:/iconos/icono_result/add.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -2088,8 +2088,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset>
-                        <normaloff>../../../MPM-UN_2025/app/resources/iconos/iconos_consola/exit.svg</normaloff>../../../MPM-UN_2025/app/resources/iconos/iconos_consola/exit.svg</iconset>
+                       <iconset resource="../resources/iconos.qrc">
+                        <normaloff>:/iconos/iconos_consola/exit.svg</normaloff>:/iconos/iconos_consola/exit.svg</iconset>
                       </property>
                       <property name="iconSize">
                        <size>
@@ -2219,6 +2219,8 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked:disabled {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

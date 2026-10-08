@@ -248,7 +248,7 @@ QProgressBar#progress_bar::chunk {
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>../resources/iconos/iconos_dialogo_ejecutar/Ejecutando_analisis.svg</pixmap>
+           <pixmap resource="../resources/iconos.qrc">:/iconos/iconos_dialogo_ejecutar/Ejecutando_analisis.svg</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -458,6 +458,8 @@ QProgressBar#progress_bar::chunk {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

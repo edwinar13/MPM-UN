@@ -852,8 +852,8 @@ naranjas #D34E24 #F28123 #F7F052
                <string/>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>../resources/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</normaloff>:/iconos/iconos_menu_draw_data/hide_show.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1026,8 +1026,8 @@ naranjas #D34E24 #F28123 #F7F052
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1148,8 +1148,8 @@ naranjas #D34E24 #F28123 #F7F052
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</normaloff>../resources/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
                   <enum>Qt::ArrowType::NoArrow</enum>
@@ -1389,8 +1389,8 @@ naranjas #D34E24 #F28123 #F7F052
                <string>Ejecutar etapas</string>
               </property>
               <property name="icon">
-               <iconset>
-                <normaloff>../resources/iconos/iconos_analisis/excute.svg</normaloff>../resources/iconos/iconos_analisis/excute.svg</iconset>
+               <iconset resource="../resources/iconos.qrc">
+                <normaloff>:/iconos/iconos_analisis/excute.svg</normaloff>:/iconos/iconos_analisis/excute.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1457,8 +1457,8 @@ naranjas #D34E24 #F28123 #F7F052
                  <string>Ejecutar Análisis</string>
                 </property>
                 <property name="icon">
-                 <iconset>
-                  <normaloff>../resources/iconos/iconos_analisis/excute.svg</normaloff>../resources/iconos/iconos_analisis/excute.svg</iconset>
+                 <iconset resource="../resources/iconos.qrc">
+                  <normaloff>:/iconos/iconos_analisis/excute.svg</normaloff>:/iconos/iconos_analisis/excute.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -1519,6 +1519,8 @@ naranjas #D34E24 #F28123 #F7F052
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

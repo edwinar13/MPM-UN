@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_card_pointWIksBz.ui'
+## Form generated from reading UI file 'widget_result_card_point.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,13 +17,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QSizePolicy, QSpacerItem, QToolButton, QWidget)
+from . import iconos_rc
 
 class Ui_FormResultCardPoint(object):
     def setupUi(self, FormResultCardPoint):
         if not FormResultCardPoint.objectName():
             FormResultCardPoint.setObjectName(u"FormResultCardPoint")
         FormResultCardPoint.resize(321, 45)
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormResultCardPoint.sizePolicy().hasHeightForWidth())
@@ -98,7 +99,7 @@ class Ui_FormResultCardPoint(object):
         self.horizontalLayout_2.setContentsMargins(2, 2, 2, 2)
         self.frame_card = QFrame(FormResultCardPoint)
         self.frame_card.setObjectName(u"frame_card")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_card.sizePolicy().hasHeightForWidth())
@@ -122,7 +123,7 @@ class Ui_FormResultCardPoint(object):
 
         self.label_cardNamePoint = QLabel(self.frame_card)
         self.label_cardNamePoint.setObjectName(u"label_cardNamePoint")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_cardNamePoint.sizePolicy().hasHeightForWidth())
@@ -130,17 +131,17 @@ class Ui_FormResultCardPoint(object):
         self.label_cardNamePoint.setMinimumSize(QSize(35, 0))
         self.label_cardNamePoint.setMaximumSize(QSize(35, 16777215))
         self.label_cardNamePoint.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.label_cardNamePoint.setProperty("QLabelStyle", 1)
+        self.label_cardNamePoint.setProperty(u"QLabelStyle", 1)
 
         self.horizontalLayout.addWidget(self.label_cardNamePoint)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
         self.toolButton_showHidePoint = QToolButton(self.frame_card)
         self.toolButton_showHidePoint.setObjectName(u"toolButton_showHidePoint")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy3.setHorizontalStretch(25)
         sizePolicy3.setVerticalStretch(25)
         sizePolicy3.setHeightForWidth(self.toolButton_showHidePoint.sizePolicy().hasHeightForWidth())
@@ -153,17 +154,17 @@ class Ui_FormResultCardPoint(object):
         self.toolButton_showHidePoint.setFont(font)
         self.toolButton_showHidePoint.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHidePoint.setIcon(icon)
         self.toolButton_showHidePoint.setIconSize(QSize(15, 15))
         self.toolButton_showHidePoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_showHidePoint.setProperty("style_mesh_card_button", 1)
+        self.toolButton_showHidePoint.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_showHidePoint)
 
         self.toolButton_closePoint = QToolButton(self.frame_card)
         self.toolButton_closePoint.setObjectName(u"toolButton_closePoint")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy4.setHorizontalStretch(0)
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.toolButton_closePoint.sizePolicy().hasHeightForWidth())
@@ -173,11 +174,11 @@ class Ui_FormResultCardPoint(object):
         self.toolButton_closePoint.setFont(font)
         self.toolButton_closePoint.setStyleSheet(u"")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_closePoint.setIcon(icon1)
         self.toolButton_closePoint.setIconSize(QSize(15, 15))
         self.toolButton_closePoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_closePoint.setProperty("style_mesh_card_button", 1)
+        self.toolButton_closePoint.setProperty(u"style_mesh_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_closePoint)
 

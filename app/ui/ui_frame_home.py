@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_homebtKPbh.ui'
+## Form generated from reading UI file 'frame_home.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLayout, QScrollArea, QSizePolicy, QSpacerItem,
     QToolButton, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormHome(object):
     def setupUi(self, FormHome):
@@ -313,7 +314,7 @@ class Ui_FormHome(object):
         self.label_logo.setSizePolicy(sizePolicy1)
         self.label_logo.setMinimumSize(QSize(100, 100))
         self.label_logo.setMaximumSize(QSize(100, 100))
-        self.label_logo.setPixmap(QPixmap(u"app/resources/iconos/iconos_logo/Logo_V1.svg"))
+        self.label_logo.setPixmap(QPixmap(u":/iconos/iconos_logo/Logo_V1.svg"))
         self.label_logo.setScaledContents(True)
         self.label_logo.setWordWrap(False)
         self.label_logo.setOpenExternalLinks(False)
@@ -474,7 +475,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew2.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew2.setSizePolicy(sizePolicy3)
         icon = QIcon()
-        icon.addFile(u"app/resources/imagenes/ejemplo_viga.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/imagenes/ejemplo_viga.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew2.setIcon(icon)
         self.toolButton_cardNew2.setIconSize(QSize(100, 100))
 
@@ -526,7 +527,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew3.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew3.setSizePolicy(sizePolicy3)
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/imagenes/ejemplo_capacidad_portante.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/imagenes/ejemplo_capacidad_portante.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew3.setIcon(icon1)
         self.toolButton_cardNew3.setIconSize(QSize(100, 100))
 
@@ -578,7 +579,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew4.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew4.setSizePolicy(sizePolicy3)
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/imagenes/ejemplo_disco.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/imagenes/ejemplo_disco.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew4.setIcon(icon2)
         self.toolButton_cardNew4.setIconSize(QSize(100, 100))
 
@@ -634,7 +635,7 @@ class Ui_FormHome(object):
         sizePolicy3.setHeightForWidth(self.toolButton_cardNew5.sizePolicy().hasHeightForWidth())
         self.toolButton_cardNew5.setSizePolicy(sizePolicy3)
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/imagenes/ejemplo_talud.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/imagenes/ejemplo_talud.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardNew5.setIcon(icon3)
         self.toolButton_cardNew5.setIconSize(QSize(100, 100))
 
@@ -728,7 +729,7 @@ class Ui_FormHome(object):
         self.label_icon1.setSizePolicy(sizePolicy5)
         self.label_icon1.setMinimumSize(QSize(30, 30))
         self.label_icon1.setMaximumSize(QSize(30, 30))
-        self.label_icon1.setPixmap(QPixmap(u"app/resources/iconos/iconos_frame_inicio/doc_basic.svg"))
+        self.label_icon1.setPixmap(QPixmap(u":/iconos/iconos_frame_inicio/doc_basic.svg"))
         self.label_icon1.setScaledContents(True)
 
         self.horizontalLayout_7.addWidget(self.label_icon1)

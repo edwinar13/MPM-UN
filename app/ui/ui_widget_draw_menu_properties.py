@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_propertiesAPAfae.ui'
+## Form generated from reading UI file 'widget_draw_menu_properties.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QDoubleSpinBox, Q
     QFrame, QHBoxLayout, QLabel, QLineEdit,
     QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
     QToolButton, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMenuProperties(object):
     def setupUi(self, FormDrawMenuProperties):
@@ -650,7 +651,7 @@ class Ui_FormDrawMenuProperties(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -728,7 +729,7 @@ class Ui_FormDrawMenuProperties(object):
         self.toolButton_cardPropertiesSubTitle1 = QToolButton(self.frame_propertiesSubTitle1)
         self.toolButton_cardPropertiesSubTitle1.setObjectName(u"toolButton_cardPropertiesSubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardPropertiesSubTitle1.setIcon(icon1)
         self.toolButton_cardPropertiesSubTitle1.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardPropertiesSubTitle1.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -890,7 +891,7 @@ class Ui_FormDrawMenuProperties(object):
         self.toolButton_PropertiesColor = QToolButton(self.frame_4)
         self.toolButton_PropertiesColor.setObjectName(u"toolButton_PropertiesColor")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/iconos_menu_draw_mesh/colo_picker.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_PropertiesColor.setIcon(icon2)
         self.toolButton_PropertiesColor.setIconSize(QSize(20, 20))
         self.toolButton_PropertiesColor.setArrowType(Qt.ArrowType.NoArrow)
@@ -1030,7 +1031,7 @@ class Ui_FormDrawMenuProperties(object):
         self.toolButton_showHideProperties.setFont(font)
         self.toolButton_showHideProperties.setStyleSheet(u"")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideProperties.setIcon(icon3)
         self.toolButton_showHideProperties.setIconSize(QSize(15, 15))
         self.toolButton_showHideProperties.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)

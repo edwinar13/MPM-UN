@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_menu_pointMaterialslPkUO.ui'
+## Form generated from reading UI file 'widget_draw_menu_pointMaterial.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
     QHBoxLayout, QLabel, QLineEdit, QScrollArea,
     QSizePolicy, QSlider, QSpacerItem, QToolButton,
     QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMenuPointMaterial(object):
     def setupUi(self, FormDrawMenuPointMaterial):
@@ -652,7 +653,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -731,7 +732,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_cardPointMaterialSubTitle1 = QToolButton(self.frame_PointMaterialSubTitle1)
         self.toolButton_cardPointMaterialSubTitle1.setObjectName(u"toolButton_cardPointMaterialSubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardPointMaterialSubTitle1.setIcon(icon1)
         self.toolButton_cardPointMaterialSubTitle1.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardPointMaterialSubTitle1.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -811,7 +812,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         sizePolicy4.setHeightForWidth(self.toolButton_PointMaterialUploadFile.sizePolicy().hasHeightForWidth())
         self.toolButton_PointMaterialUploadFile.setSizePolicy(sizePolicy4)
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/cloud_computing.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/iconos_menu_draw_mesh/cloud_computing.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_PointMaterialUploadFile.setIcon(icon2)
         self.toolButton_PointMaterialUploadFile.setIconSize(QSize(20, 20))
         self.toolButton_PointMaterialUploadFile.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
@@ -916,7 +917,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_showHideLabelVector = QToolButton(self.frame_PointMaterialSubTitle3)
         self.toolButton_showHideLabelVector.setObjectName(u"toolButton_showHideLabelVector")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideLabelVector.setIcon(icon3)
         self.toolButton_showHideLabelVector.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideLabelVector.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -975,7 +976,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_btnMPDrawSelected = QToolButton(self.frame_4)
         self.toolButton_btnMPDrawSelected.setObjectName(u"toolButton_btnMPDrawSelected")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/iconos/iconos_menu_draw_mesh/select.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_btnMPDrawSelected.setIcon(icon4)
         self.toolButton_btnMPDrawSelected.setIconSize(QSize(20, 20))
         self.toolButton_btnMPDrawSelected.setArrowType(Qt.ArrowType.NoArrow)
@@ -1162,7 +1163,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.toolButton_showHidePointMaterial = QToolButton(self.frame_PointMaterialSubTitle2)
         self.toolButton_showHidePointMaterial.setObjectName(u"toolButton_showHidePointMaterial")
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHidePointMaterial.setIcon(icon5)
         self.toolButton_showHidePointMaterial.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHidePointMaterial.setProperty(u"QToolButtonSubTitleStyle", 1)

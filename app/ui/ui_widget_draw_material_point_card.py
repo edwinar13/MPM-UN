@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_draw_material_point_cardycucBm.ui'
+## Form generated from reading UI file 'widget_draw_material_point_card.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,13 +18,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
     QHBoxLayout, QLabel, QLineEdit, QSizePolicy,
     QSpacerItem, QToolButton, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMaterialPointCard(object):
     def setupUi(self, FormDrawMaterialPointCard):
         if not FormDrawMaterialPointCard.objectName():
             FormDrawMaterialPointCard.setObjectName(u"FormDrawMaterialPointCard")
         FormDrawMaterialPointCard.resize(481, 101)
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FormDrawMaterialPointCard.sizePolicy().hasHeightForWidth())
@@ -178,7 +179,7 @@ class Ui_FormDrawMaterialPointCard(object):
         self.verticalLayout.setContentsMargins(0, 0, 8, 5)
         self.frame_card = QFrame(FormDrawMaterialPointCard)
         self.frame_card.setObjectName(u"frame_card")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.frame_card.sizePolicy().hasHeightForWidth())
@@ -202,7 +203,7 @@ class Ui_FormDrawMaterialPointCard(object):
 
         self.label_cardNameMaterialPoint = QLabel(self.frame_card)
         self.label_cardNameMaterialPoint.setObjectName(u"label_cardNameMaterialPoint")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.label_cardNameMaterialPoint.sizePolicy().hasHeightForWidth())
@@ -222,13 +223,13 @@ class Ui_FormDrawMaterialPointCard(object):
 
         self.horizontalLayout.addWidget(self.lineEdit_nameMaterialPoint)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
         self.toolButton_okMaterialPoint = QToolButton(self.frame_card)
         self.toolButton_okMaterialPoint.setObjectName(u"toolButton_okMaterialPoint")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.toolButton_okMaterialPoint.sizePolicy().hasHeightForWidth())
@@ -241,11 +242,11 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_okMaterialPoint.setFont(font)
         self.toolButton_okMaterialPoint.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_generales/ok.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/iconos_generales/ok.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_okMaterialPoint.setIcon(icon)
         self.toolButton_okMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_okMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_okMaterialPoint.setProperty("style_material_point_card_button", 1)
+        self.toolButton_okMaterialPoint.setProperty(u"style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_okMaterialPoint)
 
@@ -258,11 +259,11 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_exitMaterialPoint.setFont(font)
         self.toolButton_exitMaterialPoint.setStyleSheet(u"")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/iconos/iconos_generales/exit_2.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_exitMaterialPoint.setIcon(icon1)
         self.toolButton_exitMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_exitMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_exitMaterialPoint.setProperty("style_material_point_card_button", 1)
+        self.toolButton_exitMaterialPoint.setProperty(u"style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_exitMaterialPoint)
 
@@ -275,28 +276,28 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_editMaterialPoint.setFont(font)
         self.toolButton_editMaterialPoint.setStyleSheet(u"")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_generales/edit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/iconos/iconos_generales/edit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_editMaterialPoint.setIcon(icon2)
         self.toolButton_editMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_editMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_editMaterialPoint.setProperty("style_material_point_card_button", 1)
+        self.toolButton_editMaterialPoint.setProperty(u"style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_editMaterialPoint)
 
         self.toolButton_showHideLabel = QToolButton(self.frame_card)
         self.toolButton_showHideLabel.setObjectName(u"toolButton_showHideLabel")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideLabel.setIcon(icon3)
         self.toolButton_showHideLabel.setArrowType(Qt.NoArrow)
-        self.toolButton_showHideLabel.setProperty("QToolButtonSubTitleStyle", 1)
-        self.toolButton_showHideLabel.setProperty("style_material_point_card_button", 1)
+        self.toolButton_showHideLabel.setProperty(u"QToolButtonSubTitleStyle", 1)
+        self.toolButton_showHideLabel.setProperty(u"style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_showHideLabel)
 
         self.toolButton_showHideMaterialPoint = QToolButton(self.frame_card)
         self.toolButton_showHideMaterialPoint.setObjectName(u"toolButton_showHideMaterialPoint")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Maximum)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Maximum)
         sizePolicy4.setHorizontalStretch(25)
         sizePolicy4.setVerticalStretch(25)
         sizePolicy4.setHeightForWidth(self.toolButton_showHideMaterialPoint.sizePolicy().hasHeightForWidth())
@@ -306,11 +307,11 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_showHideMaterialPoint.setFont(font)
         self.toolButton_showHideMaterialPoint.setStyleSheet(u"")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_showHideMaterialPoint.setIcon(icon4)
         self.toolButton_showHideMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_showHideMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_showHideMaterialPoint.setProperty("style_material_point_card_button", 1)
+        self.toolButton_showHideMaterialPoint.setProperty(u"style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_showHideMaterialPoint)
 
@@ -323,11 +324,11 @@ class Ui_FormDrawMaterialPointCard(object):
         self.toolButton_deleteMaterialPoint.setFont(font)
         self.toolButton_deleteMaterialPoint.setStyleSheet(u"")
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_consola/exit.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/iconos/iconos_consola/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_deleteMaterialPoint.setIcon(icon5)
         self.toolButton_deleteMaterialPoint.setIconSize(QSize(15, 15))
         self.toolButton_deleteMaterialPoint.setToolButtonStyle(Qt.ToolButtonIconOnly)
-        self.toolButton_deleteMaterialPoint.setProperty("style_material_point_card_button", 1)
+        self.toolButton_deleteMaterialPoint.setProperty(u"style_material_point_card_button", 1)
 
         self.horizontalLayout.addWidget(self.toolButton_deleteMaterialPoint)
 
@@ -345,33 +346,33 @@ class Ui_FormDrawMaterialPointCard(object):
         self.label_textPointMaterialProperty.setObjectName(u"label_textPointMaterialProperty")
         self.label_textPointMaterialProperty.setMinimumSize(QSize(80, 0))
         self.label_textPointMaterialProperty.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.label_textPointMaterialProperty.setProperty("QLabelStyle", 3)
+        self.label_textPointMaterialProperty.setProperty(u"QLabelStyle", 3)
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_textPointMaterialProperty)
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_textPointMaterialProperty)
 
         self.comboBox_PointMaterialProperty = QComboBox(self.frame_edit)
         self.comboBox_PointMaterialProperty.setObjectName(u"comboBox_PointMaterialProperty")
         self.comboBox_PointMaterialProperty.setMinimumSize(QSize(0, 25))
         self.comboBox_PointMaterialProperty.setFocusPolicy(Qt.WheelFocus)
-        self.comboBox_PointMaterialProperty.setProperty("QComboBoxStyle", 1)
+        self.comboBox_PointMaterialProperty.setProperty(u"QComboBoxStyle", 1)
 
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.comboBox_PointMaterialProperty)
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.comboBox_PointMaterialProperty)
 
         self.label_textPointMateriallabel = QLabel(self.frame_edit)
         self.label_textPointMateriallabel.setObjectName(u"label_textPointMateriallabel")
         self.label_textPointMateriallabel.setMinimumSize(QSize(80, 0))
         self.label_textPointMateriallabel.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.label_textPointMateriallabel.setProperty("QLabelStyle", 3)
+        self.label_textPointMateriallabel.setProperty(u"QLabelStyle", 3)
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_textPointMateriallabel)
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_textPointMateriallabel)
 
         self.label_textPointMaterialMesh = QLabel(self.frame_edit)
         self.label_textPointMaterialMesh.setObjectName(u"label_textPointMaterialMesh")
         self.label_textPointMaterialMesh.setMinimumSize(QSize(80, 0))
         self.label_textPointMaterialMesh.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.label_textPointMaterialMesh.setProperty("QLabelStyle", 3)
+        self.label_textPointMaterialMesh.setProperty(u"QLabelStyle", 3)
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.label_textPointMaterialMesh)
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.FieldRole, self.label_textPointMaterialMesh)
 
 
         self.verticalLayout.addWidget(self.frame_edit)

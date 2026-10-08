@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'frame_resultJLOSat.ui'
+## Form generated from reading UI file 'frame_result.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGridLayout,
     QHBoxLayout, QHeaderView, QSizePolicy, QTabWidget,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormResult(object):
     def setupUi(self, FormResult):
@@ -789,10 +790,10 @@ class Ui_FormResult(object):
         self.tabWidget.setDocumentMode(False)
         self.tabWidget.setTabsClosable(False)
         self.tabWidget.setMovable(False)
-        self.tabWidget.setProperty("QTabWidgetStyle", 1)
+        self.tabWidget.setProperty(u"QTabWidgetStyle", 1)
         self.tab_1 = QWidget()
         self.tab_1.setObjectName(u"tab_1")
-        self.tab_1.setProperty("QTabBarStyle", 1)
+        self.tab_1.setProperty(u"QTabBarStyle", 1)
         self.gridLayout_2 = QGridLayout(self.tab_1)
         self.gridLayout_2.setSpacing(0)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
@@ -801,7 +802,7 @@ class Ui_FormResult(object):
         self.frame.setObjectName(u"frame")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.frame.setProperty("QFrameStyle", 1)
+        self.frame.setProperty(u"QFrameStyle", 1)
         self.verticalLayout_4 = QVBoxLayout(self.frame)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -810,7 +811,7 @@ class Ui_FormResult(object):
         self.frame_pointMaterial.setObjectName(u"frame_pointMaterial")
         self.frame_pointMaterial.setFrameShape(QFrame.StyledPanel)
         self.frame_pointMaterial.setFrameShadow(QFrame.Raised)
-        self.frame_pointMaterial.setProperty("QFrameStyle", 0)
+        self.frame_pointMaterial.setProperty(u"QFrameStyle", 0)
         self.horizontalLayout_8 = QHBoxLayout(self.frame_pointMaterial)
         self.horizontalLayout_8.setSpacing(0)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
@@ -829,11 +830,11 @@ class Ui_FormResult(object):
         self.gridLayout_2.addWidget(self.frame, 0, 0, 1, 1)
 
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/icono_result/view_points.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/iconos/icono_result/view_points.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.tabWidget.addTab(self.tab_1, icon, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
-        self.tab_2.setProperty("QTabBarStyle", 1)
+        self.tab_2.setProperty(u"QTabBarStyle", 1)
         self.gridLayout_3 = QGridLayout(self.tab_2)
         self.gridLayout_3.setSpacing(0)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
@@ -842,7 +843,7 @@ class Ui_FormResult(object):
         self.frame_4.setObjectName(u"frame_4")
         self.frame_4.setFrameShape(QFrame.StyledPanel)
         self.frame_4.setFrameShadow(QFrame.Raised)
-        self.frame_4.setProperty("QFrameStyle", 1)
+        self.frame_4.setProperty(u"QFrameStyle", 1)
         self.verticalLayout_5 = QVBoxLayout(self.frame_4)
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -859,7 +860,7 @@ class Ui_FormResult(object):
         self.frame_chart.setObjectName(u"frame_chart")
         self.frame_chart.setFrameShape(QFrame.StyledPanel)
         self.frame_chart.setFrameShadow(QFrame.Raised)
-        self.frame_chart.setProperty("QFrameStyle", 2)
+        self.frame_chart.setProperty(u"QFrameStyle", 2)
         self.horizontalLayout_5 = QHBoxLayout(self.frame_chart)
         self.horizontalLayout_5.setSpacing(0)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -880,11 +881,11 @@ class Ui_FormResult(object):
         self.gridLayout_3.addWidget(self.frame_4, 0, 0, 1, 1)
 
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/icono_result/view_graphics.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/iconos/icono_result/view_graphics.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.tabWidget.addTab(self.tab_2, icon1, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
-        self.tab_3.setProperty("QTabBarStyle", 1)
+        self.tab_3.setProperty(u"QTabBarStyle", 1)
         self.verticalLayout_3 = QVBoxLayout(self.tab_3)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
@@ -929,16 +930,16 @@ class Ui_FormResult(object):
         self.tableWidget_tableResult.setSelectionMode(QAbstractItemView.ContiguousSelection)
         self.tableWidget_tableResult.setRowCount(0)
         self.tableWidget_tableResult.setColumnCount(12)
-        self.tableWidget_tableResult.setProperty("QTableWidgetStyle", 1)
+        self.tableWidget_tableResult.setProperty(u"QTableWidgetStyle", 1)
         self.tableWidget_tableResult.horizontalHeader().setCascadingSectionResizes(False)
-        self.tableWidget_tableResult.horizontalHeader().setProperty("showSortIndicator", False)
+        self.tableWidget_tableResult.horizontalHeader().setProperty(u"showSortIndicator", False)
         self.tableWidget_tableResult.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_tableResult.verticalHeader().setVisible(False)
 
         self.verticalLayout_3.addWidget(self.tableWidget_tableResult)
 
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/icono_result/view_board.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/iconos/icono_result/view_board.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.tabWidget.addTab(self.tab_3, icon2, "")
 
         self.horizontalLayout_result.addWidget(self.tabWidget)

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowoHSmlI.ui'
+## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QMainWindow,
     QMenu, QMenuBar, QSizePolicy, QSpacerItem,
     QStackedWidget, QStatusBar, QToolButton, QVBoxLayout,
     QWidget)
+from . import iconos_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,7 +29,7 @@ class Ui_MainWindow(object):
         MainWindow.setEnabled(True)
         MainWindow.resize(620, 659)
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_logo/Logo_WindowIcon.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"\n"
 "/*Colores primarios*/\n"
@@ -427,29 +428,29 @@ class Ui_MainWindow(object):
         self.action_nuevo = QAction(MainWindow)
         self.action_nuevo.setObjectName(u"action_nuevo")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_superior/new.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_superior/new.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_nuevo.setIcon(icon1)
         self.action_abrir = QAction(MainWindow)
         self.action_abrir.setObjectName(u"action_abrir")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/iconos_menu_superior/open.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/iconos_menu_superior/open.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_abrir.setIcon(icon2)
         self.action_guardar = QAction(MainWindow)
         self.action_guardar.setObjectName(u"action_guardar")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/iconos_menu_superior/save.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/iconos_menu_superior/save.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_guardar.setIcon(icon3)
         self.action_guardarComo = QAction(MainWindow)
         self.action_guardarComo.setObjectName(u"action_guardarComo")
         self.action_importar = QAction(MainWindow)
         self.action_importar.setObjectName(u"action_importar")
         icon4 = QIcon()
-        icon4.addFile(u"app/resources/iconos/iconos_menu_superior/import.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/iconos/iconos_menu_superior/import.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_importar.setIcon(icon4)
         self.action_exportar = QAction(MainWindow)
         self.action_exportar.setObjectName(u"action_exportar")
         icon5 = QIcon()
-        icon5.addFile(u"app/resources/iconos/iconos_menu_superior/export.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(u":/iconos/iconos_menu_superior/export.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_exportar.setIcon(icon5)
         self.action_ayuda = QAction(MainWindow)
         self.action_ayuda.setObjectName(u"action_ayuda")
@@ -476,7 +477,7 @@ class Ui_MainWindow(object):
         self.action_deshacer = QAction(MainWindow)
         self.action_deshacer.setObjectName(u"action_deshacer")
         icon6 = QIcon()
-        icon6.addFile(u"app/resources/iconos/iconos_menu_superior/undo.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon6.addFile(u":/iconos/iconos_menu_superior/undo.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_deshacer.setIcon(icon6)
         font = QFont()
         font.setFamilies([u"Ubuntu"])
@@ -484,7 +485,7 @@ class Ui_MainWindow(object):
         self.action_rehacer = QAction(MainWindow)
         self.action_rehacer.setObjectName(u"action_rehacer")
         icon7 = QIcon()
-        icon7.addFile(u"app/resources/iconos/iconos_menu_superior/redo.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon7.addFile(u":/iconos/iconos_menu_superior/redo.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.action_rehacer.setIcon(icon7)
         self.action_copiar = QAction(MainWindow)
         self.action_copiar.setObjectName(u"action_copiar")
@@ -551,7 +552,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_home.sizePolicy().hasHeightForWidth())
         self.toolButton_home.setSizePolicy(sizePolicy1)
         icon8 = QIcon()
-        icon8.addFile(u"app/resources/iconos/iconos_menu_lateral/home.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon8.addFile(u":/iconos/iconos_menu_lateral/home.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_home.setIcon(icon8)
         self.toolButton_home.setIconSize(QSize(30, 30))
         self.toolButton_home.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -586,7 +587,7 @@ class Ui_MainWindow(object):
         self.toolButton_drawData.setSizePolicy(sizePolicy1)
         self.toolButton_drawData.setStyleSheet(u"")
         icon9 = QIcon()
-        icon9.addFile(u"app/resources/iconos/iconos_menu_lateral/control.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon9.addFile(u":/iconos/iconos_menu_lateral/control.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawData.setIcon(icon9)
         self.toolButton_drawData.setIconSize(QSize(30, 30))
         self.toolButton_drawData.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -621,7 +622,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawMesh.sizePolicy().hasHeightForWidth())
         self.toolButton_drawMesh.setSizePolicy(sizePolicy1)
         icon10 = QIcon()
-        icon10.addFile(u"app/resources/iconos/iconos_menu_lateral/mesh.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon10.addFile(u":/iconos/iconos_menu_lateral/mesh.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawMesh.setIcon(icon10)
         self.toolButton_drawMesh.setIconSize(QSize(30, 30))
         self.toolButton_drawMesh.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -656,7 +657,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawProperties.sizePolicy().hasHeightForWidth())
         self.toolButton_drawProperties.setSizePolicy(sizePolicy1)
         icon11 = QIcon()
-        icon11.addFile(u"app/resources/iconos/iconos_menu_lateral/file.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon11.addFile(u":/iconos/iconos_menu_lateral/file.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawProperties.setIcon(icon11)
         self.toolButton_drawProperties.setIconSize(QSize(30, 30))
         self.toolButton_drawProperties.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -690,7 +691,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawPoint.sizePolicy().hasHeightForWidth())
         self.toolButton_drawPoint.setSizePolicy(sizePolicy1)
         icon12 = QIcon()
-        icon12.addFile(u"app/resources/iconos/iconos_menu_lateral/particle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon12.addFile(u":/iconos/iconos_menu_lateral/particle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawPoint.setIcon(icon12)
         self.toolButton_drawPoint.setIconSize(QSize(30, 30))
         self.toolButton_drawPoint.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -725,7 +726,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawBoundary.sizePolicy().hasHeightForWidth())
         self.toolButton_drawBoundary.setSizePolicy(sizePolicy1)
         icon13 = QIcon()
-        icon13.addFile(u"app/resources/iconos/iconos_menu_lateral/boundary.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon13.addFile(u":/iconos/iconos_menu_lateral/boundary.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawBoundary.setIcon(icon13)
         self.toolButton_drawBoundary.setIconSize(QSize(30, 30))
         self.toolButton_drawBoundary.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -759,7 +760,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_drawExecute.sizePolicy().hasHeightForWidth())
         self.toolButton_drawExecute.setSizePolicy(sizePolicy1)
         icon14 = QIcon()
-        icon14.addFile(u"app/resources/iconos/iconos_menu_lateral/execute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon14.addFile(u":/iconos/iconos_menu_lateral/execute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_drawExecute.setIcon(icon14)
         self.toolButton_drawExecute.setIconSize(QSize(30, 30))
         self.toolButton_drawExecute.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -793,7 +794,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.toolButton_viewResult.sizePolicy().hasHeightForWidth())
         self.toolButton_viewResult.setSizePolicy(sizePolicy1)
         icon15 = QIcon()
-        icon15.addFile(u"app/resources/iconos/iconos_menu_lateral/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon15.addFile(u":/iconos/iconos_menu_lateral/view.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_viewResult.setIcon(icon15)
         self.toolButton_viewResult.setIconSize(QSize(30, 30))
         self.toolButton_viewResult.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
@@ -829,7 +830,7 @@ class Ui_MainWindow(object):
         font1.setItalic(False)
         self.toolButton_setting.setFont(font1)
         icon16 = QIcon()
-        icon16.addFile(u"app/resources/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon16.addFile(u":/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_setting.setIcon(icon16)
         self.toolButton_setting.setIconSize(QSize(30, 30))
         self.toolButton_setting.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -938,7 +939,7 @@ class Ui_MainWindow(object):
         self.menu_recientes.setObjectName(u"menu_recientes")
         self.menu_recientes.setFont(font3)
         icon17 = QIcon()
-        icon17.addFile(u"app/resources/iconos/iconos_menu_superior/recent.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon17.addFile(u":/iconos/iconos_menu_superior/recent.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.menu_recientes.setIcon(icon17)
         self.menu_editar = QMenu(self.menubar)
         self.menu_editar.setObjectName(u"menu_editar")

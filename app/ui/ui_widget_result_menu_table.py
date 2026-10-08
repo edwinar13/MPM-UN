@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widget_result_menu_tableyXVCSu.ui'
+## Form generated from reading UI file 'widget_result_menu_table.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
     QToolButton, QVBoxLayout, QWidget)
+from . import iconos_rc
 
 class Ui_FormMenuResultTable(object):
     def setupUi(self, FormMenuResultTable):
@@ -743,7 +744,7 @@ class Ui_FormMenuResultTable(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"app/resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -821,7 +822,7 @@ class Ui_FormMenuResultTable(object):
         self.toolButton_cardResultAnimationSubTitle1 = QToolButton(self.frame_ResultAnimationSubTitle1)
         self.toolButton_cardResultAnimationSubTitle1.setObjectName(u"toolButton_cardResultAnimationSubTitle1")
         icon1 = QIcon()
-        icon1.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardResultAnimationSubTitle1.setIcon(icon1)
         self.toolButton_cardResultAnimationSubTitle1.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardResultAnimationSubTitle1.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -876,7 +877,7 @@ class Ui_FormMenuResultTable(object):
         self.pushButton_SaveData = QPushButton(self.frame_ResultAnimation1)
         self.pushButton_SaveData.setObjectName(u"pushButton_SaveData")
         icon2 = QIcon()
-        icon2.addFile(u"app/resources/iconos/excel.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/excel.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.pushButton_SaveData.setIcon(icon2)
         self.pushButton_SaveData.setIconSize(QSize(30, 30))
         self.pushButton_SaveData.setProperty(u"QPushButtonStyle", 1)
@@ -886,7 +887,7 @@ class Ui_FormMenuResultTable(object):
         self.pushButton_GeneratePDF = QPushButton(self.frame_ResultAnimation1)
         self.pushButton_GeneratePDF.setObjectName(u"pushButton_GeneratePDF")
         icon3 = QIcon()
-        icon3.addFile(u"app/resources/iconos/pdf.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/iconos/pdf.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.pushButton_GeneratePDF.setIcon(icon3)
         self.pushButton_GeneratePDF.setIconSize(QSize(30, 30))
         self.pushButton_GeneratePDF.setProperty(u"QPushButtonStyle", 2)

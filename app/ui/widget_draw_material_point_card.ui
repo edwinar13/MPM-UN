@@ -340,8 +340,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_generales/ok.svg</normaloff>../resources/iconos/iconos_generales/ok.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_generales/ok.svg</normaloff>:/iconos/iconos_generales/ok.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -390,8 +390,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_generales/exit_2.svg</normaloff>../resources/iconos/iconos_generales/exit_2.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_generales/exit_2.svg</normaloff>:/iconos/iconos_generales/exit_2.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -440,8 +440,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_generales/edit.svg</normaloff>../resources/iconos/iconos_generales/edit.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_generales/edit.svg</normaloff>:/iconos/iconos_generales/edit.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -463,8 +463,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
         </property>
         <property name="arrowType">
          <enum>Qt::NoArrow</enum>
@@ -510,8 +510,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_menu_draw_mesh/view.svg</normaloff>../resources/iconos/iconos_menu_draw_mesh/view.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_menu_draw_mesh/view.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -560,8 +560,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../resources/iconos/iconos_consola/exit.svg</normaloff>../resources/iconos/iconos_consola/exit.svg</iconset>
+         <iconset resource="../resources/iconos.qrc">
+          <normaloff>:/iconos/iconos_consola/exit.svg</normaloff>:/iconos/iconos_consola/exit.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -679,6 +679,8 @@ QComboBox[QComboBoxStyle=&quot;2&quot;]::down-arrow {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/iconos.qrc"/>
+ </resources>
  <connections/>
 </ui>

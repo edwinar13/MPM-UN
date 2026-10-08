@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QHBoxLayout,
     QLabel, QListWidget, QListWidgetItem, QSizePolicy,
     QSpacerItem, QSpinBox, QToolButton, QVBoxLayout,
     QWidget)
+from . import iconos_rc
 
 class Ui_FormDrawMenuExecute(object):
     def setupUi(self, FormDrawMenuExecute):
@@ -774,7 +775,7 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_hideShow.setFont(font)
         self.toolButton_hideShow.setStyleSheet(u"")
         icon = QIcon()
-        icon.addFile(u"../resources/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/iconos/iconos_menu_draw_data/hide_show.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_hideShow.setIcon(icon)
         self.toolButton_hideShow.setIconSize(QSize(15, 15))
         self.toolButton_hideShow.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
@@ -852,7 +853,7 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_cardExecuteSubTitle2 = QToolButton(self.frame_ExecuteSubTitle2)
         self.toolButton_cardExecuteSubTitle2.setObjectName(u"toolButton_cardExecuteSubTitle2")
         icon1 = QIcon()
-        icon1.addFile(u"../resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_cardExecuteSubTitle2.setIcon(icon1)
         self.toolButton_cardExecuteSubTitle2.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_cardExecuteSubTitle2.setProperty(u"QToolButtonSubTitleStyle", 1)
@@ -1022,7 +1023,7 @@ class Ui_FormDrawMenuExecute(object):
         self.toolButton_ExecuteStages.setMinimumSize(QSize(180, 0))
         self.toolButton_ExecuteStages.setMaximumSize(QSize(200, 16777215))
         icon2 = QIcon()
-        icon2.addFile(u"../resources/iconos/iconos_analisis/excute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/iconos/iconos_analisis/excute.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.toolButton_ExecuteStages.setIcon(icon2)
         self.toolButton_ExecuteStages.setIconSize(QSize(30, 30))
         self.toolButton_ExecuteStages.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
