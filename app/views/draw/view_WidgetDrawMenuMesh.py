@@ -3,7 +3,7 @@ es el widget menú de mallas."""
 
 from PySide6.QtCore import ( Signal, QSize,QTimer, Qt)
 from PySide6.QtGui import (QIcon, QFont,QTransform, QPen, QBrush, QPolygonF, QColor, QPalette)
-from PySide6.QtWidgets import (QFileDialog, QLabel,QFrame, QSpacerItem, QSizePolicy,QColorDialog, QComboBox)
+from PySide6.QtWidgets import (QFileDialog, QFrame, QSpacerItem, QSizePolicy, QColorDialog)
 from ui.ui_widget_draw_menu_mesh import Ui_FormDrawMenuMesh
 from utils import class_general
 
@@ -114,13 +114,7 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
         self.toolButton_cardMeshUploadFile.setVisible(False)
         self.label_textMesh_path.setVisible(False)
 
-        # Combo de subdivisión para tipo "Estructurada" (oculto por defecto)
-        self.label_MeshSubdivision = QLabel("Subdivisión:")
-        self.comboBox_MeshSubdivision = QComboBox()
-        self.comboBox_MeshSubdivision.addItems(["1", "4", "16"])
-        self.comboBox_MeshSubdivision.setCurrentIndex(1)
-        self.comboBox_MeshSubdivision.setMinimumHeight(25)
-        self.formLayout_3.addRow(self.label_MeshSubdivision, self.comboBox_MeshSubdivision)
+        # Subdivisión: solo para el tipo "Estructurada"
         self.label_MeshSubdivision.setVisible(False)
         self.comboBox_MeshSubdivision.setVisible(False)
 

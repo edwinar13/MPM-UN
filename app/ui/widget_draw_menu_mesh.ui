@@ -1113,7 +1113,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      </size>
                     </property>
                     <property name="text">
-                     <string>Tamaño del elemento :</string>
+                     <string>Tamaño del elemento:</string>
                     </property>
                     <property name="QLabelStyle" stdset="0">
                      <number>3</number>
@@ -1207,6 +1207,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                  </item>
                  <item>
                   <widget class="QToolButton" name="toolButton_cardMeshDrawUpdate">
+                   <property name="toolTip">
+                    <string>Actualizar malla de fondo</string>
+                   </property>
                    <property name="text">
                     <string/>
                    </property>
@@ -1259,7 +1262,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </size>
                    </property>
                    <property name="text">
-                    <string>Motrar</string>
+                    <string>Mostrar</string>
                    </property>
                    <property name="QToolButtonStyle" stdset="0">
                     <number>5</number>
@@ -1311,6 +1314,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      <width>40</width>
                      <height>0</height>
                     </size>
+                   </property>
+                   <property name="toolTip">
+                    <string>Mostrar/ocultar numeración de nodos</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1384,7 +1390,7 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                   </size>
                  </property>
                  <property name="text">
-                  <string>Crear malla para PM</string>
+                  <string>Crear malla para puntos materiales</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>2</number>
@@ -1725,6 +1731,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolButton_cardMeshDrawColor">
+                      <property name="toolTip">
+                       <string>Elegir color</string>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -1852,6 +1861,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                        <property name="enabled">
                         <bool>false</bool>
                        </property>
+                       <property name="toolTip">
+                        <string>Tomar tamaño del dibujo</string>
+                       </property>
                        <property name="text">
                         <string/>
                        </property>
@@ -1926,6 +1938,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                      <widget class="QToolButton" name="toolButton_cardMeshDrawSelected">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="toolTip">
+                       <string>Seleccionar geometría en el dibujo</string>
                       </property>
                       <property name="text">
                        <string/>
@@ -2012,6 +2027,56 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                     <property name="QToolButtonStyle" stdset="0">
                      <number>1</number>
                     </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label_MeshSubdivision">
+                    <property name="minimumSize">
+                     <size>
+                      <width>110</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Subdivisión:</string>
+                    </property>
+                    <property name="QLabelStyle" stdset="0">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QComboBox" name="comboBox_MeshSubdivision">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="currentIndex">
+                     <number>1</number>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="QComboBoxStyle" stdset="0">
+                     <number>1</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>16</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                  </layout>
@@ -2155,6 +2220,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_showHideLabel">
+                 <property name="toolTip">
+                  <string>Mostrar/ocultar etiquetas</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -2172,6 +2240,9 @@ QComboBox[QComboBoxStyle=&quot;1&quot;] QAbstractItemView {
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_showHideMesh">
+                 <property name="toolTip">
+                  <string>Mostrar/ocultar mallas</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
