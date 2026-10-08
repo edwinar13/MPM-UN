@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
-    QHBoxLayout, QLabel, QLineEdit, QScrollArea,
-    QSizePolicy, QSlider, QSpacerItem, QToolButton,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFormLayout,
+    QFrame, QHBoxLayout, QLabel, QLineEdit,
+    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
+    QToolButton, QVBoxLayout, QWidget)
 from . import iconos_rc
 
 class Ui_FormDrawMenuPointMaterial(object):
@@ -32,7 +32,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         sizePolicy.setHeightForWidth(FormDrawMenuPointMaterial.sizePolicy().hasHeightForWidth())
         FormDrawMenuPointMaterial.setSizePolicy(sizePolicy)
         FormDrawMenuPointMaterial.setMinimumSize(QSize(0, 0))
-        FormDrawMenuPointMaterial.setMaximumSize(QSize(350, 16777215))
+        FormDrawMenuPointMaterial.setMaximumSize(QSize(364, 16777215))
         FormDrawMenuPointMaterial.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro #222222 #333333 #444444\n"
@@ -586,6 +586,13 @@ class Ui_FormDrawMenuPointMaterial(object):
 "    background-color: #fecdcd;\n"
 "    /*box-shadow: 0 0 3px rgba(255, 0, 0, 0.5); */\n"
 "}\n"
+"\n"
+"\n"
+"/* Contenido del panel con scroll cuando no cabe en la altura de la ventana */\n"
+"QScrollArea#scrollArea_info,\n"
+"QWidget#scrollAreaWidgetContents_info{\n"
+"background-color: transparent;\n"
+"}\n"
 "")
         self.horizontalLayout_6 = QHBoxLayout(FormDrawMenuPointMaterial)
         self.horizontalLayout_6.setSpacing(0)
@@ -698,7 +705,19 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.verticalLayout_3.addWidget(self.frame_title)
 
-        self.frame_info = QFrame(self.frame_pointMaterial)
+        self.scrollArea_info = QScrollArea(self.frame_pointMaterial)
+        self.scrollArea_info.setObjectName(u"scrollArea_info")
+        self.scrollArea_info.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea_info.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.scrollArea_info.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.scrollArea_info.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_info = QWidget()
+        self.scrollAreaWidgetContents_info.setObjectName(u"scrollAreaWidgetContents_info")
+        self.scrollAreaWidgetContents_info.setMinimumSize(QSize(1, 0))
+        self.verticalLayout_scrollInfo = QVBoxLayout(self.scrollAreaWidgetContents_info)
+        self.verticalLayout_scrollInfo.setObjectName(u"verticalLayout_scrollInfo")
+        self.verticalLayout_scrollInfo.setContentsMargins(0, 0, 0, 0)
+        self.frame_info = QFrame(self.scrollAreaWidgetContents_info)
         self.frame_info.setObjectName(u"frame_info")
         self.frame_info.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_info.setFrameShadow(QFrame.Shadow.Raised)
@@ -1186,11 +1205,13 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.scrollArea = QScrollArea(self.frame_materialPoint3)
         self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scrollArea.setStyleSheet(u"background-color: transparent;\n"
-"border: none;")
+"      border: none;")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setMinimumSize(QSize(1, 0))
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 272, 128))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_14.setSpacing(0)
@@ -1241,7 +1262,11 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
 
 
-        self.verticalLayout_3.addWidget(self.frame_info)
+        self.verticalLayout_scrollInfo.addWidget(self.frame_info)
+
+        self.scrollArea_info.setWidget(self.scrollAreaWidgetContents_info)
+
+        self.verticalLayout_3.addWidget(self.scrollArea_info)
 
 
         self.horizontalLayout.addWidget(self.frame_pointMaterial)

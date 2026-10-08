@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QGridLayout,
-    QHBoxLayout, QLabel, QLineEdit, QSizePolicy,
-    QSpacerItem, QTextEdit, QToolButton, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QFrame,
+    QGridLayout, QHBoxLayout, QLabel, QLineEdit,
+    QScrollArea, QSizePolicy, QSpacerItem, QTextEdit,
+    QToolButton, QVBoxLayout, QWidget)
 from . import iconos_rc
 
 class Ui_FormDrawMenuData(object):
@@ -32,7 +32,7 @@ class Ui_FormDrawMenuData(object):
         sizePolicy.setHeightForWidth(FormDrawMenuData.sizePolicy().hasHeightForWidth())
         FormDrawMenuData.setSizePolicy(sizePolicy)
         FormDrawMenuData.setMinimumSize(QSize(0, 0))
-        FormDrawMenuData.setMaximumSize(QSize(350, 16777215))
+        FormDrawMenuData.setMaximumSize(QSize(364, 16777215))
         FormDrawMenuData.setStyleSheet(u"/*Colores primarios*/\n"
 "/* \n"
 "gris oscuro #222222 #333333 #444444\n"
@@ -239,6 +239,13 @@ class Ui_FormDrawMenuData(object):
 "}\n"
 "\n"
 "\n"
+"\n"
+"\n"
+"/* Contenido del panel con scroll cuando no cabe en la altura de la ventana */\n"
+"QScrollArea#scrollArea_info,\n"
+"QWidget#scrollAreaWidgetContents_info{\n"
+"background-color: transparent;\n"
+"}\n"
 "")
         self.horizontalLayout_6 = QHBoxLayout(FormDrawMenuData)
         self.horizontalLayout_6.setSpacing(0)
@@ -350,7 +357,19 @@ class Ui_FormDrawMenuData(object):
 
         self.verticalLayout_3.addWidget(self.frame_title)
 
-        self.frame_info = QFrame(self.frame_data)
+        self.scrollArea_info = QScrollArea(self.frame_data)
+        self.scrollArea_info.setObjectName(u"scrollArea_info")
+        self.scrollArea_info.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea_info.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.scrollArea_info.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.scrollArea_info.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_info = QWidget()
+        self.scrollAreaWidgetContents_info.setObjectName(u"scrollAreaWidgetContents_info")
+        self.scrollAreaWidgetContents_info.setMinimumSize(QSize(1, 0))
+        self.verticalLayout_scrollInfo = QVBoxLayout(self.scrollAreaWidgetContents_info)
+        self.verticalLayout_scrollInfo.setObjectName(u"verticalLayout_scrollInfo")
+        self.verticalLayout_scrollInfo.setContentsMargins(0, 0, 0, 0)
+        self.frame_info = QFrame(self.scrollAreaWidgetContents_info)
         self.frame_info.setObjectName(u"frame_info")
         self.frame_info.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_info.setFrameShadow(QFrame.Shadow.Raised)
@@ -650,7 +669,11 @@ class Ui_FormDrawMenuData(object):
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
 
 
-        self.verticalLayout_3.addWidget(self.frame_info)
+        self.verticalLayout_scrollInfo.addWidget(self.frame_info)
+
+        self.scrollArea_info.setWidget(self.scrollAreaWidgetContents_info)
+
+        self.verticalLayout_3.addWidget(self.scrollArea_info)
 
 
         self.horizontalLayout.addWidget(self.frame_data)
