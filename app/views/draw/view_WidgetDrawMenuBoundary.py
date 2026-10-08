@@ -266,6 +266,10 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
     def addCardBoundary(self, card_boundary):
         self.verticalLayout_containerCardBoundary.addWidget(card_boundary)
         self.list_view_card.append(card_boundary)
+        # Al eliminar la tarjeta (p. ej. borrar el elemento) sale de la lista;
+        # si no, al abrir otro proyecto se intenta quitar un widget ya destruido.
+        card_boundary.destroyed.connect(
+            lambda *_: card_boundary in self.list_view_card and self.list_view_card.remove(card_boundary))
         last_index = self.verticalLayout_containerCardBoundary.count() - 1
         self.verticalLayout_containerCardBoundary.insertWidget(last_index, self.frame_empty)
 

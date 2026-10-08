@@ -389,6 +389,10 @@ class ViewWidgetDrawMenuMesh(QFrame, Ui_FormDrawMenuMesh):
     def addCardMesh(self, card_mesh):
         self.verticalLayout_containerCardMesh.addWidget(card_mesh)
         self.list_view_card.append(card_mesh)
+        # Al eliminar la tarjeta (p. ej. borrar el elemento) sale de la lista;
+        # si no, al abrir otro proyecto se intenta quitar un widget ya destruido.
+        card_mesh.destroyed.connect(
+            lambda *_: card_mesh in self.list_view_card and self.list_view_card.remove(card_mesh))
         last_index = self.verticalLayout_containerCardMesh.count() - 1
         self.verticalLayout_containerCardMesh.insertWidget(last_index, self.frame_empty)
 

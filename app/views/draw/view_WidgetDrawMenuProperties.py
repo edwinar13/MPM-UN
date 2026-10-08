@@ -287,6 +287,10 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
     def addCardProperty(self, card_property):
         self.verticalLayout_containerCardProperties.addWidget(card_property)
         self.list_view_card.append(card_property)
+        # Al eliminar la tarjeta (p. ej. borrar el elemento) sale de la lista;
+        # si no, al abrir otro proyecto se intenta quitar un widget ya destruido.
+        card_property.destroyed.connect(
+            lambda *_: card_property in self.list_view_card and self.list_view_card.remove(card_property))
         last_index = self.verticalLayout_containerCardProperties.count() - 1
         self.verticalLayout_containerCardProperties.insertWidget(last_index, self.frame_empty)
 

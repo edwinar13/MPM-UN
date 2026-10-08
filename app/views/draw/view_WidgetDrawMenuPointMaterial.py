@@ -502,6 +502,10 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
 
         self.verticalLayout_containerCardMaterialPoint.addWidget(card_material_point)
         self.list_view_card.append(card_material_point)
+        # Al eliminar la tarjeta (p. ej. borrar el elemento) sale de la lista;
+        # si no, al abrir otro proyecto se intenta quitar un widget ya destruido.
+        card_material_point.destroyed.connect(
+            lambda *_: card_material_point in self.list_view_card and self.list_view_card.remove(card_material_point))
         last_index = self.verticalLayout_containerCardMaterialPoint.count() - 1
         self.verticalLayout_containerCardMaterialPoint.insertWidget(last_index, self.frame_empty)
     
