@@ -73,8 +73,8 @@ class ViewWidgetResultMenuGraph(QFrame, Ui_FormMenuResultGraph):
 
         self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        # Solo con datos si el análisis tuvo una etapa de consolidación
-        self.comboBox_chartTypeResult.addItem("Presión de poros")
+        # Presión de poros: solo con datos si el análisis tuvo una etapa de consolidación
+        self.comboBox_chartTypeResult.addItems(list(general_functions.GRAPH_RESULTS))
 
 
     def __initEventUi(self):

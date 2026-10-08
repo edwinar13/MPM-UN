@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>766</height>
+    <height>773</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -709,7 +709,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
 }
 </string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_main">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>5</number>
    </property>
@@ -722,7 +725,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
    <property name="bottomMargin">
     <number>5</number>
    </property>
-   <item row="0" column="0">
+   <item>
     <widget class="QFrame" name="frame_ResultAnimationProject">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -731,10 +734,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
@@ -767,10 +770,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
          </size>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
@@ -803,10 +806,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
@@ -867,7 +870,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                </size>
               </property>
               <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonIconOnly</enum>
+               <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
               </property>
              </widget>
             </item>
@@ -877,7 +880,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
          <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Orientation::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -899,10 +902,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
          </sizepolicy>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="spacing">
@@ -941,10 +944,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="lineWidth">
             <number>0</number>
@@ -963,7 +966,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
             <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -979,19 +982,19 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
          <item>
           <widget class="QFrame" name="frame_info">
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
              <widget class="QFrame" name="frame_ResultAnimationSubTitle1">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
@@ -1035,7 +1038,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                    <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -1054,10 +1057,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                </sizepolicy>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <property name="spacing">
@@ -1069,10 +1072,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                   <string notr="true"/>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::Shape::StyledPanel</enum>
                  </property>
                  <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                  <enum>QFrame::Shadow::Raised</enum>
                  </property>
                  <layout class="QFormLayout" name="formLayout_2">
                   <item row="0" column="0">
@@ -1100,51 +1103,11 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                      </size>
                     </property>
                     <property name="focusPolicy">
-                     <enum>Qt::WheelFocus</enum>
+                     <enum>Qt::FocusPolicy::WheelFocus</enum>
                     </property>
                     <property name="QComboBoxStyle" stdset="0">
                      <number>1</number>
                     </property>
-                    <item>
-                     <property name="text">
-                      <string>Coordenada X</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Coordenada Y</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>sigxx</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>sigyy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>sigxy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>epsxx</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>epsyy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>epsxy</string>
-                     </property>
-                    </item>
                    </widget>
                   </item>
                   <item row="2" column="0">
@@ -1215,7 +1178,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                        </size>
                       </property>
                       <property name="arrowType">
-                       <enum>Qt::NoArrow</enum>
+                       <enum>Qt::ArrowType::NoArrow</enum>
                       </property>
                       <property name="QToolButtonStyle" stdset="0">
                        <number>1</number>
@@ -1299,13 +1262,13 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                   <string>NOTA: los puntos materiales se pueden seleccionar, por id como 1 o 2 o 3 etc. Por conjuntos de ids separados por coma, por ejemplo 1,2,3… o por rangos de ids separados por dos puntos ejemplo 5:10</string>
                  </property>
                  <property name="textFormat">
-                  <enum>Qt::PlainText</enum>
+                  <enum>Qt::TextFormat::PlainText</enum>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -1381,10 +1344,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                  <item>
                   <layout class="QFormLayout" name="formLayout_6">
                    <property name="fieldGrowthPolicy">
-                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                    <enum>QFormLayout::FieldGrowthPolicy::AllNonFixedFieldsGrow</enum>
                    </property>
                    <property name="rowWrapPolicy">
-                    <enum>QFormLayout::WrapLongRows</enum>
+                    <enum>QFormLayout::RowWrapPolicy::WrapLongRows</enum>
                    </property>
                    <property name="horizontalSpacing">
                     <number>10</number>
@@ -1603,7 +1566,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                  <item>
                   <spacer name="horizontalSpacer_3">
                    <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
@@ -1634,10 +1597,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
             <item>
              <widget class="QFrame" name="frame_ResultAnimationSubTitle0">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_16">
                <property name="spacing">
@@ -1664,7 +1627,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                   </size>
                  </property>
                  <property name="text">
-                  <string>Estilos de colores:</string>
+                  <string>Puntos graficados</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>3</number>
@@ -1681,7 +1644,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                    <normaloff>:/iconos/iconos_menu_draw_mesh/delete.svg</normaloff>:/iconos/iconos_menu_draw_mesh/delete.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -1698,7 +1661,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                    <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -1715,7 +1678,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                    <normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -1732,7 +1695,7 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                    <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
                  </property>
                  <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                  <enum>Qt::ArrowType::NoArrow</enum>
                  </property>
                  <property name="QToolButtonSubTitleStyle" stdset="0">
                   <number>1</number>
@@ -1760,10 +1723,10 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                <string notr="true"/>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_13">
                <item>
@@ -1780,8 +1743,8 @@ border: none;</string>
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>278</width>
-                    <height>130</height>
+                    <width>272</width>
+                    <height>128</height>
                    </rect>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -1817,10 +1780,10 @@ border: none;</string>
                         <string notr="true"/>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
+                        <enum>QFrame::Shape::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
+                        <enum>QFrame::Shadow::Raised</enum>
                        </property>
                       </widget>
                      </item>
@@ -1836,10 +1799,10 @@ border: none;</string>
             <item>
              <spacer name="verticalSpacer_2">
               <property name="orientation">
-               <enum>Qt::Vertical</enum>
+               <enum>Qt::Orientation::Vertical</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Expanding</enum>
+               <enum>QSizePolicy::Policy::Expanding</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -1866,7 +1829,7 @@ border: none;</string>
                  <string>Empty</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
                 </property>
                </widget>
               </item>

@@ -9,6 +9,30 @@ import re
 # Resultados escalares (sin componente xx/yy/xy): tipo del menú → clave guardada
 SCALAR_RESULTS = {'eqplas': 'EQPLAS', 'pp': 'PRESIONPOROS'}
 
+# Opciones del menú de gráficas en el tiempo: texto mostrado (también rótulo del
+# eje y) → clave guardada en RESULTADOSNODOS. Las magnitudes se guardan como *XY.
+GRAPH_RESULTS = {
+    'Coordenada X (m)': 'CORX',
+    'Coordenada Y (m)': 'CORY',
+    'Desplazamiento X (m)': 'DESPLXX',
+    'Desplazamiento Y (m)': 'DESPLYY',
+    'Desplazamiento total (m)': 'DESPLXY',
+    'Velocidad X (m/s)': 'VELXX',
+    'Velocidad Y (m/s)': 'VELYY',
+    'Velocidad total (m/s)': 'VELXY',
+    'σxx (kPa)': 'SIGXX',
+    'σyy (kPa)': 'SIGYY',
+    'τxy (kPa)': 'SIGXY',
+    'Def. elástica εxx': 'EPSEXX',
+    'Def. elástica εyy': 'EPSEYY',
+    'Def. elástica εxy': 'EPSEXY',
+    'Def. plástica εxx': 'EPSPXX',
+    'Def. plástica εyy': 'EPSPYY',
+    'Def. plástica εxy': 'EPSPXY',
+    'Def. plástica equivalente': 'EQPLAS',
+    'Presión de poros (kPa)': 'PRESIONPOROS',
+}
+
 
 def result_key(type_result, axis):
     """Clave del resultado guardado ('SIGXX', 'EQPLAS', 'PRESIONPOROS', ...)

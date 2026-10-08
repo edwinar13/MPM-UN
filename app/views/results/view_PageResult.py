@@ -29,11 +29,11 @@ class ViewPageResult(QFrame, Ui_FormResult):
         self.ax.grid(True)        
         self.canvas = FigureCanvas(self.fig)
         self.verticalLayout_chart.addWidget(self.canvas)
-        self.title ="Coordenada X"
+        self.title ="Coordenada X (m)"
         self.islabel = False
         self.setTitleChart(self.title)
         self.setLabelXChart("Tiempo")
-        self.setLabelYChart("Coordenada x")
+        self.setLabelYChart(self.title)
  
         #:::::::::::::::::::   EVENTO HOVER   ::::::::::::::::::::::::::::::::::::
         def hover(event):
@@ -143,7 +143,7 @@ class ViewPageResult(QFrame, Ui_FormResult):
 
     def setTitleChart(self, title:str): 
         self.title = title       
-        self.ax.set_title(title.upper(),fontweight ="bold")
+        self.ax.set_title(title, fontweight="bold")  # sin upper(): las unidades (m, m/s) cambian
 
     def setLabelXChart(self, label_x:str):
         self.ax.set_xlabel(label_x)

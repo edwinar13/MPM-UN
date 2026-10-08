@@ -1,6 +1,6 @@
 
 from PySide6.QtCore import ( Slot, QObject)
-from utils.general_functions import isNumber
+from utils.general_functions import isNumber, GRAPH_RESULTS
 from views.results.view_PageResult import  ViewPageResult
 from models.model_ProjectCurrent import ModelProjectCurrent
 
@@ -39,7 +39,7 @@ class ControllerPageResult(QObject):
 
         self.scene_type_result = "default"
 
-        self.graphics_type_result = "Coordenada X"
+        self.graphics_type_result = next(iter(GRAPH_RESULTS))
         self.graphics_list_point =[]
         self.graphics_type_view = 0
         self.list_controller_card=[]
@@ -266,30 +266,7 @@ class ControllerPageResult(QObject):
             for point_search in list_point_search:
                 if not point_search in self.graphics_list_point:                   
                     
-                    data_axis_y = None
-                    if self.graphics_type_result.lower() == 'coordenada x':
-                        data_axis_y = data[point_search]['CORX']
-                    elif self.graphics_type_result.lower() == 'coordenada y':
-                        data_axis_y = data[point_search]['CORY']
-                    elif self.graphics_type_result.lower() == 'sigxx':
-                        data_axis_y = data[point_search]['SIGXX']
-                    elif self.graphics_type_result.lower() == 'sigyy':
-                        data_axis_y = data[point_search]['SIGYY']
-                    elif self.graphics_type_result.lower() == 'sigxy':
-                        data_axis_y = data[point_search]['SIGXY']
-                    elif self.graphics_type_result.lower() == 'epsxx':
-                        data_axis_y = data[point_search]['EPSXX']
-                    elif self.graphics_type_result.lower() == 'epsyy':
-                        data_axis_y = data[point_search]['EPSYY']
-                    elif self.graphics_type_result.lower() == 'epsxy':
-                        data_axis_y = data[point_search]['EPSXY']
-                    elif self.graphics_type_result.lower() == 'velx':
-                        data_axis_y = data[point_search]['VELX']
-                    elif self.graphics_type_result.lower() == 'vely':
-                        data_axis_y = data[point_search]['VELY']
-                    elif self.graphics_type_result.lower() == 'presión de poros':
-                        data_axis_y = data[point_search].get('PRESIONPOROS')
-
+                    data_axis_y = data[point_search].get(GRAPH_RESULTS.get(self.graphics_type_result))
                     if data_axis_y is None:
                         print(f"[GRÁFICAS] el punto {point_search} no tiene "
                               f"'{self.graphics_type_result}' en estos resultados")
@@ -315,37 +292,7 @@ class ControllerPageResult(QObject):
         
         for point_graphics in self.graphics_list_point:
 
-            data_axis_y = None
-            if self.graphics_type_result.lower() == 'coordenada x':
-                data_axis_y = data[point_graphics]['CORX']
-            elif self.graphics_type_result.lower() == 'coordenada y':
-                data_axis_y = data[point_graphics]['CORY']
-            elif self.graphics_type_result.lower() == 'sigxx':
-                data_axis_y = data[point_graphics]['SIGXX']
-            elif self.graphics_type_result.lower() == 'sigyy':
-                data_axis_y = data[point_graphics]['SIGYY']
-            elif self.graphics_type_result.lower() == 'sigxy':
-                data_axis_y = data[point_graphics]['SIGXY']
-            elif self.graphics_type_result.lower() == 'epsxx':
-                data_axis_y = data[point_graphics]['EPSXX']
-            elif self.graphics_type_result.lower() == 'epsyy':
-                data_axis_y = data[point_graphics]['EPSYY']
-            elif self.graphics_type_result.lower() == 'epsxy':
-                data_axis_y = data[point_graphics]['EPSXY']
-            elif self.graphics_type_result.lower() == 'velx':
-                data_axis_y = data[point_graphics]['VELX']
-            elif self.graphics_type_result.lower() == 'vely':
-                data_axis_y = data[point_graphics]['VELY']
-            elif self.graphics_type_result.lower() == 'desplx':
-                data_axis_y = data[point_graphics]['DESPLX']
-            elif self.graphics_type_result.lower() == 'desply':
-                data_axis_y = data[point_graphics]['DESPLY']                
-            elif self.graphics_type_result.lower() == 'desplxy':
-                data_axis_y = data[point_graphics]['DESPLXY']                
-            elif self.graphics_type_result.lower() == 'eqplas':
-                data_axis_y = data[point_graphics]['EQPLAS']
-            elif self.graphics_type_result.lower() == 'presión de poros':
-                data_axis_y = data[point_graphics].get('PRESIONPOROS')
+            data_axis_y = data[point_graphics].get(GRAPH_RESULTS.get(self.graphics_type_result))
             if data_axis_y is None:
                 continue  # resultados sin presión de poros (sin consolidación)
 
