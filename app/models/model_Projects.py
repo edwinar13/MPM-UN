@@ -122,7 +122,7 @@ class ModelProjects:
 
         BD = self.path_db_Config
         if QFile.exists(BD):
-            with open(BD, 'r') as f: 
+            with open(BD, 'r', encoding='utf-8') as f: 
                 data_projects = json.load(f)
                 data_projects = data_projects['ULTIMOSPROYECTOS']  
         else:
@@ -172,11 +172,11 @@ class ModelProjects:
         BD=self.path_db_Config  
         if QFile.exists(BD):		  
             try:
-                with open(BD, 'r') as f: 
+                with open(BD, 'r', encoding='utf-8') as f: 
                     data_setting = json.load(f)
                     data_setting['ULTIMOSPROYECTOS']=data_projects
 
-                with open(BD, 'w') as f:
+                with open(BD, 'w', encoding='utf-8') as f:
                     f.write(json.dumps(data_setting))
                 validacion=True
                 
@@ -268,11 +268,11 @@ class ModelProjects:
         BD=self.path_db_Config  
         if QFile.exists(BD):		  
             try:
-                with open(BD, 'r') as f: 
+                with open(BD, 'r', encoding='utf-8') as f: 
                     data_setting = json.load(f)
                     data_setting['ULTIMOSPROYECTOS']=data_projects
 
-                with open(BD, 'w') as f:
+                with open(BD, 'w', encoding='utf-8') as f:
                     f.write(json.dumps(data_setting))
                 validacion=True
                 
@@ -303,11 +303,11 @@ class ModelProjects:
             BD = self.path_db_Config
             if QFile.exists(BD):		  
                 try:
-                    with open(BD, 'r') as f: 
+                    with open(BD, 'r', encoding='utf-8') as f: 
                         data_projects = json.load(f)
                         data_projects['ULTIMOSPROYECTOS']=[]
                     
-                    with open(BD, 'w') as f:
+                    with open(BD, 'w', encoding='utf-8') as f:
                         f.write(json.dumps(data_projects))
                     validacion=True
                 except:

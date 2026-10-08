@@ -41,11 +41,11 @@ class ModelRepository():
 
         BD = self.__path_db_project
         if QFile.exists(BD):            
-            with open(BD, 'r') as a: 
+            with open(BD, 'r', encoding='utf-8') as a: 
                 self.__original_copy_db_project = json.load(a)
                 a.close()
 
-            with open(BD, 'r') as b: 
+            with open(BD, 'r', encoding='utf-8') as b: 
                 self.__unguarded_copy_db_project = json.load(b)
                 b.close()
         else:            
@@ -708,6 +708,21 @@ class ModelRepository():
             print("[Tipo: {}, Erro: {}]".format(type(err), err))
             return False
 
+    # Selección del panel Ejecutar y fps: CONFIGANALISIS.PUNTOSMATERIAL_ANALISIS,
+    # CONTORNOS_ANALISIS (listas de ids) y FPS. Los proyectos que no las traen
+    # devuelven None (el controlador toma entonces lo de los resultados).
+    def readAnalysisValueDB(self, key):
+        return self.__unguarded_copy_db_project['CONFIGANALISIS'].get(key, None)
+
+    def updateAnalysisValueDB(self, key, value):
+        try:
+            self.__unguarded_copy_db_project['CONFIGANALISIS'][key] = value
+            return True
+        except BaseException as err:
+            print("[Doc: {}] Error al actualizar <CONFIGANALISIS.{}> de la base de datos".format(self.__name_doc_py, key))
+            print("[Tipo: {}, Erro: {}]".format(type(err), err))
+            return False
+
 
 
 	# ::::::::::::::::::::       MÉTODOS DB RESULTADOS     ::::::::::::::::::::
@@ -1092,12 +1107,12 @@ class ModelRepository():
             #try:
                 # se guarda en el archivo                
                 
-                with open(BD, 'w') as a:
+                with open(BD, 'w', encoding='utf-8') as a:
                     a.write(json.dumps(self.__unguarded_copy_db_project)) 
                     a.close()
                             
                 # se actualiza la copia original
-                with open(BD, 'r') as b: 
+                with open(BD, 'r', encoding='utf-8') as b: 
                     self.__original_copy_db_project = json.load(b)
                     b.close()
                 print("Guardo correctamente en la base de datos")  
@@ -1129,7 +1144,7 @@ class ModelRepository():
         BD=new_path_file	  
         try:
             # se guarda en el archivo
-            with open(BD, 'w') as a:
+            with open(BD, 'w', encoding='utf-8') as a:
                 a.write(json.dumps(self.__unguarded_copy_db_project)) 
                 a.close()
             print("Guardo como, correctamente en la base de datos")   

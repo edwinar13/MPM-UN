@@ -151,8 +151,7 @@ class ControllerMainWindow():
             self.previous_selected_button = 7
             self.view_main_window.viewToolButtonMenuLat(self.previous_selected_button)
             self.controller_page_draw.selectMenu("execute")
-            #self.controller_page_draw.controller_menu_execute.configDrawMenuExecute()
-            self.controller_page_draw.controller_menu_execute.activateMenu()
+            self.controller_page_draw.controller_menu_execute.updateStagesSummary()
             self.setting = True
 
 

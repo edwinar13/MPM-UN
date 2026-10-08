@@ -602,6 +602,20 @@ font: 300 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
 
+QLabel[QLabelStyle=&quot;4&quot;] {
+font: italic 300 8pt &quot;Ubuntu&quot;;
+color: #999999;
+}
+
+QLabel#label_stagesSummary {
+font: 300 9pt &quot;Ubuntu&quot;;
+color: #DDDDDD;
+background: #2A2A2A;
+border: 1px solid #444444;
+border-radius: 4px;
+padding: 6px;
+}
+
 
 
 
@@ -981,128 +995,6 @@ naranjas #D34E24 #F28123 #F7F052
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_ExecuteSubTitle2">
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_17">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_cardExecuteSubTitle2">
-                 <property name="minimumSize">
-                  <size>
-                   <width>262</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Graficado</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>2</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_cardExecuteSubTitle2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_Execute2">
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <layout class="QFormLayout" name="formLayout">
-               <property name="horizontalSpacing">
-                <number>9</number>
-               </property>
-               <property name="verticalSpacing">
-                <number>9</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_texExcute_10">
-                 <property name="minimumSize">
-                  <size>
-                   <width>110</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Fps:</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>3</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="doubleSpinBoxl_textExecuteFps">
-                 <property name="minimumSize">
-                  <size>
-                   <width>120</width>
-                   <height>25</height>
-                  </size>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>1000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>30</number>
-                 </property>
-                 <property name="displayIntegerBase">
-                  <number>10</number>
-                 </property>
-                 <property name="QSpinBoxStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
              <widget class="QFrame" name="frame_ExecuteSubTitle1">
               <property name="frameShape">
                <enum>QFrame::Shape::StyledPanel</enum>
@@ -1164,6 +1056,12 @@ naranjas #D34E24 #F28123 #F7F052
             </item>
             <item>
              <widget class="QFrame" name="frame_Execute1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -1203,11 +1101,41 @@ naranjas #D34E24 #F28123 #F7F052
                 </widget>
                </item>
                <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_pmHeaders">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
+                 <item>
+                 <widget class="QLabel" name="label_pmAvailable">
+                  <property name="text">
+                   <string>Disponibles</string>
+                  </property>
+                  <property name="QLabelStyle" stdset="0">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                 <item>
+                 <widget class="QLabel" name="label_pmSelected">
+                  <property name="text">
+                   <string>En el análisis (arrastre)</string>
+                  </property>
+                  <property name="QLabelStyle" stdset="0">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                </layout>
+               </item>
+               <item>
                 <widget class="QFrame" name="frame_8">
+                 <property name="toolTip">
+                  <string>Arrastre los elementos entre las dos listas para incluirlos o quitarlos del análisis.</string>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
+                   <verstretch>1</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
@@ -1241,7 +1169,7 @@ naranjas #D34E24 #F28123 #F7F052
                   <item>
                    <widget class="QListWidget" name="listWidget_execute_pointMaterialFrom">
                     <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+                     <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
                     </property>
                     <property name="horizontalScrollBarPolicy">
                      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
@@ -1257,7 +1185,7 @@ naranjas #D34E24 #F28123 #F7F052
                   <item>
                    <widget class="QListWidget" name="listWidget_execute_pointMaterialTo">
                     <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+                     <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
                     </property>
                     <property name="horizontalScrollBarPolicy">
                      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
@@ -1287,7 +1215,7 @@ naranjas #D34E24 #F28123 #F7F052
                   </size>
                  </property>
                  <property name="text">
-                  <string>Contornos:</string>
+                  <string>Contornos</string>
                  </property>
                  <property name="QLabelStyle" stdset="0">
                   <number>3</number>
@@ -1295,11 +1223,41 @@ naranjas #D34E24 #F28123 #F7F052
                 </widget>
                </item>
                <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_boundariesHeaders">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
+                 <item>
+                 <widget class="QLabel" name="label_boundariesAvailable">
+                  <property name="text">
+                   <string>Disponibles</string>
+                  </property>
+                  <property name="QLabelStyle" stdset="0">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                 <item>
+                 <widget class="QLabel" name="label_boundariesSelected">
+                  <property name="text">
+                   <string>En el análisis (arrastre)</string>
+                  </property>
+                  <property name="QLabelStyle" stdset="0">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+                </layout>
+               </item>
+               <item>
                 <widget class="QFrame" name="frame_9">
+                 <property name="toolTip">
+                  <string>Arrastre los elementos entre las dos listas para incluirlos o quitarlos del análisis.</string>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
+                   <verstretch>1</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
@@ -1333,7 +1291,7 @@ naranjas #D34E24 #F28123 #F7F052
                   <item>
                    <widget class="QListWidget" name="listWidget_execute_boundariesFrom">
                     <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+                     <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
                     </property>
                     <property name="horizontalScrollBarPolicy">
                      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
@@ -1349,7 +1307,7 @@ naranjas #D34E24 #F28123 #F7F052
                   <item>
                    <widget class="QListWidget" name="listWidget_execute_boundariesTo">
                     <property name="verticalScrollBarPolicy">
-                     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+                     <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
                     </property>
                     <property name="horizontalScrollBarPolicy">
                      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
@@ -1372,47 +1330,114 @@ naranjas #D34E24 #F28123 #F7F052
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_ExecuteStages">
-              <property name="minimumSize">
-               <size>
-                <width>180</width>
-                <height>0</height>
-               </size>
+             <widget class="QFrame" name="frame_ExecuteSubTitle3">
+              <property name="frameShape">
+               <enum>QFrame::Shape::StyledPanel</enum>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>16777215</height>
-               </size>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
               </property>
-              <property name="text">
-               <string>Ejecutar etapas</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources/iconos.qrc">
-                <normaloff>:/iconos/iconos_analisis/excute.svg</normaloff>:/iconos/iconos_analisis/excute.svg</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="popupMode">
-               <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
-              </property>
-              <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
-              </property>
-              <property name="autoRaise">
-               <bool>false</bool>
-              </property>
-              <property name="arrowType">
-               <enum>Qt::ArrowType::RightArrow</enum>
-              </property>
-              <property name="QToolButtonStyle" stdset="0">
-               <number>9</number>
-              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_stagesTitle">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_cardExecuteSubTitle3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>262</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Etapas</string>
+                 </property>
+                 <property name="QLabelStyle" stdset="0">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_cardExecuteSubTitle3">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_Execute3">
+              <layout class="QVBoxLayout" name="verticalLayout_stages">
+               <property name="spacing">
+                <number>8</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>4</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_stagesSummary">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="textFormat">
+                  <enum>Qt::TextFormat::RichText</enum>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_stagesButton">
+                 <item>
+                  <widget class="QToolButton" name="toolButton_ExecuteStages">
+                   <property name="toolTip">
+                    <string>Configurar las etapas del análisis, la gravedad y los cuadros por segundo</string>
+                   </property>
+                   <property name="text">
+                    <string>Configurar etapas…</string>
+                   </property>
+                   <property name="QToolButtonStyle" stdset="0">
+                    <number>2</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
              </widget>
             </item>
             <item>
@@ -1424,12 +1449,12 @@ naranjas #D34E24 #F28123 #F7F052
                <enum>Qt::Orientation::Vertical</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Policy::Expanding</enum>
+               <enum>QSizePolicy::Policy::MinimumExpanding</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>227</height>
+                <height>20</height>
                </size>
               </property>
              </spacer>
@@ -1499,7 +1524,7 @@ naranjas #D34E24 #F28123 #F7F052
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Empty</string>
+                 <string/>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignmentFlag::AlignCenter</set>

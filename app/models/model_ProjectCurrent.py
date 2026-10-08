@@ -419,6 +419,23 @@ class ModelProjectCurrent(QObject):
         """Guarda la etapa desde la que se reanudará el análisis."""
         self.model_repository.updateResumeFromDB(resume_from)
 
+    def getFps(self):
+        """Cuadros por segundo de resultados (None si el proyecto no lo guarda)."""
+        return self.model_repository.readAnalysisValueDB('FPS')
+
+    def updateFps(self, fps):
+        self.model_repository.updateAnalysisValueDB('FPS', int(fps))
+
+    def getAnalysisSelection(self):
+        """(ids de grupos de puntos materiales, ids de contornos) seleccionados en
+        el panel Ejecutar, o (None, None) si el proyecto no los guarda."""
+        return (self.model_repository.readAnalysisValueDB('PUNTOSMATERIAL_ANALISIS'),
+                self.model_repository.readAnalysisValueDB('CONTORNOS_ANALISIS'))
+
+    def updateAnalysisSelection(self, ids_points_material, ids_boundaries):
+        self.model_repository.updateAnalysisValueDB('PUNTOSMATERIAL_ANALISIS', list(ids_points_material))
+        self.model_repository.updateAnalysisValueDB('CONTORNOS_ANALISIS', list(ids_boundaries))
+
     def getCheckpointDir(self) -> str:
         """Carpeta donde se guardan los checkpoints de etapa de este proyecto.
 

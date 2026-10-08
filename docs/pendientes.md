@@ -15,8 +15,15 @@ aplicación (≈ 15 de octubre de 2026).
       (columnas únicas, csv) — 7–8 oct.
 - [x] Dibujo: datos, mallado, materiales, puntos materiales y contornos; gravedad al
       diálogo de etapas; flecha de fuerza corregida — 8 oct.
-- [ ] Revisar las vistas que faltan: menú de ejecutar, ventana principal, inicio,
-      configuración y tarjetas.
+- [x] Menú de ejecutar: selección y fps guardados en el proyecto
+      (`CONFIGANALISIS.PUNTOSMATERIAL_ANALISIS`, `CONTORNOS_ANALISIS`, `FPS`),
+      resumen de etapas en el panel, fps al diálogo de etapas, verificación de
+      puntos dentro de la malla corregida — 8 oct. Consolidación 1D desde el botón
+      Ejecutar igual bit a bit a la corrida del 7 oct.
+- [x] Proyectos leídos y escritos en UTF-8 (antes cp1252: un archivo UTF-8 hecho
+      fuera de la aplicación quedaba con tildes dañadas al guardarlo) — 8 oct.
+- [ ] Revisar las vistas que faltan: ventana principal, inicio, configuración,
+      tarjetas y diálogo de progreso del análisis.
 - [ ] Reporte PDF: el botón está oculto. Rehacerlo con etapas, gráficas reales y
       claves actuales (`controller_MenuResultTable.signalGeneratePdf`).
 - [ ] "Campo de vectores" de la animación de resultados: confirmar que las flechas

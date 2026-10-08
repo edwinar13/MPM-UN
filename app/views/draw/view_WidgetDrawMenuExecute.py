@@ -1,10 +1,6 @@
 
-from PySide6.QtCore import ( Signal, QSize,QTimer, QStringListModel)
-from PySide6.QtGui import (QIcon, QFont, QColor,  QPixmap, QPainter, QPen , QBrush)
-from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy)
-
-from PySide6.QtCore import Signal, QStringListModel, Qt, QMimeData
-from PySide6.QtGui import QIcon, QFont, QDrag
+from PySide6.QtCore import Signal, QSize, QTimer, Qt
+from PySide6.QtGui import QIcon, QFont, QColor, QPixmap, QPainter, QPen, QBrush
 from PySide6.QtWidgets import QFrame, QSpacerItem, QSizePolicy, QListWidget, QListWidgetItem
 
 from ui.ui_widget_draw_menu_execute import Ui_FormDrawMenuExecute
@@ -12,14 +8,14 @@ from utils import class_general
 
 
 class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
-    """Panel Ejecutar: selección de puntos materiales y contornos, fps y
-    los botones de etapas y ejecutar. Toda la configuración por-etapa
-    (Courant, tiempo, damping, incrementos, plasticidad...) vive en
-    DialogStages, no aquí."""
+    """Panel Ejecutar: qué se analiza (puntos materiales y contornos), un
+    resumen de las etapas y los botones de configurar etapas y ejecutar. La
+    configuración del análisis (etapas, gravedad, fps) vive en DialogStages."""
 
     signal_execute= Signal()
     signal_state_view_boundary= Signal(dict)
     signal_stages = Signal()  # abrir diálogo de etapas de análisis
+    signal_selection_changed = Signal()  # se movió un elemento entre las listas
 
     def __init__(self):
         super(ViewWidgetDrawMenuExecute, self).__init__()
@@ -27,12 +23,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
 
         self.__hide_show_frame_execute=True
         self.__hide_show_frame_execute_1=True
-        self.__hide_show_frame_execute_2=True
-
-        self.menu_active = False
-        self.count_items_to = 0
-        self.item = 1
-        self.i = 0
+        self.__hide_show_frame_execute_3=True
 
         # Configura la UI
         self.__configUi()
@@ -50,13 +41,6 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.icon_maximize.addFile(u"app/resources/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
 
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
-        self.label_lat = class_general.QLabelVertical('INFORMACIÓN DEL PROYECTO')
-        self.label_lat.setFont(QFont('Ubuntu', 9))
-        self.label_lat.setStyleSheet("QLabel { background-color : transparent; color : #DDDDDD; font: 700 9pt Ubuntu;}");
-        self.verticalLayout_2.addWidget(self.label_lat)
-        self.label_lat.setVisible(False)
-
-        # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('ANÁLISIS')
         self.label_lat.setFont(QFont('Ubuntu', 9))
         self.label_lat.setStyleSheet("QLabel { background-color : transparent; color : #DDDDDD; font: 700 9pt Ubuntu;}");
@@ -64,7 +48,6 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         self.verticalSpacer = QSpacerItem(20, 507, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(self.verticalSpacer)
         self.label_lat.setVisible(False)
-        self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
         self.listWidget_execute_pointMaterialFrom.setSelectionMode(QListWidget.ExtendedSelection)
         self.listWidget_execute_pointMaterialFrom.setDragEnabled(True)
@@ -104,7 +87,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardExecuteSubTitle1.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle1)
-        self.toolButton_cardExecuteSubTitle2.clicked.connect(self.__clickedToolButtonCardxecuteSubTitle2)
+        self.toolButton_cardExecuteSubTitle3.clicked.connect(self.__clickedToolButtonCardExecuteSubTitle3)
 
         # ::::::::::::::::::::      EVENTOS DRAW MENU EXECUTE     ::::::::::::::::::::
         self.listWidget_execute_pointMaterialFrom.dropEvent = self.onDropEventFrom
@@ -139,22 +122,17 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.frame_Execute1.setVisible(False)
             self.__hide_show_frame_execute_1 = False
             self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_maximize)
-            self.verticalSpacer_2.changeSize(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         elif self.__hide_show_frame_execute_1 == False:
             self.frame_Execute1.setVisible(True)
             self.__hide_show_frame_execute_1 = True
             self.toolButton_cardExecuteSubTitle1.setIcon(self.icon_minimize)
-            self.verticalSpacer_2.changeSize(0, 0, QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-    def __clickedToolButtonCardxecuteSubTitle2(self):
-        if self.__hide_show_frame_execute_2 == True:
-            self.frame_Execute2.setVisible(False)
-            self.__hide_show_frame_execute_2 = False
-            self.toolButton_cardExecuteSubTitle2.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_execute_2 == False:
-            self.frame_Execute2.setVisible(True)
-            self.__hide_show_frame_execute_2 = True
-            self.toolButton_cardExecuteSubTitle2.setIcon(self.icon_minimize)
+    def __clickedToolButtonCardExecuteSubTitle3(self):
+        """Muestra u oculta la sección de etapas (resumen y botón de configurar)."""
+        self.__hide_show_frame_execute_3 = not self.__hide_show_frame_execute_3
+        self.frame_Execute3.setVisible(self.__hide_show_frame_execute_3)
+        self.toolButton_cardExecuteSubTitle3.setIcon(
+            self.icon_minimize if self.__hide_show_frame_execute_3 else self.icon_maximize)
 
     # ::::::::::::::::::::      EVENTOS DRAW MENU MESH     ::::::::::::::::::::
     def dragEnterEventPointMaterialFrom(self, event):
@@ -197,6 +175,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.listWidget_execute_pointMaterialTo.takeItem(self.listWidget_execute_pointMaterialTo.row(item))
 
         event.accept()
+        self.signal_selection_changed.emit()
 
     def onDropEventTo(self, event):
         selected_items = self.listWidget_execute_pointMaterialFrom.selectedItems()
@@ -214,6 +193,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             self.listWidget_execute_pointMaterialFrom.takeItem(self.listWidget_execute_pointMaterialFrom.row(item))
 
         event.accept()
+        self.signal_selection_changed.emit()
 
     def changeBoundaryFrom(self, item):
         selected_items = self.listWidget_execute_boundariesTo.selectedItems()
@@ -222,6 +202,7 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         id_boundary = item.data(Qt.UserRole)
         if id_boundary:
             self.signal_state_view_boundary.emit({'id_boundary':id_boundary,'state_view':False})
+            self.signal_selection_changed.emit()
 
     def changeBoundaryTo(self, item):
         selected_items = self.listWidget_execute_boundariesFrom.selectedItems()
@@ -230,13 +211,10 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         id_boundary = item.data(Qt.UserRole)
         if id_boundary:
             self.signal_state_view_boundary.emit({'id_boundary':id_boundary,'state_view':True})
+            self.signal_selection_changed.emit()
 
     def __clickedToolButtonExecute(self):
-        print('Ejecutar análisis')
         self.signal_execute.emit()
-
-    def activateMenu(self):
-        self.menu_active = True
 
     ###############################################################################
 	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
@@ -262,11 +240,8 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
             items.append({'name': name, 'id': id})
         return items
 
-    def getFps (self):
-        return self.doubleSpinBoxl_textExecuteFps.value()
-
-    def setFps (self, fps):
-        self.doubleSpinBoxl_textExecuteFps.setValue(fps)
+    def setStagesSummary(self, html):
+        self.label_stagesSummary.setText(html)
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::

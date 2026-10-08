@@ -236,6 +236,30 @@ QMessageBox QLabel {
 """
 
 
+def stages_summary_html(stages, gravity, fps, resume_from=0):
+    """Resumen de solo lectura de la configuración del análisis (panel Ejecutar)."""
+    if not stages:
+        return "<i>Sin etapas: use «Configurar etapas…».</i>"
+    labels = dict((v, t) for t, v in STAGE_TYPES)
+    lines = [f"Gravedad {float(gravity):g} m/s² · {int(fps)} cuadros/s"]
+    for i, st in enumerate(stages, start=1):
+        tipo = st.get("TIPO", "")
+        if tipo in ("geostatic", "load_increment"):
+            extent = f"{int(st.get('NUMEROINCREMENTOS', 0))} incrementos"
+        else:
+            extent = f"{float(st.get('TIEMPOANALISIS', 0)):g} s"
+        plast = "elastoplástico" if st.get("PLASTICIDAD") else "elástico"
+        line = (f"<b>{i}. {st.get('NOMBRE') or labels.get(tipo, tipo)}</b> — "
+                f"{labels.get(tipo, tipo)}, {extent}, amort. {float(st.get('DAMPING', 0)):g}, {plast}")
+        if resume_from and i < resume_from:
+            line = f"<span style='color:#777777'>{line} (se salta)</span>"
+        lines.append(line)
+    if resume_from:
+        lines.append(f"<span style='color:#C8CC8E'>Reanuda desde la etapa {resume_from} "
+                     f"(checkpoint de la etapa {resume_from - 1}).</span>")
+    return "<br>".join(lines)
+
+
 def _new_stage_dict(stage_type="dynamic", name="Etapa"):
     """Crea un dict de etapa con los defaults del tipo."""
     d = STAGE_DEFAULTS[stage_type]
@@ -255,10 +279,11 @@ def _new_stage_dict(stage_type="dynamic", name="Etapa"):
 
 class DialogStages(QDialog):
 
-    def __init__(self, model_current_project, dt_provider=None, parent=None):
+    def __init__(self, model_current_project, dt_provider=None, parent=None, fps=30):
         super().__init__(parent)
         self.model_current_project = model_current_project
         self.dt_provider = dt_provider
+        self._fps = fps
         self._loading = False  # evita write-back mientras se puebla el form
 
         # Copia editable de las etapas persistidas
@@ -311,6 +336,16 @@ class DialogStages(QDialog):
         self.spGravity.setToolTip("Una sola para todas las etapas. La etapa geostática "
                                   "la aplica en rampa; 0 = sin peso propio.")
         left.addWidget(self.spGravity)
+        lbl_fps = QLabel("Resultados [cuadros/s]")
+        lbl_fps.setObjectName("labelSectionTitle")
+        left.addWidget(lbl_fps)
+        self.spFps = QSpinBox()
+        self.spFps.setRange(1, 1000)
+        self.spFps.setValue(int(self._fps))
+        self.spFps.setToolTip("Cuántos estados se guardan por segundo de análisis en las "
+                              "etapas dinámicas y de consolidación (frames de la animación). "
+                              "Las cuasi-estáticas guardan uno por incremento.")
+        left.addWidget(self.spFps)
         lbl_seq = QLabel("Secuencia de etapas")
         lbl_seq.setObjectName("labelSectionTitle")
         left.addWidget(lbl_seq)
@@ -763,6 +798,7 @@ class DialogStages(QDialog):
         self.model_current_project.updateStages(self._stages)
         self.model_current_project.updateResumeFrom(self._resume_from)
         self.model_current_project.updateConfig(gravity=self.spGravity.value())
+        self.model_current_project.updateFps(self.spFps.value())
         self.accept()
 
     def getStages(self):

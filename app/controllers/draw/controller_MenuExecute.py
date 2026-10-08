@@ -6,7 +6,7 @@ from models.model_ProjectCurrent import ModelProjectCurrent
 from models.model_execute_analysis import ModelExcuteAnalysisMPM
 from models.model_analysis_config import AnalysisConfig, TimeConfig
 from models.analysis_utils import compute_min_dt, build_time_arrays
-from views.view_DialogStages import DialogStages
+from views.view_DialogStages import DialogStages, stages_summary_html
 
 from ui.ui_dialog_loanding import Ui_DialogLoanding
 
@@ -111,32 +111,59 @@ class ControllerMenuExecute(QObject):
         self.view_menu_execute.signal_execute.connect(self.executeAnalysis)
         self.view_menu_execute.signal_state_view_boundary.connect(self.stateViewBoundary)
         self.view_menu_execute.signal_stages.connect(self.openStagesDialog)
+        self.view_menu_execute.signal_selection_changed.connect(self.saveSelection)
 
     def setCurrentProject(self, model_current_project:ModelProjectCurrent):
         self.model_current_project = model_current_project
         self.model_result = model_current_project.getModelResult()
 
-    def activateMenu(self):
-        self.view_menu_execute.activateMenu()
-
     def configDrawMenuExecute(self):
-        """Puebla las listas de puntos materiales / contornos y el fps.
+        """Puebla las listas de puntos materiales / contornos y el resumen.
 
-        Toda la configuración del análisis (Courant, tiempo, damping,
-        incrementos, plasticidad...) vive en las ETAPAS y se edita en
-        DialogStages; el panel solo conserva lo que no es por-etapa.
+        La configuración del análisis (etapas, gravedad, fps) vive en
+        DialogStages; el panel muestra qué se analiza y un resumen.
         """
         self.setListPointsMaterialView()
         self.setListBoundariesView()
-        if self.model_result.getDataTimes():
-            fps = self.model_result.getDataTimes()['FPS']
-            self.view_menu_execute.setFps(fps)
+        self.updateStagesSummary()
+
+    def getFps(self):
+        """fps del proyecto; si no lo guarda (proyecto anterior), el de sus
+        resultados, y si tampoco hay, 30."""
+        fps = self.model_current_project.getFps()
+        if fps is None and self.model_result.getDataTimes():
+            fps = self.model_result.getDataTimes().get('FPS')
+        return int(fps or 30)
+
+    def updateStagesSummary(self):
+        if self.model_current_project is None:
+            return
+        self.view_menu_execute.setStagesSummary(stages_summary_html(
+            self.model_current_project.getStages() or [],
+            self.model_current_project.getGravity(),
+            self.getFps(),
+            self.model_current_project.getResumeFrom()))
+
+    def _selected_ids(self):
+        """(ids de puntos materiales, ids de contornos) a analizar: los guardados
+        en el proyecto; si no los guarda (proyecto anterior), los de sus resultados."""
+        ids_mp, ids_bo = self.model_current_project.getAnalysisSelection()
+        if ids_mp is None:
+            ids_mp = list(self.model_result.getPointMaterials().keys())
+        if ids_bo is None:
+            ids_bo = list(self.model_result.getBoundarys().keys())
+        return set(ids_mp), set(ids_bo)
+
+    @Slot()
+    def saveSelection(self):
+        self.model_current_project.updateAnalysisSelection(
+            self.view_menu_execute.getListExecutePointMaterial().keys(),
+            [b['id'] for b in self.view_menu_execute.getListExecuteBoundaries()])
 
     def setListPointsMaterialView(self):
         self.view_menu_execute.removeItemsListsMaterialPoint()
 
-        result_point_materia = self.model_result.getPointMaterials()
-        ids_result_point_materia = list(result_point_materia.keys())
+        ids_result_point_materia = self._selected_ids()[0]
 
         points_material_from = []
         points_material_to = []
@@ -157,8 +184,7 @@ class ControllerMenuExecute(QObject):
     def setListBoundariesView(self):
         self.view_menu_execute.removeItemsListsBoundaries()
 
-        result_boundaries = self.model_result.getBoundarys()
-        ids_result_boundaries = list(result_boundaries.keys())
+        ids_result_boundaries = self._selected_ids()[1]
 
         boundaries_from = []
         boundaries_to = []
@@ -195,50 +221,30 @@ class ControllerMenuExecute(QObject):
     # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
     @Slot()
     def executeAnalysis(self):
-        analysis_dialog = AnalysisProgressDialog(self.view_menu_execute)
-        analysis_dialog.show()
-        analysis_dialog.rejected.connect(analysis_dialog.cancelAnalysis)
-
+        msg = self.view_menu_execute.msnAlertDefault
         list_point_material = self.view_menu_execute.getListExecutePointMaterial()
         list_boundaries = self.view_menu_execute.getListExecuteBoundaries()
 
-        # verificar que los puntos materiales y los contornos esten seleccionados
+        # Validaciones antes de abrir el diálogo de progreso
         if not list_point_material:
-            analysis_dialog.close()
-            self.view_menu_execute.msnAlertDefault(True,"Selecciona los puntos materiales")
+            msg(True, "Selecciona los puntos materiales")
             return
-
-        elif not list_boundaries:
-            analysis_dialog.close()
-            self.view_menu_execute.msnAlertDefault(True,"Selecciona los contornos")
+        if not list_boundaries:
+            msg(True, "Selecciona los contornos")
             return
-
-        # verificar que los puntos materiales esten en la malla de fondo
-        model_mesh_back = self.model_current_project.model_mesh_back
-        nodes = model_mesh_back.getNodes()
-        cells = model_mesh_back.getElements()
-
         for id_mp in list_point_material:
             model_mp = self.model_current_project.getModelsPointsMaterials()[id_mp]
-            points = model_mp.getPoints()
-            cells_by_point = self.findCellForPoints(material_points=points,
-                                                    elements=cells,
-                                                    nodes=nodes)
-
-            if len(cells_by_point) != len(points):
-                self.view_menu_execute.msnAlertDefault(True," pm fuera la malla de fondo '{}'".format(model_mp.getName()))
-                analysis_dialog.close()
+            if not self.pointsInsideMeshBack(model_mp.getPoints()):
+                msg(True, "Puntos fuera de la malla de fondo: '{}'".format(model_mp.getName()))
                 return
+        stage_dicts = self.model_current_project.getStages()
+        if not stage_dicts:
+            msg(True, "Configura al menos una etapa de análisis")
+            return
 
         # ── Construir AnalysisConfig desde las ETAPAS configuradas ──
         gravity = self.model_current_project.getGravity()
-        stage_dicts = self.model_current_project.getStages()
-        if not stage_dicts:
-            analysis_dialog.close()
-            self.view_menu_execute.msnAlertDefault(True, "Configura al menos una etapa de análisis")
-            return
-
-        fps = self.view_menu_execute.getFps()
+        fps = self.getFps()
         time_config = TimeConfig(fps=fps)
         analysis_config = AnalysisConfig.from_stage_dicts(
             stage_dicts=stage_dicts, gravity=gravity, time_config=time_config,
@@ -247,10 +253,14 @@ class ControllerMenuExecute(QObject):
         # Semilla de tiempo (el executor recalcula dt/pasos por etapa)
         seed = self._build_seed_time(analysis_config, fps)
         if seed is None:
-            analysis_dialog.close()
-            self.view_menu_execute.msnAlertDefault(True, "No se pudo calcular dt (revisa los materiales)")
+            msg(True, "No se pudo calcular dt (revisa los materiales)")
             return
         dtime, tiempo, dtimegraphic, tiempographic, steps_time, steps_timegraphic, dataTime = seed
+
+        self.saveSelection()
+        analysis_dialog = AnalysisProgressDialog(self.view_menu_execute)
+        analysis_dialog.show()
+        analysis_dialog.rejected.connect(analysis_dialog.cancelAnalysis)
 
         print(f"[Controller] AnalysisConfig: {analysis_config}")
 
@@ -362,8 +372,10 @@ class ControllerMenuExecute(QObject):
 
         dlg = DialogStages(self.model_current_project,
                            dt_provider=dt_provider,
-                           parent=self.view_menu_execute)
+                           parent=self.view_menu_execute,
+                           fps=self.getFps())
         dlg.exec()
+        self.updateStagesSummary()
 
     @Slot(dict)
     def stateViewBoundary(self, data):
@@ -373,66 +385,13 @@ class ControllerMenuExecute(QObject):
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
 	###############################################################################
 
-    def findCellForPoints(self, material_points, elements, nodes) -> dict:
-        """Encuentra la celda a la que pertenece cada punto.
-        Descripcion detallada de la función:
-        Encuentra la celda a la que pertenece cada punto, para lo cual se
-        recorre cada punto y se compara con las coordenadas de cada celda.
-
-        Args:
-            material_points (list): Lista de puntos materiales.
-            elements (list): Lista de elementos  de la malla de fondo.
-            nodes (list): Lista de nodos de la malla de fondo.
-        Returns:
-            dict: Diccionario con el punto y la celda a la que pertenece.
-        """
-
-
-        print("esto se puede optimizar no buscando primero en los vencinos hacia afura, sin tener que rrecorrer todos los elementos de la malla de fondo, solo los que estan cerca del punto material.")
-        print("creo que esto se peude aplicar tambien en la busqueda de los puntos en el analisis, salbo que s eaga con gunciones d eforma o algo asi que sea mas directo")
-        result = {}
-        for point in material_points:
-            ''' result: POINT#1'''
-            ''' punto data:  {
-                'COORDINATES': [1.25, 11.25],
-                'VOLUME': 6.250000000000009,
-                'VELOCITY': {'X': 0.0, 'Y': 0.0},
-                'FORCE': {'X': 0.0, 'Y': 0.0}} '''
-            for i, element in enumerate(elements):
-                ''' element: ELEMENT#1'''
-                ''' elemento data:  ['NODE#1', 'NODE#2', 'NODE#13', 'NODE#12'] '''
-
-                '''   esto es de otra version
-                x_values = [nodes[idx-1][0] for idx in element]
-                y_values = [nodes[idx-1][1] for idx in element]
-                min_x = min(x_values)
-                max_x = max(x_values)
-                min_y = min(y_values)
-                max_y = max(y_values)
-
-                '''
-                min_x = 0
-                min_y = 0
-
-                max_x = max(
-                    nodes[elements[element][0]]['COORDINATES'][0],
-                    nodes[elements[element][1]]['COORDINATES'][0],
-                    nodes[elements[element][2]]['COORDINATES'][0],
-                    nodes[elements[element][3]]['COORDINATES'][0]
-                )
-
-                max_y = max(
-                    nodes[elements[element][0]]['COORDINATES'][1],
-                    nodes[elements[element][1]]['COORDINATES'][1],
-                    nodes[elements[element][2]]['COORDINATES'][1],
-                    nodes[elements[element][3]]['COORDINATES'][1]
-                )
-
-
-                x = material_points[point]['COORDINATES'][0]
-                y = material_points[point]['COORDINATES'][1]
-                if min_x <=  x <= max_x and min_y <= y <= max_y:
-                    result.update({point: element})
-                    break
-
-        return result
+    def pointsInsideMeshBack(self, points) -> bool:
+        """True si todos los puntos caen dentro de la malla de fondo, que es el
+        rectángulo [0, SIZEDX] × [0, SIZEDY]."""
+        mesh_back = self.model_current_project.model_mesh_back
+        dx, dy = mesh_back.getSizeDx(), mesh_back.getSizeDy()
+        for point in points.values():
+            x, y = point['COORDINATES']
+            if not (0.0 <= x <= dx and 0.0 <= y <= dy):
+                return False
+        return True
