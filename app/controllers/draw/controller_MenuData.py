@@ -40,8 +40,7 @@ class ControllerMenuData(QObject):
     
     def configDrawMenuData(self):
         dataInfo = self.model_current_project.getDataInfo()
-        dataConf = [self.model_current_project.getGravity()]
-        self.view_menu_data.setTextWidget(dataInfo, dataConf)
+        self.view_menu_data.setTextWidget(dataInfo)
 
     def getView(self):
         return self.view_menu_data    
@@ -84,9 +83,6 @@ class ControllerMenuData(QObject):
             
         elif name_attribute == "description":
             self.model_current_project.updateInformation(description=value_input)
-            
-        elif name_attribute == "gravity":
-            self.model_current_project.updateConfig(gravity=value_input)
 
 
     

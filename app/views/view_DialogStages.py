@@ -297,9 +297,20 @@ class DialogStages(QDialog):
         body.setSpacing(12)
         root.addLayout(body, 1)
 
-        # ── Izquierda: lista de etapas + botones ──
+        # ── Izquierda: gravedad (global del análisis), lista de etapas + botones ──
         left = QVBoxLayout()
         left.setSpacing(6)
+        lbl_grav = QLabel("Gravedad [m/s²]")
+        lbl_grav.setObjectName("labelSectionTitle")
+        left.addWidget(lbl_grav)
+        self.spGravity = QDoubleSpinBox()
+        self.spGravity.setRange(0.0, 100.0)
+        self.spGravity.setDecimals(3)
+        self.spGravity.setSingleStep(0.01)
+        self.spGravity.setValue(float(self.model_current_project.getGravity()))
+        self.spGravity.setToolTip("Una sola para todas las etapas. La etapa geostática "
+                                  "la aplica en rampa; 0 = sin peso propio.")
+        left.addWidget(self.spGravity)
         lbl_seq = QLabel("Secuencia de etapas")
         lbl_seq.setObjectName("labelSectionTitle")
         left.addWidget(lbl_seq)
@@ -751,6 +762,7 @@ class DialogStages(QDialog):
 
         self.model_current_project.updateStages(self._stages)
         self.model_current_project.updateResumeFrom(self._resume_from)
+        self.model_current_project.updateConfig(gravity=self.spGravity.value())
         self.accept()
 
     def getStages(self):

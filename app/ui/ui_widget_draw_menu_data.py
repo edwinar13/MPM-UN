@@ -378,6 +378,102 @@ class Ui_FormDrawMenuData(object):
         self.frame_info.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_info)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.frame_dataSubTitle2 = QFrame(self.frame_info)
+        self.frame_dataSubTitle2.setObjectName(u"frame_dataSubTitle2")
+        self.frame_dataSubTitle2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_dataSubTitle2.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_4 = QHBoxLayout(self.frame_dataSubTitle2)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(10, 0, 0, 0)
+        self.label_cardDataSubTitle2 = QLabel(self.frame_dataSubTitle2)
+        self.label_cardDataSubTitle2.setObjectName(u"label_cardDataSubTitle2")
+        self.label_cardDataSubTitle2.setMinimumSize(QSize(262, 0))
+
+        self.horizontalLayout_4.addWidget(self.label_cardDataSubTitle2)
+
+        self.toolButton_cardDataSubTitle2 = QToolButton(self.frame_dataSubTitle2)
+        self.toolButton_cardDataSubTitle2.setObjectName(u"toolButton_cardDataSubTitle2")
+        icon1 = QIcon()
+        icon1.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolButton_cardDataSubTitle2.setIcon(icon1)
+        self.toolButton_cardDataSubTitle2.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.horizontalLayout_4.addWidget(self.toolButton_cardDataSubTitle2)
+
+
+        self.verticalLayout_5.addWidget(self.frame_dataSubTitle2)
+
+        self.frame_data1 = QFrame(self.frame_info)
+        self.frame_data1.setObjectName(u"frame_data1")
+        self.frame_data1.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_data1.setFrameShadow(QFrame.Shadow.Raised)
+        self.formLayout = QFormLayout(self.frame_data1)
+        self.formLayout.setObjectName(u"formLayout")
+        self.label_textData_DataTitleProject = QLabel(self.frame_data1)
+        self.label_textData_DataTitleProject.setObjectName(u"label_textData_DataTitleProject")
+        self.label_textData_DataTitleProject.setMinimumSize(QSize(110, 0))
+        self.label_textData_DataTitleProject.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_textData_DataTitleProject)
+
+        self.lineEdit_textData_DataTitleProject = QLineEdit(self.frame_data1)
+        self.lineEdit_textData_DataTitleProject.setObjectName(u"lineEdit_textData_DataTitleProject")
+        self.lineEdit_textData_DataTitleProject.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textData_DataTitleProject.setProperty(u"QLineEditStyle", 1)
+
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataTitleProject)
+
+        self.label_textData_DataLocation = QLabel(self.frame_data1)
+        self.label_textData_DataLocation.setObjectName(u"label_textData_DataLocation")
+        self.label_textData_DataLocation.setMinimumSize(QSize(110, 0))
+        self.label_textData_DataLocation.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_textData_DataLocation)
+
+        self.lineEdit_textData_DataLocation = QLineEdit(self.frame_data1)
+        self.lineEdit_textData_DataLocation.setObjectName(u"lineEdit_textData_DataLocation")
+        self.lineEdit_textData_DataLocation.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textData_DataLocation.setProperty(u"QLineEditStyle", 1)
+
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataLocation)
+
+        self.label_textData_DataAuthor = QLabel(self.frame_data1)
+        self.label_textData_DataAuthor.setObjectName(u"label_textData_DataAuthor")
+        self.label_textData_DataAuthor.setMinimumSize(QSize(110, 0))
+        self.label_textData_DataAuthor.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout.setWidget(2, QFormLayout.ItemRole.LabelRole, self.label_textData_DataAuthor)
+
+        self.lineEdit_textData_DataAuthor = QLineEdit(self.frame_data1)
+        self.lineEdit_textData_DataAuthor.setObjectName(u"lineEdit_textData_DataAuthor")
+        self.lineEdit_textData_DataAuthor.setMinimumSize(QSize(150, 25))
+        self.lineEdit_textData_DataAuthor.setProperty(u"QLineEditStyle", 1)
+
+        self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataAuthor)
+
+        self.label_textData_DataDescription = QLabel(self.frame_data1)
+        self.label_textData_DataDescription.setObjectName(u"label_textData_DataDescription")
+        self.label_textData_DataDescription.setMinimumSize(QSize(110, 0))
+        self.label_textData_DataDescription.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout.setWidget(3, QFormLayout.ItemRole.LabelRole, self.label_textData_DataDescription)
+
+        self.textEdit_textData_DataDescription = QTextEdit(self.frame_data1)
+        self.textEdit_textData_DataDescription.setObjectName(u"textEdit_textData_DataDescription")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.textEdit_textData_DataDescription.sizePolicy().hasHeightForWidth())
+        self.textEdit_textData_DataDescription.setSizePolicy(sizePolicy5)
+        self.textEdit_textData_DataDescription.setMinimumSize(QSize(150, 75))
+        self.textEdit_textData_DataDescription.setProperty(u"QTextEditStyle", 1)
+
+        self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.textEdit_textData_DataDescription)
+
+
+        self.verticalLayout_5.addWidget(self.frame_data1)
+
         self.frame_dataSubTitle1 = QFrame(self.frame_info)
         self.frame_dataSubTitle1.setObjectName(u"frame_dataSubTitle1")
         self.frame_dataSubTitle1.setFrameShape(QFrame.Shape.StyledPanel)
@@ -394,9 +490,9 @@ class Ui_FormDrawMenuData(object):
 
         self.toolButton_showHideLabel = QToolButton(self.frame_dataSubTitle1)
         self.toolButton_showHideLabel.setObjectName(u"toolButton_showHideLabel")
-        icon1 = QIcon()
-        icon1.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.toolButton_showHideLabel.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolButton_showHideLabel.setIcon(icon2)
         self.toolButton_showHideLabel.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideLabel.setProperty(u"QToolButtonSubTitleStyle", 1)
 
@@ -404,9 +500,9 @@ class Ui_FormDrawMenuData(object):
 
         self.toolButton_showHideItem = QToolButton(self.frame_dataSubTitle1)
         self.toolButton_showHideItem.setObjectName(u"toolButton_showHideItem")
-        icon2 = QIcon()
-        icon2.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.toolButton_showHideItem.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolButton_showHideItem.setIcon(icon3)
         self.toolButton_showHideItem.setArrowType(Qt.ArrowType.NoArrow)
         self.toolButton_showHideItem.setProperty(u"QToolButtonSubTitleStyle", 1)
 
@@ -414,9 +510,7 @@ class Ui_FormDrawMenuData(object):
 
         self.toolButton_cardDataSubTitle1 = QToolButton(self.frame_dataSubTitle1)
         self.toolButton_cardDataSubTitle1.setObjectName(u"toolButton_cardDataSubTitle1")
-        icon3 = QIcon()
-        icon3.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.toolButton_cardDataSubTitle1.setIcon(icon3)
+        self.toolButton_cardDataSubTitle1.setIcon(icon1)
         self.toolButton_cardDataSubTitle1.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_7.addWidget(self.toolButton_cardDataSubTitle1)
@@ -426,11 +520,11 @@ class Ui_FormDrawMenuData(object):
 
         self.frame_data0 = QFrame(self.frame_info)
         self.frame_data0.setObjectName(u"frame_data0")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.frame_data0.sizePolicy().hasHeightForWidth())
-        self.frame_data0.setSizePolicy(sizePolicy5)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.frame_data0.sizePolicy().hasHeightForWidth())
+        self.frame_data0.setSizePolicy(sizePolicy6)
         self.frame_data0.setMaximumSize(QSize(16777215, 200))
         self.frame_data0.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_data0.setFrameShadow(QFrame.Shadow.Raised)
@@ -477,8 +571,8 @@ class Ui_FormDrawMenuData(object):
 
         self.toolButton_cardDataDrawPoint = QToolButton(self.frame_data0)
         self.toolButton_cardDataDrawPoint.setObjectName(u"toolButton_cardDataDrawPoint")
-        sizePolicy5.setHeightForWidth(self.toolButton_cardDataDrawPoint.sizePolicy().hasHeightForWidth())
-        self.toolButton_cardDataDrawPoint.setSizePolicy(sizePolicy5)
+        sizePolicy6.setHeightForWidth(self.toolButton_cardDataDrawPoint.sizePolicy().hasHeightForWidth())
+        self.toolButton_cardDataDrawPoint.setSizePolicy(sizePolicy6)
         self.toolButton_cardDataDrawPoint.setMinimumSize(QSize(35, 35))
         self.toolButton_cardDataDrawPoint.setMaximumSize(QSize(35, 35))
         icon7 = QIcon()
@@ -556,147 +650,6 @@ class Ui_FormDrawMenuData(object):
 
         self.verticalLayout_5.addWidget(self.frame_data0)
 
-        self.frame_dataSubTitle2 = QFrame(self.frame_info)
-        self.frame_dataSubTitle2.setObjectName(u"frame_dataSubTitle2")
-        self.frame_dataSubTitle2.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_dataSubTitle2.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_4 = QHBoxLayout(self.frame_dataSubTitle2)
-        self.horizontalLayout_4.setSpacing(0)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(10, 0, 0, 0)
-        self.label_cardDataSubTitle2 = QLabel(self.frame_dataSubTitle2)
-        self.label_cardDataSubTitle2.setObjectName(u"label_cardDataSubTitle2")
-        self.label_cardDataSubTitle2.setMinimumSize(QSize(262, 0))
-
-        self.horizontalLayout_4.addWidget(self.label_cardDataSubTitle2)
-
-        self.toolButton_cardDataSubTitle2 = QToolButton(self.frame_dataSubTitle2)
-        self.toolButton_cardDataSubTitle2.setObjectName(u"toolButton_cardDataSubTitle2")
-        self.toolButton_cardDataSubTitle2.setIcon(icon3)
-        self.toolButton_cardDataSubTitle2.setArrowType(Qt.ArrowType.NoArrow)
-
-        self.horizontalLayout_4.addWidget(self.toolButton_cardDataSubTitle2)
-
-
-        self.verticalLayout_5.addWidget(self.frame_dataSubTitle2)
-
-        self.frame_data1 = QFrame(self.frame_info)
-        self.frame_data1.setObjectName(u"frame_data1")
-        self.frame_data1.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_data1.setFrameShadow(QFrame.Shadow.Raised)
-        self.formLayout = QFormLayout(self.frame_data1)
-        self.formLayout.setObjectName(u"formLayout")
-        self.label_textData_DataTitleProject = QLabel(self.frame_data1)
-        self.label_textData_DataTitleProject.setObjectName(u"label_textData_DataTitleProject")
-        self.label_textData_DataTitleProject.setMinimumSize(QSize(110, 0))
-        self.label_textData_DataTitleProject.setProperty(u"QLabelStyle", 3)
-
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_textData_DataTitleProject)
-
-        self.lineEdit_textData_DataTitleProject = QLineEdit(self.frame_data1)
-        self.lineEdit_textData_DataTitleProject.setObjectName(u"lineEdit_textData_DataTitleProject")
-        self.lineEdit_textData_DataTitleProject.setMinimumSize(QSize(150, 25))
-        self.lineEdit_textData_DataTitleProject.setProperty(u"QLineEditStyle", 1)
-
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataTitleProject)
-
-        self.label_textData_DataLocation = QLabel(self.frame_data1)
-        self.label_textData_DataLocation.setObjectName(u"label_textData_DataLocation")
-        self.label_textData_DataLocation.setMinimumSize(QSize(110, 0))
-        self.label_textData_DataLocation.setProperty(u"QLabelStyle", 3)
-
-        self.formLayout.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_textData_DataLocation)
-
-        self.lineEdit_textData_DataLocation = QLineEdit(self.frame_data1)
-        self.lineEdit_textData_DataLocation.setObjectName(u"lineEdit_textData_DataLocation")
-        self.lineEdit_textData_DataLocation.setMinimumSize(QSize(150, 25))
-        self.lineEdit_textData_DataLocation.setProperty(u"QLineEditStyle", 1)
-
-        self.formLayout.setWidget(1, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataLocation)
-
-        self.label_textData_DataAuthor = QLabel(self.frame_data1)
-        self.label_textData_DataAuthor.setObjectName(u"label_textData_DataAuthor")
-        self.label_textData_DataAuthor.setMinimumSize(QSize(110, 0))
-        self.label_textData_DataAuthor.setProperty(u"QLabelStyle", 3)
-
-        self.formLayout.setWidget(2, QFormLayout.ItemRole.LabelRole, self.label_textData_DataAuthor)
-
-        self.lineEdit_textData_DataAuthor = QLineEdit(self.frame_data1)
-        self.lineEdit_textData_DataAuthor.setObjectName(u"lineEdit_textData_DataAuthor")
-        self.lineEdit_textData_DataAuthor.setMinimumSize(QSize(150, 25))
-        self.lineEdit_textData_DataAuthor.setProperty(u"QLineEditStyle", 1)
-
-        self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataAuthor)
-
-        self.label_textData_DataDescription = QLabel(self.frame_data1)
-        self.label_textData_DataDescription.setObjectName(u"label_textData_DataDescription")
-        self.label_textData_DataDescription.setMinimumSize(QSize(110, 0))
-        self.label_textData_DataDescription.setProperty(u"QLabelStyle", 3)
-
-        self.formLayout.setWidget(3, QFormLayout.ItemRole.LabelRole, self.label_textData_DataDescription)
-
-        self.textEdit_textData_DataDescription = QTextEdit(self.frame_data1)
-        self.textEdit_textData_DataDescription.setObjectName(u"textEdit_textData_DataDescription")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.textEdit_textData_DataDescription.sizePolicy().hasHeightForWidth())
-        self.textEdit_textData_DataDescription.setSizePolicy(sizePolicy6)
-        self.textEdit_textData_DataDescription.setMinimumSize(QSize(150, 75))
-        self.textEdit_textData_DataDescription.setProperty(u"QTextEditStyle", 1)
-
-        self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.textEdit_textData_DataDescription)
-
-
-        self.verticalLayout_5.addWidget(self.frame_data1)
-
-        self.frame_dataSubTitle3 = QFrame(self.frame_info)
-        self.frame_dataSubTitle3.setObjectName(u"frame_dataSubTitle3")
-        self.frame_dataSubTitle3.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_dataSubTitle3.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_dataSubTitle3)
-        self.horizontalLayout_3.setSpacing(0)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(10, 0, 0, 0)
-        self.label_cardDataSubTitle3 = QLabel(self.frame_dataSubTitle3)
-        self.label_cardDataSubTitle3.setObjectName(u"label_cardDataSubTitle3")
-        self.label_cardDataSubTitle3.setMinimumSize(QSize(262, 0))
-
-        self.horizontalLayout_3.addWidget(self.label_cardDataSubTitle3)
-
-        self.toolButton_cardDataSubTitle3 = QToolButton(self.frame_dataSubTitle3)
-        self.toolButton_cardDataSubTitle3.setObjectName(u"toolButton_cardDataSubTitle3")
-        self.toolButton_cardDataSubTitle3.setIcon(icon3)
-        self.toolButton_cardDataSubTitle3.setArrowType(Qt.ArrowType.NoArrow)
-
-        self.horizontalLayout_3.addWidget(self.toolButton_cardDataSubTitle3)
-
-
-        self.verticalLayout_5.addWidget(self.frame_dataSubTitle3)
-
-        self.frame_data2 = QFrame(self.frame_info)
-        self.frame_data2.setObjectName(u"frame_data2")
-        self.frame_data2.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_data2.setFrameShadow(QFrame.Shadow.Raised)
-        self.formLayout_2 = QFormLayout(self.frame_data2)
-        self.formLayout_2.setObjectName(u"formLayout_2")
-        self.label_textData_DataGravity = QLabel(self.frame_data2)
-        self.label_textData_DataGravity.setObjectName(u"label_textData_DataGravity")
-        self.label_textData_DataGravity.setMinimumSize(QSize(110, 0))
-        self.label_textData_DataGravity.setProperty(u"QLabelStyle", 3)
-
-        self.formLayout_2.setWidget(0, QFormLayout.ItemRole.LabelRole, self.label_textData_DataGravity)
-
-        self.lineEdit_textData_DataGravity = QLineEdit(self.frame_data2)
-        self.lineEdit_textData_DataGravity.setObjectName(u"lineEdit_textData_DataGravity")
-        self.lineEdit_textData_DataGravity.setMinimumSize(QSize(150, 25))
-        self.lineEdit_textData_DataGravity.setProperty(u"QLineEditStyle", 1)
-
-        self.formLayout_2.setWidget(0, QFormLayout.ItemRole.FieldRole, self.lineEdit_textData_DataGravity)
-
-
-        self.verticalLayout_5.addWidget(self.frame_data2)
-
         self.verticalSpacer_2 = QSpacerItem(20, 227, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_5.addItem(self.verticalSpacer_2)
@@ -714,11 +667,6 @@ class Ui_FormDrawMenuData(object):
         self.label_msn.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_5.addWidget(self.label_msn)
-
-        self.toolButton_updateData = QToolButton(self.frame_info)
-        self.toolButton_updateData.setObjectName(u"toolButton_updateData")
-
-        self.horizontalLayout_5.addWidget(self.toolButton_updateData)
 
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
@@ -742,32 +690,63 @@ class Ui_FormDrawMenuData(object):
         FormDrawMenuData.setWindowTitle(QCoreApplication.translate("FormDrawMenuData", u"Form", None))
         self.toolButton_hideShow.setText("")
         self.label_cardDataTitle.setText(QCoreApplication.translate("FormDrawMenuData", u"DIBUJO E INFORMACI\u00d3N DEL PROYECTO", None))
-        self.label_cardDataSubTitle1.setText(QCoreApplication.translate("FormDrawMenuData", u"Dibujo", None))
-        self.toolButton_showHideLabel.setText("")
-        self.toolButton_showHideItem.setText("")
-        self.toolButton_cardDataSubTitle1.setText("")
-        self.toolButton_cardDataDrawRule.setText("")
-        self.toolButton_cardDataDrawMove.setText("")
-        self.toolButton_cardDataDrawCopy.setText("")
-        self.toolButton_cardDataDrawPoint.setText("")
-        self.toolButton_cardDataDrawPoint.setProperty(u"style_draw_button", QCoreApplication.translate("FormDrawMenuData", u"1", None))
-        self.toolButton_cardDataDrawLine.setText("")
-        self.toolButton_cardDataDrawLine.setProperty(u"style_draw_button", QCoreApplication.translate("FormDrawMenuData", u"1", None))
-        self.toolButton_cardDataDrawErase.setText("")
-        self.toolButton_cardDataDrawImport.setText("")
-        self.toolButton_cardDataDrawRotate.setText("")
-        self.toolButton_cardDataDrawIntersection.setText("")
         self.label_cardDataSubTitle2.setText(QCoreApplication.translate("FormDrawMenuData", u"Datos del proyecto", None))
         self.toolButton_cardDataSubTitle2.setText("")
         self.label_textData_DataTitleProject.setText(QCoreApplication.translate("FormDrawMenuData", u"T\u00edtulo del proyecto:", None))
         self.label_textData_DataLocation.setText(QCoreApplication.translate("FormDrawMenuData", u"Localizaci\u00f3n:", None))
         self.label_textData_DataAuthor.setText(QCoreApplication.translate("FormDrawMenuData", u"Autor:", None))
         self.label_textData_DataDescription.setText(QCoreApplication.translate("FormDrawMenuData", u"Descripci\u00f3n:", None))
-        self.label_cardDataSubTitle3.setText(QCoreApplication.translate("FormDrawMenuData", u"Configuraci\u00f3n del proyecto", None))
-        self.toolButton_cardDataSubTitle3.setText("")
-        self.label_textData_DataGravity.setText(QCoreApplication.translate("FormDrawMenuData", u"<html><head/><body><p>Gravedad [m/s<span style=\" vertical-align:super;\">2</span>]:</p></body></html>", None))
-        self.lineEdit_textData_DataGravity.setText("")
+        self.label_cardDataSubTitle1.setText(QCoreApplication.translate("FormDrawMenuData", u"Dibujo", None))
+#if QT_CONFIG(tooltip)
+        self.toolButton_showHideLabel.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Mostrar/ocultar etiquetas", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_showHideLabel.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_showHideItem.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Mostrar/ocultar dibujo", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_showHideItem.setText("")
+        self.toolButton_cardDataSubTitle1.setText("")
+#if QT_CONFIG(tooltip)
+        self.frame_data0.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Rotar", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawRule.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Medir distancia", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawRule.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawMove.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Mover", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawMove.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawCopy.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Copiar", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawCopy.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawPoint.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Punto", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawPoint.setText("")
+        self.toolButton_cardDataDrawPoint.setProperty(u"style_draw_button", QCoreApplication.translate("FormDrawMenuData", u"1", None))
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawLine.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"L\u00ednea", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawLine.setText("")
+        self.toolButton_cardDataDrawLine.setProperty(u"style_draw_button", QCoreApplication.translate("FormDrawMenuData", u"1", None))
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawErase.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Borrar", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawErase.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawImport.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Importar DXF", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawImport.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawRotate.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Rotar", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawRotate.setText("")
+#if QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawIntersection.setToolTip(QCoreApplication.translate("FormDrawMenuData", u"Intersecci\u00f3n de l\u00edneas", None))
+#endif // QT_CONFIG(tooltip)
+        self.toolButton_cardDataDrawIntersection.setText("")
         self.label_msn.setText(QCoreApplication.translate("FormDrawMenuData", u"Empty", None))
-        self.toolButton_updateData.setText(QCoreApplication.translate("FormDrawMenuData", u"Actualizar", None))
     # retranslateUi
 

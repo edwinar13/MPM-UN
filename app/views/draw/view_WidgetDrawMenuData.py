@@ -1,7 +1,7 @@
 """ Este módulo contiene la clase Ui_FormDrawMenuData, para incluirla en frame draw
 es el widget menú de datos del proyecto."""
 
-from PySide6.QtCore import ( Signal, QSize,QTimer)
+from PySide6.QtCore import ( Signal, QSize)
 from PySide6.QtGui import (QIcon, QFont)
 from PySide6.QtWidgets import ( QFrame, QSpacerItem, QSizePolicy)
 from ui import ui_widget_draw_menu_data
@@ -17,7 +17,6 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             location (str): Localización del proyecto.
             author (str): Autor del proyecto.
             description (str):Descripción del proyecto.
-            gravity (str): Gravedad para el proyecto.
             hide_show_frame_data_1 (bool): Cambio para hide-Show de frame datos.
             hide_show_frame_data_2 (bool): Cambio para hide-Show de frame configuración.
             hide_show_frame_data (bool): Cambio para hide-Show draw-menu-data.
@@ -49,7 +48,6 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.__hide_show_frame_data=True
         self.__hide_show_frame_data_1=True
         self.__hide_show_frame_data_2=True
-        self.__hide_show_frame_data_3=True
 
         self.__hide_show_items=True
         self.__hide_show_label=True 
@@ -94,15 +92,12 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.verticalLayout_2.addItem(self.verticalSpacer)
         self.label_lat.setVisible(False)
 
-        self.toolButton_updateData.setVisible(False)
-
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
         self.toolButton_hideShow.clicked.connect(self.__clickedToolButtonHideShow)
         self.toolButton_cardDataSubTitle1.clicked.connect(self.__clickedToolButtonCardDataSubTitle1)
         self.toolButton_cardDataSubTitle2.clicked.connect(self.__clickedToolButtonCardDataSubTitle2)
-        self.toolButton_cardDataSubTitle3.clicked.connect(self.__clickedToolButtonCardDataSubTitle3)
         self.toolButton_showHideItem.clicked.connect(self.__clickedToolButtonShowHideItems)
         self.toolButton_showHideLabel.clicked.connect(self.__clickedToolButtonShowHideLabel)
 
@@ -122,7 +117,6 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         self.lineEdit_textData_DataLocation.editingFinished.connect(self.__editingFinishedLineEditDataLocation)
         self.lineEdit_textData_DataAuthor.editingFinished.connect(self.__editingFinishedLineEditDataAuthor)
         self.textEdit_textData_DataDescription.textChanged.connect(self.__textChangedTextEditDataDescription)
-        self.lineEdit_textData_DataGravity.editingFinished.connect(self.__editingFinishedLineEditDataGravity)
 
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  DE EVENTOS        ::::::::::::::::::::
@@ -165,18 +159,6 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
             self.frame_data1.setVisible(True)
             self.__hide_show_frame_data_2 = True
             self.toolButton_cardDataSubTitle2.setIcon(self.icon_minimize)
-
-    def __clickedToolButtonCardDataSubTitle3(self):
-        """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
-        if self.__hide_show_frame_data_3 == True:
-            self.frame_data2.setVisible(False)
-            self.__hide_show_frame_data_3 = False
-            self.toolButton_cardDataSubTitle3.setIcon(self.icon_maximize)
-        elif self.__hide_show_frame_data_3 == False:
-            self.frame_data2.setVisible(True)
-            self.__hide_show_frame_data_3 = True
-            self.toolButton_cardDataSubTitle3.setIcon(self.icon_minimize)
-
 
     def __clickedToolButtonShowHideItems(self):
         """ Muestra o oculta el submenú data de draw  >  configuración del proyecto """
@@ -253,46 +235,20 @@ class ViewWidgetDrawMenuData(QFrame, ui_widget_draw_menu_data.Ui_FormDrawMenuDat
         description = self.textEdit_textData_DataDescription.toPlainText()
         self.signal_data_project.emit({"description":description})
 
-    def __editingFinishedLineEditDataGravity(self):
-        """Verifica al salir del QLineEdit si el texto es
-        un número, si es verdadero le da formato decimal y
-        actualiza gravity en la copia de la bd del proyecto.
-        si no es número da mensaje de error""" 
-        gravity = self.lineEdit_textData_DataGravity.text()
-        if general_functions.isNumber(gravity):
-            self.lineEdit_textData_DataGravity.setText(str(float(gravity)))            
-            self.lineEdit_textData_DataGravity.setStyleSheet("border-color: #444444")
-            self.label_msn.setText("Empty")
-            self.label_msn.setStyleSheet("color: #333333") 
-            self.signal_data_project.emit({"gravity":float(gravity)})       
-
-        else:            
-            self.lineEdit_textData_DataGravity.setFocus()
-            self.lineEdit_textData_DataGravity.setStyleSheet("border: 1px solid #F94646")  
-            self.label_msn.setStyleSheet("color:  #F94646")  
-            self.label_msn.setText("Revisa la gravedad")          
-            QTimer.singleShot(4000, lambda: self.label_msn.setText(""))
-
-  
-            
-
-
     ###############################################################################
 	# ::::::::::::::::::::          MÉTODOS  GENERALES        ::::::::::::::::::::
 	###############################################################################
 
-    def setTextWidget(self, data_info, data_config):
+    def setTextWidget(self, data_info):
    
         self.name_project=data_info[0]
         self.location=data_info[1]
         self.author=data_info[2]
         self.description=data_info[3]
-        self.gravity=data_config[0]
 
         self.lineEdit_textData_DataTitleProject.setText(self.name_project)
         self.lineEdit_textData_DataLocation.setText(self.location)
         self.lineEdit_textData_DataAuthor.setText(self.author)
         self.textEdit_textData_DataDescription.setText(self.description)
-        self.lineEdit_textData_DataGravity.setText("{}".format(self.gravity))
 
 

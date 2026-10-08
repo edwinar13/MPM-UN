@@ -534,439 +534,6 @@ background-color: transparent;
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QFrame" name="frame_dataSubTitle1">
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_7">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_cardDataSubTitle1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>262</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>Dibujo</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_showHideLabel">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_showHideItem">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="QToolButtonSubTitleStyle" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_cardDataSubTitle1">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</normaloff>:/iconos/iconos_menu_draw_data/minimize.svg</iconset>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_data0">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout">
-               <item row="0" column="5">
-                <widget class="QToolButton" name="toolButton_cardDataDrawRule">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/rule.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rule.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <widget class="QToolButton" name="toolButton_cardDataDrawMove">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/move.svg</normaloff>:/iconos/iconos_menu_draw_mesh/move.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="4">
-                <widget class="QToolButton" name="toolButton_cardDataDrawCopy">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/copy.svg</normaloff>:/iconos/iconos_menu_draw_mesh/copy.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
-                <widget class="QToolButton" name="toolButton_cardDataDrawPoint">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/point.svg</normaloff>:/iconos/iconos_menu_draw_mesh/point.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <string>1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="3">
-                <widget class="QToolButton" name="toolButton_cardDataDrawLine">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <string>1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="5">
-                <widget class="QToolButton" name="toolButton_cardDataDrawErase">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/erase.svg</normaloff>:/iconos/iconos_menu_draw_mesh/erase.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="4">
-                <widget class="QToolButton" name="toolButton_cardDataDrawImport">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/import.svg</normaloff>:/iconos/iconos_menu_draw_mesh/import.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="3">
-                <widget class="QToolButton" name="toolButton_cardDataDrawRotate">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/rotate.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rotate.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="6">
-                <widget class="QToolButton" name="toolButton_cardDataDrawIntersection">
-                 <property name="minimumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/iconos.qrc">
-                   <normaloff>:/iconos/iconos_menu_draw_mesh/point_in_lines.svg</normaloff>:/iconos/iconos_menu_draw_mesh/point_in_lines.svg</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>35</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::ArrowType::NoArrow</enum>
-                 </property>
-                 <property name="style_draw_button" stdset="0">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
              <widget class="QFrame" name="frame_dataSubTitle2">
               <property name="frameShape">
                <enum>QFrame::Shape::StyledPanel</enum>
@@ -1155,14 +722,14 @@ background-color: transparent;
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_dataSubTitle3">
+             <widget class="QFrame" name="frame_dataSubTitle1">
               <property name="frameShape">
                <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Shadow::Raised</enum>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
                 <number>0</number>
                </property>
@@ -1179,7 +746,7 @@ background-color: transparent;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_cardDataSubTitle3">
+                <widget class="QLabel" name="label_cardDataSubTitle1">
                  <property name="minimumSize">
                   <size>
                    <width>262</width>
@@ -1187,12 +754,52 @@ background-color: transparent;
                   </size>
                  </property>
                  <property name="text">
-                  <string>Configuración del proyecto</string>
+                  <string>Dibujo</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_cardDataSubTitle3">
+                <widget class="QToolButton" name="toolButton_showHideLabel">
+                 <property name="toolTip">
+                  <string>Mostrar/ocultar etiquetas</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</normaloff>:/iconos/iconos_menu_draw_mesh/label_not.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_showHideItem">
+                 <property name="toolTip">
+                  <string>Mostrar/ocultar dibujo</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</normaloff>:/iconos/iconos_menu_draw_mesh/view_draw.svg</iconset>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="QToolButtonSubTitleStyle" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_cardDataSubTitle1">
                  <property name="text">
                   <string/>
                  </property>
@@ -1209,42 +816,373 @@ background-color: transparent;
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_data2">
+             <widget class="QFrame" name="frame_data0">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Rotar</string>
+              </property>
               <property name="frameShape">
                <enum>QFrame::Shape::StyledPanel</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Shadow::Raised</enum>
               </property>
-              <layout class="QFormLayout" name="formLayout_2">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_textData_DataGravity">
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="5">
+                <widget class="QToolButton" name="toolButton_cardDataDrawRule">
                  <property name="minimumSize">
                   <size>
-                   <width>110</width>
-                   <height>0</height>
+                   <width>35</width>
+                   <height>35</height>
                   </size>
                  </property>
-                 <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gravedad [m/s&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;]:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="QLabelStyle" stdset="0">
-                  <number>3</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_textData_DataGravity">
-                 <property name="minimumSize">
+                 <property name="maximumSize">
                   <size>
-                   <width>150</width>
-                   <height>25</height>
+                   <width>35</width>
+                   <height>35</height>
                   </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Medir distancia</string>
                  </property>
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="QLineEditStyle" stdset="0">
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/rule.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rule.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QToolButton" name="toolButton_cardDataDrawMove">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Mover</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/move.svg</normaloff>:/iconos/iconos_menu_draw_mesh/move.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="4">
+                <widget class="QToolButton" name="toolButton_cardDataDrawCopy">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Copiar</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/copy.svg</normaloff>:/iconos/iconos_menu_draw_mesh/copy.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QToolButton" name="toolButton_cardDataDrawPoint">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Punto</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/point.svg</normaloff>:/iconos/iconos_menu_draw_mesh/point.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <string>1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QToolButton" name="toolButton_cardDataDrawLine">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Línea</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</normaloff>:/iconos/iconos_menu_draw_mesh/line.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <string>1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="5">
+                <widget class="QToolButton" name="toolButton_cardDataDrawErase">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Borrar</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/erase.svg</normaloff>:/iconos/iconos_menu_draw_mesh/erase.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
+                <widget class="QToolButton" name="toolButton_cardDataDrawImport">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Importar DXF</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/import.svg</normaloff>:/iconos/iconos_menu_draw_mesh/import.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QToolButton" name="toolButton_cardDataDrawRotate">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Rotar</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/rotate.svg</normaloff>:/iconos/iconos_menu_draw_mesh/rotate.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="6">
+                <widget class="QToolButton" name="toolButton_cardDataDrawIntersection">
+                 <property name="minimumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Intersección de líneas</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/iconos.qrc">
+                   <normaloff>:/iconos/iconos_menu_draw_mesh/point_in_lines.svg</normaloff>:/iconos/iconos_menu_draw_mesh/point_in_lines.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>35</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::ArrowType::NoArrow</enum>
+                 </property>
+                 <property name="style_draw_button" stdset="0">
                   <number>1</number>
                  </property>
                 </widget>
@@ -1283,13 +1221,6 @@ background-color: transparent;
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="toolButton_updateData">
-                <property name="text">
-                 <string>Actualizar</string>
                 </property>
                </widget>
               </item>
