@@ -32,6 +32,13 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
         self.list_view_card =[]
         self.user_interaction = False
 
+        # Valores por defecto de las restricciones automáticas: los del .ui
+        self.__auto_defaults = {cb: cb.isChecked() for cb in (
+            self.checkBox_BoundaryRestrictionTXTop, self.checkBox_BoundaryRestrictionTYTop,
+            self.checkBox_BoundaryRestrictionTXBottom, self.checkBox_BoundaryRestrictionTYBottom,
+            self.checkBox_BoundaryRestrictionTXleft, self.checkBox_BoundaryRestrictionTYleft,
+            self.checkBox_BoundaryRestrictionTXRight, self.checkBox_BoundaryRestrictionTYRight)}
+
           # Configura la UI
         self.__configUi()
         self.__initEventUi()
@@ -263,15 +270,9 @@ class ViewWidgetDrawMenuBoundary(QFrame, Ui_FormDrawMenuBoundary):
         self.verticalLayout_containerCardBoundary.insertWidget(last_index, self.frame_empty)
 
     def endBoundary1(self):
-        self.checkBox_BoundaryRestrictionTXTop.setChecked(False)
-        self.checkBox_BoundaryRestrictionTXBottom.setChecked(False)
-        self.checkBox_BoundaryRestrictionTXleft.setChecked(True)
-        self.checkBox_BoundaryRestrictionTXRight.setChecked(True)
-
-        self.checkBox_BoundaryRestrictionTYTop.setChecked(True)
-        self.checkBox_BoundaryRestrictionTYBottom.setChecked(True)
-        self.checkBox_BoundaryRestrictionTYleft.setChecked(True)
-        self.checkBox_BoundaryRestrictionTYRight.setChecked(True)
+        """Vuelve a los valores por defecto del .ui (base fija, laterales en x, superior libre)."""
+        for check_box, checked in self.__auto_defaults.items():
+            check_box.setChecked(checked)
         
     def endBoundary2(self):
         self.lineEdit_textBoundaryName.setText("")

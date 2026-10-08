@@ -310,3 +310,24 @@ Más: los 4 proyectos migrados tienen las fuerzas exactas (`Fy_nuevo = Fy·Δ·n
 `RESULTADOS` y el resto del archivo idénticos al respaldo, y ya no disparan el
 bloqueo. La ventana principal, el diálogo de etapas y el panel se construyen sin
 errores.
+
+## 8. Trabajo posterior: cargas por etapa (anotado el 8 de octubre de 2026)
+
+Hoy las fuerzas `Fx`/`Fy` son un solo juego por partícula (menú de Punto
+Material) y cada etapa decide cómo usarlo: la geostática lo ignora, la de
+incremento de carga lo aplica en rampa y la dinámica al 100 % desde t = 0.
+Funciona y está validado, pero no permite una carga distinta en cada etapa (por
+ejemplo, relleno en la etapa 2 y sobrecarga en la 3, como pide el muro en
+voladizo).
+
+Propuesta para después de la revisión de la aplicación:
+
+- La **velocidad inicial** se queda en las partículas: es una condición inicial.
+- Las **cargas** pasan a la etapa: cada etapa activa uno o varios juegos de
+  fuerzas definidos en el proyecto ("cargas activas en esta etapa").
+- Toca el modelo de datos, el diálogo de etapas y el ejecutor; verificar con los
+  smokes de siempre que un juego único aplicado como hoy da 0.000e+00.
+
+De paso (8 de octubre de 2026): la flecha de fuerza del dibujo se veía invertida
+(solo el dibujo; datos y motor correctos, `Fy = −28` en la capacidad portante).
+Se corrigió en `items_GraphicsDraw.PointForceItem`.
