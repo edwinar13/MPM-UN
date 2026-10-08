@@ -71,6 +71,7 @@ class ModelProjectCurrent(QObject):
         self.models_meshs_quadrilaterals={}
         self.models_material_point={}
         self.models_boundary={}
+        self.__highlighted_boundaries = set()
         self.model_mesh_back= None
         self.models_properties={}
         self.model_result = None
@@ -210,6 +211,7 @@ class ModelProjectCurrent(QObject):
         for id_boundary in boundaries:
             self.addBoundaryToCurrentProject(
                 id=id_boundary)
+        self.refreshBoundarySymbols()
 
     def __initResult(self):
         
@@ -754,26 +756,67 @@ class ModelProjectCurrent(QObject):
             )
         self.addBoundaryToCurrentProject(
                 id=id)
+        self.refreshBoundarySymbols()
         return id
-    
-    def addBoundaryToCurrentProject(self,id):  
-        
+
+    def addBoundaryToCurrentProject(self,id):
+
 
         model_boundary = ModelBoundary(scene_draw=self.__scene,
                                         model_repository=self.model_repository,
                                         model_mesh_back=self.model_mesh_back,
-                                        id=id
+                                        id=id,
+                                        on_visibility_changed=self.refreshBoundarySymbols
                                         )
-        self.models_boundary[id]=model_boundary       
-    
+        self.models_boundary[id]=model_boundary
+
     def deleteBoundary(self, id):
-        self.model_repository.deleteBoundaryDB(id)        
+        self.model_repository.deleteBoundaryDB(id)
         removed_model_boundary= self.models_boundary.pop(id)
         removed_model_boundary.deleteBoundary()
         del removed_model_boundary
+        self.__highlighted_boundaries.discard(id)
+        self.refreshBoundarySymbols()
 
     def removeBoundary(self):
         self.models_boundary.clear()
+        self.__highlighted_boundaries.clear()
+
+    def refreshBoundarySymbols(self):
+        """Un solo símbolo por nodo aunque varios contornos lo compartan (p. ej. las
+        esquinas). El primer contorno visible que tiene el nodo dibuja la restricción
+        combinada de todos los visibles; en los demás se oculta. El análisis ya une
+        las restricciones por nodo (initBoundary), así que esto solo cambia el dibujo."""
+        visibles = [m for m in self.models_boundary.values() if m.isVisible()]
+        combined = {}
+        for model in visibles:
+            data = model.getData()[model.getId()]
+            for node in data["NODES"]:
+                tx, ty = combined.get(node, (False, False))
+                combined[node] = (tx or data["Tx"], ty or data["Ty"])
+        drawn = set()
+        for model in self.models_boundary.values():
+            show_model = model in visibles
+            for node, item in model.getItems().items():
+                if show_model and node not in drawn:
+                    drawn.add(node)
+                    item.setRestriction(*combined[node])
+                    item.setVisible(True)
+                else:
+                    item.setVisible(False)
+        self.__updateBoundaryHighlight()
+
+    def __updateBoundaryHighlight(self):
+        """Resalta los nodos de los contornos marcados en el menú de ejecutar, aunque
+        el símbolo visible de un nodo compartido sea de otro contorno."""
+        nodes = set()
+        for id_boundary in self.__highlighted_boundaries:
+            if id_boundary in self.models_boundary:
+                nodes.update(self.models_boundary[id_boundary].getItems())
+        for model in self.models_boundary.values():
+            for node, item in model.getItems().items():
+                item.isSelectedBoundary = node in nodes
+                item.update()
           
     # ::::::::::::::::::::           RESULTADOS         ::::::::::::::::::::
 
@@ -905,6 +948,7 @@ class ModelProjectCurrent(QObject):
      
 
             if count > 0:
+                self.__scene.update()
                 no_lines = len(self.__selected_objects)
                 self.signal_select_point_back.emit(no_lines)
 
@@ -1849,9 +1893,12 @@ class ModelProjectCurrent(QObject):
     def changeTheme(self,index_style):
         pass
 
-    def stateViewBoundary(self, data):  
-        model = self.models_boundary[data["id_boundary"]]
-        model.stateViewBoundary(data)
+    def stateViewBoundary(self, data):
+        if data["state_view"]:
+            self.__highlighted_boundaries.add(data["id_boundary"])
+        else:
+            self.__highlighted_boundaries.discard(data["id_boundary"])
+        self.__updateBoundaryHighlight()
 
     ###############################################################################
     # ::::::::::::::::::::          GUARDAR PROYECTO           ::::::::::::::::::::

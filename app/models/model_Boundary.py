@@ -6,13 +6,15 @@ from PySide6.QtWidgets import QGraphicsItemGroup
 
 class ModelBoundary:
 
-    def __init__(self, scene_draw:QGraphicsScene, model_repository:ModelRepository, 
-                 model_mesh_back:ModelMeshBack, id) -> None:
+    def __init__(self, scene_draw:QGraphicsScene, model_repository:ModelRepository,
+                 model_mesh_back:ModelMeshBack, id, on_visibility_changed=None) -> None:
 
         self.scene_draw = scene_draw
         self.model_repository = model_repository
         self. model_mesh_back = model_mesh_back
         self.id = id
+        self.on_visibility_changed = on_visibility_changed
+        self.items = {}  # id del nodo -> PointBoundaryTxItem
 
         self.group_boundary  = QGraphicsItemGroup()
         self.scene_draw.addItem(self.group_boundary)
@@ -111,6 +113,7 @@ class ModelBoundary:
         all_y = [c[1] for c in all_coords]
         min_x, max_x = min(all_x), max(all_x)
         min_y, max_y = min(all_y), max(all_y)
+        tol = 1e-6 * max(max_x - min_x, max_y - min_y, 1.0)
 
         coor_points = []
         #crear item escena
@@ -118,20 +121,11 @@ class ModelBoundary:
             node_id = node_boundary
             point = nodes_mesh[node_boundary]["COORDINATES"]
             px, py = point[0], point[1]
-            # Distancia al borde más cercano del bounding box
-            dist_left   = abs(px - min_x)
-            dist_right  = abs(px - max_x)
-            dist_top    = abs(py - max_y)
-            dist_bottom = abs(py - min_y)
-            min_dist = min(dist_left, dist_right, dist_top, dist_bottom)
-            if min_dist == dist_left:
-                dir_x, dir_y = -1.0, 0.0
-            elif min_dist == dist_right:
-                dir_x, dir_y = 1.0, 0.0
-            elif min_dist == dist_bottom:
-                dir_x, dir_y = 0.0, -1.0
-            else:
-                dir_x, dir_y = 0.0, 1.0
+            # Bordes del bounding box más cercanos (más de uno en las esquinas)
+            dist = {"left": abs(px - min_x), "right": abs(px - max_x),
+                    "bottom": abs(py - min_y), "top": abs(py - max_y)}
+            min_dist = min(dist.values())
+            edges = [e for e, d in dist.items() if d <= min_dist + tol]
 
             item = PointBoundaryTxItem(node_id=node_id,
                                       name=name,
@@ -140,10 +134,10 @@ class ModelBoundary:
                                       Tx=Tx,
                                       Ty=Ty,
                                       size=marker_size,
-                                      dir_x=dir_x,
-                                      dir_y=dir_y
+                                      edges=edges
                                       )
             coor_points.append(point)
+            self.items[node_id] = item
             self.group_boundary.addToGroup(item)
         self.group_boundary.setZValue(15)
 
@@ -164,17 +158,18 @@ class ModelBoundary:
     def showHideBoundary(self, value):
         """ funcion para mostrar/ocultar el contorno """
         self.group_boundary.setVisible(value)
-        
-    def showHideLabel(self, value):   
-        """ funcion para mostrar/ocultar el nombre del contorno """
-        self.text_name.setVisible(value)   
+        if self.on_visibility_changed:
+            self.on_visibility_changed()
 
-    
-    def stateViewBoundary(self, data):   
-        """ funcion para mostrar/ocultar el contorno """
-        for item in self.group_boundary.childItems():
-            if isinstance(item, PointBoundaryTxItem):
-                item.isSelectedBoundary = data["state_view"]
-        self.scene_draw.update()
+    def isVisible(self):
+        return self.group_boundary.isVisible()
+
+    def getItems(self) -> dict[str, PointBoundaryTxItem]:
+        """ return: {id del nodo: símbolo dibujado} """
+        return self.items
+
+    def showHideLabel(self, value):
+        """ funcion para mostrar/ocultar el nombre del contorno """
+        self.text_name.setVisible(value)
         
         

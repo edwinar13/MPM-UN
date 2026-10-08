@@ -111,54 +111,23 @@ class ControllerMenuBoundary(QObject):
         
         nodes = model_mesh_back.getNodes()
         nodes_top, nodes_bottom ,nodes_left ,nodes_right = model_mesh_back.getBoundaryNodes() 
-        
-        if  restriction_automatic_top[0] or restriction_automatic_top[1]:        
-            id_top= self.model_current_project.createBoundary(
-                                                        name ="boundary_top",
-                                                        nodes=nodes_top,
-                                                        restrictionX = restriction_automatic_top[0],
-                                                        restrictionY = restriction_automatic_top[1]                                                    
-                                                        )
-            model_boundary_top = self.model_current_project.getModelsBoundaries()[id_top]
-            self.createBoundaryCard(model_boundary_top)
-            
-        if  restriction_automatic_bottom[0] or restriction_automatic_bottom[1]:
-            id_bottom = self.model_current_project.createBoundary(
-                                                        name ="boundary_bottom",
-                                                        nodes=nodes_bottom,
-                                                        restrictionX = restriction_automatic_bottom[0],
-                                                        restrictionY = restriction_automatic_bottom[1]                                                    
-                                                        )
-            model_boundary_bottom = self.model_current_project.getModelsBoundaries()[id_bottom]
-            self.createBoundaryCard(model_boundary_bottom)
 
-        if  restriction_automatic_left[0] or restriction_automatic_left[1]:
-            id_left = self.model_current_project.createBoundary(
-                                                        name ="boundary_left",
-                                                        nodes=nodes_left,
-                                                        restrictionX = restriction_automatic_left[0],
-                                                        restrictionY = restriction_automatic_left[1]                                                    
-                                                        )
-            model_boundary_left = self.model_current_project.getModelsBoundaries()[id_left]
-            self.createBoundaryCard(model_boundary_left)
-                        
-        if  restriction_automatic_right[0] or  restriction_automatic_right[1]:
-            id_right = self.model_current_project.createBoundary(
-                                                        name ="boundary_right",
-                                                        nodes=nodes_right,
-                                                        restrictionX = restriction_automatic_right[0],
-                                                        restrictionY = restriction_automatic_right[1]                                                    
-                                                        )
-            
-            model_boundary_right = self.model_current_project.getModelsBoundaries()[id_right]
-            self.createBoundaryCard(model_boundary_right)
-            
+        sides = (("boundary_top", nodes_top, restriction_automatic_top),
+                 ("boundary_bottom", nodes_bottom, restriction_automatic_bottom),
+                 ("boundary_left", nodes_left, restriction_automatic_left),
+                 ("boundary_right", nodes_right, restriction_automatic_right))
+        new_ids = []
+        for name, side_nodes, (tx, ty) in sides:
+            if tx or ty:
+                id_boundary = self.model_current_project.createBoundary(
+                    name=name, nodes=side_nodes, restrictionX=tx, restrictionY=ty)
+                self.createBoundaryCard(self.model_current_project.getModelsBoundaries()[id_boundary])
+                new_ids.append(id_boundary)
+
         self.view_menu_boundary.endBoundary1()
         self.endDrawBoudary()        
-        self.signal_new_boundary.emit(id_top)
-        self.signal_new_boundary.emit(id_bottom)
-        self.signal_new_boundary.emit(id_left)
-        self.signal_new_boundary.emit(id_right)
+        for id_boundary in new_ids:
+            self.signal_new_boundary.emit(id_boundary)
 
     @Slot()
     def newBoundaryManual(self):

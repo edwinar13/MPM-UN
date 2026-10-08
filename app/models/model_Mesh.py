@@ -457,7 +457,6 @@ class ModelMeshBack:
                                     coordinatesX= coordinates[0],
                                     coordinatesY= coordinates[1]
                                     )
-            node_item.setCacheMode(QGraphicsItem.CacheMode.DeviceCoordinateCache)
             self.group_mesh_point.addToGroup(node_item)
             node_items[node] = node_item
                             

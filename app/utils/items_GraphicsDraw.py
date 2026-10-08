@@ -77,7 +77,7 @@ class NodeMeshBackItem(QGraphicsItem):
         self.newPos(self.coordenates)
 
         self.isSelectedPointBlack = False
-        
+
         self.pen_selected = QPen(QColor("#960b0f"), 0, Qt.SolidLine)
         self.pen_selected.setCosmetic(True)
         self.pen_selected.setWidthF(0.5)
@@ -105,14 +105,17 @@ class NodeMeshBackItem(QGraphicsItem):
         self.update()
 
     def boundingRect(self) -> QRectF:
+        # Casi un punto: la ventana de selección toma el nodo por su posición.
+        # El cuadro de SIZE px se dibuja fuera de este rectángulo, por eso el ítem
+        # no puede usar caché de dibujo (la caché recorta al rectángulo) y tras
+        # cambiar la selección hay que repintar la escena, no solo el ítem.
         size = 0.01
         return QRectF(-size, -size,
                              2*size, 2*size)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
-        
+
         if self.isSelectedPointBlack:
-            self.pen_selected.setWidthF(1 / painter.transform().m11()) # m11()
             painter.setPen(self.pen_selected)
             painter.setBrush(self.brush_selected)
             painter.drawRect(-self.SIZE/2, -self.SIZE/2, self.SIZE, self.SIZE)
@@ -396,16 +399,24 @@ class PointBoundaryTxItem(QGraphicsItem):
 
     SIZE = 0.15  # fallback en unidades de escena
 
+    # Dirección "hacia afuera" de cada borde de la malla
+    DIRECTIONS = {"left": (-1.0, 0.0), "right": (1.0, 0.0),
+                  "bottom": (0.0, -1.0), "top": (0.0, 1.0)}
+    # Borde preferido cuando el nodo está en varios (esquinas): el apoyo fijo va
+    # abajo; el rodillo en X sobre una pared lateral; el rodillo en Y sobre la base.
+    PREFERENCE = {(True, True): ("bottom", "left", "right", "top"),
+                  (True, False): ("left", "right", "bottom", "top"),
+                  (False, True): ("bottom", "top", "left", "right")}
+
     def __init__(self, node_id: str, name: str, coordinatesX=1, coordinatesY=1,
-                 Tx=True, Ty=True, size: float = 0.0,
-                 dir_x: float = 0.0, dir_y: float = -1.0):
+                 Tx=True, Ty=True, size: float = 0.0, edges=("bottom",)):
+        """edges: bordes de la malla más cercanos al nodo (varios si es esquina)."""
         QGraphicsItem.__init__(self)
 
         self.node_id = node_id
         self.name = name
         self.coor = QPointF(coordinatesX, coordinatesY)
-        self.Tx = Tx
-        self.Ty = Ty
+        self.edges = tuple(edges)
 
         s = size if size > 0 else self.SIZE
         self.size = s
@@ -413,18 +424,26 @@ class PointBoundaryTxItem(QGraphicsItem):
         self.isSelected = False
         self.isSelectedBoundary = False
 
-        # Desplazamiento en dirección alejada del centroide
-        ox = dir_x * s
-        oy = dir_y * s
-        self.off_x = ox
-        self.off_y = oy
-
         self.pen = QPen(QColor("#FF0000"), 0)
         self.pen.setCosmetic(True)
         self.pen_selected = QPen(QColor("#FF6600"), 0)
         self.pen_selected.setCosmetic(True)
 
-        r = s * 0.5
+        self.setRestriction(Tx, Ty)
+
+    def setRestriction(self, Tx, Ty):
+        """Rehace el símbolo para la restricción dada (puede ser la combinada de
+        varios contornos que comparten el nodo)."""
+        self.prepareGeometryChange()
+        self.Tx = Tx
+        self.Ty = Ty
+        s = self.size
+        edge = next((e for e in self.PREFERENCE[(bool(Tx), bool(Ty))] if e in self.edges),
+                    self.edges[0])
+        dir_x, dir_y = self.DIRECTIONS[edge]
+        self.off_x = dir_x * s
+        self.off_y = dir_y * s
+
         if Tx and Ty:
             # Triángulo que apunta al nodo (0,0)
             # La dirección (dir_x, dir_y) es hacia afuera del nodo.
@@ -479,6 +498,7 @@ class PointBoundaryTxItem(QGraphicsItem):
                 ly = dir_y * (r * 2) if dir_y != 0 else cy - r
                 self.line_p1 = QPointF(lx - ext, ly)
                 self.line_p2 = QPointF(lx + ext, ly)
+        self.update()
 
     def getNameGroup(self):
         return self.name
