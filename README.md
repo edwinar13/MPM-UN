@@ -95,6 +95,28 @@ Una vez abierta la aplicación, podrás:
 3. Definir la malla de fondo (Background Mesh).
 4. Proceder a la pestaña de ejecución para procesar la simulación a través del orquestador del Motor MPM.
 
+## 🎨 Editar interfaces (Qt Designer)
+
+Las interfaces son los `.ui` de `app/ui/`; los `ui_*.py` se generan y nunca se editan a mano.
+Los íconos e imágenes viven en el recurso `app/resources/iconos.qrc` (rutas `:/iconos/...`),
+así funcionan igual en Designer y en la aplicación.
+
+Abrir Designer: `.venv/Scripts/pyside6-designer.exe`.
+
+- **Asignar un ícono:** seleccionar el widget → propiedad `icon` (o `pixmap` en un QLabel)
+  → flecha ▾ → **Elegir recurso…** → escoger el archivo.
+- **Agregar un ícono nuevo:** copiar el archivo dentro de `app/resources/iconos/`; en
+  **Ver → Explorador de recursos** → lápiz (Editar recursos) → **+** sobre `iconos.qrc`
+  → agregar el archivo. Si el `.qrc` no aparece, abrirlo con *Abrir archivo de recursos*.
+  Después compilar el recurso:
+  ```bash
+  pyside6-rcc app/resources/iconos.qrc -o app/ui/iconos_rc.py
+  ```
+- **Regenerar una interfaz** después de guardar el `.ui` (siempre con `--from-imports`):
+  ```bash
+  pyside6-uic --from-imports app/ui/widget_x.ui -o app/ui/ui_widget_x.py
+  ```
+
 ## 🤝 Contribución
 
 ¡Las contribuciones son bienvenidas, particularmente en la generalización del motor MPM y mejoras de UI!

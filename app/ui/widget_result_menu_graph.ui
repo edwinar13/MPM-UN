@@ -77,8 +77,14 @@ background: #333333;
 border-radius: 8px
 }
 
+QFrame#frame_info,
+QFrame#frame_ResultAnimation1,
+QFrame#frame_ResultAnimation3,
+QFrame#frame_3{
+background: transparent;
+}
 /*#################################################################*/
-/*####################       FRAME HIDE       ###########################*/
+/*####################       FRAME HIDE      ###########################*/
 /*#################################################################*/
 
 QFrame#frame_hide{
@@ -1137,26 +1143,6 @@ QRadioButton[QRadioButtonStyle=&quot;1&quot;]::indicator:checked {
                     <item>
                      <property name="text">
                       <string>epsxy</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>velx</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>vely</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>despl</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>eqplas</string>
                      </property>
                     </item>
                    </widget>
