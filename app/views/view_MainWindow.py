@@ -108,7 +108,7 @@ class ViewMainWindow(QMainWindow):
         self.toolButton_snap_grid.setStyleSheet('border-color: red; background-color: #333333 ;margin: 0px 3px ')
         self.toolButton_snap_grid.setMinimumSize(QSize(40, 0))
         self.icon_snap_grid = QIcon()
-        self.icon_snap_grid.addFile(u"app/resources/iconos/iconos_status_bar/snap_grid.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_snap_grid.addFile(u":/iconos/iconos_status_bar/snap_grid.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_snap_grid.setIcon(self.icon_snap_grid)
         self.toolButton_snap_grid.setVisible(False)
 
@@ -117,7 +117,7 @@ class ViewMainWindow(QMainWindow):
         self.toolButton_ortho.setStyleSheet('border-color: red; background-color: #333333 ;margin: 0px 3px ')
         self.toolButton_ortho.setMinimumSize(QSize(40, 0))
         self.icon_ortho = QIcon()
-        self.icon_ortho.addFile(u"app/resources/iconos/iconos_status_bar/ortho.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_ortho.addFile(u":/iconos/iconos_status_bar/ortho.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_ortho.setIcon(self.icon_ortho)
         self.toolButton_ortho.setVisible(False)
 
@@ -126,7 +126,7 @@ class ViewMainWindow(QMainWindow):
         self.toolButton_osnap.setStyleSheet('border-color: red; background-color: #333333 ;margin: 0px 3px ')
         self.toolButton_osnap.setMinimumSize(QSize(40, 0))
         self.icon_osnap = QIcon()
-        self.icon_osnap.addFile(u"app/resources/iconos/iconos_status_bar/osnap.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_osnap.addFile(u":/iconos/iconos_status_bar/osnap.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_osnap.setIcon(self.icon_osnap)
         self.toolButton_osnap.setVisible(False)
       
@@ -145,9 +145,9 @@ class ViewMainWindow(QMainWindow):
 
         # ::::::::::::::::::::   CONFIGURANDO  FRAME SETTING ::::::::::::::::::::
         self.icon_config_select = QIcon()
-        self.icon_config_select.addFile(u"app/resources/iconos/iconos_menu_lateral/config_select.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_config_select.addFile(u":/iconos/iconos_menu_lateral/config_select.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_config = QIcon()
-        self.icon_config.addFile(u"app/resources/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_config.addFile(u":/iconos/iconos_menu_lateral/config.svg", QSize(), QIcon.Normal, QIcon.Off)
 
 
     

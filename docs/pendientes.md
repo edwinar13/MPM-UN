@@ -32,15 +32,16 @@ aplicación (≈ 15 de octubre de 2026).
       multicuerpo.
 - [ ] Reporte PDF: el botón está oculto. Rehacerlo con etapas, gráficas reales y
       claves actuales (`controller_MenuResultTable.signalGeneratePdf`).
-- [ ] "Campo de vectores" de la animación de resultados: confirmar que las flechas
-      apuntan en el sentido correcto (la del dibujo estaba invertida).
-- [ ] Unas 80 rutas `app/resources/...` escritas en las vistas: pasarlas a `:/...`
-      para que la aplicación funcione aunque no se ejecute desde la raíz del repo.
-- [ ] Etapa cuasi-estática que se detiene sin converger: hoy solo avisa en consola;
-      el mensaje final debería decirlo ([plan_fase_b.md](plan_fase_b.md), nota del
-      25 sep.).
-- [ ] Menor: reglas de estilo sobrantes de widgets borrados en
-      `widget_draw_menu_data.ui` (`frame_data2`, `SubTitle3`).
+- [x] "Campo de vectores" de la animación de resultados: revisado, apunta bien
+      (la flecha se dibuja en coordenadas de escena y la vista invierte el eje y;
+      la del dibujo fallaba porque ignora la transformación) — 8 oct.
+- [x] Rutas `app/resources/...` del código: íconos a `:/iconos/...`; fuentes y
+      `db_mpmun.json`/`Config.json` desde `config.RESOURCES_DIR`. La aplicación ya
+      no depende del directorio desde el que se ejecute — 8 oct.
+- [x] Etapa cuasi-estática que se detiene sin converger (tope de iteraciones o de
+      tiempo) o sin convergencia evaluable: diálogo de avisos al terminar — 8 oct.
+- [x] Reglas de estilo con `#nombre` de widgets que ya no existen: 121 selectores
+      retirados de 12 `.ui`, vistas idénticas píxel a píxel antes y después — 8 oct.
 
 ## 2. Cargas
 

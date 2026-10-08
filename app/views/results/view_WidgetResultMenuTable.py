@@ -38,19 +38,19 @@ class ViewWidgetResultMenuTable(QFrame, Ui_FormMenuResultTable):
         """ Configura la interface de usuario (ui) """ 
         
         self.icon_minimize = QIcon()
-        self.icon_minimize.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_minimize.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_maximize = QIcon()
-        self.icon_maximize.addFile(u"app/resources/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_maximize.addFile(u":/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
                 
         self.icon_show_mesh = QIcon()
-        self.icon_show_mesh.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_show_mesh.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_hide_mesh = QIcon()
-        self.icon_hide_mesh.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_mesh.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
                 
         self.icon_show_label = QIcon()
-        self.icon_show_label.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_show_label.addFile(u":/iconos/iconos_menu_draw_mesh/label.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_hide_label = QIcon()
-        self.icon_hide_label.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_label.addFile(u":/iconos/iconos_menu_draw_mesh/label_not.svg", QSize(), QIcon.Normal, QIcon.Off)
         
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('TABLA RESUMEN')

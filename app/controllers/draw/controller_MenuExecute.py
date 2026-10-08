@@ -9,6 +9,7 @@ from models.analysis_utils import compute_min_dt, build_time_arrays
 from views.view_DialogStages import DialogStages, stages_summary_html
 
 from ui.ui_dialog_loanding import Ui_DialogLoanding
+from utils.class_ui_dialog_msg import DialogMsg
 
 
 class AnalysisProgressDialog(QDialog, Ui_DialogLoanding):
@@ -289,10 +290,17 @@ class ControllerMenuExecute(QObject):
                 self.view_menu_execute.msnAlertDefault(
                     True, "Análisis cancelado: se guardaron los resultados parciales")
                 print("[OK→] Análisis cancelado con resultados parciales guardados")
+            elif analysis_mpm.warnings:
+                self.view_menu_execute.msnAlertDefault(True, "Análisis ejecutado con avisos")
+                print("[OK→] Análisis finalizado con avisos")
             else:
                 self.view_menu_execute.msnAlertDefault(False,"Análisis ejecutado")
                 print("[OK→] Análisis finalizado")
             self.signal_update_menu_result.emit()
+            if analysis_mpm.warnings:
+                # El mensaje del panel se borra a los 4 s: los avisos van en un diálogo
+                DialogMsg(self.view_menu_execute, 0, "El análisis terminó con avisos",
+                          "\n\n".join(analysis_mpm.warnings), 0).exec()
 
         else:
             analysis_dialog.close()

@@ -477,16 +477,7 @@ padding-left: 6px;
 
 
 
-QLineEdit#lineEdit_textMesh3{
-font: 7pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 2px;
-padding-left: 2px;
 
-}
 
 
 /*

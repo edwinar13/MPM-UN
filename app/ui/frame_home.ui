@@ -52,9 +52,7 @@ bold: font: 700 9pt &quot;Ubuntu&quot;;
 #FormHome{
 background-color: #222222;
 }
-QFrame#frame_empty_home{
-background-color: #222222;
-}
+
 QFrame#frame_2,
 QFrame#frame_3,
 QFrame#frame_5,
@@ -76,32 +74,10 @@ color: #C8CC8E;
 font: 700 30pt &quot;Ubuntu&quot;;
 font-weight:bold;
 }
-QFrame#frame_infEjemplos1,
-QFrame#frame_infEjemplos2,
-QFrame#frame_infAbrirProyecto,
-QFrame#frame_infNuevoProyecto{
-background-color: #C8CC8E;
-border-radius: 10px
-}
-QFrame#frame_supEjemplos1,
-QFrame#frame_supEjemplos2,
-QFrame#frame_supAbrirProyecto,
-QFrame#frame_supNuevoProyecto{
-background-color: #DDDDDD;
-border-radius: 10px
-}
-QToolButton#toolButton_abrirProyecto,
-QToolButton#toolButton_nuevoProyecto,
-QToolButton#toolButton_ejemplos1,
-QToolButton#toolButton_ejemplos2{
-background-color: transparent;
-font: 500 9pt &quot;Ubuntu&quot;;
-color: #222222;
-}
-QFrame#frame_proyectos{
- background: #444444;
-border-radius: 5px;
- }
+
+
+
+
 Line#line_1,
 Line#line_2{
 background: #999999;

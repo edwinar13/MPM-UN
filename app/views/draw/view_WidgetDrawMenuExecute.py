@@ -36,9 +36,9 @@ class ViewWidgetDrawMenuExecute(QFrame, Ui_FormDrawMenuExecute):
         """ Configura la interface de usuario (ui) """
         # Se agrega los dos iconos para maximizar y minimizar
         self.icon_minimize = QIcon()
-        self.icon_minimize.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_minimize.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_maximize = QIcon()
-        self.icon_maximize.addFile(u"app/resources/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_maximize.addFile(u":/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
 
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible
         self.label_lat = class_general.QLabelVertical('ANÁLISIS')

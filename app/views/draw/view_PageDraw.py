@@ -79,9 +79,9 @@ class ViewPageDraw(QFrame, ui_frame_draw.Ui_FormDraw):
         self.splitter_view.setOrientation(Qt.Horizontal)
         self.splitter_view.setHandleWidth(0)
         self.icon_view_one = QIcon()
-        self.icon_view_one.addFile(u"app/resources/iconos/iconos_consola/view_one.svg", QSize(), QIcon.Normal, QIcon.Off)        
+        self.icon_view_one.addFile(u":/iconos/iconos_consola/view_one.svg", QSize(), QIcon.Normal, QIcon.Off)        
         self.icon_view_two = QIcon()
-        self.icon_view_two.addFile(u"app/resources/iconos/iconos_consola/view_two.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_view_two.addFile(u":/iconos/iconos_consola/view_two.svg", QSize(), QIcon.Normal, QIcon.Off)
         
         
         self.horizontalLayout_graphics.addWidget(self.splitter_view)

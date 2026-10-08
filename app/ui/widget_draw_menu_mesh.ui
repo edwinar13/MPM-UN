@@ -123,8 +123,7 @@ color: #DDDDDD;
 }
 QFrame#frame_meshSubTitle0,
 QFrame#frame_meshSubTitle1,
-QFrame#frame_meshSubTitle2,
-QFrame#frame_meshSubTitle3{
+QFrame#frame_meshSubTitle2 {
 background: #222222;
 border-radius:2px;
 }
@@ -147,27 +146,11 @@ border-radius:2px;
 
 
 
-QToolButton#toolButton_cardMeshDraw7,
-QToolButton#toolButton_cardMeshDraw5,
-QToolButton#toolButton_cardMeshDraw6{
-background-color: transparent;
-border: 1px solid #222222;
-border-radius: 3px;
-margin-left: 4px;
-}
 
 
-QToolButton#toolButton_cardMeshDraw7:hover,
-QToolButton#toolButton_cardMeshDraw5:hover, 
-QToolButton#toolButton_cardMeshDraw6:hover{ 
-background-color: #444444;
-}
-QToolButton#toolButton_cardMeshDraw7:pressed,
-QToolButton#toolButton_cardMeshDraw5:pressed,
-QToolButton#toolButton_cardMeshDraw6:pressed{
-border-top: 2px solid #222222;
-border-left: 2px solid #222222;
-}  
+
+
+  
 
 
 
@@ -544,16 +527,7 @@ background-color: #333333;
 }
 
 
-QLineEdit#lineEdit_textMesh3{
-font: 7pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 2px;
-padding-left: 2px;
 
-}
 
 
 /*

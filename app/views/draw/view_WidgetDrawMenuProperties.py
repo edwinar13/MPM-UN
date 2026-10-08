@@ -102,16 +102,16 @@ class ViewWidgetDrawMenuProperties(QFrame, Ui_FormDrawMenuProperties):
         """ Configura la interface de usuario (ui) """ 
         # Se agrega los dos iconos para maximizar y minimizar
         self.icon_minimize = QIcon()
-        self.icon_minimize.addFile(u"app/resources/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_minimize.addFile(u":/iconos/iconos_menu_draw_data/minimize.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_maximize = QIcon()
-        self.icon_maximize.addFile(u"app/resources/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_maximize.addFile(u":/iconos/iconos_menu_draw_data/maximize.svg", QSize(), QIcon.Normal, QIcon.Off)
         
                         
         self.icon_show_properties = QIcon()
-        self.icon_show_properties.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_show_properties.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw.svg", QSize(), QIcon.Normal, QIcon.Off)
         
         self.icon_hide_properties = QIcon()
-        self.icon_hide_properties.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide_properties.addFile(u":/iconos/iconos_menu_draw_mesh/view_draw_not.svg", QSize(), QIcon.Normal, QIcon.Off)
                 
         '''
         # Se agrega la etiqueta Qlabel vertical al menú y por defecto es no visible

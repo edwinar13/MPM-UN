@@ -1,4 +1,9 @@
+import os
+
 from PySide6.QtCore import QObject, QSettings, Signal
+
+# Carpeta app/resources, sin depender del directorio desde el que se ejecute la app
+RESOURCES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resources")
 
 class ConfigManager(QObject):
     signalThemeChanged = Signal(str)

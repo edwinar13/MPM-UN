@@ -162,21 +162,9 @@ background-color: #444444;
 background-color: transparent;
 border: none;
 }
-#lineEdit_settingSearch{
-font:  10pt &quot;Ubuntu&quot;;
-background: #555555;
-border: none;
-border-radius: 4px ;
-padding-left: 20px;
-color: #DDDDDD;
-}
 
-#lineEdit_settingSearch:hover {
-	 border-width: 1px; 
-	border-style: solid; 
-	border-color: #0D99FF; 
 
-}
+
 
 #frame_3{
 

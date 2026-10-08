@@ -68,14 +68,11 @@ padding: 2px 0px;
 
 /****************************************************************************************************************************************************/
 
-QWidget#FormDataProject{
 
-}
 
 QFrame#frame_info,
 QFrame#frame_data0,
-QFrame#frame_data1,
-QFrame#frame_data2{
+QFrame#frame_data1 {
 background: transparent;
 }
 
@@ -117,20 +114,17 @@ font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
 QFrame#frame_dataSubTitle1,
-QFrame#frame_dataSubTitle2,
-QFrame#frame_dataSubTitle3{
+QFrame#frame_dataSubTitle2 {
 background: #222222;
 border-radius:2px;
 }
 QLabel#label_cardDataSubTitle1,
-QLabel#label_cardDataSubTitle2,
-QLabel#label_cardDataSubTitle3{
+QLabel#label_cardDataSubTitle2 {
 font: 500 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
 QToolButton#toolButton_cardDataSubTitle1,
-QToolButton#toolButton_cardDataSubTitle2,
-QToolButton#toolButton_cardDataSubTitle3{
+QToolButton#toolButton_cardDataSubTitle2 {
 background-color: transparent;
 }
 
@@ -201,26 +195,10 @@ padding-left: 6px;
 }
 
 */
-QTextEdit#textEdit_textData4{
-font: 9pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #444444;
-border-radius: 2px ;
-padding-right: 6px;
-padding-left: 6px;
-}
-QToolButton#toolButton_updateData{
-font: 500 10pt &quot;Ubuntu&quot;;
-color: #222222;
-background-color: #77ACA2;
-border: none;
-padding: 6px 25px;
-border-radius: 15px ;
-}
 
-QToolButton#toolButton_saveData:hover{
-background-color: #36C9C6;
-}
+
+
+
 
 
 

@@ -284,13 +284,13 @@ class DialogMsg(QDialog, ui_dialog_msg.Ui_DialogMsg):
 
         """
         if type_icon == 0:
-            self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_msg/warning.svg"))  
+            self.label_icon.setPixmap(QPixmap(u":/iconos/iconos_msg/warning.svg"))  
         elif type_icon == 1:
-            self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_msg/question.svg"))  
+            self.label_icon.setPixmap(QPixmap(u":/iconos/iconos_msg/question.svg"))  
         elif type_icon == 2:
-            self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_msg/ok.svg"))  
+            self.label_icon.setPixmap(QPixmap(u":/iconos/iconos_msg/ok.svg"))  
         elif type_icon == 3:
-            self.label_icon.setPixmap(QPixmap(u"app/resources/iconos/iconos_msg/error.svg")) 
+            self.label_icon.setPixmap(QPixmap(u":/iconos/iconos_msg/error.svg")) 
         else:
             pass
     

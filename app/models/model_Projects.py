@@ -11,6 +11,7 @@ from time import strftime
 from PySide6.QtCore import (QFile, QTime,Signal, QObject)
 import json
 import os
+from config import RESOURCES_DIR
 
 
 class ModelProject:
@@ -106,7 +107,7 @@ class ModelProjects:
 
 
     def __init__(self):
-        self.path_db_Config="app/resources/db/db_mpmun.json"
+        self.path_db_Config=os.path.join(RESOURCES_DIR, "db", "db_mpmun.json")
         self.projects = []
         self.loadProjects()
     

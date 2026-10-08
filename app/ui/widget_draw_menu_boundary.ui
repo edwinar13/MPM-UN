@@ -121,10 +121,10 @@ QLabel#label_cardBoundaryTitle{
 font: 700 9pt &quot;Ubuntu&quot;;
 color: #DDDDDD;
 }
-QFrame#frame_boundarySubTitle0,
+
 QFrame#frame_boundarySubTitle1,
 QFrame#frame_boundarySubTitle2,
-QFrame#frame_boundarySubTitle3{
+QFrame#frame_boundarySubTitle3 {
 background: #222222;
 border-radius:2px;
 }
@@ -147,27 +147,11 @@ border-radius:2px;
 
 
 
-QToolButton#toolButton_cardBoundaryDraw7,
-QToolButton#toolButton_cardBoundaryDraw5,
-QToolButton#toolButton_cardBoundaryDraw6{
-background-color: transparent;
-border: 1px solid #222222;
-border-radius: 3px;
-margin-left: 4px;
-}
 
 
-QToolButton#toolButton_cardBoundaryDraw7:hover,
-QToolButton#toolButton_cardBoundaryDraw5:hover, 
-QToolButton#toolButton_cardBoundaryDraw6:hover{ 
-background-color: #444444;
-}
-QToolButton#toolButton_cardBoundaryDraw7:pressed,
-QToolButton#toolButton_cardBoundaryDraw5:pressed,
-QToolButton#toolButton_cardBoundaryDraw6:pressed{
-border-top: 2px solid #222222;
-border-left: 2px solid #222222;
-}  
+
+
+  
 
 
 
@@ -500,16 +484,7 @@ padding-left: 6px;
 
 
 
-QLineEdit#lineEdit_textBoundary3{
-font: 7pt &quot;Ubuntu&quot;;
-color: #DDDDDD;
-background-color: #333333;
-border: 1px solid #444444;
-border-radius: 2px ;
-padding-right: 2px;
-padding-left: 2px;
 
-}
 
 
 /*

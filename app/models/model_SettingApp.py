@@ -1,4 +1,5 @@
 from time import strftime
+from config import RESOURCES_DIR
 from PySide6.QtCore import (QFile, QTime)
 import json
 import os
@@ -6,7 +7,7 @@ import os
 
 class ModelSettingApp:
     def __init__(self):
-        self.path_db_Config="app/resources/db/db_mpmun.json"
+        self.path_db_Config=os.path.join(RESOURCES_DIR, "db", "db_mpmun.json")
         self.setting = None
         self.loadSetting()
 

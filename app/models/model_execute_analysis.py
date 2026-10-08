@@ -176,6 +176,8 @@ class ModelExcuteAnalysisMPM:
         self.cancelled_partial = False
         # Motivo del fallo, para que el controlador lo muestre
         self.error_message = ""
+        # Avisos de una corrida que terminó (p. ej. etapa detenida sin converger)
+        self.warnings = []
          
         #===========  variables  ===========
 
@@ -237,6 +239,7 @@ class ModelExcuteAnalysisMPM:
         self.__rs_stages = []
         self.cancelled_partial = False
         self.error_message = ""
+        self.warnings = []
 
         # Pipeline de inicialización (genérico, no cambia)
         self.initConditions()
@@ -1303,6 +1306,7 @@ class ModelExcuteAnalysisMPM:
         
         finfor = False
         last_i = 0
+        warned_not_evaluable = False
         # Duración del primer incremento; sirve de referencia para el corte por
         # tiempo. Antes esto reusaba t0 y rompía el total impreso al final.
         t_first_incr = 1e9
@@ -1368,6 +1372,12 @@ class ModelExcuteAnalysisMPM:
                           f"(ff={ff}, ee={ee}). Suele significar que no hay fuerza "
                           f"externa en esta etapa (¿gravedad 0 y sin cargas?). "
                           f"Se da por convergido tras {tcont} iteración(es).")
+                    if not warned_not_evaluable:
+                        warned_not_evaluable = True
+                        self.warnings.append(
+                            f"{stage_label}: la convergencia no se pudo evaluar desde el "
+                            f"incremento {i + 1} (no hay fuerza externa: ¿gravedad 0 y "
+                            f"sin cargas?). Los incrementos se dieron por convergidos.")
                     break
 
                 # Tope de iteraciones de la etapa: evita que un incremento que no
@@ -1376,6 +1386,11 @@ class ModelExcuteAnalysisMPM:
                     print(f"[AVISO] incremento {i + 1}: se alcanzó el máximo de "
                           f"{stage.max_iterations} iteraciones sin converger "
                           f"(ff={ff:.4g}, ee={ee:.4g}). Se detiene la etapa.")
+                    self.warnings.append(
+                        f"{stage_label}: se detuvo en el incremento {i + 1} de {nincre} "
+                        f"sin converger (máximo de {stage.max_iterations} iteraciones; "
+                        f"desbalance {ff:.3g}, energía {ee:.3g}). Las etapas siguientes "
+                        f"parten de ese estado.")
                     finfor = True
                     break
 
@@ -1383,6 +1398,10 @@ class ModelExcuteAnalysisMPM:
                 tiempoi = time.time() - tinicial
                 if (tiempoi > 100 * t_first_incr) and (i > 0):
                     print("se excedió tiempo máximo de ejecución!!")
+                    self.warnings.append(
+                        f"{stage_label}: se detuvo en el incremento {i + 1} de {nincre} "
+                        f"porque tardó más de 100 veces el primer incremento sin "
+                        f"converger. Las etapas siguientes parten de ese estado.")
                     finfor = True
                     break
                 else:

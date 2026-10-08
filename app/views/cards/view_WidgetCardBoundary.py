@@ -52,9 +52,9 @@ class viewCardDrawBoundary(QFrame, Ui_FormDrawBoundaryCard):
 
         # Se agrega los dos iconos para maximizar y minimizar
         self.icon_show = QIcon()
-        self.icon_show.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_show.addFile(u":/iconos/iconos_menu_draw_mesh/view.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.icon_hide = QIcon()
-        self.icon_hide.addFile(u"app/resources/iconos/iconos_menu_draw_mesh/not_view.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.icon_hide.addFile(u":/iconos/iconos_menu_draw_mesh/not_view.svg", QSize(), QIcon.Normal, QIcon.Off)
         
         
         self.lineEdit_nameBoundary.setVisible(False)

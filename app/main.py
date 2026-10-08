@@ -1,14 +1,18 @@
 import sys
+import os
+import glob
 import json
 from PySide6.QtCore import (QFile)
 from PySide6.QtGui import (QFontDatabase)
 from PySide6.QtWidgets import (QApplication)
+from config import RESOURCES_DIR
+from ui import iconos_rc  # registra los recursos :/ (íconos e imágenes)
 from views.view_SplashScreen import SplashScreen
 
 
 def newFileApp():  
     """Crea base de datos del software si no existe.""" 
-    path_db_Config ="app/resources/db/Config.json"
+    path_db_Config = os.path.join(RESOURCES_DIR, "db", "Config.json")
     datos = {}    
     datos['ULTIMOSPROYECTOS'] = []
     datos['SETTING'] =  [
@@ -32,14 +36,8 @@ def newFileApp():
 
 def initFont():
     """Inicia las fuentes Ubuntu"""
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-Bold.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-BoldItalic.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-Italic.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-Light.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-LightItalic.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-Medium.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-MediumItalic.ttf')
-    QFontDatabase.addApplicationFont('app/resources/fonts/Ubuntu-Regular.ttf')
+    for path_font in sorted(glob.glob(os.path.join(RESOURCES_DIR, "fonts", "Ubuntu-*.ttf"))):
+        QFontDatabase.addApplicationFont(path_font)
 
 
 
