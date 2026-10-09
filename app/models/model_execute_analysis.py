@@ -1989,6 +1989,13 @@ class ModelExcuteAnalysisMPM:
                                  dt_graphic=first['dt_graphic'],
                                  analysis_steps=first['steps'],
                                  graphic_steps=first['steps_graphic'])
+            else:
+                # Cuasi-estática: el eje son incrementos, no segundos. Tiempo
+                # de análisis = incrementos programados; pasos = incrementos
+                # alcanzados, con un frame por incremento.
+                reached = first['arrays']['corX'].shape[1] - 1
+                data_time.update(analysis_time=stage.n_increments, dt_graphic=1,
+                                 analysis_steps=reached, graphic_steps=reached)
         self.model_result.updateResultDataTimes(
             id_material=data_time['id_property'],
             courant_number=data_time['courant_number'],
