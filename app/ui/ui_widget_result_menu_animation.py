@@ -887,6 +887,20 @@ class Ui_FormMenuResultAnimation(object):
 
         self.formLayout_3.setWidget(3, QFormLayout.ItemRole.FieldRole, self.spinBox_ResultAnimationVelocity)
 
+        self.label_textResultStage = QLabel(self.frame_3)
+        self.label_textResultStage.setObjectName(u"label_textResultStage")
+        self.label_textResultStage.setMinimumSize(QSize(110, 0))
+        self.label_textResultStage.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout_3.setWidget(4, QFormLayout.ItemRole.LabelRole, self.label_textResultStage)
+
+        self.comboBox_sceneStage = QComboBox(self.frame_3)
+        self.comboBox_sceneStage.setObjectName(u"comboBox_sceneStage")
+        self.comboBox_sceneStage.setMinimumSize(QSize(0, 25))
+        self.comboBox_sceneStage.setProperty(u"QComboBoxStyle", 1)
+
+        self.formLayout_3.setWidget(4, QFormLayout.ItemRole.FieldRole, self.comboBox_sceneStage)
+
         self.checkBox_ResultVector = QCheckBox(self.frame_3)
         self.checkBox_ResultVector.setObjectName(u"checkBox_ResultVector")
         self.checkBox_ResultVector.setEnabled(False)
@@ -1054,6 +1068,21 @@ class Ui_FormMenuResultAnimation(object):
         self.label_textResultSteps.setProperty(u"QLabelStyle", 3)
 
         self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.label_textResultSteps)
+
+        self.label_textGoFrame = QLabel(self.frame_ResultAnimation1)
+        self.label_textGoFrame.setObjectName(u"label_textGoFrame")
+        self.label_textGoFrame.setMinimumSize(QSize(0, 30))
+        self.label_textGoFrame.setProperty(u"QLabelStyle", 3)
+
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.LabelRole, self.label_textGoFrame)
+
+        self.spinBox_sceneFrame = QSpinBox(self.frame_ResultAnimation1)
+        self.spinBox_sceneFrame.setObjectName(u"spinBox_sceneFrame")
+        self.spinBox_sceneFrame.setMinimumSize(QSize(60, 25))
+        self.spinBox_sceneFrame.setKeyboardTracking(False)
+        self.spinBox_sceneFrame.setProperty(u"QSpinBoxStyle", 1)
+
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.FieldRole, self.spinBox_sceneFrame)
 
 
         self.verticalLayout_6.addLayout(self.formLayout)
@@ -1366,6 +1395,10 @@ class Ui_FormMenuResultAnimation(object):
         self.toolButton_cardResultAnimationSubTitle1.setText("")
         self.label_textPointMaterialName.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Tipo de resultado:", None))
         self.label_textResultAnimation3.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Velocidad anim.:", None))
+        self.label_textResultStage.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Etapa:", None))
+#if QT_CONFIG(tooltip)
+        self.comboBox_sceneStage.setToolTip(QCoreApplication.translate("FormMenuResultAnimation", u"Reproducir todas las etapas o solo una. El tiempo se muestra desde el inicio de la etapa.", None))
+#endif // QT_CONFIG(tooltip)
         self.checkBox_ResultVector.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Campo de vectores", None))
         self.radioButton_ResultXY.setText(QCoreApplication.translate("FormMenuResultAnimation", u"XY", None))
         self.radioButton_ResultX.setText(QCoreApplication.translate("FormMenuResultAnimation", u"XX", None))
@@ -1381,6 +1414,10 @@ class Ui_FormMenuResultAnimation(object):
         self.label_text_8.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Frame", None))
         self.label_text.setText(QCoreApplication.translate("FormMenuResultAnimation", u"N\u00famero de frames", None))
         self.label_textResultSteps.setText(QCoreApplication.translate("FormMenuResultAnimation", u"0", None))
+        self.label_textGoFrame.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ir al frame", None))
+#if QT_CONFIG(tooltip)
+        self.spinBox_sceneFrame.setToolTip(QCoreApplication.translate("FormMenuResultAnimation", u"Escribe un frame y pulsa Enter para saltar a \u00e9l", None))
+#endif // QT_CONFIG(tooltip)
         self.label_cardResultAnimationSubTitle0.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Estilo de visualizaci\u00f3n", None))
         self.toolButton_cardResultAnimationSubTitle0.setText("")
         self.label_textResultAnimation1_2.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Estilos de colores:", None))

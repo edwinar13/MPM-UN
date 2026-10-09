@@ -818,9 +818,10 @@ class ModelRepository():
         
     def addResultPropertyDB(self, id_property, name, color, modulus_elasticity, 
                             poisson_ratio, cohesion, friction_angle, 
-                            density,  angle_dilatancy):
+                            density,  angle_dilatancy, model="MOHR_COULOMB"):
         try:                 
             self.__unguarded_copy_db_project['RESULTADOS']['MATERIALES'][id_property] = {
+                "MODELO": model,                                #MOHR_COULOMB | ELASTICO
                 "NAME": name,
                 "COLOR": color,
                 "MODULOELASTICIDAD": modulus_elasticity,        #E KPa

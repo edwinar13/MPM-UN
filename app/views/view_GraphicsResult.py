@@ -16,6 +16,11 @@ class ViewGraphicsSceneResult(QGraphicsScene):
     def __init__(self):
         super().__init__()
         self.setSceneRect(QRectF(-10000, -10000, 20000, 20000))
+        # Sin índice espacial: en la animación todas las partículas se mueven
+        # en cada frame y reindexarlas costaba más que dibujarlas (talud de
+        # 6740 partículas: ~0.3 s por frame). Solo se pierde velocidad al
+        # buscar ítems bajo el ratón, que ocurre al hacer clic.
+        self.setItemIndexMethod(QGraphicsScene.NoIndex)
     
     #rectangulo en el rect de la scena
     def drawBackground(self, painter: QPainter, rect: QRectF|QRect) -> None:
@@ -202,7 +207,8 @@ class ViewGraphicsViewResult(QGraphicsView):
         self.point_scene = self.mapToScene(point_view) 
         self.signal_coor_mouse.emit([self.point_scene.x(),self.point_scene.y()])
 
-        self.scene().update()
+        # Sin scene().update(): no hay nada que siga al puntero, y repintar
+        # toda la escena en cada movimiento trababa el ratón en modelos grandes
         super(ViewGraphicsViewResult, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:

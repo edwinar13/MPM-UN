@@ -523,6 +523,8 @@ class ItemResultNode(QGraphicsItem):
         self._detail_panel_node: Optional['PointDetailPanelItem'] = None
         # modo "solo ID" del checkbox
         self._show_only_id = False
+        # [(frame, pincel)] si el material del grupo cambia entre etapas
+        self._material_timeline = []
   
         xo = self.coorX[0]
         yo = self.coorY[0]        
@@ -560,14 +562,6 @@ class ItemResultNode(QGraphicsItem):
             self.updateVector() 
         
         
-    def stopTime(self):
-
-        self._time_view = 0
-        self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
-        self.updateColorPoint()
-        if self.vector:
-            self.updateVector() 
-        
     def advanceTime(self,time_view):
         self._time_view = time_view  
         self.movePoint(QPointF(self.coorX[self._time_view], self.coorY[self._time_view]))
@@ -595,6 +589,7 @@ class ItemResultNode(QGraphicsItem):
         else:
             self.showCircle = True       
 
+        self._applyVisibility()
         self.updateColorPoint()
     
     def setSizePoints(self, size_points):
@@ -613,10 +608,17 @@ class ItemResultNode(QGraphicsItem):
         self.showLabel = visible
         if visible:
             self.text_node.setTextResult("")
-        self.update()
+        self._applyVisibility()
 
     def setDetailPanelNode(self, panel: 'PointDetailPanelItem'):
         self._detail_panel_node = panel
+
+    def setMaterialTimeline(self, timeline):
+        """[(frame_inicio, QBrush)]: color por material de cada etapa, para
+        cuando una etapa cambia el material del grupo (CAMBIOMATERIAL)."""
+        self._material_timeline = timeline
+        if timeline:
+            self.updateColorPoint()
 
     def setDetailPanelVisible(self, visible: bool, size_text: int = None):
         if self._detail_panel_node is None:
@@ -625,6 +627,7 @@ class ItemResultNode(QGraphicsItem):
             self._detail_panel_node.setSize(size_text)
         self._detail_panel_node.setVisible(visible)
         if visible:
+            self._detail_panel_node.newPos(self.coor)
             self._update_detail_panel()
 
     def _update_detail_panel(self):
@@ -642,7 +645,19 @@ class ItemResultNode(QGraphicsItem):
 
     def setVisibleValue(self, visible):
         self.showLabel = visible
-        self.update()
+        self._applyVisibility()
+        self._updateText()
+
+    def _applyVisibility(self):
+        """Muestra el círculo o la flecha y la etiqueta según el modo. Lo que
+        estaba oculto no siguió al punto (ver movePoint): se reubica al
+        mostrarlo."""
+        for item, visible in ((self.text_node, self.showLabel),
+                              (self.circle_node, self.showCircle),
+                              (self.arrow_node, not self.showCircle)):
+            if visible and not item.isVisible():
+                item.newPos(self.coor)
+            item.setVisible(visible)
 
     def updateVector(self):            
         type_result = self.type_result
@@ -692,7 +707,15 @@ class ItemResultNode(QGraphicsItem):
 
         if self.type_result == "default":
             if self.color_style =='Material':
-                self.circle_node.setColorDefault()
+                if self._material_timeline:
+                    # material de la etapa del frame: el último cambio que ya empezó
+                    current = self._material_timeline[0][1]
+                    for start, brush in self._material_timeline:
+                        if start <= self._time_view:
+                            current = brush
+                    self.circle_node.setColor(current)
+                else:
+                    self.circle_node.setColorDefault()
             else:
                 self.circle_node.setColorBicolor(self.random_color_bicolor)
         else:
@@ -722,24 +745,29 @@ class ItemResultNode(QGraphicsItem):
 
             color = QColor.fromHsv(hue, saturation, value)
             self.brush = QBrush(color)   
-            self.circle_node.setColor(self.brush) 
-            self.arrow_node.setColor(color.name())
-
-     
-        # actualiza el texto del label básico
-        if not self._show_only_id:
-            if self.type_result != 'default':
-                value_text = format_number(value_data)
+            if self.showCircle:
+                self.circle_node.setColor(self.brush)
             else:
-                x = self.data_result['CORX'][self._time_view]
-                y = self.data_result['CORY'][self._time_view]
-                value_text = f"({round(x,2)}, {round(y,2)})"
-            self.text_node.setTextResult(str(value_text))
-        else:
-            self.text_node.setTextResult("")
+                self.arrow_node.setColor(color.name())
 
+        self._updateText()
         # actualiza el panel de detalle si está visible
         self._update_detail_panel()
+
+    def _updateText(self):
+        """Texto de la etiqueta del punto; con la etiqueta oculta no se arma
+        (con miles de puntos era buena parte del costo de cada frame)."""
+        if not self.showLabel:
+            return
+        if self._show_only_id:
+            self.text_node.setTextResult("")
+        elif self.type_result != 'default':
+            key = result_key(self.type_result, self.axis)
+            self.text_node.setTextResult(str(format_number(self.data_result[key][self._time_view])))
+        else:
+            x = self.data_result['CORX'][self._time_view]
+            y = self.data_result['CORY'][self._time_view]
+            self.text_node.setTextResult(f"({round(x,2)}, {round(y,2)})")
 
    
     def evaluatePercent(self, value, range):
@@ -767,12 +795,14 @@ class ItemResultNode(QGraphicsItem):
 
     def movePoint(self, pos: QPointF):
         try:
+            # Solo se mueve lo que se ve; lo oculto se reubica al mostrarse
+            # (_applyVisibility, setDetailPanelVisible)
             self.coor = pos
             self.setPos(pos)
-            self.text_node.newPos(self.coor)
-            self.circle_node.newPos(self.coor)
-            self.arrow_node.newPos(self.coor)
-            if self._detail_panel_node is not None:
+            for item in (self.text_node, self.circle_node, self.arrow_node):
+                if item.isVisible():
+                    item.newPos(self.coor)
+            if self._detail_panel_node is not None and self._detail_panel_node.isVisible():
                 self._detail_panel_node.newPos(self.coor)
         except Exception as e:
             print("-->Error movePoint", e)
@@ -781,18 +811,10 @@ class ItemResultNode(QGraphicsItem):
         return QRectF(-self.radius,-self.radius,self.radius*2,self.radius*2)
 
     def paint(self, painter, option, widget):
-
-        if self.showLabel:  
-            self.text_node.setVisible(True)
-        else:
-            self.text_node.setVisible(False)
-
-        if self.showCircle:
-            self.circle_node.setVisible(True)
-            self.arrow_node.setVisible(False)
-        else:
-            self.circle_node.setVisible(False)
-            self.arrow_node.setVisible(True)
+        # Nada que dibujar: el punto se ve con circle_node / arrow_node /
+        # text_node. Sus visibilidades se fijan en _applyVisibility, no aquí
+        # (cambiarlas al pintar forzaba otro repintado por partícula).
+        pass
 
 
 """

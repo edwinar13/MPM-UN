@@ -1094,6 +1094,11 @@ class ModelExcuteAnalysisMPM:
 
             n_added = n_frames - skip
             stage = block['stage']
+            # Material vigente de cada grupo en esta etapa (cambia con
+            # CAMBIOMATERIAL): Resultados lo usa para colorear por material
+            cfg_index = next(k for k, s in enumerate(self.analysis_config.stages) if s is stage)
+            materials = {body['id']: target for body, target in
+                         zip(self.__bodies, self._stage_materials(self.analysis_config, cfg_index))}
             frames_meta.append({
                 'ETAPA': i + 1,
                 'TIPO': stage.stage_type.value,
@@ -1101,6 +1106,7 @@ class ModelExcuteAnalysisMPM:
                 'FRAME_INICIO': frame_cursor,
                 'FRAME_FIN': frame_cursor + n_added - 1,
                 'DT': block['dt'],
+                'MATERIALES': materials,
             })
             frame_cursor += n_added
 
@@ -1934,11 +1940,14 @@ class ModelExcuteAnalysisMPM:
         )
         
         
-        for id_material_point in list_point_material:    
-            model_material_point = models_material_point[id_material_point]
-            model_property = model_material_point.getProperty()
-
-
+        # Materiales del resultado: el de cada grupo y los que entran después
+        # por CAMBIOMATERIAL (p. ej. los de la falla del talud)
+        property_ids = [models_material_point[g].getProperty().getId() for g in list_point_material]
+        for st in self.__rs_stages_frames:
+            property_ids += list(st.get('MATERIALES', {}).values())
+        models_properties = self.model_current_project.getModelsProperties()
+        for id_property in dict.fromkeys(property_ids):
+            model_property = models_properties[id_property]
             self.model_result.addResultProperty(
                 id_property = model_property.getId(),
                 name = model_property.getName(),
@@ -1948,9 +1957,13 @@ class ModelExcuteAnalysisMPM:
                 cohesion = model_property.getCohesion(),
                 friction_angle = model_property.getFrictionAngle(),
                 density = model_property.getDensity(),
-                angle_dilatancy = model_property.getAngleDilatancy()
+                angle_dilatancy = model_property.getAngleDilatancy(),
+                model = model_property.getModel()
             )
-            
+
+        for id_material_point in list_point_material:
+            model_material_point = models_material_point[id_material_point]
+            model_property = model_material_point.getProperty()
             self.model_result.addResultPointMaterial(
                 id_MP = id_material_point,
                 name = model_material_point.getName(),

@@ -27,6 +27,8 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     signal_scene_play = Signal()    
     signal_scene_advance = Signal()
     signal_scene_animation_velocity = Signal()
+    signal_scene_stage = Signal()
+    signal_scene_frame = Signal(int)
     
     def __init__(self):
 
@@ -129,6 +131,8 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
         self.toolButton_scenePlay.clicked.connect(self.__clickedToolButtonScenePlay)
         self.toolButton_sceneStop.clicked.connect(self.__clickedToolButtonSceneStop)
         self.toolButton_sceneAdvance.clicked.connect(self.__clickedToolButtonSceneAdvance)
+        self.comboBox_sceneStage.currentIndexChanged.connect(lambda _: self.signal_scene_stage.emit())
+        self.spinBox_sceneFrame.valueChanged.connect(self.signal_scene_frame.emit)
 
 
         self.comboBox_ResultAnimationColorStyles_Puntos.currentIndexChanged.connect(self.__currentIndexChangedComboBoxResultAnimationColorStylesPoints)
@@ -422,4 +426,35 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
         
     def setStepView(self, step):
         self.label_textResultStep.setText(str(step))
+        # el campo "Ir al frame" muestra también el frame actual
+        self.spinBox_sceneFrame.blockSignals(True)
+        self.spinBox_sceneFrame.setValue(step)
+        self.spinBox_sceneFrame.blockSignals(False)
+
+    def setTimeCaption(self, caption):
+        """Rótulo bajo el valor de tiempo: 'Tiempo (s)' o 'Incremento'."""
+        self.label_text_7.setText(caption)
+
+    def setStages(self, stages):
+        """stages: [(texto, (frame_inicio, frame_fin))]. Siempre agrega
+        primero 'Todas las etapas'; con una sola etapa no hay nada que elegir."""
+        self.comboBox_sceneStage.blockSignals(True)
+        self.comboBox_sceneStage.clear()
+        self.comboBox_sceneStage.addItem("Todas las etapas", None)
+        if len(stages) > 1:
+            for text, frames in stages:
+                self.comboBox_sceneStage.addItem(text, frames)
+        self.comboBox_sceneStage.setEnabled(len(stages) > 1)
+        self.comboBox_sceneStage.blockSignals(False)
+
+    def getStageFrames(self):
+        """(frame_inicio, frame_fin) de la etapa elegida, o None = todas."""
+        return self.comboBox_sceneStage.currentData()
+
+    def setFrameCount(self, last):
+        """Frames del rango activo, numerados de 0 a `last`."""
+        self.setSteps(last)
+        self.spinBox_sceneFrame.blockSignals(True)
+        self.spinBox_sceneFrame.setRange(0, max(last, 0))
+        self.spinBox_sceneFrame.blockSignals(False)
 

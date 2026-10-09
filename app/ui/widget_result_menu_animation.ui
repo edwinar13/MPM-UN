@@ -1157,6 +1157,20 @@ background-color: transparent;
                           </property>
                          </widget>
                         </item>
+                        <item row="4" column="0">
+                         <widget class="QLabel" name="label_textResultStage">
+                          <property name="minimumSize"><size><width>110</width><height>0</height></size></property>
+                          <property name="text"><string>Etapa:</string></property>
+                          <property name="QLabelStyle" stdset="0"><number>3</number></property>
+                         </widget>
+                        </item>
+                        <item row="4" column="1">
+                         <widget class="QComboBox" name="comboBox_sceneStage">
+                          <property name="minimumSize"><size><width>0</width><height>25</height></size></property>
+                          <property name="toolTip"><string>Reproducir todas las etapas o solo una. El tiempo se muestra desde el inicio de la etapa.</string></property>
+                          <property name="QComboBoxStyle" stdset="0"><number>1</number></property>
+                         </widget>
+                        </item>
                         <item row="2" column="1">
                          <widget class="QCheckBox" name="checkBox_ResultVector">
                           <property name="enabled">
@@ -1494,6 +1508,21 @@ background-color: transparent;
                          <property name="QLabelStyle" stdset="0">
                           <number>3</number>
                          </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="0">
+                        <widget class="QLabel" name="label_textGoFrame">
+                         <property name="minimumSize"><size><width>0</width><height>30</height></size></property>
+                         <property name="text"><string>Ir al frame</string></property>
+                         <property name="QLabelStyle" stdset="0"><number>3</number></property>
+                        </widget>
+                       </item>
+                       <item row="1" column="1">
+                        <widget class="QSpinBox" name="spinBox_sceneFrame">
+                         <property name="minimumSize"><size><width>60</width><height>25</height></size></property>
+                         <property name="toolTip"><string>Escribe un frame y pulsa Enter para saltar a él</string></property>
+                         <property name="keyboardTracking"><bool>false</bool></property>
+                         <property name="QSpinBoxStyle" stdset="0"><number>1</number></property>
                         </widget>
                        </item>
                       </layout>

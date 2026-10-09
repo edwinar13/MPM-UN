@@ -45,6 +45,10 @@ aplicación (≈ 15 de octubre de 2026).
 - [x] Tamaño de malla con 4 decimales (antes 2: no se podía armar 7×7 partículas
       por elemento de 0.1 m); tooltip con los datos del punto material bajo el
       puntero y, al seleccionar puntos, suma y valores de sus fuerzas — 8 oct.
+- [x] Animación de resultados: selector de etapa (reproduce todas o una, con el
+      tiempo propio de la etapa: incremento o segundos) y campo "Ir al frame".
+      Los resultados guardan el material de cada grupo por etapa y el color por
+      material cambia al entrar a la etapa que lo cambia (falla del talud) — 9 oct.
 
 ## 2. Cargas
 
@@ -86,8 +90,11 @@ aplicación (≈ 15 de octubre de 2026).
       la malla Estructurada dejaba por fuera los 40 centros que caen justo sobre
       la línea del talud (ahora un punto sobre el borde cuenta como dentro, como
       en el script) — 9 oct.
-- [ ] Corridas definitivas en `test/7`: viga y consolidación hechas; capacidad
-      portante (malla 0.5) corriendo; talud de dos etapas por armar.
+- [x] Corridas definitivas en `test/7`: viga, capacidad portante, talud de dos
+      etapas y consolidación armados y corridos desde la interfaz y comparados
+      con sus referencias
+      ([validaciones_definitivas.md](Importantes_para_tesis/validaciones_definitivas.md))
+      — 9 oct.
 - [ ] Partículas de frontera: decidir y justificar qué función se adopta en la punta
       de la cuña ([deteccion_particulas_frontera.md §8](deteccion_particulas_frontera.md)).
 - [ ] Extras si queda tiempo: `Disc.py` (contacto con solución analítica) y
@@ -108,3 +115,24 @@ aplicación (≈ 15 de octubre de 2026).
 - [ ] Índice inverso nodo → índice activo y partículas por elemento (CSR): sin
       cambio en los resultados, 10–40x estimado. Luego escalado de masa
       ([rendimiento_y_costo_computacional.md §6](rendimiento_y_costo_computacional.md)).
+- [x] Animación de resultados en modelos grandes, arreglos rápidos: no se mueven
+      ni recolorean flechas y etiquetas ocultas, las visibilidades ya no se
+      cambian al pintar y la escena de resultados no usa índice espacial. Talud
+      de 6740 partículas: de ~1.1 s a ~0.4 s por frame, imagen idéntica píxel a
+      píxel — 9 oct.
+- [ ] **Animación con una sola capa de partículas** (postergado, 9 oct.: no se
+      hace por ahora): un ítem que dibuja todas las
+      partículas de una vez, con los colores del frame calculados con numpy, en
+      lugar de 4 ítems de Qt por partícula (punto, círculo, flecha, texto).
+      Estimado: decenas de ms por frame en el talud (hoy ~0.4 s). Hay que
+      rehacer encima etiquetas, flechas, panel de detalle y la selección de
+      puntos para gráficas. ~1 día.
+- [ ] **Tamaño de los proyectos con resultados** (postergado, 9 oct.: no se hace
+      por ahora): el talud definitivo pesa 430 MB y tarda ~75 s en abrir
+      (`json` con todos los frames de las 6740 partículas, 18 campos, como
+      listas de texto). Medido el 9 oct.: ~26 s leer el `json` y ~41 s armar la
+      escena de resultados; igual antes y después de los cambios de la
+      animación. Opciones: guardar los resultados aparte en binario (`.npz`
+      junto al `.json`), o en float32 y sin campos derivables (DESPL*,
+      magnitudes XY); revisar también por qué tarda tanto armar la escena.
+      Decidir antes de que crezcan los casos del muro.

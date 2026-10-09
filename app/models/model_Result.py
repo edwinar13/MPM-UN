@@ -298,44 +298,89 @@ class ModelResult(QObject):
         
 
                
-    def regressTime(self):        
-        self.time_view -= 1        
-        if self.time_view >= self.no_data:
-            self.time_view = self.no_data - 1
-            
-        elif self.time_view < 0:
-            self.time_view = 0
+    # ---- Rango de frames que se reproduce (todas las etapas o una sola) ----
+
+    def getStagesFrames(self):
+        """[{'ETAPA','TIPO','NOMBRE','FRAME_INICIO','FRAME_FIN','DT'}] o [] si
+        el resultado no trae etapas."""
+        return (self.__data_base or {}).get('ETAPAS_FRAMES') or []
+
+    def frameRange(self):
+        """(primero, último) del rango que se reproduce; por defecto, todo."""
+        last = self.no_data - 1
+        lo = min(max(getattr(self, 'frame_lo', 0), 0), max(last, 0))
+        hi = getattr(self, 'frame_hi', None)
+        hi = last if hi is None else min(max(hi, lo), last)
+        return lo, hi
+
+    def setFrameRange(self, lo=0, hi=None):
+        """Limita la reproducción a [lo, hi] (None = hasta el final) y va al
+        primero."""
+        self.timer.stop()
+        self.frame_lo, self.frame_hi = lo, hi
+        self.goToFrame(self.frameRange()[0])
+
+    def goToFrame(self, frame):
+        """Muestra el frame `frame` (global), acotado al rango activo."""
+        lo, hi = self.frameRange()
+        self.time_view = min(max(int(frame), lo), hi)
         for node in self.__item_result_nodes:
-            node.regressTime(self.time_view)                 
-        self.signal_time_steps_changed.emit(self.time_view)       
-            
-            
-    def stopTime(self):
-        self.timer.stop() 
-        self.time_view = 0 
-        for node in self.__item_result_nodes:
-            node.stopTime()        
+            node.advanceTime(self.time_view)
         self.signal_time_steps_changed.emit(self.time_view)
+
+    def stageOfFrame(self, frame):
+        """Etapa (dict de ETAPAS_FRAMES) a la que pertenece un frame, o None."""
+        for st in self.getStagesFrames():
+            if st['FRAME_INICIO'] <= frame <= st['FRAME_FIN']:
+                return st
+        return None
+
+    def localTime(self, frame):
+        """(valor, es_incremento) del eje propio de la etapa del frame: en
+        cuasi-estáticas, el incremento; en las demás, segundos desde el inicio
+        de la etapa. Sin etapas, el valor guardado tal cual."""
+        times = self.__graphic_time
+        st = self.stageOfFrame(frame)
+        if st is None:
+            return times[frame], False
+        start = st['FRAME_INICIO']
+        base = times[start - 1] if start > 0 else 0.0
+        return times[frame] - base, st['TIPO'] in ('geostatic', 'load_increment')
+
+    def regressTime(self):
+        lo, hi = self.frameRange()
+        self.time_view = min(max(self.time_view - 1, lo), hi)
+        for node in self.__item_result_nodes:
+            node.regressTime(self.time_view)
+        self.signal_time_steps_changed.emit(self.time_view)
+
+
+    def stopTime(self):
+        self.timer.stop()
+        self.goToFrame(self.frameRange()[0])
         
     def playPauseTime(self, scene_is_play):   
         
         if not scene_is_play:
             self.timer.stop()
-        else:      
+        else:
+            # Play desde el último frame del rango: vuelve a empezar
+            lo, hi = self.frameRange()
+            if self.time_view >= hi:
+                self.goToFrame(lo)
             self.timer.start() # intervalo en milisegundos
             
             
-    def advanceTime(self):        
+    def advanceTime(self):
+        lo, hi = self.frameRange()
         self.time_view += 1
-        if self.time_view >= self.no_data:
+        if self.time_view > hi:
             self.playPauseTime(False)
-            self.time_view = self.no_data - 1
+            self.time_view = hi
             self.signal_time_steps_end.emit()
-            
-            
-        elif self.time_view < 0:
-            self.time_view = 0          
-              
+        elif self.time_view < lo:
+            self.time_view = lo
+
         for node in self.__item_result_nodes:
             node.advanceTime(self.time_view)
         self.signal_time_steps_changed.emit(self.time_view)
@@ -357,6 +402,24 @@ class ModelResult(QObject):
 
         ele_size = self.model_mesh_back.getSizeElement()
         fallback_radius = ele_size / 7  # fallback si no hay volumen
+
+        # Material de cada grupo por etapa (CAMBIOMATERIAL): [(frame, pincel)]
+        # desde el frame en que empieza cada etapa. Los nodos van grupo por
+        # grupo, en el mismo orden que __point_materials.
+        group_of_node = [id_MP for id_MP in self.__point_materials
+                         for _ in self.__point_materials[id_MP].get("POINTS", {})]
+        brushes = {}
+        def brush(id_prop):
+            if id_prop not in brushes:
+                brushes[id_prop] = QBrush(QColor(self.__properties[id_prop]["COLOR"]))
+            return brushes[id_prop]
+        timelines = {}
+        for id_MP in self.__point_materials:
+            timeline = [(st['FRAME_INICIO'], brush(st['MATERIALES'][id_MP]))
+                        for st in self.getStagesFrames()
+                        if id_MP in st.get('MATERIALES', {})
+                        and st['MATERIALES'][id_MP] in self.__properties]
+            timelines[id_MP] = timeline if len({id(b) for _, b in timeline}) > 1 else []
 
         for idx, node in enumerate(sorted(self.__result_nodes.keys(), key=lambda k: int(k))):
 
@@ -401,6 +464,8 @@ class ModelResult(QObject):
             self.scene_result.addItem(detail_panel)
             node_result.setDetailPanelNode(detail_panel)
             detail_panel.newPos(node_result.coor)
+            if idx < len(group_of_node):
+                node_result.setMaterialTimeline(timelines[group_of_node[idx]])
 
             self.__item_result_nodes.append(node_result)
             self.scene_result.addItem(node_result)
@@ -716,9 +781,10 @@ class ModelResult(QObject):
         self.__result_nodes = self.model_repository.readResultNodesDB()
         
 
-    def addResultProperty(self, id_property, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy):
+    def addResultProperty(self, id_property, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy, model="MOHR_COULOMB"):
 
         self.__properties[id_property] = {
+            "MODELO": model,
             "NAME": name,
             "COLOR": color,
             "MODULOELASTICIDAD": modulus_elasticity,        #E KPa
@@ -738,7 +804,8 @@ class ModelResult(QObject):
             cohesion=cohesion,
             friction_angle=friction_angle,
             density=density,
-            angle_dilatancy=angle_dilatancy
+            angle_dilatancy=angle_dilatancy,
+            model=model
             )
         
 

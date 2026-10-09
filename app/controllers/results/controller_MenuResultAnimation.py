@@ -4,6 +4,7 @@ from models.model_ProjectCurrent import ModelProjectCurrent
 from controllers.cards.controller_CardMesh import ControllerCardMesh
 from motorMPM.mesh import create_uniform
 from utils.general_functions import SCALAR_RESULTS
+from views.view_DialogStages import STAGE_TYPES
 import pygmsh
 import math
 import time
@@ -50,6 +51,8 @@ class ControllerMenuResultAnimation(QObject):
         self.view_menu_result_animation.signal_scene_play.connect(self.signalScenePlay)
         self.view_menu_result_animation.signal_scene_stop.connect(self.signalSceneStop)
         self.view_menu_result_animation.signal_scene_animation_velocity.connect(self.signalSceneAnimationVelocity)    
+        self.view_menu_result_animation.signal_scene_stage.connect(self.signalSceneStage)
+        self.view_menu_result_animation.signal_scene_frame.connect(self.signalSceneFrame)
                 
                 
 
@@ -90,6 +93,14 @@ class ControllerMenuResultAnimation(QObject):
 
         self.view_menu_result_animation.setSizePoint(size=size)
         self.view_menu_result_animation.resetTypeResult()
+
+        # Selector de etapa: cada análisis nuevo vuelve a "todas"
+        names = dict((value, label) for label, value in STAGE_TYPES)
+        stages = [(f"{st['ETAPA']}: {st.get('NOMBRE') or ''} ({names.get(st['TIPO'], st['TIPO'])})",
+                   (st['FRAME_INICIO'], st['FRAME_FIN']))
+                  for st in self.model_result.getStagesFrames()]
+        self.view_menu_result_animation.setStages(stages)
+        self.signalSceneStage()
         
 
 
@@ -105,13 +116,15 @@ class ControllerMenuResultAnimation(QObject):
         times_view = self.model_result.getGrapihcsTimes()
         if len(times_view) == 0:
             return
-        self.view_menu_result_animation.setStepView(steps)
-        time_view = self.model_result.getGrapihcsTimes()[steps]
-        time_view = round(time_view, 3)
-        self.view_menu_result_animation.setTimeView(time_view)
+        lo, hi = self.model_result.frameRange()
+        self.view_menu_result_animation.setStepView(steps - lo)
+        # tiempo propio de la etapa del frame: incremento o segundos desde su inicio
+        value, is_increment = self.model_result.localTime(steps)
+        self.view_menu_result_animation.setTimeView(round(value, 3))
+        self.view_menu_result_animation.setTimeCaption("Incremento" if is_increment else "Tiempo (s)")
         
         #verificar si es el ultimo paso
-        if steps == len(self.model_result.getGrapihcsTimes())-1 and not self.scene_is_play:  
+        if steps == hi and not self.scene_is_play:  
             self.scene_is_play = False
             self.view_menu_result_animation.playPauseAnimation(self.scene_is_play)
         
@@ -211,6 +224,24 @@ class ControllerMenuResultAnimation(QObject):
         
         
         
+    @Slot()
+    def signalSceneStage(self):
+        """Reproduce todas las etapas o solo la elegida."""
+        # detener sin volver al frame 0: setFrameRange ya va al primero del
+        # rango nuevo (cada salto de frame recorre todas las partículas)
+        self.view_menu_result_animation.stopAnimation()
+        self.scene_is_play = True
+        frames = self.view_menu_result_animation.getStageFrames()
+        lo, hi = frames if frames else (0, len(self.model_result.getGrapihcsTimes()) - 1)
+        self.view_menu_result_animation.setFrameCount(hi - lo)
+        self.model_result.setFrameRange(lo, hi)
+        self.signalModelResultTimeStepsChanged(self.model_result.frameRange()[0])
+
+    @Slot(int)
+    def signalSceneFrame(self, frame):
+        """'Ir al frame': el número es relativo al rango que se reproduce."""
+        self.model_result.goToFrame(self.model_result.frameRange()[0] + frame)
+
     @Slot()
     def signalSceneRegress(self):
         self.model_result.regressTime()
