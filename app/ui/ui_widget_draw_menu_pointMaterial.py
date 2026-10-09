@@ -1086,6 +1086,14 @@ class Ui_FormDrawMenuPointMaterial(object):
 
         self.verticalLayout_7.addWidget(self.frame_4)
 
+        self.label_selectionSummary = QLabel(self.frame_materialPoint4)
+        self.label_selectionSummary.setObjectName(u"label_selectionSummary")
+        self.label_selectionSummary.setStyleSheet(u"background: transparent; color: #999999; font: 8pt \"Ubuntu\";")
+        self.label_selectionSummary.setWordWrap(True)
+        self.label_selectionSummary.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+
+        self.verticalLayout_7.addWidget(self.label_selectionSummary)
+
         self.label_forceHelp = QLabel(self.frame_materialPoint4)
         self.label_forceHelp.setObjectName(u"label_forceHelp")
         self.label_forceHelp.setStyleSheet(u"background: transparent; color: #999999; font: italic 8pt \"Ubuntu\";")
@@ -1319,6 +1327,7 @@ class Ui_FormDrawMenuPointMaterial(object):
         self.lineEdit_textPM_Fely.setToolTip(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Fuerza final por part\u00edcula [kN/m]. Presi\u00f3n q en un tramo L con n part\u00edculas: F = q\u00b7L/n. Si cambias la malla, recalcula F.", None))
 #endif // QT_CONFIG(tooltip)
         self.lineEdit_textPM_Fely.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"0.0", None))
+        self.label_selectionSummary.setText("")
         self.label_forceHelp.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Fuerza por part\u00edcula [kN/m]. Presi\u00f3n q en un tramo L con n part\u00edculas: F = q\u00b7L/n", None))
         self.toolButton_PointMaterialCancel_2.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Cancelar", None))
         self.toolButton_PointMaterialAssing.setText(QCoreApplication.translate("FormDrawMenuPointMaterial", u"Asignar", None))

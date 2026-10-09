@@ -1117,6 +1117,33 @@ class ViewGraphicsSceneDraw (QGraphicsScene):
         mover el ratón solo cambian la cruz y la caja del puntero."""
         return not any(getattr(self, flag, False) for flag in self.BUSY_FLAGS)
 
+    TOOLTIP_PX = 8
+
+    def helpEvent(self, event):
+        """Tooltip con los datos del punto material más cercano al puntero.
+
+        Se arma al vuelo en lugar de un setToolTip por punto: así refleja la
+        fuerza o velocidad recién asignada y no cuesta nada en modelos grandes.
+        Los puntos miden milímetros en escena, así que se busca en un radio de
+        TOOLTIP_PX píxeles alrededor del puntero.
+        """
+        view = event.widget().parent() if event.widget() else None
+        scale = view.transform().m11() if isinstance(view, QGraphicsView) else 1.0
+        tol = self.TOOLTIP_PX / abs(scale) if scale else 0.0
+        pos = event.scenePos()
+        nearest, best = None, None
+        for item in self.items(QRectF(pos.x() - tol, pos.y() - tol, 2 * tol, 2 * tol)):
+            if isinstance(item, PointMaterialItem) and item.isVisible():
+                d = (item.pos() - pos).manhattanLength()
+                if best is None or d < best:
+                    nearest, best = item, d
+        if nearest is None:
+            QToolTip.hideText()
+            event.ignore()
+            return
+        QToolTip.showText(event.screenPos(), nearest.infoText(), event.widget())
+        event.accept()
+
     def endDrawGeometry(self):
         self.isDrawPoint = False
         self.isDrawLine = False

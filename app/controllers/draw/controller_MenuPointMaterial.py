@@ -107,10 +107,16 @@ class ControllerMenuPointMaterial(QObject):
     @Slot()
     def assignDataPointsMaterial(self):        
 
-        selected_objects = self.model_current_project.getSelectedObjects() 
-        vox, voy = self.view_menu_pointMaterial.getVoxVoy()
-        fx, fy = self.view_menu_pointMaterial.getFxFy()
-        
+        selected_objects = self.model_current_project.getSelectedObjects()
+        try:
+            vox, voy = self.view_menu_pointMaterial.getVoxVoy()
+            fx, fy = self.view_menu_pointMaterial.getFxFy()
+        except ValueError:
+            # Se conserva la selección para corregir el valor y volver a asignar
+            self.view_menu_pointMaterial.msnAlertSelect(
+                True, "Revisa la velocidad y la fuerza: deben ser números")
+            return
+
         if len(selected_objects) <= 0:
             self.view_menu_pointMaterial.msnAlertSelect(True, "Selecciona los puntos materiales")
         
@@ -122,6 +128,7 @@ class ControllerMenuPointMaterial(QObject):
                                                                                vox=vox, voy=voy, fx=fx, fy=fy)
         self.view_menu_pointMaterial.endVectorQuantity()
         self.model_current_project.endVectorQuantityPointsMaterial()
+        self.view_menu_pointMaterial.setSelectionSummary("")
 
         
         
@@ -371,6 +378,25 @@ class ControllerMenuPointMaterial(QObject):
     @Slot(int)
     def selectPointMaterial(self, no_points):
         self.view_menu_pointMaterial.setNoSelectPointsMaterial(no_points)
+        self.view_menu_pointMaterial.setSelectionSummary(self.selectionSummary())
+
+    def selectionSummary(self):
+        """Fuerzas que ya tienen los puntos seleccionados: la suma (para revisar
+        que una carga repartida dé q·L) y el valor si es el mismo en todos."""
+        items = [item for item in self.model_current_project.getSelectedObjects()
+                 if isinstance(item, PointMaterialItem)]
+        if not items:
+            return ""
+        f = lambda v: f"{v:.10g}"  # noqa: E731
+        fx = [item.force.Fox for item in items]
+        fy = [item.force.Foy for item in items]
+        lines = [f"Suma de la selección: Fx = {f(sum(fx))}   Fy = {f(sum(fy))} [kN/m]"]
+        if len(set(fx)) == 1 and len(set(fy)) == 1:
+            lines.append(f"Todos tienen Fx = {f(fx[0])}   Fy = {f(fy[0])}")
+        else:
+            lines.append(f"Valores distintos: Fx entre {f(min(fx))} y {f(max(fx))}, "
+                         f"Fy entre {f(min(fy))} y {f(max(fy))}")
+        return "\n".join(lines)
 
 
     ###############################################################################

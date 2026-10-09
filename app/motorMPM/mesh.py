@@ -494,14 +494,21 @@ def traction_forces(xp, side, t, xi, xf):
     # comprobando datos ingresados
     assert (side == 0  or side == 1 or side == 2 or side == 3), "El argumento side debe ser un entero entre 0 y 3 - mirar descripcion de la funcion!"
     
+    # La fila del borde se busca con tolerancia y no con igualdad exacta: el
+    # redondeo al ubicar las partículas puede dejar una de la misma fila un bit
+    # por debajo (consolidación 1D, 7x7 por elemento: una de las 7 de arriba
+    # quedaba sin carga y las otras 6 se repartían el total).
+    def en_borde(coord, valor):
+        return np.abs(coord - valor) <= 1e-9 * max(1.0, abs(valor))
+
     if side == 0: # lado izquierdo
-        tp_parti = np.where(xp[:,0] == np.min(xp[:,0]))[0]
+        tp_parti = np.where(en_borde(xp[:,0], np.min(xp[:,0])))[0]
     elif side == 1: # lado derecho
-        tp_parti = np.where(xp[:,0] == np.max(xp[:,0]))[0]
+        tp_parti = np.where(en_borde(xp[:,0], np.max(xp[:,0])))[0]
     elif side == 2: # lado inferior
-        tp_parti = np.where(xp[:,1] == np.min(xp[:,1]))[0]
+        tp_parti = np.where(en_borde(xp[:,1], np.min(xp[:,1])))[0]
     elif side == 3: # Lado superior
-        tp_parti = np.where((xp[:,1] == np.max(xp[:,1])) & (xp[:,0] >= xi) & (xp[:,0] <= xf))[0]
+        tp_parti = np.where(en_borde(xp[:,1], np.max(xp[:,1])) & (xp[:,0] >= xi) & (xp[:,0] <= xf))[0]
         
     
     ntp = len(tp_parti) # numero de particulas en la superficie frontera

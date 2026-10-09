@@ -80,6 +80,8 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
         self.toolButton_PointMaterialUploadFile.setVisible(False)
         self.label_textPointMaterial_path.setVisible(False)
 
+        self.setSelectionSummary("")
+
     def __initEventUi(self):
         """ Asigna las ranuras (Slot) a las señales (Signal). """ 
         # ::::::::::::::::::::      EVENTOS MENU     ::::::::::::::::::::
@@ -387,17 +389,20 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     def getSizePoint(self):
         return self.horizontalSlider_PointMaterialSize.value()
 
+    @staticmethod
+    def _number(line_edit):
+        """Número del campo; acepta coma o punto decimal y vacío = 0.
+        Lanza ValueError si el texto no es un número."""
+        text = line_edit.text().strip().replace(",", ".")
+        return float(text) if text else 0.0
+
     def getVoxVoy(self):
         """return [vox, voy] float float"""
-        vox = self.lineEdit_textPM_Velx.text()
-        voy = self.lineEdit_textPM_Vely.text()
-        return [float(vox), float(voy)]
-    
+        return [self._number(self.lineEdit_textPM_Velx), self._number(self.lineEdit_textPM_Vely)]
+
     def getFxFy(self):
         """return [fx, fy]"""
-        fx = self.lineEdit_textPM_Felx.text()
-        fy = self.lineEdit_textPM_Fely.text()
-        return [float(fx), float(fy)]
+        return [self._number(self.lineEdit_textPM_Felx), self._number(self.lineEdit_textPM_Fely)]
 
     def getPathFile(self):
         """Retorna la ruta del archivo .txt seleccionado, o None si no hay."""
@@ -480,6 +485,11 @@ class ViewWidgetDrawMenuPointMaterial(QFrame, Ui_FormDrawMenuPointMaterial):
     def setNoSelectPointsMaterial(self, no_points):
         self.lineEdit_textMPSelected.setText("{} Puntos".format(no_points))
         self.setPropertyStyle(self.toolButton_btnMPDrawSelected, 1)
+
+    def setSelectionSummary(self, text):
+        """Fuerzas que ya tienen los puntos seleccionados (vacío = se oculta)."""
+        self.label_selectionSummary.setText(text)
+        self.label_selectionSummary.setVisible(bool(text))
     
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::

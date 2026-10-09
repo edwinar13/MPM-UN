@@ -42,6 +42,9 @@ aplicación (≈ 15 de octubre de 2026).
       tiempo) o sin convergencia evaluable: diálogo de avisos al terminar — 8 oct.
 - [x] Reglas de estilo con `#nombre` de widgets que ya no existen: 121 selectores
       retirados de 12 `.ui`, vistas idénticas píxel a píxel antes y después — 8 oct.
+- [x] Tamaño de malla con 4 decimales (antes 2: no se podía armar 7×7 partículas
+      por elemento de 0.1 m); tooltip con los datos del punto material bajo el
+      puntero y, al seleccionar puntos, suma y valores de sus fuerzas — 8 oct.
 
 ## 2. Cargas
 
@@ -49,6 +52,12 @@ aplicación (≈ 15 de octubre de 2026).
       etapa activa sus propios juegos de fuerzas. Lo pide el muro (relleno y
       sobrecarga en etapas distintas)
       ([plan_simplificacion_cargas.md §8](plan_simplificacion_cargas.md)).
+- [ ] **Carga distribuida sobre una línea**: dar q [kPa] y un tramo, y que la app
+      reparta F = q·L/n entre las partículas de ese borde. Hoy se escribe la fuerza
+      de cada partícula a mano (p. ej. −0.142857142857143 en la consolidación 1D),
+      con riesgo de decimales mal copiados o de dejar alguna sin carga. El borde
+      se debe buscar con tolerancia (ver `traction_forces` en `motorMPM/mesh.py`,
+      corregido el 8 oct.: la igualdad exacta dejaba una partícula por fuera).
 
 ## 3. Doble fase (consolidación)
 

@@ -737,6 +737,7 @@ class PointMaterialItem(QGraphicsItem):
         self.movePoint(self.coor)        
         self.force = force
         self.velocity = velocity
+        self.volume = volume
 
         self.radius = self.RADIUS
         
@@ -781,6 +782,15 @@ class PointMaterialItem(QGraphicsItem):
         radius = self.radius
         return QRectF(-radius, -radius,
                              2*radius, 2*radius)
+
+    def infoText(self) -> str:
+        """Datos del punto para el tooltip de la vista de dibujo."""
+        f = lambda v: f"{v:.10g}"  # noqa: E731
+        return (f"Punto {self.pm_id.replace('POINT', '')}\n"
+                f"x = {f(self.coor.x())}   y = {f(self.coor.y())}\n"
+                f"Volumen = {f(self.volume)}\n"
+                f"Fx = {f(self.force.Fox)}   Fy = {f(self.force.Foy)}\n"
+                f"Vx = {f(self.velocity.Vox)}   Vy = {f(self.velocity.Voy)}")
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = ...) -> None:
         if self.isSelectedPointMaterial:
