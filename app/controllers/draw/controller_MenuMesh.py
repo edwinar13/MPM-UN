@@ -639,9 +639,25 @@ class ControllerMenuMesh(QObject):
 
 
     def _point_in_polygon(self, x, y, vertices):
-        """Ray casting algorithm. vertices: lista [(x,y), ...]"""
-        inside = False
+        """Ray casting algorithm. vertices: lista [(x,y), ...]
+
+        Un punto SOBRE un lado cuenta como dentro, igual que el script del
+        talud (`y <= línea + 1e-10`): en una pendiente 3:1 con sub-celdas de
+        0.25 cae un centro exacto sobre la línea en cada columna, y el ray
+        casting solo los dejaba por fuera (6700 partículas en vez de 6740).
+        """
         n = len(vertices)
+        for i in range(n):
+            (xa, ya), (xb, yb) = vertices[i - 1], vertices[i]
+            dx, dy = xb - xa, yb - ya
+            length2 = dx * dx + dy * dy
+            if length2 == 0:
+                continue
+            t = ((x - xa) * dx + (y - ya) * dy) / length2
+            if -1e-12 <= t <= 1 + 1e-12 and abs((x - xa) * dy - (y - ya) * dx) <= 1e-10 * math.sqrt(length2):
+                return True
+
+        inside = False
         j = n - 1
         for i in range(n):
             xi, yi = vertices[i]

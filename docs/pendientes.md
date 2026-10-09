@@ -76,13 +76,18 @@ aplicación (≈ 15 de octubre de 2026).
 
 ## 4. Validación y decisiones de modelo
 
-- [ ] Tolerancia de la capacidad portante: el oráculo solo se reproduce con
-      `tolff = 0.011`; con 0.01 los esfuerzos cambian ~15 %. Estudio de
-      sensibilidad y decidir la línea base
-      ([plan_pre_validacion.md §5.5](plan_pre_validacion.md)).
-- [ ] Talud: fase de falla de dos cuerpos reanudando desde el checkpoint del
-      geostático ([plan_pre_validacion.md](plan_pre_validacion.md),
-      [plan_fase_b.md](plan_fase_b.md)).
+- [x] Tolerancia de la capacidad portante: `tolff = 0.011`, la misma de
+      `Ca_portante2.py` (con 0.01 los esfuerzos cambian ~15 %;
+      [plan_pre_validacion.md §5.5](plan_pre_validacion.md)) — 9 oct.
+- [x] Talud: fase de falla de dos cuerpos reanudando desde el checkpoint del
+      geostático — idéntica bit a bit a la referencia desde el mismo geostático
+      ([plan_fase_b.md §6.4](plan_fase_b.md)), 25 sep.
+- [x] Talud armado desde la interfaz con las mismas 6740 partículas del script:
+      la malla Estructurada dejaba por fuera los 40 centros que caen justo sobre
+      la línea del talud (ahora un punto sobre el borde cuenta como dentro, como
+      en el script) — 9 oct.
+- [ ] Corridas definitivas en `test/7`: viga y consolidación hechas; capacidad
+      portante (malla 0.5) corriendo; talud de dos etapas por armar.
 - [ ] Partículas de frontera: decidir y justificar qué función se adopta en la punta
       de la cuña ([deteccion_particulas_frontera.md §8](deteccion_particulas_frontera.md)).
 - [ ] Extras si queda tiempo: `Disc.py` (contacto con solución analítica) y
