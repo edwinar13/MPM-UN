@@ -12,7 +12,7 @@ from PySide6.QtCore import*
 from PySide6.QtGui import*
 from PySide6.QtWidgets import*
 
-from utils.general_functions import format_number, result_key, SCALAR_RESULTS
+from utils.general_functions import format_number, result_key, colorbar_title, SCALAR_RESULTS
 from config import config_manager
 import sys
 import weakref
@@ -335,19 +335,27 @@ class TextResultItem(QGraphicsItem):
         painter.drawText(self.coor, self.text)
       
 class PointDetailPanelItem(QGraphicsItem):
-    """Mini panel con fondo y borde que muestra ID, valor y coordenadas de un punto específico."""
+    """Mini panel con fondo y borde que muestra ID, valor y coordenadas de un punto específico.
+
+    El item está anclado al punto (lo sigue en la animación); el panel se
+    puede arrastrar con el ratón para ubicarlo donde no tape el modelo. Lo que
+    se mueve es su desplazamiento respecto al punto, en píxeles de pantalla.
+    """
 
     PADDING = 6
-    OFFSET_X = 12   # px a la derecha del punto
+    OFFSET_X = 12   # px a la derecha del punto (posición inicial del panel)
     OFFSET_Y = -8   # px sobre el punto
 
     def __init__(self, node_id: str, coordinatesX: float, coordinatesY: float):
         QGraphicsItem.__init__(self)
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations)
+        self.setAcceptedMouseButtons(Qt.LeftButton)
+        self.setCursor(Qt.OpenHandCursor)
         self.node_id_text = f'MP{node_id}'
         self.value_text = ""
         self.coord_text = ""
         self.font_size = 12
+        self.offset = QPointF(self.OFFSET_X, self.OFFSET_Y)
         self.setVisible(False)
         self.setZValue(200)
         self.coordenates = QPointF(coordinatesX, coordinatesY)
@@ -360,10 +368,12 @@ class PointDetailPanelItem(QGraphicsItem):
         self.pen_coord = QPen(QColor("#aaaaaa"))
 
     def setSize(self, size: int):
+        self.prepareGeometryChange()
         self.font_size = size
         self.update()
 
     def setData(self, value: str, coord_x: float, coord_y: float):
+        self.prepareGeometryChange()
         self.value_text = value
         self.coord_text = f"({coord_x:.3f}, {coord_y:.3f})"
         self.update()
@@ -372,36 +382,61 @@ class PointDetailPanelItem(QGraphicsItem):
         self.coordenates = pos
         self.setPos(pos)
 
-    def boundingRect(self) -> QRectF:
-        return QRectF(-5, -130, 275, 140)
-
-    def paint(self, painter: QPainter, option, widget):
+    def _lines(self):
+        """(texto, fuente, métricas, pluma) de cada renglón del panel."""
         sz = self.font_size
         font_id = QFont("Ubuntu", sz)
         font_id.setWeight(QFont.Bold)
         font_val = QFont("Monospace", max(sz - 1, 7))
         font_coord = QFont("Ubuntu", max(sz - 2, 6))
-
-        fm_id = QFontMetrics(font_id)
-        fm_val = QFontMetrics(font_val)
-        fm_coord = QFontMetrics(font_coord)
-
-        p = self.PADDING
-        lines = [
-            (self.node_id_text, font_id,    fm_id,    self.pen_id),
-            (self.value_text,   font_val,   fm_val,   self.pen_value),
-            (self.coord_text,   font_coord, fm_coord, self.pen_coord),
+        return [
+            (self.node_id_text, font_id,    QFontMetrics(font_id),    self.pen_id),
+            (self.value_text,   font_val,   QFontMetrics(font_val),   self.pen_value),
+            (self.coord_text,   font_coord, QFontMetrics(font_coord), self.pen_coord),
         ]
 
+    def _panelRect(self, lines=None) -> QRectF:
+        """Rectángulo del panel; su esquina inferior izquierda está en self.offset."""
+        lines = lines or self._lines()
+        p = self.PADDING
         widths = [fm.horizontalAdvance(txt) for txt, _, fm, _ in lines if txt]
         panel_w = (max(widths) if widths else 80) + p * 2
         panel_h = sum(fm.height() for _, _, fm, _ in lines) + p * 2
+        return QRectF(self.offset.x(), self.offset.y() - panel_h, panel_w, panel_h)
 
-        x0 = self.OFFSET_X
-        y0 = self.OFFSET_Y - panel_h
-        anchor = QPointF(x0, y0 + panel_h)  # esquina inferior-izquierda del panel
+    def boundingRect(self) -> QRectF:
+        # el panel, el punto indicador y la línea que los une
+        return self._panelRect().united(QRectF(-5, -5, 10, 10)).adjusted(-2, -2, 2, 2)
 
-        # línea de referencia: desde el centro del punto hasta el borde del panel
+    def shape(self) -> QPainterPath:
+        # solo el panel recibe el clic; fuera de él, el clic sigue a la escena
+        path = QPainterPath()
+        path.addRect(self._panelRect())
+        return path
+
+    def mousePressEvent(self, event):
+        self.setCursor(Qt.ClosedHandCursor)
+        event.accept()
+
+    def mouseMoveEvent(self, event):
+        self.prepareGeometryChange()
+        self.offset += event.pos() - event.lastPos()
+        self.update()
+
+    def mouseReleaseEvent(self, event):
+        self.setCursor(Qt.OpenHandCursor)
+        event.accept()
+
+    def paint(self, painter: QPainter, option, widget):
+        lines = self._lines()
+        p = self.PADDING
+        rect = self._panelRect(lines)
+        x0, y0 = rect.x(), rect.y()
+
+        # línea de referencia: desde el centro del punto hasta la esquina más
+        # cercana del panel (el panel puede quedar a cualquier lado)
+        corners = (rect.topLeft(), rect.topRight(), rect.bottomLeft(), rect.bottomRight())
+        anchor = min(corners, key=lambda c: c.x() ** 2 + c.y() ** 2)
         line_pen = QPen(QColor("#4da6ff"), 1, Qt.DotLine)
         line_pen.setCapStyle(Qt.RoundCap)
         painter.setPen(line_pen)
@@ -416,7 +451,7 @@ class PointDetailPanelItem(QGraphicsItem):
         # fondo y borde del panel
         painter.setPen(self.border_pen)
         painter.setBrush(QBrush(self.bg_color))
-        painter.drawRoundedRect(QRectF(x0, y0, panel_w, panel_h), 4, 4)
+        painter.drawRoundedRect(rect, 4, 4)
 
         y_cur = y0 + p
         for txt, font, fm, pen in lines:
@@ -814,7 +849,8 @@ class ItemResultColorBar(QGraphicsItem):
     
     RADIUS = 50
     FONTSIZE = 10
-    
+    TITLE_LEADING = 11  # separación entre renglones del título
+
     def __init__(self,  x , y, height_text=0.1, width = 0.8, height = 1.5):
         QGraphicsItem.__init__(self)
         
@@ -847,8 +883,9 @@ class ItemResultColorBar(QGraphicsItem):
         self.font_bar1 = QFont("Times", self.FONTSIZE-3, 0)
         
         self.pen = QPen(QColor("#222"))
-        self.font = QFont("Times", self.FONTSIZE, QFont.Bold)
-        self.text ="sigxx"
+        # título casi del tamaño de los valores, en negrita
+        self.font = QFont("Times", self.FONTSIZE-2, QFont.Bold)
+        self.title_lines = []
         
         self.cardColorBar()
         
@@ -862,8 +899,11 @@ class ItemResultColorBar(QGraphicsItem):
             
         
     def setTypeResult(self, type_result, axis, max, min):
-        self.text = str(f"{type_result} {axis}")      
-        self.setText(max, min)      
+        # Título en dos renglones: nombre arriba; eje y unidad abajo, para que
+        # la tarjeta no crezca a lo ancho
+        self.prepareGeometryChange()
+        self.title_lines = colorbar_title(type_result, axis)
+        self.setText(max, min)
         self.update()
         
     def setScaleView(self, scale):
@@ -920,8 +960,11 @@ class ItemResultColorBar(QGraphicsItem):
         self.setZValue(100) 
         
     def boundingRect(self):
-
-        return QRectF(self.x-(self.width/10) , self.y-(self.height/20) , self.width , self.height )
+        margin = self.width / 10
+        fm = QFontMetricsF(self.font)
+        title = max((fm.horizontalAdvance(t) for t in self.title_lines), default=0) + 2 * margin
+        extra = self.TITLE_LEADING * max(len(self.title_lines) - 1, 0)
+        return QRectF(self.x - margin, self.y-(self.height/20), max(self.width, title), self.height + extra)
 
     def paint(self, painter, option, widget):
         
@@ -950,7 +993,10 @@ class ItemResultColorBar(QGraphicsItem):
         
         painter.setPen(self.pen)
         painter.setFont(self.font)
-        painter.drawText(self.x, self.y-120, self.text)
+        # el último renglón queda donde estaba el título; los demás, encima
+        n = len(self.title_lines)
+        for i, line in enumerate(self.title_lines):
+            painter.drawText(QPointF(self.x, self.y - 120 - self.TITLE_LEADING * (n - 1 - i)), line)
               
 class ItemResultAxisMeshBack(QGraphicsItem):
 

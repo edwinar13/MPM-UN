@@ -55,6 +55,32 @@ def result_key(type_result, axis):
     return f'{type_result}{axis}'.upper()
 
 
+# Título de la barra de colores de la animación: nombre arriba; abajo el eje
+# (o la componente) y la unidad. {e} = eje en mayúsculas (X, Y, XY), {c} =
+# componente en minúsculas (xx, yy, xy).
+_COLORBAR_TITLES = {
+    'despl':  ('Desplazamiento', '{e} (m)'),
+    'vel':    ('Velocidad', '{e} (m/s)'),
+    'sig':    ('Esfuerzo', '{s}{c} (kPa)'),
+    'epse':   ('Def. elástica', 'ε{c}'),
+    'epsp':   ('Def. plástica', 'ε{c}'),
+    'eqplas': ('Def. plástica', 'equivalente'),
+    'pp':     ('Presión de', 'poros (kPa)'),
+}
+
+
+def colorbar_title(type_result, axis):
+    """Los dos renglones del título de la barra de colores, p. ej.
+    ('despl', 'xy') → ['Desplazamiento', 'XY (m)'];
+    ('sig', 'xy') → ['Esfuerzo', 'τxy (kPa)']. Vacío para 'default'."""
+    if type_result not in _COLORBAR_TITLES:
+        return []
+    name, second = _COLORBAR_TITLES[type_result]
+    comp = axis.lower()
+    eje = {'xx': 'X', 'yy': 'Y', 'xy': 'XY'}.get(comp, comp.upper())
+    return [name, second.format(e=eje, c=comp, s='τ' if comp == 'xy' else 'σ')]
+
+
 def isNumber(value):
     """verificar si es un número.
 
