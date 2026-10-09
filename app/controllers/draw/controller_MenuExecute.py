@@ -4,8 +4,8 @@ from views.draw.view_WidgetDrawMenuExecute import ViewWidgetDrawMenuExecute
 from models.model_ProjectCurrent import ModelProjectCurrent
 
 from models.model_execute_analysis import ModelExcuteAnalysisMPM
-from models.model_analysis_config import AnalysisConfig, TimeConfig
-from models.analysis_utils import compute_min_dt, build_time_arrays
+from models.model_analysis_config import AnalysisConfig, TimeConfig, StageType
+from models.analysis_utils import compute_min_dt, compute_two_phase_dt, build_time_arrays
 from views.view_DialogStages import DialogStages, stages_summary_html
 
 from ui.ui_dialog_loanding import Ui_DialogLoanding
@@ -332,6 +332,32 @@ class ControllerMenuExecute(QObject):
             prop_ids.append(k)
         return materials, prop_ids
 
+    def _gather_two_phase_materials(self):
+        """Como _gather_selected_materials, con lo que pide el dt de doble
+        fase: (E, nu, rho_d[Mg/m³], n0, Kw)."""
+        list_mp = self.view_menu_execute.getListExecutePointMaterial()
+        models_mp = self.model_current_project.models_material_point
+        materials = []
+        for id_mp in list_mp:
+            data = models_mp[id_mp].getProperty().getData()
+            mat = data[list(data.keys())[0]]
+            materials.append((mat["MODULOELASTICIDAD"], mat["RELACIONPOISSON"],
+                              mat["DENSIDAD"] / 1000.0,
+                              mat.get("POROSIDAD"), mat.get("MODULOAGUA")))
+        return materials
+
+    def _stage_dt(self, courant, stage_type):
+        """(dt, cp, índice del material crítico) de una etapa, con la misma
+        fórmula que usará el ejecutor: la de doble fase en consolidación."""
+        if stage_type == StageType.CONSOLIDATION.value:
+            dt, cp = compute_two_phase_dt(self._gather_two_phase_materials(),
+                                          self.model_current_project.model_mesh_back.getSizeElement(),
+                                          courant)
+            return dt, cp, 0
+        materials, _ = self._gather_selected_materials()
+        ele_size = self.model_current_project.model_mesh_back.getSizeElement()
+        return compute_min_dt(materials, ele_size, courant)
+
     def _build_seed_time(self, config, fps):
         """Semilla de dt/arrays de tiempo desde la 1ª etapa y los materiales
         seleccionados. El executor recalcula dt por etapa; esto solo
@@ -345,9 +371,8 @@ class ControllerMenuExecute(QObject):
         materials, prop_ids = self._gather_selected_materials()
         if not materials:
             return None
-        ele_size = self.model_current_project.model_mesh_back.getSizeElement()
         stage0 = config.stages[0]
-        dt, cp, idx = compute_min_dt(materials, ele_size, stage0.courant_number)
+        dt, cp, idx = self._stage_dt(stage0.courant_number, stage0.stage_type.value)
         if dt is None:
             return None
         id_property = prop_ids[idx] if idx is not None else prop_ids[0]
@@ -370,13 +395,8 @@ class ControllerMenuExecute(QObject):
     @Slot()
     def openStagesDialog(self):
         """Abre el diálogo de configuración de etapas de análisis."""
-        def dt_provider(courant):
-            materials, _ = self._gather_selected_materials()
-            if not materials:
-                return None
-            ele_size = self.model_current_project.model_mesh_back.getSizeElement()
-            dt, _, _ = compute_min_dt(materials, ele_size, courant)
-            return dt
+        def dt_provider(courant, stage_type):
+            return self._stage_dt(courant, stage_type)[0]
 
         dlg = DialogStages(self.model_current_project,
                            dt_provider=dt_provider,

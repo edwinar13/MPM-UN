@@ -1,7 +1,7 @@
 
 from motorMPM.mesh import search_MP, boundary_particles3, node_conectivity
 from models.model_analysis_config import AnalysisConfig, StageType, stage_use_gauss
-from models.analysis_utils import compute_min_dt, build_time_arrays
+from models.analysis_utils import compute_min_dt, build_time_arrays, undrained_cp
 from motorMPM.explicit2 import particles_to_nodes, BC_Dirichlet_momentum, particles_to_nodes_gauss2
 from motorMPM.explicit2 import nodes_to_particle_vel,BC_Dirichlet_vel, nodes_to_particle_stress2, static_convergence, nodes_to_particle_stress_gauss
 from motorMPM.explicit2 import BC_Dirichlet_momentum3, contact2
@@ -156,6 +156,7 @@ class ModelExcuteAnalysisMPM:
         # datos de tiempo
         self.__tm_dataTime = dataTime
         self.__tm_dt_time = dt_time
+        self.__tm_speed_cp = dataTime.get('speed_cp') if isinstance(dataTime, dict) else None
         self.__tm_dt_graphic = dt_graphic
         self.__tm_list_time = list_time
         self.__tm_list_time_graphic = list_time_graphic
@@ -396,7 +397,9 @@ class ModelExcuteAnalysisMPM:
             rho_sat = self.__vm_rhop + n0 * self.RHO_W   # ρd + n0·ρw
             dt = deltatime_two_phases_CFL(self.__mp_prop[:, 0], self.__mp_prop[:, 1],
                                           rho_sat, ele_size, stage.courant_number, kw, n0)
+            cp = undrained_cp(self.__mp_prop[:, 0], self.__mp_prop[:, 1], rho_sat, kw, n0)
         self.__tm_dt_time = dt
+        self.__tm_speed_cp = cp
 
         if stage.stage_type in (StageType.DYNAMIC, StageType.CONSOLIDATION):
             fps = 30
@@ -1037,6 +1040,12 @@ class ModelExcuteAnalysisMPM:
         self.__rs_stages.append({
             'stage': stage,
             'dt': self.__tm_dt_time,
+            'cp': self.__tm_speed_cp,
+            # Solo significan algo en las etapas en el tiempo (dinámica,
+            # consolidación): _prepare_stage_time los rehace para ellas
+            'dt_graphic': self.__tm_dt_graphic,
+            'steps': self.__tm_steps_time,
+            'steps_graphic': self.__tm_steps_time_graphic,
             'arrays': {k: v for k, v in arrays.items()},
             'list_time': np.asarray(list_time, dtype=float),
             'list_time_graphic': np.asarray(list_time_graphic, dtype=float),
@@ -1965,17 +1974,32 @@ class ModelExcuteAnalysisMPM:
             )
             
        
+        # DATOSTIEMPOS = valores REALES de la primera etapa corrida (la del
+        # controlador es una semilla con la fórmula de una fase: en una
+        # consolidación daba otro dt, y al reanudar describía otra etapa).
+        # Cada etapa tiene además su dt en ETAPAS_FRAMES.
+        data_time = dict(self.__tm_dataTime)
+        if self.__rs_stages:
+            first = self.__rs_stages[0]
+            stage = first['stage']
+            data_time.update(courant_number=stage.courant_number,
+                             dt_analysis=first['dt'], speed_cp=first['cp'])
+            if stage.stage_type in (StageType.DYNAMIC, StageType.CONSOLIDATION):
+                data_time.update(analysis_time=stage.analysis_time,
+                                 dt_graphic=first['dt_graphic'],
+                                 analysis_steps=first['steps'],
+                                 graphic_steps=first['steps_graphic'])
         self.model_result.updateResultDataTimes(
-            id_material=self.__tm_dataTime['id_property'],
-            courant_number=self.__tm_dataTime['courant_number'],
-            analysis_time=self.__tm_dataTime['analysis_time'],
-            fps=self.__tm_dataTime['fps'],
-            dt_analysis=self.__tm_dataTime['dt_analysis'],
-            dt_graphic=self.__tm_dataTime['dt_graphic'],
-            analysis_steps=self.__tm_dataTime['analysis_steps'],
-            graphic_steps=self.__tm_dataTime['graphic_steps'],
-            speed_cp=self.__tm_dataTime['speed_cp'],
-            time_reached=new_list_time[-1]                
+            id_material=data_time['id_property'],
+            courant_number=data_time['courant_number'],
+            analysis_time=data_time['analysis_time'],
+            fps=data_time['fps'],
+            dt_analysis=data_time['dt_analysis'],
+            dt_graphic=data_time['dt_graphic'],
+            analysis_steps=data_time['analysis_steps'],
+            graphic_steps=data_time['graphic_steps'],
+            speed_cp=data_time['speed_cp'],
+            time_reached=new_list_time[-1]
         )
         #    time_reached=new_list_time[-1]                
         

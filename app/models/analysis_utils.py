@@ -15,6 +15,9 @@ import math
 import numpy as np
 
 from motorMPM.explicit2 import deltatime
+from motorMPM.dos_fases import deltatime_two_phases_CFL
+
+RHO_W = 1.0  # densidad del agua [Mg/m³]
 
 
 def compute_min_dt(materials, ele_size, courant):
@@ -44,6 +47,35 @@ def compute_min_dt(materials, ele_size, courant):
             best_cp = cp_i
             best_idx = i
     return best_dt, best_cp, best_idx
+
+
+def undrained_cp(E, nu, rho_sat, kw, n0):
+    """Velocidad de la onda de compresión no drenada (la que fija el dt de
+    una etapa de consolidación). Misma expresión que deltatime_two_phases_CFL;
+    acepta escalares o arrays y devuelve la máxima."""
+    eedo = (1 - nu) / (1 + nu) / (1 - 2 * nu) * np.asarray(E, dtype=float)
+    return math.sqrt(np.max((eedo + kw / n0) / np.asarray(rho_sat, dtype=float)))
+
+
+def compute_two_phase_dt(materials, ele_size, courant):
+    """dt de una etapa de consolidación (doble fase), con la misma función
+    que usa el ejecutor.
+
+    Args:
+        materials: lista de tuplas (E, nu, rho_d, n0, Kw); rho_d es la
+                   densidad seca en Mg/m³. La etapa admite un solo material:
+                   se usa el primero.
+    Returns:
+        (dt, speed_cp) o (None, None) si no hay material o le faltan n0/Kw.
+    """
+    if not materials:
+        return None, None
+    E, nu, rho_d, n0, kw = materials[0]
+    if not n0 or not kw:
+        return None, None
+    rho_sat = np.array([rho_d + n0 * RHO_W])
+    dt = deltatime_two_phases_CFL(np.array([E]), nu, rho_sat, ele_size, courant, kw, n0)
+    return dt, undrained_cp(E, nu, rho_sat, kw, n0)
 
 
 def build_time_arrays(dt, analysis_time, fps):

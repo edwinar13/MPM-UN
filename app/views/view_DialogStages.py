@@ -15,9 +15,10 @@ Uso:
         # el diálogo ya persistió las etapas vía model.updateStages(...)
         ...
 
-`dt_provider` (opcional): callable(courant: float) -> float | None
-    Devuelve el dt estimado (mínimo entre los materiales seleccionados)
-    para el Courant dado, o None si no hay materiales. Solo para display.
+`dt_provider` (opcional): callable(courant: float, stage_type: str) -> float | None
+    Devuelve el dt con el que correrá la etapa (mínimo entre los materiales
+    seleccionados; en consolidación, el de la onda no drenada) para el
+    Courant dado, o None si no hay materiales. Solo para display.
 """
 
 from PySide6.QtWidgets import (
@@ -746,15 +747,12 @@ class DialogStages(QDialog):
         field.setVisible(show)
 
     def _update_dt_label(self):
-        if self.cbType.currentData() == "consolidation":
-            # La onda no drenada (Kw/n0) es mucho más rápida que la del esqueleto
-            self.lblDt.setText("se calcula al correr (onda no drenada, mucho menor)")
-            return
         if self.dt_provider is None:
             self.lblDt.setText("—")
             return
         try:
-            dt = self.dt_provider(self.spCourant.value())
+            # En consolidación el proveedor usa la onda no drenada (Kw/n0)
+            dt = self.dt_provider(self.spCourant.value(), self.cbType.currentData())
         except Exception:
             dt = None
         if dt is None:
