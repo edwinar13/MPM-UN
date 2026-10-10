@@ -701,8 +701,8 @@ border: none;
                     </size>
                    </property>
                    <property name="text">
-                    <string>Vibración axial 
-barra empotrada</string>
+                    <string>Viga en voladizo
+elástica</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -827,7 +827,7 @@ barra empotrada</string>
                    </property>
                    <property name="text">
                     <string>Capacidad portante
-sobre suelo Tresca</string>
+de una zapata</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -951,8 +951,8 @@ sobre suelo Tresca</string>
                     </size>
                    </property>
                    <property name="text">
-                    <string>Disco deslizando sobre
-un plano inclinado</string>
+                    <string>Falla de un talud
+elastoplástico</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1079,8 +1079,8 @@ un plano inclinado</string>
                     </size>
                    </property>
                    <property name="text">
-                    <string>Falla de un talud
-elastoplástico</string>
+                    <string>Consolidación
+unidimensional</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>

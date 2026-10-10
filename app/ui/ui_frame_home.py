@@ -812,17 +812,17 @@ class Ui_FormHome(object):
         self.toolButton_cardNew1.setText(QCoreApplication.translate("FormHome", u".   .   .", None))
         self.label_cardNew1.setText(QCoreApplication.translate("FormHome", u"Proyecto nuevo", None))
         self.toolButton_cardNew2.setText("")
-        self.label_cardNew2.setText(QCoreApplication.translate("FormHome", u"Vibraci\u00f3n axial \n"
-"barra empotrada", None))
+        self.label_cardNew2.setText(QCoreApplication.translate("FormHome", u"Viga en voladizo\n"
+"el\u00e1stica", None))
         self.toolButton_cardNew3.setText("")
         self.label_cardNew3.setText(QCoreApplication.translate("FormHome", u"Capacidad portante\n"
-"sobre suelo Tresca", None))
+"de una zapata", None))
         self.toolButton_cardNew4.setText("")
-        self.label_cardNew4.setText(QCoreApplication.translate("FormHome", u"Disco deslizando sobre\n"
-"un plano inclinado", None))
-        self.toolButton_cardNew5.setText("")
-        self.label_cardNew5.setText(QCoreApplication.translate("FormHome", u"Falla de un talud\n"
+        self.label_cardNew4.setText(QCoreApplication.translate("FormHome", u"Falla de un talud\n"
 "elastopl\u00e1stico", None))
+        self.toolButton_cardNew5.setText("")
+        self.label_cardNew5.setText(QCoreApplication.translate("FormHome", u"Consolidaci\u00f3n\n"
+"unidimensional", None))
         self.label_subTitle2.setText(QCoreApplication.translate("FormHome", u"Recientes", None))
         self.label_icon1.setText("")
         self.label_subTitle3.setText(QCoreApplication.translate("FormHome", u"Nombre", None))

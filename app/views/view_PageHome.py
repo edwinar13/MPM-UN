@@ -2,8 +2,10 @@
 
 
 import os
+import shutil
 from PySide6.QtCore import (Signal)
-from PySide6.QtWidgets import ( QFrame,QSizePolicy, QFileDialog)
+from PySide6.QtWidgets import ( QFrame,QSizePolicy, QFileDialog, QMessageBox)
+from config import RESOURCES_DIR
 from ui import ui_frame_home
 from views.cards.view_WidgetCardProject import ViewWidgetCardProjectHome
 
@@ -14,7 +16,6 @@ class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
     Attributes:
             controller(ControllerMainWindow): Controlador de la vista ViewMainWindow
             list_view_card (lits): Lista con widget card de cada proyecto.
-            pathApp (str): Ruta de donde se ejecuta este archivo.
     Method:
         : removeCardsProjectsRecent
         : addCardProjectsRecent
@@ -31,8 +32,6 @@ class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
 
         # Atributo
         self.__list_view_card = []
-        self.__pathApp = os.path.abspath(os.getcwd())
-        #print(os.path.dirname(os.path.abspath(__file__)))
 
         # Configura la UI
         self.configUi()
@@ -69,38 +68,46 @@ class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
         if file_path:
             self.signal_new_project.emit(file_path)
     
-    def __clickedToolButtonOpenProject_2(self):        
-        """ Emite señal para abrir ejemplo barra empotrada """
-        path=r"{}\recursos\ejemplos\Ejemplo vibracion barra empotrada.mpm".format(self.__pathApp)
-        self.openReferenceProject(path=path)
+    def __clickedToolButtonOpenProject_2(self):
+        self.openExampleProject("Ejemplo 1 - Viga en voladizo.json")
 
     def __clickedToolButtonOpenProject_3(self):
-        """ Emite señal para abrir ejemplo capacidad portante """
-        path=r"{}\recursos\ejemplos\Ejemplo capacidad portante.mpm".format(self.__pathApp)
-        self.openReferenceProject(path=path)
+        self.openExampleProject("Ejemplo 2 - Capacidad portante.json")
 
     def __clickedToolButtonOpenProject_4(self):
-        """ Emite señal para abrir ejemplo disco en plano inclinado """
-        path=r"{}\recursos\ejemplos\Ejemplo disco deslizando en plano inclinado.mpm".format(self.__pathApp)
-        self.openReferenceProject(path=path)
+        self.openExampleProject("Ejemplo 3 - Falla de talud.json")
 
     def __clickedToolButtonOpenProject_5(self):
-        """ Emite señal para abrir ejemplo talud elastoplastico """
-        path=r"{}\recursos\ejemplos\Ejemplo falla de talud elastoplastico.mpm".format(self.__pathApp)
-        self.openReferenceProject(path=path) 
+        self.openExampleProject("Ejemplo 4 - Consolidación 1D.json")
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES   UI     ::::::::::::::::::::
 	###############################################################################
-    def openReferenceProject(self, path):
-        """Emite una señal para abrir nuevo proyecto.
+    def openExampleProject(self, file_name):
+        """Copia un ejemplo (solo datos de entrada, sin resultados) a la ruta
+        que elija el usuario y lo abre. El original no se modifica.
 
         Args:
-            path (str): cadena con la ruta del proyecto para abrir
+            file_name (str): nombre del archivo en resources/ejemplos
 
-        """ 
-        path = path.replace('\\','/')
-        self.signal_open_project.emit(path)
+        """
+        source = os.path.join(RESOURCES_DIR, "ejemplos", file_name)
+        if not os.path.exists(source):
+            QMessageBox.critical(self, "Ejemplo", "No se encontró el ejemplo:\n{}".format(source))
+            return
+        default = os.path.join(os.path.expanduser("~"), "Documents", file_name)
+        file_path, _ = QFileDialog.getSaveFileName(self, "Guardar ejemplo como", default,
+                                                   "Data files json (*.json)")
+        if not file_path:
+            return
+        if os.path.splitext(file_path)[1].lower() != ".json":
+            file_path += ".json"
+        try:
+            shutil.copyfile(source, file_path)
+        except OSError as e:
+            QMessageBox.critical(self, "Ejemplo", "No se pudo guardar el ejemplo:\n{}".format(e))
+            return
+        self.signal_open_project.emit(file_path.replace('\\', '/'))
     
     def removeCardsProjectsRecent(self):
         """ Elimina las tarjetas de los proyectos si existen. """

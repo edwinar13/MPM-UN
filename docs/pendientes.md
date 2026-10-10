@@ -25,11 +25,12 @@ aplicación (≈ 15 de octubre de 2026).
 - [x] Ventana principal y configuración: menú Vista conectado (F5–F9), menús sin
       función retirados (importar/exportar, copiar/pegar/cortar, regla, dibujo,
       ayuda), tabla de atajos corregida, caja de búsqueda retirada — 8 oct.
-- [ ] Ejemplos de la página de inicio: las tarjetas apuntan a `recursos\ejemplos\*.mpm`
-      (no existe; los `.mpm` de `app/resources/ejemplos` son de 2022, formato viejo).
-      Cuando estén todas las validaciones, poner como ejemplos los proyectos
-      validados (sin `RESULTADOS`) y cambiar la tarjeta del disco si sigue sin
-      multicuerpo.
+- [x] Ejemplos de la página de inicio: las cuatro tarjetas abren los proyectos
+      validados de `test/7` (viga, capacidad portante, talud, consolidación 1D),
+      guardados en `app/resources/ejemplos` sin resultados. Al hacer clic se pide
+      dónde guardar la copia y se abre lista para correr; el original no se toca.
+      Se retiraron los `.mpm` de 2022 y la tarjeta del disco — 9 oct.
+- [ ] Imágenes de las tarjetas de ejemplo (las cambia el autor).
 - [ ] Reporte PDF: el botón está oculto. Rehacerlo con etapas, gráficas reales y
       claves actuales (`controller_MenuResultTable.signalGeneratePdf`).
 - [x] "Campo de vectores" de la animación de resultados: revisado, apunta bien
