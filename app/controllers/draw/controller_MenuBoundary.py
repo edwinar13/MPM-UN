@@ -1,0 +1,220 @@
+from PySide6.QtCore import (Slot,Signal, QObject,QPointF,QLineF)
+from views.draw.view_WidgetDrawMenuBoundary import ViewWidgetDrawMenuBoundary
+from models.model_ProjectCurrent import ModelProjectCurrent
+from controllers.cards.controller_CardBoundary import ControllerCardBoundary
+
+class ControllerMenuBoundary(QObject):
+
+    signal_end_draw_geometry = Signal()
+    signal_new_boundary = Signal(str)
+    signal_delete_boundary= Signal() 
+    signal_edit_boundary= Signal() 
+    
+    signal_cancel_select = Signal()
+
+    def __init__(self) -> None:
+        super().__init__()
+        #Crea la vista menu Boundary
+        self.view_menu_boundary = ViewWidgetDrawMenuBoundary()
+        self.model_current_project = None
+        self.list_controller_card=[]
+
+        self.__initEvent()
+        self.showHideBoundaries(False)
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS CONFIGURAR        ::::::::::::::::::::
+	###############################################################################
+
+
+    def __initEvent(self):
+        """ Asigna las ranuras (Slot) a las señales (Signal). """ 
+        self.view_menu_boundary.signal_new_boundary_automatic.connect(self.newBoundaryAutomatic)
+        self.view_menu_boundary.signal_new_boundary_manual.connect(self.newBoundaryManual)
+        self.view_menu_boundary.signal_show_hide_boundaries.connect(self.showHideBoundaries)        
+        self.view_menu_boundary.signal_show_hide_labels.connect(self.showHideLabels)
+        
+        self.view_menu_boundary.signal_select_point_mesh.connect(self.signalSelectPointMesh)
+        self.view_menu_boundary.signal_cancel_select.connect(self.signalCancelSelect)
+        
+
+    def setCurrentProject(self,model_current_project:ModelProjectCurrent):
+        self.model_current_project = model_current_project        
+        self.model_current_project.signal_select_point_back.connect(self.selectPointMesh)
+
+
+    def configDrawMenuBoundary(self):
+        
+        self.view_menu_boundary.removeCardBoundary()
+        self.list_controller_card=[]
+
+        models_boundaries = self.model_current_project.getModelsBoundaries()
+        for id_boundary in models_boundaries:
+            self.createBoundaryCard(models_boundaries[id_boundary])
+
+        
+    def getView(self):
+        return self.view_menu_boundary
+
+
+    def createBoundaryCard(self, model_boundary):
+        controller_card_boundary = ControllerCardBoundary( model_boundary = model_boundary)
+        self.view_menu_boundary.addCardBoundary(controller_card_boundary.view_card_boundary)
+        controller_card_boundary.signal_delete_boundary.connect(self.deleteBoundary)
+        controller_card_boundary.signal_edit_boundary.connect(self.editBoundary)
+        self.list_controller_card.append(controller_card_boundary)
+
+
+
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS  SIGNAL/SLOT        ::::::::::::::::::::
+	###############################################################################
+    
+    # ::::::::::::::::::::         MÉTODOS  VISTA        ::::::::::::::::::::
+
+      
+    @Slot(bool)
+    def showHideBoundaries(self, show_boundaries):
+        for controller in self.list_controller_card:
+            controller.showHideBoundary(show_boundaries)
+        
+        	
+    @Slot(bool)
+    def showHideLabels(self, show_label):     
+        for controller in self.list_controller_card:
+            controller.showHideLabel(show_label)
+
+    @Slot()
+    def signalSelectPointMesh(self):
+        self.signalEndDrawGeometry()
+        #self.model_current_project.commandMeshSelectLine({"step":1, "data":None}) 
+        self.model_current_project.commandBoundarySelectPoint({"step":1, "data":None}) 
+    
+    @Slot()
+    def signalCancelSelect(self):
+        self.signal_cancel_select.emit()
+        self.endDrawBoudary()
+    
+    
+    
+    
+
+    @Slot()
+    def newBoundaryAutomatic(self):
+        restriction_automatic = self.view_menu_boundary.getTxTyAutomatic()
+        restriction_automatic_top = restriction_automatic["Top"]
+        restriction_automatic_bottom = restriction_automatic["Bottom"]
+        restriction_automatic_left = restriction_automatic["Left"]
+        restriction_automatic_right = restriction_automatic["Right"]       
+        model_mesh_back = self.model_current_project.getModelMeshBack()
+        
+        nodes = model_mesh_back.getNodes()
+        nodes_top, nodes_bottom ,nodes_left ,nodes_right = model_mesh_back.getBoundaryNodes() 
+
+        sides = (("boundary_top", nodes_top, restriction_automatic_top),
+                 ("boundary_bottom", nodes_bottom, restriction_automatic_bottom),
+                 ("boundary_left", nodes_left, restriction_automatic_left),
+                 ("boundary_right", nodes_right, restriction_automatic_right))
+        new_ids = []
+        for name, side_nodes, (tx, ty) in sides:
+            if tx or ty:
+                id_boundary = self.model_current_project.createBoundary(
+                    name=name, nodes=side_nodes, restrictionX=tx, restrictionY=ty)
+                self.createBoundaryCard(self.model_current_project.getModelsBoundaries()[id_boundary])
+                new_ids.append(id_boundary)
+
+        self.view_menu_boundary.endBoundary1()
+        self.endDrawBoudary()        
+        for id_boundary in new_ids:
+            self.signal_new_boundary.emit(id_boundary)
+
+    @Slot()
+    def newBoundaryManual(self):
+
+        name_boundary =self.view_menu_boundary.getName()
+        selected_objects = self.model_current_project.getSelectedObjects() 
+        restriction_Tx = self.view_menu_boundary.getTx()
+        restriction_Ty = self.view_menu_boundary.getTy()
+         
+        if name_boundary == "":
+            self.view_menu_boundary.msnAlertName(True, "Revisa el nombre  de la restricción")
+            return     
+        else:
+            self.view_menu_boundary.msnAlertName(False)
+
+        if len(selected_objects) <= 0 :
+            self.view_menu_boundary.msnAlertSelected(True, "Selecciona más de un elemento")
+            return
+        else:
+            self.view_menu_boundary.msnAlertSelected(False)
+
+        if not restriction_Tx and not restriction_Ty :
+            self.view_menu_boundary.msnAlertRestriction(True, "Selecciona la restricción en X o Y")
+            return
+        else:
+            self.view_menu_boundary.msnAlertRestriction(False)
+
+        nodes = []
+        for node in selected_objects:
+            node = node.getIdNode()
+            nodes.append(node)           
+
+        
+        id_boundary = self.model_current_project.createBoundary(
+                                                    name =name_boundary,
+                                                    nodes=nodes,
+                                                    restrictionX = restriction_Tx,
+                                                    restrictionY = restriction_Ty                                                    
+                                                    )
+
+        model_boundary = self.model_current_project.getModelsBoundaries()[id_boundary]
+        self.createBoundaryCard(model_boundary)
+        self.view_menu_boundary.endBoundary2()
+        self.endDrawBoudary()        
+        self.signal_new_boundary.emit(id_boundary)
+        
+
+    # ::::::::::::::::::::         MÉTODOS  CURRENT        ::::::::::::::::::::
+	
+    @Slot(int)
+    def selectPointMesh(self, no_points):
+        self.view_menu_boundary.setNoSelectPointsMesh(no_points)
+
+    # ::::::::::::::::::::         MÉTODOS  CARD        ::::::::::::::::::::
+
+    @Slot(str)
+    def deleteBoundary(self, id):
+        self.model_current_project.deleteBoundary(id)
+        for controller in self.list_controller_card:
+            if controller.model_boundary.getId() == id:
+                self.list_controller_card.remove(controller)
+                self.signal_delete_boundary.emit()
+                break
+    
+        
+    @Slot()
+    def editBoundary(self):      
+        self.signal_edit_boundary.emit()      
+
+
+    ###############################################################################
+	# ::::::::::::::::::::         MÉTODOS  GENERALES         ::::::::::::::::::::
+	###############################################################################
+
+    def endDrawBoudary(self):
+        self.model_current_project.endBoundarySelectPoint()
+        self.selectPointMesh(0)
+
+
+    def signalEndDrawGeometry(self):
+            self.signal_end_draw_geometry.emit()
+            
+    def deleteAllBoundary(self):
+        for controller_card in  self.list_controller_card:
+            controller_card.deleteBoundary()
+        models_boundaries = self.model_current_project.getModelsBoundaries().copy()
+        for id in models_boundaries:
+            self.deleteBoundary(id)
+        
+

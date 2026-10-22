@@ -1,0 +1,870 @@
+from models.model_Repository import ModelRepository
+from models.model_Mesh import ModelMeshBack
+from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewResult
+from utils.items_GraphicsResult import (ItemResultAxisMeshBack, ItemResultGridMeshBack, ItemResultLabelGridMeshBack,
+                                     ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem, CircleMpItem, ArrowMpItem,
+                                     ItemResultTextLabel, PointDetailPanelItem)
+from utils.items_GraphicsDraw import PointForceItem, PointVelocityItem
+from utils.general_functions import result_key
+import random
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
+
+
+
+class ModelResult(QObject):
+    
+    signal_time_steps_changed = Signal(int)
+    signal_time_steps_end = Signal()
+    signal_reset_result = Signal()
+
+    def __init__(self,scene_result:ViewGraphicsSceneResult, 
+                view_result:ViewGraphicsViewResult,
+                model_repository:ModelRepository,                
+                data_base,
+                properties,
+                point_materials,
+                mesh_back,
+                boundarys,
+                data_times,         
+                analysis_times,
+                graphic_time, 
+                result_min,
+                result_max,
+                result_nodes) -> None:
+        super().__init__() 
+        
+
+        self.scene_result = scene_result
+        self.view_result = view_result
+        self.model_repository = model_repository
+
+
+
+        '''
+        size_dx = mesh_back["SIZEDX"]
+        size_dy = mesh_back["SIZEDY"]
+        size_element = mesh_back["SIZEELEMENT"]        
+        color_style = self.__scene.getTheme()
+        nodes = mesh_back["NODES"]
+        elements = mesh_back["ELEMENTS"]
+        nodes_boundary_top = mesh_back["NODESBOUNDARYTOP"]
+        nodes_boundary_bottom = mesh_back["NODESBOUNDARYBOTTOM"]
+        nodes_boundary_left = mesh_back["NODESBOUNDARYLEFT"]
+        nodes_boundary_right = mesh_back["NODESBOUNDARYRIGHT"]
+        model_mesh_back = ModelMeshBack(scene_draw=self.__scene,
+                                                    model_repository=self.model_repository,
+                                                    size_dx=size_dx,
+                                                    size_dy=size_dy,
+                                                    size_element=size_element,
+                                                    color_style=color_style,
+                                                    nodes=nodes,
+                                                    elements=elements,
+                                                    nodes_boundary_top = nodes_boundary_top,
+                                                    nodes_boundary_bottom = nodes_boundary_bottom,
+                                                    nodes_boundary_left = nodes_boundary_left,
+                                                    nodes_boundary_right = nodes_boundary_right)
+    
+        '''
+
+
+
+        if mesh_back != None:
+            self.model_mesh_back = ModelMeshBack(
+                scene_draw=scene_result,
+                model_repository=model_repository
+                #size_dx=mesh_back['SIZEDX'],
+                #size_dy=mesh_back['SIZEDY'],
+                #size_element=mesh_back['SIZEELEMENT'],
+                #color_style=mesh_back['COLOR'],
+                #nodes=mesh_back['NODES'],
+                #elements=mesh_back['ELEMENTS'],
+                #nodes_boundary_top=mesh_back['NODESBOUNDARYTOP'],
+                #nodes_boundary_bottom=mesh_back['NODESBOUNDARYBOTTOM'],
+                #nodes_boundary_left=mesh_back['NODESBOUNDARYLEFT'],
+                #nodes_boundary_right=mesh_back['NODESBOUNDARYRIGHT']
+                
+            )     
+
+        
+
+
+        self.__data_base = data_base
+        self.__properties = properties
+        self.__point_materials = point_materials
+        self.__boundarys = boundarys
+        self.__data_times = data_times      
+        
+        self.__analysis_times = analysis_times
+        self.__graphic_time = graphic_time
+        self.__result_nodes= result_nodes
+        self.__item_result_nodes=[]
+        self.__loads_visible = True
+        self.__result_min = result_min
+        self.__result_max = result_max
+        
+
+        self.axis_mesh_back_result = None
+        self.label_mesh_back_result = None
+        self.grid_mesh_back_result = None
+        
+       
+              
+
+        
+        
+        #crear item escena
+        if len(self.__analysis_times) > 0:
+            self.clearSceneResult()
+            self.drawItemBasicScene()
+            self.drawItemPointsScene()
+            self.view_result.resetView()
+        
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.advanceTime)
+        self.setVelocity(50)
+        self.time_view = 0
+        self.no_data = len(self.__graphic_time)
+            
+
+
+              
+    ###############################################################################
+	# ::::::::::::::::::::         GETTERS Y SETTERS           ::::::::::::::::::::
+	###############################################################################
+    def getDataBase(self):
+        return self.__data_base
+    
+    def getProperties(self):
+        return self.__properties
+    
+    def getPointMaterials(self):
+        return self.__point_materials
+    
+    def getMeshBack(self):
+        return self.model_mesh_back.getData()
+    
+    def getBoundarys(self):
+        return self.__boundarys
+    
+    def getDataTimes(self):        
+        return self.__data_times   
+
+
+    def getAnalysisTimes(self):
+        return self.__analysis_times
+    
+    def getGrapihcsTimes(self):
+        return self.__graphic_time
+
+    
+    def getResultNodes(self):
+        return self.__result_nodes
+
+    
+    def getData(self) -> list:
+        """return: 
+        {    
+            "DATA_BASE": self.__data_base,
+            "PROPERTIES": self.__properties,
+            "POINT_MATERIALS": self.__point_materials,
+            "MESH_BACK": self.model_mesh_back.getData(),
+            "BOUNDARYS": self.__boundarys,
+            "DATA_TIMES": self.__data_times,
+            "ANALYSIS_TIMES": self.__analysis_times,
+            "GRAPHIC_TIME": self.__graphic_time,
+            "RESULT_MIN": self.__result_min,
+            "RESULT_MAX": self.__result_max,
+            "RESULT_NODES": self.__result_nodes     
+        }
+        """
+        #return[self.__data_base, self.__properties, self.__point_materials, self.model_mesh_back.getData(), self.__boundarys, self.__data_times, self.__analysis_times, self.__graphic_time, self.__result_min, self.__result_max, self.__result_nodes]
+        return {
+            "DATA_BASE": self.__data_base,
+            "PROPERTIES": self.__properties,
+            "POINT_MATERIALS": self.__point_materials,
+            "MESH_BACK": self.model_mesh_back.getData(),
+            "BOUNDARYS": self.__boundarys,
+            "DATA_TIMES": self.__data_times,
+            "ANALYSIS_TIMES": self.__analysis_times,
+            "GRAPHIC_TIME": self.__graphic_time,
+            "RESULT_MIN": self.__result_min,
+            "RESULT_MAX": self.__result_max,
+            "RESULT_NODES": self.__result_nodes            
+        }      
+
+
+
+
+    ###############################################################################
+    # ::::::::::::::::::::              GENERALES              ::::::::::::::::::::
+    ###############################################################################
+    
+     
+    
+    def hideShowItemBasic(self,item, is_visible=True):
+        """ 
+        Args:
+            item (_type_): opciones => axis, label, grid y values          
+        """
+        
+        if item == "axis":
+            self.axis_mesh_back_result.setVisible(not self.axis_mesh_back_result.isVisible())
+        elif item == "label":
+            self.label_mesh_back_result.setVisible(not self.label_mesh_back_result.isVisible())
+        elif item == "grid":
+            self.grid_mesh_back_result.setVisible(not self.grid_mesh_back_result.isVisible())
+        elif item == "values":
+            for node in self.__item_result_nodes:
+                node.setShowOnlyId(is_visible)
+
+
+
+    
+    def setSizePoints(self, size_points):
+        for node in self.__item_result_nodes:
+            node.setSizePoints(size_points)            
+        self.scene_result.update()
+    
+    def setSizeTexts(self, size_texts):
+        for node in self.__item_result_nodes:
+            node.setSizeTexts(size_texts)
+        self.scene_result.update()
+
+    def addDetailPanelForNode(self, id_text: str, size_text: int):
+        """Agrega (muestra) el panel de detalle para el punto indicado sin ocultar los demás."""
+        if not id_text.strip():
+            return
+        try:
+            node_id = int(id_text.strip())
+        except ValueError:
+            return
+        idx = node_id - 1
+        if 0 <= idx < len(self.__item_result_nodes):
+            self.__item_result_nodes[idx].setDetailPanelVisible(True, size_text)
+        self.scene_result.update()
+
+    def clearAllDetailPanels(self):
+        """Oculta todos los paneles de detalle."""
+        for node in self.__item_result_nodes:
+            node.setDetailPanelVisible(False)
+        self.scene_result.update()
+
+    def setLoadsVisible(self, visible):
+        """Muestra u oculta las flechas de fuerza y velocidad inicial."""
+        self.__loads_visible = visible
+        for node in self.__item_result_nodes:
+            node.setLoadsVisible(visible)
+
+    def hasResult(self, key):
+        """True si los resultados cargados traen el campo `key` (p. ej.
+        'PRESIONPOROS', que solo existe si el análisis tuvo consolidación)."""
+        return bool(self.__result_min) and self.__result_min.get(key) is not None
+
+    def setTypeResult(self, type_result, axis, vector, color_style, hue=0):
+        for node in self.__item_result_nodes:
+            node.setTypeResult(type_result, axis, vector, color_style, hue)
+        self.scene_result.update() 
+        
+        # Actualiza el tipo de barra de color
+        if type_result == "default":
+            min = 0
+            max = 0
+        else:
+            min = self.__result_min[result_key(type_result, axis)]
+            max = self.__result_max[result_key(type_result, axis)]
+        self.color_bar_result.setTypeResult(type_result, axis, max, min)
+        
+               
+        # Activa y desactiva la barra de color
+        self.color_bar_result.setVisible(True)
+        if color_style == "Material":
+            self.color_bar_result.setVisible(False)        
+        elif color_style == "Bicolor":
+            self.color_bar_result.setVisible(False)
+        elif color_style == "Rojo-Azul":
+            self.color_bar_result.setColorType(1)
+            self.color_bar_result.setVisible(True)
+        elif color_style == "Azul-Rojo":
+            self.color_bar_result.setColorType(4)
+            self.color_bar_result.setVisible(True)
+        elif color_style == "Escala de grises":
+            self.color_bar_result.setColorType(2)
+        elif color_style == "Escala color":
+            color = QColor.fromHsv(hue, 255, 255)
+            self.color_bar_result.setColorType(3, color)
+        elif color_style == "rojo-rojo":
+            self.color_bar_result.setColorType(4)
+
+
+
+
+        
+    def setVelocity(self, velocity):
+        self.timer.setInterval(1000 / velocity) # intervalo en milisegundos
+        
+
+               
+    # ---- Rango de frames que se reproduce (todas las etapas o una sola) ----
+
+    def getStagesFrames(self):
+        """[{'ETAPA','TIPO','NOMBRE','FRAME_INICIO','FRAME_FIN','DT'}] o [] si
+        el resultado no trae etapas."""
+        return (self.__data_base or {}).get('ETAPAS_FRAMES') or []
+
+    def frameRange(self):
+        """(primero, último) del rango que se reproduce; por defecto, todo."""
+        last = self.no_data - 1
+        lo = min(max(getattr(self, 'frame_lo', 0), 0), max(last, 0))
+        hi = getattr(self, 'frame_hi', None)
+        hi = last if hi is None else min(max(hi, lo), last)
+        return lo, hi
+
+    def setFrameRange(self, lo=0, hi=None):
+        """Limita la reproducción a [lo, hi] (None = hasta el final) y va al
+        primero."""
+        self.timer.stop()
+        self.frame_lo, self.frame_hi = lo, hi
+        self.goToFrame(self.frameRange()[0])
+
+    def goToFrame(self, frame):
+        """Muestra el frame `frame` (global), acotado al rango activo."""
+        lo, hi = self.frameRange()
+        self.time_view = min(max(int(frame), lo), hi)
+        for node in self.__item_result_nodes:
+            node.advanceTime(self.time_view)
+        self.signal_time_steps_changed.emit(self.time_view)
+
+    def stageOfFrame(self, frame):
+        """Etapa (dict de ETAPAS_FRAMES) a la que pertenece un frame, o None."""
+        for st in self.getStagesFrames():
+            if st['FRAME_INICIO'] <= frame <= st['FRAME_FIN']:
+                return st
+        return None
+
+    def localTime(self, frame):
+        """(valor, es_incremento) del eje propio de la etapa del frame: en
+        cuasi-estáticas, el incremento; en las demás, segundos desde el inicio
+        de la etapa. Sin etapas, el valor guardado tal cual."""
+        times = self.__graphic_time
+        st = self.stageOfFrame(frame)
+        if st is None:
+            return times[frame], False
+        start = st['FRAME_INICIO']
+        base = times[start - 1] if start > 0 else 0.0
+        return times[frame] - base, st['TIPO'] in ('geostatic', 'load_increment')
+
+    def regressTime(self):
+        lo, hi = self.frameRange()
+        self.time_view = min(max(self.time_view - 1, lo), hi)
+        for node in self.__item_result_nodes:
+            node.regressTime(self.time_view)
+        self.signal_time_steps_changed.emit(self.time_view)
+
+
+    def stopTime(self):
+        self.timer.stop()
+        self.goToFrame(self.frameRange()[0])
+        
+    def playPauseTime(self, scene_is_play):   
+        
+        if not scene_is_play:
+            self.timer.stop()
+        else:
+            # Play desde el último frame del rango: vuelve a empezar
+            lo, hi = self.frameRange()
+            if self.time_view >= hi:
+                self.goToFrame(lo)
+            self.timer.start() # intervalo en milisegundos
+            
+            
+    def advanceTime(self):
+        lo, hi = self.frameRange()
+        self.time_view += 1
+        if self.time_view > hi:
+            self.playPauseTime(False)
+            self.time_view = hi
+            self.signal_time_steps_end.emit()
+        elif self.time_view < lo:
+            self.time_view = lo
+
+        for node in self.__item_result_nodes:
+            node.advanceTime(self.time_view)
+        self.signal_time_steps_changed.emit(self.time_view)
+        
+        #self.scene_result.drawBoundingRects()
+        
+    
+       
+    
+    def  drawItemPointsScene(self):
+        import math
+
+        # Construir lista de volúmenes en el mismo orden que result_nodes (orden numérico),
+        # y la fuerza y velocidad inicial asignadas a cada punto
+        volumes_list = []
+        loads_list = []
+        for id_MP in self.__point_materials:
+            pts = self.__point_materials[id_MP].get("POINTS", {})
+            for pk in sorted(pts.keys(), key=lambda k: int(k.split('#')[1])):
+                volumes_list.append(pts[pk].get("VOLUME", None))
+                force = pts[pk].get("FORCE") or {}
+                vel = pts[pk].get("VELOCITY") or {}
+                loads_list.append((float(force.get("X", 0.0)), float(force.get("Y", 0.0)),
+                                   float(vel.get("X", 0.0)), float(vel.get("Y", 0.0))))
+
+        ele_size = self.model_mesh_back.getSizeElement()
+        fallback_radius = ele_size / 7  # fallback si no hay volumen
+
+        # Material de cada grupo por etapa (CAMBIOMATERIAL): [(frame, pincel)]
+        # desde el frame en que empieza cada etapa. Los nodos van grupo por
+        # grupo, en el mismo orden que __point_materials.
+        group_of_node = [id_MP for id_MP in self.__point_materials
+                         for _ in self.__point_materials[id_MP].get("POINTS", {})]
+        brushes = {}
+        def brush(id_prop):
+            if id_prop not in brushes:
+                brushes[id_prop] = QBrush(QColor(self.__properties[id_prop]["COLOR"]))
+            return brushes[id_prop]
+        timelines = {}
+        for id_MP in self.__point_materials:
+            timeline = [(st['FRAME_INICIO'], brush(st['MATERIALES'][id_MP]))
+                        for st in self.getStagesFrames()
+                        if id_MP in st.get('MATERIALES', {})
+                        and st['MATERIALES'][id_MP] in self.__properties]
+            timelines[id_MP] = timeline if len({id(b) for _, b in timeline}) > 1 else []
+
+        for idx, node in enumerate(sorted(self.__result_nodes.keys(), key=lambda k: int(k))):
+
+            # random_color_bicolor =  0 o 1
+            random_color_bicolor = random.choices([1,2], weights=[70, 30], k=1)[0]
+
+            vol = volumes_list[idx] if idx < len(volumes_list) else None
+            if vol and vol > 0:
+                radius = (math.sqrt(vol / math.pi)) / 2
+            else:
+                radius = fallback_radius
+
+            # texto
+            text_node = TextNoMpItem(node, 0,0)
+            self.scene_result.addItem(text_node)
+
+            # circulo
+            id_prop = self.__result_nodes[node]["MATERIAL"]            
+            propertie = self.__properties[id_prop]
+            color = propertie["COLOR"]
+            circle_node = CircleMpItem( radius, color, 0,0)
+            self.scene_result.addItem(circle_node)
+
+            # flecha
+            arrow_node = ArrowMpItem(radius,0,0)
+            self.scene_result.addItem(arrow_node)
+            
+
+            node_result = ItemResultNode(
+                radius,
+                random_color_bicolor,
+                self.__graphic_time,
+                self.__result_nodes[node],
+                self.__result_min,
+                self.__result_max,
+                text_node,
+                circle_node,
+                arrow_node)
+
+            # panel de detalle (oculto por defecto, posicionado en coords iniciales del punto)
+            detail_panel = PointDetailPanelItem(node, 0, 0)
+            self.scene_result.addItem(detail_panel)
+            node_result.setDetailPanelNode(detail_panel)
+            detail_panel.newPos(node_result.coor)
+            if idx < len(group_of_node):
+                node_result.setMaterialTimeline(timelines[group_of_node[idx]])
+
+            # flechas de carga (rojo) y velocidad inicial (azul), como en el dibujo
+            if idx < len(loads_list):
+                fx, fy, vx, vy = loads_list[idx]
+                load_items = []
+                if fx != 0.0 or fy != 0.0:
+                    load_items.append(PointForceItem(node, None, 0, 0, fx, fy))
+                if vx != 0.0 or vy != 0.0:
+                    load_items.append(PointVelocityItem(node, None, 0, 0, vx, vy))
+                for item in load_items:
+                    item.setZValue(95)
+                    item.setVisible(self.__loads_visible)
+                    self.scene_result.addItem(item)
+                node_result.setLoadItems(load_items)
+
+            self.__item_result_nodes.append(node_result)
+            self.scene_result.addItem(node_result)
+            node_result.setZValue(11)
+            
+           
+    @Slot()    
+    def timeStepsChanged(self, time_step):
+        self.signal_time_steps_changed.emit(time_step)
+        
+        
+
+ 
+        
+
+    def drawItemBasicScene(self):
+        w = self.model_mesh_back.getSizeDx()
+        h = self.model_mesh_back.getSizeDy()
+        x = 0
+        y = 0
+        
+        nodes = self.model_mesh_back.getNodes()
+        elements = self.model_mesh_back.getElements()   
+        nodes_top,nodes_bottom ,nodes_left ,nodes_right = self.model_mesh_back.getBoundaryNodes()
+                
+        self.axis_mesh_back_result = ItemResultAxisMeshBack(x,y,w, h)
+        self.scene_result.addItem(self.axis_mesh_back_result)
+        self.axis_mesh_back_result.setZValue(10)
+        
+        self.label_mesh_back_result = ItemResultLabelGridMeshBack(
+                                            scene = self.scene_result,
+                                            x = x, y = y, width = w, height = h,
+                                            nodes=nodes, 
+                                            nodes_boundary_top = nodes_top,
+                                            nodes_boundary_bottom = nodes_bottom,
+                                            nodes_boundary_left = nodes_left,
+                                            nodes_boundary_right = nodes_right
+                                            )
+
+        self.scene_result.addItem(self.label_mesh_back_result)
+        self.label_mesh_back_result.setZValue(9)
+        
+        self.grid_mesh_back_result = ItemResultGridMeshBack(x = x, y = y, width = w, height = h,
+                                                             nodes=nodes, elements=elements)
+        self.scene_result.addItem(self.grid_mesh_back_result)
+        self.grid_mesh_back_result.setZValue(8)
+
+
+        
+
+        self.color_bar_result = ItemResultColorBar(x,y)
+        self.scene_result.addItem(self.color_bar_result)
+        self.color_bar_result.setZValue(100)
+        
+        scale_bar = h/250 
+        self.color_bar_result.setScale(scale_bar)
+        self.color_bar_result.setPos(x+w+(w/5),y)
+        self.color_bar_result.setVisible(False)
+
+
+    def clearSceneResult(self):
+        self.scene_result.clear()
+        self.__item_result_nodes = []
+        
+        
+    def updateResult(self ): 
+        self.clearSceneResult()
+        self.drawItemBasicScene()
+        self.drawItemPointsScene()
+        self.signal_reset_result.emit()
+        
+        #self.view_result.resetView()
+        
+        
+    # :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    # ::::::::::::::::::::              BASE DE DATOS              ::::::::::::::::::::
+    # :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    
+    
+    def clearResult(self):
+        self.model_repository.deleteAllResultDB()
+        
+    
+    def updateResultDataBase(self, gravity, dampfac, stages=None, stages_frames=None):
+        """Datos base del resultado.
+
+        Args:
+            gravity: gravedad usada (m/s²).
+            dampfac: damping de la primera etapa (informativo; el damping
+                real es por etapa y va dentro de ETAPAS).
+            stages: lista de dicts de las etapas ejecutadas (AnalysisStage.to_dict()).
+            stages_frames: para cada etapa, qué rango de frames del resultado
+                le corresponde: [{'ETAPA','TIPO','NOMBRE','FRAME_INICIO','FRAME_FIN','DT'}].
+        """
+        self.__data_base = {
+            'GRAVEDAD': gravity,
+            'DAMPFAC': dampfac,
+            'ETAPAS': stages if stages is not None else [],
+            'ETAPAS_FRAMES': stages_frames if stages_frames is not None else []
+        }
+        self.model_repository.updateResultDataBaseDB(
+             gravity=gravity,
+             dampfac=dampfac,
+             stages=stages,
+             stages_frames=stages_frames
+            )
+
+
+    def updateResultMeshBack(self, size_dx, size_dy, size_element,
+                            nodes,elements,
+                            nodes_boundary_top,nodes_boundary_bottom,
+                            nodes_boundary_left,nodes_boundary_right):
+
+        self.model_mesh_back = ModelMeshBack(
+            scene_draw=self.scene_result,
+            model_repository=self.model_repository,
+        )
+        
+        self.model_repository.updateResultMeshBackDB(
+            size_dx=size_dx,
+            size_dy=size_dy,
+            size_element=size_element,
+            nodes=nodes,
+            elements=elements,
+            nodes_boundary_top=nodes_boundary_top,
+            nodes_boundary_bottom=nodes_boundary_bottom,
+            nodes_boundary_left=nodes_boundary_left,
+            nodes_boundary_right=nodes_boundary_right
+            )
+
+
+
+    
+    def updateResultDataTimes(self, id_material, courant_number, analysis_time, fps, dt_analysis, dt_graphic, analysis_steps, graphic_steps, speed_cp, time_reached):
+        self.__data_times = {
+            'MATERIAL': id_material,
+            'NUMEROCOURANT': courant_number,
+            'TIEMPOANALISIS': analysis_time,
+            'FPS': fps,
+            'DTANALISIS': dt_analysis,
+            'DTGRAFICAR': dt_graphic,
+            'PASOSANALISIS': analysis_steps,
+            'PASOSGRAFICAR': graphic_steps,
+            'VELOCIDADCP': speed_cp,
+            'TIEMPOALCANZADO': time_reached
+        }
+        self.model_repository.updateResultDataTimesDB(
+            id_material=id_material,
+            courant_number=courant_number,
+            analysis_time=analysis_time,
+            fps=fps,
+            dt_analysis=dt_analysis,
+            dt_graphic=dt_graphic,
+            analysis_steps=analysis_steps,
+            graphic_steps=graphic_steps,
+            speed_cp=speed_cp,
+            time_reached=time_reached
+            )
+
+
+    def updateResultTimes(self,analysis_times=None ):
+ 
+        if analysis_times != None:
+            self.__analysis_times = analysis_times
+
+        self.model_repository.updateResultTimesDB(
+            analysis_times=analysis_times,
+            )
+        
+    def updateResultTimeGraphic(self, graphic_time):
+        if graphic_time != None:
+            self.__graphic_time = graphic_time
+            self.no_data = len(graphic_time)
+        
+        self.model_repository.updateResultTimeGraphicDB(
+            graphic_time=graphic_time,
+            )
+        
+        
+    def updateResultMin(self, corx, cory, sigxx, sigyy, sigxy, 
+                        epsexx, epseyy, epsexy, epspxx, epspyy, epspxy,
+                        velxy, velxx,velyy, desplxx, desplyy, desplxy, eqplas, presporos=None):
+        self.__result_min ={
+            'CORX': corx,
+            'CORY': cory,
+            'SIGXX': sigxx,
+            'SIGYY': sigyy,
+            'SIGXY': sigxy,
+            'EPSEXX': epsexx,
+            'EPSEYY': epseyy,
+            'EPSEXY': epsexy,
+            'EPSPXX': epspxx,
+            'EPSPYY': epspyy,
+            'EPSPXY': epspxy,
+            'VELXY': velxy,
+            'VELXX': velxx,
+            'VELYY': velyy,
+            'DESPLXY': desplxy,
+            'DESPLXX': desplxx,
+            'DESPLYY': desplyy,
+            'EQPLAS': eqplas,
+            'PRESIONPOROS': presporos
+        }
+
+        self.model_repository.updateResultMinDB(
+            corx=corx,
+            cory=cory,
+            sigxx=sigxx,
+            sigyy=sigyy,
+            sigxy=sigxy,
+            epsexx=epsexx,
+            epseyy=epseyy,
+            epsexy=epsexy,
+            epspxx=epspxx,
+            epspyy=epspyy,
+            epspxy=epspxy,
+            velxx=velxx,
+            velyy=velyy,
+            velxy=velxy,
+            desplxx=desplxx,
+            desplyy=desplyy,
+            desplxy=desplxy,
+            eqplas=eqplas,
+            presporos=presporos
+            )
+
+
+    def updateResultMax(self, corx, cory, sigxx, sigyy, sigxy,
+                        epsexx, epseyy, epsexy, epspxx, epspyy, epspxy,
+                        velxy,velxx,velyy, desplxx, desplyy, desplxy, eqplas, presporos=None):
+        self.__result_max ={
+            'CORX': corx,
+            'CORY': cory,
+            'SIGXX': sigxx,
+            'SIGYY': sigyy,
+            'SIGXY': sigxy,
+            'EPSEXX': epsexx,
+            'EPSEYY': epseyy,
+            'EPSEXY': epsexy,
+            'EPSPXX': epspxx,
+            'EPSPYY': epspyy,
+            'EPSPXY': epspxy,
+            'VELXX': velxx,
+            'VELYY': velyy,
+            'VELXY': velxy,
+            'DESPLXX': desplxx,
+            'DESPLYY': desplyy,
+            'DESPLXY': desplxy,
+            'EQPLAS': eqplas,
+            'PRESIONPOROS': presporos
+        }
+        
+        self.model_repository.updateResultMaxDB(
+            corx=corx,
+            cory=cory,
+            sigxx=sigxx,
+            sigyy=sigyy,
+            sigxy=sigxy,
+            epsexx=epsexx,
+            epseyy=epseyy,
+            epsexy=epsexy,
+            epspxx=epspxx,
+            epspyy=epspyy,
+            epspxy=epspxy,
+
+            velxx=velxx,
+            velyy=velyy,
+            velxy=velxy,
+            desplxx=desplxx,
+            desplyy=desplyy,
+            desplxy=desplxy,
+            eqplas=eqplas,
+            presporos=presporos
+            )
+
+
+    def addResultNode(self, id_result_node, material_node, corx=None, cory=None,
+             sigxx=None, sigyy=None, sigxy=None,
+             epsexx=None, epseyy=None, epsexy=None,
+             epspxx=None, epspyy=None, epspxy=None,
+             velxx = None, velyy = None, velxy = None,
+             desplxx=None, desplyy=None, desplxy=None,
+               eqplas = None, presporos=None):
+        
+
+
+        self.model_repository.addResultNodeDB(
+            id_result_node=str(id_result_node), 
+            material_node = material_node,
+            corx=corx, 
+            cory=cory,
+            sigxx=sigxx, 
+            sigyy=sigyy, 
+            sigxy=sigxy,
+            epsexx=epsexx,
+            epseyy=epseyy,
+            epsexy=epsexy,
+            epspxx=epspxx,
+            epspyy=epspyy,
+            epspxy=epspxy,
+            velxx=velxx,
+            velyy=velyy,
+            velxy=velxy,
+            desplxx=desplxx,
+            desplyy=desplyy,
+            desplxy=desplxy,
+            eqplas=eqplas,
+            presporos=presporos
+        )
+
+
+
+        self.__result_nodes = self.model_repository.readResultNodesDB()
+        
+
+    def addResultProperty(self, id_property, name, color, modulus_elasticity, poisson_ratio, cohesion, friction_angle, density,  angle_dilatancy, model="MOHR_COULOMB"):
+
+        self.__properties[id_property] = {
+            "MODELO": model,
+            "NAME": name,
+            "COLOR": color,
+            "MODULOELASTICIDAD": modulus_elasticity,        #E KPa
+            "RELACIONPOISSON": poisson_ratio,               #v -/-
+            "COHESION": cohesion,                           #C' KPa
+            "ANGULOFRICCION": friction_angle,               #Phi °
+            "DENSIDAD": density,                            #P kg/m3
+            "ANGULODILATANCIA": angle_dilatancy             #Psi °
+        }
+
+        self.model_repository.addResultPropertyDB(
+            id_property=id_property,
+            name=name,
+            color=color,
+            modulus_elasticity=modulus_elasticity,
+            poisson_ratio=poisson_ratio,
+            cohesion=cohesion,
+            friction_angle=friction_angle,
+            density=density,
+            angle_dilatancy=angle_dilatancy,
+            model=model
+            )
+        
+
+    def addResultPointMaterial(self, id_MP, name,  points,id_property):
+        self.__point_materials[id_MP] = {
+            "NAME": name,
+            "POINTS": points,
+            "IDPROPIEDAD": id_property
+        }
+
+        self.model_repository.addResultPointMaterialDB(
+            id_MP=id_MP,
+            name=name,
+            points=points,
+            id_property=id_property
+            )
+
+     
+    def addResultBoundary(self, id_boundary, name, nodes, restrictionX, restrictionY):
+        self.__boundarys[id_boundary] = {
+            "NAME": name,
+            "NODES": nodes,
+            "Tx": restrictionX,
+            "Ty": restrictionY
+        }
+
+        self.model_repository.addResultBoundaryDB(
+            id_boundary=id_boundary,
+            name=name,
+            nodes=nodes,
+            restrictionX=restrictionX,
+            restrictionY=restrictionY
+            )
+    
