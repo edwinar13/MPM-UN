@@ -2207,6 +2207,22 @@ background-color: transparent;
                          </property>
                         </widget>
                        </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBox_ResultAnimationLoads">
+                         <property name="toolTip">
+                          <string>Flechas de las fuerzas (rojo) y velocidades iniciales (azul) asignadas a los puntos materiales</string>
+                         </property>
+                         <property name="text">
+                          <string>Ver cargas y velocidades</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                         <property name="QCheckBoxStyle" stdset="0">
+                          <number>1</number>
+                         </property>
+                        </widget>
+                       </item>
                       </layout>
                      </item>
                     </layout>

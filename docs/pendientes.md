@@ -50,6 +50,9 @@ aplicación (≈ 15 de octubre de 2026).
       tiempo propio de la etapa: incremento o segundos) y campo "Ir al frame".
       Los resultados guardan el material de cada grupo por etapa y el color por
       material cambia al entrar a la etapa que lo cambia (falla del talud) — 9 oct.
+- [x] Resultados: flechas de las fuerzas (rojo) y velocidades iniciales (azul)
+      asignadas a los puntos, como en el dibujo; siguen al punto en la animación
+      y se ocultan con "Ver cargas y velocidades" — 10 oct.
 
 ## 2. Cargas
 
@@ -76,6 +79,13 @@ aplicación (≈ 15 de octubre de 2026).
 - [ ] Borde impermeable que se mueve (p. ej. placa de carga): en la formulación v-w
       exige w·n = v·n, no w = 0. Necesita una condición nueva en el motor y su
       validación. Trabajo futuro.
+- [ ] **dt de consolidación con el límite del arrastre**: hoy el dt sale solo de la
+      onda no drenada (CFL). El arrastre de Darcy, explícito, exige además
+      dt < 2k / (n·g·(1 + n·ρw/ρd)). En la consolidación 2D de Caro (malla 0.5,
+      Courant 0.5) el CFL dio 6e-4 s y el límite del arrastre es 5.9e-4 s: la
+      corrida explotó en el paso 386 (partícula fuera de la malla). Tomar el menor
+      de los dos en `compute_two_phase_dt` y avisarlo en el diálogo; el 1D
+      (dt 2e-4) no cambia — 10 oct.
 - [ ] Restricciones actuales de la etapa de consolidación: un solo material y sin
       multicuerpo ([plan_dos_fases_ui.md](plan_dos_fases_ui.md), decisión 3).
 

@@ -39,6 +39,7 @@ class ControllerMenuResultAnimation(QObject):
         self.view_menu_result_animation.signal_result_animation_axis.connect(self.signalResultAnimationAxis)
         self.view_menu_result_animation.signal_result_animation_label.connect(self.signalResultAnimationLabel)
         self.view_menu_result_animation.signal_result_animation_values_text.connect(self.signalResultAnimationValuesText)
+        self.view_menu_result_animation.signal_result_animation_loads.connect(self.signalResultAnimationLoads)
         
         self.view_menu_result_animation.signal_result_animation_size_points.connect(self.signalResultAnimationSizePoints)
         self.view_menu_result_animation.signal_result_animation_size_texts.connect(self.signalResultAnimationSizeTexts)
@@ -100,6 +101,7 @@ class ControllerMenuResultAnimation(QObject):
                    (st['FRAME_INICIO'], st['FRAME_FIN']))
                   for st in self.model_result.getStagesFrames()]
         self.view_menu_result_animation.setStages(stages)
+        self.model_result.setLoadsVisible(self.view_menu_result_animation.getShowLoads())
         self.signalSceneStage()
         
 
@@ -153,6 +155,10 @@ class ControllerMenuResultAnimation(QObject):
     def signalResultAnimationValuesText(self):
         is_visible_values_text = self.view_menu_result_animation.getValuesText()
         self.model_result.hideShowItemBasic('values', is_visible_values_text)
+
+    @Slot(bool)
+    def signalResultAnimationLoads(self, visible):
+        self.model_result.setLoadsVisible(visible)
                  
     @Slot()
     def signalResultAnimationSizePoints(self):

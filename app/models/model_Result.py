@@ -4,6 +4,7 @@ from views.view_GraphicsResult import ViewGraphicsSceneResult, ViewGraphicsViewR
 from utils.items_GraphicsResult import (ItemResultAxisMeshBack, ItemResultGridMeshBack, ItemResultLabelGridMeshBack,
                                      ItemResultNode, ItemResultColorBar, TextResultItem, TextNoMpItem, CircleMpItem, ArrowMpItem,
                                      ItemResultTextLabel, PointDetailPanelItem)
+from utils.items_GraphicsDraw import PointForceItem, PointVelocityItem
 from utils.general_functions import result_key
 import random
 from PySide6.QtCore import *
@@ -99,6 +100,7 @@ class ModelResult(QObject):
         self.__graphic_time = graphic_time
         self.__result_nodes= result_nodes
         self.__item_result_nodes=[]
+        self.__loads_visible = True
         self.__result_min = result_min
         self.__result_max = result_max
         
@@ -249,6 +251,12 @@ class ModelResult(QObject):
             node.setDetailPanelVisible(False)
         self.scene_result.update()
 
+    def setLoadsVisible(self, visible):
+        """Muestra u oculta las flechas de fuerza y velocidad inicial."""
+        self.__loads_visible = visible
+        for node in self.__item_result_nodes:
+            node.setLoadsVisible(visible)
+
     def hasResult(self, key):
         """True si los resultados cargados traen el campo `key` (p. ej.
         'PRESIONPOROS', que solo existe si el análisis tuvo consolidación)."""
@@ -393,12 +401,18 @@ class ModelResult(QObject):
     def  drawItemPointsScene(self):
         import math
 
-        # Construir lista de volúmenes en el mismo orden que result_nodes (orden numérico)
+        # Construir lista de volúmenes en el mismo orden que result_nodes (orden numérico),
+        # y la fuerza y velocidad inicial asignadas a cada punto
         volumes_list = []
+        loads_list = []
         for id_MP in self.__point_materials:
             pts = self.__point_materials[id_MP].get("POINTS", {})
             for pk in sorted(pts.keys(), key=lambda k: int(k.split('#')[1])):
                 volumes_list.append(pts[pk].get("VOLUME", None))
+                force = pts[pk].get("FORCE") or {}
+                vel = pts[pk].get("VELOCITY") or {}
+                loads_list.append((float(force.get("X", 0.0)), float(force.get("Y", 0.0)),
+                                   float(vel.get("X", 0.0)), float(vel.get("Y", 0.0))))
 
         ele_size = self.model_mesh_back.getSizeElement()
         fallback_radius = ele_size / 7  # fallback si no hay volumen
@@ -466,6 +480,20 @@ class ModelResult(QObject):
             detail_panel.newPos(node_result.coor)
             if idx < len(group_of_node):
                 node_result.setMaterialTimeline(timelines[group_of_node[idx]])
+
+            # flechas de carga (rojo) y velocidad inicial (azul), como en el dibujo
+            if idx < len(loads_list):
+                fx, fy, vx, vy = loads_list[idx]
+                load_items = []
+                if fx != 0.0 or fy != 0.0:
+                    load_items.append(PointForceItem(node, None, 0, 0, fx, fy))
+                if vx != 0.0 or vy != 0.0:
+                    load_items.append(PointVelocityItem(node, None, 0, 0, vx, vy))
+                for item in load_items:
+                    item.setZValue(95)
+                    item.setVisible(self.__loads_visible)
+                    self.scene_result.addItem(item)
+                node_result.setLoadItems(load_items)
 
             self.__item_result_nodes.append(node_result)
             self.scene_result.addItem(node_result)

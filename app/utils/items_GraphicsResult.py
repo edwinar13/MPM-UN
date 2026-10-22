@@ -525,7 +525,9 @@ class ItemResultNode(QGraphicsItem):
         self._show_only_id = False
         # [(frame, pincel)] si el material del grupo cambia entre etapas
         self._material_timeline = []
-  
+        # flechas de la fuerza y la velocidad inicial asignadas al punto
+        self._load_items = []
+
         xo = self.coorX[0]
         yo = self.coorY[0]        
         self.coor = QPointF(xo, yo)
@@ -619,6 +621,18 @@ class ItemResultNode(QGraphicsItem):
         self._material_timeline = timeline
         if timeline:
             self.updateColorPoint()
+
+    def setLoadItems(self, items):
+        """Flechas de fuerza y velocidad inicial que siguen al punto."""
+        self._load_items = items
+        for item in items:
+            item.setPos(self.coor)
+
+    def setLoadsVisible(self, visible: bool):
+        for item in self._load_items:
+            if visible and not item.isVisible():
+                item.setPos(self.coor)
+            item.setVisible(visible)
 
     def setDetailPanelVisible(self, visible: bool, size_text: int = None):
         if self._detail_panel_node is None:
@@ -802,6 +816,9 @@ class ItemResultNode(QGraphicsItem):
             for item in (self.text_node, self.circle_node, self.arrow_node):
                 if item.isVisible():
                     item.newPos(self.coor)
+            for item in self._load_items:
+                if item.isVisible():
+                    item.setPos(self.coor)
             if self._detail_panel_node is not None and self._detail_panel_node.isVisible():
                 self._detail_panel_node.newPos(self.coor)
         except Exception as e:

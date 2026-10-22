@@ -16,6 +16,7 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     signal_result_animation_axis = Signal()
     signal_result_animation_label = Signal()
     signal_result_animation_values_text = Signal()
+    signal_result_animation_loads = Signal(bool)
     signal_result_animation_size_points = Signal()
     signal_result_animation_size_texts = Signal()
     signal_result_animation_add_point_label = Signal()
@@ -142,6 +143,7 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
         self.checkBox_ResultAnimationCountour.stateChanged.connect(self.__stateChangedCheckBoxResultAnimationCountour)   
         self.checkBox_ResultAnimationLabel.stateChanged.connect(self.__stateChangedCheckBoxResultAnimationLabel)
         self.checkBox_ResultAnimationValues.stateChanged.connect(self.__valueChangedcheckBoxResultAnimationValuesText)
+        self.checkBox_ResultAnimationLoads.toggled.connect(self.signal_result_animation_loads.emit)
         self.doubleSpinBoxl_textResultAnimationSizePoints.valueChanged.connect(self.__valueChangedDoubleSpinBoxlTextResultAnimationSizePoints)
         self.spinBox_ResultAnimationSizeText.valueChanged.connect(self.__valueChangedSpinBoxlTextResultAnimationSizeTexts)
         self.toolButton_AddPointLabel.clicked.connect(self.__clickedToolButtonAddPointLabel)
@@ -305,6 +307,9 @@ class ViewWidgetResultMenuAnimation(QFrame, Ui_FormMenuResultAnimation):
     
     def getValuesText(self):
         return self.checkBox_ResultAnimationValues.isChecked()
+
+    def getShowLoads(self):
+        return self.checkBox_ResultAnimationLoads.isChecked()
 
     def getLabelByPointId(self) -> str:
         return self.lineEdit_ResultAnimation_LabelByPointId.text()

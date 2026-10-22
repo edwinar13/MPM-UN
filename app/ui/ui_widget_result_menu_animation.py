@@ -1341,6 +1341,13 @@ class Ui_FormMenuResultAnimation(object):
 
         self.verticalLayout_9.addWidget(self.checkBox_ResultAnimationValues)
 
+        self.checkBox_ResultAnimationLoads = QCheckBox(self.frame_ResultAnimation0)
+        self.checkBox_ResultAnimationLoads.setObjectName(u"checkBox_ResultAnimationLoads")
+        self.checkBox_ResultAnimationLoads.setChecked(True)
+        self.checkBox_ResultAnimationLoads.setProperty(u"QCheckBoxStyle", 1)
+
+        self.verticalLayout_9.addWidget(self.checkBox_ResultAnimationLoads)
+
 
         self.verticalLayout_7.addLayout(self.verticalLayout_9)
 
@@ -1439,6 +1446,10 @@ class Ui_FormMenuResultAnimation(object):
         self.checkBox_ResultAnimationLabel.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Etiquetas", None))
         self.checkBox_ResultAnimationGrid.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver Grilla", None))
         self.checkBox_ResultAnimationValues.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver numeraci\u00f3n", None))
+#if QT_CONFIG(tooltip)
+        self.checkBox_ResultAnimationLoads.setToolTip(QCoreApplication.translate("FormMenuResultAnimation", u"Flechas de las fuerzas (rojo) y velocidades iniciales (azul) asignadas a los puntos materiales", None))
+#endif // QT_CONFIG(tooltip)
+        self.checkBox_ResultAnimationLoads.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Ver cargas y velocidades", None))
         self.label_msn.setText(QCoreApplication.translate("FormMenuResultAnimation", u"Empty", None))
     # retranslateUi
 
