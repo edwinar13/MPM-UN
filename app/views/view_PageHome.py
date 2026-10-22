@@ -78,7 +78,7 @@ class ViewPageHome(QFrame, ui_frame_home.Ui_FormHome):
         self.openExampleProject("Ejemplo 3 - Falla de talud.json")
 
     def __clickedToolButtonOpenProject_5(self):
-        self.openExampleProject("Ejemplo 4 - Consolidación 1D.json")
+        self.openExampleProject("Ejemplo 4 - Consolidación 2D.json")
 
     ###############################################################################
 	# ::::::::::::::::::::         MÉTODOS  GENERALES   UI     ::::::::::::::::::::

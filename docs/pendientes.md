@@ -29,7 +29,8 @@ aplicación (≈ 15 de octubre de 2026).
       validados de `test/7` (viga, capacidad portante, talud, consolidación 1D),
       guardados en `app/resources/ejemplos` sin resultados. Al hacer clic se pide
       dónde guardar la copia y se abre lista para correr; el original no se toca.
-      Se retiraron los `.mpm` de 2022 y la tarjeta del disco — 9 oct.
+      Se retiraron los `.mpm` de 2022 y la tarjeta del disco — 9 oct. La cuarta
+      tarjeta pasa de la consolidación 1D a la 2D (caso 7.3 de Caro) — 22 oct.
 - [ ] Imágenes de las tarjetas de ejemplo (las cambia el autor).
 - [ ] Reporte PDF: el botón está oculto. Rehacerlo con etapas, gráficas reales y
       claves actuales (`controller_MenuResultTable.signalGeneratePdf`).
@@ -79,13 +80,19 @@ aplicación (≈ 15 de octubre de 2026).
 - [ ] Borde impermeable que se mueve (p. ej. placa de carga): en la formulación v-w
       exige w·n = v·n, no w = 0. Necesita una condición nueva en el motor y su
       validación. Trabajo futuro.
-- [ ] **dt de consolidación con el límite del arrastre**: hoy el dt sale solo de la
+- [ ] **dt de consolidación con el límite del arrastre** (postergado, 22 oct.: si
+      no hay tiempo, queda como limitación en la tesis): hoy el dt sale solo de la
       onda no drenada (CFL). El arrastre de Darcy, explícito, exige además
       dt < 2k / (n·g·(1 + n·ρw/ρd)). En la consolidación 2D de Caro (malla 0.5,
       Courant 0.5) el CFL dio 6e-4 s y el límite del arrastre es 5.9e-4 s: la
-      corrida explotó en el paso 386 (partícula fuera de la malla). Tomar el menor
-      de los dos en `compute_two_phase_dt` y avisarlo en el diálogo; el 1D
-      (dt 2e-4) no cambia — 10 oct.
+      corrida explotó en el paso 386 (partícula fuera de la malla). Mientras
+      tanto, bajar el Courant (0.2 en los ejemplos). Arreglo: tomar el menor de
+      los dos en `compute_two_phase_dt`, que el ejecutor use esa misma función y
+      avisarlo en el diálogo; el 1D (dt 2e-4) no cambia. **Para la tesis:** el
+      límite es proporcional a k; con la permeabilidad de Caro (1e-3 m/s, de
+      arena) no molesta, pero con una arcilla (~1e-8 m/s) daría dt ~1e-8 s,
+      inviable con el esquema explícito. Tratar el arrastre de forma implícita
+      sería trabajo futuro — 10 y 22 oct.
 - [ ] Restricciones actuales de la etapa de consolidación: un solo material y sin
       multicuerpo ([plan_dos_fases_ui.md](plan_dos_fases_ui.md), decisión 3).
 
@@ -106,6 +113,11 @@ aplicación (≈ 15 de octubre de 2026).
       con sus referencias
       ([validaciones_definitivas.md](Importantes_para_tesis/validaciones_definitivas.md))
       — 9 oct.
+- [x] Consolidación 2D (caso 7.3 de Caro González, 2024) armada y corrida desde la
+      interfaz; mapas de σyy y p con los mismos patrones de las Figuras 7-28 y
+      7-29 (α = 0.05, Courant 0.2) — 22 oct.
+- [ ] Comparar la consolidación 2D con los números del script de Wilson Caro
+      (serie de p en P(0, H/2), α y dt que usó) cuando lo entregue.
 - [ ] Partículas de frontera: decidir y justificar qué función se adopta en la punta
       de la cuña ([deteccion_particulas_frontera.md §8](deteccion_particulas_frontera.md)).
 - [ ] Extras si queda tiempo: `Disc.py` (contacto con solución analítica) y

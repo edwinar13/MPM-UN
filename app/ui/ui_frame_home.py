@@ -822,7 +822,7 @@ class Ui_FormHome(object):
 "elastopl\u00e1stico", None))
         self.toolButton_cardNew5.setText("")
         self.label_cardNew5.setText(QCoreApplication.translate("FormHome", u"Consolidaci\u00f3n\n"
-"unidimensional", None))
+"bidimensional", None))
         self.label_subTitle2.setText(QCoreApplication.translate("FormHome", u"Recientes", None))
         self.label_icon1.setText("")
         self.label_subTitle3.setText(QCoreApplication.translate("FormHome", u"Nombre", None))

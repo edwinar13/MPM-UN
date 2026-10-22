@@ -11,6 +11,7 @@ carpetas de prueba anteriores (`test/4`–`test/6`) ya no cuentan.
 | Capacidad portante | `2_capacidad_portante.json` | carga incremental, Mohr-Coulomb | `Ca_portante2.py` (León, 2019) | ≤ 1.1 % hasta 108 kPa; misma carga de colapso |
 | Talud | `3_Talud falla.json` | geostático → falla dinámica con dos cuerpos y contacto | `talud_2021` (Sandoval Montoya, 2021) | avance del pie dentro del 1 % |
 | Consolidación 1D | `4_consolidacion_1d.json` | doble fase (v-w) | Terzaghi; caso 7.1 de Caro González (2024) | error máx. 1.9 % de p₀, solo al inicio |
+| Consolidación 2D | `5_consolidacion_2d.json` | doble fase (v-w), carga en franja | caso 7.3 de Caro González (2024), Figuras 7-28 y 7-29 | mismos patrones de σyy y p en los seis tiempos (comparación visual: el caso no tiene solución analítica) |
 
 Las referencias numéricas son los `.npz` de
 `1 Referencia/Codigo MPM-UN Original_V1/resultados_referencia/`, escritos por los
@@ -178,6 +179,50 @@ partícula a 0.38 m de la superficie drenante:
 El error es como máximo 1.9 % de p₀, al inicio, y desaparece desde Tv ≈ 1. Al final
 la presión de poros es menor de 0.001 kPa y el asentamiento es 0.986 mm (teórico
 0.993 mm a la altura de esa partícula).
+
+---
+
+## 4b. Consolidación bidimensional (doble fase)
+
+**Montaje** (sección 7.3 de Caro González, 2024). Medio dominio de 10 × 7 m con el
+eje de simetría a la izquierda; malla de fondo de 0.5 m (10 × 8 m); malla base de
+cuadriláteros de 0.1666 m (60 × 42) → **2520 partículas**, 9 por elemento como en
+la tesis. Material de la Tabla 7-1 (el mismo del caso 1D); gravedad 0. Carga
+q₀ = 20 kPa en B = 2 m: Fy = −3.333333333333333 kN/m en las 12 partículas de la
+superficie con x < 2 m (suma −40 kN/m). Laterales fijos en x y fondo fijo en y,
+impermeables; la superficie drena. Etapa de consolidación de 3 s con presión de
+poros inicial 0 (la carga entra en t = 0), Courant 0.2 (dt = 0.0002 s, 15 000
+pasos) y amortiguamiento local α = 0.05.
+
+**Resultado.** El caso no tiene solución analítica; la tesis lo presenta como
+aplicación, con mapas de σ'yy y de p a 0, 0.1, 0.25, 0.5, 1 y 3 s. Los mapas de la
+aplicación reproducen los mismos patrones: presión de poros alta bajo la carga
+justo después de aplicarla (con la zona de p positiva cerca de la superficie que
+la tesis atribuye a oscilaciones numéricas), disipación desde la superficie hacia
+abajo, presión aún alta en profundidad a los 3 s y bulbo de σyy que crece bajo la
+carga. En la partícula junto a P(0, H/2):
+
+| t (s) | p (kPa, compresión −) | σyy (kPa) | Asentamiento bajo la carga (mm) |
+|---|---|---|---|
+| 0.10 | −10.47 | −8.42 | 4.71 |
+| 0.25 | −9.52 | −7.09 | 4.82 |
+| 0.50 | −5.52 | −6.30 | 4.99 |
+| 1.00 | −7.72 | −5.82 | 5.19 |
+| 3.00 | −6.56 | −6.83 | 6.23 |
+
+**Dos ajustes que pidió este caso.**
+
+- *Paso de tiempo.* Con Courant 0.5 el dt de la onda no drenada fue 6e-4 s, por
+  encima del límite del arrastre de Darcy explícito, 2k / (n·g·(1 + n·ρw/ρd)) ≈
+  5.9e-4 s: la velocidad relativa agua–suelo creció ~4.6 % por paso y la corrida
+  explotó en el paso 386. Con Courant 0.2 (dt 2e-4 s, el del caso 1D) es estable.
+  En el 1D no aparece porque la malla de 0.1 m ya da un dt menor.
+- *Amortiguamiento.* Sin amortiguamiento (α = 0) la carga súbita deja el bloque
+  vibrando: p y el asentamiento oscilan con periodo ~0.2 s alrededor de la
+  disipación. Con α = 0.025 y α = 0.05 la oscilación desaparece y las dos curvas
+  coinciden desde ~0.8 s, es decir, el amortiguamiento solo limpia el arranque y
+  no cambia la respuesta de largo plazo (misma conclusión de Caro González en el
+  caso 1D). Los mapas de la tesis corresponden a la solución amortiguada.
 
 ---
 

@@ -1080,7 +1080,7 @@ elastoplástico</string>
                    </property>
                    <property name="text">
                     <string>Consolidación
-unidimensional</string>
+bidimensional</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>
